@@ -1,0 +1,14 @@
+* text=auto
+
+# Force these files to lf eols
+.gitattributes text eol=lf
+.gitignore text eol=lf
+.editorconfig text eol=lf
+*.go text eol=lf
+*.md text eol=lf
+*.sh text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.json text eol=lf
+
+*.pdf -text
