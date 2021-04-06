@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gearforce/widgets/roster_header_info.dart';
 
 class Roster extends StatefulWidget {
   Roster({Key? key, this.title}) : super(key: key);
@@ -24,21 +25,24 @@ class _RosterState extends State<Roster> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title!),
       ),
-      body: Column(
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              color: Colors.red,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            RosterHeaderInfo(),
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.red,
+              ),
+              child: Text(
+                'blah test',
+                softWrap: false,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
-            child: Text(
-              'blah test',
-              softWrap: false,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-        ],
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+          ],
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+        ),
       ),
     );
   }
