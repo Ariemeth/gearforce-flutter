@@ -20,6 +20,7 @@ class _SelectFactionState extends State<SelectFaction> {
       icon: const Icon(Icons.arrow_downward),
       iconSize: 16,
       elevation: 16,
+      isExpanded: true,
       style: const TextStyle(color: Colors.blue),
       underline: SizedBox(),
       onChanged: (String? newValue) {
