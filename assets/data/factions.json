@@ -1,7 +1,22 @@
 [
-    "North",
-    "South",
-    "Peace River",
-    "NuCoal",
-    "CEF"
+    {
+        "name": "North",
+        "subFactions":["a","b","g"]
+    },
+    {
+        "name": "South",
+        "subFactions":["a","b","f"]
+    },
+    {
+        "name": "Peace River",
+        "subFactions":["a","b","e"]
+    },
+    {
+        "name": "NuCoal",
+        "subFactions":["a","b","d"]
+    },
+    {
+        "name": "CEF",
+        "subFactions":["a","b","c"]
+    }
 ]

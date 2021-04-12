@@ -1,6 +1,7 @@
 import 'dart:convert' show json;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:gearforce/factions/factions.dart';
 
 /// This is the stateful widget that the main application instantiates.
 class SelectFaction extends StatefulWidget {
@@ -14,7 +15,7 @@ class SelectFaction extends StatefulWidget {
 class _SelectFactionState extends State<SelectFaction> {
   String? dropdownValue;
 
-  List<String> factions = [];
+  List<Faction>? factions = [];
   Future<String>? futureFactions;
 
   final String factionFile = 'data/factions.json';
@@ -39,11 +40,12 @@ class _SelectFactionState extends State<SelectFaction> {
                 dropdownValue = newValue!;
               });
             },
-            items: this.factions.map<DropdownMenuItem<String>>((String value) {
+            items:
+                this.factions!.map<DropdownMenuItem<String>>((Faction value) {
               return DropdownMenuItem<String>(
-                value: value,
+                value: value.name,
                 child: Text(
-                  value,
+                  value.name,
                   style: TextStyle(fontSize: 16),
                 ),
               );
@@ -58,10 +60,12 @@ class _SelectFactionState extends State<SelectFaction> {
     this.loadFactions();
   }
 
-  Future<List<String>> loadFactions() async {
+  Future<List<Faction>> loadFactions() async {
     var jsonData = await rootBundle.loadString(this.factionFile);
-    var decodedData = json.decode(jsonData);
-    List<String> factions = decodedData != null ? List.from(decodedData) : [''];
+    var decodedData = json.decode(jsonData) as List;
+    List<Faction> factions =
+        decodedData.map((f) => Faction.fromJson(f)).toList();
+
     setState(() {
       this.factions = factions;
     });
