@@ -1,6 +1,5 @@
+import 'dart:convert' show json;
 import 'package:flutter/material.dart';
-import 'dart:convert';
-
 import 'package:flutter/services.dart';
 
 /// This is the stateful widget that the main application instantiates.
@@ -17,6 +16,8 @@ class _SelectFactionState extends State<SelectFaction> {
 
   List<String> factions = [];
   Future<String>? futureFactions;
+
+  final String factionFile = 'data/factions.json';
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +59,7 @@ class _SelectFactionState extends State<SelectFaction> {
   }
 
   Future<List<String>> loadFactions() async {
-    var jsonData = await rootBundle.loadString('data/factions.json');
+    var jsonData = await rootBundle.loadString(this.factionFile);
     var decodedData = json.decode(jsonData);
     List<String> factions = decodedData != null ? List.from(decodedData) : [''];
     setState(() {
