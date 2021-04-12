@@ -21,6 +21,7 @@ class _SelectSubFactionState extends State<SelectSubFaction> {
       iconSize: 16,
       elevation: 16,
       isExpanded: true,
+      isDense: true,
       style: const TextStyle(color: Colors.blue),
       underline: SizedBox(),
       onChanged: (String? newValue) {
