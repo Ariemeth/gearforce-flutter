@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:gearforce/data/data.dart';
 import 'package:gearforce/screens/roster/roster.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  var data = Data();
+  data.load().whenComplete(() {
+    print(data.factions()?.length);
+    runApp(MyApp());
+  });
+}
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
