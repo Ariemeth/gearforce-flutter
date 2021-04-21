@@ -6,13 +6,26 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   var data = Data();
   data.load().whenComplete(() {
-    print(data.factions()?.length);
-    runApp(MyApp());
+    runApp(GearForce(
+      data: data,
+    ));
   });
 }
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+class GearForce extends StatefulWidget {
+  final Data data;
+
+  const GearForce({Key? key, required this.data}) : super(key: key);
+
+  @override
+  _GearForceState createState() => _GearForceState(data);
+}
+
+class _GearForceState extends State<GearForce> {
+  final Data dataBundle;
+
+  _GearForceState(this.dataBundle);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -20,7 +33,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Roster(title: 'Gear roster creator'),
+      home: Roster(
+        title: 'Gear roster creator',
+        data: this.dataBundle,
+      ),
     );
   }
 }

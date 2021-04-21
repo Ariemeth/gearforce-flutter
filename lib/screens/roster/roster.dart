@@ -1,16 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:gearforce/data/data.dart';
 import 'package:gearforce/widgets/roster_header_info.dart';
 
 class Roster extends StatefulWidget {
-  Roster({Key? key, this.title}) : super(key: key);
+  Roster({
+    Key? key,
+    required this.title,
+    required this.data,
+  }) : super(key: key);
 
   final String? title;
+  final Data data;
 
   @override
-  _RosterState createState() => _RosterState();
+  _RosterState createState() => _RosterState(data);
 }
 
 class _RosterState extends State<Roster> {
+  final Data dataBundle;
+
+  _RosterState(this.dataBundle);
+
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -28,7 +38,9 @@ class _RosterState extends State<Roster> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            RosterHeaderInfo(),
+            RosterHeaderInfo(
+              dataBundle: this.dataBundle,
+            ),
             Container(
               decoration: BoxDecoration(
                 color: Colors.red,
