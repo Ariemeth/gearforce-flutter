@@ -1,22 +1,79 @@
 [
-    {
-        "name": "North",
-        "subFactions":["a","b","g"]
-    },
-    {
-        "name": "South",
-        "subFactions":["a","b","f"]
-    },
-    {
-        "name": "Peace River",
-        "subFactions":["a","b","e"]
-    },
-    {
-        "name": "NuCoal",
-        "subFactions":["a","b","d"]
-    },
-    {
-        "name": "CEF",
-        "subFactions":["a","b","c"]
-    }
+	{
+		"name": "CEF",
+		"subFactions": [
+            "None",
+			"CEF Line Formation",
+            "GREL/FLAIL Infantry Battalion",
+			"Tank Battalion"
+			
+		]
+	},
+	{
+		"name": "Caprice",
+		"subFactions": [
+            "None",
+            "Caprice Corporate Security Detachment",
+			"Caprice Invasion Detachment",			
+			"Caprice Liberati Resistance Cell"
+		]
+	},
+	{
+		"name": "Eden",
+		"subFactions": [
+            "None",
+			"Eden Invasion Militia",
+			"Eden Noble House"
+		]
+	},
+	{
+		"name": "North",
+		"subFactions": [
+            "None",
+			"Northern Guard",
+			"Northern Lights Confederacy",
+			"United Mercantile Federation",			
+            "Western Frontier Protectorate"
+		]
+	},
+	{
+		"name": "NuCoal",
+		"subFactions": [
+            "None",
+            "Humanist Alliance Protection Force",
+            "Hard Scrabbled City State Armies",
+            "Khayr Ad-Din",
+            "NuCoal Self Defense Force",
+            "Port Arthur Korps",
+            "Temple Heights"
+        ]
+	},
+	{
+		"name": "Peace River",
+		"subFactions": [
+            "None",
+            "Combined Task Force",
+            "Home Guard Security Forces",
+            "Peace River Defense Force",
+            "Peace Officer Corps"
+        ]
+	},
+	{
+		"name": "South",
+		"subFactions": [
+            "None",
+            "Eastern Sun Emirates",
+            "MILitary Intervention and Counter Insurgency Army",
+            "Mekong Dominion",
+            "Southern Republic Army"
+        ]
+	},
+	{
+		"name": "Utopia",
+		"subFactions": [
+            "None",
+            "Other Utopian Forces",
+			"Utopian Combined Armiger Force"			
+		]
+	}
 ]
