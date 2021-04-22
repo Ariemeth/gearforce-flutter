@@ -40,6 +40,9 @@ class RosterHeaderInfo extends StatelessWidget {
                   horizontal: 5,
                 ),
               ),
+              onChanged: (String value) async {
+                roster.player = value;
+              },
               style: TextStyle(fontSize: 16),
               strutStyle: StrutStyle.disabled,
             ),
@@ -66,6 +69,9 @@ class RosterHeaderInfo extends StatelessWidget {
                   horizontal: 5,
                 ),
               ),
+              onChanged: (String value) async {
+                roster.name = value;
+              },
             ),
           ),
           Container(),
