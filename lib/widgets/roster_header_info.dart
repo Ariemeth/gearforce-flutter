@@ -15,7 +15,7 @@ class RosterHeaderInfo extends StatelessWidget {
     return Table(
       columnWidths: const <int, TableColumnWidth>{
         0: IntrinsicColumnWidth(),
-        1: FixedColumnWidth(400.0),
+        1: FixedColumnWidth(300.0),
         2: FlexColumnWidth(1),
       },
       defaultVerticalAlignment: TableCellVerticalAlignment.middle,
