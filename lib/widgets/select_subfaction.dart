@@ -71,7 +71,10 @@ class _SelectSubFactionState extends State<SelectSubFaction> {
     var menuItems = subfactions.map<DropdownMenuItem<String>>((name) {
       return DropdownMenuItem<String>(
         value: name,
-        child: Text(name),
+        child: Text(
+          name,
+          style: TextStyle(fontSize: 16),
+        ),
       );
     });
 
