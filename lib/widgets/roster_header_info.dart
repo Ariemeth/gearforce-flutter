@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:gearforce/data/data.dart';
+import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/widgets/select_faction.dart';
 import 'package:gearforce/widgets/select_subfaction.dart';
 
 class RosterHeaderInfo extends StatelessWidget {
   RosterHeaderInfo({Key? key, required this.dataBundle}) : super(key: key);
 
-  final selectedFactionName = ValueNotifier<String>("");
-  final selectedSubFactionName = ValueNotifier<String>("");
+  final Roster roster = Roster();
   final Data dataBundle;
 
   @override
@@ -83,7 +83,7 @@ class RosterHeaderInfo extends StatelessWidget {
             padding: EdgeInsets.only(right: 10, left: 5, top: 5, bottom: 5),
             child: SelectFaction(
               factions: dataBundle.factions(),
-              selectedFaction: this.selectedFactionName,
+              selectedFaction: this.roster.faction,
             ),
           ),
           Container(),
@@ -101,8 +101,8 @@ class RosterHeaderInfo extends StatelessWidget {
             padding: EdgeInsets.only(right: 10, left: 5, top: 5, bottom: 5),
             child: SelectSubFaction(
               factions: dataBundle.factions(),
-              selectedFaction: this.selectedFactionName,
-              selectedSubFaction: selectedSubFactionName,
+              selectedFaction: this.roster.faction,
+              selectedSubFaction: this.roster.subFaction,
             ),
           ),
           Container(),

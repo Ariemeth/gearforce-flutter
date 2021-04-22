@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:gearforce/factions/factions.dart';
+import 'package:gearforce/models/factions/factions.dart';
 
 /// This is the stateful widget that the main application instantiates.
 class SelectFaction extends StatefulWidget {

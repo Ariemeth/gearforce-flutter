@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/services.dart';
-import 'package:gearforce/factions/factions.dart';
+import 'package:gearforce/models/factions/factions.dart';
 
 final String factionFile = 'assets/data/factions.json';
 
