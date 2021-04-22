@@ -43,6 +43,10 @@ class RosterHeaderInfo extends StatelessWidget {
               onChanged: (String value) async {
                 roster.player = value;
               },
+              onSubmitted: (String value) async {
+                // DEBUG use playername onSubmit to print the roster.
+                print(roster);
+              },
               style: TextStyle(fontSize: 16),
               strutStyle: StrutStyle.disabled,
             ),

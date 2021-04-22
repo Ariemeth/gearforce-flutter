@@ -58,7 +58,6 @@ class _SelectSubFactionState extends State<SelectSubFaction> {
   List<DropdownMenuItem<String>>? _subFactions() {
     // reset the dropdown value
     this.dropdownValue = null;
-    this.selectedSubFaction.value = "";
 
     if (this.selectedFaction.value == "") {
       return null;
