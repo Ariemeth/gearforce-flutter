@@ -1,0 +1,49 @@
+[
+    {
+      "model": "Hunter",
+      "tv":6,
+      "ua":"GP,SK,FS",
+      "mr": "W/G:6",
+      "ar": 6,
+      "h/s": "4/2",
+      "a":1,
+      "gu":4,
+      "pi":4,
+      "ew":6,
+      "weapons":[
+        "LAC (Arm)",
+        "LRP",
+        "LAPGL",
+        "LPZ",
+        "LVB (Arm)"
+      ],
+      "traits":[
+        "Arms"
+      ],
+      "type/height": "Gear 1.5"
+    },
+    {
+      "model": "Jaguar",
+      "tv":11,
+      "ua":"SK(+),FS,RC",
+      "mr": "W/G:7",
+      "ar": 7,
+      "h/s": "3/3",
+      "a":1,
+      "gu":3,
+      "pi":3,
+      "ew":5,
+      "weapons":[
+        "MAC (Arm)",
+        "LRP",
+        "LAPGL",
+        "LVB (Arm)"
+      ],
+      "traits":[
+        "Arms",
+        "Agile",
+        "Airdrop"
+      ],
+      "type/height": "Gear 1.5"
+    }
+]
