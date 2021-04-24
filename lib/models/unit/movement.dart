@@ -1,11 +1,11 @@
 class Movement {
-  Movement(this.type, this.rate);
+  const Movement({required this.type, required this.rate});
 
-  String type;
-  int rate;
+  final String type;
+  final int rate;
   factory Movement.fromJson(dynamic json) => Movement(
-        json.toString().split(":").first,
-        int.parse(json.toString().split(":").last),
+        type: json.toString().split(":").first,
+        rate: int.parse(json.toString().split(":").last),
       );
 
   @override

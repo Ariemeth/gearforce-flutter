@@ -3,8 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:gearforce/models/factions/factions.dart';
 import 'package:gearforce/models/unit/unit.dart';
 
-final String factionFile = 'assets/data/factions.json';
-final String northFile = 'assets/data/units/north.json';
+final String _factionFile = 'assets/data/factions.json';
+final String _northFile = 'assets/data/units/north.json';
 
 class Data {
   List<Faction> _factions = [];
@@ -19,21 +19,19 @@ class Data {
   }
 
   Future<void> load() async {
-    await _loadFactions();
-    await _loadNorth();
+    await _loadFactions().then((value) => this._factions = value);
+    await _loadUnits(_northFile).then((value) => this._north = value);
   }
 
-  Future<void> _loadFactions() async {
-    var jsonData = await rootBundle.loadString(factionFile);
+  Future<List<Faction>> _loadFactions() async {
+    var jsonData = await rootBundle.loadString(_factionFile);
     var decodedData = json.decode(jsonData) as List;
-    _factions = decodedData.map((f) => Faction.fromJson(f)).toList();
+    return decodedData.map((f) => Faction.fromJson(f)).toList();
   }
 
-  Future<void> _loadNorth() async {
-    var jsonData = await rootBundle.loadString(northFile);
+  Future<List<Unit>> _loadUnits(String filename) async {
+    var jsonData = await rootBundle.loadString(filename);
     var decodedData = json.decode(jsonData) as List;
-    _north = decodedData.map((f) => Unit.fromJson(f)).toList();
-    // DEBUG printing
-    print(_north);
+    return decodedData.map((f) => Unit.fromJson(f)).toList();
   }
 }
