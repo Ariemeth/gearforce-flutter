@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:gearforce/data/data.dart';
+import 'package:gearforce/models/roster/roster.dart';
+import 'package:gearforce/widgets/combat_groups.dart';
 import 'package:gearforce/widgets/roster_header_info.dart';
 
-class Roster extends StatefulWidget {
-  Roster({
+class RosterWidget extends StatefulWidget {
+  RosterWidget({
     Key? key,
     required this.title,
     required this.data,
@@ -13,13 +15,11 @@ class Roster extends StatefulWidget {
   final Data data;
 
   @override
-  _RosterState createState() => _RosterState(data);
+  _RosterWidgetState createState() => _RosterWidgetState();
 }
 
-class _RosterState extends State<Roster> {
-  final Data dataBundle;
-
-  _RosterState(this.dataBundle);
+class _RosterWidgetState extends State<RosterWidget> {
+  final UnitRoster roster = UnitRoster();
 
   @override
   Widget build(BuildContext context) {
@@ -39,17 +39,11 @@ class _RosterState extends State<Roster> {
         child: Column(
           children: [
             RosterHeaderInfo(
-              dataBundle: this.dataBundle,
+              dataBundle: widget.data,
+              roster: this.roster,
             ),
             Container(
-              decoration: BoxDecoration(
-                color: Colors.red,
-              ),
-              child: Text(
-                'blah test',
-                softWrap: false,
-                overflow: TextOverflow.ellipsis,
-              ),
+              child: CombatGroupTable(widget.data, this.roster),
             ),
           ],
           mainAxisAlignment: MainAxisAlignment.start,

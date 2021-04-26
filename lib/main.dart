@@ -33,7 +33,7 @@ class _GearForceState extends State<GearForce> {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Roster(
+      home: RosterWidget(
         title: 'Gear roster creator',
         data: this.dataBundle,
       ),
