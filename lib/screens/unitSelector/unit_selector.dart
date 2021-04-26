@@ -51,6 +51,8 @@ class _UnitSelectorState extends State<UnitSelector> {
           columnsTitleBuilder: _buildColumnTitles,
           rowsTitleBuilder: _buildRowTitles(Factions.North, widget.data),
           contentCellBuilder: _buildCellContent(Factions.North, widget.data),
+          onContentCellPressed: _contentPressed(Factions.North, widget.data),
+          onRowTitlePressed: _rowTitlePressed(Factions.North, widget.data),
         );
         return table;
       case "Peace River":
@@ -66,6 +68,9 @@ class _UnitSelectorState extends State<UnitSelector> {
           rowsTitleBuilder: _buildRowTitles(Factions.PeaceRiver, widget.data),
           contentCellBuilder:
               _buildCellContent(Factions.PeaceRiver, widget.data),
+          onContentCellPressed:
+              _contentPressed(Factions.PeaceRiver, widget.data),
+          onRowTitlePressed: _rowTitlePressed(Factions.PeaceRiver, widget.data),
         );
         return table;
       default:
@@ -207,6 +212,20 @@ class _UnitSelectorState extends State<UnitSelector> {
         text,
         backgroundColor: ((j + 1) % 2 == 0) ? Colors.blueGrey[100] : null,
       );
+    };
+  }
+
+  dynamic Function(int, int) _contentPressed(Factions f, Data data) {
+    return (int i, int j) {
+      Unit unit = data.unitList(f)[j];
+      Navigator.pop(context, unit);
+    };
+  }
+
+  dynamic Function(int) _rowTitlePressed(Factions f, Data data) {
+    return (int i) {
+      Unit unit = data.unitList(f)[i];
+      Navigator.pop(context, unit);
     };
   }
 }

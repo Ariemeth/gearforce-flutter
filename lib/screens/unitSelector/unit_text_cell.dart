@@ -40,6 +40,7 @@ class UnitTextCell extends StatelessWidget {
             child: Text(
               text,
               style: this.textStyle,
+              softWrap: true,
               // maxLines: 5,
               textAlign: this.textAlignment,
             ),

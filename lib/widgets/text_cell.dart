@@ -4,20 +4,20 @@ class CGTextCell extends StatelessWidget {
   const CGTextCell(
     this.text, {
     this.textAlignment = TextAlign.center,
-    this.backgroundColor,
+    this.bgColor,
     this.padding = const EdgeInsets.all(5),
   });
 
   final String text;
   final TextAlign textAlignment;
-  final Color? backgroundColor;
+  final Color? bgColor;
   final EdgeInsetsGeometry padding;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: this.backgroundColor,
+        color: this.bgColor,
       ),
       child: Padding(
         padding: EdgeInsets.all(5),
@@ -28,5 +28,10 @@ class CGTextCell extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  @override
+  String toStringShort() {
+    return '$text';
   }
 }
