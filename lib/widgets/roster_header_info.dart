@@ -5,9 +5,10 @@ import 'package:gearforce/widgets/select_faction.dart';
 import 'package:gearforce/widgets/select_subfaction.dart';
 
 class RosterHeaderInfo extends StatelessWidget {
-  RosterHeaderInfo({Key? key, required this.dataBundle}) : super(key: key);
+  RosterHeaderInfo({Key? key, required this.dataBundle, required this.roster})
+      : super(key: key);
 
-  final Roster roster = Roster();
+  final UnitRoster roster;
   final Data dataBundle;
 
   @override

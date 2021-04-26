@@ -1,12 +1,12 @@
 import 'package:flutter/foundation.dart';
 
-class Roster {
+class UnitRoster {
   String? player;
   String? name;
   final faction = ValueNotifier<String>("");
   final subFaction = ValueNotifier<String>("");
 
-  Roster() {
+  UnitRoster() {
     faction.addListener(() {
       subFaction.value = "";
     });
