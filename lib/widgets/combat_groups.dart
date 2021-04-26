@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/screens/unitSelector/unit_selector.dart';
+import 'package:gearforce/widgets/text_cell.dart';
 
 class CombatGroupTable extends StatelessWidget {
   const CombatGroupTable(
@@ -70,87 +71,61 @@ Table createUnitTable({Color? backgroundColor: Colors.blue}) {
 
 TableRow unitHeader({Color? backgroundColor: Colors.blue}) {
   return TableRow(children: [
-    CGCell(
+    CGTextCell(
       'Model Name',
       backgroundColor: backgroundColor,
     ),
-    CGCell(
+    CGTextCell(
       'TV',
       backgroundColor: backgroundColor,
     ),
-    CGCell(
+    CGTextCell(
       'UA',
       backgroundColor: backgroundColor,
     ),
-    CGCell(
+    CGTextCell(
       'MR',
       backgroundColor: backgroundColor,
     ),
-    CGCell(
+    CGTextCell(
       'AR',
       backgroundColor: backgroundColor,
     ),
-    CGCell(
+    CGTextCell(
       'H/S',
       backgroundColor: backgroundColor,
     ),
-    CGCell(
+    CGTextCell(
       'A',
       backgroundColor: backgroundColor,
     ),
-    CGCell(
+    CGTextCell(
       'GU',
       backgroundColor: backgroundColor,
     ),
-    CGCell(
+    CGTextCell(
       'PI',
       backgroundColor: backgroundColor,
     ),
-    CGCell(
+    CGTextCell(
       'EW',
       backgroundColor: backgroundColor,
     ),
-    CGCell(
+    CGTextCell(
       'Weapons',
       backgroundColor: backgroundColor,
     ),
-    CGCell(
+    CGTextCell(
       'Traits',
       backgroundColor: backgroundColor,
     ),
-    CGCell(
+    CGTextCell(
       'Type',
       backgroundColor: backgroundColor,
     ),
-    CGCell(
+    CGTextCell(
       'Height',
       backgroundColor: backgroundColor,
     ),
   ]);
-}
-
-class CGCell extends StatelessWidget {
-  const CGCell(this.text,
-      {this.textAlignment = TextAlign.center, this.backgroundColor});
-
-  final String text;
-  final TextAlign textAlignment;
-  final Color? backgroundColor;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: this.backgroundColor,
-      ),
-      child: Padding(
-        padding: EdgeInsets.all(5),
-        child: Text(
-          this.text,
-          textAlign: this.textAlignment,
-          style: TextStyle(fontSize: 16),
-        ),
-      ),
-    );
-  }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/factions/faction.dart';
 import 'package:gearforce/models/unit/unit.dart';
+import 'package:gearforce/screens/unitSelector/unit_text_cell.dart';
 import 'package:table_sticky_headers/table_sticky_headers.dart';
 
 class UnitSelector extends StatefulWidget {
@@ -29,58 +30,63 @@ class _UnitSelectorState extends State<UnitSelector> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title!),
       ),
-      body: InteractiveViewer(
-          child: buildStickyTable(widget.data, widget.faction)),
+      body:
+          InteractiveViewer(child: _generateTable(widget.data, widget.faction)),
     );
   }
 
-  StickyHeadersTable buildStickyTable(Data data, String faction) {
+  StickyHeadersTable _generateTable(Data data, String faction) {
     // using a switch until the faction string is refactored to the enum
     switch (faction) {
       case "North":
         var table = StickyHeadersTable(
-          legendCell: Text(
-            'Model Name',
-            textAlign: TextAlign.left,
+          legendCell: UnitTextCell.columnTitle(
+            "Model Name",
+            backgroundColor: Colors.blueGrey[100],
+            textAlignment: TextAlign.left,
           ),
           columnsLength: 12,
           rowsLength: data.unitList(Factions.North).length,
-          columnsTitleBuilder: buildColumnHeaders,
-          rowsTitleBuilder: buildRowTitles(Factions.North, widget.data),
-          contentCellBuilder: buildCellContent(Factions.North, widget.data),
+          columnsTitleBuilder: _buildColumnTitles,
+          rowsTitleBuilder: _buildRowTitles(Factions.North, widget.data),
+          contentCellBuilder: _buildCellContent(Factions.North, widget.data),
         );
         return table;
       case "Peace River":
         var table = StickyHeadersTable(
-          legendCell: Text(
-            'Model Name',
-            textAlign: TextAlign.left,
+          legendCell: UnitTextCell.columnTitle(
+            "Model Name",
+            backgroundColor: Colors.blueGrey[100],
+            textAlignment: TextAlign.left,
           ),
           columnsLength: 12,
           rowsLength: data.unitList(Factions.PeaceRiver).length,
-          columnsTitleBuilder: buildColumnHeaders,
-          rowsTitleBuilder: buildRowTitles(Factions.PeaceRiver, widget.data),
+          columnsTitleBuilder: _buildColumnTitles,
+          rowsTitleBuilder: _buildRowTitles(Factions.PeaceRiver, widget.data),
           contentCellBuilder:
-              buildCellContent(Factions.PeaceRiver, widget.data),
+              _buildCellContent(Factions.PeaceRiver, widget.data),
         );
         return table;
       default:
     }
 
     return StickyHeadersTable(
-        legendCell: Text("No units to display",
-            textAlign: TextAlign.center, style: TextStyle(fontSize: 36)),
-        columnsLength: 0,
-        rowsLength: 0,
-        cellDimensions: CellDimensions.uniform(width: 300, height: 40),
-        columnsTitleBuilder: (i) => Text(''),
-        rowsTitleBuilder: (i) => Text(''),
-        contentCellBuilder: (i, j) => Text(''));
+      legendCell: UnitTextCell.columnTitle(
+        "No units to display",
+        textStyle: TextStyle(fontSize: 36),
+        padding: EdgeInsets.zero,
+      ),
+      columnsLength: 0,
+      rowsLength: 0,
+      cellDimensions: CellDimensions.uniform(width: 300, height: 40),
+      columnsTitleBuilder: (i) => Text(''),
+      rowsTitleBuilder: (i) => Text(''),
+      contentCellBuilder: (i, j) => Text(''),
+    );
   }
 
-  Widget buildColumnHeaders(int i) {
+  Widget _buildColumnTitles(int i) {
     String text = "";
-    TextAlign alignment = TextAlign.center;
     switch (i) {
       case 0:
         text = 'TV';
@@ -122,19 +128,22 @@ class _UnitSelectorState extends State<UnitSelector> {
         text = 'Height';
         break;
     }
-    return Text(
+    return UnitTextCell.columnTitle(
       text,
-      textAlign: alignment,
+      backgroundColor: Colors.blueGrey[100],
     );
   }
 
-  Widget Function(int) buildRowTitles(Factions f, Data data) {
+  Widget Function(int) _buildRowTitles(Factions f, Data data) {
     return (int i) {
-      return Text(data.unitList(f)[i].name, textAlign: TextAlign.left);
+      return UnitTextCell.content(
+        data.unitList(f)[i].name,
+        backgroundColor: ((i + 1) % 2 == 0) ? Colors.blueGrey[100] : null,
+      );
     };
   }
 
-  Widget Function(int, int) buildCellContent(Factions f, Data data) {
+  Widget Function(int, int) _buildCellContent(Factions f, Data data) {
     return (int i, int j) {
       Unit unit = data.unitList(f)[j];
       String text = '';
@@ -193,7 +202,10 @@ class _UnitSelectorState extends State<UnitSelector> {
           text = unit.height;
           break;
       }
-      return Text(text);
+      return UnitTextCell.content(
+        text,
+        backgroundColor: ((j + 1) % 2 == 0) ? Colors.blueGrey[100] : null,
+      );
     };
   }
 }
