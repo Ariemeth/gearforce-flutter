@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/roster/roster.dart';
-import 'package:gearforce/widgets/select_faction.dart';
-import 'package:gearforce/widgets/select_subfaction.dart';
+import 'package:gearforce/screens/roster/select_faction.dart';
+import 'package:gearforce/screens/roster/select_subfaction.dart';
 
 class RosterHeaderInfo extends StatelessWidget {
   RosterHeaderInfo({Key? key, required this.dataBundle, required this.roster})

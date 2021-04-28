@@ -4,7 +4,7 @@ import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/screens/unitSelector/unit_selector.dart';
-import 'package:gearforce/widgets/text_cell.dart';
+import 'package:gearforce/screens/roster/text_cell.dart';
 
 class CombatGroupTable extends StatelessWidget {
   CombatGroupTable(
