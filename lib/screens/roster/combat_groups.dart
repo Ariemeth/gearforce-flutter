@@ -82,10 +82,9 @@ Table createUnitTable({Color? bgColor: Colors.blue, List<Unit>? units}) {
     ],
   );
 
-  //units.forEach((element) {
-  //      return unitRow(element);
-  //    })
-
+  units?.forEach((element) {
+    t.children.add(unitRow(element));
+  });
   return t;
 }
 
