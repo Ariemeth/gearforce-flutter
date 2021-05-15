@@ -22,40 +22,34 @@ class _CombatGroupsDisplayState extends State<CombatGroupsDisplay>
     Tab(text: 'cg2'),
   ];
 
-  late TabController _tabController;
-
-  @override
-  void initState() {
-    super.initState();
-    _tabController = TabController(length: tabs.length, vsync: this);
-  }
-
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Center(
-          child: TabBar(
-            controller: this._tabController,
-            tabs: tabs,
+    return Expanded(
+      child: DefaultTabController(
+        length: tabs.length,
+        child: Scaffold(
+          primary: false,
+          appBar: PreferredSize(
+            preferredSize: Size.fromHeight(kToolbarHeight),
+            child: TabBar(
+              labelColor: Colors.blue[700],
+              indicatorColor: Colors.amber,
+              tabs: tabs,
+              isScrollable: true,
+            ),
           ),
-        ),
-        Center(
-          child: TabBarView(
-            controller: this._tabController,
+          body: TabBarView(
             children: [
-              CombatGroup(this.widget.data, this.widget.roster),
-              CombatGroup(this.widget.data, this.widget.roster),
+              Center(
+                child: CombatGroup(widget.data, widget.roster),
+              ),
+              Center(
+                child: CombatGroup(widget.data, widget.roster),
+              )
             ],
           ),
         ),
-      ],
+      ),
     );
   }
 }
