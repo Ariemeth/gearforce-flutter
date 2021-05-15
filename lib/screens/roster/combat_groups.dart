@@ -6,7 +6,7 @@ import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/screens/unitSelector/unit_selector.dart';
 import 'package:gearforce/screens/roster/text_cell.dart';
 
-class CombatGroupTable extends StatelessWidget {
+class CombatGroupTable extends StatefulWidget {
   CombatGroupTable(
     this.data,
     this.roster,
@@ -14,13 +14,19 @@ class CombatGroupTable extends StatelessWidget {
 
   final Data data;
   final UnitRoster roster;
-  final table = createUnitTable(bgColor: Colors.blue[200]);
+
+  @override
+  _CombatGroupTableState createState() => _CombatGroupTableState();
+}
+
+class _CombatGroupTableState extends State<CombatGroupTable> {
+  final List<Unit> _units = [];
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        this.table,
+        createUnitTable(bgColor: Colors.blue[200], units: this._units),
         Row(
           children: [
             SizedBox(
@@ -46,23 +52,25 @@ class CombatGroupTable extends StatelessWidget {
       MaterialPageRoute(
         builder: (context) => UnitSelector(
           title: "Unit Selector",
-          data: this.data,
-          faction: this.roster.faction.value,
+          data: this.widget.data,
+          faction: this.widget.roster.faction.value,
         ),
       ),
     );
 
     if (result is Unit) {
-      this.table.children.add(unitRow(result));
+      setState(() {
+        this._units.add(result);
+      });
     }
-    this.table.children.forEach((element) {
-      print(element);
-    });
+    //this.table.children.forEach((element) {
+    //  print(element);
+    //});
   }
 }
 
-Table createUnitTable({Color? bgColor: Colors.blue}) {
-  return Table(
+Table createUnitTable({Color? bgColor: Colors.blue, List<Unit>? units}) {
+  var t = Table(
     columnWidths: const <int, TableColumnWidth>{
       0: IntrinsicColumnWidth(),
       10: FlexColumnWidth(1.0),
@@ -73,6 +81,12 @@ Table createUnitTable({Color? bgColor: Colors.blue}) {
       ),
     ],
   );
+
+  //units.forEach((element) {
+  //      return unitRow(element);
+  //    })
+
+  return t;
 }
 
 TableRow unitHeader({Color? bgColor: Colors.blue}) {
