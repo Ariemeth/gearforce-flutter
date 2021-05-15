@@ -43,7 +43,7 @@ class _UnitSelectorState extends State<UnitSelector> {
         var table = StickyHeadersTable(
           legendCell: UnitTextCell.columnTitle(
             "Model Name",
-            backgroundColor: Colors.blueGrey[100],
+            backgroundColor: Colors.blue[100],
             textAlignment: TextAlign.left,
           ),
           columnsLength: 12,
@@ -59,7 +59,7 @@ class _UnitSelectorState extends State<UnitSelector> {
         var table = StickyHeadersTable(
           legendCell: UnitTextCell.columnTitle(
             "Model Name",
-            backgroundColor: Colors.blueGrey[100],
+            backgroundColor: Colors.blue[100],
             textAlignment: TextAlign.left,
           ),
           columnsLength: 12,
@@ -99,7 +99,7 @@ class _UnitSelectorState extends State<UnitSelector> {
     return (int i) {
       return UnitTextCell.content(
         data.unitList(f)[i].name,
-        backgroundColor: ((i + 1) % 2 == 0) ? Colors.blueGrey[100] : null,
+        backgroundColor: ((i + 1) % 2 == 0) ? Colors.blue[100] : null,
       );
     };
   }

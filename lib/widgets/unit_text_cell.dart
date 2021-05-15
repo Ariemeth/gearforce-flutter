@@ -98,7 +98,7 @@ Widget buildUnitTitleCell(int i) {
   }
   return UnitTextCell.columnTitle(
     text,
-    backgroundColor: Colors.blueGrey[100],
+    backgroundColor: Colors.blue[100],
   );
 }
 
@@ -161,6 +161,6 @@ Widget buildUnitCell(int column, int row, Unit unit) {
   }
   return UnitTextCell.content(
     text,
-    backgroundColor: ((row + 1) % 2 == 0) ? Colors.blueGrey[100] : null,
+    backgroundColor: ((row + 1) % 2 == 0) ? Colors.blue[100] : null,
   );
 }
