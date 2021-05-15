@@ -6,8 +6,62 @@ import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/screens/unitSelector/unit_selector.dart';
 import 'package:gearforce/screens/roster/text_cell.dart';
 
-class CombatGroupTable extends StatefulWidget {
-  CombatGroupTable(
+class CombatGroupsDisplay extends StatefulWidget {
+  CombatGroupsDisplay(this.data, this.roster);
+
+  final Data data;
+  final UnitRoster roster;
+  @override
+  _CombatGroupsDisplayState createState() => _CombatGroupsDisplayState();
+}
+
+class _CombatGroupsDisplayState extends State<CombatGroupsDisplay>
+    with SingleTickerProviderStateMixin {
+  final List<Tab> tabs = <Tab>[
+    Tab(text: 'cg1'),
+    Tab(text: 'cg2'),
+  ];
+
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: tabs.length, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Center(
+          child: TabBar(
+            controller: this._tabController,
+            tabs: tabs,
+          ),
+        ),
+        Center(
+          child: TabBarView(
+            controller: this._tabController,
+            children: [
+              CombatGroup(this.widget.data, this.widget.roster),
+              CombatGroup(this.widget.data, this.widget.roster),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class CombatGroup extends StatefulWidget {
+  CombatGroup(
     this.data,
     this.roster,
   );
@@ -16,10 +70,10 @@ class CombatGroupTable extends StatefulWidget {
   final UnitRoster roster;
 
   @override
-  _CombatGroupTableState createState() => _CombatGroupTableState();
+  _CombatGroupState createState() => _CombatGroupState();
 }
 
-class _CombatGroupTableState extends State<CombatGroupTable> {
+class _CombatGroupState extends State<CombatGroup> {
   final List<Unit> _units = [];
 
   @override
@@ -63,9 +117,6 @@ class _CombatGroupTableState extends State<CombatGroupTable> {
         this._units.add(result);
       });
     }
-    //this.table.children.forEach((element) {
-    //  print(element);
-    //});
   }
 }
 

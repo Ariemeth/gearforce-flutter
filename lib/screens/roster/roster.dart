@@ -43,7 +43,7 @@ class _RosterWidgetState extends State<RosterWidget> {
               roster: this.roster,
             ),
             Container(
-              child: CombatGroupTable(widget.data, this.roster),
+              child: CombatGroupsDisplay(widget.data, this.roster),
             ),
           ],
           mainAxisAlignment: MainAxisAlignment.start,
