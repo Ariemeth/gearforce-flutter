@@ -35,8 +35,6 @@ class _RosterWidgetState extends State<RosterWidget> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title!),
       ),
-      //     body: SingleChildScrollView(
-      //       child: Column(
       body: Column(
         children: [
           RosterHeaderInfo(
@@ -50,7 +48,6 @@ class _RosterWidgetState extends State<RosterWidget> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.stretch,
       ),
-//      ),
     );
   }
 }
