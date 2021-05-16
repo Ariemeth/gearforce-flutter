@@ -1,4 +1,5 @@
 import 'package:gearforce/models/unit/movement.dart';
+import 'package:gearforce/models/unit/role.dart';
 
 class Unit {
   const Unit({
@@ -21,7 +22,7 @@ class Unit {
   });
   final String name;
   final int tv;
-  final List<String> role;
+  final Roles role;
   final Movement movement;
   final int armor;
   final int hull;
@@ -39,7 +40,7 @@ class Unit {
   factory Unit.fromJson(dynamic json) => Unit(
         name: json['model'] as String,
         tv: json['tv'] as int,
-        role: List.from(json['role'].toString().split(",")),
+        role: Roles.fromJson(json['role']),
         movement: Movement.fromJson(json['mr']),
         armor: json['arm'] as int,
         hull: int.parse(json['h/s'].toString().split("/").first),
