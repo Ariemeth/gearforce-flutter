@@ -2,48 +2,56 @@
     {
         "model": "Warrior",
         "tv":7,
-        "ua":"GP(+),SK,FS",
+        "role":"GP+,SK,FS",
         "mr": "W/G:6",
-        "ar": 6,
+        "arm": 6,
         "h/s": "4/2",
         "a":1,
         "gu":4,
         "pi":4,
         "ew":5,
-        "weapons":[
-          "LAC (Arm)",
+        "react-weapons":[
+          "LAC",
+          "LVB"
+        ],
+        "mounted-weapons":[
           "LRP",
-          "LAPGL",
-          "LVB (Arm)"
+          "LAPGL"
         ],
         "traits":[
-          "Arms",
+          "Hands",
           "ECM"
         ],
-        "type/height": "Gear 1.5"
+        "type": "Gear",
+        "height": "1.5"
       },
       {
         "model": "Warrior IV",
         "tv":11,
-        "ua":"SK(+),FS",
+        "role":"SK+,FS",
         "mr": "W/G:7",
-        "ar": 7,
+        "arm": 7,
         "h/s": "3/3",
         "a":1,
         "gu":3,
         "pi":3,
         "ew":5,
-        "weapons":[
-          "LAC (Arm)",
+        "react-weapons":[
+          "LAC",
+          "LVB"
+        ],
+        "mounted-weapons":[
           "MRP",
-          "LAPGL",
-          "LVB (Arm)"
+          "MHG",
+          "LAPGL"
         ],
         "traits":[
-          "Arms",
+          "Hands",
+          "ECM",
           "Airdrop",
           "Sensors:24(Aux)"
         ],
-        "type/height": "Gear 1.5"
+        "type": "Gear",
+        "height": "1.5"
       } 
 ]
