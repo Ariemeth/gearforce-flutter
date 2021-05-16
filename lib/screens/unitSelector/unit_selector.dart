@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/factions/faction.dart';
 import 'package:gearforce/models/unit/unit.dart';
-import 'package:gearforce/screens/unitSelector/unit_text_cell.dart';
+import 'package:gearforce/widgets/unit_text_cell.dart';
 import 'package:table_sticky_headers/table_sticky_headers.dart';
 
 class UnitSelector extends StatefulWidget {
@@ -43,7 +43,7 @@ class _UnitSelectorState extends State<UnitSelector> {
         var table = StickyHeadersTable(
           legendCell: UnitTextCell.columnTitle(
             "Model Name",
-            backgroundColor: Colors.blueGrey[100],
+            backgroundColor: Colors.blue[100],
             textAlignment: TextAlign.left,
           ),
           columnsLength: 12,
@@ -59,7 +59,7 @@ class _UnitSelectorState extends State<UnitSelector> {
         var table = StickyHeadersTable(
           legendCell: UnitTextCell.columnTitle(
             "Model Name",
-            backgroundColor: Colors.blueGrey[100],
+            backgroundColor: Colors.blue[100],
             textAlignment: TextAlign.left,
           ),
           columnsLength: 12,
@@ -92,59 +92,14 @@ class _UnitSelectorState extends State<UnitSelector> {
   }
 
   Widget _buildColumnTitles(int i) {
-    String text = "";
-    switch (i) {
-      case 0:
-        text = 'TV';
-        break;
-      case 1:
-        text = 'UA';
-        break;
-      case 2:
-        text = 'MR';
-        break;
-      case 3:
-        text = 'AR';
-        break;
-      case 4:
-        text = 'H/S';
-        break;
-      case 5:
-        text = 'A';
-        break;
-      case 6:
-        text = 'GU';
-        break;
-      case 7:
-        text = 'PI';
-        break;
-      case 8:
-        text = 'EW';
-        break;
-      case 9:
-        text = 'Weapons';
-        break;
-      case 10:
-        text = 'Traits';
-        break;
-      case 11:
-        text = 'Type / Height';
-        break;
-      case 12:
-        text = 'Height';
-        break;
-    }
-    return UnitTextCell.columnTitle(
-      text,
-      backgroundColor: Colors.blueGrey[100],
-    );
+    return buildUnitTitleCell(i);
   }
 
   Widget Function(int) _buildRowTitles(Factions f, Data data) {
     return (int i) {
       return UnitTextCell.content(
         data.unitList(f)[i].name,
-        backgroundColor: ((i + 1) % 2 == 0) ? Colors.blueGrey[100] : null,
+        backgroundColor: ((i + 1) % 2 == 0) ? Colors.blue[100] : null,
       );
     };
   }
@@ -152,66 +107,7 @@ class _UnitSelectorState extends State<UnitSelector> {
   Widget Function(int, int) _buildCellContent(Factions f, Data data) {
     return (int i, int j) {
       Unit unit = data.unitList(f)[j];
-      String text = '';
-
-      switch (i) {
-        case 0:
-          // TV
-          text = unit.tv.toString();
-          break;
-        case 1:
-          // UA
-          text = unit.ua.toString();
-          break;
-        case 2:
-          // MR
-          text = unit.movement.toString();
-          break;
-        case 3:
-          // AR
-          text = unit.armor.toString();
-          break;
-        case 4:
-          // H/S
-          text = unit.hull.toString() + '/' + unit.structure.toString();
-          break;
-        case 5:
-          // A(ctions)
-          text = unit.actions.toString();
-          break;
-        case 6:
-          // Gu(nnery)
-          text = unit.gunnery.toString() + '+';
-          break;
-        case 7:
-          // Pi(loting)
-          text = unit.piloting.toString() + '+';
-          break;
-        case 8:
-          // EW
-          text = unit.ew.toString() + '+';
-          break;
-        case 9:
-          // Weapons
-          text = unit.weapons.toString();
-          break;
-        case 10:
-          // Traits
-          text = unit.traits.toString();
-          break;
-        case 11:
-          // Type
-          text = unit.type + ' ' + unit.height;
-          break;
-        case 12:
-          // Height
-          text = unit.height;
-          break;
-      }
-      return UnitTextCell.content(
-        text,
-        backgroundColor: ((j + 1) % 2 == 0) ? Colors.blueGrey[100] : null,
-      );
+      return buildUnitCell(i, j, unit);
     };
   }
 

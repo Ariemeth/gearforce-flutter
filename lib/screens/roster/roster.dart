@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/roster/roster.dart';
-import 'package:gearforce/screens/roster/combat_groups.dart';
+import 'package:gearforce/screens/roster/combat_groups_display.dart';
 import 'package:gearforce/screens/roster/roster_header_info.dart';
 
 class RosterWidget extends StatefulWidget {
@@ -35,20 +35,18 @@ class _RosterWidgetState extends State<RosterWidget> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title!),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            RosterHeaderInfo(
-              dataBundle: widget.data,
-              roster: this.roster,
-            ),
-            Container(
-              child: CombatGroupTable(widget.data, this.roster),
-            ),
-          ],
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-        ),
+      body: Column(
+        children: [
+          RosterHeaderInfo(
+            dataBundle: widget.data,
+            roster: this.roster,
+          ),
+          Container(
+            child: CombatGroupsDisplay(widget.data, this.roster),
+          ),
+        ],
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
       ),
     );
   }
