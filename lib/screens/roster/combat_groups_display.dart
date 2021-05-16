@@ -16,6 +16,7 @@ class _CombatGroupsDisplayState extends State<CombatGroupsDisplay>
     with SingleTickerProviderStateMixin {
   final List<Tab> tabs = <Tab>[
     Tab(text: 'cg1'),
+    Tab(text: 'cg2'),
   ];
 
   @override
@@ -36,6 +37,7 @@ class _CombatGroupsDisplayState extends State<CombatGroupsDisplay>
           ),
           body: TabBarView(
             children: [
+              CombatGroup(widget.data, widget.roster),
               CombatGroup(widget.data, widget.roster),
             ],
           ),

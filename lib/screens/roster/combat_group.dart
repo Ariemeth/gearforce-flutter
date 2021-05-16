@@ -16,14 +16,13 @@ class CombatGroup extends StatefulWidget {
 
   final Data data;
   final UnitRoster roster;
+  final List<Unit> _units = [];
 
   @override
   _CombatGroupState createState() => _CombatGroupState();
 }
 
 class _CombatGroupState extends State<CombatGroup> {
-  final List<Unit> _units = [];
-
   @override
   Widget build(BuildContext context) {
     return InteractiveViewer(
@@ -70,7 +69,7 @@ class _CombatGroupState extends State<CombatGroup> {
 
     if (result is Unit) {
       setState(() {
-        this._units.add(result);
+        widget._units.add(result);
       });
     }
   }
@@ -83,10 +82,10 @@ class _CombatGroupState extends State<CombatGroup> {
         textAlignment: TextAlign.left,
       ),
       columnsLength: 12,
-      rowsLength: this._units.length,
+      rowsLength: widget._units.length,
       columnsTitleBuilder: _buildColumnTitles,
-      rowsTitleBuilder: _buildRowTitles(this._units),
-      contentCellBuilder: _buildCellContent(this._units),
+      rowsTitleBuilder: _buildRowTitles(widget._units),
+      contentCellBuilder: _buildCellContent(widget._units),
       onContentCellPressed: _contentPressed(),
       onRowTitlePressed: _rowTitlePressed(),
     );
