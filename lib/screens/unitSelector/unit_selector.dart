@@ -46,7 +46,8 @@ class _UnitSelectorState extends State<UnitSelector> {
             backgroundColor: Colors.blue[100],
             textAlignment: TextAlign.left,
           ),
-          columnsLength: 12,
+          // TODO: look into way to not have to manually set this everywhere
+          columnsLength: 14,
           rowsLength: data.unitList(Factions.North).length,
           columnsTitleBuilder: _buildColumnTitles,
           rowsTitleBuilder: _buildRowTitles(Factions.North, widget.data),

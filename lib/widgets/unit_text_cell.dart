@@ -60,13 +60,13 @@ Widget buildUnitTitleCell(int i) {
       text = 'TV';
       break;
     case 1:
-      text = 'UA';
+      text = 'Role';
       break;
     case 2:
       text = 'MR';
       break;
     case 3:
-      text = 'AR';
+      text = 'ARM';
       break;
     case 4:
       text = 'H/S';
@@ -84,15 +84,18 @@ Widget buildUnitTitleCell(int i) {
       text = 'EW';
       break;
     case 9:
-      text = 'Weapons';
+      text = 'React Weapons';
       break;
     case 10:
-      text = 'Traits';
+      text = 'Mounted Weapons';
       break;
     case 11:
-      text = 'Type / Height';
+      text = 'Traits';
       break;
     case 12:
+      text = 'Type';
+      break;
+    case 13:
       text = 'Height';
       break;
   }
@@ -112,7 +115,7 @@ Widget buildUnitCell(int column, int row, Unit unit) {
       break;
     case 1:
       // UA
-      text = unit.ua.toString();
+      text = unit.role.toString();
       break;
     case 2:
       // MR
@@ -143,18 +146,22 @@ Widget buildUnitCell(int column, int row, Unit unit) {
       text = unit.ew.toString() + '+';
       break;
     case 9:
-      // Weapons
-      text = unit.weapons.toString();
+      // React Weapons
+      text = unit.reactWeapons.toString();
       break;
     case 10:
+      // Mounted Weapons
+      text = unit.mountedWeapons.toString();
+      break;
+    case 11:
       // Traits
       text = unit.traits.toString();
       break;
-    case 11:
-      // Type
-      text = unit.type + ' ' + unit.height;
-      break;
     case 12:
+      // Type
+      text = unit.type;
+      break;
+    case 13:
       // Height
       text = unit.height;
       break;
