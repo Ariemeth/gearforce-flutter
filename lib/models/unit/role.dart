@@ -44,12 +44,13 @@ class Roles {
   final List<Role> roles;
 
   factory Roles.fromJson(dynamic json) {
-    print(json);
-    var r = Roles(
-      // need to convert this to a list of roles, instead of a list of strings
-      roles: List.from(json.toString().split(",")),
+    List<Role> r = [];
+    json.toString().split(",").forEach((element) {
+      r.add(Role.fromJson(element));
+    });
+    return Roles(
+      roles: r,
     );
-    return r;
   }
 
   @override
