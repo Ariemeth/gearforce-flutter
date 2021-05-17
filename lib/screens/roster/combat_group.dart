@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/unit/unit.dart';
+import 'package:gearforce/screens/roster/select_role.dart';
 import 'package:gearforce/screens/unitSelector/unit_selector.dart';
 
 import 'package:gearforce/widgets/unit_text_cell.dart';
@@ -28,6 +29,10 @@ class _CombatGroupState extends State<CombatGroup> {
     return InteractiveViewer(
       child: Column(
         children: [
+          Flexible(
+            child: _generateHeader(),
+            flex: 0,
+          ),
           Flexible(
             child: _generateTable(),
             flex: 1,
@@ -72,6 +77,28 @@ class _CombatGroupState extends State<CombatGroup> {
         widget._units.add(result);
       });
     }
+  }
+
+  Widget _generateHeader() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Align(
+          alignment: Alignment.centerLeft,
+          child: Row(
+            children: [
+              Text(
+                "Role: ",
+                style: TextStyle(fontSize: 16),
+              ),
+              SelectRole(),
+              Expanded(child: Container()),
+            ],
+          ),
+        )
+      ],
+    );
   }
 
   Widget _generateTable() {
