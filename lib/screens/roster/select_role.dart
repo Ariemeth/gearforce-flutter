@@ -20,38 +20,39 @@ class _SelectRoleState extends State<SelectRole> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 100,
-      child: DropdownButton<String>(
-        value: dropdownValue,
-        hint: Text("Select Role"),
-        icon: const Icon(Icons.arrow_downward),
-        iconSize: 16,
-        elevation: 16,
-        isExpanded: true,
-        isDense: true,
-        style: const TextStyle(color: Colors.blue),
-        underline: SizedBox(),
-        onChanged: (String? newValue) {
-          setState(() {
-            dropdownValue = newValue!;
-            widget.selectedRole.value = newValue;
-          });
-        },
-        items: RoleType.values.map<DropdownMenuItem<String>>((value) {
-          var text = value.toString().split('.').last;
-          return DropdownMenuItem<String>(
-            value: text,
-            child: Center(
-              child: Text(
-                text,
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 16),
-              ),
+//    return SizedBox(
+//      width: 100,
+//      child: DropdownButton<String>(
+    return DropdownButton<String>(
+      value: dropdownValue,
+      hint: Text("Select Role"),
+      icon: const Icon(Icons.arrow_downward),
+      iconSize: 16,
+      elevation: 16,
+      isExpanded: true,
+      isDense: true,
+      style: const TextStyle(color: Colors.blue),
+      underline: SizedBox(),
+      onChanged: (String? newValue) {
+        setState(() {
+          dropdownValue = newValue!;
+          widget.selectedRole.value = newValue;
+        });
+      },
+      items: RoleType.values.map<DropdownMenuItem<String>>((value) {
+        var text = value.toString().split('.').last;
+        return DropdownMenuItem<String>(
+          value: text,
+          child: Center(
+            child: Text(
+              text,
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 16),
             ),
-          );
-        }).toList(),
-      ),
+          ),
+        );
+      }).toList(),
+//      ),
     );
   }
 }
