@@ -20,9 +20,6 @@ class _SelectRoleState extends State<SelectRole> {
 
   @override
   Widget build(BuildContext context) {
-//    return SizedBox(
-//      width: 100,
-//      child: DropdownButton<String>(
     return DropdownButton<String>(
       value: dropdownValue,
       hint: Text("Select Role"),
@@ -52,7 +49,6 @@ class _SelectRoleState extends State<SelectRole> {
           ),
         );
       }).toList(),
-//      ),
     );
   }
 }
