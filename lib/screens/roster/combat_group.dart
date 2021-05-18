@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/unit/unit.dart';
+import 'package:gearforce/screens/roster/combat_group_tv.dart';
+import 'package:gearforce/screens/roster/select_role.dart';
 import 'package:gearforce/screens/unitSelector/unit_selector.dart';
 
 import 'package:gearforce/widgets/unit_text_cell.dart';
@@ -16,7 +18,7 @@ class CombatGroup extends StatefulWidget {
 
   final Data data;
   final UnitRoster roster;
-  final List<Unit> _units = [];
+  final List<Unit> _units = ([]);
 
   @override
   _CombatGroupState createState() => _CombatGroupState();
@@ -28,6 +30,10 @@ class _CombatGroupState extends State<CombatGroup> {
     return InteractiveViewer(
       child: Column(
         children: [
+          Flexible(
+            child: _generateHeader(),
+            flex: 0,
+          ),
           Flexible(
             child: _generateTable(),
             flex: 1,
@@ -68,10 +74,47 @@ class _CombatGroupState extends State<CombatGroup> {
     );
 
     if (result is Unit) {
-      setState(() {
-        widget._units.add(result);
-      });
+      this._addUnit(result);
     }
+  }
+
+  Widget _generateHeader() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Row(
+              children: [
+                Text(
+                  "Role: ",
+                  style: TextStyle(fontSize: 16),
+                ),
+                SizedBox(
+                  child: SelectRole(),
+                  width: 100,
+                ),
+                SizedBox(
+                  width: 25,
+                ),
+                Text(
+                  'Combatgroup TV: ',
+                  style: TextStyle(fontSize: 16),
+                ),
+                SizedBox(
+                  width: 50,
+                  child: CombatGroupTVTotal(totalTV: totalTV()),
+                ),
+                Expanded(child: Container()),
+              ],
+            ),
+          )
+        ],
+      ),
+    );
   }
 
   Widget _generateTable() {
@@ -119,5 +162,20 @@ class _CombatGroupState extends State<CombatGroup> {
 
   dynamic Function(int) _rowTitlePressed() {
     return (int i) {};
+  }
+
+  void _addUnit(Unit unit) {
+    setState(() {
+      widget._units.add(unit);
+    });
+  }
+
+  int totalTV() {
+    var total = 0;
+    widget._units.forEach((element) {
+      total += element.tv;
+    });
+
+    return total;
   }
 }
