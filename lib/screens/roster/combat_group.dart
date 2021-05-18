@@ -18,7 +18,7 @@ class CombatGroup extends StatefulWidget {
 
   final Data data;
   final UnitRoster roster;
-  final ValueNotifier<List<Unit>> _units = ValueNotifier<List<Unit>>([]);
+  final List<Unit> _units = ([]);
 
   @override
   _CombatGroupState createState() => _CombatGroupState();
@@ -74,9 +74,7 @@ class _CombatGroupState extends State<CombatGroup> {
     );
 
     if (result is Unit) {
-      setState(() {
-        widget._units.value.add(result);
-      });
+      this._addUnit(result);
     }
   }
 
@@ -108,7 +106,7 @@ class _CombatGroupState extends State<CombatGroup> {
                 ),
                 SizedBox(
                   width: 50,
-                  child: CombatGroupTVTotal(),
+                  child: CombatGroupTVTotal(totalTV: totalTV()),
                 ),
                 Expanded(child: Container()),
               ],
@@ -128,10 +126,10 @@ class _CombatGroupState extends State<CombatGroup> {
       ),
       // TODO: look into way to not have to manually set this everywhere
       columnsLength: 14,
-      rowsLength: widget._units.value.length,
+      rowsLength: widget._units.length,
       columnsTitleBuilder: _buildColumnTitles,
-      rowsTitleBuilder: _buildRowTitles(widget._units.value),
-      contentCellBuilder: _buildCellContent(widget._units.value),
+      rowsTitleBuilder: _buildRowTitles(widget._units),
+      contentCellBuilder: _buildCellContent(widget._units),
       onContentCellPressed: _contentPressed(),
       onRowTitlePressed: _rowTitlePressed(),
     );
@@ -166,11 +164,18 @@ class _CombatGroupState extends State<CombatGroup> {
     return (int i) {};
   }
 
+  void _addUnit(Unit unit) {
+    setState(() {
+      widget._units.add(unit);
+    });
+  }
+
   int totalTV() {
     var total = 0;
-    widget._units.value.forEach((element) {
+    widget._units.forEach((element) {
       total += element.tv;
     });
+
     return total;
   }
 }

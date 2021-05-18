@@ -1,29 +1,17 @@
 import 'package:flutter/material.dart';
 
-class CombatGroupTVTotal extends StatefulWidget {
-  CombatGroupTVTotal({
-    Key? key,
-  }) : super(key: key);
+class CombatGroupTVTotal extends StatelessWidget {
+  CombatGroupTVTotal({Key? key, required this.totalTV}) : super(key: key);
 
-  final ValueNotifier<int> _totalTV = ValueNotifier<int>(102);
+  final int totalTV;
 
-  updateTotal(int newValue) => this._totalTV.value = newValue;
-
-  @override
-  _CombatGroupTVTotalState createState() => _CombatGroupTVTotalState();
-}
-
-class _CombatGroupTVTotalState extends State<CombatGroupTVTotal> {
   @override
   Widget build(BuildContext context) {
-    widget._totalTV.addListener(() {
-      setState(() {});
-    });
     return Container(
       child: Padding(
         padding: const EdgeInsets.all(1.0),
         child: Text(
-          widget._totalTV.value.toString(),
+          totalTV.toString(),
           textAlign: TextAlign.center,
           style: TextStyle(fontSize: 16),
         ),
