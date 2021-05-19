@@ -5,6 +5,7 @@ import 'package:test/test.dart';
 
 const validUnlimitedRoleJSON = '"GP+"';
 const validRoleJSON = '"SK"';
+const validRolesJSON = '"SK,GP"';
 
 void main() {
   test('test creating a role from a valid json', () {
@@ -37,5 +38,28 @@ void main() {
 
   test('role type does not exist', () {
     expect(() => Role.fromJson('bad'), throwsA(isA<FormatException>()));
+  });
+
+  test('test creating a Roles from json', () {
+    Roles.fromJson(json.decode(validRolesJSON));
+  });
+
+  test('test includesRole where Roletype is included', () {
+    const rolesJSON = '"SK,GP"';
+    final fromJSON = Roles.fromJson(json.decode(rolesJSON));
+    expect(fromJSON.includesRole(RoleType.GP), equals(true));
+  });
+
+  test('test includesRole where Roletype is included with unlimited marker',
+      () {
+    const rolesJSON = '"SK,GP+"';
+    final fromJSON = Roles.fromJson(json.decode(rolesJSON));
+    expect(fromJSON.includesRole(RoleType.GP), equals(true));
+  });
+
+  test('test includesRole where Roletype is not included', () {
+    const rolesJSON = '"SK,GP+"';
+    final fromJSON = Roles.fromJson(json.decode(rolesJSON));
+    expect(fromJSON.includesRole(RoleType.RC), equals(false));
   });
 }

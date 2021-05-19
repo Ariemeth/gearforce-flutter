@@ -12,7 +12,7 @@ void main() {
 
     expect(fromJson.name, equals('Hunter'), reason: "Name check");
     expect(fromJson.tv, equals(6), reason: "TV check");
-    expect(fromJson.role, equals(['GP', 'SK', 'FS']), reason: "UA check");
+    expect(fromJson.role.roles.length, equals(3), reason: "Role check");
     expect(fromJson.movement.type, equals('W/G'),
         reason: "Movement type check");
     expect(fromJson.movement.rate, equals(6), reason: "Movement rate check");

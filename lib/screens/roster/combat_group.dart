@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/roster/roster.dart';
+import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/screens/roster/combat_group_tv.dart';
 import 'package:gearforce/screens/roster/select_role.dart';
@@ -18,7 +19,8 @@ class CombatGroup extends StatefulWidget {
 
   final Data data;
   final UnitRoster roster;
-  final List<Unit> _units = ([]);
+  final List<Unit> _units = [];
+  final ValueNotifier<RoleType?> selectedRole = ValueNotifier(null);
 
   @override
   _CombatGroupState createState() => _CombatGroupState();
@@ -69,6 +71,7 @@ class _CombatGroupState extends State<CombatGroup> {
           title: "Unit Selector",
           data: this.widget.data,
           faction: this.widget.roster.faction.value,
+          role: widget.selectedRole.value,
         ),
       ),
     );
@@ -94,7 +97,9 @@ class _CombatGroupState extends State<CombatGroup> {
                   style: TextStyle(fontSize: 16),
                 ),
                 SizedBox(
-                  child: SelectRole(),
+                  child: SelectRole(
+                    selectedRole: widget.selectedRole,
+                  ),
                   width: 100,
                 ),
                 SizedBox(

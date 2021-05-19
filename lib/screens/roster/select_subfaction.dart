@@ -14,24 +14,19 @@ class SelectSubFaction extends StatefulWidget {
   final ValueNotifier<String> selectedSubFaction;
 
   @override
-  _SelectSubFactionState createState() =>
-      _SelectSubFactionState(factions, selectedFaction, selectedSubFaction);
+  _SelectSubFactionState createState() => _SelectSubFactionState();
 }
 
 /// This is the private State class that goes with MyStatefulWidget.
 class _SelectSubFactionState extends State<SelectSubFaction> {
   String? dropdownValue;
-  final List<Faction> factions;
-  final ValueListenable<String> selectedFaction;
-  final ValueNotifier<String> selectedSubFaction;
 
-  _SelectSubFactionState(
-      this.factions, this.selectedFaction, this.selectedSubFaction);
+  _SelectSubFactionState();
 
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<String>(
-      valueListenable: this.selectedFaction,
+      valueListenable: widget.selectedFaction,
       builder: (context, value, child) {
         return DropdownButton<String>(
           value: dropdownValue,
@@ -46,7 +41,7 @@ class _SelectSubFactionState extends State<SelectSubFaction> {
           onChanged: (String? newValue) {
             setState(() {
               dropdownValue = newValue!;
-              this.selectedSubFaction.value = newValue;
+              widget.selectedSubFaction.value = newValue;
             });
           },
           items: _subFactions(),
@@ -59,12 +54,11 @@ class _SelectSubFactionState extends State<SelectSubFaction> {
     // reset the dropdown value
     this.dropdownValue = null;
 
-    if (this.selectedFaction.value == "") {
+    if (widget.selectedFaction.value == "") {
       return null;
     }
-    var subfactions = this
-        .factions
-        .firstWhere((f) => f.name == selectedFaction.value)
+    var subfactions = widget.factions
+        .firstWhere((f) => f.name == widget.selectedFaction.value)
         .subFactions;
 
     var menuItems = subfactions.map<DropdownMenuItem<String>>((name) {
