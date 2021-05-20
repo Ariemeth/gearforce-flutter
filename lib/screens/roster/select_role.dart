@@ -2,18 +2,24 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gearforce/models/unit/role.dart';
 
+const RoleType _defaultRole = RoleType.GP;
+
 /// This is the stateful widget that the main application instantiates.
 class SelectRole extends StatefulWidget {
   final ValueNotifier<RoleType?>? selectedRole;
   final ValueChanged<RoleType>? onSelected;
-  final String _defaultRole = RoleType.GP.toString().split('.').last;
+  final String _defaultRoleString = _defaultRole.toString().split('.').last;
 
-  SelectRole({Key? key, this.selectedRole, this.onSelected}) : super(key: key);
+  SelectRole({Key? key, this.selectedRole, this.onSelected}) : super(key: key) {
+    if (this.selectedRole?.value == null) {
+      this.selectedRole?.value = RoleType.GP;
+    }
+  }
 
   @override
   _SelectRoleState createState() =>
       _SelectRoleState(this.selectedRole?.value == null
-          ? this._defaultRole
+          ? this._defaultRoleString
           : this.selectedRole?.value.toString().split('.').last);
 }
 
@@ -22,7 +28,7 @@ class _SelectRoleState extends State<SelectRole> {
   String? dropdownValue;
 
   _SelectRoleState(String? selection) {
-    this.dropdownValue = selection ?? widget._defaultRole;
+    this.dropdownValue = selection ?? widget._defaultRoleString;
   }
 
   @override

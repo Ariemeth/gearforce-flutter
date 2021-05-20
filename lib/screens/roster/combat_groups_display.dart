@@ -39,10 +39,10 @@ class _CombatGroupsDisplayState extends State<CombatGroupsDisplay>
           ),
           body: TabBarView(
             children: [
-              CombatGroup(widget.data, widget.roster),
-              CombatGroup(widget.data, widget.roster),
-              CombatGroup(widget.data, widget.roster),
-              CombatGroup(widget.data, widget.roster),
+              CombatGroupWidget(widget.data, widget.roster, name: 'cg1'),
+              CombatGroupWidget(widget.data, widget.roster, name: 'cg2'),
+              CombatGroupWidget(widget.data, widget.roster, name: 'cg3'),
+              CombatGroupWidget(widget.data, widget.roster, name: 'cg4'),
             ],
           ),
         ),

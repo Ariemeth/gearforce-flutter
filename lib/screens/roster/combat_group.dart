@@ -1,32 +1,39 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gearforce/data/data.dart';
+import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/roster/roster.dart';
-import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/screens/roster/combat_group_tv.dart';
 import 'package:gearforce/screens/roster/select_role.dart';
 import 'package:gearforce/screens/unitSelector/unit_selector.dart';
-
 import 'package:gearforce/widgets/unit_text_cell.dart';
 import 'package:table_sticky_headers/table_sticky_headers.dart';
 
-class CombatGroup extends StatefulWidget {
-  CombatGroup(
-    this.data,
-    this.roster,
-  );
+class CombatGroupWidget extends StatefulWidget {
+  CombatGroupWidget(this.data, this.roster, {required this.name}) {
+    if (roster.getCG(name) == null) {
+      roster.addCG(CombatGroup(name));
+    }
+  }
 
   final Data data;
   final UnitRoster roster;
-  final List<Unit> _units = [];
-  final ValueNotifier<RoleType?> selectedRole = ValueNotifier(null);
+  final String name;
+
+  CombatGroup getOwnCG() {
+    var cg = this.roster.getCG(this.name);
+    if (cg == null) {
+      cg = CombatGroup(this.name);
+    }
+    return cg;
+  }
 
   @override
-  _CombatGroupState createState() => _CombatGroupState();
+  _CombatGroupWidgetState createState() => _CombatGroupWidgetState();
 }
 
-class _CombatGroupState extends State<CombatGroup> {
+class _CombatGroupWidgetState extends State<CombatGroupWidget> {
   @override
   Widget build(BuildContext context) {
     return InteractiveViewer(
@@ -71,7 +78,7 @@ class _CombatGroupState extends State<CombatGroup> {
           title: "Unit Selector",
           data: this.widget.data,
           faction: this.widget.roster.faction.value,
-          role: widget.selectedRole.value,
+          role: widget.getOwnCG().primary.role.value,
         ),
       ),
     );
@@ -98,7 +105,7 @@ class _CombatGroupState extends State<CombatGroup> {
                 ),
                 SizedBox(
                   child: SelectRole(
-                    selectedRole: widget.selectedRole,
+                    selectedRole: widget.getOwnCG().primary.role,
                   ),
                   width: 100,
                 ),
@@ -123,6 +130,7 @@ class _CombatGroupState extends State<CombatGroup> {
   }
 
   Widget _generateTable() {
+    var cg = widget.getOwnCG();
     var table = StickyHeadersTable(
       legendCell: UnitTextCell.columnTitle(
         "Model Name",
@@ -131,10 +139,10 @@ class _CombatGroupState extends State<CombatGroup> {
       ),
       // TODO: look into way to not have to manually set this everywhere
       columnsLength: 14,
-      rowsLength: widget._units.length,
+      rowsLength: cg.primary.units.length,
       columnsTitleBuilder: _buildColumnTitles,
-      rowsTitleBuilder: _buildRowTitles(widget._units),
-      contentCellBuilder: _buildCellContent(widget._units),
+      rowsTitleBuilder: _buildRowTitles(cg.primary.units),
+      contentCellBuilder: _buildCellContent(cg.primary.units),
       onContentCellPressed: _contentPressed(),
       onRowTitlePressed: _rowTitlePressed(),
     );
@@ -171,16 +179,11 @@ class _CombatGroupState extends State<CombatGroup> {
 
   void _addUnit(Unit unit) {
     setState(() {
-      widget._units.add(unit);
+      widget.getOwnCG().primary.units.add(unit);
     });
   }
 
   int totalTV() {
-    var total = 0;
-    widget._units.forEach((element) {
-      total += element.tv;
-    });
-
-    return total;
+    return widget.getOwnCG().totalTV();
   }
 }
