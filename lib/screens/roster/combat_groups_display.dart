@@ -17,6 +17,8 @@ class _CombatGroupsDisplayState extends State<CombatGroupsDisplay>
   final List<Tab> tabs = <Tab>[
     Tab(text: 'cg1'),
     Tab(text: 'cg2'),
+    Tab(text: 'cg3'),
+    Tab(text: 'cg4'),
   ];
 
   @override
@@ -37,6 +39,8 @@ class _CombatGroupsDisplayState extends State<CombatGroupsDisplay>
           ),
           body: TabBarView(
             children: [
+              CombatGroup(widget.data, widget.roster),
+              CombatGroup(widget.data, widget.roster),
               CombatGroup(widget.data, widget.roster),
               CombatGroup(widget.data, widget.roster),
             ],
