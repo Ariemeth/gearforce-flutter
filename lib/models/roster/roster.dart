@@ -1,11 +1,13 @@
 import 'package:flutter/foundation.dart';
+import 'package:gearforce/models/combatGroups/combat_group.dart';
 
 class UnitRoster {
   String? player;
   String? name;
   final faction = ValueNotifier<String>("");
   final subFaction = ValueNotifier<String>("");
-//TODO add values to store state of combat groups
+  final Map<String, CombatGroup> _combatGroups = new Map<String, CombatGroup>();
+
   UnitRoster() {
     faction.addListener(() {
       subFaction.value = "";
@@ -13,6 +15,9 @@ class UnitRoster {
   }
   @override
   String toString() {
-    return 'Roster: {Player: $player, Force Name: $name, Faction: ${faction.value}, Sub-Faction: ${subFaction.value}}';
+    return 'Roster: {Player: $player, Force Name: $name, Faction: ${faction.value}, Sub-Faction: ${subFaction.value}}, CGs: $_combatGroups';
   }
+
+  CombatGroup? getCG(String name) => _combatGroups[name];
+  void addCG(CombatGroup cg) => _combatGroups[cg.name] = cg;
 }
