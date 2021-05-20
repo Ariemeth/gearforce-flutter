@@ -2,13 +2,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
+import 'package:gearforce/models/combatGroups/group.dart';
 import 'package:gearforce/models/roster/roster.dart';
+import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/screens/roster/combat_group_tv.dart';
 import 'package:gearforce/screens/roster/select_role.dart';
 import 'package:gearforce/screens/unitSelector/unit_selector.dart';
 import 'package:gearforce/widgets/unit_text_cell.dart';
 import 'package:table_sticky_headers/table_sticky_headers.dart';
+
+const _numColumns = 14;
 
 class CombatGroupWidget extends StatefulWidget {
   CombatGroupWidget(this.data, this.roster, {required this.name}) {
@@ -39,38 +43,63 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
     return InteractiveViewer(
       child: Column(
         children: [
-          Flexible(
-            child: _generateHeader(),
-            flex: 0,
-          ),
-          Flexible(
-            child: _generateTable(),
-            flex: 1,
-          ),
-          Flexible(
-            flex: 0,
-            child: Row(
-              children: [
-                SizedBox(
-                  child: FloatingActionButton(
-                    onPressed: () {
-                      _navigateToUnitSelector(context);
-                    },
-                    child: const Icon(Icons.add_box_sharp),
-                    backgroundColor: Colors.green[600],
-                  ),
-                  height: 40,
-                  width: 40,
+          _generateGroupHeader(group: widget.getOwnCG().primary),
+          Expanded(child: _generateTable(widget.getOwnCG().primary.units)),
+          Row(
+            children: [
+              SizedBox(
+                child: FloatingActionButton(
+                  heroTag: 'primary',
+                  onPressed: () {
+                    _navigateToUnitSelector(
+                      context,
+                      widget.getOwnCG().primary.role.value,
+                      isPrimary: true,
+                    );
+                  },
+                  child: const Icon(Icons.add_box_sharp),
+                  backgroundColor: Colors.green[600],
                 ),
-              ],
-            ),
+                height: 40,
+                width: 40,
+              ),
+            ],
+          ),
+          _generateGroupHeader(
+            group: widget.getOwnCG().secondary,
+            isPrimary: false,
+          ),
+          Expanded(child: _generateTable(widget.getOwnCG().secondary.units)),
+          Row(
+            children: [
+              SizedBox(
+                child: FloatingActionButton(
+                  heroTag: 'secondary',
+                  onPressed: () {
+                    _navigateToUnitSelector(
+                      context,
+                      widget.getOwnCG().secondary.role.value,
+                      isPrimary: false,
+                    );
+                  },
+                  child: const Icon(Icons.add_box_sharp),
+                  backgroundColor: Colors.green[600],
+                ),
+                height: 40,
+                width: 40,
+              ),
+            ],
           ),
         ],
       ),
     );
   }
 
-  _navigateToUnitSelector(BuildContext context) async {
+  _navigateToUnitSelector(
+    BuildContext context,
+    RoleType? role, {
+    required bool isPrimary,
+  }) async {
     final result = await Navigator.push(
       context,
       MaterialPageRoute(
@@ -78,17 +107,21 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
           title: "Unit Selector",
           data: this.widget.data,
           faction: this.widget.roster.faction.value,
-          role: widget.getOwnCG().primary.role.value,
+          role: role,
         ),
       ),
     );
 
     if (result is Unit) {
-      this._addUnit(result);
+      this._addUnit(result, isPrimary: isPrimary);
     }
   }
 
-  Widget _generateHeader() {
+  Widget _generateGroupHeader({
+    required Group group,
+    bool isPrimary = true,
+  }) {
+    String groupType = isPrimary ? 'Primary' : 'Secondary';
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
@@ -100,12 +133,23 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
             child: Row(
               children: [
                 Text(
+                  '$groupType Combat Group',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+          ),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Row(
+              children: [
+                Text(
                   "Role: ",
                   style: TextStyle(fontSize: 16),
                 ),
                 SizedBox(
                   child: SelectRole(
-                    selectedRole: widget.getOwnCG().primary.role,
+                    selectedRole: group.role,
                   ),
                   width: 100,
                 ),
@@ -118,7 +162,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
                 ),
                 SizedBox(
                   width: 50,
-                  child: CombatGroupTVTotal(totalTV: totalTV()),
+                  child: CombatGroupTVTotal(totalTV: group.totalTV()),
                 ),
                 Expanded(child: Container()),
               ],
@@ -129,20 +173,18 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
     );
   }
 
-  Widget _generateTable() {
-    var cg = widget.getOwnCG();
+  Widget _generateTable(List<Unit> units) {
     var table = StickyHeadersTable(
       legendCell: UnitTextCell.columnTitle(
         "Model Name",
         backgroundColor: Colors.blue[100],
         textAlignment: TextAlign.left,
       ),
-      // TODO: look into way to not have to manually set this everywhere
-      columnsLength: 14,
-      rowsLength: cg.primary.units.length,
+      columnsLength: _numColumns,
+      rowsLength: units.length,
       columnsTitleBuilder: _buildColumnTitles,
-      rowsTitleBuilder: _buildRowTitles(cg.primary.units),
-      contentCellBuilder: _buildCellContent(cg.primary.units),
+      rowsTitleBuilder: _buildRowTitles(units),
+      contentCellBuilder: _buildCellContent(units),
       onContentCellPressed: _contentPressed(),
       onRowTitlePressed: _rowTitlePressed(),
     );
@@ -177,9 +219,13 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
     return (int i) {};
   }
 
-  void _addUnit(Unit unit) {
+  void _addUnit(Unit unit, {required bool isPrimary}) {
     setState(() {
-      widget.getOwnCG().primary.units.add(unit);
+      if (isPrimary) {
+        widget.getOwnCG().primary.units.add(unit);
+      } else {
+        widget.getOwnCG().secondary.units.add(unit);
+      }
     });
   }
 

@@ -6,6 +6,8 @@ import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/widgets/unit_text_cell.dart';
 import 'package:table_sticky_headers/table_sticky_headers.dart';
 
+const _numColumns = 14;
+
 class UnitSelector extends StatefulWidget {
   UnitSelector({
     Key? key,
@@ -49,8 +51,7 @@ class _UnitSelectorState extends State<UnitSelector> {
             backgroundColor: Colors.blue[100],
             textAlignment: TextAlign.left,
           ),
-          // TODO: look into way to not have to manually set this everywhere
-          columnsLength: 14,
+          columnsLength: _numColumns,
           rowsLength: data.unitList(Factions.North, role: widget.role).length,
           columnsTitleBuilder: _buildColumnTitles,
           rowsTitleBuilder: _buildRowTitles(Factions.North, widget.data),
