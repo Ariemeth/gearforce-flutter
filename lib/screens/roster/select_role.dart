@@ -4,19 +4,26 @@ import 'package:gearforce/models/unit/role.dart';
 
 /// This is the stateful widget that the main application instantiates.
 class SelectRole extends StatefulWidget {
-  final ValueNotifier<String> selectedRole = ValueNotifier<String>("");
+  final ValueNotifier<RoleType?>? selectedRole;
+  final ValueChanged<RoleType>? onSelected;
+  final String _defaultRole = RoleType.GP.toString().split('.').last;
 
-  SelectRole({Key? key}) : super(key: key);
+  SelectRole({Key? key, this.selectedRole, this.onSelected}) : super(key: key);
 
   @override
-  _SelectRoleState createState() => _SelectRoleState();
+  _SelectRoleState createState() =>
+      _SelectRoleState(this.selectedRole?.value == null
+          ? this._defaultRole
+          : this.selectedRole?.value.toString().split('.').last);
 }
 
 /// This is the private State class that goes with MyStatefulWidget.
 class _SelectRoleState extends State<SelectRole> {
   String? dropdownValue;
 
-  _SelectRoleState();
+  _SelectRoleState(String? selection) {
+    this.dropdownValue = selection ?? widget._defaultRole;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +40,10 @@ class _SelectRoleState extends State<SelectRole> {
       onChanged: (String? newValue) {
         setState(() {
           dropdownValue = newValue!;
-          widget.selectedRole.value = newValue;
+          widget.selectedRole?.value = convertRoleType(newValue);
+          if (widget.onSelected != null) {
+            widget.onSelected!(convertRoleType(newValue));
+          }
         });
       },
       items: RoleType.values.map<DropdownMenuItem<String>>((value) {

@@ -11,18 +11,14 @@ class SelectFaction extends StatefulWidget {
       : super(key: key);
 
   @override
-  _SelectFactionState createState() =>
-      _SelectFactionState(this.factions, this.selectedFaction);
+  _SelectFactionState createState() => _SelectFactionState();
 }
 
 /// This is the private State class that goes with MyStatefulWidget.
 class _SelectFactionState extends State<SelectFaction> {
   String? dropdownValue;
 
-  final List<Faction> factions;
-  final ValueNotifier<String> selectedFaction;
-
-  _SelectFactionState(this.factions, this.selectedFaction);
+  _SelectFactionState();
 
   @override
   Widget build(BuildContext context) {
@@ -39,10 +35,10 @@ class _SelectFactionState extends State<SelectFaction> {
       onChanged: (String? newValue) {
         setState(() {
           dropdownValue = newValue!;
-          this.selectedFaction.value = newValue;
+          widget.selectedFaction.value = newValue;
         });
       },
-      items: this.factions.map<DropdownMenuItem<String>>((Faction value) {
+      items: widget.factions.map<DropdownMenuItem<String>>((Faction value) {
         return DropdownMenuItem<String>(
           value: value.name,
           child: Text(

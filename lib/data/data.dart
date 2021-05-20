@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:gearforce/models/factions/faction.dart';
+import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
 
 final String _factionFile = 'assets/data/factions.json';
@@ -16,13 +17,22 @@ class Data {
     return _factions;
   }
 
-  List<Unit> unitList(Factions f) {
+  List<Unit> unitList(Factions f, {RoleType? role}) {
+    List<Unit> factionUnit;
     switch (f) {
       case Factions.North:
-        return _north;
+        factionUnit = _north;
+        break;
       case Factions.PeaceRiver:
-        return _peaceRiver;
+        factionUnit = _peaceRiver;
+        break;
     }
+
+    return role == null
+        ? factionUnit
+        : factionUnit.where((element) {
+            return element.role.includesRole(role);
+          }).toList();
   }
 
   Future<void> load() async {

@@ -5,7 +5,7 @@ class UnitRoster {
   String? name;
   final faction = ValueNotifier<String>("");
   final subFaction = ValueNotifier<String>("");
-
+//TODO add values to store state of combat groups
   UnitRoster() {
     faction.addListener(() {
       subFaction.value = "";

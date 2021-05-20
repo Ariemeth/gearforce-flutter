@@ -53,6 +53,16 @@ class Roles {
     );
   }
 
+  bool includesRole(RoleType roleType) {
+    bool isFound = false;
+    roles.forEach((element) {
+      if (element.name == roleType) {
+        isFound = true;
+      }
+    });
+    return isFound;
+  }
+
   @override
   String toString() {
     return roles.toString();

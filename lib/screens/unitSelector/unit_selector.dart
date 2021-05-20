@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/factions/faction.dart';
+import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/widgets/unit_text_cell.dart';
 import 'package:table_sticky_headers/table_sticky_headers.dart';
@@ -11,11 +12,13 @@ class UnitSelector extends StatefulWidget {
     required this.title,
     required this.data,
     required this.faction,
+    required this.role,
   }) : super(key: key);
 
   final String? title;
   final Data data;
   final String faction;
+  final RoleType? role;
 
   @override
   _UnitSelectorState createState() => _UnitSelectorState();
@@ -48,7 +51,7 @@ class _UnitSelectorState extends State<UnitSelector> {
           ),
           // TODO: look into way to not have to manually set this everywhere
           columnsLength: 14,
-          rowsLength: data.unitList(Factions.North).length,
+          rowsLength: data.unitList(Factions.North, role: widget.role).length,
           columnsTitleBuilder: _buildColumnTitles,
           rowsTitleBuilder: _buildRowTitles(Factions.North, widget.data),
           contentCellBuilder: _buildCellContent(Factions.North, widget.data),
@@ -63,8 +66,9 @@ class _UnitSelectorState extends State<UnitSelector> {
             backgroundColor: Colors.blue[100],
             textAlignment: TextAlign.left,
           ),
-          columnsLength: 12,
-          rowsLength: data.unitList(Factions.PeaceRiver).length,
+          columnsLength: 14,
+          rowsLength:
+              data.unitList(Factions.PeaceRiver, role: widget.role).length,
           columnsTitleBuilder: _buildColumnTitles,
           rowsTitleBuilder: _buildRowTitles(Factions.PeaceRiver, widget.data),
           contentCellBuilder:
@@ -99,7 +103,7 @@ class _UnitSelectorState extends State<UnitSelector> {
   Widget Function(int) _buildRowTitles(Factions f, Data data) {
     return (int i) {
       return UnitTextCell.content(
-        data.unitList(f)[i].name,
+        data.unitList(f, role: widget.role)[i].name,
         backgroundColor: ((i + 1) % 2 == 0) ? Colors.blue[100] : null,
       );
     };
@@ -107,21 +111,21 @@ class _UnitSelectorState extends State<UnitSelector> {
 
   Widget Function(int, int) _buildCellContent(Factions f, Data data) {
     return (int i, int j) {
-      Unit unit = data.unitList(f)[j];
+      Unit unit = data.unitList(f, role: widget.role)[j];
       return buildUnitCell(i, j, unit);
     };
   }
 
   dynamic Function(int, int) _contentPressed(Factions f, Data data) {
     return (int i, int j) {
-      Unit unit = data.unitList(f)[j];
+      Unit unit = data.unitList(f, role: widget.role)[j];
       Navigator.pop(context, unit);
     };
   }
 
   dynamic Function(int) _rowTitlePressed(Factions f, Data data) {
     return (int i) {
-      Unit unit = data.unitList(f)[i];
+      Unit unit = data.unitList(f, role: widget.role)[i];
       Navigator.pop(context, unit);
     };
   }
