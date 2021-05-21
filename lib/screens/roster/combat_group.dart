@@ -40,21 +40,19 @@ class CombatGroupWidget extends StatefulWidget {
 class _CombatGroupWidgetState extends State<CombatGroupWidget> {
   @override
   Widget build(BuildContext context) {
-    return InteractiveViewer(
-      child: Column(
-        children: [
-          _generateGroupHeader(
-            group: widget.getOwnCG().primary,
-            isPrimary: true,
-          ),
-          Expanded(child: _generateTable(widget.getOwnCG().primary.units)),
-          _generateGroupHeader(
-            group: widget.getOwnCG().secondary,
-            isPrimary: false,
-          ),
-          Expanded(child: _generateTable(widget.getOwnCG().secondary.units)),
-        ],
-      ),
+    return Column(
+      children: [
+        _generateGroupHeader(
+          group: widget.getOwnCG().primary,
+          isPrimary: true,
+        ),
+        Expanded(child: _generateTable(widget.getOwnCG().primary.units)),
+        _generateGroupHeader(
+          group: widget.getOwnCG().secondary,
+          isPrimary: false,
+        ),
+        Expanded(child: _generateTable(widget.getOwnCG().secondary.units)),
+      ],
     );
   }
 
