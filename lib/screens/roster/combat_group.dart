@@ -43,53 +43,16 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
     return InteractiveViewer(
       child: Column(
         children: [
-          _generateGroupHeader(group: widget.getOwnCG().primary),
-          Expanded(child: _generateTable(widget.getOwnCG().primary.units)),
-          Row(
-            children: [
-              SizedBox(
-                child: FloatingActionButton(
-                  heroTag: 'primary',
-                  onPressed: () {
-                    _navigateToUnitSelector(
-                      context,
-                      widget.getOwnCG().primary.role.value,
-                      isPrimary: true,
-                    );
-                  },
-                  child: const Icon(Icons.add_box_sharp),
-                  backgroundColor: Colors.green[600],
-                ),
-                height: 40,
-                width: 40,
-              ),
-            ],
+          _generateGroupHeader(
+            group: widget.getOwnCG().primary,
+            isPrimary: true,
           ),
+          Expanded(child: _generateTable(widget.getOwnCG().primary.units)),
           _generateGroupHeader(
             group: widget.getOwnCG().secondary,
             isPrimary: false,
           ),
           Expanded(child: _generateTable(widget.getOwnCG().secondary.units)),
-          Row(
-            children: [
-              SizedBox(
-                child: FloatingActionButton(
-                  heroTag: 'secondary',
-                  onPressed: () {
-                    _navigateToUnitSelector(
-                      context,
-                      widget.getOwnCG().secondary.role.value,
-                      isPrimary: false,
-                    );
-                  },
-                  child: const Icon(Icons.add_box_sharp),
-                  backgroundColor: Colors.green[600],
-                ),
-                height: 40,
-                width: 40,
-              ),
-            ],
-          ),
         ],
       ),
     );
@@ -132,9 +95,23 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
             alignment: Alignment.centerLeft,
             child: Row(
               children: [
+                SizedBox(
+                  width: 85,
+                  child: Text(
+                    groupType,
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                SizedBox(
+                  width: 85,
+                ),
                 Text(
-                  '$groupType Combat Group',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  'TV: ',
+                  style: TextStyle(fontSize: 16),
+                ),
+                SizedBox(
+                  width: 50,
+                  child: CombatGroupTVTotal(totalTV: group.totalTV()),
                 ),
               ],
             ),
@@ -156,13 +133,17 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
                 SizedBox(
                   width: 25,
                 ),
-                Text(
-                  'Combatgroup TV: ',
-                  style: TextStyle(fontSize: 16),
-                ),
-                SizedBox(
-                  width: 50,
-                  child: CombatGroupTVTotal(totalTV: group.totalTV()),
+                OutlinedButton(
+                  onPressed: () {
+                    _navigateToUnitSelector(
+                      context,
+                      isPrimary
+                          ? widget.getOwnCG().primary.role.value
+                          : widget.getOwnCG().secondary.role.value,
+                      isPrimary: isPrimary,
+                    );
+                  },
+                  child: const Text('Add Unit'),
                 ),
                 Expanded(child: Container()),
               ],
