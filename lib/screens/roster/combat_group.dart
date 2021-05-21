@@ -46,12 +46,24 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
           group: widget.getOwnCG().primary,
           isPrimary: true,
         ),
-        Expanded(child: _generateTable(widget.getOwnCG().primary.units)),
+        Expanded(
+          child: _generateTable(
+            context,
+            widget.getOwnCG().primary.units,
+            true,
+          ),
+        ),
         _generateGroupHeader(
           group: widget.getOwnCG().secondary,
           isPrimary: false,
         ),
-        Expanded(child: _generateTable(widget.getOwnCG().secondary.units)),
+        Expanded(
+          child: _generateTable(
+            context,
+            widget.getOwnCG().secondary.units,
+            false,
+          ),
+        ),
       ],
     );
   }
@@ -155,7 +167,8 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
     );
   }
 
-  Widget _generateTable(List<Unit> units) {
+  Widget _generateTable(
+      BuildContext context, List<Unit> units, bool isPrimary) {
     var table = StickyHeadersTable(
       legendCell: UnitTextCell.columnTitle(
         "Model Name",
@@ -167,8 +180,8 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
       columnsTitleBuilder: _buildColumnTitles,
       rowsTitleBuilder: _buildRowTitles(units),
       contentCellBuilder: _buildCellContent(units),
-      onContentCellPressed: _contentPressed(),
-      onRowTitlePressed: _rowTitlePressed(),
+      onContentCellPressed: _contentPressed(context, units, isPrimary),
+      onRowTitlePressed: _rowTitlePressed(context, units, isPrimary),
     );
     return table;
   }
@@ -193,12 +206,29 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
     };
   }
 
-  dynamic Function(int, int) _contentPressed() {
-    return (int i, int j) {};
+  dynamic Function(int, int) _contentPressed(
+    BuildContext context,
+    List<Unit> units,
+    bool isPrimary,
+  ) {
+    return (int i, int j) {
+      _showUnitOptionsDialog(context, units[j], j, isPrimary);
+    };
   }
 
-  dynamic Function(int) _rowTitlePressed() {
-    return (int i) {};
+  dynamic Function(int) _rowTitlePressed(
+    BuildContext context,
+    List<Unit> units,
+    bool isPrimary,
+  ) {
+    return (int i) {
+      _showUnitOptionsDialog(
+        context,
+        units[i],
+        i,
+        isPrimary,
+      );
+    };
   }
 
   void _addUnit(Unit unit, {required bool isPrimary}) {
@@ -214,4 +244,68 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
   int totalTV() {
     return widget.getOwnCG().totalTV();
   }
+
+  void _showUnitOptionsDialog(
+    BuildContext context,
+    Unit unit,
+    int unitIndex,
+    bool isPrimary,
+  ) {
+    SimpleDialog optionsDialog = SimpleDialog(
+      title: Text(
+        'Unit options',
+        style: TextStyle(fontSize: 24),
+      ),
+      children: [
+        SimpleDialogOption(
+          onPressed: () {
+            Navigator.pop(context, OptionResult.Remove);
+          },
+          child: Text(
+            'Remove Unit',
+            style: TextStyle(fontSize: 24, color: Colors.red),
+          ),
+        ),
+        SimpleDialogOption(
+          onPressed: () {
+            Navigator.pop(context, OptionResult.Upgrade);
+          },
+          child: Text(
+            'Add upgrade',
+            style: TextStyle(fontSize: 24, color: Colors.green),
+          ),
+        ),
+        SimpleDialogOption(
+          onPressed: () {
+            Navigator.pop(context, OptionResult.Cancel);
+          },
+          child: Text(
+            'Cancel',
+            style: TextStyle(fontSize: 24, color: Colors.grey),
+          ),
+        ),
+      ],
+    );
+
+    Future<OptionResult?> futureResult = showDialog<OptionResult>(
+        context: context,
+        builder: (BuildContext context) {
+          return optionsDialog;
+        });
+
+    futureResult.then((value) {
+      switch (value) {
+        case OptionResult.Remove:
+          setState(() {
+            isPrimary
+                ? widget.getOwnCG().primary.units.removeAt(unitIndex)
+                : widget.getOwnCG().secondary.units.removeAt(unitIndex);
+          });
+          break;
+        default:
+      }
+    });
+  }
 }
+
+enum OptionResult { Remove, Cancel, Upgrade }
