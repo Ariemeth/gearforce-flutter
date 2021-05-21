@@ -131,17 +131,20 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
                 SizedBox(
                   width: 25,
                 ),
-                OutlinedButton(
-                  onPressed: () {
-                    _navigateToUnitSelector(
-                      context,
-                      isPrimary
-                          ? widget.getOwnCG().primary.role.value
-                          : widget.getOwnCG().secondary.role.value,
-                      isPrimary: isPrimary,
-                    );
-                  },
-                  child: const Text('Add Unit'),
+                SizedBox(
+                  width: 85,
+                  child: OutlinedButton(
+                    onPressed: () {
+                      _navigateToUnitSelector(
+                        context,
+                        isPrimary
+                            ? widget.getOwnCG().primary.role.value
+                            : widget.getOwnCG().secondary.role.value,
+                        isPrimary: isPrimary,
+                      );
+                    },
+                    child: const Text('Add Unit'),
+                  ),
                 ),
                 Expanded(child: Container()),
               ],
