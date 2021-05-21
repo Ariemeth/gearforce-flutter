@@ -37,8 +37,8 @@ jobs:
       - name: Download pub dependencies
         run: flutter pub get
 
-      - name: Run build_runner
-        run: flutter pub run build_runner build --delete-conflicting-outputs
+      # - name: Run build_runner
+      #   run: flutter pub run build_runner build --delete-conflicting-outputs
 
       - name: Run analyzer
         run: flutter analyze
@@ -60,7 +60,7 @@ jobs:
           echo "keyPassword=${{ secrets.ANDROID_KEY_PASSWORD }}" >> android/key.properties
           echo "keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}" >> android/key.properties
       - name: Build Android App Bundle
-        run: flutter build appbundle
+        run: flutter build appbundle --release --build-number $GITHUB_RUN_NUMBER
 
       - name: Setup Ruby
         uses: actions/setup-ruby@v1
