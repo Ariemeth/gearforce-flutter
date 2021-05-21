@@ -62,8 +62,8 @@ jobs:
       - name: Build Android App Bundle
         run: flutter build appbundle --release --build-number $GITHUB_RUN_NUMBER
 
-      - name: Setup Ruby
-        uses: actions/setup-ruby@v1
+      - name: Setup Ruby, JRuby and TruffleRuby
+        uses: ruby/setup-ruby@v1.71.0
         with:
           ruby-version: '2.7'
 
