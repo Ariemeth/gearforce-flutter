@@ -36,13 +36,12 @@ class _SelectRoleState extends State<SelectRole> {
     return DropdownButton<String>(
       value: dropdownValue,
       hint: Text("Select Role"),
-      icon: const Icon(Icons.arrow_downward),
-      iconSize: 16,
-      elevation: 16,
+      icon: const Icon(Icons.arrow_drop_down_outlined),
+      iconSize: 24,
+      elevation: 8,
       isExpanded: true,
       isDense: true,
       style: const TextStyle(color: Colors.blue),
-      underline: SizedBox(),
       onChanged: (String? newValue) {
         setState(() {
           dropdownValue = newValue!;

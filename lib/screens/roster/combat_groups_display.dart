@@ -15,10 +15,10 @@ class CombatGroupsDisplay extends StatefulWidget {
 class _CombatGroupsDisplayState extends State<CombatGroupsDisplay>
     with SingleTickerProviderStateMixin {
   final List<Tab> tabs = <Tab>[
-    Tab(text: 'cg1'),
-    Tab(text: 'cg2'),
-    Tab(text: 'cg3'),
-    Tab(text: 'cg4'),
+    Tab(text: 'CG 1'),
+    Tab(text: 'CG 2'),
+    Tab(text: 'CG 3'),
+    Tab(text: 'CG 4'),
   ];
 
   @override
@@ -39,10 +39,10 @@ class _CombatGroupsDisplayState extends State<CombatGroupsDisplay>
           ),
           body: TabBarView(
             children: [
-              CombatGroupWidget(widget.data, widget.roster, name: 'cg1'),
-              CombatGroupWidget(widget.data, widget.roster, name: 'cg2'),
-              CombatGroupWidget(widget.data, widget.roster, name: 'cg3'),
-              CombatGroupWidget(widget.data, widget.roster, name: 'cg4'),
+              CombatGroupWidget(widget.data, widget.roster, name: 'CG 1'),
+              CombatGroupWidget(widget.data, widget.roster, name: 'CG 2'),
+              CombatGroupWidget(widget.data, widget.roster, name: 'CG 3'),
+              CombatGroupWidget(widget.data, widget.roster, name: 'CG 4'),
             ],
           ),
         ),
