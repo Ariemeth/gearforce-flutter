@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:gearforce/data/data.dart';
-import 'package:gearforce/models/factions/faction.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/screens/roster/combat_group_tv.dart';
 import 'package:gearforce/screens/roster/select_faction.dart';
