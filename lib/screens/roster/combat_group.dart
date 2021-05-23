@@ -78,7 +78,6 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
       MaterialPageRoute(
         builder: (context) => UnitSelector(
           title: "Unit Selector",
-          data: this.widget.data,
           faction: this.widget.roster.faction.value,
           role: role,
         ),

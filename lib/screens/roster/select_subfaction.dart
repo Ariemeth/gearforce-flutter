@@ -10,7 +10,7 @@ class SelectSubFaction extends StatefulWidget {
       required this.selectedSubFaction})
       : super(key: key);
   final List<Faction> factions;
-  final ValueListenable<String> selectedFaction;
+  final ValueListenable<Factions?> selectedFaction;
   final ValueNotifier<String> selectedSubFaction;
 
   @override
@@ -25,7 +25,7 @@ class _SelectSubFactionState extends State<SelectSubFaction> {
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder<String>(
+    return ValueListenableBuilder<Factions?>(
       valueListenable: widget.selectedFaction,
       builder: (context, value, child) {
         return DropdownButton<String>(
@@ -54,11 +54,12 @@ class _SelectSubFactionState extends State<SelectSubFaction> {
     // reset the dropdown value
     this.dropdownValue = null;
 
-    if (widget.selectedFaction.value == "") {
+    if (widget.selectedFaction.value == null) {
       return null;
     }
+
     var subfactions = widget.factions
-        .firstWhere((f) => f.name == widget.selectedFaction.value)
+        .firstWhere((f) => f.factionType == widget.selectedFaction.value)
         .subFactions;
 
     var menuItems = subfactions.map<DropdownMenuItem<String>>((name) {

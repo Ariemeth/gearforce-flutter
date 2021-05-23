@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/screens/roster/combat_groups_display.dart';
 import 'package:gearforce/screens/roster/roster_header_info.dart';
+import 'package:provider/provider.dart';
 
 class RosterWidget extends StatefulWidget {
   RosterWidget({
     Key? key,
     required this.title,
-    required this.data,
   }) : super(key: key);
 
   final String? title;
-  final Data data;
 
   @override
   _RosterWidgetState createState() => _RosterWidgetState();
@@ -35,18 +33,18 @@ class _RosterWidgetState extends State<RosterWidget> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title!),
       ),
-      body: Column(
-        children: [
-          RosterHeaderInfo(
-            dataBundle: widget.data,
-            roster: this.roster,
-          ),
-          Container(
-            child: CombatGroupsDisplay(widget.data, this.roster),
-          ),
-        ],
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+      body: Provider(
+        create: (_) => roster,
+        child: Column(
+          children: [
+            RosterHeaderInfo(),
+            Container(
+              child: CombatGroupsDisplay(),
+            ),
+          ],
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+        ),
       ),
     );
   }

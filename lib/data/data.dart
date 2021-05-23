@@ -26,6 +26,34 @@ class Data {
       case Factions.PeaceRiver:
         factionUnit = _peaceRiver;
         break;
+      case Factions.South:
+        return [];
+        // ignore: dead_code
+        break;
+      case Factions.NuCoal:
+        return [];
+        // ignore: dead_code
+        break;
+      case Factions.CEF:
+        return [];
+        // ignore: dead_code
+        break;
+      case Factions.Caprice:
+        return [];
+        // ignore: dead_code
+        break;
+      case Factions.Utopia:
+        return [];
+        // ignore: dead_code
+        break;
+      case Factions.Eden:
+        return [];
+        // ignore: dead_code
+        break;
+      case Factions.Universal:
+        return [];
+        // ignore: dead_code
+        break;
     }
 
     return role == null

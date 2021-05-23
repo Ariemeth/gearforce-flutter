@@ -1,10 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
+import 'package:gearforce/models/factions/faction.dart';
 
 class UnitRoster {
   String? player;
   String? name;
-  final faction = ValueNotifier<String>("");
+  final faction = ValueNotifier<Factions?>(null);
   final subFaction = ValueNotifier<String>("");
   final Map<String, CombatGroup> _combatGroups = new Map<String, CombatGroup>();
 

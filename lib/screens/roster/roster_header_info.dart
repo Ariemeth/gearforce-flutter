@@ -4,26 +4,25 @@ import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/screens/roster/combat_group_tv.dart';
 import 'package:gearforce/screens/roster/select_faction.dart';
 import 'package:gearforce/screens/roster/select_subfaction.dart';
+import 'package:provider/provider.dart';
 
 class RosterHeaderInfo extends StatelessWidget {
-  RosterHeaderInfo({Key? key, required this.dataBundle, required this.roster})
-      : super(key: key);
-
-  final UnitRoster roster;
-  final Data dataBundle;
+  RosterHeaderInfo({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _createInfoPanel(),
-        _createTVPanel(),
+        _createInfoPanel(context),
+        _createTVPanel(context),
       ],
     );
   }
 
-  Widget _createInfoPanel() {
+  Widget _createInfoPanel(BuildContext context) {
+    final roster = Provider.of<UnitRoster>(context);
+
     return Table(
       columnWidths: const <int, TableColumnWidth>{
         0: IntrinsicColumnWidth(),
@@ -104,8 +103,8 @@ class RosterHeaderInfo extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(right: 10, left: 5, top: 5, bottom: 5),
             child: SelectFaction(
-              factions: dataBundle.factions(),
-              selectedFaction: this.roster.faction,
+              factions: Provider.of<Data>(context).factions(),
+              selectedFaction: roster.faction,
             ),
           ),
           Container(),
@@ -122,9 +121,9 @@ class RosterHeaderInfo extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(right: 10, left: 5, top: 5, bottom: 5),
             child: SelectSubFaction(
-              factions: dataBundle.factions(),
-              selectedFaction: this.roster.faction,
-              selectedSubFaction: this.roster.subFaction,
+              factions: Provider.of<Data>(context).factions(),
+              selectedFaction: roster.faction,
+              selectedSubFaction: roster.subFaction,
             ),
           ),
           Container(),
@@ -133,7 +132,8 @@ class RosterHeaderInfo extends StatelessWidget {
     );
   }
 
-  Widget _createTVPanel() {
+  Widget _createTVPanel(BuildContext context) {
+    final roster = Provider.of<UnitRoster>(context);
     var table = Table(
       columnWidths: const <int, TableColumnWidth>{
         0: IntrinsicColumnWidth(),
@@ -152,7 +152,8 @@ class RosterHeaderInfo extends StatelessWidget {
           ),
           Padding(
             padding: EdgeInsets.only(right: 10, left: 5, top: 5, bottom: 5),
-            child: CombatGroupTVTotal(totalTV: roster.totalTV()),
+            child: CombatGroupTVTotal(
+                totalTV: Provider.of<UnitRoster>(context).totalTV()),
           ),
         ]),
       ],

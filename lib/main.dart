@@ -1,30 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/screens/roster/roster.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   var data = Data();
   data.load().whenComplete(() {
-    runApp(GearForce(
-      data: data,
-    ));
+    runApp(
+      Provider(
+        create: (_) => data,
+        child: GearForce(),
+      ),
+    );
   });
 }
 
 class GearForce extends StatefulWidget {
-  final Data data;
-
-  const GearForce({Key? key, required this.data}) : super(key: key);
+  const GearForce({Key? key}) : super(key: key);
 
   @override
-  _GearForceState createState() => _GearForceState(data);
+  _GearForceState createState() => _GearForceState();
 }
 
 class _GearForceState extends State<GearForce> {
-  final Data dataBundle;
-
-  _GearForceState(this.dataBundle);
+  _GearForceState();
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,6 @@ class _GearForceState extends State<GearForce> {
       ),
       home: RosterWidget(
         title: 'Gear roster creator',
-        data: this.dataBundle,
       ),
     );
   }
