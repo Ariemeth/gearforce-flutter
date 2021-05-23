@@ -20,4 +20,14 @@ class UnitRoster {
 
   CombatGroup? getCG(String name) => _combatGroups[name];
   void addCG(CombatGroup cg) => _combatGroups[cg.name] = cg;
+  int totalTV() {
+    var result = 0;
+    _combatGroups.forEach((key, value) {
+      result += value.totalTV();
+    });
+    return result;
+  }
+
+  List<CombatGroup> getCGs() =>
+      _combatGroups.entries.map((e) => e.value).toList();
 }

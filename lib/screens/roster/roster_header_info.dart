@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gearforce/data/data.dart';
+import 'package:gearforce/models/factions/faction.dart';
 import 'package:gearforce/models/roster/roster.dart';
+import 'package:gearforce/screens/roster/combat_group_tv.dart';
 import 'package:gearforce/screens/roster/select_faction.dart';
 import 'package:gearforce/screens/roster/select_subfaction.dart';
 
@@ -13,10 +15,20 @@ class RosterHeaderInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _createInfoPanel(),
+        _createTVPanel(),
+      ],
+    );
+  }
+
+  Widget _createInfoPanel() {
     return Table(
       columnWidths: const <int, TableColumnWidth>{
         0: IntrinsicColumnWidth(),
-        1: FixedColumnWidth(300.0),
+        1: FixedColumnWidth(200.0),
         2: FlexColumnWidth(1),
       },
       defaultVerticalAlignment: TableCellVerticalAlignment.middle,
@@ -120,5 +132,52 @@ class RosterHeaderInfo extends StatelessWidget {
         ]),
       ],
     );
+  }
+
+  Widget _createTVPanel() {
+    var table = Table(
+      columnWidths: const <int, TableColumnWidth>{
+        0: IntrinsicColumnWidth(),
+        1: FixedColumnWidth(50.0),
+      },
+      defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+      children: <TableRow>[
+        TableRow(children: [
+          Padding(
+            padding: EdgeInsets.only(right: 5, left: 5, top: 5, bottom: 5),
+            child: Text(
+              'Total TV:',
+              textAlign: TextAlign.right,
+              style: TextStyle(fontSize: 16),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(right: 10, left: 5, top: 5, bottom: 5),
+            child: CombatGroupTVTotal(totalTV: roster.totalTV()),
+          ),
+        ]),
+      ],
+    );
+
+    roster.getCGs().forEach((element) {
+      table.children.add(
+        TableRow(children: [
+          Padding(
+            padding: EdgeInsets.only(right: 5, left: 5, top: 5, bottom: 5),
+            child: Text(
+              '${element.name} TV:',
+              textAlign: TextAlign.right,
+              style: TextStyle(fontSize: 16),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(right: 10, left: 5, top: 5, bottom: 5),
+            child: CombatGroupTVTotal(totalTV: element.totalTV()),
+          ),
+        ]),
+      );
+    });
+
+    return table;
   }
 }
