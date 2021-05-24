@@ -10,6 +10,7 @@ import 'package:gearforce/screens/roster/select_role.dart';
 import 'package:gearforce/screens/unitSelector/unit_selector.dart';
 import 'package:gearforce/widgets/unit_text_cell.dart';
 import 'package:table_sticky_headers/table_sticky_headers.dart';
+import 'package:provider/provider.dart';
 
 const _numColumns = 14;
 
@@ -121,7 +122,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
                   width: 75,
                 ),
                 SizedBox(
-                  width: 25,
+                  width: 20,
                 ),
                 SizedBox(
                   width: 75,
@@ -136,6 +137,18 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
                       );
                     },
                     child: const Text('Add Unit'),
+                  ),
+                ),
+                SizedBox(
+                  width: 20,
+                ),
+                SizedBox(
+                  width: 75,
+                  child: OutlinedButton(
+                    onPressed: () {
+                      context.read<UnitRoster>().createCG();
+                    },
+                    child: const Text('Add CG'),
                   ),
                 ),
                 Expanded(child: Container()),
