@@ -34,6 +34,18 @@ void main() {
     expect(g.name, equals(cgName), reason: 'check cg name');
     expect(g.totalTV(), equals(10), reason: 'check default total tv');
   });
+
+  test('test clear() with primary and secondary group', () {
+    const cgName = 'test1';
+    var g = CombatGroup(cgName)
+      ..primary.addUnit(createDefaultUnit())
+      ..secondary.addUnit(createDefaultUnit());
+    expect(g.name, equals(cgName), reason: 'ensure cg name');
+    expect(g.totalTV(), equals(10), reason: 'ensure default total tv');
+
+    g.clear();
+    expect(g.totalTV(), equals(0), reason: 'check no tv after clear');
+  });
 }
 
 Unit createDefaultUnit() {

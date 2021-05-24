@@ -13,6 +13,9 @@ class UnitRoster extends ChangeNotifier {
   UnitRoster() {
     faction.addListener(() {
       subFaction.value = "";
+      _combatGroups.forEach((key, value) {
+        value.clear();
+      });
     });
     createCG();
   }

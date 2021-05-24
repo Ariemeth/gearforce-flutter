@@ -19,6 +19,11 @@ class CombatGroup extends ChangeNotifier {
     return primary.totalTV() + secondary.totalTV();
   }
 
+  void clear() {
+    this.primary.reset();
+    this.secondary.reset();
+  }
+
   @override
   String toString() {
     return 'CombatGroup: {Name: $name, PrimaryCG: $primary, SecondaryCG: $secondary}';
