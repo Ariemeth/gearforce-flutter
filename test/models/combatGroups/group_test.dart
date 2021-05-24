@@ -20,16 +20,16 @@ void main() {
   });
 
   test('create Group with role and units being reset', () {
-    var g = Group(role: RoleType.GP)..units.add(createDefaultUnit());
+    var g = Group(role: RoleType.GP)..addUnit(createDefaultUnit());
     expect(g.role, isNotNull, reason: 'role notifer');
     expect(g.role.value, equals(RoleType.GP), reason: 'check group name');
-    expect(g.units.length, equals(1), reason: 'should be 1 unit');
+    expect(g.allUnits().length, equals(1), reason: 'should be 1 unit');
     expect(g.totalTV(), equals(5), reason: 'check default total tv');
 
     g.reset();
     expect(g.role, isNotNull, reason: 'role notifer');
     expect(g.role.value, equals(null), reason: 'check group name');
-    expect(g.units.length, equals(0), reason: 'should be 0 units');
+    expect(g.allUnits().length, equals(0), reason: 'should be 0 units');
     expect(g.totalTV(), equals(0), reason: 'check default total tv');
   });
 }

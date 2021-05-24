@@ -49,7 +49,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
         Expanded(
           child: _generateTable(
             context,
-            widget.getOwnCG().primary.units,
+            widget.getOwnCG().primary.allUnits(),
             true,
           ),
         ),
@@ -60,7 +60,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
         Expanded(
           child: _generateTable(
             context,
-            widget.getOwnCG().secondary.units,
+            widget.getOwnCG().secondary.allUnits(),
             false,
           ),
         ),
@@ -233,9 +233,9 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
   void _addUnit(Unit unit, {required bool isPrimary}) {
     setState(() {
       if (isPrimary) {
-        widget.getOwnCG().primary.units.add(unit);
+        widget.getOwnCG().primary.addUnit(unit);
       } else {
-        widget.getOwnCG().secondary.units.add(unit);
+        widget.getOwnCG().secondary.addUnit(unit);
       }
     });
   }
@@ -297,8 +297,8 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
         case OptionResult.Remove:
           setState(() {
             isPrimary
-                ? widget.getOwnCG().primary.units.removeAt(unitIndex)
-                : widget.getOwnCG().secondary.units.removeAt(unitIndex);
+                ? widget.getOwnCG().primary.removeUnit(unitIndex)
+                : widget.getOwnCG().secondary.removeUnit(unitIndex);
           });
           break;
         default:

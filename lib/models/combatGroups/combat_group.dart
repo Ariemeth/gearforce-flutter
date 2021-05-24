@@ -1,8 +1,8 @@
 import 'package:gearforce/models/combatGroups/group.dart';
 
 class CombatGroup {
-  Group primary = Group();
-  Group secondary = Group();
+  final Group primary = Group();
+  final Group secondary = Group();
   final String name;
 
   CombatGroup(this.name);

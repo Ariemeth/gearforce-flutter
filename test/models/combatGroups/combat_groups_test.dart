@@ -14,14 +14,14 @@ void main() {
 
   test('test totalTV() with primary group only', () {
     const cgName = 'test1';
-    var g = CombatGroup(cgName)..primary.units.add(createDefaultUnit());
+    var g = CombatGroup(cgName)..primary.addUnit(createDefaultUnit());
     expect(g.name, equals(cgName), reason: 'check cg name');
     expect(g.totalTV(), equals(5), reason: 'check default total tv');
   });
 
   test('test totalTV() with secondary group only', () {
     const cgName = 'test1';
-    var g = CombatGroup(cgName)..secondary.units.add(createDefaultUnit());
+    var g = CombatGroup(cgName)..secondary.addUnit(createDefaultUnit());
     expect(g.name, equals(cgName), reason: 'check cg name');
     expect(g.totalTV(), equals(5), reason: 'check default total tv');
   });
@@ -29,8 +29,8 @@ void main() {
   test('test totalTV() with primary and secondary group', () {
     const cgName = 'test1';
     var g = CombatGroup(cgName)
-      ..primary.units.add(createDefaultUnit())
-      ..secondary.units.add(createDefaultUnit());
+      ..primary.addUnit(createDefaultUnit())
+      ..secondary.addUnit(createDefaultUnit());
     expect(g.name, equals(cgName), reason: 'check cg name');
     expect(g.totalTV(), equals(10), reason: 'check default total tv');
   });
