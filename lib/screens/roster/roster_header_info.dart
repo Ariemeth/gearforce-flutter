@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/roster/roster.dart';
-import 'package:gearforce/screens/roster/combat_group_tv.dart';
 import 'package:gearforce/screens/roster/select_faction.dart';
 import 'package:gearforce/screens/roster/select_subfaction.dart';
+import 'package:gearforce/widgets/display_value.dart';
 import 'package:provider/provider.dart';
 
 class RosterHeaderInfo extends StatelessWidget {
@@ -140,32 +140,7 @@ class RosterHeaderInfo extends StatelessWidget {
     List<Widget> tvs = [];
 
     roster.getCGs().forEach((cg) {
-      tvs.add(
-        SizedBox(
-          height: 30,
-          width: 81,
-          child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-            Padding(
-              padding: EdgeInsets.only(right: 5, left: 5, top: 5, bottom: 5),
-              child: Text(
-                '${cg.name} TV:',
-                textAlign: TextAlign.right,
-                style: TextStyle(fontSize: 16),
-              ),
-            ),
-            SizedBox(
-              width: 50,
-              child: Padding(
-                padding: EdgeInsets.only(right: 10, left: 5, top: 5, bottom: 5),
-                child: ChangeNotifierProvider.value(
-                  value: cg,
-                  child: CombatGroupTVTotal(totalTV: cg.totalTV()),
-                ),
-              ),
-            ),
-          ]),
-        ),
-      );
+      tvs.add(DisplayValue(text: '${cg.name} TV:', value: cg.totalTV()));
     });
     var tvAllCGs = GridView.count(
       crossAxisCount: 2,
@@ -175,35 +150,9 @@ class RosterHeaderInfo extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
     );
 
-    var tvTotal = SizedBox(
-      height: 35,
-      child: Align(
-        child: Row(
-          children: [
-            Padding(
-              padding: EdgeInsets.only(right: 5, left: 5, top: 5, bottom: 5),
-              child: Text(
-                'Total TV:',
-                textAlign: TextAlign.right,
-                style: TextStyle(fontSize: 16),
-              ),
-            ),
-            SizedBox(
-              width: 60,
-              child: Padding(
-                padding: EdgeInsets.only(right: 10, left: 5, top: 5, bottom: 5),
-                child: CombatGroupTVTotal(
-                    totalTV: Provider.of<UnitRoster>(context).totalTV()),
-              ),
-            ),
-          ],
-          mainAxisAlignment: MainAxisAlignment.center,
-        ),
-      ),
-    );
-
     var tvPanel = Column(children: [
-      tvTotal,
+      DisplayValue(
+          text: 'Total TV:', value: Provider.of<UnitRoster>(context).totalTV()),
       Flexible(
         flex: 1,
         child: SingleChildScrollView(

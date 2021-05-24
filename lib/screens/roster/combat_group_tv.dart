@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 
 class CombatGroupTVTotal extends StatelessWidget {
-  CombatGroupTVTotal({Key? key, required this.totalTV}) : super(key: key);
+  CombatGroupTVTotal(
+      {Key? key, required this.totalTV, this.textColor = Colors.black})
+      : super(key: key);
 
   final int totalTV;
+  final Color textColor;
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +16,7 @@ class CombatGroupTVTotal extends StatelessWidget {
         child: Text(
           totalTV.toString(),
           textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 16),
+          style: TextStyle(fontSize: 16, color: this.textColor),
         ),
       ),
       decoration: BoxDecoration(
