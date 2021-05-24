@@ -16,6 +16,9 @@ class RosterHeaderInfo extends StatelessWidget {
       children: [
         _createInfoPanel(context),
         _createTVPanel(context),
+        Expanded(
+          child: Container(),
+        )
       ],
     );
   }
@@ -134,53 +137,90 @@ class RosterHeaderInfo extends StatelessWidget {
 
   Widget _createTVPanel(BuildContext context) {
     final roster = Provider.of<UnitRoster>(context);
-    var table = Table(
-      columnWidths: const <int, TableColumnWidth>{
-        0: IntrinsicColumnWidth(),
-        1: FixedColumnWidth(50.0),
-      },
-      defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-      children: <TableRow>[
-        TableRow(children: [
-          Padding(
-            padding: EdgeInsets.only(right: 5, left: 5, top: 5, bottom: 5),
-            child: Text(
-              'Total TV:',
-              textAlign: TextAlign.right,
-              style: TextStyle(fontSize: 16),
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(right: 10, left: 5, top: 5, bottom: 5),
-            child: CombatGroupTVTotal(
-                totalTV: Provider.of<UnitRoster>(context).totalTV()),
-          ),
-        ]),
-      ],
-    );
+    List<Widget> tvs = [];
 
     roster.getCGs().forEach((cg) {
-      table.children.add(
-        TableRow(children: [
-          Padding(
-            padding: EdgeInsets.only(right: 5, left: 5, top: 5, bottom: 5),
-            child: Text(
-              '${cg.name} TV:',
-              textAlign: TextAlign.right,
-              style: TextStyle(fontSize: 16),
+      tvs.add(
+        SizedBox(
+          height: 30,
+          width: 81,
+          child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+            Padding(
+              padding: EdgeInsets.only(right: 5, left: 5, top: 5, bottom: 5),
+              child: Text(
+                '${cg.name} TV:',
+                textAlign: TextAlign.right,
+                style: TextStyle(fontSize: 16),
+              ),
             ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(right: 10, left: 5, top: 5, bottom: 5),
-            child: ChangeNotifierProvider.value(
-              value: cg,
-              child: CombatGroupTVTotal(totalTV: cg.totalTV()),
+            SizedBox(
+              width: 50,
+              child: Padding(
+                padding: EdgeInsets.only(right: 10, left: 5, top: 5, bottom: 5),
+                child: ChangeNotifierProvider.value(
+                  value: cg,
+                  child: CombatGroupTVTotal(totalTV: cg.totalTV()),
+                ),
+              ),
             ),
-          ),
-        ]),
+          ]),
+        ),
       );
     });
+    var tvAllCGs = GridView.count(
+      crossAxisCount: 2,
+      children: tvs,
+      shrinkWrap: true,
+      childAspectRatio: 270 / 75,
+      clipBehavior: Clip.antiAlias,
+    );
 
-    return table;
+    var tvTotal = SizedBox(
+      height: 30,
+      child: Align(
+        child: Row(
+          children: [
+            Padding(
+              padding: EdgeInsets.only(right: 5, left: 5, top: 5, bottom: 5),
+              child: Text(
+                'Total TV:',
+                textAlign: TextAlign.right,
+                style: TextStyle(fontSize: 16),
+              ),
+            ),
+            SizedBox(
+              width: 60,
+              child: Padding(
+                padding: EdgeInsets.only(right: 10, left: 5, top: 5, bottom: 5),
+                child: CombatGroupTVTotal(
+                    totalTV: Provider.of<UnitRoster>(context).totalTV()),
+              ),
+            ),
+          ],
+          mainAxisAlignment: MainAxisAlignment.center,
+        ),
+      ),
+    );
+
+    var tvPanel = Column(children: [
+      tvTotal,
+      Flexible(
+        flex: 1,
+        child: SingleChildScrollView(
+          padding: EdgeInsets.all(1),
+          child: Column(
+            children: [
+              tvAllCGs,
+            ],
+          ),
+          primary: true,
+        ),
+      ),
+    ]);
+    return SizedBox(
+      width: 270,
+      height: 150,
+      child: tvPanel,
+    );
   }
 }
