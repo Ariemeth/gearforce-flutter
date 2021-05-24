@@ -10,16 +10,11 @@ import 'package:gearforce/screens/roster/select_role.dart';
 import 'package:gearforce/screens/unitSelector/unit_selector.dart';
 import 'package:gearforce/widgets/unit_text_cell.dart';
 import 'package:table_sticky_headers/table_sticky_headers.dart';
-import 'package:provider/provider.dart';
 
 const _numColumns = 14;
 
 class CombatGroupWidget extends StatefulWidget {
-  CombatGroupWidget(this.data, this.roster, {required this.name}) {
-    if (roster.getCG(name) == null) {
-      roster.addCG(CombatGroup(name));
-    }
-  }
+  CombatGroupWidget(this.data, this.roster, {required this.name});
 
   final Data data;
   final UnitRoster roster;
@@ -139,18 +134,6 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
                     child: const Text('Add Unit'),
                   ),
                 ),
-                SizedBox(
-                  width: 20,
-                ),
-                SizedBox(
-                  width: 75,
-                  child: OutlinedButton(
-                    onPressed: () {
-                      context.read<UnitRoster>().createCG();
-                    },
-                    child: const Text('Add CG'),
-                  ),
-                ),
                 Expanded(child: Container()),
               ],
             ),
@@ -161,7 +144,10 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
   }
 
   Widget _generateTable(
-      BuildContext context, List<Unit> units, bool isPrimary) {
+    BuildContext context,
+    List<Unit> units,
+    bool isPrimary,
+  ) {
     var table = StickyHeadersTable(
       legendCell: UnitTextCell.columnTitle(
         "Model Name",

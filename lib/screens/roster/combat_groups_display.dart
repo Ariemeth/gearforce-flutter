@@ -17,7 +17,13 @@ class _CombatGroupsDisplayState extends State<CombatGroupsDisplay>
   Widget build(BuildContext context) {
     final data = Provider.of<Data>(context);
     final roster = Provider.of<UnitRoster>(context);
-    final tabs = roster.getCGs().map((e) => Tab(text: e.name)).toList();
+    final tabs = roster.getCGs().map((e) => Tab(text: e.name)).toList()
+      ..add(Tab(
+          child: OutlinedButton(
+              onPressed: () {
+                context.read<UnitRoster>().createCG();
+              },
+              child: const Text('Add CG'))));
 
     return Expanded(
       child: DefaultTabController(
@@ -37,7 +43,14 @@ class _CombatGroupsDisplayState extends State<CombatGroupsDisplay>
             children: roster
                 .getCGs()
                 .map((e) => CombatGroupWidget(data, roster, name: e.name))
-                .toList(),
+                .toList()
+                  ..add(
+                    CombatGroupWidget(
+                      data,
+                      roster,
+                      name: 'add cg button',
+                    ),
+                  ),
           ),
         ),
       ),
