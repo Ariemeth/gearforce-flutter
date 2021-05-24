@@ -110,16 +110,6 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                 ),
-                SizedBox(
-                  width: 85,
-                ),
-              ],
-            ),
-          ),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Row(
-              children: [
                 Text(
                   "Role: ",
                   style: TextStyle(fontSize: 16),
@@ -128,13 +118,13 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
                   child: SelectRole(
                     selectedRole: group.role,
                   ),
-                  width: 100,
+                  width: 75,
                 ),
                 SizedBox(
                   width: 25,
                 ),
                 SizedBox(
-                  width: 85,
+                  width: 75,
                   child: OutlinedButton(
                     onPressed: () {
                       _navigateToUnitSelector(
