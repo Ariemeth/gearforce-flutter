@@ -176,7 +176,7 @@ class RosterHeaderInfo extends StatelessWidget {
     );
 
     var tvTotal = SizedBox(
-      height: 30,
+      height: 35,
       child: Align(
         child: Row(
           children: [
