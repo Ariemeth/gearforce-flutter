@@ -6,11 +6,11 @@ import 'package:gearforce/models/combatGroups/group.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
-import 'package:gearforce/screens/roster/combat_group_tv.dart';
 import 'package:gearforce/screens/roster/select_role.dart';
 import 'package:gearforce/screens/unitSelector/unit_selector.dart';
 import 'package:gearforce/widgets/unit_text_cell.dart';
 import 'package:table_sticky_headers/table_sticky_headers.dart';
+import 'package:provider/provider.dart';
 
 const _numColumns = 14;
 
@@ -49,7 +49,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
         Expanded(
           child: _generateTable(
             context,
-            widget.getOwnCG().primary.units,
+            widget.getOwnCG().primary.allUnits(),
             true,
           ),
         ),
@@ -60,7 +60,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
         Expanded(
           child: _generateTable(
             context,
-            widget.getOwnCG().secondary.units,
+            widget.getOwnCG().secondary.allUnits(),
             false,
           ),
         ),
@@ -78,7 +78,6 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
       MaterialPageRoute(
         builder: (context) => UnitSelector(
           title: "Unit Selector",
-          data: this.widget.data,
           faction: this.widget.roster.faction.value,
           role: role,
         ),
@@ -112,24 +111,6 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                 ),
-                SizedBox(
-                  width: 85,
-                ),
-                Text(
-                  'TV: ',
-                  style: TextStyle(fontSize: 16),
-                ),
-                SizedBox(
-                  width: 50,
-                  child: CombatGroupTVTotal(totalTV: group.totalTV()),
-                ),
-              ],
-            ),
-          ),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Row(
-              children: [
                 Text(
                   "Role: ",
                   style: TextStyle(fontSize: 16),
@@ -138,13 +119,13 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
                   child: SelectRole(
                     selectedRole: group.role,
                   ),
-                  width: 100,
+                  width: 75,
                 ),
                 SizedBox(
-                  width: 25,
+                  width: 20,
                 ),
                 SizedBox(
-                  width: 85,
+                  width: 75,
                   child: OutlinedButton(
                     onPressed: () {
                       _navigateToUnitSelector(
@@ -156,6 +137,18 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
                       );
                     },
                     child: const Text('Add Unit'),
+                  ),
+                ),
+                SizedBox(
+                  width: 20,
+                ),
+                SizedBox(
+                  width: 75,
+                  child: OutlinedButton(
+                    onPressed: () {
+                      context.read<UnitRoster>().createCG();
+                    },
+                    child: const Text('Add CG'),
                   ),
                 ),
                 Expanded(child: Container()),
@@ -234,9 +227,9 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
   void _addUnit(Unit unit, {required bool isPrimary}) {
     setState(() {
       if (isPrimary) {
-        widget.getOwnCG().primary.units.add(unit);
+        widget.getOwnCG().primary.addUnit(unit);
       } else {
-        widget.getOwnCG().secondary.units.add(unit);
+        widget.getOwnCG().secondary.addUnit(unit);
       }
     });
   }
@@ -298,8 +291,8 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
         case OptionResult.Remove:
           setState(() {
             isPrimary
-                ? widget.getOwnCG().primary.units.removeAt(unitIndex)
-                : widget.getOwnCG().secondary.units.removeAt(unitIndex);
+                ? widget.getOwnCG().primary.removeUnit(unitIndex)
+                : widget.getOwnCG().secondary.removeUnit(unitIndex);
           });
           break;
         default:

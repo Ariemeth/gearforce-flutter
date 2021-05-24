@@ -2,22 +2,39 @@ import 'package:flutter/material.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
 
-class Group {
+class Group extends ChangeNotifier {
   final ValueNotifier<RoleType?> role = ValueNotifier(null);
-  List<Unit> units = [];
+  final List<Unit> _units = [];
 
   Group({RoleType? role}) {
     this.role.value = role;
   }
 
+  void addUnit(Unit unit) {
+    _units.add(unit);
+    notifyListeners();
+  }
+
+  void removeUnit(int index) {
+    if (index < _units.length) {
+      _units.removeAt(index);
+    }
+    notifyListeners();
+  }
+
+  List<Unit> allUnits() {
+    return _units.toList();
+  }
+
   void reset() {
     this.role.value = null;
-    this.units = [];
+    this._units.clear();
+    notifyListeners();
   }
 
   int totalTV() {
     var total = 0;
-    this.units.forEach((element) {
+    this._units.forEach((element) {
       total += element.tv;
     });
 
@@ -26,6 +43,6 @@ class Group {
 
   @override
   String toString() {
-    return 'Group: {Role: ${role.value}, Units: $units}';
+    return 'Group: {Role: ${role.value}, Units: $_units}';
   }
 }

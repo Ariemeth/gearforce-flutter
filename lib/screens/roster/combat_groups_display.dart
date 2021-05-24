@@ -2,27 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/screens/roster/combat_group.dart';
+import 'package:provider/provider.dart';
 
 class CombatGroupsDisplay extends StatefulWidget {
-  CombatGroupsDisplay(this.data, this.roster);
+  CombatGroupsDisplay();
 
-  final Data data;
-  final UnitRoster roster;
   @override
   _CombatGroupsDisplayState createState() => _CombatGroupsDisplayState();
 }
 
 class _CombatGroupsDisplayState extends State<CombatGroupsDisplay>
     with SingleTickerProviderStateMixin {
-  final List<Tab> tabs = <Tab>[
-    Tab(text: 'CG 1'),
-    Tab(text: 'CG 2'),
-    Tab(text: 'CG 3'),
-    Tab(text: 'CG 4'),
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final data = Provider.of<Data>(context);
+    final roster = Provider.of<UnitRoster>(context);
+    final tabs = roster.getCGs().map((e) => Tab(text: e.name)).toList();
+
     return Expanded(
       child: DefaultTabController(
         length: tabs.length,
@@ -38,12 +34,10 @@ class _CombatGroupsDisplayState extends State<CombatGroupsDisplay>
             ),
           ),
           body: TabBarView(
-            children: [
-              CombatGroupWidget(widget.data, widget.roster, name: 'CG 1'),
-              CombatGroupWidget(widget.data, widget.roster, name: 'CG 2'),
-              CombatGroupWidget(widget.data, widget.roster, name: 'CG 3'),
-              CombatGroupWidget(widget.data, widget.roster, name: 'CG 4'),
-            ],
+            children: roster
+                .getCGs()
+                .map((e) => CombatGroupWidget(data, roster, name: e.name))
+                .toList(),
           ),
         ),
       ),

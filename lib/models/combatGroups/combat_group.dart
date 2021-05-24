@@ -1,11 +1,19 @@
+import 'package:flutter/cupertino.dart';
 import 'package:gearforce/models/combatGroups/group.dart';
 
-class CombatGroup {
-  Group primary = Group();
-  Group secondary = Group();
+class CombatGroup extends ChangeNotifier {
+  final Group primary = Group();
+  final Group secondary = Group();
   final String name;
 
-  CombatGroup(this.name);
+  CombatGroup(this.name) {
+    primary.addListener(() {
+      notifyListeners();
+    });
+    secondary.addListener(() {
+      notifyListeners();
+    });
+  }
 
   int totalTV() {
     return primary.totalTV() + secondary.totalTV();

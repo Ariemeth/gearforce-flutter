@@ -4,6 +4,7 @@ import 'package:gearforce/models/factions/faction.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/widgets/unit_text_cell.dart';
+import 'package:provider/provider.dart';
 import 'package:table_sticky_headers/table_sticky_headers.dart';
 
 const _numColumns = 14;
@@ -12,14 +13,12 @@ class UnitSelector extends StatefulWidget {
   UnitSelector({
     Key? key,
     required this.title,
-    required this.data,
     required this.faction,
     required this.role,
   }) : super(key: key);
 
   final String? title;
-  final Data data;
-  final String faction;
+  final Factions? faction;
   final RoleType? role;
 
   @override
@@ -36,65 +35,44 @@ class _UnitSelectorState extends State<UnitSelector> {
         title: Text(widget.title!),
       ),
       body: InteractiveViewer(
-        child: _generateTable(widget.data, widget.faction),
+        child: _generateTable(context, widget.faction),
       ),
     );
   }
 
-  StickyHeadersTable _generateTable(Data data, String faction) {
-    // using a switch until the faction string is refactored to the enum
-    switch (faction) {
-      case "North":
-        var table = StickyHeadersTable(
-          legendCell: UnitTextCell.columnTitle(
-            "Model Name",
-            backgroundColor: Colors.blue[100],
-            textAlignment: TextAlign.left,
-          ),
-          columnsLength: _numColumns,
-          rowsLength: data.unitList(Factions.North, role: widget.role).length,
-          columnsTitleBuilder: _buildColumnTitles,
-          rowsTitleBuilder: _buildRowTitles(Factions.North, widget.data),
-          contentCellBuilder: _buildCellContent(Factions.North, widget.data),
-          onContentCellPressed: _contentPressed(Factions.North, widget.data),
-          onRowTitlePressed: _rowTitlePressed(Factions.North, widget.data),
-        );
-        return table;
-      case "Peace River":
-        var table = StickyHeadersTable(
-          legendCell: UnitTextCell.columnTitle(
-            "Model Name",
-            backgroundColor: Colors.blue[100],
-            textAlignment: TextAlign.left,
-          ),
-          columnsLength: 14,
-          rowsLength:
-              data.unitList(Factions.PeaceRiver, role: widget.role).length,
-          columnsTitleBuilder: _buildColumnTitles,
-          rowsTitleBuilder: _buildRowTitles(Factions.PeaceRiver, widget.data),
-          contentCellBuilder:
-              _buildCellContent(Factions.PeaceRiver, widget.data),
-          onContentCellPressed:
-              _contentPressed(Factions.PeaceRiver, widget.data),
-          onRowTitlePressed: _rowTitlePressed(Factions.PeaceRiver, widget.data),
-        );
-        return table;
-      default:
-    }
+  StickyHeadersTable _generateTable(BuildContext context, Factions? faction) {
+    final data = Provider.of<Data>(context);
 
-    return StickyHeadersTable(
+    if (faction == null) {
+      return StickyHeadersTable(
+        legendCell: UnitTextCell.columnTitle(
+          "No units to display",
+          textStyle: TextStyle(fontSize: 36),
+          padding: EdgeInsets.zero,
+        ),
+        columnsLength: 0,
+        rowsLength: 0,
+        cellDimensions: CellDimensions.uniform(width: 300, height: 40),
+        columnsTitleBuilder: (i) => Text(''),
+        rowsTitleBuilder: (i) => Text(''),
+        contentCellBuilder: (i, j) => Text(''),
+      );
+    }
+    var table = StickyHeadersTable(
       legendCell: UnitTextCell.columnTitle(
-        "No units to display",
-        textStyle: TextStyle(fontSize: 36),
-        padding: EdgeInsets.zero,
+        "Model Name",
+        backgroundColor: Colors.blue[100],
+        textAlignment: TextAlign.left,
       ),
-      columnsLength: 0,
-      rowsLength: 0,
-      cellDimensions: CellDimensions.uniform(width: 300, height: 40),
-      columnsTitleBuilder: (i) => Text(''),
-      rowsTitleBuilder: (i) => Text(''),
-      contentCellBuilder: (i, j) => Text(''),
+      columnsLength: _numColumns,
+      rowsLength: data.unitList(faction, role: widget.role).length,
+      columnsTitleBuilder: _buildColumnTitles,
+      rowsTitleBuilder: _buildRowTitles(faction, data),
+      contentCellBuilder: _buildCellContent(faction, data),
+      onContentCellPressed: _contentPressed(faction, data),
+      onRowTitlePressed: _rowTitlePressed(faction, data),
     );
+    return table;
   }
 
   Widget _buildColumnTitles(int i) {
