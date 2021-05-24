@@ -33,14 +33,15 @@ class _RosterWidgetState extends State<RosterWidget> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title!),
       ),
-      body: Provider(
+      body: ChangeNotifierProvider(
         create: (_) => roster,
         child: Column(
           children: [
-            RosterHeaderInfo(),
-            Container(
-              child: CombatGroupsDisplay(),
+            Expanded(
+              child: RosterHeaderInfo(),
+              flex: 0,
             ),
+            CombatGroupsDisplay(),
           ],
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,

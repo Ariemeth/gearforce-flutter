@@ -21,7 +21,7 @@ class RosterHeaderInfo extends StatelessWidget {
   }
 
   Widget _createInfoPanel(BuildContext context) {
-    final roster = Provider.of<UnitRoster>(context);
+    final roster = context.watch<UnitRoster>();
 
     return Table(
       columnWidths: const <int, TableColumnWidth>{
@@ -159,20 +159,23 @@ class RosterHeaderInfo extends StatelessWidget {
       ],
     );
 
-    roster.getCGs().forEach((element) {
+    roster.getCGs().forEach((cg) {
       table.children.add(
         TableRow(children: [
           Padding(
             padding: EdgeInsets.only(right: 5, left: 5, top: 5, bottom: 5),
             child: Text(
-              '${element.name} TV:',
+              '${cg.name} TV:',
               textAlign: TextAlign.right,
               style: TextStyle(fontSize: 16),
             ),
           ),
           Padding(
             padding: EdgeInsets.only(right: 10, left: 5, top: 5, bottom: 5),
-            child: CombatGroupTVTotal(totalTV: element.totalTV()),
+            child: ChangeNotifierProvider.value(
+              value: cg,
+              child: CombatGroupTVTotal(totalTV: cg.totalTV()),
+            ),
           ),
         ]),
       );

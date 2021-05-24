@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
 
-class Group {
+class Group extends ChangeNotifier {
   final ValueNotifier<RoleType?> role = ValueNotifier(null);
-  List<Unit> _units = [];
+  final List<Unit> _units = [];
 
   Group({RoleType? role}) {
     this.role.value = role;
@@ -12,12 +12,14 @@ class Group {
 
   void addUnit(Unit unit) {
     _units.add(unit);
+    notifyListeners();
   }
 
   void removeUnit(int index) {
     if (index < _units.length) {
       _units.removeAt(index);
     }
+    notifyListeners();
   }
 
   List<Unit> allUnits() {
@@ -26,7 +28,8 @@ class Group {
 
   void reset() {
     this.role.value = null;
-    this._units = [];
+    this._units.clear();
+    notifyListeners();
   }
 
   int totalTV() {

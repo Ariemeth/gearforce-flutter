@@ -13,17 +13,11 @@ class CombatGroupsDisplay extends StatefulWidget {
 
 class _CombatGroupsDisplayState extends State<CombatGroupsDisplay>
     with SingleTickerProviderStateMixin {
-  final List<Tab> tabs = <Tab>[
-    Tab(text: 'CG 1'),
-    Tab(text: 'CG 2'),
-    Tab(text: 'CG 3'),
-    Tab(text: 'CG 4'),
-  ];
-
   @override
   Widget build(BuildContext context) {
     final data = Provider.of<Data>(context);
     final roster = Provider.of<UnitRoster>(context);
+    final tabs = roster.getCGs().map((e) => Tab(text: e.name)).toList();
 
     return Expanded(
       child: DefaultTabController(
@@ -40,12 +34,10 @@ class _CombatGroupsDisplayState extends State<CombatGroupsDisplay>
             ),
           ),
           body: TabBarView(
-            children: [
-              CombatGroupWidget(data, roster, name: 'CG 1'),
-              CombatGroupWidget(data, roster, name: 'CG 2'),
-              CombatGroupWidget(data, roster, name: 'CG 3'),
-              CombatGroupWidget(data, roster, name: 'CG 4'),
-            ],
+            children: roster
+                .getCGs()
+                .map((e) => CombatGroupWidget(data, roster, name: e.name))
+                .toList(),
           ),
         ),
       ),

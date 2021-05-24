@@ -6,7 +6,6 @@ import 'package:gearforce/models/combatGroups/group.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
-import 'package:gearforce/screens/roster/combat_group_tv.dart';
 import 'package:gearforce/screens/roster/select_role.dart';
 import 'package:gearforce/screens/unitSelector/unit_selector.dart';
 import 'package:gearforce/widgets/unit_text_cell.dart';
@@ -113,14 +112,6 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
                 ),
                 SizedBox(
                   width: 85,
-                ),
-                Text(
-                  'TV: ',
-                  style: TextStyle(fontSize: 16),
-                ),
-                SizedBox(
-                  width: 50,
-                  child: CombatGroupTVTotal(totalTV: group.totalTV()),
                 ),
               ],
             ),
