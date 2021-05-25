@@ -82,18 +82,91 @@ class Data {
   }
 
   Future<void> load() async {
-    await _loadFactions().then((value) => this._factions = value);
-    await _loadUnits(_northFile).then((value) => this._north = value);
-    await _loadUnits(_southFile).then((value) => this._south = value);
-    await _loadUnits(_blackTalonFile).then((value) => this._blackTalon = value);
-    await _loadUnits(_capriceFile).then((value) => this._caprice = value);
-    await _loadUnits(_cefFile).then((value) => this._cef = value);
-    await _loadUnits(_edenFile).then((value) => this._eden = value);
-    await _loadUnits(_nucoalFile).then((value) => this._nucoal = value);
-    await _loadUnits(_terrainFile).then((value) => this._terrain = value);
-    await _loadUnits(_universalFile).then((value) => this._universal = value);
-    await _loadUnits(_utopiaFile).then((value) => this._utopia = value);
-    await _loadUnits(_peaceRiverFile).then((value) => this._peaceRiver = value);
+    try {
+      await _loadFactions().then(
+        (value) => this._factions = value,
+      );
+    } catch (e) {
+      print('Exception caught loading factions: $e');
+    }
+    try {
+      await _loadUnits(_northFile).then(
+        (value) => this._north = value,
+      );
+    } catch (e) {
+      print('Exception caught loading $_northFile: $e');
+    }
+    try {
+      await _loadUnits(_southFile).then(
+        (value) => this._south = value,
+      );
+    } catch (e) {
+      print('Exception caught loading $_southFile: $e');
+    }
+    try {
+      await _loadUnits(_blackTalonFile).then(
+        (value) => this._blackTalon = value,
+      );
+    } catch (e) {
+      print('Exception caught loading $_blackTalonFile: $e');
+    }
+    try {
+      await _loadUnits(_capriceFile).then(
+        (value) => this._caprice = value,
+      );
+    } catch (e) {
+      print('Exception caught loading $_capriceFile: $e');
+    }
+    try {
+      await _loadUnits(_cefFile).then(
+        (value) => this._cef = value,
+      );
+    } catch (e) {
+      print('Exception caught loading $_cefFile: $e');
+    }
+    try {
+      await _loadUnits(_edenFile).then(
+        (value) => this._eden = value,
+      );
+    } catch (e) {
+      print('Exception caught loading $_edenFile: $e');
+    }
+    try {
+      await _loadUnits(_nucoalFile).then(
+        (value) => this._nucoal = value,
+      );
+    } catch (e) {
+      print('Exception caught loading $_nucoalFile: $e');
+    }
+    try {
+      await _loadUnits(_terrainFile).then(
+        (value) => this._terrain = value,
+      );
+    } catch (e) {
+      print('Exception caught loading $_terrainFile: $e');
+    }
+    try {
+      await _loadUnits(_universalFile).then(
+        (value) => this._universal = value,
+      );
+    } catch (e) {
+      print('Exception caught loading $_universalFile: $e');
+    }
+
+    try {
+      await _loadUnits(_utopiaFile).then(
+        (value) => this._utopia = value,
+      );
+    } catch (e) {
+      print('Exception caught loading $_utopiaFile: $e');
+    }
+    try {
+      await _loadUnits(_peaceRiverFile).then(
+        (value) => this._peaceRiver = value,
+      );
+    } catch (e) {
+      print('Exception caught loading $_peaceRiverFile: $e');
+    }
   }
 
   Future<List<Faction>> _loadFactions() async {

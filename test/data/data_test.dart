@@ -21,21 +21,69 @@ void main() {
         .whenComplete(() => expect(data.factions().length, greaterThan(0)));
   });
 
-  test('ensure north unit list loaded', () async {
+  test('ensure north unit list loads', () async {
     final data = Data();
     await data.load().whenComplete(
         () => expect(data.unitList(Factions.North).length, greaterThan(0)));
   });
 
-  test('ensure south unit list loaded', () async {
+  test('ensure south unit list loads', () async {
     final data = Data();
     await data.load().whenComplete(
         () => expect(data.unitList(Factions.South).length, greaterThan(0)));
   });
 
-  test('ensure peace river unit list loaded', () async {
+  test('ensure black talon unit list loads', () async {
+    final data = Data();
+    await data.load().whenComplete(() =>
+        expect(data.unitList(Factions.BlackTalon).length, greaterThan(0)));
+  });
+
+  test('ensure caprice unit list loads', () async {
+    final data = Data();
+    await data.load().whenComplete(
+        () => expect(data.unitList(Factions.Caprice).length, greaterThan(0)));
+  });
+
+  test('ensure cef unit list loads', () async {
+    final data = Data();
+    await data.load().whenComplete(
+        () => expect(data.unitList(Factions.CEF).length, greaterThan(0)));
+  });
+
+  test('ensure eden unit list loads', () async {
+    final data = Data();
+    await data.load().whenComplete(
+        () => expect(data.unitList(Factions.Eden).length, greaterThan(0)));
+  });
+
+  test('ensure nucoal unit list loads', () async {
+    final data = Data();
+    await data.load().whenComplete(
+        () => expect(data.unitList(Factions.NuCoal).length, greaterThan(0)));
+  });
+
+  test('ensure terrain unit list loads', () async {
+    final data = Data();
+    await data.load().whenComplete(
+        () => expect(data.unitList(Factions.Terrain).length, greaterThan(0)));
+  });
+
+  test('ensure universal unit list loads', () async {
+    final data = Data();
+    await data.load().whenComplete(
+        () => expect(data.unitList(Factions.Universal).length, greaterThan(0)));
+  });
+
+  test('ensure utopia unit list loads', () async {
+    final data = Data();
+    await data.load().whenComplete(
+        () => expect(data.unitList(Factions.Utopia).length, greaterThan(0)));
+  });
+
+  test('ensure peace river unit list loads', () async {
     final data = Data();
     await data.load().whenComplete(() =>
         expect(data.unitList(Factions.PeaceRiver).length, greaterThan(0)));
-  }, skip: true);
+  });
 }
