@@ -14,15 +14,7 @@
       "mounted-weapons": "LHG, LAPGL",
       "traits": "Hands, Jetpack:8 (Aux)",
       "type": "Gear",
-      "height": 1,
-      "": "",
-      "__1": "",
-      "__2": "",
-      "__3": "",
-      "__4": "",
-      "__5": "",
-      "__6": "",
-      "__7": ""
+      "height": 1
     },
     {
       "model": "Ignus Golem",
@@ -39,15 +31,7 @@
       "mounted-weapons": "LHG, LAPGL",
       "traits": "Hands, Jetpack:8 (Aux)",
       "type": "Gear",
-      "height": 1,
-      "": "",
-      "__1": "",
-      "__2": "",
-      "__3": "",
-      "__4": "",
-      "__5": "",
-      "__6": "",
-      "__7": ""
+      "height": 1
     },
     {
       "model": "Grenatum Golem",
@@ -64,15 +48,7 @@
       "mounted-weapons": "LHG, LAPGL",
       "traits": "Hands, Jetpack:8 (Aux)",
       "type": "Gear",
-      "height": 1,
-      "": "",
-      "__1": "",
-      "__2": "",
-      "__3": "",
-      "__4": "",
-      "__5": "",
-      "__6": "",
-      "__7": ""
+      "height": 1
     },
     {
       "model": "Dominus Golem",
@@ -89,15 +65,7 @@
       "mounted-weapons": "LHG, LAPGL",
       "traits": "Comms, Hands, Jetpack:8 (Aux)",
       "type": "Gear",
-      "height": 1,
-      "": "",
-      "__1": "",
-      "__2": "",
-      "__3": "",
-      "__4": "",
-      "__5": "",
-      "__6": "",
-      "__7": ""
+      "height": 1
     },
     {
       "model": "Man at Arms Golem",
@@ -114,15 +82,7 @@
       "mounted-weapons": "MRP, LHG, LAPGL",
       "traits": "Hands, Jetpack:8 (Aux)",
       "type": "Gear",
-      "height": 1,
-      "": "",
-      "__1": "",
-      "__2": "",
-      "__3": "",
-      "__4": "",
-      "__5": "",
-      "__6": "",
-      "__7": ""
+      "height": 1
     },
     {
       "model": "Spatha Arms Golem",
@@ -139,15 +99,7 @@
       "mounted-weapons": "MRP, LHG, LAPGL",
       "traits": "Hands, Jetpack:8 (Aux)",
       "type": "Gear",
-      "height": 1,
-      "": "",
-      "__1": "",
-      "__2": "",
-      "__3": "",
-      "__4": "",
-      "__5": "",
-      "__6": "",
-      "__7": ""
+      "height": 1
     },
     {
       "model": "Grenatum Arms Golem",
@@ -164,15 +116,7 @@
       "mounted-weapons": "MRP, LHG, LAPGL",
       "traits": "Hands, Jetpack:8 (Aux)",
       "type": "Gear",
-      "height": 1,
-      "": "",
-      "__1": "",
-      "__2": "",
-      "__3": "",
-      "__4": "",
-      "__5": "",
-      "__6": "",
-      "__7": ""
+      "height": 1
     },
     {
       "model": "Ignus Arms Golem",
@@ -189,15 +133,7 @@
       "mounted-weapons": "MRP, LHG, LAPGL",
       "traits": "Hands, Jetpack:8 (Aux)",
       "type": "Gear",
-      "height": 1,
-      "": "",
-      "__1": "",
-      "__2": "",
-      "__3": "",
-      "__4": "",
-      "__5": "",
-      "__6": "",
-      "__7": ""
+      "height": 1
     },
     {
       "model": "Ger Arms Golem",
@@ -214,14 +150,6 @@
       "mounted-weapons": "MRP, LHG, LAPGL",
       "traits": "Hands, Jetpack:8 (Aux)",
       "type": "Gear",
-      "height": 1,
-      "": "",
-      "__1": "",
-      "__2": "",
-      "__3": "",
-      "__4": "",
-      "__5": "",
-      "__6": "",
-      "__7": ""
+      "height": 1
     }
 ]

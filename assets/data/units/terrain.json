@@ -14,9 +14,7 @@
       "mounted-weapons": "-",
       "traits": "Occupancy: 2 Squads, Comms, Supply, Sensors:36, Stationary",
       "type": "Building",
-      "height": 3,
-      "": "",
-      "__1": ""
+      "height": 3
     },
     {
       "model": "Rotary Cannon Turret",
@@ -33,9 +31,7 @@
       "mounted-weapons": "-",
       "traits": "Occupancy: 1 Squad, Stationary, Sensors:24",
       "type": "Building",
-      "height": 1.5,
-      "": "",
-      "__1": ""
+      "height": 1.5
     },
     {
       "model": "Rocket Turret",
@@ -52,9 +48,7 @@
       "mounted-weapons": "HRP (T, Link)",
       "traits": "Occupancy: 1 Squad, Stationary, Sensors:24",
       "type": "Building",
-      "height": 1.5,
-      "": "",
-      "__1": ""
+      "height": 1.5
     },
     {
       "model": "Machine Gun Bunker",
@@ -71,9 +65,7 @@
       "mounted-weapons": "-",
       "traits": "Occupancy: 1 Squad, Stationary",
       "type": "Building",
-      "height": 1.5,
-      "": "",
-      "__1": ""
+      "height": 1.5
     },
     {
       "model": "Housing Module",
@@ -90,9 +82,7 @@
       "mounted-weapons": "-",
       "traits": "Occupancy:2 Squads, Supply,Comms, Stationary",
       "type": "Building",
-      "height": 1.5,
-      "": "",
-      "__1": ""
+      "height": 1.5
     },
     {
       "model": "Homestead Tower*",
@@ -109,8 +99,6 @@
       "mounted-weapons": "-",
       "traits": "Occupancy:2 Squads, Comms, Stationary",
       "type": "Building",
-      "height": 3,
-      "": "",
-      "__1": ""
+      "height": 3
     }
 ]
