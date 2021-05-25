@@ -184,6 +184,8 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
       return UnitTextCell.content(
         units[i].name,
         backgroundColor: ((i + 1) % 2 == 0) ? Colors.blue[100] : null,
+        alignment: Alignment.centerLeft,
+        textAlignment: TextAlign.left,
       );
     };
   }
