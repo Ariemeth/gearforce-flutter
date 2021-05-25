@@ -19,18 +19,18 @@ const String _peaceRiverFile = 'assets/data/units/peace_river.json';
 const String _southFile = 'assets/data/units/south.json';
 
 class Data {
-  List<Faction> _factions = [];
-  List<Unit> _blackTalon = [];
-  List<Unit> _caprice = [];
-  List<Unit> _cef = [];
-  List<Unit> _eden = [];
-  List<Unit> _north = [];
-  List<Unit> _nucoal = [];
-  List<Unit> _terrain = [];
-  List<Unit> _universal = [];
-  List<Unit> _utopia = [];
-  List<Unit> _peaceRiver = [];
-  List<Unit> _south = [];
+  late List<Faction> _factions = [];
+  late List<Unit> _blackTalon = [];
+  late List<Unit> _caprice = [];
+  late List<Unit> _cef = [];
+  late List<Unit> _eden = [];
+  late List<Unit> _north = [];
+  late List<Unit> _nucoal = [];
+  late List<Unit> _terrain = [];
+  late List<Unit> _universal = [];
+  late List<Unit> _utopia = [];
+  late List<Unit> _peaceRiver = [];
+  late List<Unit> _south = [];
 
   List<Faction> factions() {
     return _factions;
