@@ -22,7 +22,9 @@ enum Factions {
   Caprice,
   Utopia,
   Eden,
-  Universal
+  Universal,
+  Terrain,
+  BlackTalon
 }
 
 Factions convertToFaction(String faction) {
@@ -46,6 +48,10 @@ Factions convertToFaction(String faction) {
       return Factions.Eden;
     case 'UNIVERSAL':
       return Factions.Universal;
+    case 'TERRAIN':
+      return Factions.Terrain;
+    case 'BLACK TALON':
+      return Factions.BlackTalon;
   }
 
   throw new FormatException("Unknown role type", faction);

@@ -75,5 +75,9 @@
             "Other Utopian Forces",
 			"Utopian Combined Armiger Force"			
 		]
+	},
+	{
+		"name": "Black Talon",
+		"subFactions": []
 	}
 ]

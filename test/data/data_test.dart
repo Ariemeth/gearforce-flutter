@@ -27,6 +27,12 @@ void main() {
         () => expect(data.unitList(Factions.North).length, greaterThan(0)));
   });
 
+  test('ensure south unit list loaded', () {
+    final data = Data();
+    data.load().whenComplete(
+        () => expect(data.unitList(Factions.South).length, greaterThan(0)));
+  });
+
   test('ensure peace river unit list loaded', () {
     final data = Data();
     data.load().whenComplete(() =>
