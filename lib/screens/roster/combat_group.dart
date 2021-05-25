@@ -142,7 +142,8 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
                 ? actions > _maxPrimaryActions
                     ? Colors.red
                     : Colors.black
-                : actions > widget.getOwnCG().primary.totalActions().ceil() / 2
+                : actions >
+                        (widget.getOwnCG().primary.totalActions() / 2).ceil()
                     ? Colors.red
                     : Colors.black,
           ),
@@ -295,7 +296,5 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
     });
   }
 }
-
-
 
 enum OptionResult { Remove, Cancel, Upgrade }
