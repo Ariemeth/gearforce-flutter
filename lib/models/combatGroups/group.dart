@@ -41,6 +41,14 @@ class Group extends ChangeNotifier {
     return total;
   }
 
+  int totalActions() {
+    var total = 0;
+    this._units.forEach((element) {
+      total += element.actions;
+    });
+    return total;
+  }
+
   @override
   String toString() {
     return 'Group: {Role: ${role.value}, Units: $_units}';

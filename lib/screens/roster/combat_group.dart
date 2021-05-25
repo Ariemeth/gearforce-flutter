@@ -8,10 +8,12 @@ import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/screens/roster/select_role.dart';
 import 'package:gearforce/screens/unitSelector/unit_selector.dart';
+import 'package:gearforce/widgets/display_value.dart';
 import 'package:gearforce/widgets/unit_text_cell.dart';
 import 'package:table_sticky_headers/table_sticky_headers.dart';
 
 const _numColumns = 14;
+const _maxPrimaryActions = 6;
 
 class CombatGroupWidget extends StatefulWidget {
   CombatGroupWidget(this.data, this.roster, {required this.name});
@@ -38,25 +40,27 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
     return Column(
       children: [
         _generateGroupHeader(
+          context: context,
           group: widget.getOwnCG().primary,
           isPrimary: true,
         ),
         Expanded(
           child: _generateTable(
-            context,
-            widget.getOwnCG().primary.allUnits(),
-            true,
+            context: context,
+            units: widget.getOwnCG().primary.allUnits(),
+            isPrimary: true,
           ),
         ),
         _generateGroupHeader(
+          context: context,
           group: widget.getOwnCG().secondary,
           isPrimary: false,
         ),
         Expanded(
           child: _generateTable(
-            context,
-            widget.getOwnCG().secondary.allUnits(),
-            false,
+            context: context,
+            units: widget.getOwnCG().secondary.allUnits(),
+            isPrimary: false,
           ),
         ),
       ],
@@ -72,7 +76,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
       context,
       MaterialPageRoute(
         builder: (context) => UnitSelector(
-          title: "Unit Selector",
+          title: "Available Units",
           faction: this.widget.roster.faction.value,
           role: role,
         ),
@@ -85,69 +89,75 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
   }
 
   Widget _generateGroupHeader({
+    required BuildContext context,
     required Group group,
     bool isPrimary = true,
   }) {
     String groupType = isPrimary ? 'Primary' : 'Secondary';
+    final actions = group.totalActions();
     return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
+      padding: const EdgeInsets.all(4.0),
+      child: Row(
         children: [
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Row(
-              children: [
-                SizedBox(
-                  width: 85,
-                  child: Text(
-                    groupType,
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                ),
-                Text(
-                  "Role: ",
-                  style: TextStyle(fontSize: 16),
-                ),
-                SizedBox(
-                  child: SelectRole(
-                    selectedRole: group.role,
-                  ),
-                  width: 75,
-                ),
-                SizedBox(
-                  width: 20,
-                ),
-                SizedBox(
-                  width: 75,
-                  child: OutlinedButton(
-                    onPressed: () {
-                      _navigateToUnitSelector(
-                        context,
-                        isPrimary
-                            ? widget.getOwnCG().primary.role.value
-                            : widget.getOwnCG().secondary.role.value,
-                        isPrimary: isPrimary,
-                      );
-                    },
-                    child: const Text('Add Unit'),
-                  ),
-                ),
-                Expanded(child: Container()),
-              ],
+          SizedBox(
+            width: 85,
+            child: Text(
+              groupType,
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
-          )
+          ),
+          Text(
+            "Role: ",
+            style: TextStyle(fontSize: 16),
+          ),
+          SizedBox(
+            child: SelectRole(
+              selectedRole: group.role,
+            ),
+            width: 75,
+          ),
+          SizedBox(
+            width: 20,
+          ),
+          SizedBox(
+            width: 75,
+            child: OutlinedButton(
+              onPressed: () {
+                _navigateToUnitSelector(
+                  context,
+                  isPrimary
+                      ? widget.getOwnCG().primary.role.value
+                      : widget.getOwnCG().secondary.role.value,
+                  isPrimary: isPrimary,
+                );
+              },
+              child: const Text('Add Unit'),
+            ),
+          ),
+          DisplayValue(text: 'TV:', value: group.totalTV()),
+          DisplayValue(
+            text: 'Actions',
+            value: actions,
+            textColor: isPrimary
+                ? actions > _maxPrimaryActions
+                    ? Colors.red
+                    : Colors.black
+                : actions >
+                        (widget.getOwnCG().primary.totalActions() / 2).ceil()
+                    ? Colors.red
+                    : Colors.black,
+          ),
+          Expanded(child: Container()),
         ],
       ),
     );
   }
 
-  Widget _generateTable(
-    BuildContext context,
-    List<Unit> units,
-    bool isPrimary,
-  ) {
+  Widget _generateTable({
+    required BuildContext context,
+    required List<Unit> units,
+    required bool isPrimary,
+  }) {
     var table = StickyHeadersTable(
       legendCell: UnitTextCell.columnTitle(
         "Model Name",

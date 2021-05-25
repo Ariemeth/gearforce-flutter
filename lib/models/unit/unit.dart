@@ -37,6 +37,25 @@ class Unit {
   final String type;
   final String height;
 
+  const Unit.test({
+    this.name = 'test',
+    this.tv = 5,
+    this.role = const Roles(roles: [Role(name: RoleType.GP)]),
+    this.movement = const Movement(type: 'G', rate: 7),
+    this.armor = 6,
+    this.hull = 3,
+    this.structure = 3,
+    this.actions = 1,
+    this.gunnery = 4,
+    this.piloting = 4,
+    this.ew = 5,
+    this.reactWeapons = const [],
+    this.mountedWeapons = const [],
+    this.traits = const [],
+    this.type = 'gear',
+    this.height = '1.5',
+  });
+
   factory Unit.fromJson(dynamic json) => Unit(
         name: json['model'] as String,
         tv: json['tv'] as int,
