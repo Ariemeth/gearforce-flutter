@@ -32,4 +32,3 @@ void main() {
         reason: 'check retrieving the cg from the roster is valid');
   });
 }
-
