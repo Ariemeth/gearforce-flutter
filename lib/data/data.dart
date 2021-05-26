@@ -4,14 +4,33 @@ import 'package:gearforce/models/factions/faction.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
 
-final String _factionFile = 'assets/data/factions.json';
-final String _northFile = 'assets/data/units/north.json';
-final String _peaceRiverFile = 'assets/data/units/peace_river.json';
+const String _factionFile = 'assets/data/factions.json';
+
+const String _blackTalonFile = 'assets/data/units/black_talon.json';
+const String _capriceFile = 'assets/data/units/caprice.json';
+const String _cefFile = 'assets/data/units/cef.json';
+const String _edenFile = 'assets/data/units/eden.json';
+const String _northFile = 'assets/data/units/north.json';
+const String _nucoalFile = 'assets/data/units/nucoal.json';
+const String _terrainFile = 'assets/data/units/terrain.json';
+const String _universalFile = 'assets/data/units/universal.json';
+const String _utopiaFile = 'assets/data/units/utopia.json';
+const String _peaceRiverFile = 'assets/data/units/peace_river.json';
+const String _southFile = 'assets/data/units/south.json';
 
 class Data {
-  List<Faction> _factions = [];
-  List<Unit> _north = [];
-  List<Unit> _peaceRiver = [];
+  late List<Faction> _factions = [];
+  late List<Unit> _blackTalon = [];
+  late List<Unit> _caprice = [];
+  late List<Unit> _cef = [];
+  late List<Unit> _eden = [];
+  late List<Unit> _north = [];
+  late List<Unit> _nucoal = [];
+  late List<Unit> _terrain = [];
+  late List<Unit> _universal = [];
+  late List<Unit> _utopia = [];
+  late List<Unit> _peaceRiver = [];
+  late List<Unit> _south = [];
 
   List<Faction> factions() {
     return _factions;
@@ -27,32 +46,31 @@ class Data {
         factionUnit = _peaceRiver;
         break;
       case Factions.South:
-        return [];
-        // ignore: dead_code
+        factionUnit = _south;
         break;
       case Factions.NuCoal:
-        return [];
-        // ignore: dead_code
+        factionUnit = _nucoal;
         break;
       case Factions.CEF:
-        return [];
-        // ignore: dead_code
+        factionUnit = _cef;
         break;
       case Factions.Caprice:
-        return [];
-        // ignore: dead_code
+        factionUnit = _caprice;
         break;
       case Factions.Utopia:
-        return [];
-        // ignore: dead_code
+        factionUnit = _utopia;
         break;
       case Factions.Eden:
-        return [];
-        // ignore: dead_code
+        factionUnit = _eden;
         break;
       case Factions.Universal:
-        return [];
-        // ignore: dead_code
+        factionUnit = _universal;
+        break;
+      case Factions.Terrain:
+        factionUnit = _terrain;
+        break;
+      case Factions.BlackTalon:
+        factionUnit = _blackTalon;
         break;
     }
 
@@ -64,9 +82,91 @@ class Data {
   }
 
   Future<void> load() async {
-    await _loadFactions().then((value) => this._factions = value);
-    await _loadUnits(_northFile).then((value) => this._north = value);
-    await _loadUnits(_peaceRiverFile).then((value) => this._peaceRiver = value);
+    try {
+      await _loadFactions().then(
+        (value) => this._factions = value,
+      );
+    } catch (e) {
+      print('Exception caught loading factions: $e');
+    }
+    try {
+      await _loadUnits(_northFile).then(
+        (value) => this._north = value,
+      );
+    } catch (e) {
+      print('Exception caught loading $_northFile: $e');
+    }
+    try {
+      await _loadUnits(_southFile).then(
+        (value) => this._south = value,
+      );
+    } catch (e) {
+      print('Exception caught loading $_southFile: $e');
+    }
+    try {
+      await _loadUnits(_blackTalonFile).then(
+        (value) => this._blackTalon = value,
+      );
+    } catch (e) {
+      print('Exception caught loading $_blackTalonFile: $e');
+    }
+    try {
+      await _loadUnits(_capriceFile).then(
+        (value) => this._caprice = value,
+      );
+    } catch (e) {
+      print('Exception caught loading $_capriceFile: $e');
+    }
+    try {
+      await _loadUnits(_cefFile).then(
+        (value) => this._cef = value,
+      );
+    } catch (e) {
+      print('Exception caught loading $_cefFile: $e');
+    }
+    try {
+      await _loadUnits(_edenFile).then(
+        (value) => this._eden = value,
+      );
+    } catch (e) {
+      print('Exception caught loading $_edenFile: $e');
+    }
+    try {
+      await _loadUnits(_nucoalFile).then(
+        (value) => this._nucoal = value,
+      );
+    } catch (e) {
+      print('Exception caught loading $_nucoalFile: $e');
+    }
+    try {
+      await _loadUnits(_terrainFile).then(
+        (value) => this._terrain = value,
+      );
+    } catch (e) {
+      print('Exception caught loading $_terrainFile: $e');
+    }
+    try {
+      await _loadUnits(_universalFile).then(
+        (value) => this._universal = value,
+      );
+    } catch (e) {
+      print('Exception caught loading $_universalFile: $e');
+    }
+
+    try {
+      await _loadUnits(_utopiaFile).then(
+        (value) => this._utopia = value,
+      );
+    } catch (e) {
+      print('Exception caught loading $_utopiaFile: $e');
+    }
+    try {
+      await _loadUnits(_peaceRiverFile).then(
+        (value) => this._peaceRiver = value,
+      );
+    } catch (e) {
+      print('Exception caught loading $_peaceRiverFile: $e');
+    }
   }
 
   Future<List<Faction>> _loadFactions() async {

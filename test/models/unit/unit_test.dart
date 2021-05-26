@@ -4,7 +4,7 @@ import 'package:test/test.dart';
 import 'package:gearforce/models/unit/unit.dart';
 
 const validUnitJSON =
-    '{"model":"Hunter","tv":6,"role":"GP,SK,FS","mr":"W/G:6","arm":6,"h/s":"4/2","a":1,"gu":4,"pi":4,"ew":6,"react-weapons":["LAC","LVB"],"mounted-weapons":["LRP","LAPGL","LPZ"],"traits":["Hands"],"type":"Gear", "height":"1.5"}';
+    '{"model":"Hunter","tv":6,"role":"GP, SK,FS","mr":"W/G:6","arm":6,"h/s":"4/2","a":1,"gu":"4+","pi":"4+","ew":"6+","react-weapons":"LAC,LVB","mounted-weapons":"LRP,LAPGL,LPZ","traits":"Hands","type":"Gear", "height":1.5}';
 
 void main() {
   test('test creating a unit from a valid json', () {

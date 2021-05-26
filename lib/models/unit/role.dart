@@ -46,7 +46,7 @@ class Roles {
   factory Roles.fromJson(dynamic json) {
     List<Role> r = [];
     json.toString().split(",").forEach((element) {
-      r.add(Role.fromJson(element));
+      r.add(Role.fromJson(element.trim()));
     });
     return Roles(
       roles: r,

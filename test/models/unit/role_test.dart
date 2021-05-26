@@ -5,7 +5,7 @@ import 'package:test/test.dart';
 
 const validUnlimitedRoleJSON = '"GP+"';
 const validRoleJSON = '"SK"';
-const validRolesJSON = '"SK,GP"';
+const validRolesJSON = '"SK, GP"';
 
 void main() {
   test('test creating a role from a valid json', () {

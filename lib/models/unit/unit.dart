@@ -60,19 +60,25 @@ class Unit {
         name: json['model'] as String,
         tv: json['tv'] as int,
         role: Roles.fromJson(json['role']),
-        movement: Movement.fromJson(json['mr']),
+        movement: json['mr'].toString() == '-'
+            ? Movement(type: '-', rate: 0)
+            : Movement.fromJson(json['mr']),
         armor: json['arm'] as int,
         hull: int.parse(json['h/s'].toString().split("/").first),
         structure: int.parse(json['h/s'].toString().split("/").last),
         actions: json['a'] as int,
-        gunnery: json['gu'] as int,
-        piloting: json['pi'] as int,
-        ew: json['ew'] as int,
-        reactWeapons: List.from(json['react-weapons']),
-        mountedWeapons: List.from(json['mounted-weapons']),
-        traits: List.from(json['traits']),
+        gunnery: int.parse(json['gu'].toString().substring(0, 1)),
+        piloting: int.parse(json['pi'].toString().substring(0, 1)),
+        ew: int.parse(json['ew'].toString().substring(0, 1)),
+        reactWeapons: json['react-weapons'] == '-'
+            ? []
+            : List.from(json['react-weapons'].toString().split(',')),
+        mountedWeapons: json['mounted-weapons'] == '-'
+            ? []
+            : List.from(json['mounted-weapons'].toString().split(',')),
+        traits: List.from(json['traits'].toString().split(',')),
         type: json['type'],
-        height: json['height'],
+        height: json['height'].toString(),
       );
 
   @override
