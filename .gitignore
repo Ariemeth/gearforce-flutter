@@ -48,3 +48,4 @@ app.*.map.json
 /debug
 
 /gearforce-web
+/gearforce-flutter.exe
