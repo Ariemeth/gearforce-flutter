@@ -42,7 +42,7 @@ jobs:
           
           VERSION="$VERSION,sha"
 
-          echo "::set-output VERSION::$VERSION"            
+          echo "::set-output name=VERSION::$VERSION"            
         
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
