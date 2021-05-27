@@ -102,4 +102,4 @@ jobs:
           cpu: 1
           memory: 0.5
           ports: 80 443
-          restart-policy: On failure
+          restart-policy: OnFailure
