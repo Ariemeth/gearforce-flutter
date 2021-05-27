@@ -95,7 +95,7 @@ jobs:
         uses: 'azure/aci-deploy@v1'
         with:
           resource-group: ${{ secrets.AZURE_RESOURCE_GROUP }}
-          dns-name-label: ${{ secrets.AZURE_RESOURCE_GROUP }}${{ github.run_number }}
+          dns-name-label: ${{ secrets.AZURE_RESOURCE_GROUP }}
           image: edwardcarmack/gearforce-web:${{ github.sha }}
           name: gearforce-web
           location: 'east us'
