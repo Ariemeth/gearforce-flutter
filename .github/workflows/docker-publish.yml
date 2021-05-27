@@ -45,10 +45,10 @@ jobs:
           echo "::set-output name=IMAGE_TAGS::$IMAGE_TAGS"            
 
       # Set up Flutter.
-      - name: Clone Flutter repository with master channel
+      - name: Clone Flutter repository with stable channel
         uses: subosito/flutter-action@v1.5.0
         with:
-          channel: master
+          channel: stable
       - run: flutter doctor -v
 
       # Checkout code and get packages.
@@ -102,4 +102,3 @@ jobs:
           cpu: 1
           memory: 0.5
           ports: 80 443
-          restart-policy: 'OnFailure'
