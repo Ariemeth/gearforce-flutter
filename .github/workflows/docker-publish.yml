@@ -99,3 +99,7 @@ jobs:
           image: edwardcarmack/gearforce-web:${{ github.sha }}
           name: gearforce-web
           location: 'east us'
+          cpu: 1
+          memory: 0.5
+          ports: 80 443
+          restart-policy: On failure
