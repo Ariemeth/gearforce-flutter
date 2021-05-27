@@ -40,10 +40,32 @@ jobs:
           # Use Docker `latest` tag convention
           [ "$VERSION" == "main" ] && VERSION=latest
           
-          VERSION="$IMAGE_NAME:$VERSION,$IMAGE_NAME:sha"
+          IMAGE_TAGS="$IMAGE_NAME:$VERSION,$IMAGE_NAME:${{ github.sha }}"
 
-          echo "::set-output name=VERSION::$VERSION"            
-        
+          echo "::set-output name=IMAGE_TAGS::$IMAGE_TAGS"            
+
+      # Set up Flutter.
+      - name: Clone Flutter repository with master channel
+        uses: subosito/flutter-action@v1.5.0
+        with:
+          channel: master
+      - run: flutter doctor -v
+
+      # Checkout code and get packages.
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - run: flutter pub get
+
+      # Analyze, check formatting, and run unit tests.
+      - run: flutter analyze
+      - name: Ensure the Dart code is formatted correctly
+        run: flutter format --set-exit-if-changed --dry-run .
+      - name: Run Flutter unit tests
+        run: flutter test
+
+      - name: Build Flutter web
+        run: flutter build web --release --build-number ${{GITHUB_RUN_NUMBER}}
+
       - name: 'Set up QEMU'
         uses: docker/setup-qemu-action@v1
         
@@ -62,7 +84,7 @@ jobs:
           context: .
           push: true
           target: release
-          tags: ${{ steps.gather-variables.outputs.VERSION }}
+          tags: ${{ steps.gather-variables.outputs.IMAGE_TAGS }}
       
       - name: 'Login via Azure CLI'
         uses: azure/login@v1
@@ -74,9 +96,6 @@ jobs:
         with:
           resource-group: ${{ secrets.AZURE_RESOURCE_GROUP }}
           dns-name-label: ${{ secrets.AZURE_RESOURCE_GROUP }}${{ github.run_number }}
-          image: ${{ secrets.REGISTRY_LOGIN_SERVER }}/sampleapp:${{ github.sha }}
-          registry-login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
-          registry-username: ${{ secrets.REGISTRY_USERNAME }}
-          registry-password: ${{ secrets.REGISTRY_PASSWORD }}
-          name: aci-sampleapp
-          location: 'west us'
+          image: edwardcarmack/gearforce-web:${{ github.sha }}
+          name: gearforce-web
+          location: 'east us'
