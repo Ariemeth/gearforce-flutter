@@ -21,11 +21,8 @@ jobs:
   # See also https://docs.docker.com/docker-hub/builds/
   push:
     runs-on: ubuntu-latest
-    if: github.event_name == 'push'
-
-    permissions:
-      contents: read
-      packages: write
+   # temporary disable to force this action to run for testing
+    #if: github.event_name == 'push'
 
     steps:
       - name: Checkout
