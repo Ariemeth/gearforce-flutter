@@ -96,8 +96,8 @@ jobs:
           resource-group: ${{ secrets.AZURE_RESOURCE_GROUP }}
           dns-name-label: ${{ secrets.AZURE_RESOURCE_GROUP }}
           image: edwardcarmack/gearforce-web:${{ github.sha }}
-          name: gearforce-web
+          name: ${{ secrets.AZURE_CONTAINER_INSTANCE }}
           location: 'east us'
-          cpu: 1
+          cpu: 0.5
           memory: 0.5
           ports: 80 443
