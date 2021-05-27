@@ -257,7 +257,8 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
             style: TextStyle(fontSize: 24, color: Colors.red),
           ),
         ),
-        SimpleDialogOption(
+/*        SimpleDialogOption(
+          
           onPressed: () {
             Navigator.pop(context, OptionResult.Upgrade);
           },
@@ -266,6 +267,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
             style: TextStyle(fontSize: 24, color: Colors.green),
           ),
         ),
+*/
         SimpleDialogOption(
           onPressed: () {
             Navigator.pop(context, OptionResult.Cancel);
