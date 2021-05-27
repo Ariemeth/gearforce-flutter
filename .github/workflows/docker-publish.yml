@@ -64,7 +64,7 @@ jobs:
         run: flutter test
 
       - name: Build Flutter web
-        run: flutter build web --release --build-number $GITHUB_RUN_NUMBER
+        run: flutter build web --release
 
       - name: 'Set up QEMU'
         uses: docker/setup-qemu-action@v1
