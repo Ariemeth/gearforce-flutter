@@ -2,6 +2,7 @@ package main
 
 import (
 	"embed"
+	"errors"
 	"flag"
 	"fmt"
 	"io/fs"
@@ -14,7 +15,8 @@ const (
 	flagUseLocal = "local"
 	flagPort     = "port"
 
-	webPath = "build/web"
+	webPath     = "build/web"
+	storagePath = "shared"
 
 	defaultPort  = 80
 	defaultLocal = false
@@ -33,6 +35,12 @@ func main() {
 
 	log.Printf("-%s: %d", flagPort, port)
 	log.Printf("-%s: %t", flagUseLocal, useLocal)
+
+	if _, err := os.Stat(storagePath); errors.Is(err, os.ErrNotExist) {
+		log.Printf("Storage path [%s] not found", storagePath)
+	} else {
+		log.Printf("Storage path [%s] found", storagePath)
+	}
 
 	http.Handle("/", logWrapper(http.FileServer(getFileSystem(useLocal, webPath))))
 	reason := http.ListenAndServe(fmt.Sprintf(":%d", port), nil)
