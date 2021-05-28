@@ -5,6 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"io/fs"
+	"log"
 	"net/http"
 	"os"
 )
@@ -23,27 +24,51 @@ const (
 var embeddedWeb embed.FS
 
 func main() {
-	port := flag.Int(flagPort, defaultPort, "port to host the site")
-	useLocal := flag.Bool(flagUseLocal, defaultLocal, "true to use the local file system instead of the embedded files")
+	var port int
+	flag.IntVar(&port, flagPort, defaultPort, "port to host the site")
+	var useLocal bool
+	flag.BoolVar(&useLocal, flagUseLocal, defaultLocal, "true to use the local file system instead of the embedded files")
 
 	flag.Parse()
 
-	fmt.Printf("-%s: %d\n", flagPort, *port)
-	fmt.Printf("-%s: %t\n", flagUseLocal, *useLocal)
+	log.Printf("-%s: %d", flagPort, port)
+	log.Printf("-%s: %t", flagUseLocal, useLocal)
 
-	http.Handle("/", http.FileServer(getFileSystem(*useLocal)))
-	reason := http.ListenAndServe(fmt.Sprintf(":%d", *port), nil)
-	fmt.Printf("Server shutdown, reason: %v\n", reason)
+	http.Handle("/", logWrapper(http.FileServer(getFileSystem(useLocal, webPath))))
+	reason := http.ListenAndServe(fmt.Sprintf(":%d", port), nil)
+	log.Printf("Server shutdown, reason: %v", reason)
 }
 
-func getFileSystem(useLocal bool) http.FileSystem {
+// logWrapper wraps the http handler from the FileServer to log information
+// about the request.
+func logWrapper(h http.Handler) http.Handler {
+
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		log.Printf("%s requested %s", getIP(r), r.URL.Path)
+		h.ServeHTTP(w, r)
+	})
+}
+
+// getIP returns the IP address of the http.Request. If the request has a
+// X-FORWARDED-FOR header that value is used over the RemoteAddr.
+func getIP(r *http.Request) string {
+	// check if the IP was forwarded
+	if f := r.Header.Get("X-FORWARDED-FOR"); f != "" {
+		return f
+	}
+	return r.RemoteAddr
+}
+
+// getFileSystem returns the a FileSystem to use, either the embedded
+// filesystem or the local FileSystem.
+func getFileSystem(useLocal bool, path string) http.FileSystem {
 	if useLocal {
-		fmt.Println("using local file system")
-		return http.FS(os.DirFS(webPath))
+		log.Println("using local file system")
+		return http.FS(os.DirFS(path))
 	}
 
-	fmt.Println("using embed file system")
-	fsys, err := fs.Sub(embeddedWeb, webPath)
+	log.Println("using embedded file system")
+	fsys, err := fs.Sub(embeddedWeb, path)
 	if err != nil {
 		panic(err)
 	}
