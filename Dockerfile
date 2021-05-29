@@ -20,6 +20,7 @@ LABEL author="Edward Carmack"
 
 WORKDIR /srv
 
+COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
 COPY --from=builder build/gearforce-web .
 
 EXPOSE 80 443

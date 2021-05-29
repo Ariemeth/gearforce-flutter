@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"crypto/tls"
 	"embed"
 	"errors"
@@ -12,6 +11,7 @@ import (
 	"net/http"
 	"os"
 	"strconv"
+	"strings"
 	"time"
 
 	"golang.org/x/crypto/acme/autocert"
@@ -41,7 +41,7 @@ var embeddedWeb embed.FS
 
 type config struct {
 	port     int
-	host     string
+	host     []string
 	useLocal bool
 	isDev    bool
 }
@@ -58,10 +58,14 @@ func main() {
 
 	handler := logWrapper(http.FileServer(getFileSystem(config.useLocal, webPath)))
 
-	var m *autocert.Manager
+	m := &autocert.Manager{
+		Prompt:     autocert.AcceptTOS,
+		HostPolicy: autocert.HostWhitelist(config.host...),
+		Cache:      autocert.DirCache(storagePath),
+	}
 
 	if !config.isDev {
-		if err := runProdServer(m, handler, config.port, config.host, storagePath); err != nil {
+		if err := runProdServer(m, handler); err != nil {
 			log.Fatalf("Shutting down, unable to start secure server: %v", err)
 		}
 	}
@@ -84,18 +88,7 @@ func main() {
 	log.Printf("Server shutdown, reason: %v", err)
 }
 
-func runProdServer(m *autocert.Manager, h http.Handler, port int, allowedHost, dataDir string) error {
-	hostPolicy := func(ctx context.Context, host string) error {
-		if host == allowedHost {
-			return nil
-		}
-		return fmt.Errorf("acme/autocert: only %s host is allowed", allowedHost)
-	}
-	m = &autocert.Manager{
-		Prompt:     autocert.AcceptTOS,
-		HostPolicy: hostPolicy,
-		Cache:      autocert.DirCache(dataDir),
-	}
+func runProdServer(m *autocert.Manager, h http.Handler) error {
 
 	httpsSrv := makeHTTPServer(h)
 	httpsSrv.Addr = ":443"
@@ -115,7 +108,6 @@ func runProdServer(m *autocert.Manager, h http.Handler, port int, allowedHost, d
 func getConfig() config {
 	c := config{
 		port:     defaultPort,
-		host:     defaultHost,
 		useLocal: defaultLocal,
 		isDev:    defaultIsDev,
 	}
@@ -125,7 +117,9 @@ func getConfig() config {
 		c.port, _ = strconv.Atoi(port)
 	}
 	if host, exists := os.LookupEnv(envHostURL); exists {
-		c.host = host
+		if host != "" {
+			c.host = append(c.host, strings.Split(host, ",")...)
+		}
 	}
 	if _, exists := os.LookupEnv(envUseLocal); exists {
 		c.useLocal = true
@@ -136,17 +130,22 @@ func getConfig() config {
 
 	flag.IntVar(&c.port, flagPort, c.port, "port to host the site")
 	flag.BoolVar(&c.useLocal, flagUseLocal, c.useLocal, "true to use the local file system instead of the embedded files")
-	flag.StringVar(&c.host, flagHostURL, c.host, "host address to use when acquiring a certificate")
+	var host string
+	flag.StringVar(&host, flagHostURL, "", "comma seperated host addresses to use when acquiring a certificate")
 	flag.BoolVar(&c.isDev, flagIsDev, c.isDev, "run in production mode, this will require a host url")
 
 	flag.Parse()
 
+	if host != "" {
+		c.host = append(c.host, strings.Split(host, ",")...)
+	}
+
 	log.Printf("-%s or %s: %d", flagPort, envPort, c.port)
 	log.Printf("-%s or %s: %t", flagUseLocal, envUseLocal, c.useLocal)
-	log.Printf("-%s or %s: %s", flagHostURL, envHostURL, c.host)
+	log.Printf("-%s or %s: %v", flagHostURL, envHostURL, c.host)
 	log.Printf("-%s or %s: %t", flagIsDev, envIsDEV, c.isDev)
 
-	if !c.isDev && c.host == "" {
+	if !c.isDev && len(c.host) <= 0 {
 		log.Fatal("Cannot run in production mode without a host url")
 	}
 
@@ -189,17 +188,20 @@ func getFileSystem(useLocal bool, path string) http.FileSystem {
 	return http.FS(fsys)
 }
 
+// makeServerFromMux creates a http server with the specified mux.
 func makeServerFromMux(mux *http.ServeMux) *http.Server {
-	// set timeouts so that a slow or malicious client doesn't
-	// hold resources forever
+	// Set timeouts so that a slow or malicious client doesn't
+	// hold resources forever.
 	return &http.Server{
-		ReadTimeout:  5 * time.Second,
-		WriteTimeout: 5 * time.Second,
+		ReadTimeout:  10 * time.Second,
+		WriteTimeout: 10 * time.Second,
 		IdleTimeout:  120 * time.Second,
 		Handler:      mux,
 	}
 }
 
+// makeHTTPServer creates a http server setting the passed in handler.
+// as root '/'
 func makeHTTPServer(h http.Handler) *http.Server {
 	mux := &http.ServeMux{}
 	mux.HandleFunc("/", h.ServeHTTP)
@@ -207,9 +209,11 @@ func makeHTTPServer(h http.Handler) *http.Server {
 
 }
 
+// makeHTTPToHTTPSRedirectServer creates a port 80 to 443 redirect handler.
 func makeHTTPToHTTPSRedirectServer() *http.Server {
 	handleRedirect := func(w http.ResponseWriter, r *http.Request) {
 		newURI := "https://" + r.Host + r.URL.String()
+		log.Printf("Redirecting %s%s to %s", r.Host, r.URL.String(), newURI)
 		http.Redirect(w, r, newURI, http.StatusFound)
 	}
 	mux := &http.ServeMux{}
