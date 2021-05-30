@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:test/test.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
 
@@ -10,7 +9,7 @@ const validUnitJSONWithDashes =
     '{"model":"Hunter","tv":6,"role":"N/A","mr":"-","arm":"-","h/s":"-","a":"-","gu":"-","pi":"-","ew":"-","react-weapons":"-","mounted-weapons":"-","traits":"Hands","type":"Gear", "height":1.5}';
 
 void main() {
-  test('test creating a unit from a valid json', () {
+  test('test creating a unitcore from a valid json', () {
     final fromJson = UnitCore.fromJson(json.decode(validUnitJSON));
 
     expect(fromJson.name, equals('Hunter'), reason: "Name check");
@@ -35,7 +34,7 @@ void main() {
     expect(fromJson.height, equals('1.5'), reason: "Height check");
   });
 
-  test('test creating a unit from a valid json with dash values', () {
+  test('test creating a unitcore from a valid json with dash values', () {
     final fromJson = UnitCore.fromJson(json.decode(validUnitJSONWithDashes));
 
     expect(fromJson.name, equals('Hunter'), reason: "Name check");
