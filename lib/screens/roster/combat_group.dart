@@ -14,6 +14,7 @@ import 'package:table_sticky_headers/table_sticky_headers.dart';
 
 const _numColumns = 14;
 const _maxPrimaryActions = 6;
+const _minPrimaryActions = 4;
 
 class CombatGroupWidget extends StatefulWidget {
   CombatGroupWidget(this.data, this.roster, {required this.name});
@@ -139,7 +140,9 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
             text: 'Actions',
             value: actions,
             textColor: isPrimary
-                ? actions > _maxPrimaryActions
+                // a cg is only valid if the number of actions is greater then 4 and
+                // less then or equal to 6
+                ? actions > _maxPrimaryActions || actions < _minPrimaryActions
                     ? Colors.red
                     : Colors.black
                 : actions >
