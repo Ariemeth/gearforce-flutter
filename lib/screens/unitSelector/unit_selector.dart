@@ -34,9 +34,7 @@ class _UnitSelectorState extends State<UnitSelector> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title!),
       ),
-      body: InteractiveViewer(
-        child: _generateTable(context, widget.faction),
-      ),
+      body: _generateTable(context, widget.faction),
     );
   }
 
