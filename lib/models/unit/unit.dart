@@ -93,7 +93,10 @@ class Unit {
 
   @override
   String toString() {
+    var r = this.role == null ? 'N/A' : '${this.role}';
+    var m = this.movement == null ? '-' : '${this.movement}';
     var a = this.actions == null ? '-' : '${this.actions}';
+    var ar = this.armor == null ? '-' : '${this.armor}';
     var g = this.gunnery == null ? '-' : '${this.gunnery}+';
     var p = this.piloting == null ? '-' : '${this.piloting}+';
     var e = this.ew == null ? '-' : '${this.ew}+';
@@ -103,9 +106,9 @@ class Unit {
     return "Unit: " +
         "{Name: ${this.name} " +
         "TV: ${this.tv} " +
-        "Role: ${this.role} " +
-        "MR: ${this.movement} " +
-        "ARM: ${this.armor} " +
+        "Role: $r " +
+        "MR: $m " +
+        "ARM: $ar " +
         "H/S: $hs " +
         "A: $a " +
         "GU: $g " +

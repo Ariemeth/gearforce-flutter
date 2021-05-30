@@ -7,7 +7,7 @@ const validUnitJSON =
     '{"model":"Hunter","tv":6,"role":"GP, SK,FS","mr":"W/G:6","arm":6,"h/s":"4/2","a":1,"gu":"4+","pi":"4+","ew":"6+","react-weapons":"LAC,LVB","mounted-weapons":"LRP,LAPGL,LPZ","traits":"Hands","type":"Gear", "height":1.5}';
 
 const validUnitJSONWithDashes =
-    '{"model":"Hunter","tv":6,"role":"N/A","mr":"-","arm":6,"h/s":"-","a":"-","gu":"-","pi":"-","ew":"-","react-weapons":"-","mounted-weapons":"-","traits":"Hands","type":"Gear", "height":1.5}';
+    '{"model":"Hunter","tv":6,"role":"N/A","mr":"-","arm":"-","h/s":"-","a":"-","gu":"-","pi":"-","ew":"-","react-weapons":"-","mounted-weapons":"-","traits":"Hands","type":"Gear", "height":1.5}';
 
 void main() {
   test('test creating a unit from a valid json', () {
@@ -42,7 +42,7 @@ void main() {
     expect(fromJson.tv, equals(6), reason: "TV check");
     expect(fromJson.role, equals(null), reason: "Role check");
     expect(fromJson.movement, equals(null), reason: "Movement type check");
-    expect(fromJson.armor, equals(6), reason: "Armor check");
+    expect(fromJson.armor, equals(null), reason: "Armor check");
     expect(fromJson.hull, equals(null), reason: "Hull check");
     expect(fromJson.structure, equals(null), reason: "Structure check");
     expect(fromJson.actions, equals(null), reason: "Actions check");
