@@ -5,7 +5,7 @@ import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/combatGroups/group.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/unit/role.dart';
-import 'package:gearforce/models/unit/unit.dart';
+import 'package:gearforce/models/unit/unit_core.dart';
 import 'package:gearforce/screens/roster/select_role.dart';
 import 'package:gearforce/screens/unitSelector/unit_selector.dart';
 import 'package:gearforce/widgets/display_value.dart';
@@ -84,7 +84,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
       ),
     );
 
-    if (result is Unit) {
+    if (result is UnitCore) {
       this._addUnit(result, isPrimary: isPrimary);
     }
   }
@@ -158,7 +158,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
 
   Widget _generateTable({
     required BuildContext context,
-    required List<Unit> units,
+    required List<UnitCore> units,
     required bool isPrimary,
   }) {
     var table = StickyHeadersTable(
@@ -182,7 +182,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
     return buildUnitTitleCell(i);
   }
 
-  Widget Function(int) _buildRowTitles(List<Unit> units) {
+  Widget Function(int) _buildRowTitles(List<UnitCore> units) {
     return (int i) {
       return UnitTextCell.content(
         units[i].name,
@@ -193,16 +193,16 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
     };
   }
 
-  Widget Function(int, int) _buildCellContent(List<Unit> units) {
+  Widget Function(int, int) _buildCellContent(List<UnitCore> units) {
     return (int i, int j) {
-      Unit unit = units[j];
+      UnitCore unit = units[j];
       return buildUnitCell(i, j, unit);
     };
   }
 
   dynamic Function(int, int) _contentPressed(
     BuildContext context,
-    List<Unit> units,
+    List<UnitCore> units,
     bool isPrimary,
   ) {
     return (int i, int j) {
@@ -212,7 +212,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
 
   dynamic Function(int) _rowTitlePressed(
     BuildContext context,
-    List<Unit> units,
+    List<UnitCore> units,
     bool isPrimary,
   ) {
     return (int i) {
@@ -225,7 +225,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
     };
   }
 
-  void _addUnit(Unit unit, {required bool isPrimary}) {
+  void _addUnit(UnitCore unit, {required bool isPrimary}) {
     setState(() {
       if (isPrimary) {
         widget.getOwnCG().primary.addUnit(unit);
@@ -241,7 +241,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
 
   void _showUnitOptionsDialog(
     BuildContext context,
-    Unit unit,
+    UnitCore unit,
     int unitIndex,
     bool isPrimary,
   ) {

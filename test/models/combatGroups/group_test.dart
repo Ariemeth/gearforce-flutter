@@ -1,6 +1,6 @@
 import 'package:gearforce/models/combatGroups/group.dart';
 import 'package:gearforce/models/unit/role.dart';
-import 'package:gearforce/models/unit/unit.dart';
+import 'package:gearforce/models/unit/unit_core.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -19,7 +19,7 @@ void main() {
   });
 
   test('create Group with role and units being reset', () {
-    var g = Group(role: RoleType.GP)..addUnit(Unit.test());
+    var g = Group(role: RoleType.GP)..addUnit(UnitCore.test());
     expect(g.role, isNotNull, reason: 'role notifer');
     expect(g.role.value, equals(RoleType.GP), reason: 'check group name');
     expect(g.allUnits().length, equals(1), reason: 'should be 1 unit');
@@ -38,12 +38,12 @@ void main() {
   });
 
   test('test totalActions with added unit', () {
-    var g = Group(role: null)..addUnit(Unit.test());
+    var g = Group(role: null)..addUnit(UnitCore.test());
     expect(g.totalActions(), equals(1), reason: 'check total actions');
   });
 
   test('test totalActions with 2 added units', () {
-    var g = Group(role: null)..addUnit(Unit.test())..addUnit(Unit.test());
+    var g = Group(role: null)..addUnit(UnitCore.test())..addUnit(UnitCore.test());
     expect(g.totalActions(), equals(2), reason: 'check total actions');
   });
 }

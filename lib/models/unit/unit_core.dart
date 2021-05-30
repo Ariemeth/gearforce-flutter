@@ -1,8 +1,8 @@
 import 'package:gearforce/models/unit/movement.dart';
 import 'package:gearforce/models/unit/role.dart';
 
-class Unit {
-  const Unit({
+class UnitCore {
+  const UnitCore({
     required this.name,
     required this.tv,
     required this.role,
@@ -37,7 +37,7 @@ class Unit {
   final String type;
   final String height;
 
-  const Unit.test({
+  const UnitCore.test({
     this.name = 'test',
     this.tv = 5,
     this.role = const Roles(roles: [Role(name: RoleType.GP)]),
@@ -56,7 +56,7 @@ class Unit {
     this.height = '1.5',
   });
 
-  factory Unit.fromJson(dynamic json) => Unit(
+  factory UnitCore.fromJson(dynamic json) => UnitCore(
         name: json['model'] as String,
         tv: json['tv'] as int,
         role: json['role'] == 'N/A' || json['role'] == '-'
@@ -103,7 +103,7 @@ class Unit {
     var h = this.hull == null ? '-' : '${this.hull}';
     var s = this.structure == null ? '-' : '${this.structure}';
     var hs = h == '-' && s == '-' ? '-' : '$h/$s';
-    return "Unit: " +
+    return "UnitCore: " +
         "{Name: ${this.name} " +
         "TV: ${this.tv} " +
         "Role: $r " +

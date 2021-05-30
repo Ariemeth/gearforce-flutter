@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:test/test.dart';
-import 'package:gearforce/models/unit/unit.dart';
+import 'package:gearforce/models/unit/unit_core.dart';
 
 const validUnitJSON =
     '{"model":"Hunter","tv":6,"role":"GP, SK,FS","mr":"W/G:6","arm":6,"h/s":"4/2","a":1,"gu":"4+","pi":"4+","ew":"6+","react-weapons":"LAC,LVB","mounted-weapons":"LRP,LAPGL,LPZ","traits":"Hands","type":"Gear", "height":1.5}';
@@ -11,7 +11,7 @@ const validUnitJSONWithDashes =
 
 void main() {
   test('test creating a unit from a valid json', () {
-    final fromJson = Unit.fromJson(json.decode(validUnitJSON));
+    final fromJson = UnitCore.fromJson(json.decode(validUnitJSON));
 
     expect(fromJson.name, equals('Hunter'), reason: "Name check");
     expect(fromJson.tv, equals(6), reason: "TV check");
@@ -36,7 +36,7 @@ void main() {
   });
 
   test('test creating a unit from a valid json with dash values', () {
-    final fromJson = Unit.fromJson(json.decode(validUnitJSONWithDashes));
+    final fromJson = UnitCore.fromJson(json.decode(validUnitJSONWithDashes));
 
     expect(fromJson.name, equals('Hunter'), reason: "Name check");
     expect(fromJson.tv, equals(6), reason: "TV check");
@@ -58,6 +58,6 @@ void main() {
   });
 
   test('json string is empty', () {
-    expect(() => Unit.fromJson(''), throwsA(isA<TypeError>()));
+    expect(() => UnitCore.fromJson(''), throwsA(isA<TypeError>()));
   });
 }
