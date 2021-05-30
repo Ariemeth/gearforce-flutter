@@ -43,7 +43,9 @@ void main() {
   });
 
   test('test totalActions with 2 added units', () {
-    var g = Group(role: null)..addUnit(UnitCore.test())..addUnit(UnitCore.test());
+    var g = Group(role: null)
+      ..addUnit(UnitCore.test())
+      ..addUnit(UnitCore.test());
     expect(g.totalActions(), equals(2), reason: 'check total actions');
   });
 }
