@@ -44,7 +44,7 @@ class Group extends ChangeNotifier {
   int totalActions() {
     var total = 0;
     this._units.forEach((element) {
-      total += element.actions;
+      total += element.actions ?? 0;
     });
     return total;
   }

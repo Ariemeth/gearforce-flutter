@@ -22,15 +22,15 @@ class Unit {
   });
   final String name;
   final int tv;
-  final Roles role;
-  final Movement movement;
-  final int armor;
-  final int hull;
-  final int structure;
-  final int actions;
-  final int gunnery;
-  final int piloting;
-  final int ew;
+  final Roles? role;
+  final Movement? movement;
+  final int? armor;
+  final int? hull;
+  final int? structure;
+  final int? actions;
+  final int? gunnery;
+  final int? piloting;
+  final int? ew;
   final List<String> reactWeapons;
   final List<String> mountedWeapons;
   final List<String> traits;
@@ -59,17 +59,27 @@ class Unit {
   factory Unit.fromJson(dynamic json) => Unit(
         name: json['model'] as String,
         tv: json['tv'] as int,
-        role: Roles.fromJson(json['role']),
-        movement: json['mr'].toString() == '-'
-            ? Movement(type: '-', rate: 0)
-            : Movement.fromJson(json['mr']),
-        armor: json['arm'] as int,
-        hull: int.parse(json['h/s'].toString().split("/").first),
-        structure: int.parse(json['h/s'].toString().split("/").last),
-        actions: json['a'] as int,
-        gunnery: int.parse(json['gu'].toString().substring(0, 1)),
-        piloting: int.parse(json['pi'].toString().substring(0, 1)),
-        ew: int.parse(json['ew'].toString().substring(0, 1)),
+        role: json['role'] == 'N/A' || json['role'] == '-'
+            ? null
+            : Roles.fromJson(json['role']),
+        movement: json['mr'] == '-' ? null : Movement.fromJson(json['mr']),
+        armor: json['arm'] == '-' ? null : json['arm'] as int,
+        hull: json['h/s'] == '-'
+            ? null
+            : int.parse(json['h/s'].toString().split("/").first),
+        structure: json['h/s'] == '-'
+            ? null
+            : int.parse(json['h/s'].toString().split("/").last),
+        actions: json['a'] == '-' ? null : json['a'] as int,
+        gunnery: json['gu'].toString() == '-'
+            ? null
+            : int.parse(json['gu'].toString().substring(0, 1)),
+        piloting: json['pi'].toString() == '-'
+            ? null
+            : int.parse(json['pi'].toString().substring(0, 1)),
+        ew: json['ew'].toString() == '-'
+            ? null
+            : int.parse(json['ew'].toString().substring(0, 1)),
         reactWeapons: json['react-weapons'] == '-'
             ? []
             : List.from(json['react-weapons'].toString().split(',')),
@@ -83,17 +93,27 @@ class Unit {
 
   @override
   String toString() {
+    var r = this.role == null ? 'N/A' : '${this.role}';
+    var m = this.movement == null ? '-' : '${this.movement}';
+    var a = this.actions == null ? '-' : '${this.actions}';
+    var ar = this.armor == null ? '-' : '${this.armor}';
+    var g = this.gunnery == null ? '-' : '${this.gunnery}+';
+    var p = this.piloting == null ? '-' : '${this.piloting}+';
+    var e = this.ew == null ? '-' : '${this.ew}+';
+    var h = this.hull == null ? '-' : '${this.hull}';
+    var s = this.structure == null ? '-' : '${this.structure}';
+    var hs = h == '-' && s == '-' ? '-' : '$h/$s';
     return "Unit: " +
         "{Name: ${this.name} " +
         "TV: ${this.tv} " +
-        "Role: ${this.role} " +
-        "MR: ${this.movement} " +
-        "ARM: ${this.armor} " +
-        "H/S: ${this.hull}/${this.structure} " +
-        "A: ${this.actions} " +
-        "GU: ${this.gunnery}+ " +
-        "PI: ${this.piloting}+ " +
-        "EW: ${this.ew}+ " +
+        "Role: $r " +
+        "MR: $m " +
+        "ARM: $ar " +
+        "H/S: $hs " +
+        "A: $a " +
+        "GU: $g " +
+        "PI: $p " +
+        "EW: $e " +
         "React Weapons: ${this.reactWeapons} " +
         "Mounted Weapons: ${this.mountedWeapons} " +
         "Traits: ${this.traits} " +

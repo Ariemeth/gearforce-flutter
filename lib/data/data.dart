@@ -77,7 +77,7 @@ class Data {
     return role == null
         ? factionUnit
         : factionUnit.where((element) {
-            return element.role.includesRole(role);
+            return element.role!.includesRole(role);
           }).toList();
   }
 
