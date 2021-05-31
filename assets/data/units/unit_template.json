@@ -1,0 +1,36 @@
+[
+  {
+    "model": {
+      "name": "",
+      "manufacturer": "",
+      "unit type": "",
+      "height": "x meters / x ft",
+      "weight": "x kgs / x lbs",
+      "description": "TBD",
+      "upgrades": [
+        {
+          "name": "x"
+        }
+      ],
+      "variants": [
+        {
+          "model": "x",
+          "tv": 0,
+          "role": "x,y",
+          "mr": "x",
+          "arm": 0,
+          "h/s": "",
+          "a": 1,
+          "gu": "4+",
+          "pi": "4+",
+          "ew": "6+",
+          "react-weapons": "",
+          "mounted-weapons": "",
+          "traits": "",
+          "type": "",
+          "height": 1.5
+        }       
+      ]
+    }
+  }
+]
