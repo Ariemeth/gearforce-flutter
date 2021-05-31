@@ -1,6 +1,6 @@
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/roster/roster.dart';
-import 'package:gearforce/models/unit/unit.dart';
+import 'package:gearforce/models/unit/unit_core.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -23,8 +23,8 @@ void main() {
   test('add new cg', () {
     final roster = UnitRoster();
     final cg = CombatGroup('test1');
-    cg.primary.addUnit(Unit.test());
-    cg.secondary.addUnit(Unit.test());
+    cg.primary.addUnit(UnitCore.test());
+    cg.secondary.addUnit(UnitCore.test());
     roster.addCG(cg);
     expect(roster.totalTV(), equals(10),
         reason: 'check total tv equals both default units');

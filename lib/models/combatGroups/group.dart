@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:gearforce/models/unit/role.dart';
-import 'package:gearforce/models/unit/unit.dart';
+import 'package:gearforce/models/unit/unit_core.dart';
 
 class Group extends ChangeNotifier {
   final ValueNotifier<RoleType?> role = ValueNotifier(null);
-  final List<Unit> _units = [];
+  final List<UnitCore> _units = [];
 
   Group({RoleType? role}) {
     this.role.value = role;
   }
 
-  void addUnit(Unit unit) {
+  void addUnit(UnitCore unit) {
     _units.add(unit);
     notifyListeners();
   }
@@ -22,7 +22,7 @@ class Group extends ChangeNotifier {
     notifyListeners();
   }
 
-  List<Unit> allUnits() {
+  List<UnitCore> allUnits() {
     return _units.toList();
   }
 

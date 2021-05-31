@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/factions/faction.dart';
 import 'package:gearforce/models/unit/role.dart';
-import 'package:gearforce/models/unit/unit.dart';
+import 'package:gearforce/models/unit/unit_core.dart';
 import 'package:gearforce/widgets/unit_text_cell.dart';
 import 'package:provider/provider.dart';
 import 'package:table_sticky_headers/table_sticky_headers.dart';
@@ -90,21 +90,21 @@ class _UnitSelectorState extends State<UnitSelector> {
 
   Widget Function(int, int) _buildCellContent(Factions f, Data data) {
     return (int i, int j) {
-      Unit unit = data.unitList(f, role: widget.role)[j];
+      UnitCore unit = data.unitList(f, role: widget.role)[j];
       return buildUnitCell(i, j, unit);
     };
   }
 
   dynamic Function(int, int) _contentPressed(Factions f, Data data) {
     return (int i, int j) {
-      Unit unit = data.unitList(f, role: widget.role)[j];
+      UnitCore unit = data.unitList(f, role: widget.role)[j];
       Navigator.pop(context, unit);
     };
   }
 
   dynamic Function(int) _rowTitlePressed(Factions f, Data data) {
     return (int i) {
-      Unit unit = data.unitList(f, role: widget.role)[i];
+      UnitCore unit = data.unitList(f, role: widget.role)[i];
       Navigator.pop(context, unit);
     };
   }

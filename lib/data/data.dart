@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:gearforce/models/factions/faction.dart';
 import 'package:gearforce/models/unit/role.dart';
-import 'package:gearforce/models/unit/unit.dart';
+import 'package:gearforce/models/unit/unit_core.dart';
 
 const String _factionFile = 'assets/data/factions.json';
 
@@ -20,24 +20,24 @@ const String _southFile = 'assets/data/units/south.json';
 
 class Data {
   late List<Faction> _factions = [];
-  late List<Unit> _blackTalon = [];
-  late List<Unit> _caprice = [];
-  late List<Unit> _cef = [];
-  late List<Unit> _eden = [];
-  late List<Unit> _north = [];
-  late List<Unit> _nucoal = [];
-  late List<Unit> _terrain = [];
-  late List<Unit> _universal = [];
-  late List<Unit> _utopia = [];
-  late List<Unit> _peaceRiver = [];
-  late List<Unit> _south = [];
+  late List<UnitCore> _blackTalon = [];
+  late List<UnitCore> _caprice = [];
+  late List<UnitCore> _cef = [];
+  late List<UnitCore> _eden = [];
+  late List<UnitCore> _north = [];
+  late List<UnitCore> _nucoal = [];
+  late List<UnitCore> _terrain = [];
+  late List<UnitCore> _universal = [];
+  late List<UnitCore> _utopia = [];
+  late List<UnitCore> _peaceRiver = [];
+  late List<UnitCore> _south = [];
 
   List<Faction> factions() {
     return _factions;
   }
 
-  List<Unit> unitList(Factions f, {RoleType? role}) {
-    List<Unit> factionUnit;
+  List<UnitCore> unitList(Factions f, {RoleType? role}) {
+    List<UnitCore> factionUnit;
     switch (f) {
       case Factions.North:
         factionUnit = _north;
@@ -89,6 +89,7 @@ class Data {
     } catch (e) {
       print('Exception caught loading factions: $e');
     }
+
     try {
       await _loadUnits(_northFile).then(
         (value) => this._north = value,
@@ -96,6 +97,7 @@ class Data {
     } catch (e) {
       print('Exception caught loading $_northFile: $e');
     }
+
     try {
       await _loadUnits(_southFile).then(
         (value) => this._south = value,
@@ -103,6 +105,7 @@ class Data {
     } catch (e) {
       print('Exception caught loading $_southFile: $e');
     }
+
     try {
       await _loadUnits(_blackTalonFile).then(
         (value) => this._blackTalon = value,
@@ -110,6 +113,7 @@ class Data {
     } catch (e) {
       print('Exception caught loading $_blackTalonFile: $e');
     }
+
     try {
       await _loadUnits(_capriceFile).then(
         (value) => this._caprice = value,
@@ -117,6 +121,7 @@ class Data {
     } catch (e) {
       print('Exception caught loading $_capriceFile: $e');
     }
+
     try {
       await _loadUnits(_cefFile).then(
         (value) => this._cef = value,
@@ -124,6 +129,7 @@ class Data {
     } catch (e) {
       print('Exception caught loading $_cefFile: $e');
     }
+
     try {
       await _loadUnits(_edenFile).then(
         (value) => this._eden = value,
@@ -131,6 +137,7 @@ class Data {
     } catch (e) {
       print('Exception caught loading $_edenFile: $e');
     }
+
     try {
       await _loadUnits(_nucoalFile).then(
         (value) => this._nucoal = value,
@@ -138,6 +145,7 @@ class Data {
     } catch (e) {
       print('Exception caught loading $_nucoalFile: $e');
     }
+
     try {
       await _loadUnits(_terrainFile).then(
         (value) => this._terrain = value,
@@ -145,6 +153,7 @@ class Data {
     } catch (e) {
       print('Exception caught loading $_terrainFile: $e');
     }
+
     try {
       await _loadUnits(_universalFile).then(
         (value) => this._universal = value,
@@ -160,6 +169,7 @@ class Data {
     } catch (e) {
       print('Exception caught loading $_utopiaFile: $e');
     }
+
     try {
       await _loadUnits(_peaceRiverFile).then(
         (value) => this._peaceRiver = value,
@@ -175,9 +185,9 @@ class Data {
     return decodedData.map((f) => Faction.fromJson(f)).toList();
   }
 
-  Future<List<Unit>> _loadUnits(String filename) async {
+  Future<List<UnitCore>> _loadUnits(String filename) async {
     var jsonData = await rootBundle.loadString(filename);
     var decodedData = json.decode(jsonData) as List;
-    return decodedData.map((f) => Unit.fromJson(f)).toList();
+    return decodedData.map((f) => UnitCore.fromJson(f)).toList();
   }
 }

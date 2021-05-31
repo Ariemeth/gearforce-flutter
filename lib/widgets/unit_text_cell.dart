@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:gearforce/models/unit/unit.dart';
+import 'package:gearforce/models/unit/unit_core.dart';
 
 class UnitTextCell extends StatelessWidget {
   UnitTextCell.content(
@@ -105,7 +105,7 @@ Widget buildUnitTitleCell(int i) {
   );
 }
 
-Widget buildUnitCell(int column, int row, Unit unit) {
+Widget buildUnitCell(int column, int row, UnitCore unit) {
   String text = '';
 
   switch (column) {

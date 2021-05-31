@@ -1,7 +1,7 @@
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/unit/movement.dart';
 import 'package:gearforce/models/unit/role.dart';
-import 'package:gearforce/models/unit/unit.dart';
+import 'package:gearforce/models/unit/unit_core.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -48,8 +48,8 @@ void main() {
   });
 }
 
-Unit createDefaultUnit() {
-  return Unit(
+UnitCore createDefaultUnit() {
+  return UnitCore(
       name: 'test',
       tv: 5,
       role: Roles(roles: [Role(name: RoleType.GP)]),
