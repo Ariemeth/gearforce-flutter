@@ -8,7 +8,7 @@ class UnitTextCell extends StatelessWidget {
     this.textAlignment = TextAlign.center,
     this.backgroundColor,
     this.padding = const EdgeInsets.all(5),
-    this.textStyle = const TextStyle(fontSize: 16),
+    this.textStyle = const TextStyle(fontSize: 14),
     this.alignment = Alignment.center,
   });
 
@@ -17,7 +17,7 @@ class UnitTextCell extends StatelessWidget {
     this.textAlignment = TextAlign.center,
     this.backgroundColor,
     this.padding = const EdgeInsets.all(5),
-    this.textStyle = const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+    this.textStyle = const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
     this.alignment = Alignment.center,
   });
 
