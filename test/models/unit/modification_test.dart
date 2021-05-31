@@ -4,7 +4,7 @@ import 'package:test/test.dart';
 
 void main() {
   test('check default modification constructor', () {
-    final m = Modification(name: 'test');
+    final m = Modification(name: 'test', changes: Map());
     const testCDore = UnitCore.test();
 
     expect(m.name, equals('test'), reason: 'check name');
@@ -13,8 +13,11 @@ void main() {
   });
 
   test('check requirement check should be false', () {
-    final m =
-        Modification(name: 'test', requirementCheck: (UnitCore u) => false);
+    final m = Modification(
+      name: 'test',
+      requirementCheck: (UnitCore u) => false,
+      changes: Map(),
+    );
     const testCDore = UnitCore.test();
 
     expect(m.requirementCheck(testCDore), equals(false),

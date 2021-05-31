@@ -1,9 +1,12 @@
+import 'package:gearforce/models/unit/modification.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
 
 class Unit {
   Unit({
     required this.core,
   });
+
+  final UnitCore core;
 
   String name() {
     return this.core.name;
@@ -13,7 +16,7 @@ class Unit {
     return this.core.ew;
   }
 
-  final UnitCore core;
+  final List<Modification> mods = [];
 }
 
 enum UnitAttribute {
