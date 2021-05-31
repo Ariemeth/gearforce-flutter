@@ -89,6 +89,7 @@ class Data {
     } catch (e) {
       print('Exception caught loading factions: $e');
     }
+
     try {
       await _loadUnits(_northFile).then(
         (value) => this._north = value,
@@ -96,6 +97,7 @@ class Data {
     } catch (e) {
       print('Exception caught loading $_northFile: $e');
     }
+
     try {
       await _loadUnits(_southFile).then(
         (value) => this._south = value,
@@ -103,6 +105,7 @@ class Data {
     } catch (e) {
       print('Exception caught loading $_southFile: $e');
     }
+
     try {
       await _loadUnits(_blackTalonFile).then(
         (value) => this._blackTalon = value,
@@ -110,6 +113,7 @@ class Data {
     } catch (e) {
       print('Exception caught loading $_blackTalonFile: $e');
     }
+
     try {
       await _loadUnits(_capriceFile).then(
         (value) => this._caprice = value,
@@ -117,6 +121,7 @@ class Data {
     } catch (e) {
       print('Exception caught loading $_capriceFile: $e');
     }
+
     try {
       await _loadUnits(_cefFile).then(
         (value) => this._cef = value,
@@ -124,6 +129,7 @@ class Data {
     } catch (e) {
       print('Exception caught loading $_cefFile: $e');
     }
+
     try {
       await _loadUnits(_edenFile).then(
         (value) => this._eden = value,
@@ -131,6 +137,7 @@ class Data {
     } catch (e) {
       print('Exception caught loading $_edenFile: $e');
     }
+
     try {
       await _loadUnits(_nucoalFile).then(
         (value) => this._nucoal = value,
@@ -138,6 +145,7 @@ class Data {
     } catch (e) {
       print('Exception caught loading $_nucoalFile: $e');
     }
+
     try {
       await _loadUnits(_terrainFile).then(
         (value) => this._terrain = value,
@@ -145,6 +153,7 @@ class Data {
     } catch (e) {
       print('Exception caught loading $_terrainFile: $e');
     }
+
     try {
       await _loadUnits(_universalFile).then(
         (value) => this._universal = value,
@@ -160,6 +169,7 @@ class Data {
     } catch (e) {
       print('Exception caught loading $_utopiaFile: $e');
     }
+
     try {
       await _loadUnits(_peaceRiverFile).then(
         (value) => this._peaceRiver = value,
