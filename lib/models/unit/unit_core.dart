@@ -1,5 +1,6 @@
 import 'package:gearforce/models/unit/movement.dart';
 import 'package:gearforce/models/unit/role.dart';
+import 'package:gearforce/models/unit/unit_attribute.dart';
 
 class UnitCore {
   const UnitCore({
@@ -55,6 +56,43 @@ class UnitCore {
     this.type = 'gear',
     this.height = '1.5',
   });
+
+  dynamic attribute(UnitAttribute att) {
+    switch (att) {
+      case UnitAttribute.name:
+        return this.name;
+      case UnitAttribute.tv:
+        return this.tv;
+      case UnitAttribute.roles:
+        return this.role;
+      case UnitAttribute.movement:
+        return this.movement;
+      case UnitAttribute.armor:
+        return this.armor;
+      case UnitAttribute.hull:
+        return this.hull;
+      case UnitAttribute.structure:
+        return this.structure;
+      case UnitAttribute.actions:
+        return this.actions;
+      case UnitAttribute.gunnery:
+        return this.gunnery;
+      case UnitAttribute.piloting:
+        return this.piloting;
+      case UnitAttribute.ew:
+        return this.ew;
+      case UnitAttribute.react_weapons:
+        return this.reactWeapons;
+      case UnitAttribute.mounted_weapons:
+        return this.mountedWeapons;
+      case UnitAttribute.traits:
+        return this.traits;
+      case UnitAttribute.type:
+        return this.type;
+      case UnitAttribute.height:
+        return this.height;
+    }
+  }
 
   factory UnitCore.fromJson(dynamic json) => UnitCore(
         name: json['model'] as String,

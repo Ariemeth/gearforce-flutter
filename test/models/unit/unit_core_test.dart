@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:gearforce/models/unit/unit_attribute.dart';
 import 'package:test/test.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
 
@@ -54,6 +55,42 @@ void main() {
     expect(fromJson.traits, equals(['Hands']), reason: "Traits check");
     expect(fromJson.type, equals('Gear'), reason: "Unit type check");
     expect(fromJson.height, equals('1.5'), reason: "Height check");
+  });
+
+  test('test attribute function', () {
+    const tu = UnitCore.test();
+
+    expect(tu.attribute(UnitAttribute.name), equals(tu.name),
+        reason: "Name check");
+    expect(tu.attribute(UnitAttribute.tv), equals(tu.tv), reason: "TV check");
+    expect(tu.attribute(UnitAttribute.roles), equals(tu.role),
+        reason: "Role check");
+    expect(tu.attribute(UnitAttribute.movement), equals(tu.movement),
+        reason: "Movement type check");
+    expect(tu.attribute(UnitAttribute.armor), equals(tu.armor),
+        reason: "Armor check");
+    expect(tu.attribute(UnitAttribute.hull), equals(tu.hull),
+        reason: "Hull check");
+    expect(tu.attribute(UnitAttribute.structure), equals(tu.structure),
+        reason: "Structure check");
+    expect(tu.attribute(UnitAttribute.actions), equals(tu.actions),
+        reason: "Actions check");
+    expect(tu.attribute(UnitAttribute.gunnery), equals(tu.gunnery),
+        reason: "Gunnery check");
+    expect(tu.attribute(UnitAttribute.piloting), equals(tu.piloting),
+        reason: "Piloting check");
+    expect(tu.attribute(UnitAttribute.ew), equals(tu.ew), reason: "EW check");
+    expect(tu.attribute(UnitAttribute.react_weapons), equals(tu.reactWeapons),
+        reason: "React Weapons check");
+    expect(
+        tu.attribute(UnitAttribute.mounted_weapons), equals(tu.mountedWeapons),
+        reason: "Mounted Weapons check");
+    expect(tu.attribute(UnitAttribute.traits), equals(tu.traits),
+        reason: "Traits check");
+    expect(tu.attribute(UnitAttribute.type), equals(tu.type),
+        reason: "Unit type check");
+    expect(tu.attribute(UnitAttribute.height), equals(tu.height),
+        reason: "Height check");
   });
 
   test('json string is empty', () {

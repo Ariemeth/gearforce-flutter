@@ -1,4 +1,5 @@
 import 'package:gearforce/models/unit/modification.dart';
+import 'package:gearforce/models/unit/unit_attribute.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
 
 class Unit {
@@ -7,33 +8,21 @@ class Unit {
   });
 
   final UnitCore core;
+  final List<Modification> _unitMods = [];
 
-  String name() {
-    return this.core.name;
+  dynamic attribute(UnitAttribute att) {
+    var value = this.core.attribute(att);
+
+    for (var mod in this._unitMods) {
+      value = mod.applyMods(att, value);
+    }
+
+    return value;
   }
 
-  int? ew() {
-    return this.core.ew;
-  }
-
-  final List<Modification> mods = [];
-}
-
-enum UnitAttribute {
-  name,
-  tv,
-  roles,
-  movement,
-  armor,
-  hull,
-  structure,
-  actions,
-  gunnery,
-  piloting,
-  ew,
-  react_weapons,
-  mounted_weapons,
-  traits,
-  type,
-  height,
+  void addUnitMod(Modification mod) => _unitMods.add(mod);
+  void removeUnitMod(String modName) =>
+      _unitMods.removeWhere((mod) => mod.name == modName);
+  int numUnitMods() => _unitMods.length;
+  void clearUnitMods() => _unitMods.clear();
 }
