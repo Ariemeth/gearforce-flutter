@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:gearforce/models/factions/faction.dart';
+import 'package:gearforce/models/unit/frame.dart';
+import 'package:gearforce/models/unit/modification.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
 
@@ -24,7 +26,7 @@ class Data {
   late List<UnitCore> _caprice = [];
   late List<UnitCore> _cef = [];
   late List<UnitCore> _eden = [];
-  late List<UnitCore> _north = [];
+  late List<Frame> _north = [];
   late List<UnitCore> _nucoal = [];
   late List<UnitCore> _terrain = [];
   late List<UnitCore> _universal = [];
@@ -36,12 +38,26 @@ class Data {
     return _factions;
   }
 
+  List<Modification> availableUnitMods(Factions f, String frame) {
+    return f == Factions.North
+        ? _north.where((element) => element.name == frame).first.upgrades
+        : [];
+  }
+
   List<UnitCore> unitList(Factions f, {RoleType? role}) {
     List<UnitCore> factionUnit;
     switch (f) {
       case Factions.North:
-        factionUnit = _north;
-        break;
+        List<UnitCore> ulist = [];
+        _north.forEach((f) {
+          ulist.addAll(f.variants);
+        });
+        return role == null
+            ? ulist
+            : ulist
+                .where((element) => element.role!.includesRole(role))
+                .toList();
+
       case Factions.PeaceRiver:
         factionUnit = _peaceRiver;
         break;
@@ -91,7 +107,7 @@ class Data {
     }
 
     try {
-      await _loadUnits(_northFile).then(
+      await _loadFrames(_northFile).then(
         (value) => this._north = value,
       );
     } catch (e) {
@@ -189,5 +205,11 @@ class Data {
     var jsonData = await rootBundle.loadString(filename);
     var decodedData = json.decode(jsonData) as List;
     return decodedData.map((f) => UnitCore.fromJson(f)).toList();
+  }
+
+  Future<List<Frame>> _loadFrames(String filename) async {
+    var jsonData = await rootBundle.loadString(filename);
+    var decodedData = json.decode(jsonData)['frames'] as List;
+    return decodedData.map((f) => Frame.fromJson(f)).toList();
   }
 }
