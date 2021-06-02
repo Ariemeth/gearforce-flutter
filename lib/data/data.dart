@@ -31,8 +31,8 @@ class Data {
   late List<UnitCore> _terrain = [];
   late List<UnitCore> _universal = [];
   late List<UnitCore> _utopia = [];
-  late List<UnitCore> _peaceRiver = [];
-  late List<UnitCore> _south = [];
+  late List<Frame> _peaceRiver = [];
+  late List<Frame> _south = [];
 
   List<Faction> factions() {
     return _factions;
@@ -59,11 +59,25 @@ class Data {
                 .toList();
 
       case Factions.PeaceRiver:
-        factionUnit = _peaceRiver;
-        break;
+        List<UnitCore> ulist = [];
+        _peaceRiver.forEach((f) {
+          ulist.addAll(f.variants);
+        });
+        return role == null
+            ? ulist
+            : ulist
+                .where((element) => element.role!.includesRole(role))
+                .toList();
       case Factions.South:
-        factionUnit = _south;
-        break;
+        List<UnitCore> ulist = [];
+        _south.forEach((f) {
+          ulist.addAll(f.variants);
+        });
+        return role == null
+            ? ulist
+            : ulist
+                .where((element) => element.role!.includesRole(role))
+                .toList();
       case Factions.NuCoal:
         factionUnit = _nucoal;
         break;
@@ -115,7 +129,7 @@ class Data {
     }
 
     try {
-      await _loadUnits(_southFile).then(
+      await _loadFrames(_southFile).then(
         (value) => this._south = value,
       );
     } catch (e) {
@@ -187,7 +201,7 @@ class Data {
     }
 
     try {
-      await _loadUnits(_peaceRiverFile).then(
+      await _loadFrames(_peaceRiverFile).then(
         (value) => this._peaceRiver = value,
       );
     } catch (e) {
