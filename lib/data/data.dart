@@ -22,15 +22,15 @@ const String _southFile = 'assets/data/units/south.json';
 
 class Data {
   late List<Faction> _factions = [];
-  late List<UnitCore> _blackTalon = [];
-  late List<UnitCore> _caprice = [];
-  late List<UnitCore> _cef = [];
-  late List<UnitCore> _eden = [];
+  late List<Frame> _blackTalon = [];
+  late List<Frame> _caprice = [];
+  late List<Frame> _cef = [];
+  late List<Frame> _eden = [];
   late List<Frame> _north = [];
-  late List<UnitCore> _nucoal = [];
-  late List<UnitCore> _terrain = [];
-  late List<UnitCore> _universal = [];
-  late List<UnitCore> _utopia = [];
+  late List<Frame> _nucoal = [];
+  late List<Frame> _terrain = [];
+  late List<Frame> _universal = [];
+  late List<Frame> _utopia = [];
   late List<Frame> _peaceRiver = [];
   late List<Frame> _south = [];
 
@@ -45,39 +45,17 @@ class Data {
   }
 
   List<UnitCore> unitList(Factions f, {RoleType? role}) {
-    List<UnitCore> factionUnit;
+    List<Frame> factionUnit;
     switch (f) {
       case Factions.North:
-        List<UnitCore> ulist = [];
-        _north.forEach((f) {
-          ulist.addAll(f.variants);
-        });
-        return role == null
-            ? ulist
-            : ulist
-                .where((element) => element.role!.includesRole(role))
-                .toList();
-
+        factionUnit = _north;
+        break;
       case Factions.PeaceRiver:
-        List<UnitCore> ulist = [];
-        _peaceRiver.forEach((f) {
-          ulist.addAll(f.variants);
-        });
-        return role == null
-            ? ulist
-            : ulist
-                .where((element) => element.role!.includesRole(role))
-                .toList();
+        factionUnit = _peaceRiver;
+        break;
       case Factions.South:
-        List<UnitCore> ulist = [];
-        _south.forEach((f) {
-          ulist.addAll(f.variants);
-        });
-        return role == null
-            ? ulist
-            : ulist
-                .where((element) => element.role!.includesRole(role))
-                .toList();
+        factionUnit = _south;
+        break;
       case Factions.NuCoal:
         factionUnit = _nucoal;
         break;
@@ -104,11 +82,13 @@ class Data {
         break;
     }
 
+    List<UnitCore> ulist = [];
+    factionUnit.forEach((f) {
+      ulist.addAll(f.variants);
+    });
     return role == null
-        ? factionUnit
-        : factionUnit.where((element) {
-            return element.role!.includesRole(role);
-          }).toList();
+        ? ulist
+        : ulist.where((element) => element.role!.includesRole(role)).toList();
   }
 
   Future<void> load() async {
@@ -137,7 +117,7 @@ class Data {
     }
 
     try {
-      await _loadUnits(_blackTalonFile).then(
+      await _loadFrames(_blackTalonFile).then(
         (value) => this._blackTalon = value,
       );
     } catch (e) {
@@ -145,7 +125,7 @@ class Data {
     }
 
     try {
-      await _loadUnits(_capriceFile).then(
+      await _loadFrames(_capriceFile).then(
         (value) => this._caprice = value,
       );
     } catch (e) {
@@ -153,7 +133,7 @@ class Data {
     }
 
     try {
-      await _loadUnits(_cefFile).then(
+      await _loadFrames(_cefFile).then(
         (value) => this._cef = value,
       );
     } catch (e) {
@@ -161,7 +141,7 @@ class Data {
     }
 
     try {
-      await _loadUnits(_edenFile).then(
+      await _loadFrames(_edenFile).then(
         (value) => this._eden = value,
       );
     } catch (e) {
@@ -169,7 +149,7 @@ class Data {
     }
 
     try {
-      await _loadUnits(_nucoalFile).then(
+      await _loadFrames(_nucoalFile).then(
         (value) => this._nucoal = value,
       );
     } catch (e) {
@@ -177,7 +157,7 @@ class Data {
     }
 
     try {
-      await _loadUnits(_terrainFile).then(
+      await _loadFrames(_terrainFile).then(
         (value) => this._terrain = value,
       );
     } catch (e) {
@@ -185,7 +165,7 @@ class Data {
     }
 
     try {
-      await _loadUnits(_universalFile).then(
+      await _loadFrames(_universalFile).then(
         (value) => this._universal = value,
       );
     } catch (e) {
@@ -193,7 +173,7 @@ class Data {
     }
 
     try {
-      await _loadUnits(_utopiaFile).then(
+      await _loadFrames(_utopiaFile).then(
         (value) => this._utopia = value,
       );
     } catch (e) {
@@ -213,12 +193,6 @@ class Data {
     var jsonData = await rootBundle.loadString(_factionFile);
     var decodedData = json.decode(jsonData) as List;
     return decodedData.map((f) => Faction.fromJson(f)).toList();
-  }
-
-  Future<List<UnitCore>> _loadUnits(String filename) async {
-    var jsonData = await rootBundle.loadString(filename);
-    var decodedData = json.decode(jsonData) as List;
-    return decodedData.map((f) => UnitCore.fromJson(f)).toList();
   }
 
   Future<List<Frame>> _loadFrames(String filename) async {
