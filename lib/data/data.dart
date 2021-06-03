@@ -8,7 +8,7 @@ import 'package:gearforce/models/unit/unit_core.dart';
 
 const String _factionFile = 'assets/data/factions.json';
 
-const Map<Factions, String> _factionFiles = {
+const Map<Factions, String> _factionUnitFiles = {
   Factions.BlackTalon: 'assets/data/units/black_talon.json',
   Factions.CEF: 'assets/data/units/cef.json',
   Factions.Caprice: 'assets/data/units/caprice.json',
@@ -78,8 +78,8 @@ class Data {
       print('Exception caught loading factions: $e');
     }
 
-    await Future.forEach<Factions>(_factionFiles.keys, (key) async {
-      String? filename = _factionFiles[key];
+    await Future.forEach<Factions>(_factionUnitFiles.keys, (key) async {
+      String? filename = _factionUnitFiles[key];
       try {
         await _loadFrames(filename!).then(
           (value) => _factionFrames[key] = value,
