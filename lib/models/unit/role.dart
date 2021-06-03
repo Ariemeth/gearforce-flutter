@@ -15,7 +15,6 @@ class Role {
 }
 
 RoleType convertRoleType(String role) {
-  //TODO: there must be an easier way instead of a string switch
   switch (role.toUpperCase()) {
     case "GP":
       return RoleType.GP;

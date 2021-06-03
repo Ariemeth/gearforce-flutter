@@ -4,7 +4,10 @@ import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/combatGroups/group.dart';
 import 'package:gearforce/models/roster/roster.dart';
+import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/role.dart';
+import 'package:gearforce/models/unit/unit.dart';
+import 'package:gearforce/models/unit/unit_attribute.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
 import 'package:gearforce/screens/roster/select_role.dart';
 import 'package:gearforce/screens/unitSelector/unit_selector.dart';
@@ -12,7 +15,7 @@ import 'package:gearforce/widgets/display_value.dart';
 import 'package:gearforce/widgets/unit_text_cell.dart';
 import 'package:table_sticky_headers/table_sticky_headers.dart';
 
-const _numColumns = 5;
+const _numColumns = 6;
 const _maxPrimaryActions = 6;
 const _minPrimaryActions = 4;
 
@@ -158,7 +161,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
 
   Widget _generateTable({
     required BuildContext context,
-    required List<UnitCore> units,
+    required List<Unit> units,
     required bool isPrimary,
   }) {
     var table = StickyHeadersTable(
@@ -167,6 +170,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
         backgroundColor: Colors.blue[100],
         textAlignment: TextAlign.left,
         alignment: Alignment.centerLeft,
+        padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
       ),
       columnsLength: _numColumns,
       rowsLength: units.length,
@@ -179,6 +183,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
             60.0, // Actions
             120.0, // Command type
             65.0, // Duelist
+            65.0, // Vet
             65.0, // Delete
           ],
           contentCellHeight: 50.0,
@@ -192,10 +197,10 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
     return _buildUnitTitleCell(i);
   }
 
-  Widget Function(int) _buildRowTitles(List<UnitCore> units) {
+  Widget Function(int) _buildRowTitles(List<Unit> units) {
     return (int i) {
       return UnitTextCell.content(
-        units[i].name,
+        units[i].attribute(UnitAttribute.name),
         backgroundColor: ((i + 1) % 2 == 0) ? Colors.blue[100] : null,
         alignment: Alignment.centerLeft,
         textAlignment: TextAlign.left,
@@ -205,11 +210,11 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
 
   Widget Function(int, int) _buildCellContent(
     BuildContext context,
-    List<UnitCore> units,
+    List<Unit> units,
     bool isPrimary,
   ) {
     return (int i, int j) {
-      UnitCore unit = units[j];
+      Unit unit = units[j];
       return _buildUnitCell(context, i, j, unit, isPrimary);
     };
   }
@@ -230,13 +235,13 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
 
   void _showConfirmDelete(
     BuildContext context,
-    UnitCore unit,
+    Unit unit,
     int unitIndex,
     bool isPrimary,
   ) {
     SimpleDialog optionsDialog = SimpleDialog(
       title: Text(
-        'Are you sure you want to delete ${unit.name}?',
+        'Are you sure you want to delete ${unit.attribute(UnitAttribute.name)}?',
         style: TextStyle(fontSize: 24),
       ),
       children: [
@@ -285,14 +290,19 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
     });
   }
 
-  Widget _buildUnitCell(BuildContext context, int column, int row,
-      UnitCore unit, bool isPrimary) {
+  Widget _buildUnitCell(
+    BuildContext context,
+    int column,
+    int row,
+    Unit unit,
+    bool isPrimary,
+  ) {
     String text = '';
 
     switch (column) {
       case 0:
         // TV
-        text = unit.tv.toString();
+        text = unit.tv().toString();
         return UnitTextCell.content(
           text,
           backgroundColor: ((row + 1) % 2 == 0) ? Colors.blue[100] : null,
@@ -300,26 +310,104 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
 
       case 1:
         // Actions
-        text = unit.actions.toString();
+        text = unit.attribute(UnitAttribute.actions).toString();
         return UnitTextCell.content(
           text,
           backgroundColor: ((row + 1) % 2 == 0) ? Colors.blue[100] : null,
         );
       case 2:
-        // command options
-        text = 'TBD';
-        return UnitTextCell.content(
-          text,
-          backgroundColor: ((row + 1) % 2 == 0) ? Colors.blue[100] : null,
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: ((row + 1) % 2 == 0) ? Colors.blue[100] : null,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(15, 5, 15, 5),
+                  child: Center(
+                    child: DropdownButton<String>(
+                      value: commandLevelString(unit.commandLevel()),
+                      hint: Text('Select faction'),
+                      icon: const Icon(Icons.arrow_downward),
+                      iconSize: 16,
+                      elevation: 16,
+                      isExpanded: true,
+                      isDense: true,
+                      style: const TextStyle(color: Colors.blue),
+                      underline: SizedBox(),
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          unit.makeCommand(newValue == null
+                              ? CommandLevel.none
+                              : convertToCommand(newValue));
+                        });
+                      },
+                      items: CommandLevel.values
+                          .map<DropdownMenuItem<String>>((CommandLevel value) {
+                        return DropdownMenuItem<String>(
+                          value: commandLevelString(value),
+                          child: Text(
+                            commandLevelString(value),
+                            style: TextStyle(fontSize: 16),
+                            textAlign: TextAlign.center,
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
         );
       case 3:
-        // duelist option
-        text = 'TBD';
-        return UnitTextCell.content(
-          text,
-          backgroundColor: ((row + 1) % 2 == 0) ? Colors.blue[100] : null,
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Expanded(
+              child: Container(
+                child: Radio<bool>(
+                    value: false,
+                    groupValue: true,
+                    toggleable: true,
+                    onChanged: (bool? value) {
+                      setState(() {
+                        // TODO add actual state and set value on the unit
+                      });
+                    }),
+                decoration: BoxDecoration(
+                  color: ((row + 1) % 2 == 0) ? Colors.blue[100] : null,
+                ),
+              ),
+            ),
+          ],
         );
       case 4:
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Expanded(
+              child: Container(
+                child: Radio<bool>(
+                    value: unit.isVeteran(),
+                    toggleable: true,
+                    groupValue: true,
+                    onChanged: (bool? value) {
+                      setState(() {
+                        // TODO add actual state and set value on the unit
+                      });
+                    }),
+                decoration: BoxDecoration(
+                  color: ((row + 1) % 2 == 0) ? Colors.blue[100] : null,
+                ),
+              ),
+            ),
+          ],
+        );
+      case 5:
         // delete
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -371,6 +459,10 @@ Widget _buildUnitTitleCell(int i) {
       text = 'Duelist';
       break;
     case 4:
+      // veteran option
+      text = 'Veteran';
+      break;
+    case 5:
       // delete
       text = 'Delete';
       break;
@@ -378,5 +470,6 @@ Widget _buildUnitTitleCell(int i) {
   return UnitTextCell.columnTitle(
     text,
     backgroundColor: Colors.blue[100],
+    padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
   );
 }

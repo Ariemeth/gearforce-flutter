@@ -19,6 +19,10 @@ class CombatGroup extends ChangeNotifier {
     return primary.totalTV() + secondary.totalTV();
   }
 
+  bool hasDuelist() {
+    return this.primary.hasDuelist() || this.secondary.hasDuelist();
+  }
+
   void clear() {
     this.primary.reset();
     this.secondary.reset();
