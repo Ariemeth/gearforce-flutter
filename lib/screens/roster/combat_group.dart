@@ -12,7 +12,7 @@ import 'package:gearforce/widgets/display_value.dart';
 import 'package:gearforce/widgets/unit_text_cell.dart';
 import 'package:table_sticky_headers/table_sticky_headers.dart';
 
-const _numColumns = 14;
+const _numColumns = 5;
 const _maxPrimaryActions = 6;
 const _minPrimaryActions = 4;
 
@@ -166,20 +166,30 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
         "Model Name",
         backgroundColor: Colors.blue[100],
         textAlignment: TextAlign.left,
+        alignment: Alignment.centerLeft,
       ),
       columnsLength: _numColumns,
       rowsLength: units.length,
       columnsTitleBuilder: _buildColumnTitles,
       rowsTitleBuilder: _buildRowTitles(units),
-      contentCellBuilder: _buildCellContent(units),
-      onContentCellPressed: _contentPressed(context, units, isPrimary),
-      onRowTitlePressed: _rowTitlePressed(context, units, isPrimary),
+      contentCellBuilder: _buildCellContent(context, units, isPrimary),
+      cellDimensions: CellDimensions.variableColumnWidth(
+          columnWidths: [
+            50.0, // TV
+            60.0, // Actions
+            120.0, // Command type
+            65.0, // Duelist
+            65.0, // Delete
+          ],
+          contentCellHeight: 50.0,
+          stickyLegendWidth: 160.0,
+          stickyLegendHeight: 50.0),
     );
     return table;
   }
 
   Widget _buildColumnTitles(int i) {
-    return buildUnitTitleCell(i);
+    return _buildUnitTitleCell(i);
   }
 
   Widget Function(int) _buildRowTitles(List<UnitCore> units) {
@@ -193,35 +203,14 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
     };
   }
 
-  Widget Function(int, int) _buildCellContent(List<UnitCore> units) {
+  Widget Function(int, int) _buildCellContent(
+    BuildContext context,
+    List<UnitCore> units,
+    bool isPrimary,
+  ) {
     return (int i, int j) {
       UnitCore unit = units[j];
-      return buildUnitCell(i, j, unit);
-    };
-  }
-
-  dynamic Function(int, int) _contentPressed(
-    BuildContext context,
-    List<UnitCore> units,
-    bool isPrimary,
-  ) {
-    return (int i, int j) {
-      _showUnitOptionsDialog(context, units[j], j, isPrimary);
-    };
-  }
-
-  dynamic Function(int) _rowTitlePressed(
-    BuildContext context,
-    List<UnitCore> units,
-    bool isPrimary,
-  ) {
-    return (int i) {
-      _showUnitOptionsDialog(
-        context,
-        units[i],
-        i,
-        isPrimary,
-      );
+      return _buildUnitCell(context, i, j, unit, isPrimary);
     };
   }
 
@@ -239,7 +228,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
     return widget.getOwnCG().totalTV();
   }
 
-  void _showUnitOptionsDialog(
+  void _showConfirmDelete(
     BuildContext context,
     UnitCore unit,
     int unitIndex,
@@ -247,7 +236,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
   ) {
     SimpleDialog optionsDialog = SimpleDialog(
       title: Text(
-        'Unit options',
+        'Are you sure you want to delete ${unit.name}?',
         style: TextStyle(fontSize: 24),
       ),
       children: [
@@ -255,29 +244,22 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
           onPressed: () {
             Navigator.pop(context, OptionResult.Remove);
           },
-          child: Text(
-            'Remove Unit',
-            style: TextStyle(fontSize: 24, color: Colors.red),
+          child: Center(
+            child: Text(
+              'Yes',
+              style: TextStyle(fontSize: 24, color: Colors.red),
+            ),
           ),
         ),
-/*        SimpleDialogOption(
-          
-          onPressed: () {
-            Navigator.pop(context, OptionResult.Upgrade);
-          },
-          child: Text(
-            'Add upgrade',
-            style: TextStyle(fontSize: 24, color: Colors.green),
-          ),
-        ),
-*/
         SimpleDialogOption(
           onPressed: () {
             Navigator.pop(context, OptionResult.Cancel);
           },
-          child: Text(
-            'Cancel',
-            style: TextStyle(fontSize: 24, color: Colors.grey),
+          child: Center(
+            child: Text(
+              'No',
+              style: TextStyle(fontSize: 24, color: Colors.green),
+            ),
           ),
         ),
       ],
@@ -302,6 +284,99 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
       }
     });
   }
+
+  Widget _buildUnitCell(BuildContext context, int column, int row,
+      UnitCore unit, bool isPrimary) {
+    String text = '';
+
+    switch (column) {
+      case 0:
+        // TV
+        text = unit.tv.toString();
+        return UnitTextCell.content(
+          text,
+          backgroundColor: ((row + 1) % 2 == 0) ? Colors.blue[100] : null,
+        );
+
+      case 1:
+        // Actions
+        text = unit.actions.toString();
+        return UnitTextCell.content(
+          text,
+          backgroundColor: ((row + 1) % 2 == 0) ? Colors.blue[100] : null,
+        );
+      case 2:
+        // command options
+        text = 'TBD';
+        return UnitTextCell.content(
+          text,
+          backgroundColor: ((row + 1) % 2 == 0) ? Colors.blue[100] : null,
+        );
+      case 3:
+        // duelist option
+        text = 'TBD';
+        return UnitTextCell.content(
+          text,
+          backgroundColor: ((row + 1) % 2 == 0) ? Colors.blue[100] : null,
+        );
+      case 4:
+        // delete
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Expanded(
+              child: Container(
+                child: IconButton(
+                  onPressed: () =>
+                      {_showConfirmDelete(context, unit, row, isPrimary)},
+                  icon: const Icon(
+                    Icons.delete_forever,
+                    color: Color.fromARGB(255, 200, 28, 28),
+                  ),
+                ),
+                decoration: BoxDecoration(
+                  color: ((row + 1) % 2 == 0) ? Colors.blue[100] : null,
+                ),
+              ),
+            ),
+          ],
+        );
+    }
+    return UnitTextCell.content(
+      text,
+      backgroundColor: ((row + 1) % 2 == 0) ? Colors.blue[100] : null,
+    );
+  }
 }
 
 enum OptionResult { Remove, Cancel, Upgrade }
+
+Widget _buildUnitTitleCell(int i) {
+  String text = "";
+  switch (i) {
+    case 0:
+      // TV
+      text = 'TV';
+      break;
+    case 1:
+      // Actions
+      text = 'Actions';
+      break;
+    case 2:
+      // command options
+      text = 'Command type';
+      break;
+    case 3:
+      // duelist option
+      text = 'Duelist';
+      break;
+    case 4:
+      // delete
+      text = 'Delete';
+      break;
+  }
+  return UnitTextCell.columnTitle(
+    text,
+    backgroundColor: Colors.blue[100],
+  );
+}
