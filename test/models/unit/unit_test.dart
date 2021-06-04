@@ -1,4 +1,4 @@
-import 'package:gearforce/models/unit/modification.dart';
+import 'package:gearforce/models/mods/modification.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
 import 'package:gearforce/models/unit/unit_core.dart';

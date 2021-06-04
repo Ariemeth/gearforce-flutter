@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:gearforce/models/factions/faction.dart';
 import 'package:gearforce/models/unit/frame.dart';
-import 'package:gearforce/models/unit/modification.dart';
+import 'package:gearforce/models/mods/modification.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
 
@@ -40,7 +40,7 @@ class Data {
     var l = _factionFrames[faction];
     return l == null
         ? []
-        : l.where((element) => element.name == frame).first.upgrades;
+        : l.where((element) => element.name == frame).first.availableUpgrades;
   }
 
   /// Returns a list of UnitCore's for the specified [faction] and [role] if

@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:gearforce/models/unit/command.dart';
-import 'package:gearforce/models/unit/modification.dart';
+import 'package:gearforce/models/mods/modification.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
 
