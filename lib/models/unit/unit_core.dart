@@ -20,6 +20,7 @@ class UnitCore {
     required this.traits,
     required this.type,
     required this.height,
+    this.frame = '',
   });
   final String name;
   final int tv;
@@ -37,6 +38,7 @@ class UnitCore {
   final List<String> traits;
   final String type;
   final String height;
+  final String frame;
 
   const UnitCore.test({
     this.name = 'test',
@@ -55,6 +57,7 @@ class UnitCore {
     this.traits = const [],
     this.type = 'gear',
     this.height = '1.5',
+    this.frame = '',
   });
 
   dynamic attribute(UnitAttribute att) {
@@ -94,7 +97,8 @@ class UnitCore {
     }
   }
 
-  factory UnitCore.fromJson(dynamic json) => UnitCore(
+  factory UnitCore.fromJson(dynamic json, {String frame = ''}) => UnitCore(
+        frame: frame,
         name: json['model'] as String,
         tv: json['tv'] as int,
         role: json['role'] == 'N/A' || json['role'] == '-'
@@ -157,6 +161,7 @@ class UnitCore {
         "Traits: ${this.traits} " +
         "Type: ${this.type} " +
         "Height: ${this.height} " +
+        "Frame: ${this.frame}" +
         "}";
   }
 }

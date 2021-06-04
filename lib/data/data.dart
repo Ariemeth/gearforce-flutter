@@ -1,86 +1,74 @@
 import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:gearforce/models/factions/faction.dart';
+import 'package:gearforce/models/unit/frame.dart';
+import 'package:gearforce/models/unit/modification.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
 
 const String _factionFile = 'assets/data/factions.json';
 
-const String _blackTalonFile = 'assets/data/units/black_talon.json';
-const String _capriceFile = 'assets/data/units/caprice.json';
-const String _cefFile = 'assets/data/units/cef.json';
-const String _edenFile = 'assets/data/units/eden.json';
-const String _northFile = 'assets/data/units/north.json';
-const String _nucoalFile = 'assets/data/units/nucoal.json';
-const String _terrainFile = 'assets/data/units/terrain.json';
-const String _universalFile = 'assets/data/units/universal.json';
-const String _utopiaFile = 'assets/data/units/utopia.json';
-const String _peaceRiverFile = 'assets/data/units/peace_river.json';
-const String _southFile = 'assets/data/units/south.json';
+const Map<Factions, String> _factionUnitFiles = {
+  Factions.BlackTalon: 'assets/data/units/black_talon.json',
+  Factions.CEF: 'assets/data/units/cef.json',
+  Factions.Caprice: 'assets/data/units/caprice.json',
+  Factions.Eden: 'assets/data/units/eden.json',
+  Factions.North: 'assets/data/units/north.json',
+  Factions.NuCoal: 'assets/data/units/nucoal.json',
+  Factions.PeaceRiver: 'assets/data/units/peace_river.json',
+  Factions.South: 'assets/data/units/south.json',
+  Factions.Terrain: 'assets/data/units/terrain.json',
+  Factions.Universal: 'assets/data/units/universal.json',
+  Factions.Utopia: 'assets/data/units/utopia.json',
+};
 
 class Data {
   late List<Faction> _factions = [];
-  late List<UnitCore> _blackTalon = [];
-  late List<UnitCore> _caprice = [];
-  late List<UnitCore> _cef = [];
-  late List<UnitCore> _eden = [];
-  late List<UnitCore> _north = [];
-  late List<UnitCore> _nucoal = [];
-  late List<UnitCore> _terrain = [];
-  late List<UnitCore> _universal = [];
-  late List<UnitCore> _utopia = [];
-  late List<UnitCore> _peaceRiver = [];
-  late List<UnitCore> _south = [];
 
+  final Map<Factions, List<Frame>> _factionFrames = {};
+
+  /// Retrieves a list of factions.
   List<Faction> factions() {
     return _factions;
   }
 
-  List<UnitCore> unitList(Factions f, {RoleType? role}) {
-    List<UnitCore> factionUnit;
-    switch (f) {
-      case Factions.North:
-        factionUnit = _north;
-        break;
-      case Factions.PeaceRiver:
-        factionUnit = _peaceRiver;
-        break;
-      case Factions.South:
-        factionUnit = _south;
-        break;
-      case Factions.NuCoal:
-        factionUnit = _nucoal;
-        break;
-      case Factions.CEF:
-        factionUnit = _cef;
-        break;
-      case Factions.Caprice:
-        factionUnit = _caprice;
-        break;
-      case Factions.Utopia:
-        factionUnit = _utopia;
-        break;
-      case Factions.Eden:
-        factionUnit = _eden;
-        break;
-      case Factions.Universal:
-        factionUnit = _universal;
-        break;
-      case Factions.Terrain:
-        factionUnit = _terrain;
-        break;
-      case Factions.BlackTalon:
-        factionUnit = _blackTalon;
-        break;
-    }
-
-    return role == null
-        ? factionUnit
-        : factionUnit.where((element) {
-            return element.role!.includesRole(role);
-          }).toList();
+  /// Returns a list of Modifications for a specific [faction]'s [frame]
+  ///
+  /// If no frames are found for a [faction] or there are no modifications
+  /// found, the returned list will be empty.
+  List<Modification> availableUnitMods(Factions faction, String frame) {
+    var l = _factionFrames[faction];
+    return l == null
+        ? []
+        : l.where((element) => element.name == frame).first.upgrades;
   }
 
+  /// Returns a list of UnitCore's for the specified [faction] and [role] if
+  /// available.
+  ///
+  /// If no UnitCore's are available to match the specified [faction] and [role]
+  /// the returned list will be empty.  If [role] is null or not specified all
+  /// UnitCore's of the specified [faction] will be returned.
+  List<UnitCore> unitList(Factions faction, {RoleType? role}) {
+    List<Frame>? factionUnit = _factionFrames[faction];
+
+    if (factionUnit == null) {
+      return [];
+    }
+
+    List<UnitCore> ulist = [];
+
+    factionUnit.forEach((f) {
+      ulist.addAll(f.variants);
+    });
+    return role == null
+        ? ulist
+        : ulist.where((element) => element.role!.includesRole(role)).toList();
+  }
+
+  /// This function loads all needed data resources.
+  ///
+  /// This function will not return/complete until all resources have been loaded.
   Future<void> load() async {
     try {
       await _loadFactions().then(
@@ -90,93 +78,16 @@ class Data {
       print('Exception caught loading factions: $e');
     }
 
-    try {
-      await _loadUnits(_northFile).then(
-        (value) => this._north = value,
-      );
-    } catch (e) {
-      print('Exception caught loading $_northFile: $e');
-    }
-
-    try {
-      await _loadUnits(_southFile).then(
-        (value) => this._south = value,
-      );
-    } catch (e) {
-      print('Exception caught loading $_southFile: $e');
-    }
-
-    try {
-      await _loadUnits(_blackTalonFile).then(
-        (value) => this._blackTalon = value,
-      );
-    } catch (e) {
-      print('Exception caught loading $_blackTalonFile: $e');
-    }
-
-    try {
-      await _loadUnits(_capriceFile).then(
-        (value) => this._caprice = value,
-      );
-    } catch (e) {
-      print('Exception caught loading $_capriceFile: $e');
-    }
-
-    try {
-      await _loadUnits(_cefFile).then(
-        (value) => this._cef = value,
-      );
-    } catch (e) {
-      print('Exception caught loading $_cefFile: $e');
-    }
-
-    try {
-      await _loadUnits(_edenFile).then(
-        (value) => this._eden = value,
-      );
-    } catch (e) {
-      print('Exception caught loading $_edenFile: $e');
-    }
-
-    try {
-      await _loadUnits(_nucoalFile).then(
-        (value) => this._nucoal = value,
-      );
-    } catch (e) {
-      print('Exception caught loading $_nucoalFile: $e');
-    }
-
-    try {
-      await _loadUnits(_terrainFile).then(
-        (value) => this._terrain = value,
-      );
-    } catch (e) {
-      print('Exception caught loading $_terrainFile: $e');
-    }
-
-    try {
-      await _loadUnits(_universalFile).then(
-        (value) => this._universal = value,
-      );
-    } catch (e) {
-      print('Exception caught loading $_universalFile: $e');
-    }
-
-    try {
-      await _loadUnits(_utopiaFile).then(
-        (value) => this._utopia = value,
-      );
-    } catch (e) {
-      print('Exception caught loading $_utopiaFile: $e');
-    }
-
-    try {
-      await _loadUnits(_peaceRiverFile).then(
-        (value) => this._peaceRiver = value,
-      );
-    } catch (e) {
-      print('Exception caught loading $_peaceRiverFile: $e');
-    }
+    await Future.forEach<Factions>(_factionUnitFiles.keys, (key) async {
+      String? filename = _factionUnitFiles[key];
+      try {
+        await _loadFrames(filename!).then(
+          (value) => _factionFrames[key] = value,
+        );
+      } catch (e) {
+        print('Exception caught loading $key from $filename: $e');
+      }
+    });
   }
 
   Future<List<Faction>> _loadFactions() async {
@@ -185,9 +96,9 @@ class Data {
     return decodedData.map((f) => Faction.fromJson(f)).toList();
   }
 
-  Future<List<UnitCore>> _loadUnits(String filename) async {
+  Future<List<Frame>> _loadFrames(String filename) async {
     var jsonData = await rootBundle.loadString(filename);
-    var decodedData = json.decode(jsonData) as List;
-    return decodedData.map((f) => UnitCore.fromJson(f)).toList();
+    var decodedData = json.decode(jsonData)['frames'] as List;
+    return decodedData.map((f) => Frame.fromJson(f)).toList();
   }
 }

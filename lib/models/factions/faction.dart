@@ -28,7 +28,6 @@ enum Factions {
 }
 
 Factions convertToFaction(String faction) {
-  //TODO: there must be an easier way instead of a string switch
   switch (faction.toUpperCase()) {
     case "NORTH":
       return Factions.North;
