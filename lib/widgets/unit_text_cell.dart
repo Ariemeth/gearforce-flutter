@@ -114,8 +114,8 @@ Widget buildUnitCell(int column, int row, UnitCore unit) {
       text = unit.tv.toString();
       break;
     case 1:
-      // UA
-      text = unit.role.toString();
+      // Role
+      text = unit.role!.roles.join(', ');
       break;
     case 2:
       // MR
@@ -147,16 +147,29 @@ Widget buildUnitCell(int column, int row, UnitCore unit) {
       break;
     case 9:
       // React Weapons
-      text = unit.reactWeapons.toString();
-      break;
+      text = unit.reactWeapons.join(', ');
+      return UnitTextCell.content(
+        text,
+        textStyle: TextStyle(fontSize: 12),
+        backgroundColor: ((row + 1) % 2 == 0) ? Colors.blue[100] : null,
+      );
+
     case 10:
       // Mounted Weapons
-      text = unit.mountedWeapons.toString();
-      break;
+      text = unit.mountedWeapons.join(', ');
+      return UnitTextCell.content(
+        text,
+        textStyle: TextStyle(fontSize: 12),
+        backgroundColor: ((row + 1) % 2 == 0) ? Colors.blue[100] : null,
+      );
     case 11:
       // Traits
-      text = unit.traits.toString();
-      break;
+      text = unit.traits.join(', ');
+      return UnitTextCell.content(
+        text,
+        textStyle: TextStyle(fontSize: 12),
+        backgroundColor: ((row + 1) % 2 == 0) ? Colors.blue[100] : null,
+      );
     case 12:
       // Type
       text = unit.type;
