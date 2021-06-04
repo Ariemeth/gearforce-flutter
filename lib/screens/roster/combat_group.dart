@@ -349,10 +349,11 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
                           .map<DropdownMenuItem<String>>((CommandLevel value) {
                         return DropdownMenuItem<String>(
                           value: commandLevelString(value),
-                          child: Text(
-                            commandLevelString(value),
-                            style: TextStyle(fontSize: 16),
-                            textAlign: TextAlign.center,
+                          child: Center(
+                            child: Text(
+                              commandLevelString(value),
+                              style: TextStyle(fontSize: 14),
+                            ),
                           ),
                         );
                       }).toList(),
