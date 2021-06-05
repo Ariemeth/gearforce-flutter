@@ -7,7 +7,8 @@ class Frame {
     required this.name,
     required this.variants,
     this.availableUpgrades = const [],
-  });
+  })  : assert(name != ''),
+        assert(variants.length > 0, 'no variants for $name');
 
   final String name;
   final List<UnitCore> variants;
