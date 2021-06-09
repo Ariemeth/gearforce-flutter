@@ -8,6 +8,7 @@ class Modification {
   });
 
   final String name;
+  final String description = '';
 
   // function to ensure the modification can be applied to the unit
   final bool Function(UnitCore) requirementCheck;
