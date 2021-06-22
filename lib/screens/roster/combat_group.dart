@@ -139,19 +139,31 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
             ),
           ),
           DisplayValue(text: 'TV:', value: group.totalTV()),
-          DisplayValue(
-            text: 'Actions',
-            value: actions,
-            textColor: isPrimary
+          Tooltip(
+            message: isPrimary
                 // a cg is only valid if the number of actions is greater then 4 and
                 // less then or equal to 6
                 ? actions > _maxPrimaryActions || actions < _minPrimaryActions
-                    ? Colors.red
-                    : Colors.black
+                    ? 'too many or too few actions'
+                    : 'valid number of actions'
                 : actions >
                         (widget.getOwnCG().primary.totalActions() / 2).ceil()
-                    ? Colors.red
-                    : Colors.black,
+                    ? 'too many actions or too few actions'
+                    : 'valid number of actions',
+            child: DisplayValue(
+              text: 'Actions',
+              value: actions,
+              textColor: isPrimary
+                  // a cg is only valid if the number of actions is greater then 4 and
+                  // less then or equal to 6
+                  ? actions > _maxPrimaryActions || actions < _minPrimaryActions
+                      ? Colors.red
+                      : Colors.green
+                  : actions >
+                          (widget.getOwnCG().primary.totalActions() / 2).ceil()
+                      ? Colors.red
+                      : Colors.green,
+            ),
           ),
           Expanded(child: Container()),
         ],
