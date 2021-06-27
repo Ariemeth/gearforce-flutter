@@ -72,6 +72,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
     );
   }
 
+  // ignore: unused_element
   _navigateToUnitSelector(
     BuildContext context,
     RoleType? role, {
