@@ -80,9 +80,6 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
       context,
       MaterialPageRoute(
         builder: (context) => UnitSelector(
-          title: "Available Units",
-          faction: this.widget.roster.faction.value,
-          role: role,
         ),
       ),
     );
@@ -123,21 +120,6 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
           ),
           SizedBox(
             width: 20,
-          ),
-          SizedBox(
-            width: 75,
-            child: OutlinedButton(
-              onPressed: () {
-                _navigateToUnitSelector(
-                  context,
-                  isPrimary
-                      ? widget.getOwnCG().primary.role.value
-                      : widget.getOwnCG().secondary.role.value,
-                  isPrimary: isPrimary,
-                );
-              },
-              child: const Text('Add Unit'),
-            ),
           ),
           DisplayValue(text: 'TV:', value: group.totalTV()),
           Tooltip(

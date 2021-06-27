@@ -31,4 +31,12 @@ void main() {
     expect(roster.getCG('test1'), isNotNull,
         reason: 'check retrieving the cg from the roster is valid');
   });
+
+  test('check default active cg', () {
+    final roster = UnitRoster();
+    expect(roster.activeCG(), isNotNull,
+        reason: 'active cg should not be null');
+    expect(roster.activeCG()!.name, equals('CG 1'),
+        reason: 'active cg should not be null');
+  });
 }

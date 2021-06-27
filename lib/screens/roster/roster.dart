@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gearforce/models/factions/faction.dart';
 import 'package:gearforce/models/roster/roster.dart';
-import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/screens/roster/combat_groups_display.dart';
 import 'package:gearforce/screens/roster/roster_header_info.dart';
 import 'package:gearforce/screens/unitSelector/unit_selector.dart';
@@ -52,8 +50,7 @@ class _RosterWidgetState extends State<RosterWidget> {
               ),
             ),
             Expanded(
-              child: UnitSelector(
-                  title: 'test', faction: Factions.Caprice, role: RoleType.GP),
+              child: UnitSelector(),
               flex: 2,
             ),
           ],
