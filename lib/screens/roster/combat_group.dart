@@ -48,7 +48,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
           group: widget.getOwnCG().primary,
           isPrimary: true,
         ),
-        Expanded(
+        Flexible(
           child: _generateTable(
             context: context,
             units: widget.getOwnCG().primary.allUnits(),
@@ -60,7 +60,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
           group: widget.getOwnCG().secondary,
           isPrimary: false,
         ),
-        Expanded(
+        Flexible(
           child: _generateTable(
             context: context,
             units: widget.getOwnCG().secondary.allUnits(),
@@ -102,6 +102,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
     return Padding(
       padding: const EdgeInsets.all(4.0),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
             width: 85,
@@ -165,7 +166,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
                       : Colors.green,
             ),
           ),
-          Expanded(child: Container()),
+          //    Expanded(child: Container()),
         ],
       ),
     );
@@ -477,7 +478,7 @@ Widget _buildUnitTitleCell(int i) {
       break;
     case 5:
       // delete
-      text = 'Delete';
+      text = 'Remove';
       break;
   }
   return UnitTextCell.columnTitle(

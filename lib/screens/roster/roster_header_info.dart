@@ -16,9 +16,9 @@ class RosterHeaderInfo extends StatelessWidget {
       children: [
         _createInfoPanel(context),
         _createTVPanel(context),
-        Expanded(
-          child: Container(),
-        )
+    //    Flexible(
+    //      child: Container(),
+    //    )
       ],
     );
   }
@@ -30,7 +30,7 @@ class RosterHeaderInfo extends StatelessWidget {
       columnWidths: const <int, TableColumnWidth>{
         0: IntrinsicColumnWidth(),
         1: FixedColumnWidth(200.0),
-        2: FlexColumnWidth(1),
+       // 2: FlexColumnWidth(1),
       },
       defaultVerticalAlignment: TableCellVerticalAlignment.middle,
       children: <TableRow>[
@@ -65,7 +65,7 @@ class RosterHeaderInfo extends StatelessWidget {
               strutStyle: StrutStyle.disabled,
             ),
           ),
-          Container(),
+   //       Container(),
         ]),
         TableRow(children: [
           Padding(
@@ -92,7 +92,7 @@ class RosterHeaderInfo extends StatelessWidget {
               },
             ),
           ),
-          Container(),
+    //      Container(),
         ]),
         TableRow(children: [
           Padding(
@@ -110,7 +110,7 @@ class RosterHeaderInfo extends StatelessWidget {
               selectedFaction: roster.faction,
             ),
           ),
-          Container(),
+     //     Container(),
         ]),
         TableRow(children: [
           Padding(
@@ -129,7 +129,7 @@ class RosterHeaderInfo extends StatelessWidget {
               selectedSubFaction: roster.subFaction,
             ),
           ),
-          Container(),
+    //      Container(),
         ]),
       ],
     );

@@ -28,14 +28,15 @@ class UnitSelector extends StatefulWidget {
 class _UnitSelectorState extends State<UnitSelector> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the Roster object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title!),
-      ),
-      body: _generateTable(context, widget.faction),
-    );
+//    return Scaffold(
+//      appBar: AppBar(
+    // Here we take the value from the Roster object that was created by
+    // the App.build method, and use it to set our appbar title.
+//        title: Text(widget.title!),
+//      ),
+//      body: _generateTable(context, widget.faction),
+//    );
+    return _generateTable(context, widget.faction);
   }
 
   StickyHeadersTable _generateTable(BuildContext context, Factions? faction) {

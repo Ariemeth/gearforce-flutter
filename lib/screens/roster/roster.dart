@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:gearforce/models/factions/faction.dart';
 import 'package:gearforce/models/roster/roster.dart';
+import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/screens/roster/combat_groups_display.dart';
 import 'package:gearforce/screens/roster/roster_header_info.dart';
+import 'package:gearforce/screens/unitSelector/unit_selector.dart';
 import 'package:provider/provider.dart';
 
 class RosterWidget extends StatefulWidget {
@@ -35,16 +38,25 @@ class _RosterWidgetState extends State<RosterWidget> {
       ),
       body: ChangeNotifierProvider(
         create: (_) => roster,
-        child: Column(
+        child: Row(
           children: [
-            Expanded(
-              child: RosterHeaderInfo(),
-              flex: 0,
+            SizedBox(
+              width: 600.0,
+              child: Column(
+                children: [
+                  RosterHeaderInfo(),
+                  CombatGroupsDisplay(),
+                ],
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+              ),
             ),
-            CombatGroupsDisplay(),
+            Expanded(
+              child: UnitSelector(
+                  title: 'test', faction: Factions.Caprice, role: RoleType.GP),
+              flex: 2,
+            ),
           ],
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
         ),
       ),
     );
