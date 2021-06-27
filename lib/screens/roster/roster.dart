@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/screens/roster/combat_groups_display.dart';
 import 'package:gearforce/screens/roster/roster_header_info.dart';
+import 'package:gearforce/screens/unitSelector/unit_selection.dart';
 import 'package:gearforce/screens/unitSelector/unit_selector.dart';
 import 'package:provider/provider.dart';
 
@@ -50,7 +51,7 @@ class _RosterWidgetState extends State<RosterWidget> {
               ),
             ),
             Expanded(
-              child: UnitSelector(),
+              child: UnitSelection(),
               flex: 2,
             ),
           ],
