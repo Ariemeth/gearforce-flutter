@@ -41,6 +41,7 @@ class CombatGroupWidget extends StatefulWidget {
 class _CombatGroupWidgetState extends State<CombatGroupWidget> {
   @override
   Widget build(BuildContext context) {
+    widget.roster.setActiveCG(widget.name);
     return Column(
       children: [
         _generateGroupHeader(
@@ -48,7 +49,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
           group: widget.getOwnCG().primary,
           isPrimary: true,
         ),
-        Expanded(
+        Flexible(
           child: _generateTable(
             context: context,
             units: widget.getOwnCG().primary.allUnits(),
@@ -60,7 +61,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
           group: widget.getOwnCG().secondary,
           isPrimary: false,
         ),
-        Expanded(
+        Flexible(
           child: _generateTable(
             context: context,
             units: widget.getOwnCG().secondary.allUnits(),
@@ -71,6 +72,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
     );
   }
 
+  // ignore: unused_element
   _navigateToUnitSelector(
     BuildContext context,
     RoleType? role, {
@@ -79,11 +81,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
     final result = await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => UnitSelector(
-          title: "Available Units",
-          faction: this.widget.roster.faction.value,
-          role: role,
-        ),
+        builder: (context) => UnitSelector(),
       ),
     );
 
@@ -102,6 +100,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
     return Padding(
       padding: const EdgeInsets.all(4.0),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
             width: 85,
@@ -123,37 +122,34 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
           SizedBox(
             width: 20,
           ),
-          SizedBox(
-            width: 75,
-            child: OutlinedButton(
-              onPressed: () {
-                _navigateToUnitSelector(
-                  context,
-                  isPrimary
-                      ? widget.getOwnCG().primary.role.value
-                      : widget.getOwnCG().secondary.role.value,
-                  isPrimary: isPrimary,
-                );
-              },
-              child: const Text('Add Unit'),
-            ),
-          ),
           DisplayValue(text: 'TV:', value: group.totalTV()),
-          DisplayValue(
-            text: 'Actions',
-            value: actions,
-            textColor: isPrimary
+          Tooltip(
+            message: isPrimary
                 // a cg is only valid if the number of actions is greater then 4 and
                 // less then or equal to 6
                 ? actions > _maxPrimaryActions || actions < _minPrimaryActions
-                    ? Colors.red
-                    : Colors.black
+                    ? 'too many or too few actions'
+                    : 'valid number of actions'
                 : actions >
                         (widget.getOwnCG().primary.totalActions() / 2).ceil()
-                    ? Colors.red
-                    : Colors.black,
+                    ? 'too many actions or too few actions'
+                    : 'valid number of actions',
+            child: DisplayValue(
+              text: 'Actions',
+              value: actions,
+              textColor: isPrimary
+                  // a cg is only valid if the number of actions is greater then 4 and
+                  // less then or equal to 6
+                  ? actions > _maxPrimaryActions || actions < _minPrimaryActions
+                      ? Colors.red
+                      : Colors.green
+                  : actions >
+                          (widget.getOwnCG().primary.totalActions() / 2).ceil()
+                      ? Colors.red
+                      : Colors.green,
+            ),
           ),
-          Expanded(child: Container()),
+          //    Expanded(child: Container()),
         ],
       ),
     );
@@ -465,7 +461,7 @@ Widget _buildUnitTitleCell(int i) {
       break;
     case 5:
       // delete
-      text = 'Delete';
+      text = 'Remove';
       break;
   }
   return UnitTextCell.columnTitle(

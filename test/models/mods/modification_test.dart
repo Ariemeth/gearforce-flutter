@@ -1,4 +1,4 @@
-import 'package:gearforce/models/unit/modification.dart';
+import 'package:gearforce/models/mods/modification.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
 import 'package:test/test.dart';
@@ -30,7 +30,8 @@ void main() {
     final m = Modification(
       name: 'increase ew by 1',
       requirementCheck: (UnitCore uc) => false,
-    )..addMod(UnitAttribute.ew, (dynamic value) => (value as int) - 1);
+    );
+    m.addMod(UnitAttribute.ew, (dynamic value) => (value as int) - 1);
     const testCore = UnitCore.test();
 
     final attType = UnitAttribute.ew;

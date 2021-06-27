@@ -1,5 +1,9 @@
 [
 	{
+		"name": "Black Talon",
+		"subFactions": []
+	},
+	{
 		"name": "CEF",
 		"subFactions": [
             "None",
@@ -75,9 +79,5 @@
             "Other Utopian Forces",
 			"Utopian Combined Armiger Force"			
 		]
-	},
-	{
-		"name": "Black Talon",
-		"subFactions": []
 	}
 ]

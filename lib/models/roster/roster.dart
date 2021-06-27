@@ -9,6 +9,7 @@ class UnitRoster extends ChangeNotifier {
   final subFaction = ValueNotifier<String>("");
   final Map<String, CombatGroup> _combatGroups = new Map<String, CombatGroup>();
   int _totalCreated = 0;
+  String _activeCG = '';
 
   UnitRoster() {
     faction.addListener(() {
@@ -31,6 +32,9 @@ class UnitRoster extends ChangeNotifier {
       notifyListeners();
     });
     _combatGroups[cg.name] = cg;
+    if (_activeCG == '') {
+      _activeCG = cg.name;
+    }
     _totalCreated += 1;
     notifyListeners();
   }
@@ -38,6 +42,9 @@ class UnitRoster extends ChangeNotifier {
   CombatGroup createCG() {
     var cg = CombatGroup('CG ${this._totalCreated + 1}');
     this.addCG(cg);
+    if (_activeCG == '') {
+      _activeCG = cg.name;
+    }
     return cg;
   }
 
@@ -47,6 +54,13 @@ class UnitRoster extends ChangeNotifier {
       result += value.totalTV();
     });
     return result;
+  }
+
+  CombatGroup? activeCG() => _combatGroups[_activeCG];
+  void setActiveCG(String name) {
+    if (_combatGroups.containsKey(name)) {
+      _activeCG = name;
+    }
   }
 
   List<CombatGroup> getCGs() =>

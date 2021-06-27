@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/factions/faction.dart';
-import 'package:gearforce/models/unit/role.dart';
+import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
 import 'package:gearforce/widgets/unit_text_cell.dart';
 import 'package:provider/provider.dart';
@@ -12,14 +12,7 @@ const _numColumns = 14;
 class UnitSelector extends StatefulWidget {
   UnitSelector({
     Key? key,
-    required this.title,
-    required this.faction,
-    required this.role,
   }) : super(key: key);
-
-  final String? title;
-  final Factions? faction;
-  final RoleType? role;
 
   @override
   _UnitSelectorState createState() => _UnitSelectorState();
@@ -28,18 +21,14 @@ class UnitSelector extends StatefulWidget {
 class _UnitSelectorState extends State<UnitSelector> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the Roster object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title!),
-      ),
-      body: _generateTable(context, widget.faction),
-    );
+    return _generateTable(context);
   }
 
-  StickyHeadersTable _generateTable(BuildContext context, Factions? faction) {
+  StickyHeadersTable _generateTable(BuildContext context) {
     final data = Provider.of<Data>(context);
+    final roster = context.watch<UnitRoster>();
+
+    final faction = roster.faction.value;
 
     if (faction == null) {
       return StickyHeadersTable(
@@ -63,12 +52,12 @@ class _UnitSelectorState extends State<UnitSelector> {
         textAlignment: TextAlign.left,
       ),
       columnsLength: _numColumns,
-      rowsLength: data.unitList(faction, role: widget.role).length,
+      rowsLength: data.unitList(faction, role: null).length,
       columnsTitleBuilder: _buildColumnTitles,
       rowsTitleBuilder: _buildRowTitles(faction, data),
       contentCellBuilder: _buildCellContent(faction, data),
-      onContentCellPressed: _contentPressed(faction, data),
-      onRowTitlePressed: _rowTitlePressed(faction, data),
+      onContentCellPressed: _contentPressed(faction, roster, data),
+      onRowTitlePressed: _rowTitlePressed(faction, roster, data),
     );
     return table;
   }
@@ -80,7 +69,7 @@ class _UnitSelectorState extends State<UnitSelector> {
   Widget Function(int) _buildRowTitles(Factions f, Data data) {
     return (int i) {
       return UnitTextCell.content(
-        data.unitList(f, role: widget.role)[i].name,
+        data.unitList(f, role: null)[i].name,
         backgroundColor: ((i + 1) % 2 == 0) ? Colors.blue[100] : null,
         alignment: Alignment.centerLeft,
         textAlignment: TextAlign.left,
@@ -90,22 +79,24 @@ class _UnitSelectorState extends State<UnitSelector> {
 
   Widget Function(int, int) _buildCellContent(Factions f, Data data) {
     return (int i, int j) {
-      UnitCore unit = data.unitList(f, role: widget.role)[j];
+      UnitCore unit = data.unitList(f, role: null)[j];
       return buildUnitCell(i, j, unit);
     };
   }
 
-  dynamic Function(int, int) _contentPressed(Factions f, Data data) {
+  dynamic Function(int, int) _contentPressed(
+      Factions f, UnitRoster roster, Data data) {
     return (int i, int j) {
-      UnitCore unit = data.unitList(f, role: widget.role)[j];
-      Navigator.pop(context, unit);
+      UnitCore unit = data.unitList(f, role: null)[j];
+      roster.activeCG()!.primary.addUnit(unit);
     };
   }
 
-  dynamic Function(int) _rowTitlePressed(Factions f, Data data) {
+  dynamic Function(int) _rowTitlePressed(
+      Factions f, UnitRoster roster, Data data) {
     return (int i) {
-      UnitCore unit = data.unitList(f, role: widget.role)[i];
-      Navigator.pop(context, unit);
+      UnitCore unit = data.unitList(f, role: null)[i];
+      roster.activeCG()!.primary.addUnit(unit);
     };
   }
 }
