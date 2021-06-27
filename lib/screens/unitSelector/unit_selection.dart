@@ -3,6 +3,13 @@ import 'package:gearforce/models/unit/role.dart';
 
 class UnitSelection extends StatefulWidget {
   final Map<RoleType, bool> _filters = new Map<RoleType, bool>();
+
+  UnitSelection() {
+    RoleType.values.forEach((element) {
+      _filters.addAll({element: false});
+    });
+  }
+
   @override
   _UnitSelectionState createState() => _UnitSelectionState();
 }
