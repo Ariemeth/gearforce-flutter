@@ -57,6 +57,11 @@ class UnitRoster extends ChangeNotifier {
   }
 
   CombatGroup? activeCG() => _combatGroups[_activeCG];
+  void setActiveCG(String name) {
+    if (_combatGroups.containsKey(name)) {
+      _activeCG = name;
+    }
+  }
 
   List<CombatGroup> getCGs() =>
       _combatGroups.entries.map((e) => e.value).toList();

@@ -41,6 +41,7 @@ class CombatGroupWidget extends StatefulWidget {
 class _CombatGroupWidgetState extends State<CombatGroupWidget> {
   @override
   Widget build(BuildContext context) {
+    widget.roster.setActiveCG(widget.name);
     return Column(
       children: [
         _generateGroupHeader(
@@ -79,8 +80,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
     final result = await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => UnitSelector(
-        ),
+        builder: (context) => UnitSelector(),
       ),
     );
 
