@@ -84,16 +84,13 @@ class SelectionFilters extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<Widget> f = [];
-    this.filters.forEach((key, value) {
-      f.add(
-        FilterSelection(
-          isChecked: value,
-          role: key,
-          onChanged: this.onChanged,
-        ),
-      );
-    });
+    var f = this
+        .filters
+        .entries
+        .map((e) => FilterSelection(
+            isChecked: e.value, onChanged: this.onChanged, role: e.key))
+        .toList();
+
     return Row(
       children: [
         Text(
