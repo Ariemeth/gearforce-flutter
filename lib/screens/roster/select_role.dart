@@ -1,40 +1,28 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:gearforce/models/combatGroups/group.dart';
 import 'package:gearforce/models/unit/role.dart';
-
-const RoleType _defaultRole = RoleType.GP;
 
 /// This is the stateful widget that the main application instantiates.
 class SelectRole extends StatefulWidget {
-  final ValueNotifier<RoleType?>? selectedRole;
-  final ValueChanged<RoleType>? onSelected;
-  final String _defaultRoleString = _defaultRole.toString().split('.').last;
+  final Group group;
 
-  SelectRole({Key? key, this.selectedRole, this.onSelected}) : super(key: key) {
-    if (this.selectedRole?.value == null) {
-      this.selectedRole?.value = RoleType.GP;
-    }
-  }
+  SelectRole({
+    Key? key,
+    required this.group,
+  }) : super(key: key);
 
   @override
-  _SelectRoleState createState() =>
-      _SelectRoleState(this.selectedRole?.value == null
-          ? this._defaultRoleString
-          : this.selectedRole?.value.toString().split('.').last);
+  _SelectRoleState createState() => _SelectRoleState();
 }
 
 /// This is the private State class that goes with MyStatefulWidget.
 class _SelectRoleState extends State<SelectRole> {
-  String? dropdownValue;
-
-  _SelectRoleState(String? selection) {
-    this.dropdownValue = selection ?? widget._defaultRoleString;
-  }
 
   @override
   Widget build(BuildContext context) {
     return DropdownButton<String>(
-      value: dropdownValue,
+      value: widget.group.role().toString().split('.').last,
       hint: Text("Select Role"),
       icon: const Icon(Icons.arrow_drop_down_outlined),
       iconSize: 24,
@@ -44,11 +32,7 @@ class _SelectRoleState extends State<SelectRole> {
       style: const TextStyle(color: Colors.blue),
       onChanged: (String? newValue) {
         setState(() {
-          dropdownValue = newValue!;
-          widget.selectedRole?.value = convertRoleType(newValue);
-          if (widget.onSelected != null) {
-            widget.onSelected!(convertRoleType(newValue));
-          }
+          widget.group.changeRole(convertRoleType(newValue!));
         });
       },
       items: RoleType.values.map<DropdownMenuItem<String>>((value) {

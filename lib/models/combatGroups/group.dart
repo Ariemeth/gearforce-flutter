@@ -4,19 +4,30 @@ import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
 
+const RoleType _defaultRoleType = RoleType.GP;
+
 class Group extends ChangeNotifier {
-  final ValueNotifier<RoleType?> role = ValueNotifier(null);
+  RoleType _role = _defaultRoleType;
   final List<Unit> _units = [];
 
-  Group({RoleType? role}) {
-    this.role.value = role;
-    this.role.addListener(() {
-      _units.removeWhere((unit) {
-        return !unit.role()!.includesRole([this.role.value]);
-      });
+  Group({RoleType role = _defaultRoleType}) {
+    this._role = role;
+  }
 
-      notifyListeners();
+  RoleType role() => _role;
+
+  void changeRole(RoleType role) {
+    if (role == this._role) {
+      return;
+    }
+
+    this._role = role;
+
+    _units.removeWhere((unit) {
+      return !unit.role()!.includesRole([this._role]);
     });
+
+    notifyListeners();
   }
 
   void addUnit(UnitCore unit) {
@@ -39,7 +50,7 @@ class Group extends ChangeNotifier {
   }
 
   void reset() {
-    this.role.value = null;
+    this._role = _defaultRoleType;
     this._units.clear();
     notifyListeners();
   }
@@ -72,6 +83,6 @@ class Group extends ChangeNotifier {
 
   @override
   String toString() {
-    return 'Group: {Role: ${role.value}, Units: $_units}';
+    return 'Group: {Role: $_role, Units: $_units}';
   }
 }

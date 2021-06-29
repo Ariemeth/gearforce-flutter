@@ -115,7 +115,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
           ),
           SizedBox(
             child: SelectRole(
-              selectedRole: group.role,
+              group: group,
             ),
             width: 75,
           ),
@@ -202,7 +202,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
         });
       },
       onWillAccept: (UnitCore? uc) {
-        return uc!.role!.includesRole([group.role.value]);
+        return uc!.role!.includesRole([group.role()]);
       },
     );
 
