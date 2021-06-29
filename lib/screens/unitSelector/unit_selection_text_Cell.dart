@@ -40,12 +40,12 @@ class UnitSelectionTextCell extends StatelessWidget {
       decoration: TextDecoration.none,
     ),
     this.alignment = Alignment.centerLeft,
-    this.maxLines=1,
+    this.maxLines = 1,
     this.softWrap = true,
     this.border,
   });
 
-    UnitSelectionTextCell.childWhenDragging(
+  UnitSelectionTextCell.childWhenDragging(
     this.text, {
     this.textAlignment = TextAlign.center,
     this.backgroundColor,
@@ -55,7 +55,7 @@ class UnitSelectionTextCell extends StatelessWidget {
       decoration: TextDecoration.none,
     ),
     this.alignment = Alignment.centerLeft,
-    this.maxLines =1,
+    this.maxLines = 1,
     this.softWrap = true,
     this.border,
   });

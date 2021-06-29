@@ -18,7 +18,6 @@ class SelectRole extends StatefulWidget {
 
 /// This is the private State class that goes with MyStatefulWidget.
 class _SelectRoleState extends State<SelectRole> {
-
   @override
   Widget build(BuildContext context) {
     return DropdownButton<String>(

@@ -145,7 +145,9 @@ class SelectionList extends StatelessWidget {
             width: 2.0,
           ),
         ),
-        feedback: SelectedUnitFeedback(uc: uc,),
+        feedback: SelectedUnitFeedback(
+          uc: uc,
+        ),
         data: uc,
         child: UnitSelectionTextCell.content(
           '${uc.name}',
