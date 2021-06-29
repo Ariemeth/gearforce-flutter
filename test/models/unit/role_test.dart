@@ -47,19 +47,19 @@ void main() {
   test('test includesRole where Roletype is included', () {
     const rolesJSON = '"SK,GP"';
     final fromJSON = Roles.fromJson(json.decode(rolesJSON));
-    expect(fromJSON.includesRole(RoleType.GP), equals(true));
+    expect(fromJSON.includesRole([RoleType.GP]), equals(true));
   });
 
   test('test includesRole where Roletype is included with unlimited marker',
       () {
     const rolesJSON = '"SK,GP+"';
     final fromJSON = Roles.fromJson(json.decode(rolesJSON));
-    expect(fromJSON.includesRole(RoleType.GP), equals(true));
+    expect(fromJSON.includesRole([RoleType.GP]), equals(true));
   });
 
   test('test includesRole where Roletype is not included', () {
     const rolesJSON = '"SK,GP+"';
     final fromJSON = Roles.fromJson(json.decode(rolesJSON));
-    expect(fromJSON.includesRole(RoleType.RC), equals(false));
+    expect(fromJSON.includesRole([RoleType.RC]), equals(false));
   });
 }

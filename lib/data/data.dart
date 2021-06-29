@@ -49,7 +49,7 @@ class Data {
   /// If no UnitCore's are available to match the specified [faction] and [role]
   /// the returned list will be empty.  If [role] is null or not specified all
   /// UnitCore's of the specified [faction] will be returned.
-  List<UnitCore> unitList(Factions faction, {RoleType? role}) {
+  List<UnitCore> unitList(Factions faction, {List<RoleType?>? role}) {
     List<Frame>? factionUnit = _factionFrames[faction];
 
     if (factionUnit == null) {
