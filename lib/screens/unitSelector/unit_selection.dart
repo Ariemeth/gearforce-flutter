@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:gearforce/data/data.dart';
+import 'package:gearforce/models/factions/faction.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/unit/role.dart';
+import 'package:gearforce/models/unit/unit_core.dart';
+import 'package:gearforce/screens/unitSelector/unit_selection_text_Cell.dart';
 import 'package:provider/provider.dart';
 
 class UnitSelection extends StatefulWidget {
@@ -48,27 +51,112 @@ class SelectionList extends StatelessWidget {
     final roster = context.watch<UnitRoster>();
     final data = context.watch<Data>();
 
-    final List<Widget> l = [];
-    final f = roster.faction.value;
-    if (f != null) {
-      data
-          .unitList(f,
-              role: this
-                  .filters
-                  .entries
-                  .where((element) => element.value)
-                  .map((e) => e.key)
-                  .toList())
-          .forEach((element) {
-        l.add(Text('${element.name}: ${element.role}'));
-      });
-    }
-
     return SingleChildScrollView(
       child: Column(
-        children: l,
+        children: [
+          Align(
+            child: SingleChildScrollView(
+              child: buildTable(data, roster.faction.value),
+              scrollDirection: Axis.horizontal,
+            ),
+            alignment: Alignment.centerLeft,
+          ),
+        ],
       ),
     );
+  }
+
+  Table buildTable(Data data, Factions? faction) {
+    if (faction == null) {
+      return Table();
+    }
+    var d = data.unitList(
+      faction,
+      role: this
+          .filters
+          .entries
+          .where((filterMap) => filterMap.value)
+          .map((filterMap) => filterMap.key)
+          .toList(),
+    );
+    var table = Table(
+      columnWidths: const <int, TableColumnWidth>{
+        0: IntrinsicColumnWidth(),
+        1: IntrinsicColumnWidth(),
+        2: IntrinsicColumnWidth(),
+        3: IntrinsicColumnWidth(),
+        4: IntrinsicColumnWidth(),
+        5: IntrinsicColumnWidth(),
+        6: IntrinsicColumnWidth(),
+        7: IntrinsicColumnWidth(),
+        8: IntrinsicColumnWidth(),
+        9: IntrinsicColumnWidth(),
+        10: IntrinsicColumnWidth(),
+        11: IntrinsicColumnWidth(),
+        12: IntrinsicColumnWidth(),
+        13: IntrinsicColumnWidth(),
+        14: IntrinsicColumnWidth(),
+      },
+      children: <TableRow>[
+        buildTitleRow(),
+        ...d.map((e) => buildRow(e)).toList()
+      ],
+    );
+    return table;
+  }
+
+  TableRow buildTitleRow() {
+    return TableRow(children: <Widget>[
+      UnitSelectionTextCell.columnTitle('Model'),
+      UnitSelectionTextCell.columnTitle('TV'),
+      UnitSelectionTextCell.columnTitle('Roles'),
+      UnitSelectionTextCell.columnTitle('MR'),
+      UnitSelectionTextCell.columnTitle('Arm'),
+      UnitSelectionTextCell.columnTitle('H/S'),
+      UnitSelectionTextCell.columnTitle('Actions'),
+      UnitSelectionTextCell.columnTitle('GU'),
+      UnitSelectionTextCell.columnTitle('PI'),
+      UnitSelectionTextCell.columnTitle('EW'),
+      UnitSelectionTextCell.columnTitle(
+        'React Weapons',
+        maxLines: 1,
+      ),
+      UnitSelectionTextCell.columnTitle(
+        'Mounted Weapons',
+        maxLines: 1,
+      ),
+      UnitSelectionTextCell.columnTitle('Traits'),
+      UnitSelectionTextCell.columnTitle('Type'),
+      UnitSelectionTextCell.columnTitle('Height'),
+    ]);
+  }
+
+  TableRow buildRow(UnitCore uc) {
+    return TableRow(children: <Widget>[
+      UnitSelectionTextCell.content(
+        '${uc.name}',
+        maxLines: 1,
+        alignment: Alignment.centerLeft,
+      ),
+      UnitSelectionTextCell.content('${uc.tv}'),
+      UnitSelectionTextCell.content(
+        '${uc.role!.roles.join(', ')}',
+        maxLines: 2,
+        softWrap: false,
+      ),
+      UnitSelectionTextCell.content('${uc.movement}'),
+      UnitSelectionTextCell.content('${uc.armor}'),
+      UnitSelectionTextCell.content('${uc.hull}/${uc.structure}'),
+      UnitSelectionTextCell.content('${uc.actions}'),
+      UnitSelectionTextCell.content('${uc.gunnery}+'),
+      UnitSelectionTextCell.content('${uc.piloting}+'),
+      UnitSelectionTextCell.content('${uc.ew}+'),
+      UnitSelectionTextCell.content('${uc.reactWeapons.join(', ')}'),
+      UnitSelectionTextCell.content('${uc.mountedWeapons.join(', ')}'),
+      UnitSelectionTextCell.content('${uc.traits.join(', ')}'),
+      UnitSelectionTextCell.content('${uc.type}'),
+      UnitSelectionTextCell.content('${uc.height}'),
+    ]);
   }
 }
 
@@ -91,13 +179,24 @@ class SelectionFilters extends StatelessWidget {
             isChecked: e.value, onChanged: this.onChanged, role: e.key))
         .toList();
 
-    return Row(
+    return Column(
       children: [
-        Text(
-          'Filters:  ',
-          style: TextStyle(fontSize: 16),
+        Align(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            'Filters:  ',
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
         ),
-        ...f
+        Row(
+          children: [
+            Text(
+              'Roles:  ',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            ...f
+          ],
+        ),
       ],
     );
   }
