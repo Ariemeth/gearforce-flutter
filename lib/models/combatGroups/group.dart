@@ -10,6 +10,13 @@ class Group extends ChangeNotifier {
 
   Group({RoleType? role}) {
     this.role.value = role;
+    this.role.addListener(() {
+      _units.removeWhere((unit) {
+        return !unit.role()!.includesRole([this.role.value]);
+      });
+
+      notifyListeners();
+    });
   }
 
   void addUnit(UnitCore unit) {

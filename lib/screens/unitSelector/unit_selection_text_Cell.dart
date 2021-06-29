@@ -6,10 +6,14 @@ class UnitSelectionTextCell extends StatelessWidget {
     this.textAlignment = TextAlign.center,
     this.backgroundColor,
     this.padding = const EdgeInsets.all(5),
-    this.textStyle = const TextStyle(fontSize: 14),
+    this.textStyle = const TextStyle(
+      fontSize: 16,
+      decoration: TextDecoration.none,
+    ),
     this.alignment = Alignment.center,
     this.maxLines,
     this.softWrap = true,
+    this.border,
   });
 
   UnitSelectionTextCell.columnTitle(
@@ -17,10 +21,11 @@ class UnitSelectionTextCell extends StatelessWidget {
     this.textAlignment = TextAlign.center,
     this.backgroundColor,
     this.padding = const EdgeInsets.all(5),
-    this.textStyle = const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+    this.textStyle = const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
     this.alignment = Alignment.center,
     this.maxLines,
     this.softWrap = true,
+    this.border,
   });
 
   final String text;
@@ -31,12 +36,14 @@ class UnitSelectionTextCell extends StatelessWidget {
   final Alignment alignment;
   final int? maxLines;
   final bool softWrap;
+  final BoxBorder? border;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         color: this.backgroundColor,
+        border: this.border,
       ),
       alignment: this.alignment,
       padding: this.padding,

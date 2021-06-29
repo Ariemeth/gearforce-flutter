@@ -107,7 +107,11 @@ class SelectionList extends StatelessWidget {
 
   TableRow buildTitleRow() {
     return TableRow(children: <Widget>[
-      UnitSelectionTextCell.columnTitle('Model'),
+      UnitSelectionTextCell.columnTitle(
+        'Model',
+        alignment: Alignment.centerLeft,
+        padding: const EdgeInsets.fromLTRB(3, 5, 5, 5),
+      ),
       UnitSelectionTextCell.columnTitle('TV'),
       UnitSelectionTextCell.columnTitle('Roles'),
       UnitSelectionTextCell.columnTitle('MR'),
@@ -133,10 +137,66 @@ class SelectionList extends StatelessWidget {
 
   TableRow buildRow(UnitCore uc) {
     return TableRow(children: <Widget>[
-      UnitSelectionTextCell.content(
-        '${uc.name}',
-        maxLines: 1,
-        alignment: Alignment.centerLeft,
+      Draggable<UnitCore>(
+        //TODO add constructor to UnitSelectionTextCell for this case
+        childWhenDragging: UnitSelectionTextCell.content(
+          '${uc.name}',
+          //backgroundColor: Colors.blue[600],
+          border: Border.all(
+            color: Colors.green,
+            width: 2.0,
+          ),
+          maxLines: 1,
+          alignment: Alignment.centerLeft,
+          padding: const EdgeInsets.fromLTRB(0, 3, 3, 3),
+          // textStyle: TextStyle(fontSize: 14, decoration: TextDecoration.none),
+        ),
+        feedback: Container(
+          color: Colors.blue[100],
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              //TODO add constructor to UnitSelectionTextCell for this case
+              UnitSelectionTextCell.content(
+                'Model: ${uc.name}',
+                maxLines: 1,
+                alignment: Alignment.centerLeft,
+                textStyle: const TextStyle(
+                  fontSize: 16,
+                  color: Colors.black,
+                  fontWeight: FontWeight.normal,
+                  decoration: TextDecoration.none,
+                ),
+              ),
+              UnitSelectionTextCell.content('TV: ${uc.tv}',
+                  maxLines: 1,
+                  alignment: Alignment.centerLeft,
+                  textStyle: const TextStyle(
+                    fontSize: 16,
+                    color: Colors.black,
+                    fontWeight: FontWeight.normal,
+                    decoration: TextDecoration.none,
+                  )),
+              UnitSelectionTextCell.content(
+                  'Roles: ${uc.role!.roles.join(', ')}',
+                  maxLines: 1,
+                  alignment: Alignment.centerLeft,
+                  textStyle: const TextStyle(
+                    fontSize: 16,
+                    color: Colors.black,
+                    fontWeight: FontWeight.normal,
+                    decoration: TextDecoration.none,
+                  )),
+            ],
+          ),
+        ),
+        data: uc,
+        child: UnitSelectionTextCell.content(
+          '${uc.name}',
+          maxLines: 1,
+          alignment: Alignment.centerLeft,
+          padding: const EdgeInsets.fromLTRB(3, 5, 5, 5),
+        ),
       ),
       UnitSelectionTextCell.content('${uc.tv}'),
       UnitSelectionTextCell.content(
@@ -151,8 +211,14 @@ class SelectionList extends StatelessWidget {
       UnitSelectionTextCell.content('${uc.gunnery}+'),
       UnitSelectionTextCell.content('${uc.piloting}+'),
       UnitSelectionTextCell.content('${uc.ew}+'),
-      UnitSelectionTextCell.content('${uc.reactWeapons.join(', ')}'),
-      UnitSelectionTextCell.content('${uc.mountedWeapons.join(', ')}'),
+      UnitSelectionTextCell.content(
+        '${uc.reactWeapons.join(', ')}',
+        maxLines: 2,
+      ),
+      UnitSelectionTextCell.content(
+        '${uc.mountedWeapons.join(', ')}',
+        maxLines: 2,
+      ),
       UnitSelectionTextCell.content('${uc.traits.join(', ')}'),
       UnitSelectionTextCell.content('${uc.type}'),
       UnitSelectionTextCell.content('${uc.height}'),

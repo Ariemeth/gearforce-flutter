@@ -52,7 +52,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
         Flexible(
           child: _generateTable(
             context: context,
-            units: widget.getOwnCG().primary.allUnits(),
+            group: widget.getOwnCG().primary,
             isPrimary: true,
           ),
         ),
@@ -64,7 +64,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
         Flexible(
           child: _generateTable(
             context: context,
-            units: widget.getOwnCG().secondary.allUnits(),
+            group: widget.getOwnCG().secondary,
             isPrimary: false,
           ),
         ),
@@ -157,9 +157,10 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
 
   Widget _generateTable({
     required BuildContext context,
-    required List<Unit> units,
+    required Group group,
     required bool isPrimary,
   }) {
+    final units = group.allUnits();
     var table = StickyHeadersTable(
       legendCell: UnitTextCell.columnTitle(
         "Model Name",
@@ -186,7 +187,26 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
           stickyLegendWidth: 160.0,
           stickyLegendHeight: 50.0),
     );
-    return table;
+
+    var target = DragTarget(
+      builder: (
+        BuildContext context,
+        List<Object?> candidateData,
+        List<dynamic> rejectedData,
+      ) {
+        return table;
+      },
+      onAccept: (UnitCore uc) {
+        setState(() {
+          group.addUnit(uc);
+        });
+      },
+      onWillAccept: (UnitCore? uc) {
+        return uc!.role!.includesRole([group.role.value]);
+      },
+    );
+
+    return target;
   }
 
   Widget _buildColumnTitles(int i) {
