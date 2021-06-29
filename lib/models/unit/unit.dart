@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/mods/modification.dart';
+import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
 
@@ -37,6 +38,16 @@ class Unit extends ChangeNotifier {
 
     for (var mod in this._unitMods) {
       value = mod.applyMods(UnitAttribute.tv, value);
+    }
+
+    return value;
+  }
+
+  Roles? role() {
+    var value = this.core.role;
+
+    for (var mod in this._unitMods) {
+      value = mod.applyMods(UnitAttribute.roles, value);
     }
 
     return value;

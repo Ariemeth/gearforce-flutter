@@ -52,14 +52,8 @@ class Roles {
     );
   }
 
-  bool includesRole(RoleType roleType) {
-    bool isFound = false;
-    roles.forEach((element) {
-      if (element.name == roleType) {
-        isFound = true;
-      }
-    });
-    return isFound;
+  bool includesRole(List<RoleType?> roleType) {
+    return roles.any((element) => roleType.contains(element.name));
   }
 
   @override
