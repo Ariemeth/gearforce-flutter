@@ -28,6 +28,38 @@ class UnitSelectionTextCell extends StatelessWidget {
     this.border,
   });
 
+  UnitSelectionTextCell.draggableFeedback(
+    this.text, {
+    this.textAlignment = TextAlign.center,
+    this.backgroundColor,
+    this.padding = const EdgeInsets.all(5),
+    this.textStyle = const TextStyle(
+      fontSize: 16,
+      color: Colors.black,
+      fontWeight: FontWeight.normal,
+      decoration: TextDecoration.none,
+    ),
+    this.alignment = Alignment.centerLeft,
+    this.maxLines=1,
+    this.softWrap = true,
+    this.border,
+  });
+
+    UnitSelectionTextCell.childWhenDragging(
+    this.text, {
+    this.textAlignment = TextAlign.center,
+    this.backgroundColor,
+    this.padding = const EdgeInsets.fromLTRB(0, 3, 3, 3),
+    this.textStyle = const TextStyle(
+      fontSize: 16,
+      decoration: TextDecoration.none,
+    ),
+    this.alignment = Alignment.centerLeft,
+    this.maxLines =1,
+    this.softWrap = true,
+    this.border,
+  });
+
   final String text;
   final TextAlign textAlignment;
   final Color? backgroundColor;

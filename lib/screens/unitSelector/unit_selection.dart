@@ -138,58 +138,14 @@ class SelectionList extends StatelessWidget {
   TableRow buildRow(UnitCore uc) {
     return TableRow(children: <Widget>[
       Draggable<UnitCore>(
-        //TODO add constructor to UnitSelectionTextCell for this case
-        childWhenDragging: UnitSelectionTextCell.content(
+        childWhenDragging: UnitSelectionTextCell.childWhenDragging(
           '${uc.name}',
-          //backgroundColor: Colors.blue[600],
           border: Border.all(
             color: Colors.green,
             width: 2.0,
           ),
-          maxLines: 1,
-          alignment: Alignment.centerLeft,
-          padding: const EdgeInsets.fromLTRB(0, 3, 3, 3),
-          // textStyle: TextStyle(fontSize: 14, decoration: TextDecoration.none),
         ),
-        feedback: Container(
-          color: Colors.blue[100],
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              //TODO add constructor to UnitSelectionTextCell for this case
-              UnitSelectionTextCell.content(
-                'Model: ${uc.name}',
-                maxLines: 1,
-                alignment: Alignment.centerLeft,
-                textStyle: const TextStyle(
-                  fontSize: 16,
-                  color: Colors.black,
-                  fontWeight: FontWeight.normal,
-                  decoration: TextDecoration.none,
-                ),
-              ),
-              UnitSelectionTextCell.content('TV: ${uc.tv}',
-                  maxLines: 1,
-                  alignment: Alignment.centerLeft,
-                  textStyle: const TextStyle(
-                    fontSize: 16,
-                    color: Colors.black,
-                    fontWeight: FontWeight.normal,
-                    decoration: TextDecoration.none,
-                  )),
-              UnitSelectionTextCell.content(
-                  'Roles: ${uc.role!.roles.join(', ')}',
-                  maxLines: 1,
-                  alignment: Alignment.centerLeft,
-                  textStyle: const TextStyle(
-                    fontSize: 16,
-                    color: Colors.black,
-                    fontWeight: FontWeight.normal,
-                    decoration: TextDecoration.none,
-                  )),
-            ],
-          ),
-        ),
+        feedback: SelectedUnitFeedback(uc: uc,),
         data: uc,
         child: UnitSelectionTextCell.content(
           '${uc.name}',
@@ -223,6 +179,35 @@ class SelectionList extends StatelessWidget {
       UnitSelectionTextCell.content('${uc.type}'),
       UnitSelectionTextCell.content('${uc.height}'),
     ]);
+  }
+}
+
+class SelectedUnitFeedback extends StatelessWidget {
+  final UnitCore uc;
+  const SelectedUnitFeedback({
+    Key? key,
+    required this.uc,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.blue[100],
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          UnitSelectionTextCell.draggableFeedback(
+            'Model: ${this.uc.name}',
+          ),
+          UnitSelectionTextCell.draggableFeedback(
+            'TV: ${this.uc.tv}',
+          ),
+          UnitSelectionTextCell.draggableFeedback(
+            'Roles: ${this.uc.role!.roles.join(', ')}',
+          ),
+        ],
+      ),
+    );
   }
 }
 
