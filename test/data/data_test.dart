@@ -86,4 +86,45 @@ void main() {
     await data.load().whenComplete(() =>
         expect(data.unitList(Factions.PeaceRiver).length, greaterThan(0)));
   });
+
+  test('test unitlist with name filter', () async {
+    final data = Data();
+    await data.load();
+    expect(data.unitList(Factions.PeaceRiver, filters: ['warrior']).length,
+        greaterThan(0),
+        reason: 'check for at least 1 result');
+    expect(data.unitList(Factions.PeaceRiver, filters: ['warrior']).length,
+        lessThan(data.unitList(Factions.PeaceRiver).length),
+        reason: 'filtered list should be smaller');
+    print(data.unitList(Factions.PeaceRiver, filters: ['warrior']).length);
+  });
+
+  test('test unitlist with trait filter', () async {
+    final data = Data();
+    await data.load();
+    expect(data.unitList(Factions.PeaceRiver, filters: ['airdrop']).length,
+        greaterThan(0),
+        reason: 'check for at least 1 result');
+    expect(data.unitList(Factions.PeaceRiver, filters: ['airdrop']).length,
+        lessThan(data.unitList(Factions.PeaceRiver).length),
+        reason: 'filtered list should be smaller');
+    print(data.unitList(Factions.PeaceRiver, filters: ['airdrop']).length);
+  });
+
+  test('test unitlist with trait filter and name filter', () async {
+    final data = Data();
+    await data.load();
+    expect(
+        data.unitList(Factions.PeaceRiver,
+            filters: ['airdrop', 'warrior']).length,
+        greaterThan(0),
+        reason: 'check for at least 1 result');
+    expect(
+        data.unitList(Factions.PeaceRiver,
+            filters: ['airdrop', 'warrior']).length,
+        lessThan(data.unitList(Factions.PeaceRiver).length),
+        reason: 'filtered list should be smaller');
+    print(data
+        .unitList(Factions.PeaceRiver, filters: ['airdrop', 'warrior']).length);
+  });
 }

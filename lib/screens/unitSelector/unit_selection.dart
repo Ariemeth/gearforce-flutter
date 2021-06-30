@@ -8,11 +8,11 @@ import 'package:gearforce/screens/unitSelector/unit_selection_text_Cell.dart';
 import 'package:provider/provider.dart';
 
 class UnitSelection extends StatefulWidget {
-  final Map<RoleType, bool> _filters = <RoleType, bool>{};
+  final Map<RoleType, bool> _roleFilter = <RoleType, bool>{};
 
   UnitSelection() {
     RoleType.values.forEach((element) {
-      _filters.addAll({element: false});
+      _roleFilter.addAll({element: false});
     });
   }
 
@@ -21,19 +21,30 @@ class UnitSelection extends StatefulWidget {
 }
 
 class _UnitSelectionState extends State<UnitSelection> {
+  String? _filter;
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         SelectionFilters(
-          filters: widget._filters,
+          roleFilter: widget._roleFilter,
           onChanged: (RoleType role, bool newValue) {
             setState(() {
-              widget._filters[role] = newValue;
+              widget._roleFilter[role] = newValue;
+            });
+          },
+          onFilterChanged: (String text) {
+            setState(() {
+              _filter = text;
             });
           },
         ),
-        Expanded(child: SelectionList(filters: widget._filters)),
+        Expanded(
+            child: SelectionList(
+          roleFilters: widget._roleFilter,
+          filter: _filter,
+        )),
       ],
     );
   }
@@ -42,10 +53,12 @@ class _UnitSelectionState extends State<UnitSelection> {
 class SelectionList extends StatelessWidget {
   const SelectionList({
     Key? key,
-    required this.filters,
+    required this.roleFilters,
+    required this.filter,
   }) : super(key: key);
 
-  final Map<RoleType, bool> filters;
+  final Map<RoleType, bool> roleFilters;
+  final String? filter;
   @override
   Widget build(BuildContext context) {
     final roster = context.watch<UnitRoster>();
@@ -73,11 +86,13 @@ class SelectionList extends StatelessWidget {
     var d = data.unitList(
       faction,
       role: this
-          .filters
+          .roleFilters
           .entries
           .where((filterMap) => filterMap.value)
           .map((filterMap) => filterMap.key)
           .toList(),
+      filters:
+          this.filter?.split(',').where((element) => element != '').toList(),
     );
     var table = Table(
       columnWidths: const <int, TableColumnWidth>{
@@ -216,17 +231,19 @@ class SelectedUnitFeedback extends StatelessWidget {
 class SelectionFilters extends StatelessWidget {
   const SelectionFilters({
     Key? key,
-    required this.filters,
+    required this.roleFilter,
     required this.onChanged,
+    required this.onFilterChanged,
   }) : super(key: key);
 
-  final Map<RoleType, bool> filters;
+  final Map<RoleType, bool> roleFilter;
   final void Function(RoleType, bool) onChanged;
+  final void Function(String) onFilterChanged;
 
   @override
   Widget build(BuildContext context) {
     var f = this
-        .filters
+        .roleFilter
         .entries
         .map((e) => FilterSelection(
             isChecked: e.value, onChanged: this.onChanged, role: e.key))
@@ -234,17 +251,44 @@ class SelectionFilters extends StatelessWidget {
 
     return Column(
       children: [
-        Align(
-          alignment: Alignment.centerLeft,
-          child: Text(
-            'Filters:  ',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-          ),
+        Row(
+          children: [
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                'Filters  ',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+            ),
+            SizedBox(
+              width: 400.0,
+              child: Padding(
+                padding: const EdgeInsets.only(
+                    right: 10, left: 5, top: 5, bottom: 5),
+                child: TextField(
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    isDense: true,
+                    contentPadding: const EdgeInsets.symmetric(
+                      vertical: 10,
+                      horizontal: 5,
+                    ),
+                    hintText: 'Filter using a comma separated list'
+                  ),
+                  onChanged: (String value) async {
+                    onFilterChanged(value);
+                  },
+                  style: TextStyle(fontSize: 16),
+                  strutStyle: StrutStyle.disabled,
+                ),
+              ),
+            )
+          ],
         ),
         Row(
           children: [
             Text(
-              'Roles:  ',
+              'Roles  ',
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
             ...f

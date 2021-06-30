@@ -97,6 +97,91 @@ class UnitCore {
     }
   }
 
+  bool contains(List<String> criteria) {
+    for (var i = 0; i < criteria.length; i++) {
+      if (this.name.toLowerCase().contains(criteria[i].toLowerCase())) {
+        return true;
+      }
+
+      if (this.tv.toString().contains(criteria[i].toLowerCase())) {
+        return true;
+      }
+
+      if (this.movement.toString().contains(criteria[i].toLowerCase())) {
+        return true;
+      }
+
+      if (this.armor.toString().contains(criteria[i].toLowerCase())) {
+        return true;
+      }
+
+      if (this.hull.toString().contains(criteria[i].toLowerCase())) {
+        return true;
+      }
+
+      if (this.structure.toString().contains(criteria[i].toLowerCase())) {
+        return true;
+      }
+
+      if (this.actions.toString().contains(criteria[i].toLowerCase())) {
+        return true;
+      }
+
+      if ('${this.gunnery.toString()}+'.contains(criteria[i].toLowerCase())) {
+        return true;
+      }
+
+      if ('${this.piloting.toString()}+'.contains(criteria[i].toLowerCase())) {
+        return true;
+      }
+
+      if ('${this.ew.toString()}+'.contains(criteria[i].toLowerCase())) {
+        return true;
+      }
+
+      if (this
+          .role!
+          .roles
+          .toString()
+          .toLowerCase()
+          .split(',')
+          .contains(criteria[i].toLowerCase())) {
+        return true;
+      }
+
+      if (this
+          .reactWeapons
+          .toString()
+          .toLowerCase()
+          .contains(criteria[i].toLowerCase())) {
+        return true;
+      }
+      if (this
+          .mountedWeapons
+          .toString()
+          .toLowerCase()
+          .contains(criteria[i].toLowerCase())) {
+        return true;
+      }
+
+      if (this
+          .traits
+          .toString()
+          .toLowerCase()
+          .contains(criteria[i].toLowerCase())) {
+        return true;
+      }
+
+      if (this.type.contains(criteria[i].toLowerCase())) {
+        return true;
+      }
+      if (this.height.contains(criteria[i].toLowerCase())) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   factory UnitCore.fromJson(dynamic json, {String frame = ''}) => UnitCore(
         frame: frame,
         name: json['model'] as String,
