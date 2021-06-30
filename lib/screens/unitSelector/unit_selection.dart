@@ -273,7 +273,7 @@ class SelectionFilters extends StatelessWidget {
                       vertical: 10,
                       horizontal: 5,
                     ),
-                    hintText: 'Filter using a comma separated list'
+                    hintText: 'Filter using a comma separated list',
                   ),
                   onChanged: (String value) async {
                     onFilterChanged(value);
