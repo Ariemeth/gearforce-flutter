@@ -98,7 +98,13 @@ class UnitCore {
   }
 
   bool contains(List<String> criteria) {
+    if (criteria.isEmpty) {
+      return true;
+    }
     for (var i = 0; i < criteria.length; i++) {
+      if (criteria[i].isEmpty) {
+        continue;
+      }
       if (this.name.toLowerCase().contains(criteria[i].toLowerCase())) {
         return true;
       }
