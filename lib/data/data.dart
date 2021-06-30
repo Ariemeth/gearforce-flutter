@@ -49,7 +49,8 @@ class Data {
   /// If no UnitCore's are available to match the specified [faction] and [role]
   /// the returned list will be empty.  If [role] is null or not specified all
   /// UnitCore's of the specified [faction] will be returned.
-  List<UnitCore> unitList(Factions faction, {List<RoleType?>? role}) {
+  List<UnitCore> unitList(Factions faction,
+      {List<RoleType?>? role, List<String>? filters}) {
     List<Frame>? factionUnit = _factionFrames[faction];
 
     if (factionUnit == null) {
@@ -61,9 +62,13 @@ class Data {
     factionUnit.forEach((f) {
       ulist.addAll(f.variants);
     });
-    return role == null
+    var results = role == null
         ? ulist
         : ulist.where((element) => element.role!.includesRole(role)).toList();
+
+    return filters == null
+        ? results
+        : results.where((element) => element.contains(filters)).toList();
   }
 
   /// This function loads all needed data resources.
