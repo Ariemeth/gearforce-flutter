@@ -12,7 +12,7 @@ class UnitSelection extends StatefulWidget {
 
   UnitSelection() {
     RoleType.values.forEach((element) {
-      _roleFilter.addAll({element: element == RoleType.GP ? true : false});
+      _roleFilter.addAll({element: false});
     });
   }
 
