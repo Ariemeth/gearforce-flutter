@@ -50,7 +50,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
           isPrimary: true,
         ),
         Flexible(
-          child: _generateTable(
+          child: _generateTable2(
             context: context,
             group: widget.getOwnCG().primary,
             isPrimary: true,
@@ -149,10 +149,17 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
                       : Colors.green,
             ),
           ),
-          //    Expanded(child: Container()),
         ],
       ),
     );
+  }
+
+  Widget _generateTable2({
+    required BuildContext context,
+    required Group group,
+    required bool isPrimary,
+  }) {
+    return Container();
   }
 
   Widget _generateTable({
