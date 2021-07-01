@@ -160,69 +160,9 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
     required Group group,
     required bool isPrimary,
   }) {
-    return DataTable(
-      columns: <DataColumn>[
-        DataColumn(
-          label: Container(
-            alignment: Alignment.centerLeft,
-            width: 160,
-            child: UnitTextCell.columnTitle(
-              "Model",
-              textAlignment: TextAlign.left,
-              alignment: Alignment.centerLeft,
-            ),
-          ),
-        ),
-        DataColumn(
-          label: Container(
-            width: 50,
-            child: UnitTextCell.columnTitle(
-              'TV',
-            ),
-          ),
-        ),
-        DataColumn(
-          label: Container(
-            width: 60,
-            child: UnitTextCell.columnTitle(
-              'Actions',
-            ),
-          ),
-        ),
-        DataColumn(
-          label: Container(
-            width: 120,
-            child: UnitTextCell.columnTitle(
-              'Command type',
-            ),
-          ),
-        ),
-        DataColumn(
-          label: Container(
-            width: 65,
-            child: UnitTextCell.columnTitle(
-              'Duelist',
-            ),
-          ),
-        ),
-        DataColumn(
-          label: Container(
-            width: 65,
-            child: UnitTextCell.columnTitle(
-              'Veteran',
-            ),
-          ),
-        ),
-        DataColumn(
-          label: Container(
-            width: 65,
-            child: UnitTextCell.columnTitle(
-              'Remove',
-            ),
-          ),
-        ),
-      ],
-      rows: <DataRow>[],
+    var table = DataTable(
+      columns: _generateTableHeading(),
+      rows: _generateTableRows(group: group),
       columnSpacing: 2.0,
       horizontalMargin: 0.0,
       headingRowHeight: 30.0,
@@ -230,6 +170,78 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
         (states) => Color.fromARGB(255, 187, 222, 251),
       ),
     );
+
+    return table;
+  }
+
+  List<DataColumn> _generateTableHeading() {
+    return <DataColumn>[
+      DataColumn(
+        label: Container(
+          alignment: Alignment.centerLeft,
+          width: 160,
+          child: UnitTextCell.columnTitle(
+            "Model",
+            textAlignment: TextAlign.left,
+            alignment: Alignment.centerLeft,
+          ),
+        ),
+      ),
+      DataColumn(
+        label: Container(
+          width: 50,
+          child: UnitTextCell.columnTitle(
+            'TV',
+          ),
+        ),
+      ),
+      DataColumn(
+        label: Container(
+          width: 60,
+          child: UnitTextCell.columnTitle(
+            'Actions',
+          ),
+        ),
+      ),
+      DataColumn(
+        label: Container(
+          width: 120,
+          child: UnitTextCell.columnTitle(
+            'Command type',
+          ),
+        ),
+      ),
+      DataColumn(
+        label: Container(
+          width: 65,
+          child: UnitTextCell.columnTitle(
+            'Duelist',
+          ),
+        ),
+      ),
+      DataColumn(
+        label: Container(
+          width: 65,
+          child: UnitTextCell.columnTitle(
+            'Veteran',
+          ),
+        ),
+      ),
+      DataColumn(
+        label: Container(
+          width: 65,
+          child: UnitTextCell.columnTitle(
+            'Remove',
+          ),
+        ),
+      ),
+    ];
+  }
+
+  List<DataRow> _generateTableRows({
+    required Group group,
+  }) {
+    return <DataRow>[];
   }
 
   Widget _generateTable({
