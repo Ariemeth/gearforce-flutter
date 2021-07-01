@@ -47,7 +47,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
           isPrimary: true,
         ),
         Expanded(
-          child: _generateTable2(
+          child: _generateTable(
             context: context,
             group: widget.getOwnCG().primary,
             isPrimary: true,
@@ -59,7 +59,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
           isPrimary: false,
         ),
         Expanded(
-          child: _generateTable2(
+          child: _generateTable(
             context: context,
             group: widget.getOwnCG().secondary,
             isPrimary: false,
@@ -133,7 +133,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
     );
   }
 
-  Widget _generateTable2({
+  Widget _generateTable({
     required BuildContext context,
     required Group group,
     required bool isPrimary,
