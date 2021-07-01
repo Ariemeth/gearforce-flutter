@@ -153,22 +153,32 @@ class SelectionList extends StatelessWidget {
   TableRow buildRow(UnitCore uc) {
     return TableRow(children: <Widget>[
       Draggable<UnitCore>(
-        childWhenDragging: UnitSelectionTextCell.childWhenDragging(
-          '${uc.name}',
-          border: Border.all(
-            color: Colors.green,
-            width: 2.0,
-          ),
+        childWhenDragging: Row(
+          children: [
+            Icon(Icons.drag_indicator),
+            UnitSelectionTextCell.childWhenDragging(
+              '${uc.name}',
+              border: Border.all(
+                color: Colors.green,
+                width: 2.0,
+              ),
+            ),
+          ],
         ),
         feedback: SelectedUnitFeedback(
           uc: uc,
         ),
         data: uc,
-        child: UnitSelectionTextCell.content(
-          '${uc.name}',
-          maxLines: 1,
-          alignment: Alignment.centerLeft,
-          padding: const EdgeInsets.fromLTRB(3, 5, 5, 5),
+        child: Row(
+          children: [
+            Icon(Icons.drag_indicator),
+            UnitSelectionTextCell.content(
+              '${uc.name}',
+              maxLines: 1,
+              alignment: Alignment.centerLeft,
+              padding: const EdgeInsets.fromLTRB(3, 5, 5, 5),
+            ),
+          ],
         ),
       ),
       UnitSelectionTextCell.content('${uc.tv}'),

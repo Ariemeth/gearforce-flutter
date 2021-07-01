@@ -21,7 +21,7 @@ class UnitSelectionTextCell extends StatelessWidget {
     this.textAlignment = TextAlign.center,
     this.backgroundColor,
     this.padding = const EdgeInsets.all(5),
-    this.textStyle = const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+    this.textStyle = const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
     this.alignment = Alignment.center,
     this.maxLines,
     this.softWrap = true,

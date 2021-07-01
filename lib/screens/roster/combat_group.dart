@@ -43,13 +43,14 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
   Widget build(BuildContext context) {
     widget.roster.setActiveCG(widget.name);
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _generateGroupHeader(
           context: context,
           group: widget.getOwnCG().primary,
           isPrimary: true,
         ),
-        Flexible(
+        Expanded(
           child: _generateTable2(
             context: context,
             group: widget.getOwnCG().primary,
@@ -159,7 +160,76 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
     required Group group,
     required bool isPrimary,
   }) {
-    return Container();
+    return DataTable(
+      columns: <DataColumn>[
+        DataColumn(
+          label: Container(
+            alignment: Alignment.centerLeft,
+            width: 160,
+            child: UnitTextCell.columnTitle(
+              "Model",
+              textAlignment: TextAlign.left,
+              alignment: Alignment.centerLeft,
+            ),
+          ),
+        ),
+        DataColumn(
+          label: Container(
+            width: 50,
+            child: UnitTextCell.columnTitle(
+              'TV',
+            ),
+          ),
+        ),
+        DataColumn(
+          label: Container(
+            width: 60,
+            child: UnitTextCell.columnTitle(
+              'Actions',
+            ),
+          ),
+        ),
+        DataColumn(
+          label: Container(
+            width: 120,
+            child: UnitTextCell.columnTitle(
+              'Command type',
+            ),
+          ),
+        ),
+        DataColumn(
+          label: Container(
+            width: 65,
+            child: UnitTextCell.columnTitle(
+              'Duelist',
+            ),
+          ),
+        ),
+        DataColumn(
+          label: Container(
+            width: 65,
+            child: UnitTextCell.columnTitle(
+              'Veteran',
+            ),
+          ),
+        ),
+        DataColumn(
+          label: Container(
+            width: 65,
+            child: UnitTextCell.columnTitle(
+              'Remove',
+            ),
+          ),
+        ),
+      ],
+      rows: <DataRow>[],
+      columnSpacing: 2.0,
+      horizontalMargin: 0.0,
+      headingRowHeight: 30.0,
+      headingRowColor: MaterialStateColor.resolveWith(
+        (states) => Color.fromARGB(255, 187, 222, 251),
+      ),
+    );
   }
 
   Widget _generateTable({
