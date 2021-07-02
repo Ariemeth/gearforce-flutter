@@ -6,14 +6,14 @@ class UnitRoster extends ChangeNotifier {
   String? player;
   String? name;
   final faction = ValueNotifier<Factions?>(null);
-  final subFaction = ValueNotifier<String>("");
+  final subFaction = ValueNotifier<String?>(null);
   final Map<String, CombatGroup> _combatGroups = new Map<String, CombatGroup>();
   int _totalCreated = 0;
   String _activeCG = '';
 
   UnitRoster() {
     faction.addListener(() {
-      subFaction.value = "";
+      subFaction.value = null;
       _combatGroups.forEach((key, value) {
         value.clear();
       });

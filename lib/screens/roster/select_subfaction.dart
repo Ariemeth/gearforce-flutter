@@ -11,7 +11,7 @@ class SelectSubFaction extends StatefulWidget {
       : super(key: key);
   final List<Faction> factions;
   final ValueListenable<Factions?> selectedFaction;
-  final ValueNotifier<String> selectedSubFaction;
+  final ValueNotifier<String?> selectedSubFaction;
 
   @override
   _SelectSubFactionState createState() => _SelectSubFactionState();
@@ -19,17 +19,13 @@ class SelectSubFaction extends StatefulWidget {
 
 /// This is the private State class that goes with MyStatefulWidget.
 class _SelectSubFactionState extends State<SelectSubFaction> {
-  String? dropdownValue;
-
-  _SelectSubFactionState();
-
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<Factions?>(
       valueListenable: widget.selectedFaction,
       builder: (context, value, child) {
         return DropdownButton<String>(
-          value: dropdownValue,
+          value: widget.selectedSubFaction.value,
           hint: Text('Select sub-faction'),
           icon: const Icon(Icons.arrow_downward),
           iconSize: 16,
@@ -40,7 +36,6 @@ class _SelectSubFactionState extends State<SelectSubFaction> {
           underline: SizedBox(),
           onChanged: (String? newValue) {
             setState(() {
-              dropdownValue = newValue!;
               widget.selectedSubFaction.value = newValue;
             });
           },
@@ -51,9 +46,6 @@ class _SelectSubFactionState extends State<SelectSubFaction> {
   }
 
   List<DropdownMenuItem<String>>? _subFactions() {
-    // reset the dropdown value
-    this.dropdownValue = null;
-
     if (widget.selectedFaction.value == null) {
       return null;
     }
