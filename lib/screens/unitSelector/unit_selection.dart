@@ -4,6 +4,8 @@ import 'package:gearforce/models/factions/faction.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
+import 'package:gearforce/screens/unitSelector/selected_unit_feedback.dart';
+import 'package:gearforce/screens/unitSelector/selection_filters.dart';
 import 'package:gearforce/screens/unitSelector/unit_selection_text_Cell.dart';
 import 'package:provider/provider.dart';
 
@@ -69,7 +71,7 @@ class SelectionList extends StatelessWidget {
         children: [
           Align(
             child: SingleChildScrollView(
-              child: buildTable(data, roster.faction.value),
+              child: _buildTable(data, roster.faction.value),
               scrollDirection: Axis.horizontal,
             ),
             alignment: Alignment.centerLeft,
@@ -79,10 +81,20 @@ class SelectionList extends StatelessWidget {
     );
   }
 
-  Table buildTable(Data data, Factions? faction) {
+  Widget _buildTable(Data data, Factions? faction) {
     if (faction == null) {
-      return Table();
+      return DataTable(
+        columns: _createTableColumns(),
+        rows: [],
+        columnSpacing: 2.0,
+        horizontalMargin: 0.0,
+        headingRowHeight: 30.0,
+        headingRowColor: MaterialStateColor.resolveWith(
+          (states) => Color.fromARGB(255, 187, 222, 251),
+        ),
+      );
     }
+
     var d = data.unitList(
       faction,
       role: this
@@ -94,235 +106,126 @@ class SelectionList extends StatelessWidget {
       filters:
           this.filter?.split(',').where((element) => element != '').toList(),
     );
-    var table = Table(
-      columnWidths: const <int, TableColumnWidth>{
-        0: IntrinsicColumnWidth(),
-        1: IntrinsicColumnWidth(),
-        2: IntrinsicColumnWidth(),
-        3: IntrinsicColumnWidth(),
-        4: IntrinsicColumnWidth(),
-        5: IntrinsicColumnWidth(),
-        6: IntrinsicColumnWidth(),
-        7: IntrinsicColumnWidth(),
-        8: IntrinsicColumnWidth(),
-        9: IntrinsicColumnWidth(),
-        10: IntrinsicColumnWidth(),
-        11: IntrinsicColumnWidth(),
-        12: IntrinsicColumnWidth(),
-        13: IntrinsicColumnWidth(),
-        14: IntrinsicColumnWidth(),
-      },
-      children: <TableRow>[
-        buildTitleRow(),
-        ...d.map((e) => buildRow(e)).toList()
-      ],
+
+    var table = DataTable(
+      columns: _createTableColumns(),
+      rows: d.map((uc) => _createTableRow(uc)).toList(),
+      columnSpacing: 2.0,
+      horizontalMargin: 0.0,
+      headingRowHeight: 30.0,
+      headingRowColor: MaterialStateColor.resolveWith(
+        (states) => Color.fromARGB(255, 187, 222, 251),
+      ),
     );
+
     return table;
   }
 
-  TableRow buildTitleRow() {
-    return TableRow(children: <Widget>[
-      UnitSelectionTextCell.columnTitle(
-        'Model',
-        alignment: Alignment.centerLeft,
-        padding: const EdgeInsets.fromLTRB(3, 5, 5, 5),
-      ),
-      UnitSelectionTextCell.columnTitle('TV'),
-      UnitSelectionTextCell.columnTitle('Roles'),
-      UnitSelectionTextCell.columnTitle('MR'),
-      UnitSelectionTextCell.columnTitle('Arm'),
-      UnitSelectionTextCell.columnTitle('H/S'),
-      UnitSelectionTextCell.columnTitle('Actions'),
-      UnitSelectionTextCell.columnTitle('GU'),
-      UnitSelectionTextCell.columnTitle('PI'),
-      UnitSelectionTextCell.columnTitle('EW'),
-      UnitSelectionTextCell.columnTitle(
-        'React Weapons',
-        maxLines: 1,
-      ),
-      UnitSelectionTextCell.columnTitle(
-        'Mounted Weapons',
-        maxLines: 1,
-      ),
-      UnitSelectionTextCell.columnTitle('Traits'),
-      UnitSelectionTextCell.columnTitle('Type'),
-      UnitSelectionTextCell.columnTitle('Height'),
-    ]);
+  List<DataColumn> _createTableColumns() {
+    return <DataColumn>[
+      _createTableColumn('Model',
+          alignment: Alignment.centerLeft, textAlign: TextAlign.left),
+      _createTableColumn('TV'),
+      _createTableColumn('Roles'),
+      _createTableColumn('Movement'),
+      _createTableColumn('Armor'),
+      _createTableColumn('H/S'),
+      _createTableColumn('Actions'),
+      _createTableColumn('GU'),
+      _createTableColumn('PI'),
+      _createTableColumn('EW'),
+      _createTableColumn('React Weapons'),
+      _createTableColumn('Mounted Weapons'),
+      _createTableColumn('Traits'),
+      _createTableColumn('Type'),
+      _createTableColumn('Height'),
+    ];
   }
 
-  TableRow buildRow(UnitCore uc) {
-    return TableRow(children: <Widget>[
-      Draggable<UnitCore>(
-        childWhenDragging: UnitSelectionTextCell.childWhenDragging(
-          '${uc.name}',
-          border: Border.all(
-            color: Colors.green,
-            width: 2.0,
-          ),
-        ),
-        feedback: SelectedUnitFeedback(
-          uc: uc,
-        ),
-        data: uc,
-        child: UnitSelectionTextCell.content(
-          '${uc.name}',
-          maxLines: 1,
-          alignment: Alignment.centerLeft,
-          padding: const EdgeInsets.fromLTRB(3, 5, 5, 5),
-        ),
-      ),
-      UnitSelectionTextCell.content('${uc.tv}'),
-      UnitSelectionTextCell.content(
-        '${uc.role!.roles.join(', ')}',
-        maxLines: 2,
-        softWrap: false,
-      ),
-      UnitSelectionTextCell.content('${uc.movement}'),
-      UnitSelectionTextCell.content('${uc.armor}'),
-      UnitSelectionTextCell.content('${uc.hull}/${uc.structure}'),
-      UnitSelectionTextCell.content('${uc.actions}'),
-      UnitSelectionTextCell.content('${uc.gunnery}+'),
-      UnitSelectionTextCell.content('${uc.piloting}+'),
-      UnitSelectionTextCell.content('${uc.ew}+'),
-      UnitSelectionTextCell.content(
-        '${uc.reactWeapons.join(', ')}',
-        maxLines: 2,
-      ),
-      UnitSelectionTextCell.content(
-        '${uc.mountedWeapons.join(', ')}',
-        maxLines: 2,
-      ),
-      UnitSelectionTextCell.content('${uc.traits.join(', ')}'),
-      UnitSelectionTextCell.content('${uc.type}'),
-      UnitSelectionTextCell.content('${uc.height}'),
-    ]);
-  }
-}
-
-class SelectedUnitFeedback extends StatelessWidget {
-  final UnitCore uc;
-  const SelectedUnitFeedback({
-    Key? key,
-    required this.uc,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: Colors.blue[100],
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          UnitSelectionTextCell.draggableFeedback(
-            'Model: ${this.uc.name}',
-          ),
-          UnitSelectionTextCell.draggableFeedback(
-            'TV: ${this.uc.tv}',
-          ),
-          UnitSelectionTextCell.draggableFeedback(
-            'Roles: ${this.uc.role!.roles.join(', ')}',
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class SelectionFilters extends StatelessWidget {
-  const SelectionFilters({
-    Key? key,
-    required this.roleFilter,
-    required this.onChanged,
-    required this.onFilterChanged,
-  }) : super(key: key);
-
-  final Map<RoleType, bool> roleFilter;
-  final void Function(RoleType, bool) onChanged;
-  final void Function(String) onFilterChanged;
-
-  @override
-  Widget build(BuildContext context) {
-    var f = this
-        .roleFilter
-        .entries
-        .map((e) => FilterSelection(
-            isChecked: e.value, onChanged: this.onChanged, role: e.key))
-        .toList();
-
-    return Column(
-      children: [
-        Row(
-          children: [
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                'Filters  ',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              ),
-            ),
-            SizedBox(
-              width: 400.0,
-              child: Padding(
-                padding: const EdgeInsets.only(
-                    right: 10, left: 5, top: 5, bottom: 5),
-                child: TextField(
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    isDense: true,
-                    contentPadding: const EdgeInsets.symmetric(
-                      vertical: 10,
-                      horizontal: 5,
-                    ),
-                    hintText: 'Filter using a comma separated list',
+  DataRow _createTableRow(UnitCore uc) {
+    return DataRow(cells: [
+      DataCell(
+        Draggable<UnitCore>(
+          childWhenDragging: Row(
+            children: [
+              Icon(Icons.drag_indicator),
+              Expanded(
+                child: UnitSelectionTextCell.childWhenDragging(
+                  '${uc.name}',
+                  border: Border.all(
+                    color: Colors.green,
+                    width: 2.0,
                   ),
-                  onChanged: (String value) async {
-                    onFilterChanged(value);
-                  },
-                  style: TextStyle(fontSize: 16),
-                  strutStyle: StrutStyle.disabled,
                 ),
               ),
-            )
-          ],
+            ],
+          ),
+          feedback: SelectedUnitFeedback(
+            uc: uc,
+          ),
+          data: uc,
+          child: Row(
+            children: [
+              Icon(Icons.drag_indicator),
+              UnitSelectionTextCell.content(
+                '${uc.name}',
+                maxLines: 1,
+                alignment: Alignment.centerLeft,
+                padding: const EdgeInsets.fromLTRB(3, 5, 5, 5),
+              ),
+            ],
+          ),
         ),
-        Row(
-          children: [
-            Text(
-              'Roles  ',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-            ...f
-          ],
+      ),
+      DataCell(UnitSelectionTextCell.content('${uc.tv}')),
+      DataCell(
+        UnitSelectionTextCell.content(
+          '${uc.role!.roles.join(', ')}',
+          maxLines: 2,
+          softWrap: false,
         ),
-      ],
-    );
+      ),
+      DataCell(UnitSelectionTextCell.content('${uc.movement}')),
+      DataCell(UnitSelectionTextCell.content('${uc.armor}')),
+      DataCell(UnitSelectionTextCell.content('${uc.hull}/${uc.structure}')),
+      DataCell(UnitSelectionTextCell.content('${uc.actions}')),
+      DataCell(UnitSelectionTextCell.content('${uc.gunnery}+')),
+      DataCell(UnitSelectionTextCell.content('${uc.piloting}+')),
+      DataCell(UnitSelectionTextCell.content('${uc.ew}+')),
+      DataCell(
+        UnitSelectionTextCell.content(
+          '${uc.reactWeapons.join(', ')}',
+          maxLines: 2,
+        ),
+      ),
+      DataCell(
+        UnitSelectionTextCell.content(
+          '${uc.mountedWeapons.join(', ')}',
+          maxLines: 2,
+        ),
+      ),
+      DataCell(UnitSelectionTextCell.content('${uc.traits.join(', ')}')),
+      DataCell(UnitSelectionTextCell.content('${uc.type}')),
+      DataCell(UnitSelectionTextCell.content('${uc.height}')),
+    ]);
   }
-}
 
-class FilterSelection extends StatelessWidget {
-  const FilterSelection({
-    Key? key,
-    required this.isChecked,
-    required this.onChanged,
-    required this.role,
-  }) : super(key: key);
-  final bool isChecked;
-  final void Function(RoleType, bool) onChanged;
-  final RoleType role;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Text(
-          this.role.toString().split('.').last,
-          style: TextStyle(fontSize: 16),
+  DataColumn _createTableColumn(
+    String text, {
+    double? width,
+    Alignment alignment = Alignment.center,
+    TextAlign textAlign = TextAlign.center,
+  }) {
+    return DataColumn(
+      label: Container(
+        alignment: Alignment.centerLeft,
+        width: width,
+        child: UnitSelectionTextCell.columnTitle(
+          text,
+          textAlignment: textAlign,
+          alignment: alignment,
         ),
-        Checkbox(
-          value: this.isChecked,
-          onChanged: (bool? value) => onChanged(this.role, value!),
-        )
-      ],
+      ),
     );
   }
 }
