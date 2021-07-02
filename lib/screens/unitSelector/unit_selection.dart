@@ -217,13 +217,14 @@ class SelectionList extends StatelessWidget {
     TextAlign textAlign = TextAlign.center,
   }) {
     return DataColumn(
-      label: Container(
-        alignment: Alignment.centerLeft,
-        width: width,
-        child: UnitSelectionTextCell.columnTitle(
-          text,
-          textAlignment: textAlign,
-          alignment: alignment,
+      label: Expanded(
+        child: Container(
+          width: width,
+          child: UnitSelectionTextCell.columnTitle(
+            text,
+            textAlignment: textAlign,
+            alignment: alignment,
+          ),
         ),
       ),
     );
