@@ -5,6 +5,7 @@ import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
 import 'package:gearforce/screens/unitSelector/selected_unit_feedback.dart';
+import 'package:gearforce/screens/unitSelector/selected_unit_model_cell.dart';
 import 'package:gearforce/screens/unitSelector/selection_filters.dart';
 import 'package:gearforce/screens/unitSelector/unit_selection_text_Cell.dart';
 import 'package:provider/provider.dart';
@@ -146,35 +147,24 @@ class SelectionList extends StatelessWidget {
     return DataRow(cells: [
       DataCell(
         Draggable<UnitCore>(
-          childWhenDragging: Row(
-            children: [
-              Icon(Icons.drag_indicator),
-              Expanded(
-                child: UnitSelectionTextCell.childWhenDragging(
-                  '${uc.name}',
-                  border: Border.all(
-                    color: Colors.green,
-                    width: 2.0,
-                  ),
+          childWhenDragging: Container(
+              decoration: BoxDecoration(
+                color: null,
+                border: Border.all(
+                  color: Colors.green,
+                  width: 2.0,
                 ),
               ),
-            ],
-          ),
+              child: SelectedUnitModelCell(
+                text: uc.name,
+                hasBorder: true,
+                borderSize: 2.0,
+              )),
           feedback: SelectedUnitFeedback(
             uc: uc,
           ),
           data: uc,
-          child: Row(
-            children: [
-              Icon(Icons.drag_indicator),
-              UnitSelectionTextCell.content(
-                '${uc.name}',
-                maxLines: 1,
-                alignment: Alignment.centerLeft,
-                padding: const EdgeInsets.fromLTRB(3, 5, 5, 5),
-              ),
-            ],
-          ),
+          child: SelectedUnitModelCell(text: uc.name),
         ),
       ),
       DataCell(UnitSelectionTextCell.content('${uc.tv}')),
