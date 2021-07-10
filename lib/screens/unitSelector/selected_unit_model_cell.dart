@@ -25,10 +25,11 @@ class SelectedUnitModelCell extends StatelessWidget {
       children: [
         Padding(
           padding: EdgeInsets.fromLTRB(
-              iconPadding,
-              iconPadding,
-              0,
-              iconPadding),
+            iconPadding,
+            iconPadding,
+            0,
+            iconPadding,
+          ),
           child: Icon(Icons.drag_indicator),
         ),
         UnitSelectionTextCell.content(
