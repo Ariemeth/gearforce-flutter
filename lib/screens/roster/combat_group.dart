@@ -376,9 +376,17 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
     Group group,
   ) {
     SimpleDialog optionsDialog = SimpleDialog(
-      title: Text(
-        'Are you sure you want to delete ${unit.attribute(UnitAttribute.name)}?',
-        style: TextStyle(fontSize: 24),
+      title: Column(
+        children: [
+          Text(
+            'Are you sure you want to remove',
+            style: TextStyle(fontSize: 24),
+          ),
+          Text(
+            '${unit.attribute(UnitAttribute.name)}?',
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          ),
+        ],
       ),
       children: [
         SimpleDialogOption(
