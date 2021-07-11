@@ -9,6 +9,7 @@ import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
 import 'package:gearforce/screens/roster/select_role.dart';
+import 'package:gearforce/screens/upgrades/upgrades.dart';
 import 'package:gearforce/widgets/display_value.dart';
 import 'package:gearforce/widgets/unit_text_cell.dart';
 
@@ -227,6 +228,14 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
         label: Container(
           width: 65,
           child: UnitTextCell.columnTitle(
+            'Upgrades',
+          ),
+        ),
+      ),
+      DataColumn(
+        label: Container(
+          width: 65,
+          child: UnitTextCell.columnTitle(
             'Remove',
           ),
         ),
@@ -334,6 +343,25 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
           ),
         ],
       ));
+      var upgradeCell = DataCell(
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Expanded(
+              child: Container(
+                child: IconButton(
+                  onPressed: () =>
+                      {_showUpgradeDialog(context, unit, i, group)},
+                  icon: const Icon(
+                    Icons.add_task,
+                    color: Colors.green,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
       var removeCell = DataCell(
         Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -361,12 +389,42 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
         commandCell,
         duelistCell,
         veteranCell,
+        upgradeCell,
         removeCell
       ]);
       dataRows.add(dataRow);
     }
 
     return dataRows;
+  }
+
+  void _showUpgradeDialog(
+    BuildContext context,
+    Unit unit,
+    int unitIndex,
+    Group group,
+  ) {
+    UpgradesDialog optionsDialog = UpgradesDialog(
+      unit: unit,
+    );
+
+    Future<OptionResult?> futureResult = showDialog<OptionResult>(
+        context: context,
+        builder: (BuildContext context) {
+          return optionsDialog;
+        });
+
+    /* futureResult.then((value) {
+      switch (value) {
+        case OptionResult.Remove:
+          setState(() {
+            group.removeUnit(unitIndex);
+          });
+          break;
+        default:
+      }
+    });
+    */
   }
 
   void _showConfirmDelete(
