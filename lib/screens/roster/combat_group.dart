@@ -408,7 +408,8 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
       unit: unit,
     );
 
-    Future<OptionResult?> futureResult = showDialog<OptionResult>(
+    /*Future<OptionResult?> futureResult =*/
+    showDialog<OptionResult>(
         context: context,
         builder: (BuildContext context) {
           return optionsDialog;
