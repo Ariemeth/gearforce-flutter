@@ -131,7 +131,7 @@ void main() {
     final tu = Unit(core: uc)..addUnitMod(testMod);
 
     expect(tu.numUnitMods(), equals(1), reason: 'ensure mod added');
-    tu.removeUnitMod(testMod.name);
+    tu.removeUnitMod(testMod.id);
     expect(tu.numUnitMods(), equals(0), reason: 'check mod removed');
   });
 
