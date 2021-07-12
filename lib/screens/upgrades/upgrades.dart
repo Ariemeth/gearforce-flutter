@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:gearforce/data/data.dart';
+import 'package:gearforce/models/mods/modification.dart';
+import 'package:gearforce/models/mods/unit_upgrades.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:provider/provider.dart';
+
+const int _maxUpgradeNameLines = 2;
+const int _maxUpgradeDescriptionLines = 4;
+const double _upgradeSectionWidth = 400;
+const double _upgradeSectionHeight = 40;
 
 class UpgradesDialog extends StatelessWidget {
   UpgradesDialog({
@@ -14,20 +20,19 @@ class UpgradesDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //TODO do I need to get data?  unitcore's reference their frame and the unit
-    //upgrades file has a function to retrieve available unit upgrades by frame
-    final data = Provider.of<Data>(context);
     final unit = Provider.of<Unit>(context);
-    final unitMods =
-        data.availableUnitMods(roster.faction.value!, unit.core.frame);
+    final unitMods = getUnitMods(unit.core.frame);
 
     var dialog = SimpleDialog(
+      shape: ContinuousRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10.0))),
       title: Center(
         child: Row(
           children: [
             Text(
               'Upgrades available to this ',
               style: TextStyle(fontSize: 24),
+              maxLines: 2,
             ),
             Text(
               unit.core.name,
@@ -40,73 +45,13 @@ class UpgradesDialog extends StatelessWidget {
         Column(
           children: [
             Column(
-                // create listview with available upgrades
-                children: [
-                  Text(
-                    'Unit Upgrades',
-                    style:
-                        TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
-                  ),
-                  unitMods.length > 0
-                      ? Container(
-                          width: 400,
-                          height: 40,
-                          child: ListView.builder(
-                              itemCount: unitMods.length,
-                              shrinkWrap: true,
-                              itemBuilder: (BuildContext context, int index) {
-                                return Row(
-                                  children: [
-                                    Checkbox(
-                                        value:
-                                            unit.hasMod(unitMods[index].name),
-                                        onChanged: (bool? newValue) {
-                                          if (newValue!) {
-                                            unit.addUnitMod(unitMods[index]);
-                                          } else {
-                                            unit.removeUnitMod(
-                                                unitMods[index].name);
-                                          }
-                                        }),
-                                    Text(
-                                      '${unitMods[index].name}: ',
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600,
-                                        fontStyle: FontStyle.normal,
-                                      ),
-                                    ),
-                                    ...unitMods[index].description.map((e) {
-                                      if (unitMods[index].description[
-                                              unitMods[index]
-                                                      .description
-                                                      .length -
-                                                  1] ==
-                                          e) {
-                                        return Text(
-                                          e,
-                                          style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.normal,
-                                            fontStyle: FontStyle.italic,
-                                          ),
-                                        );
-                                      }
-                                      return Text(
-                                        '$e, ',
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.normal,
-                                          fontStyle: FontStyle.italic,
-                                        ),
-                                      );
-                                    }).toList()
-                                  ],
-                                );
-                              }),
-                        )
-                      : const Center(child: Text('no upgrades available')),
-                ]),
+              // create listview with available upgrades
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                upgradeTitle('Unit Upgrades'),
+                unitUpgrades(unitMods, unit),
+              ],
+            ),
           ],
         ),
         SimpleDialogOption(
@@ -123,5 +68,78 @@ class UpgradesDialog extends StatelessWidget {
       ],
     );
     return dialog;
+  }
+
+  Container upgradeTitle(String title) {
+    return Container(
+      color: Color.fromARGB(255, 187, 222, 251),
+      child: Center(
+        child: Text(
+          title,
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
+        ),
+      ),
+    );
+  }
+
+  Widget unitUpgrades(List<Modification> mods, Unit unit) {
+    if (mods.isEmpty) {
+      const Center(child: Text('no upgrades available'));
+    }
+
+    return Container(
+      width: _upgradeSectionWidth,
+      height: _upgradeSectionHeight,
+      child: ListView.builder(
+          itemCount: mods.length,
+          shrinkWrap: true,
+          itemBuilder: (BuildContext context, int index) {
+            return Row(
+              children: [
+                Checkbox(
+                    value: unit.hasMod(mods[index].name),
+                    onChanged: (bool? newValue) {
+                      if (newValue!) {
+                        unit.addUnitMod(mods[index]);
+                      } else {
+                        unit.removeUnitMod(mods[index].name);
+                      }
+                    }),
+                Text(
+                  '${mods[index].name}: ',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    fontStyle: FontStyle.normal,
+                  ),
+                  maxLines: _maxUpgradeNameLines,
+                ),
+                ...mods[index].description.map((modName) {
+                  if (mods[index]
+                          .description[mods[index].description.length - 1] ==
+                      modName) {
+                    return Text(
+                      modName,
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.normal,
+                        fontStyle: FontStyle.italic,
+                      ),
+                      maxLines: _maxUpgradeDescriptionLines,
+                    );
+                  }
+                  return Text(
+                    '$modName, ',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.normal,
+                      fontStyle: FontStyle.italic,
+                    ),
+                  );
+                }).toList()
+              ],
+            );
+          }),
+    );
   }
 }
