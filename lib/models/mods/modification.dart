@@ -1,5 +1,6 @@
 import 'package:gearforce/models/unit/unit_attribute.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
+import 'package:uuid/uuid.dart';
 
 class Modification {
   Modification({
@@ -9,6 +10,8 @@ class Modification {
 
   final String name;
   final List<String> _description = [];
+  final String _id = Uuid().v4();
+  String get id => _id;
 
   List<String> get description => this._description.toList();
 

@@ -78,13 +78,15 @@ class Unit extends ChangeNotifier {
     notifyListeners();
   }
 
-  void removeUnitMod(String modName) {
-    _mods.removeWhere((mod) => mod.name == modName);
+  void removeUnitMod(String id) {
+    _mods.removeWhere((mod) => mod.id == id);
     notifyListeners();
   }
 
-  bool hasMod(String modName) =>
-      this._mods.where((element) => element.name == modName).isNotEmpty;
+  bool hasMod(String id) => this
+      ._mods
+      .where((element) => element.name == id || element.id == id)
+      .isNotEmpty;
 
   int numUnitMods() => _mods.length;
   void clearUnitMods() {

@@ -97,12 +97,12 @@ class UpgradesDialog extends StatelessWidget {
             return Row(
               children: [
                 Checkbox(
-                    value: unit.hasMod(mods[index].name),
+                    value: unit.hasMod(mods[index].id),
                     onChanged: (bool? newValue) {
                       if (newValue!) {
                         unit.addUnitMod(mods[index]);
                       } else {
-                        unit.removeUnitMod(mods[index].name);
+                        unit.removeUnitMod(mods[index].id);
                       }
                     }),
                 Text(
