@@ -12,6 +12,7 @@ import 'package:gearforce/screens/roster/select_role.dart';
 import 'package:gearforce/screens/upgrades/upgrades.dart';
 import 'package:gearforce/widgets/display_value.dart';
 import 'package:gearforce/widgets/unit_text_cell.dart';
+import 'package:provider/provider.dart';
 
 const _maxPrimaryActions = 6;
 const _minPrimaryActions = 4;
@@ -141,7 +142,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
   }) {
     var table = DataTable(
       columns: _generateTableHeading(),
-      rows: _generateTableRows(group: group),
+      rows: _generateTableRows(context: context, group: group),
       columnSpacing: 2.0,
       horizontalMargin: 0.0,
       headingRowHeight: 30.0,
@@ -226,7 +227,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
       ),
       DataColumn(
         label: Container(
-          width: 65,
+          width: 75,
           child: UnitTextCell.columnTitle(
             'Upgrades',
           ),
@@ -244,6 +245,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
   }
 
   List<DataRow> _generateTableRows({
+    required BuildContext context,
     required Group group,
   }) {
     List<DataRow> dataRows = [];
@@ -350,8 +352,9 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
             Expanded(
               child: Container(
                 child: IconButton(
-                  onPressed: () =>
-                      {_showUpgradeDialog(context, unit, i, group)},
+                  onPressed: () => {
+                    _showUpgradeDialog(context, unit, i, group, widget.roster)
+                  },
                   icon: const Icon(
                     Icons.add_task,
                     color: Colors.green,
@@ -403,16 +406,18 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
     Unit unit,
     int unitIndex,
     Group group,
+    UnitRoster roster,
   ) {
-    UpgradesDialog optionsDialog = UpgradesDialog(
-      unit: unit,
-    );
-
     /*Future<OptionResult?> futureResult =*/
     showDialog<OptionResult>(
         context: context,
         builder: (BuildContext context) {
-          return optionsDialog;
+          return ChangeNotifierProvider.value(
+            value: unit,
+            child: UpgradesDialog(
+              roster: roster,
+            ),
+          );
         });
 
     /* futureResult.then((value) {

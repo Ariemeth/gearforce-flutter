@@ -5,7 +5,7 @@ import 'package:gearforce/screens/roster/roster_header_info.dart';
 import 'package:gearforce/screens/unitSelector/unit_selection.dart';
 import 'package:provider/provider.dart';
 
-const double _leftPanelWidth = 665.0;
+const double _leftPanelWidth = 670.0;
 
 class RosterWidget extends StatefulWidget {
   RosterWidget({

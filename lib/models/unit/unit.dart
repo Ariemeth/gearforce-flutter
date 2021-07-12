@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/widgets.dart';
 import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/mods/modification.dart';
 import 'package:gearforce/models/unit/role.dart';
@@ -30,6 +30,16 @@ class Unit extends ChangeNotifier {
       return '';
     });
     return value == '' ? false : true;
+  }
+
+  String get name {
+    var value = this.core.name;
+
+    for (var mod in this._unitMods) {
+      value = mod.applyMods(UnitAttribute.name, value);
+    }
+
+    return value;
   }
 
   int tv() {
@@ -72,6 +82,9 @@ class Unit extends ChangeNotifier {
     _unitMods.removeWhere((mod) => mod.name == modName);
     notifyListeners();
   }
+
+  bool hasMod(String modName) =>
+      this._unitMods.where((element) => element.name == modName).isNotEmpty;
 
   int numUnitMods() => _unitMods.length;
   void clearUnitMods() {

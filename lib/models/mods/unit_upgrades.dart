@@ -37,10 +37,11 @@ List<Modification> getUnitMods(String frameName) {
 }
 
 Modification headHunter = Modification(name: 'Headhunter Upgrade')
-  ..addMod(UnitAttribute.tv, createSimpleIntMod(1))
+  ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Headhunter'))
-  ..addMod(UnitAttribute.ew, createSetIntMod(5))
-  ..addMod(UnitAttribute.traits, createAddToList('Comms'));
+  ..addMod(UnitAttribute.ew, createSetIntMod(5), description: 'EW: 5')
+  ..addMod(UnitAttribute.traits, createAddToList('Comms'),
+      description: '+Comms');
 
 Modification meleeSpecialist1 = Modification(name: 'Melee Specialist Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1))
