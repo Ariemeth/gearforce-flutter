@@ -1,4 +1,4 @@
-import 'package:gearforce/models/mods/unit_upgrades.dart';
+import 'package:gearforce/models/mods/unitUpgrades/north.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
 import 'package:test/test.dart';
 

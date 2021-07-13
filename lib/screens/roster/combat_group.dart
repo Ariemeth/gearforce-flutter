@@ -9,7 +9,7 @@ import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
 import 'package:gearforce/screens/roster/select_role.dart';
-import 'package:gearforce/screens/upgrades/upgrades.dart';
+import 'package:gearforce/screens/upgrades/upgrades_dialog.dart';
 import 'package:gearforce/widgets/display_value.dart';
 import 'package:gearforce/widgets/unit_text_cell.dart';
 import 'package:provider/provider.dart';

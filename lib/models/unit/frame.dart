@@ -1,5 +1,5 @@
 import 'package:gearforce/models/mods/modification.dart';
-import 'package:gearforce/models/mods/unit_upgrades.dart';
+import 'package:gearforce/models/mods/unitUpgrades/unit_upgrades.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
 
 class Frame {
