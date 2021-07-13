@@ -9,8 +9,10 @@ import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
 import 'package:gearforce/screens/roster/select_role.dart';
+import 'package:gearforce/screens/upgrades/upgrades_dialog.dart';
 import 'package:gearforce/widgets/display_value.dart';
 import 'package:gearforce/widgets/unit_text_cell.dart';
+import 'package:provider/provider.dart';
 
 const _maxPrimaryActions = 6;
 const _minPrimaryActions = 4;
@@ -140,7 +142,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
   }) {
     var table = DataTable(
       columns: _generateTableHeading(),
-      rows: _generateTableRows(group: group),
+      rows: _generateTableRows(context: context, group: group),
       columnSpacing: 2.0,
       horizontalMargin: 0.0,
       headingRowHeight: 30.0,
@@ -225,6 +227,14 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
       ),
       DataColumn(
         label: Container(
+          width: 75,
+          child: UnitTextCell.columnTitle(
+            'Upgrades',
+          ),
+        ),
+      ),
+      DataColumn(
+        label: Container(
           width: 65,
           child: UnitTextCell.columnTitle(
             'Remove',
@@ -235,6 +245,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
   }
 
   List<DataRow> _generateTableRows({
+    required BuildContext context,
     required Group group,
   }) {
     List<DataRow> dataRows = [];
@@ -334,6 +345,26 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
           ),
         ],
       ));
+      var upgradeCell = DataCell(
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Expanded(
+              child: Container(
+                child: IconButton(
+                  onPressed: () => {
+                    _showUpgradeDialog(context, unit, i, group, widget.roster)
+                  },
+                  icon: const Icon(
+                    Icons.add_task,
+                    color: Colors.green,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
       var removeCell = DataCell(
         Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -361,12 +392,45 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
         commandCell,
         duelistCell,
         veteranCell,
+        upgradeCell,
         removeCell
       ]);
       dataRows.add(dataRow);
     }
 
     return dataRows;
+  }
+
+  void _showUpgradeDialog(
+    BuildContext context,
+    Unit unit,
+    int unitIndex,
+    Group group,
+    UnitRoster roster,
+  ) {
+    /*Future<OptionResult?> futureResult =*/
+    showDialog<OptionResult>(
+        context: context,
+        builder: (BuildContext context) {
+          return ChangeNotifierProvider.value(
+            value: unit,
+            child: UpgradesDialog(
+              roster: roster,
+            ),
+          );
+        });
+
+    /* futureResult.then((value) {
+      switch (value) {
+        case OptionResult.Remove:
+          setState(() {
+            group.removeUnit(unitIndex);
+          });
+          break;
+        default:
+      }
+    });
+    */
   }
 
   void _showConfirmDelete(
@@ -376,9 +440,17 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
     Group group,
   ) {
     SimpleDialog optionsDialog = SimpleDialog(
-      title: Text(
-        'Are you sure you want to delete ${unit.attribute(UnitAttribute.name)}?',
-        style: TextStyle(fontSize: 24),
+      title: Column(
+        children: [
+          Text(
+            'Are you sure you want to remove',
+            style: TextStyle(fontSize: 24),
+          ),
+          Text(
+            '${unit.attribute(UnitAttribute.name)}?',
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          ),
+        ],
       ),
       children: [
         SimpleDialogOption(

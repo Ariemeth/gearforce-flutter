@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/widgets.dart';
 import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/mods/modification.dart';
 import 'package:gearforce/models/unit/role.dart';
@@ -11,7 +11,7 @@ class Unit extends ChangeNotifier {
   });
 
   final UnitCore core;
-  final List<Modification> _unitMods = [];
+  final List<Modification> _mods = [];
   CommandLevel _commandLevel = CommandLevel.none;
 
   CommandLevel commandLevel() => _commandLevel;
@@ -32,11 +32,21 @@ class Unit extends ChangeNotifier {
     return value == '' ? false : true;
   }
 
+  String get name {
+    var value = this.core.name;
+
+    for (var mod in this._mods) {
+      value = mod.applyMods(UnitAttribute.name, value);
+    }
+
+    return value;
+  }
+
   int tv() {
     var value = this.core.tv;
     value = value + commandTVCost(this._commandLevel);
 
-    for (var mod in this._unitMods) {
+    for (var mod in this._mods) {
       value = mod.applyMods(UnitAttribute.tv, value);
     }
 
@@ -46,7 +56,7 @@ class Unit extends ChangeNotifier {
   Roles? role() {
     var value = this.core.role;
 
-    for (var mod in this._unitMods) {
+    for (var mod in this._mods) {
       value = mod.applyMods(UnitAttribute.roles, value);
     }
 
@@ -56,7 +66,7 @@ class Unit extends ChangeNotifier {
   dynamic attribute(UnitAttribute att) {
     var value = this.core.attribute(att);
 
-    for (var mod in this._unitMods) {
+    for (var mod in this._mods) {
       value = mod.applyMods(att, value);
     }
 
@@ -64,18 +74,23 @@ class Unit extends ChangeNotifier {
   }
 
   void addUnitMod(Modification mod) {
-    _unitMods.add(mod);
+    _mods.add(mod);
     notifyListeners();
   }
 
-  void removeUnitMod(String modName) {
-    _unitMods.removeWhere((mod) => mod.name == modName);
+  void removeUnitMod(String id) {
+    _mods.removeWhere((mod) => mod.id == id);
     notifyListeners();
   }
 
-  int numUnitMods() => _unitMods.length;
+  bool hasMod(String id) => this
+      ._mods
+      .where((element) => element.name == id || element.id == id)
+      .isNotEmpty;
+
+  int numUnitMods() => _mods.length;
   void clearUnitMods() {
-    _unitMods.clear();
+    _mods.clear();
     notifyListeners();
   }
 }
