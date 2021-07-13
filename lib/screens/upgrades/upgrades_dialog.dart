@@ -6,9 +6,9 @@ import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/screens/upgrades/upgrade_display_line.dart';
 import 'package:provider/provider.dart';
 
-const double _upgradeSectionWidth = 500;
-const double _upgradeSectionHeight = 40;
-const double _maxVisibleUnitUpgrades = 2;
+const double _upgradeSectionWidth = 550;
+const double _upgradeSectionHeight = 33;
+const double _maxVisibleUnitUpgrades = 3;
 
 class UpgradesDialog extends StatelessWidget {
   UpgradesDialog({
@@ -94,7 +94,6 @@ Widget unitUpgrades(List<Modification> mods, Unit unit) {
     child: ListView.builder(
       itemCount: mods.length,
       shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (BuildContext context, int index) {
         return UpgradeDisplayLine(
           mod: mods[index],

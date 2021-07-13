@@ -113,7 +113,7 @@ void main() {
       ..addUnitMod(
         Modification(
           name: 'add postfix to name',
-          requirementCheck: (UnitCore uc) => false,
+          requirementCheck: (Unit u) => false,
         )..addMod(UnitAttribute.name,
             (dynamic value) => '${(value as String)} upgrade'),
       );
@@ -125,7 +125,7 @@ void main() {
     const uc = UnitCore.test();
     final testMod = Modification(
       name: 'add postfix to name',
-      requirementCheck: (UnitCore uc) => false,
+      requirementCheck: (Unit u) => false,
     )..addMod(
         UnitAttribute.name, (dynamic value) => '${(value as String)} upgrade');
     final tu = Unit(core: uc)..addUnitMod(testMod);
@@ -141,14 +141,14 @@ void main() {
       ..addUnitMod(
         Modification(
           name: 'add postfix to name',
-          requirementCheck: (UnitCore uc) => false,
+          requirementCheck: (Unit u) => false,
         )..addMod(UnitAttribute.name,
             (dynamic value) => '${(value as String)} upgrade'),
       )
       ..addUnitMod(
         Modification(
           name: 'add 1 to tv',
-          requirementCheck: (UnitCore uc) => false,
+          requirementCheck: (Unit u) => false,
         )..addMod(UnitAttribute.tv, (dynamic value) => (value as int) + 1),
       );
 
@@ -161,7 +161,7 @@ void main() {
       ..addUnitMod(
         Modification(
           name: 'add postfix to name',
-          requirementCheck: (UnitCore uc) => false,
+          requirementCheck: (Unit u) => false,
         )..addMod(UnitAttribute.name,
             (dynamic value) => '${(value as String)} upgrade'),
       );
@@ -176,7 +176,7 @@ void main() {
       ..addUnitMod(
         Modification(
           name: 'add postfix to name',
-          requirementCheck: (UnitCore uc) => false,
+          requirementCheck: (Unit u) => false,
         )..addMod(UnitAttribute.name,
             (dynamic value) => '${(value as String)} upgrade'),
       );
@@ -194,7 +194,7 @@ void main() {
       ..addUnitMod(
         Modification(
           name: 'increase tv and gunnery by 1',
-          requirementCheck: (UnitCore uc) => false,
+          requirementCheck: (Unit u) => false,
         )
           ..addMod(UnitAttribute.tv, (dynamic value) => (value as int) + 1)
           ..addMod(
@@ -217,13 +217,13 @@ void main() {
       ..addUnitMod(
         Modification(
           name: 'add 1 to tv',
-          requirementCheck: (UnitCore uc) => false,
+          requirementCheck: (Unit u) => false,
         )..addMod(UnitAttribute.tv, (dynamic value) => (value as int) + 1),
       )
       ..addUnitMod(
         Modification(
           name: 'add 1 to tv',
-          requirementCheck: (UnitCore uc) => false,
+          requirementCheck: (Unit u) => false,
         )..addMod(UnitAttribute.tv, (dynamic value) => (value as int) + 1),
       );
 
