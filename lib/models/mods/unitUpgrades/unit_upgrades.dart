@@ -1,5 +1,6 @@
 import 'package:gearforce/models/mods/modification.dart';
 import 'package:gearforce/models/mods/unitUpgrades/north.dart' as north;
+import 'package:gearforce/models/mods/unitUpgrades/nucoal.dart' as nucoal;
 import 'package:gearforce/models/mods/unitUpgrades/peace_river.dart'
     as peaceRiver;
 import 'package:gearforce/models/mods/unitUpgrades/south.dart' as south;
@@ -111,6 +112,37 @@ List<Modification> getUnitMods(String frameName) {
       return [peaceRiver.herdLord];
     case 'black wind':
       return [peaceRiver.missile];
+    // NuCoal
+    case 'chasseur':
+      return [nucoal.cv];
+    case 'chasseur paratrooper':
+      return [nucoal.cv];
+    case 'chasseur mk2':
+      return [nucoal.cv];
+    case 'cuirassier':
+      return [nucoal.cuirassierCv];
+    case 'jerboa':
+      return [nucoal.fragCannon, nucoal.rapidFireBazooka];
+    case 'espion':
+      return [nucoal.espionCv];
+    case 'boa nucoal':
+      return [nucoal.mfmBoa, south.meleeSwap, south.boasArenaPilot];
+    case 'chevalier':
+      return [nucoal.cv2];
+    case 'lancier':
+      return [nucoal.cv];
+    case 'voltigeur':
+      return [nucoal.voltigeurABM, nucoal.voltigeurAM, nucoal.voltigeurCv];
+    case 'sampson':
+      return [nucoal.cv2];
+    case 'grel':
+      return [nucoal.jan, nucoal.team];
+    case 'hoverbike grel':
+      return [nucoal.jan, south.single];
+    case 'sandrider':
+      return [nucoal.koreshi, nucoal.team];
+    case 'lizard sandrider':
+      return [south.single];
   }
   return [];
 }

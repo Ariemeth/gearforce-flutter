@@ -1,6 +1,5 @@
 import 'package:gearforce/models/mods/modification.dart';
 import 'package:gearforce/models/mods/mods.dart';
-import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
 
 Modification chieftain = Modification(name: 'Chieftain Upgrade')
@@ -131,7 +130,8 @@ Modification uhlanLord = Modification(name: 'Lord Upgrade')
       description: '+Comms')
   ..addMod(UnitAttribute.traits, createAddToList('ECM (Aux)'),
       description: '+ECM (Aux)')
-  ..addMod(UnitAttribute.traits, createAddToList('ECCM (Aux)'), description: '+ECCM (Aux)');
+  ..addMod(UnitAttribute.traits, createAddToList('ECCM (Aux)'),
+      description: '+ECCM (Aux)');
 
 Modification alphaDog = Modification(name: 'Alpha Dog Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(3), description: 'TV +3')
