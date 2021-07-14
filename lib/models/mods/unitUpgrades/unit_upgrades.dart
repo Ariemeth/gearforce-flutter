@@ -3,6 +3,7 @@ import 'package:gearforce/models/mods/unitUpgrades/black_talon.dart'
     as blackTalon;
 import 'package:gearforce/models/mods/unitUpgrades/caprice.dart' as caprice;
 import 'package:gearforce/models/mods/unitUpgrades/cef.dart' as cef;
+import 'package:gearforce/models/mods/unitUpgrades/eden.dart' as eden;
 import 'package:gearforce/models/mods/unitUpgrades/north.dart' as north;
 import 'package:gearforce/models/mods/unitUpgrades/nucoal.dart' as nucoal;
 import 'package:gearforce/models/mods/unitUpgrades/peace_river.dart'
@@ -222,6 +223,11 @@ List<Modification> getUnitMods(String frameName) {
       return [nucoal.team];
     case 'bt black wind':
       return [blackTalon.blackwindTheta];
+    // Eden
+    case 'constable golem':
+      return [eden.wizard, eden.utopianSpecialOperations];
+    case 'man at arms golem':
+      return [eden.utopianSpecialOperations];
   }
   return [];
 }
