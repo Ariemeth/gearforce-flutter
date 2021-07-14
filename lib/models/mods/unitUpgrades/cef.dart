@@ -66,9 +66,7 @@ Modification jan = Modification(name: 'Jan Upgrade')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Jan'))
   ..addMod(UnitAttribute.ew, createSetIntMod(5), description: 'EW 5+')
   ..addMod(UnitAttribute.traits, createAddToList('Comms'),
-      description: '+Comms')
-  ..addMod(UnitAttribute.traits, createAddToList('SatUp'),
-      description: '+SatUp');
+      description: '+Comms');
 
 Modification lpz = Modification(name: 'LPZ Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')

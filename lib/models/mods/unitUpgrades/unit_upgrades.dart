@@ -9,6 +9,7 @@ import 'package:gearforce/models/mods/unitUpgrades/nucoal.dart' as nucoal;
 import 'package:gearforce/models/mods/unitUpgrades/peace_river.dart'
     as peaceRiver;
 import 'package:gearforce/models/mods/unitUpgrades/south.dart' as south;
+import 'package:gearforce/models/mods/unitUpgrades/universal.dart' as universal;
 import 'package:gearforce/models/mods/unitUpgrades/utopia.dart' as utopia;
 
 List<Modification> getUnitMods(String frameName) {
@@ -228,6 +229,42 @@ List<Modification> getUnitMods(String frameName) {
       return [eden.wizard, eden.utopianSpecialOperations];
     case 'man at arms golem':
       return [eden.utopianSpecialOperations];
+    // Universal
+    case 'bricklayer':
+      return [universal.sawBladeSwap, universal.vibroswordSwap];
+    case 'engineering grizzly':
+      return [
+        universal.destroyer,
+        universal.demolisher,
+        universal.heavyChainswordSwap
+      ];
+    case 'stonemason':
+      return [universal.maulerFistSwap, universal.chainswordSwap];
+    case 'engineering cobra':
+      return [
+        universal.strike,
+        universal.demolisher,
+        universal.heavyChainswordSwap
+      ];
+    case 'valence':
+      return [universal.maulerFistSwap, universal.clawSwap];
+    case 'chargeur':
+      return [universal.chainswordSwap, universal.clawSwap];
+    case 'sapeur':
+      return [universal.demolisher, universal.hammerSwap];
+    case 'infantryman':
+      return [
+        universal.paratrooper,
+        universal.mountaineering,
+        universal.frogmen,
+        nucoal.team
+      ];
+    case 'small vehicles':
+      return [south.single];
+    case 'dragonfly':
+      return [universal.latm, universal.ecm];
+    case 'varis':
+      return [universal.latm];
   }
   return [];
 }
