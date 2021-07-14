@@ -1,4 +1,6 @@
 import 'package:gearforce/models/mods/modification.dart';
+import 'package:gearforce/models/mods/unitUpgrades/black_talon.dart'
+    as blackTalon;
 import 'package:gearforce/models/mods/unitUpgrades/caprice.dart' as caprice;
 import 'package:gearforce/models/mods/unitUpgrades/cef.dart' as cef;
 import 'package:gearforce/models/mods/unitUpgrades/north.dart' as north;
@@ -195,6 +197,31 @@ List<Modification> getUnitMods(String frameName) {
       return [utopia.specialOperations];
     case 'mar-dk':
       return [utopia.node];
+    // Black Talon
+    case 'dark warrior':
+      return [blackTalon.psi];
+    case 'dark jaguar':
+      return [blackTalon.darkJaguarPsi, blackTalon.phi];
+    case 'dark mamba':
+      return [blackTalon.darkMambaPsi];
+    case 'dark cobra':
+      return [blackTalon.xi];
+    case 'dark naga':
+      return [blackTalon.zeta, blackTalon.pur];
+    case 'dark coyote':
+      return [blackTalon.darkCoyotePsi];
+    case 'eagle':
+      return [blackTalon.iota];
+    case 'owl':
+      return [blackTalon.iota];
+    case 'vulture':
+      return [blackTalon.theta];
+    case 'dark hoplite':
+      return [blackTalon.darkHoplitePsi];
+    case 'infantry':
+      return [nucoal.team];
+    case 'bt black wind':
+      return [blackTalon.blackwindTheta];
   }
   return [];
 }

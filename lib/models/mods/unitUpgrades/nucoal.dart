@@ -111,9 +111,8 @@ Modification voltigeurCv = Modification(name: 'CV Upgrade')
 Modification team = Modification(name: 'Team')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(-1), description: 'TV -1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'Team'))
-  ..addMod(UnitAttribute.hull, createSetIntMod(2), description: 'Hull 2')
-  ..addMod(UnitAttribute.structure, createSetIntMod(1),
-      description: 'Structure 1');
+  ..addMod(UnitAttribute.hull, createSetIntMod(2), description: 'H/S: 2/1')
+  ..addMod(UnitAttribute.structure, createSetIntMod(1));
 
 Modification koreshi = Modification(name: 'Koreshi Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
