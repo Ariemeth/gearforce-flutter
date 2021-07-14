@@ -72,17 +72,17 @@ Modification diamondbackArenaPilot = Modification(name: 'Arena Pilot')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'with Arena Pilot'))
   ..addMod(
-      UnitAttribute.traits, createAddToList('LVB (Precise) or LCW (Brawl:1)'),
+      UnitAttribute.react_weapons, createAddToList('LVB (Precise) or LCW (Brawl:1)'),
       description: '+LVB (Precise) or +LCW (Brawl:1)')
-  ..addMod(UnitAttribute.react_weapons, createAddToList('Brawl:1'),
+  ..addMod(UnitAttribute.traits, createAddToList('Brawl:1'),
       description: '+Brawl:1');
 
 Modification blackAdderArenaPilot = Modification(name: 'Arena Pilot')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'with Arena Pilot'))
-  ..addMod(UnitAttribute.traits, createAddToList('MVB (Reach:1)'),
+  ..addMod(UnitAttribute.react_weapons, createAddToList('MVB (Reach:1)'),
       description: '+MVB (Reach:1)')
-  ..addMod(UnitAttribute.react_weapons, createAddToList('Brawl:2'),
+  ..addMod(UnitAttribute.traits, createAddToList('Brawl:2'),
       description: '+Brawl:2');
 
 Modification cobraRazorFang = Modification(name: 'Razor Fang Upgrade')
@@ -119,7 +119,7 @@ Modification meleeSwap = Modification(
   ..addMod(UnitAttribute.tv, createSimpleIntMod(0), description: 'TV: +0')
   ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'with melee swap'))
   ..addMod(
-      UnitAttribute.traits,
+      UnitAttribute.react_weapons,
       createReplaceInList(
           oldValue: 'MVB (Reach:1)', newValue: 'MCW (Reach:1, Demo:4)'),
       description: '-MVB (Reach:1), +MCW (Reach:1, Demo:4)');
@@ -127,7 +127,7 @@ Modification meleeSwap = Modification(
 Modification boasArenaPilot = Modification(name: 'Arena Pilot')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'with Arena Pilot'))
-  ..addMod(UnitAttribute.react_weapons, createAddToList('Brawl:2'),
+  ..addMod(UnitAttribute.traits, createAddToList('Brawl:2'),
       description: '+Brawl:2');
 
 Modification barbed = Modification(

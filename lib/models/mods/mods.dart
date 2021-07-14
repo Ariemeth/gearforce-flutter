@@ -36,6 +36,18 @@ dynamic Function(dynamic) createAddToList(String newValue) {
   };
 }
 
+dynamic Function(dynamic) createRemoveFromList(String newValue) {
+  return (value) {
+    if (value is! List<String>) {
+      return value;
+    }
+
+    var newList = new List<String>.from(value);
+
+    return newList.remove(newValue);
+  };
+}
+
 dynamic Function(dynamic) createReplaceInList(
     {required String oldValue, required String newValue}) {
   return (value) {

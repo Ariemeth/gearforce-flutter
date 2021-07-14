@@ -1,5 +1,7 @@
 import 'package:gearforce/models/mods/modification.dart';
 import 'package:gearforce/models/mods/unitUpgrades/north.dart' as north;
+import 'package:gearforce/models/mods/unitUpgrades/peace_river.dart'
+    as peaceRiver;
 import 'package:gearforce/models/mods/unitUpgrades/south.dart' as south;
 
 List<Modification> getUnitMods(String frameName) {
@@ -74,6 +76,41 @@ List<Modification> getUnitMods(String frameName) {
       return [south.caimanCommand];
     case 'lizard rider':
       return [south.single];
+    // Peace River
+    case 'warrior':
+      return [peaceRiver.chieftain];
+    case 'warrior iv':
+      return [peaceRiver.jetpack, peaceRiver.chieftainIV];
+    case 'jackal':
+      return [peaceRiver.meleeSpecialist];
+    case 'gladiator':
+      return [peaceRiver.meleeSpecialist1];
+    case 'greyhound':
+      return [peaceRiver.greyhoundChieftain];
+    case 'harrier':
+      return [peaceRiver.jetpack];
+    case 'skirmisher':
+      return [
+        peaceRiver.skirmisherChieftain,
+        peaceRiver.skirmisherTag,
+        peaceRiver.specialForces
+      ];
+    case 'shinobi':
+      return [peaceRiver.shinobiMeleeSpecialist, peaceRiver.shinobiChieftain];
+    case 'crusader iv':
+      return [peaceRiver.crusaderV];
+    case 'cataphract':
+      return [peaceRiver.cataphractLord];
+    case 'uhlan':
+      return [peaceRiver.tankHunter, peaceRiver.uhlanLord];
+    case 'coyote':
+      return [peaceRiver.alphaDog];
+    case 'red bull mk2':
+      return [peaceRiver.arbalest];
+    case 'hoplite':
+      return [peaceRiver.herdLord];
+    case 'black wind':
+      return [peaceRiver.missile];
   }
   return [];
 }

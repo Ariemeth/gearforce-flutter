@@ -6,7 +6,7 @@ import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/screens/upgrades/upgrade_display_line.dart';
 import 'package:provider/provider.dart';
 
-const double _upgradeSectionWidth = 550;
+const double _upgradeSectionWidth = 620;
 const double _upgradeSectionHeight = 33;
 const double _maxVisibleUnitUpgrades = 3;
 
