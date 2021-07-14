@@ -1,3 +1,5 @@
+import 'package:gearforce/models/unit/movement.dart';
+
 dynamic Function(dynamic) createSimpleIntMod(int change) {
   return (value) {
     if (value is! int) return value;
@@ -20,6 +22,18 @@ dynamic Function(dynamic) createSetIntMod(int newValue) {
   };
 }
 
+dynamic Function(dynamic) createSetStringListMod(List<String> newValue) {
+  return (value) {
+    return newValue;
+  };
+}
+
+dynamic Function(dynamic) createSetMovementMod(Movement newValue) {
+  return (value) {
+    return newValue;
+  };
+}
+
 dynamic Function(dynamic) createAddToList(String newValue) {
   return (value) {
     if (value is! List<String>) {
@@ -33,6 +47,18 @@ dynamic Function(dynamic) createAddToList(String newValue) {
     }
 
     return newList;
+  };
+}
+
+dynamic Function(dynamic) createRemoveFromList(String newValue) {
+  return (value) {
+    if (value is! List<String>) {
+      return value;
+    }
+
+    var newList = new List<String>.from(value);
+
+    return newList.remove(newValue);
   };
 }
 

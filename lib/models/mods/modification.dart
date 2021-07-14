@@ -1,5 +1,5 @@
 import 'package:gearforce/models/unit/unit_attribute.dart';
-import 'package:gearforce/models/unit/unit_core.dart';
+import 'package:gearforce/models/unit/unit.dart';
 import 'package:uuid/uuid.dart';
 
 class Modification {
@@ -16,7 +16,7 @@ class Modification {
   List<String> get description => this._description.toList();
 
   // function to ensure the modification can be applied to the unit
-  final bool Function(UnitCore) requirementCheck;
+  final bool Function(Unit) requirementCheck;
 
   final Map<UnitAttribute, dynamic Function(dynamic)> _mods = Map();
 

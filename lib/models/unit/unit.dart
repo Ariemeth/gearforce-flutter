@@ -63,6 +63,26 @@ class Unit extends ChangeNotifier {
     return value;
   }
 
+  List<String> get reactWeapons {
+    var value = this.core.reactWeapons;
+
+    for (var mod in this._mods) {
+      value = mod.applyMods(UnitAttribute.react_weapons, value);
+    }
+
+    return value;
+  }
+
+  List<String> get mountedWeapons {
+    var value = this.core.mountedWeapons;
+
+    for (var mod in this._mods) {
+      value = mod.applyMods(UnitAttribute.mounted_weapons, value);
+    }
+
+    return value;
+  }
+
   dynamic attribute(UnitAttribute att) {
     var value = this.core.attribute(att);
 
