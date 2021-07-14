@@ -1,4 +1,5 @@
 import 'package:gearforce/models/mods/modification.dart';
+import 'package:gearforce/models/mods/unitUpgrades/caprice.dart' as caprice;
 import 'package:gearforce/models/mods/unitUpgrades/cef.dart' as cef;
 import 'package:gearforce/models/mods/unitUpgrades/north.dart' as north;
 import 'package:gearforce/models/mods/unitUpgrades/nucoal.dart' as nucoal;
@@ -169,6 +170,15 @@ List<Modification> getUnitMods(String frameName) {
       return [cef.lpz, south.single];
     case 'peregrine gunship':
       return [cef.tankHunter];
+    // Caprice
+    case 'bashan':
+      return [caprice.command];
+    case 'aphek':
+      return [caprice.mortar];
+    case 'kadesh':
+      return [caprice.command2];
+    case 'moab':
+      return [caprice.command2];
   }
   return [];
 }
