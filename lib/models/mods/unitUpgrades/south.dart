@@ -71,8 +71,8 @@ Modification longFang = Modification(name: 'Long Fang Upgrade')
 Modification diamondbackArenaPilot = Modification(name: 'Arena Pilot')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'with Arena Pilot'))
-  ..addMod(
-      UnitAttribute.react_weapons, createAddToList('LVB (Precise) or LCW (Brawl:1)'),
+  ..addMod(UnitAttribute.react_weapons,
+      createAddToList('LVB (Precise) or LCW (Brawl:1)'),
       description: '+LVB (Precise) or +LCW (Brawl:1)')
   ..addMod(UnitAttribute.traits, createAddToList('Brawl:1'),
       description: '+Brawl:1');
