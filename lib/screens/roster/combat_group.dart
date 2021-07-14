@@ -157,7 +157,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
         List<Object?> candidateData,
         List<dynamic> rejectedData,
       ) {
-        return table;
+        return SingleChildScrollView(child: table);
       },
       onAccept: (UnitCore uc) {
         setState(() {
