@@ -1,4 +1,5 @@
 import 'package:gearforce/models/mods/modification.dart';
+import 'package:gearforce/models/mods/unitUpgrades/cef.dart' as cef;
 import 'package:gearforce/models/mods/unitUpgrades/north.dart' as north;
 import 'package:gearforce/models/mods/unitUpgrades/nucoal.dart' as nucoal;
 import 'package:gearforce/models/mods/unitUpgrades/peace_river.dart'
@@ -136,13 +137,38 @@ List<Modification> getUnitMods(String frameName) {
     case 'sampson':
       return [nucoal.cv2];
     case 'grel':
-      return [nucoal.jan, nucoal.team];
+      return [cef.jan, nucoal.team];
     case 'hoverbike grel':
-      return [nucoal.jan, south.single];
+      return [cef.jan, south.single];
     case 'sandrider':
       return [nucoal.koreshi, nucoal.team];
     case 'lizard sandrider':
       return [south.single];
+    // CEF
+    case 'f6-16':
+      return [cef.command, cef.mobilityPack6, cef.stealth];
+    case 'bf2-21':
+      return [cef.mobilityPack6];
+    case 'bf2-19':
+      return [cef.mobilityPack5];
+    case 'bf2-25':
+      return [cef.mrl];
+    case 'lht-67':
+      return [cef.flailCrew];
+    case 'lht-71':
+      return [cef.flailCrew];
+    case 'mht-95':
+      return [cef.flailCrew];
+    case 'mht-68':
+      return [cef.flailCrew];
+    case 'mht-72':
+      return [cef.flailCrew];
+    case 'hpc-64':
+      return [cef.command2];
+    case 'flail':
+      return [cef.lpz, south.single];
+    case 'peregrine gunship':
+      return [cef.tankHunter];
   }
   return [];
 }

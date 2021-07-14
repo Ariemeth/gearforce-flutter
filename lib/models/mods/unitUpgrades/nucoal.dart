@@ -108,15 +108,6 @@ Modification voltigeurCv = Modification(name: 'CV Upgrade')
       description: '+SatUp')
   ..addMod(UnitAttribute.traits, createAddToList('ECCM'), description: '+ECCM');
 
-Modification jan = Modification(name: 'Jan Upgrade')
-  ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
-  ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Jan'))
-  ..addMod(UnitAttribute.ew, createSetIntMod(5), description: 'EW 5+')
-  ..addMod(UnitAttribute.traits, createAddToList('Comms'),
-      description: '+Comms')
-  ..addMod(UnitAttribute.traits, createAddToList('SatUp'),
-      description: '+SatUp');
-
 Modification team = Modification(name: 'Team')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(-1), description: 'TV -1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'Team'))
