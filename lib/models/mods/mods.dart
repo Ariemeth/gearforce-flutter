@@ -1,3 +1,5 @@
+import 'package:gearforce/models/unit/movement.dart';
+
 dynamic Function(dynamic) createSimpleIntMod(int change) {
   return (value) {
     if (value is! int) return value;
@@ -15,6 +17,18 @@ dynamic Function(dynamic) createSimpleStringMod(bool isPrefix, String change) {
 }
 
 dynamic Function(dynamic) createSetIntMod(int newValue) {
+  return (value) {
+    return newValue;
+  };
+}
+
+dynamic Function(dynamic) createSetStringListMod(List<String> newValue) {
+  return (value) {
+    return newValue;
+  };
+}
+
+dynamic Function(dynamic) createSetMovementMod(Movement newValue) {
   return (value) {
     return newValue;
   };

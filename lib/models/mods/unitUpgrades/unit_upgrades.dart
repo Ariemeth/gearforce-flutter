@@ -6,6 +6,7 @@ import 'package:gearforce/models/mods/unitUpgrades/nucoal.dart' as nucoal;
 import 'package:gearforce/models/mods/unitUpgrades/peace_river.dart'
     as peaceRiver;
 import 'package:gearforce/models/mods/unitUpgrades/south.dart' as south;
+import 'package:gearforce/models/mods/unitUpgrades/utopia.dart' as utopia;
 
 List<Modification> getUnitMods(String frameName) {
   switch (frameName.toLowerCase()) {
@@ -179,6 +180,21 @@ List<Modification> getUnitMods(String frameName) {
       return [caprice.command2];
     case 'moab':
       return [caprice.command2];
+    // Utopia
+    case 'commando armiger':
+      return [utopia.antiTank, utopia.vtol];
+    case 'commando n-kidu':
+      return [utopia.rocket, utopia.nlil];
+    case 'recce n-kidu':
+      return [utopia.rocket2];
+    case 'support armiger':
+      return [utopia.sniper];
+    case 'constable ape':
+      return [utopia.edenWizard, utopia.specialOperations];
+    case 'man at arms ape':
+      return [utopia.specialOperations];
+    case 'mar-dk':
+      return [utopia.node];
   }
   return [];
 }
