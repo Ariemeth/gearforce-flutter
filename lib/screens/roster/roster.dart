@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/screens/roster/combat_groups_display.dart';
@@ -15,7 +13,7 @@ class RosterWidget extends StatefulWidget {
   RosterWidget({
     Key? key,
     required this.title,
-  }) : super(key: key) {}
+  }) : super(key: key);
 
   final String? title;
 
