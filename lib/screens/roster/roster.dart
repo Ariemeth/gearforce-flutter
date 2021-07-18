@@ -6,6 +6,10 @@ import 'package:gearforce/screens/unitSelector/unit_selection.dart';
 import 'package:provider/provider.dart';
 
 const double _leftPanelWidth = 670.0;
+const double _menuTitleHeight = 60.0;
+const String _version = '0.14.0';
+const String _bugMessage =
+    'Please report any issues to gearforce@metadiversions.com';
 
 class RosterWidget extends StatefulWidget {
   RosterWidget({
@@ -54,6 +58,51 @@ class _RosterWidgetState extends State<RosterWidget> {
             Expanded(
               child: UnitSelection(),
               flex: 2,
+            ),
+          ],
+        ),
+      ),
+      drawer: Drawer(
+        semanticLabel: 'menu',
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            Container(
+              height: _menuTitleHeight,
+              child: DrawerHeader(
+                child: Center(
+                  child: Text(
+                    'Menu',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            AboutListTile(
+              applicationName: 'Gearforce',
+              applicationVersion: _version,
+              aboutBoxChildren: [Text(_bugMessage)],
+              dense: true,
+              child: Text('About Gearforce',
+                  style: TextStyle(
+                    fontSize: 16,
+                  )),
+            ),
+            ListTile(
+              title: Text(
+                "Cancel",
+                style: TextStyle(
+                  fontSize: 16,
+                ),
+              ),
+              onTap: () {
+                Navigator.pop(context);
+              },
+              dense: true,
+              horizontalTitleGap: 5.0,
             ),
           ],
         ),
