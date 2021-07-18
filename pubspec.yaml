@@ -31,7 +31,6 @@ dependencies:
   provider: ^5.0.0
   uuid: ^3.0.4
   file_picker_cross: ^4.4.2
-  package_info_plus: ^1.0.4
 
 dev_dependencies:
   flutter_test:

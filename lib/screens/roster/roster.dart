@@ -3,11 +3,11 @@ import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/screens/roster/combat_groups_display.dart';
 import 'package:gearforce/screens/roster/roster_header_info.dart';
 import 'package:gearforce/screens/unitSelector/unit_selection.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 
 const double _leftPanelWidth = 670.0;
 const double _menuTitleHeight = 60.0;
+const String _version = '0.14.0';
 
 class RosterWidget extends StatefulWidget {
   RosterWidget({
@@ -23,19 +23,6 @@ class RosterWidget extends StatefulWidget {
 
 class _RosterWidgetState extends State<RosterWidget> {
   final UnitRoster roster = UnitRoster();
-  late final PackageInfo _packageInfo;
-  late final String _version;
-
-  @override
-  void initState() {
-    super.initState();
-    PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
-      setState(() {
-        _packageInfo = packageInfo;
-        _version = _packageInfo.version;
-      });
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
