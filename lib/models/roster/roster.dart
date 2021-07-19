@@ -25,6 +25,15 @@ class UnitRoster extends ChangeNotifier {
     return 'Roster: {Player: $player, Force Name: $name, Faction: ${faction.value}, Sub-Faction: ${subFaction.value}}, CGs: $_combatGroups';
   }
 
+  Map<String, dynamic> toJson() {
+    return {
+      'player': player,
+      'name': name,
+      'faction': faction.value,
+      'subfaction': subFaction.value
+    };
+  }
+
   CombatGroup? getCG(String name) => _combatGroups[name];
 
   void addCG(CombatGroup cg) {

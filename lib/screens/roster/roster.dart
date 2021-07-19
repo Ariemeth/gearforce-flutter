@@ -1,4 +1,6 @@
 //import 'package:file_picker_cross/file_picker_cross.dart';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:gearforce/models/roster/roster.dart';
@@ -7,6 +9,7 @@ import 'package:gearforce/screens/roster/roster_header_info.dart';
 import 'package:gearforce/screens/unitSelector/unit_selection.dart';
 import 'package:provider/provider.dart';
 
+// using dart:html to allow rosters to be saved locally on web builds.
 // ignore: avoid_web_libraries_in_flutter
 import 'dart:html' as webFile;
 
@@ -15,6 +18,8 @@ const double _menuTitleHeight = 60.0;
 const String _version = '0.14.0';
 const String _bugMessage =
     'Please report any issues to gearforce@metadiversions.com';
+const String _defaultRosterFileName = 'roster';
+const String _downloadFileExtension = 'txt';
 
 class RosterWidget extends StatefulWidget {
   RosterWidget({
@@ -113,12 +118,18 @@ class _RosterWidgetState extends State<RosterWidget> {
               ),
               enabled: kIsWeb,
               onTap: () async {
-                List<String> test = ['my test file', 'more stuff'];
-                var blob = webFile.Blob(test, 'text/plain', 'native');
+                var encodedRoster = json.encode(roster);
+                print(encodedRoster);
+                var blob =
+                    webFile.Blob([encodedRoster], 'application/json', 'native');
                 webFile.AnchorElement(
                   href: webFile.Url.createObjectUrlFromBlob(blob).toString(),
                 )
-                  ..setAttribute("download", "data.txt")
+                  ..setAttribute(
+                      "download",
+                      roster.name == null
+                          ? '$_defaultRosterFileName.$_downloadFileExtension'
+                          : '${roster.name}.$_downloadFileExtension')
                   ..click();
               },
             ),
