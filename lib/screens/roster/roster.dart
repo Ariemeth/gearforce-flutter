@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:file_picker_cross/file_picker_cross.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -9,7 +7,9 @@ import 'package:gearforce/screens/roster/roster_header_info.dart';
 import 'package:gearforce/screens/unitSelector/unit_selection.dart';
 import 'package:provider/provider.dart';
 
-import 'package:url_launcher/url_launcher.dart';
+// ignore: avoid_web_libraries_in_flutter
+import 'dart:html' as webFile;
+//import 'package:file_picker_web/file_picker_web.dart' as webPicker;
 
 const double _leftPanelWidth = 670.0;
 const double _menuTitleHeight = 60.0;
@@ -113,12 +113,13 @@ class _RosterWidgetState extends State<RosterWidget> {
               ),
               enabled: kIsWeb,
               onTap: () async {
-                List<String> test = ['my test file'];
-                final content = base64Encode(test.map((int.parse)).toList());
-                final url = 'data:application/gf;base64,$content';
-                await canLaunch(url)
-                    ? await launch(url)
-                    : print('cannot launch');
+                List<String> test = ['my test file', 'more stuff'];
+                var blob = webFile.Blob(test, 'text/plain', 'native');
+                webFile.AnchorElement(
+                  href: webFile.Url.createObjectUrlFromBlob(blob).toString(),
+                )
+                  ..setAttribute("download", "data.txt")
+                  ..click();
               },
             ),
             AboutListTile(
