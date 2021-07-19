@@ -1,9 +1,14 @@
+//import 'package:file_picker_cross/file_picker_cross.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/screens/roster/combat_groups_display.dart';
 import 'package:gearforce/screens/roster/roster_header_info.dart';
 import 'package:gearforce/screens/unitSelector/unit_selection.dart';
 import 'package:provider/provider.dart';
+
+// ignore: avoid_web_libraries_in_flutter
+import 'dart:html' as webFile;
 
 const double _leftPanelWidth = 670.0;
 const double _menuTitleHeight = 60.0;
@@ -70,16 +75,52 @@ class _RosterWidgetState extends State<RosterWidget> {
             Container(
               height: _menuTitleHeight,
               child: DrawerHeader(
+                decoration: BoxDecoration(color: Colors.blue),
                 child: Center(
                   child: Text(
                     'Menu',
                     style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
+                        fontSize: 18,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.white),
                   ),
                 ),
               ),
+            ),
+            ListTile(
+              title: Text(
+                'Load',
+                style: TextStyle(fontSize: 16),
+              ),
+              onTap: () async {
+                /*               FilePickerCross myFile =
+                    await FilePickerCross.importFromStorage(
+                        type: FileTypeCross
+                            .custom, // Available: `any`, `audio`, `image`, `video`, `custom`. Note: not available using FDE
+                        fileExtension:
+                            'gf' // Only if FileTypeCross.custom . May be any file extension like `dot`, `ppt,pptx,odp`
+                        );
+                print(myFile.toString());
+           */
+              },
+            ),
+            ListTile(
+              title: Text(
+                'Save',
+                style: TextStyle(
+                  fontSize: 16,
+                ),
+              ),
+              enabled: kIsWeb,
+              onTap: () async {
+                List<String> test = ['my test file', 'more stuff'];
+                var blob = webFile.Blob(test, 'text/plain', 'native');
+                webFile.AnchorElement(
+                  href: webFile.Url.createObjectUrlFromBlob(blob).toString(),
+                )
+                  ..setAttribute("download", "data.txt")
+                  ..click();
+              },
             ),
             AboutListTile(
               applicationName: 'Gearforce',
