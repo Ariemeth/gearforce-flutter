@@ -15,6 +15,7 @@ class Unit extends ChangeNotifier {
       'frame': core.frame,
       'variant': core.name,
       'mods': _mods.map((e) => e.name).toList(),
+      'command': _commandLevel.toString().split('.').last,
     };
   }
 
