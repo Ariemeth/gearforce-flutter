@@ -114,10 +114,12 @@ class _RosterWidgetState extends State<RosterWidget> {
                   });
                 } on FormatException catch (e) {
                   // TODO add notification toast that the file format was invalid
-                  print('Format exception caught');
+                  print('Format exception caught : $e');
                 } on Exception catch (e) {
                   // TODO add notification toast that the file could not be loaded and why
                   print('exception caught loading ${myFile.fileName} : $e');
+                } catch (e) {
+                  print('error occured decoding safe file : $e');
                 }
                 Navigator.pop(context);
               },
