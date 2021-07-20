@@ -15,6 +15,14 @@ class CombatGroup extends ChangeNotifier {
     });
   }
 
+  Map<String, dynamic> toJson() {
+    return {
+      'primary': primary.toJson(),
+      'secondary': secondary.toJson(),
+      'name': '$name',
+    };
+  }
+
   int totalTV() {
     return primary.totalTV() + secondary.totalTV();
   }

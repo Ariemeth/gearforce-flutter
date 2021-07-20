@@ -14,6 +14,13 @@ class Group extends ChangeNotifier {
     this._role = role;
   }
 
+  Map<String, dynamic> toJson() {
+    return {
+      'role': _role.toString().split('.').last,
+      'units': _units.map((e) => e.toJson()).toList(),
+    };
+  }
+
   RoleType role() => _role;
 
   void changeRole(RoleType role) {
