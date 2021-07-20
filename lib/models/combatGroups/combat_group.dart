@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:gearforce/models/combatGroups/group.dart';
 
@@ -13,6 +15,14 @@ class CombatGroup extends ChangeNotifier {
     secondary.addListener(() {
       notifyListeners();
     });
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'primary': primary.toJson(),
+      'secondary': secondary.toJson(),
+      'name': '$name',
+    };
   }
 
   int totalTV() {

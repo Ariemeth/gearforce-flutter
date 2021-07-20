@@ -10,6 +10,14 @@ class Unit extends ChangeNotifier {
     required this.core,
   });
 
+  Map<String, dynamic> toJson() {
+    return {
+      'frame': core.frame,
+      'variant': core.name,
+      'mods': _mods.map((e) => e.name).toList(),
+    };
+  }
+
   final UnitCore core;
   final List<Modification> _mods = [];
   CommandLevel _commandLevel = CommandLevel.none;
