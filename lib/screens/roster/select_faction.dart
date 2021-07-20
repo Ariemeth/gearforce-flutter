@@ -23,7 +23,9 @@ class _SelectFactionState extends State<SelectFaction> {
   @override
   Widget build(BuildContext context) {
     return DropdownButton<String>(
-      value: dropdownValue,
+      value: widget.selectedFaction.value == null
+          ? null
+          : widget.selectedFaction.value.toString().split('.').last,
       hint: Text('Select faction'),
       icon: const Icon(Icons.arrow_downward),
       iconSize: 16,

@@ -33,7 +33,8 @@ Factions convertToFaction(String faction) {
       return Factions.North;
     case 'SOUTH':
       return Factions.South;
-    case "PEACE RIVER":
+    case 'PEACE RIVER':
+    case 'PEACERIVER':
       return Factions.PeaceRiver;
     case 'NUCOAL':
       return Factions.NuCoal;
@@ -50,6 +51,7 @@ Factions convertToFaction(String faction) {
     case 'TERRAIN':
       return Factions.Terrain;
     case 'BLACK TALON':
+    case 'BLACKTALON':
       return Factions.BlackTalon;
   }
 

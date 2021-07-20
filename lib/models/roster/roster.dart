@@ -20,6 +20,7 @@ class UnitRoster extends ChangeNotifier {
     });
     createCG();
   }
+
   @override
   String toString() {
     return 'Roster: {Player: $player, Force Name: $name, Faction: ${faction.value}, Sub-Faction: ${subFaction.value}}, CGs: $_combatGroups';
@@ -37,13 +38,23 @@ class UnitRoster extends ChangeNotifier {
     };
   }
 
-  UnitRoster.fromJson(Map<String, dynamic> json) {
-    player = json['player'];
-    name = json['name'];
-    faction.value = Factions.values.where(
-            (element) => element.toString().split('.').last == json['faction'])
-        as Factions?;
-    subFaction.value = json['subfaction'];
+  factory UnitRoster.fromJson(dynamic json) {
+    UnitRoster ur = UnitRoster();
+    ur.name = json['name'] as String?;
+    ur.player = json['player'] as String?;
+    ur.faction.value = (json['faction'] as String?) == null
+        ? null
+        : convertToFaction(json['faction'] as String);
+    ur.subFaction.value = json['subfaction'] as String?;
+
+    return ur;
+  }
+
+  void copyFrom(UnitRoster ur) {
+    this.name = ur.name;
+    this.player = ur.player;
+    this.faction.value = ur.faction.value;
+    this.subFaction.value = ur.subFaction.value;
   }
 
   CombatGroup? getCG(String name) => _combatGroups[name];
