@@ -36,9 +36,9 @@ class CombatGroup extends ChangeNotifier {
     var cg = CombatGroup(
       json['name'] as String,
       primary:
-          Group.fromJson(json['groups']['primary'], data, faction, subfaction),
+          Group.fromJson(json['primary'], data, faction, subfaction),
       secondary: Group.fromJson(
-          json['groups']['secondary'], data, faction, subfaction),
+          json['secondary'], data, faction, subfaction),
     );
     return cg;
   }

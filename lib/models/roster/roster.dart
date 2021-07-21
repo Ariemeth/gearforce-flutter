@@ -34,10 +34,9 @@ class UnitRoster extends ChangeNotifier {
       'name': name,
       'faction': faction.value.toString().split('.').last,
       'subfaction': subFaction.value,
-      'created': _totalCreated,
-      'cgs': _combatGroups.entries
-          .map((e) => {'name': e.key, 'groups': e.value.toJson()})
-          .toList(),
+      'totalCreated': _totalCreated,
+      'cgs': _combatGroups.entries.map((e) => e.value.toJson()).toList(),
+      'version':1,
     };
   }
 
@@ -65,7 +64,7 @@ class UnitRoster extends ChangeNotifier {
           ..forEach((element) {
             ur.addCG(element);
           });
-    ur._totalCreated = json['created'] as int;
+    ur._totalCreated = json['totalCreated'] as int;
     return ur;
   }
 
