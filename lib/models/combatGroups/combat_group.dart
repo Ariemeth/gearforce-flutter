@@ -1,16 +1,21 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/combatGroups/group.dart';
+import 'package:gearforce/models/factions/faction.dart';
 
 class CombatGroup extends ChangeNotifier {
-  final Group primary = Group();
-  final Group secondary = Group();
+  late final Group primary;
+  late final Group secondary;
   final String name;
 
-  CombatGroup(this.name) {
-    primary.addListener(() {
+  CombatGroup(this.name, {Group? primary, Group? secondary}) {
+    this.primary = primary == null ? Group() : primary;
+    this.secondary = secondary == null ? Group() : secondary;
+
+    this.primary.addListener(() {
       notifyListeners();
     });
-    secondary.addListener(() {
+    this.secondary.addListener(() {
       notifyListeners();
     });
   }
@@ -21,6 +26,21 @@ class CombatGroup extends ChangeNotifier {
       'secondary': secondary.toJson(),
       'name': '$name',
     };
+  }
+
+  factory CombatGroup.fromJson(
+      dynamic json, Data data, Factions? faction, String? subfaction) {
+    //TODO remove prints
+    print('CombatGroup.fromJson');
+    print(json);
+    var cg = CombatGroup(
+      json['name'] as String,
+      primary:
+          Group.fromJson(json['groups']['primary'], data, faction, subfaction),
+      secondary: Group.fromJson(
+          json['groups']['secondary'], data, faction, subfaction),
+    );
+    return cg;
   }
 
   int totalTV() {

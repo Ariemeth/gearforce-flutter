@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:gearforce/data/data.dart';
+import 'package:gearforce/models/factions/faction.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
@@ -21,6 +23,24 @@ class Group extends ChangeNotifier {
     };
   }
 
+  factory Group.fromJson(
+      dynamic json, Data data, Factions? faction, String? subfaction) {
+    //TODO remove prints
+    print('Group.fromJson');
+    print(json);
+    Group g = Group(role: convertRoleType(json['role'] as String));
+    if (faction != null) {
+      var decodedUnits = json['units'] as List;
+      decodedUnits
+          .map((e) => Unit.fromJson(e, data, faction, subfaction))
+          .toList()
+            ..forEach((element) {
+              g._addUnit(element);
+            });
+    }
+    return g;
+  }
+
   RoleType role() => _role;
 
   void changeRole(RoleType role) {
@@ -35,6 +55,13 @@ class Group extends ChangeNotifier {
     });
 
     notifyListeners();
+  }
+
+  void _addUnit(Unit unit) {
+    _units.add(unit
+      ..addListener(() {
+        notifyListeners();
+      }));
   }
 
   void addUnit(UnitCore unit) {

@@ -316,11 +316,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
                 value: false,
                 groupValue: true,
                 toggleable: true,
-                onChanged: (bool? value) {
-                  setState(() {
-                    // TODO add actual state and set value on the unit
-                  });
-                },
+                onChanged: (bool? value) {},
               ),
             ),
           ),
@@ -335,11 +331,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
                 value: unit.isVeteran(),
                 toggleable: true,
                 groupValue: true,
-                onChanged: (bool? value) {
-                  setState(() {
-                    // TODO add actual state and set value on the unit
-                  });
-                },
+                onChanged: (bool? value) {},
               ),
             ),
           ),

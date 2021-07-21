@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/factions/faction.dart';
 
@@ -18,6 +19,7 @@ class UnitRoster extends ChangeNotifier {
         value.clear();
       });
     });
+    //TODO probably should not be creating this
     createCG();
   }
 
@@ -32,13 +34,14 @@ class UnitRoster extends ChangeNotifier {
       'name': name,
       'faction': faction.value.toString().split('.').last,
       'subfaction': subFaction.value,
+      'created': _totalCreated,
       'cgs': _combatGroups.entries
           .map((e) => {'name': e.key, 'groups': e.value.toJson()})
           .toList(),
     };
   }
 
-  factory UnitRoster.fromJson(dynamic json) {
+  factory UnitRoster.fromJson(dynamic json, Data data) {
     UnitRoster ur = UnitRoster();
     ur.name = json['name'] as String?;
     ur.player = json['player'] as String?;
@@ -47,6 +50,22 @@ class UnitRoster extends ChangeNotifier {
         : convertToFaction(json['faction'] as String);
     ur.subFaction.value = json['subfaction'] as String?;
 
+    var decodedCG = json['cgs'] as List;
+    //TODO remove print
+    print('decodedCG');
+    print(decodedCG);
+    decodedCG
+        .map((e) => CombatGroup.fromJson(
+              e,
+              data,
+              ur.faction.value,
+              ur.subFaction.value,
+            ))
+        .toList()
+          ..forEach((element) {
+            ur.addCG(element);
+          });
+    ur._totalCreated = json['created'] as int;
     return ur;
   }
 
@@ -55,6 +74,11 @@ class UnitRoster extends ChangeNotifier {
     this.player = ur.player;
     this.faction.value = ur.faction.value;
     this.subFaction.value = ur.subFaction.value;
+    this._activeCG = ur._activeCG;
+    ur._combatGroups.forEach((key, value) {
+      this.addCG(value);
+    });
+    this._totalCreated = ur._totalCreated;
   }
 
   CombatGroup? getCG(String name) => _combatGroups[name];

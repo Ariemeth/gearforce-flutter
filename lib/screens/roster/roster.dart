@@ -1,9 +1,8 @@
-//import 'package:file_picker_cross/file_picker_cross.dart';
 import 'dart:convert';
-
 import 'package:file_picker_cross/file_picker_cross.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/screens/roster/combat_groups_display.dart';
 import 'package:gearforce/screens/roster/roster_header_info.dart';
@@ -39,6 +38,7 @@ class _RosterWidgetState extends State<RosterWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final data = context.watch<Data>();
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -108,7 +108,7 @@ class _RosterWidgetState extends State<RosterWidget> {
                         );
                 try {
                   var decodedFile = json.decode(myFile.toString());
-                  var r = UnitRoster.fromJson(decodedFile);
+                  var r = UnitRoster.fromJson(decodedFile, data);
                   setState(() {
                     roster.copyFrom(r);
                   });
@@ -134,6 +134,7 @@ class _RosterWidgetState extends State<RosterWidget> {
               enabled: kIsWeb,
               onTap: () async {
                 var encodedRoster = json.encode(roster);
+                //TODO remove print
                 print(encodedRoster);
                 var blob =
                     webFile.Blob([encodedRoster], 'application/json', 'native');
