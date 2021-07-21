@@ -44,6 +44,7 @@ class UnitRoster extends ChangeNotifier {
         'version': _currentRosterVersion,
         'rulesVersion': rulesVersion,
         'compendiumVersion': compendiumVersion,
+        'whenCreated': DateTime.now().toString(),
       };
 
   factory UnitRoster.fromJson(dynamic json, Data data) {
