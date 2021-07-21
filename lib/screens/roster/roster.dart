@@ -15,7 +15,7 @@ import 'dart:html' as webFile;
 
 const double _leftPanelWidth = 670.0;
 const double _menuTitleHeight = 60.0;
-const String _version = '0.16.0';
+const String _version = '0.16.1';
 const String _bugMessage =
     'Please report any issues to gearforce@metadiversions.com';
 const String _defaultRosterFileName = 'roster';
@@ -152,7 +152,11 @@ class _RosterWidgetState extends State<RosterWidget> {
             AboutListTile(
               applicationName: 'Gearforce',
               applicationVersion: _version,
-              aboutBoxChildren: [Text(_bugMessage)],
+              aboutBoxChildren: [
+                Text(_bugMessage),
+                Text('Rules version: ${roster.rulesVersion}'),
+                Text('Compedndium version: ${roster.compendiumVersion}'),
+              ],
               dense: true,
               child: Text('About Gearforce',
                   style: TextStyle(
