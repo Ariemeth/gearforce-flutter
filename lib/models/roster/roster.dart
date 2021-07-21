@@ -3,6 +3,10 @@ import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/factions/faction.dart';
 
+const _currentRosterVersion = 1;
+const _currentRulesVersion = '17-July-2021';
+const _currentCompendiumVersion = '28-June-2021';
+
 class UnitRoster extends ChangeNotifier {
   String? player;
   String? name;
@@ -11,6 +15,8 @@ class UnitRoster extends ChangeNotifier {
   final Map<String, CombatGroup> _combatGroups = new Map<String, CombatGroup>();
   int _totalCreated = 0;
   String _activeCG = '';
+  String get rulesVersion => _currentRulesVersion;
+  String get compendiumVersion => _currentCompendiumVersion;
 
   UnitRoster() {
     faction.addListener(() {
@@ -35,7 +41,10 @@ class UnitRoster extends ChangeNotifier {
         'subfaction': subFaction.value,
         'totalCreated': _totalCreated,
         'cgs': _combatGroups.entries.map((e) => e.value.toJson()).toList(),
-        'version': 1,
+        'version': _currentRosterVersion,
+        'rulesVersion': rulesVersion,
+        'compendiumVersion': compendiumVersion,
+        'whenCreated': DateTime.now().toString(),
       };
 
   factory UnitRoster.fromJson(dynamic json, Data data) {
