@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/factions/faction.dart';
 
@@ -18,32 +19,61 @@ class UnitRoster extends ChangeNotifier {
         value.clear();
       });
     });
+    //TODO probably should not be creating this
     createCG();
   }
+
   @override
   String toString() {
     return 'Roster: {Player: $player, Force Name: $name, Faction: ${faction.value}, Sub-Faction: ${subFaction.value}}, CGs: $_combatGroups';
   }
 
-  Map<String, dynamic> toJson() {
-    return {
-      'player': player,
-      'name': name,
-      'faction': faction.value.toString().split('.').last,
-      'subfaction': subFaction.value,
-      'cgs': _combatGroups.entries
-          .map((e) => {'name': e.key, 'groups': e.value.toJson()})
-          .toList(),
-    };
+  Map<String, dynamic> toJson() => {
+        'player': player,
+        'name': name,
+        'faction': faction.value.toString().split('.').last,
+        'subfaction': subFaction.value,
+        'totalCreated': _totalCreated,
+        'cgs': _combatGroups.entries.map((e) => e.value.toJson()).toList(),
+        'version': 1,
+      };
+
+  factory UnitRoster.fromJson(dynamic json, Data data) {
+    UnitRoster ur = UnitRoster();
+    ur.name = json['name'] as String?;
+    ur.player = json['player'] as String?;
+    ur.faction.value = (json['faction'] as String?) == null
+        ? null
+        : convertToFaction(json['faction'] as String);
+    ur.subFaction.value = json['subfaction'] as String?;
+
+    ur._combatGroups.clear();
+    var decodedCG = json['cgs'] as List;
+    decodedCG
+        .map((e) => CombatGroup.fromJson(
+              e,
+              data,
+              ur.faction.value,
+              ur.subFaction.value,
+            ))
+        .toList()
+          ..forEach((element) {
+            ur.addCG(element);
+          });
+    ur._totalCreated = json['totalCreated'] as int;
+    return ur;
   }
 
-  UnitRoster.fromJson(Map<String, dynamic> json) {
-    player = json['player'];
-    name = json['name'];
-    faction.value = Factions.values.where(
-            (element) => element.toString().split('.').last == json['faction'])
-        as Factions?;
-    subFaction.value = json['subfaction'];
+  void copyFrom(UnitRoster ur) {
+    this.name = ur.name;
+    this.player = ur.player;
+    this.faction.value = ur.faction.value;
+    this.subFaction.value = ur.subFaction.value;
+    this._activeCG = ur._activeCG;
+    ur._combatGroups.forEach((key, value) {
+      this.addCG(value);
+    });
+    this._totalCreated = ur._totalCreated;
   }
 
   CombatGroup? getCG(String name) => _combatGroups[name];

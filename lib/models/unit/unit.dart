@@ -1,4 +1,7 @@
 import 'package:flutter/widgets.dart';
+import 'package:gearforce/data/data.dart';
+import 'package:gearforce/models/factions/faction.dart';
+import 'package:gearforce/models/mods/unitUpgrades/unit_upgrades.dart';
 import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/mods/modification.dart';
 import 'package:gearforce/models/unit/role.dart';
@@ -10,13 +13,39 @@ class Unit extends ChangeNotifier {
     required this.core,
   });
 
-  Map<String, dynamic> toJson() {
-    return {
-      'frame': core.frame,
-      'variant': core.name,
-      'mods': _mods.map((e) => e.name).toList(),
-      'command': _commandLevel.toString().split('.').last,
-    };
+  Map<String, dynamic> toJson() => {
+        'frame': core.frame,
+        'variant': core.name,
+        'mods': _mods.map((e) => e.name).toList(),
+        'command': commandLevelString(_commandLevel)
+      };
+
+  factory Unit.fromJson(
+    dynamic json,
+    Data data,
+    Factions faction,
+    String? subfaction,
+  ) {
+    var core = data
+        .unitList(faction)
+        .firstWhere((element) => element.name == json['variant']);
+    Unit u = Unit(core: core);
+
+    u._commandLevel = convertToCommand(json['command']);
+
+    var decodedMods = json['mods'] as List;
+    if (decodedMods.isNotEmpty) {
+      var availableUnitMods = getUnitMods(u.core.frame);
+      decodedMods.forEach((modeName) {
+        try {
+          var mod = availableUnitMods.firstWhere((mod) => mod.name == modeName);
+          u.addUnitMod(mod);
+        } on StateError catch (e) {
+          print('mod $modeName not found in available mods, $e');
+        }
+      });
+    }
+    return u;
   }
 
   final UnitCore core;

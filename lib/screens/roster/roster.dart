@@ -1,8 +1,8 @@
-//import 'package:file_picker_cross/file_picker_cross.dart';
 import 'dart:convert';
-
+import 'package:file_picker_cross/file_picker_cross.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/screens/roster/combat_groups_display.dart';
 import 'package:gearforce/screens/roster/roster_header_info.dart';
@@ -15,7 +15,7 @@ import 'dart:html' as webFile;
 
 const double _leftPanelWidth = 670.0;
 const double _menuTitleHeight = 60.0;
-const String _version = '0.15.0';
+const String _version = '0.16.0';
 const String _bugMessage =
     'Please report any issues to gearforce@metadiversions.com';
 const String _defaultRosterFileName = 'roster';
@@ -38,6 +38,7 @@ class _RosterWidgetState extends State<RosterWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final data = context.watch<Data>();
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -98,15 +99,29 @@ class _RosterWidgetState extends State<RosterWidget> {
                 style: TextStyle(fontSize: 16),
               ),
               onTap: () async {
-                /*               FilePickerCross myFile =
+                FilePickerCross myFile =
                     await FilePickerCross.importFromStorage(
                         type: FileTypeCross
                             .custom, // Available: `any`, `audio`, `image`, `video`, `custom`. Note: not available using FDE
                         fileExtension:
                             'gf' // Only if FileTypeCross.custom . May be any file extension like `dot`, `ppt,pptx,odp`
                         );
-                print(myFile.toString());
-           */
+                try {
+                  var decodedFile = json.decode(myFile.toString());
+                  var r = UnitRoster.fromJson(decodedFile, data);
+                  setState(() {
+                    roster.copyFrom(r);
+                  });
+                } on FormatException catch (e) {
+                  // TODO add notification toast that the file format was invalid
+                  print('Format exception caught : $e');
+                } on Exception catch (e) {
+                  // TODO add notification toast that the file could not be loaded and why
+                  print('exception caught loading ${myFile.fileName} : $e');
+                } catch (e) {
+                  print('error occured decoding safe file : $e');
+                }
+                Navigator.pop(context);
               },
             ),
             ListTile(
@@ -119,6 +134,7 @@ class _RosterWidgetState extends State<RosterWidget> {
               enabled: kIsWeb,
               onTap: () async {
                 var encodedRoster = json.encode(roster);
+                //TODO remove print when satisfied with external testing
                 print(encodedRoster);
                 var blob =
                     webFile.Blob([encodedRoster], 'application/json', 'native');

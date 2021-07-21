@@ -42,6 +42,7 @@ class RosterHeaderInfo extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(right: 10, left: 5, top: 5, bottom: 5),
             child: TextField(
+              controller: TextEditingController(text: roster.player),
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 isDense: true,
@@ -74,6 +75,7 @@ class RosterHeaderInfo extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(right: 10, left: 5, top: 5, bottom: 5),
             child: TextField(
+              controller: TextEditingController(text: roster.name),
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 isDense: true,
