@@ -134,7 +134,7 @@ class _RosterWidgetState extends State<RosterWidget> {
               enabled: kIsWeb,
               onTap: () async {
                 var encodedRoster = json.encode(roster);
-                //TODO remove print
+                //TODO remove print when satisfied with external testing
                 print(encodedRoster);
                 var blob =
                     webFile.Blob([encodedRoster], 'application/json', 'native');

@@ -16,18 +16,17 @@ class Group extends ChangeNotifier {
     this._role = role;
   }
 
-  Map<String, dynamic> toJson() {
-    return {
-      'role': _role.toString().split('.').last,
-      'units': _units.map((e) => e.toJson()).toList(),
-    };
-  }
+  Map<String, dynamic> toJson() => {
+        'role': _role.toString().split('.').last,
+        'units': _units.map((e) => e.toJson()).toList(),
+      };
 
   factory Group.fromJson(
-      dynamic json, Data data, Factions? faction, String? subfaction) {
-    //TODO remove prints
-    print('Group.fromJson');
-    print(json);
+    dynamic json,
+    Data data,
+    Factions? faction,
+    String? subfaction,
+  ) {
     Group g = Group(role: convertRoleType(json['role'] as String));
     if (faction != null) {
       var decodedUnits = json['units'] as List;

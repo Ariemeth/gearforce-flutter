@@ -28,17 +28,15 @@ class UnitRoster extends ChangeNotifier {
     return 'Roster: {Player: $player, Force Name: $name, Faction: ${faction.value}, Sub-Faction: ${subFaction.value}}, CGs: $_combatGroups';
   }
 
-  Map<String, dynamic> toJson() {
-    return {
-      'player': player,
-      'name': name,
-      'faction': faction.value.toString().split('.').last,
-      'subfaction': subFaction.value,
-      'totalCreated': _totalCreated,
-      'cgs': _combatGroups.entries.map((e) => e.value.toJson()).toList(),
-      'version':1,
-    };
-  }
+  Map<String, dynamic> toJson() => {
+        'player': player,
+        'name': name,
+        'faction': faction.value.toString().split('.').last,
+        'subfaction': subFaction.value,
+        'totalCreated': _totalCreated,
+        'cgs': _combatGroups.entries.map((e) => e.value.toJson()).toList(),
+        'version': 1,
+      };
 
   factory UnitRoster.fromJson(dynamic json, Data data) {
     UnitRoster ur = UnitRoster();
@@ -49,10 +47,8 @@ class UnitRoster extends ChangeNotifier {
         : convertToFaction(json['faction'] as String);
     ur.subFaction.value = json['subfaction'] as String?;
 
+    ur._combatGroups.clear();
     var decodedCG = json['cgs'] as List;
-    //TODO remove print
-    print('decodedCG');
-    print(decodedCG);
     decodedCG
         .map((e) => CombatGroup.fromJson(
               e,

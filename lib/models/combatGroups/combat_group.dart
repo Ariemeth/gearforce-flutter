@@ -20,28 +20,23 @@ class CombatGroup extends ChangeNotifier {
     });
   }
 
-  Map<String, dynamic> toJson() {
-    return {
-      'primary': primary.toJson(),
-      'secondary': secondary.toJson(),
-      'name': '$name',
-    };
-  }
+  Map<String, dynamic> toJson() => {
+        'primary': primary.toJson(),
+        'secondary': secondary.toJson(),
+        'name': '$name',
+      };
 
   factory CombatGroup.fromJson(
-      dynamic json, Data data, Factions? faction, String? subfaction) {
-    //TODO remove prints
-    print('CombatGroup.fromJson');
-    print(json);
-    var cg = CombatGroup(
-      json['name'] as String,
-      primary:
-          Group.fromJson(json['primary'], data, faction, subfaction),
-      secondary: Group.fromJson(
-          json['secondary'], data, faction, subfaction),
-    );
-    return cg;
-  }
+    dynamic json,
+    Data data,
+    Factions? faction,
+    String? subfaction,
+  ) =>
+      CombatGroup(
+        json['name'] as String,
+        primary: Group.fromJson(json['primary'], data, faction, subfaction),
+        secondary: Group.fromJson(json['secondary'], data, faction, subfaction),
+      );
 
   int totalTV() {
     return primary.totalTV() + secondary.totalTV();
