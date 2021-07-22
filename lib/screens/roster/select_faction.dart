@@ -25,7 +25,7 @@ class _SelectFactionState extends State<SelectFaction> {
     return DropdownButton<String>(
       value: widget.selectedFaction.value == null
           ? null
-          : widget.selectedFaction.value.toString().split('.').last,
+          : factionToString(widget.selectedFaction.value!),
       hint: Text('Select faction'),
       icon: const Icon(Icons.arrow_downward),
       iconSize: 16,
@@ -42,7 +42,7 @@ class _SelectFactionState extends State<SelectFaction> {
       },
       items: widget.factions.map<DropdownMenuItem<String>>((Faction value) {
         return DropdownMenuItem<String>(
-          value: value.name,
+          value: factionToString(value.factionType),
           child: Text(
             value.name,
             style: TextStyle(fontSize: 16),

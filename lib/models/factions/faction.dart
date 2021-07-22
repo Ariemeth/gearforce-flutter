@@ -27,6 +27,33 @@ enum Factions {
   BlackTalon
 }
 
+String factionToString(Factions f) {
+  switch (f) {
+    case Factions.North:
+      return 'North';
+    case Factions.South:
+      return 'South';
+    case Factions.PeaceRiver:
+      return 'Peace River';
+    case Factions.NuCoal:
+      return 'NuCoal';
+    case Factions.CEF:
+      return 'CEF';
+    case Factions.Caprice:
+      return 'Caprice';
+    case Factions.Utopia:
+      return 'Utopia';
+    case Factions.Eden:
+      return 'Eden';
+    case Factions.Universal:
+      return 'Universal';
+    case Factions.Terrain:
+      return 'Terrain';
+    case Factions.BlackTalon:
+      return 'Black Talon';
+  }
+}
+
 Factions convertToFaction(String faction) {
   switch (faction.toUpperCase()) {
     case "NORTH":
