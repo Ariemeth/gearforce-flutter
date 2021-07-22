@@ -15,7 +15,7 @@ import 'dart:html' as webFile;
 
 const double _leftPanelWidth = 670.0;
 const double _menuTitleHeight = 60.0;
-const String _version = '0.16.2';
+const String _version = '0.17.0';
 const String _bugMessage =
     'Please report any issues to gearforce@metadiversions.com';
 const String _defaultRosterFileName = 'roster';
