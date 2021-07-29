@@ -345,7 +345,7 @@
       ]
     },
     {
-      "name": "Trucks",
+      "name": "Truck",
       "upgrades": [],
       "variants": [
         {
@@ -381,7 +381,13 @@
           "traits": "-",
           "type": "Vehicle",
           "height": 1
-        },
+        }
+      ]
+    },
+    {
+      "name": "Off Road Vehicle",
+      "upgrades": [],
+      "variants": [
         {
           "model": "Antelope",
           "tv": 3,
@@ -415,7 +421,13 @@
           "traits": "TD, Comms",
           "type": "Vehicle",
           "height": 0.5
-        },
+        }
+      ]
+    },
+    {
+      "name": "Towed Field Gun",
+      "upgrades": [],
+      "variants": [
         {
           "model": "Field Gun",
           "tv": 4,
@@ -432,9 +444,15 @@
           "traits": "Towed",
           "type": "Vehicle",
           "height": 0.5
-        },
+        }
+      ]
+    },
+    {
+      "name": "Transport",
+      "upgrades": [],
+      "variants": [
         {
-          "model": "Barnaby Gear Transport",
+          "model": "Barnaby Transport",
           "tv": 7,
           "role": "GP+",
           "mr": "G:7",
