@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
-import 'package:gearforce/models/factions/faction.dart';
+import 'package:gearforce/models/factions/faction_type.dart';
 
 const _currentRosterVersion = 1;
 const _currentRulesVersion = '17-July-2021';
@@ -38,7 +38,7 @@ class UnitRoster extends ChangeNotifier {
         'player': player,
         'name': name,
         'faction':
-            faction.value == null ? null : factionToString(faction.value!),
+            faction.value == null ? null : factionTypeToString(faction.value!),
         'subfaction': subFaction.value,
         'totalCreated': _totalCreated,
         'cgs': _combatGroups.entries.map((e) => e.value.toJson()).toList(),
@@ -54,7 +54,7 @@ class UnitRoster extends ChangeNotifier {
     ur.player = json['player'] as String?;
     ur.faction.value = (json['faction'] as String?) == null
         ? null
-        : convertToFaction(json['faction'] as String);
+        : convertToFactionType(json['faction'] as String);
     ur.subFaction.value = json['subfaction'] as String?;
 
     ur._combatGroups.clear();

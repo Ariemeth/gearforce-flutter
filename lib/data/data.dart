@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:gearforce/models/factions/faction.dart';
+import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/unit/frame.dart';
 import 'package:gearforce/models/mods/modification.dart';
 import 'package:gearforce/models/unit/role.dart';

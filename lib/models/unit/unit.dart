@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:gearforce/data/data.dart';
-import 'package:gearforce/models/factions/faction.dart';
+import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/mods/unitUpgrades/unit_upgrades.dart';
 import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/mods/modification.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:gearforce/data/data.dart';
-import 'package:gearforce/models/factions/faction.dart';
+import 'package:gearforce/models/factions/faction_type.dart';
 
 void main() {
   setUpAll(() async {

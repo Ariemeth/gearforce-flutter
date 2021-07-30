@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gearforce/models/factions/faction.dart';
+import 'package:gearforce/models/factions/faction_type.dart';
 
 class SelectSubFaction extends StatefulWidget {
   const SelectSubFaction(

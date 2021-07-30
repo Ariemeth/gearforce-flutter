@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/combatGroups/group.dart';
-import 'package:gearforce/models/factions/faction.dart';
+import 'package:gearforce/models/factions/faction_type.dart';
 
 class CombatGroup extends ChangeNotifier {
   late final Group primary;

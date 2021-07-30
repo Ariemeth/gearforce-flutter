@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gearforce/data/data.dart';
-import 'package:gearforce/models/factions/faction.dart';
+import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
