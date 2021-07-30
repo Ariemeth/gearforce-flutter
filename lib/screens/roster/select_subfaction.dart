@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gearforce/models/factions/faction.dart';
+import 'package:gearforce/models/factions/faction_type.dart';
 
 class SelectSubFaction extends StatefulWidget {
   const SelectSubFaction(
@@ -10,7 +11,7 @@ class SelectSubFaction extends StatefulWidget {
       required this.selectedSubFaction})
       : super(key: key);
   final List<Faction> factions;
-  final ValueListenable<Factions?> selectedFaction;
+  final ValueListenable<FactionType?> selectedFaction;
   final ValueNotifier<String?> selectedSubFaction;
 
   @override
@@ -21,7 +22,7 @@ class SelectSubFaction extends StatefulWidget {
 class _SelectSubFactionState extends State<SelectSubFaction> {
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder<Factions?>(
+    return ValueListenableBuilder<FactionType?>(
       valueListenable: widget.selectedFaction,
       builder: (context, value, child) {
         return DropdownButton<String>(

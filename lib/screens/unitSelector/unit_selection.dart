@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gearforce/data/data.dart';
-import 'package:gearforce/models/factions/faction.dart';
+import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
@@ -82,7 +82,7 @@ class SelectionList extends StatelessWidget {
     );
   }
 
-  Widget _buildTable(Data data, Factions? faction) {
+  Widget _buildTable(Data data, FactionType? faction) {
     if (faction == null) {
       return DataTable(
         columns: _createTableColumns(),

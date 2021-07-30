@@ -1,11 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gearforce/models/factions/faction.dart';
+import 'package:gearforce/models/factions/faction_type.dart';
 
 /// This is the stateful widget that the main application instantiates.
 class SelectFaction extends StatefulWidget {
   final List<Faction> factions;
-  final ValueNotifier<Factions?> selectedFaction;
+  final ValueNotifier<FactionType?> selectedFaction;
   const SelectFaction(
       {Key? key, required this.factions, required this.selectedFaction})
       : super(key: key);
@@ -25,7 +26,7 @@ class _SelectFactionState extends State<SelectFaction> {
     return DropdownButton<String>(
       value: widget.selectedFaction.value == null
           ? null
-          : factionToString(widget.selectedFaction.value!),
+          : factionTypeToString(widget.selectedFaction.value!),
       hint: Text('Select faction'),
       icon: const Icon(Icons.arrow_downward),
       iconSize: 16,
@@ -37,14 +38,14 @@ class _SelectFactionState extends State<SelectFaction> {
       onChanged: (String? newValue) {
         setState(() {
           dropdownValue = newValue!;
-          widget.selectedFaction.value = convertToFaction(newValue);
+          widget.selectedFaction.value = convertToFactionType(newValue);
         });
       },
       items: widget.factions.map<DropdownMenuItem<String>>((Faction value) {
         return DropdownMenuItem<String>(
-          value: factionToString(value.factionType),
+          value: factionTypeToString(value.factionType),
           child: Text(
-            value.name,
+            factionTypeToString(value.factionType),
             style: TextStyle(fontSize: 16),
           ),
         );

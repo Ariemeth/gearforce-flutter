@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gearforce/data/data.dart';
-import 'package:gearforce/models/factions/faction.dart';
+import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
@@ -24,7 +24,7 @@ class Group extends ChangeNotifier {
   factory Group.fromJson(
     dynamic json,
     Data data,
-    Factions? faction,
+    FactionType? faction,
     String? subfaction,
   ) {
     Group g = Group(role: convertRoleType(json['role'] as String));
