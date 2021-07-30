@@ -10,7 +10,7 @@ const _currentCompendiumVersion = '28-June-2021';
 class UnitRoster extends ChangeNotifier {
   String? player;
   String? name;
-  final faction = ValueNotifier<Factions?>(null);
+  final faction = ValueNotifier<FactionType?>(null);
   final subFaction = ValueNotifier<String?>(null);
   final Map<String, CombatGroup> _combatGroups = new Map<String, CombatGroup>();
   int _totalCreated = 0;

@@ -82,7 +82,7 @@ class SelectionList extends StatelessWidget {
     );
   }
 
-  Widget _buildTable(Data data, Factions? faction) {
+  Widget _buildTable(Data data, FactionType? faction) {
     if (faction == null) {
       return DataTable(
         columns: _createTableColumns(),

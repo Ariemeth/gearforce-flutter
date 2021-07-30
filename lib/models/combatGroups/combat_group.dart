@@ -29,7 +29,7 @@ class CombatGroup extends ChangeNotifier {
   factory CombatGroup.fromJson(
     dynamic json,
     Data data,
-    Factions? faction,
+    FactionType? faction,
     String? subfaction,
   ) =>
       CombatGroup(

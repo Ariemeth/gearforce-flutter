@@ -23,7 +23,7 @@ class Unit extends ChangeNotifier {
   factory Unit.fromJson(
     dynamic json,
     Data data,
-    Factions faction,
+    FactionType faction,
     String? subfaction,
   ) {
     var core = data

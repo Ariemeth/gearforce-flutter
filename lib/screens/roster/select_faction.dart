@@ -5,7 +5,7 @@ import 'package:gearforce/models/factions/faction.dart';
 /// This is the stateful widget that the main application instantiates.
 class SelectFaction extends StatefulWidget {
   final List<Faction> factions;
-  final ValueNotifier<Factions?> selectedFaction;
+  final ValueNotifier<FactionType?> selectedFaction;
   const SelectFaction(
       {Key? key, required this.factions, required this.selectedFaction})
       : super(key: key);
@@ -44,7 +44,7 @@ class _SelectFactionState extends State<SelectFaction> {
         return DropdownMenuItem<String>(
           value: factionToString(value.factionType),
           child: Text(
-            value.name,
+            factionToString(value.factionType),
             style: TextStyle(fontSize: 16),
           ),
         );

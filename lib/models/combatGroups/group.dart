@@ -24,7 +24,7 @@ class Group extends ChangeNotifier {
   factory Group.fromJson(
     dynamic json,
     Data data,
-    Factions? faction,
+    FactionType? faction,
     String? subfaction,
   ) {
     Group g = Group(role: convertRoleType(json['role'] as String));
