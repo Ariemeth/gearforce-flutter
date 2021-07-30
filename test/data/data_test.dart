@@ -41,8 +41,8 @@ void main() {
 
   test('ensure caprice unit list loads', () async {
     final data = Data();
-    await data.load().whenComplete(
-        () => expect(data.unitList(FactionType.Caprice).length, greaterThan(0)));
+    await data.load().whenComplete(() =>
+        expect(data.unitList(FactionType.Caprice).length, greaterThan(0)));
   });
 
   test('ensure cef unit list loads', () async {
@@ -65,14 +65,14 @@ void main() {
 
   test('ensure terrain unit list loads', () async {
     final data = Data();
-    await data.load().whenComplete(
-        () => expect(data.unitList(FactionType.Terrain).length, greaterThan(0)));
+    await data.load().whenComplete(() =>
+        expect(data.unitList(FactionType.Terrain).length, greaterThan(0)));
   });
 
   test('ensure universal unit list loads', () async {
     final data = Data();
-    await data.load().whenComplete(
-        () => expect(data.unitList(FactionType.Universal).length, greaterThan(0)));
+    await data.load().whenComplete(() =>
+        expect(data.unitList(FactionType.Universal).length, greaterThan(0)));
   });
 
   test('ensure utopia unit list loads', () async {
@@ -124,7 +124,7 @@ void main() {
             filters: ['airdrop', 'warrior']).length,
         lessThan(data.unitList(FactionType.PeaceRiver).length),
         reason: 'filtered list should be smaller');
-    print(data
-        .unitList(FactionType.PeaceRiver, filters: ['airdrop', 'warrior']).length);
+    print(data.unitList(FactionType.PeaceRiver,
+        filters: ['airdrop', 'warrior']).length);
   });
 }
