@@ -23,7 +23,7 @@ class SelectedUnitFeedback extends StatelessWidget {
             'TV: ${this.uc.tv}',
           ),
           UnitSelectionTextCell.draggableFeedback(
-            'Roles: ${this.uc.role!.roles.join(', ')}',
+            'Roles: ${this.uc.role == null ? '-' : this.uc.role!.roles.join(', ')}',
           ),
         ],
       ),

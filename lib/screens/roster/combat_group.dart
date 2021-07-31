@@ -165,7 +165,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
         });
       },
       onWillAccept: (UnitCore? uc) {
-        return uc!.role!.includesRole([group.role()]);
+        return uc!.role == null || uc.role!.includesRole([group.role()]);
       },
     );
 
@@ -252,6 +252,8 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
     var units = group.allUnits();
     for (var i = 0; i < units.length; i++) {
       var unit = units[i];
+      var isNonModel =
+          unit.attribute(UnitAttribute.type) as String == 'Airstrike Counter';
       var nameCell = DataCell(UnitTextCell.content(
         unit.attribute(UnitAttribute.name),
         alignment: Alignment.centerLeft,
@@ -261,7 +263,9 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
       var tvCell = DataCell(UnitTextCell.content(unit.tv().toString()));
 
       var actionCell = DataCell(UnitTextCell.content(
-          unit.attribute(UnitAttribute.actions).toString()));
+          unit.attribute(UnitAttribute.actions) == null
+              ? '-'
+              : unit.attribute(UnitAttribute.actions).toString()));
       var commandCell = DataCell(Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisAlignment: MainAxisAlignment.end,
@@ -272,8 +276,10 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
                 padding: const EdgeInsets.fromLTRB(15, 5, 15, 5),
                 child: Center(
                   child: DropdownButton<String>(
-                    value: commandLevelString(unit.commandLevel()),
-                    hint: Text('Select faction'),
+                    value: isNonModel
+                        ? null
+                        : commandLevelString(unit.commandLevel()),
+                    hint: Text('Select Command Level'),
                     icon: const Icon(Icons.arrow_downward),
                     iconSize: 16,
                     elevation: 16,
@@ -288,18 +294,20 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
                             : convertToCommand(newValue));
                       });
                     },
-                    items: CommandLevel.values
-                        .map<DropdownMenuItem<String>>((CommandLevel value) {
-                      return DropdownMenuItem<String>(
-                        value: commandLevelString(value),
-                        child: Center(
-                          child: Text(
-                            commandLevelString(value),
-                            style: TextStyle(fontSize: 14),
-                          ),
-                        ),
-                      );
-                    }).toList(),
+                    items: isNonModel
+                        ? null
+                        : CommandLevel.values.map<DropdownMenuItem<String>>(
+                            (CommandLevel value) {
+                            return DropdownMenuItem<String>(
+                              value: commandLevelString(value),
+                              child: Center(
+                                child: Text(
+                                  commandLevelString(value),
+                                  style: TextStyle(fontSize: 14),
+                                ),
+                              ),
+                            );
+                          }).toList(),
                   ),
                 ),
               ),

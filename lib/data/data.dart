@@ -53,10 +53,31 @@ class Data {
     List<RoleType?>? role,
     List<String>? filters,
   }) {
-    List<Frame>? factionUnit = _factionFrames[faction];
+    List<Frame>? factionUnit = _factionFrames[faction]!.toList();
 
-    if (factionUnit == null) {
-      return [];
+    switch (faction) {
+      case FactionType.North:
+      case FactionType.South:
+      case FactionType.NuCoal:
+      case FactionType.PeaceRiver:
+      case FactionType.BlackTalon:
+        var uniList = _factionFrames[FactionType.Universal];
+        if (uniList != null) {
+          factionUnit.addAll(uniList.toList());
+        }
+        break;
+      case FactionType.CEF:
+        break;
+      case FactionType.Caprice:
+        break;
+      case FactionType.Utopia:
+        break;
+      case FactionType.Eden:
+        break;
+      case FactionType.Universal:
+        break;
+      case FactionType.Terrain:
+        break;
     }
 
     List<UnitCore> ulist = [];
