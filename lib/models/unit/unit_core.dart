@@ -105,92 +105,69 @@ class UnitCore {
       if (criteria[i].isEmpty) {
         continue;
       }
-      if (this.name.toLowerCase().contains(criteria[i].toLowerCase())) {
+
+      var c = criteria[i].toLowerCase();
+
+      if (this.name.toLowerCase().contains(c)) {
         return true;
       }
 
-      if (this.tv.toString().contains(criteria[i].toLowerCase())) {
+      if (this.tv.toString().contains(c)) {
         return true;
       }
 
-      if (this.movement != null &&
-          this.movement.toString().contains(criteria[i].toLowerCase())) {
+      if (this.movement != null && this.movement.toString().contains(c)) {
         return true;
       }
 
-      if (this.armor != null &&
-          this.armor.toString().contains(criteria[i].toLowerCase())) {
+      if (this.armor != null && this.armor.toString().contains(c)) {
         return true;
       }
 
-      if (this.hull != null &&
-          this.hull.toString().contains(criteria[i].toLowerCase())) {
+      if (this.hull != null && this.hull.toString().contains(c)) {
         return true;
       }
 
-      if (this.structure != null &&
-          this.structure.toString().contains(criteria[i].toLowerCase())) {
+      if (this.structure != null && this.structure.toString().contains(c)) {
         return true;
       }
 
-      if (this.actions != null &&
-          this.actions.toString().contains(criteria[i].toLowerCase())) {
+      if (this.actions != null && this.actions.toString().contains(c)) {
         return true;
       }
 
-      if (this.gunnery != null &&
-          '${this.gunnery.toString()}+'.contains(criteria[i].toLowerCase())) {
+      if (this.gunnery != null && '${this.gunnery.toString()}+'.contains(c)) {
         return true;
       }
 
-      if (this.piloting != null &&
-          '${this.piloting.toString()}+'.contains(criteria[i].toLowerCase())) {
+      if (this.piloting != null && '${this.piloting.toString()}+'.contains(c)) {
         return true;
       }
 
-      if (this.ew != null &&
-          '${this.ew.toString()}+'.contains(criteria[i].toLowerCase())) {
+      if (this.ew != null && '${this.ew.toString()}+'.contains(c)) {
         return true;
       }
 
       if (this.role != null &&
-          this
-              .role!
-              .roles
-              .toString()
-              .toLowerCase()
-              .split(',')
-              .contains(criteria[i].toLowerCase())) {
+          this.role!.roles.toString().toLowerCase().split(',').contains(c)) {
         return true;
       }
 
-      if (this
-          .reactWeapons
-          .toString()
-          .toLowerCase()
-          .contains(criteria[i].toLowerCase())) {
+      if (this.reactWeapons.toString().toLowerCase().contains(c)) {
         return true;
       }
-      if (this
-          .mountedWeapons
-          .toString()
-          .toLowerCase()
-          .contains(criteria[i].toLowerCase())) {
+      if (this.mountedWeapons.toString().toLowerCase().contains(c)) {
         return true;
       }
 
-      if (this
-          .traits
-          .toString()
-          .toLowerCase()
-          .contains(criteria[i].toLowerCase())) {
+      if (this.traits.toString().toLowerCase().contains(c)) {
         return true;
       }
 
-      if (this.type.contains(criteria[i].toLowerCase())) {
+      if (this.type.toLowerCase().contains(c)) {
         return true;
       }
-      if (this.height.contains(criteria[i].toLowerCase())) {
+      if (this.height.toLowerCase().contains(c)) {
         return true;
       }
     }
