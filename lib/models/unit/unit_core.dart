@@ -101,9 +101,6 @@ class UnitCore {
     if (criteria.isEmpty) {
       return true;
     }
-    if (this.movement == null) {
-      print('null movement');
-    }
     for (var i = 0; i < criteria.length; i++) {
       if (criteria[i].isEmpty) {
         continue;
