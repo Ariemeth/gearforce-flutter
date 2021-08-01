@@ -29,7 +29,9 @@ Future<Uint8List> buildPdf(PdfPageFormat format, UnitRoster roster) async {
     pw.MultiPage(
       pageFormat: format,
       build: (pw.Context context) {
-        return [...buildRosterContent(font, roster)];
+        return [
+          ...buildRosterContent(font, roster),
+        ];
       },
     ),
   );
