@@ -7,6 +7,7 @@ import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/screens/roster/combat_groups_display.dart';
 import 'package:gearforce/screens/roster/download/download.dart'
     if (dart.library.js) 'package:gearforce/screens/roster/download/webDownload.dart';
+import 'package:gearforce/screens/roster/pdf/pdf.dart';
 import 'package:gearforce/screens/roster/roster_header_info.dart';
 import 'package:gearforce/screens/unitSelector/unit_selection.dart';
 import 'package:provider/provider.dart';
@@ -16,6 +17,7 @@ const double _menuTitleHeight = 60.0;
 const String _version = '0.17.6';
 const String _bugMessage =
     'Please report any issues to gearforce@metadiversions.com';
+const bool _enablePDF = false;
 
 class RosterWidget extends StatefulWidget {
   RosterWidget({
@@ -130,6 +132,16 @@ class _RosterWidgetState extends State<RosterWidget> {
               enabled: kIsWeb,
               onTap: () async {
                 downloadRoster(roster);
+              },
+            ),
+            ListTile(
+              title: Text(
+                'Print PDF',
+                style: TextStyle(fontSize: 16),
+              ),
+              enabled: _enablePDF,
+              onTap: () async {
+                printPDF(roster);
               },
             ),
             AboutListTile(
