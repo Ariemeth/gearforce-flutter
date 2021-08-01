@@ -80,6 +80,10 @@ class Data {
         break;
     }
 
+    var terrainList = _factionFrames[FactionType.Terrain];
+    if (terrainList != null) {
+      factionUnit.addAll(terrainList.toList());
+    }
     List<UnitCore> ulist = [];
 
     factionUnit.forEach((f) {
@@ -88,7 +92,12 @@ class Data {
 
     var results = (role == null || role.isEmpty)
         ? ulist
-        : ulist.where((element) => element.role!.includesRole(role)).toList();
+        : ulist.where((element) {
+            if (element.role != null) {
+              return element.role!.includesRole(role);
+            }
+            return false;
+          }).toList();
 
     return filters == null
         ? results
