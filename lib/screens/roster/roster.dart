@@ -13,7 +13,7 @@ import 'package:provider/provider.dart';
 
 const double _leftPanelWidth = 670.0;
 const double _menuTitleHeight = 60.0;
-const String _version = '0.17.5';
+const String _version = '0.17.6';
 const String _bugMessage =
     'Please report any issues to gearforce@metadiversions.com';
 
