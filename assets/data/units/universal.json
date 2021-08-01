@@ -727,6 +727,64 @@
       ]
     },
     {
+      "name": "Universal Drones",
+      "upgrades": [
+      ],
+      "variants": [
+        {
+          "model": "Recon Drone",
+          "tv": 1,
+          "role": "Upgrade",
+          "mr": "H:8",
+          "arm": 2,
+          "h/s": "2/1",
+          "a": 1,
+          "gu": "5+",
+          "pi": "5+",
+          "ew": "5+",
+          "react-weapons": "-",
+          "mounted-weapons": "-",
+          "traits": "TD",
+          "type": "Drone",
+          "height": 0.5
+        },
+        {
+          "model": "Hunter Killer",
+          "tv": 1,
+          "role": "Upgrade",
+          "mr": "H:6",
+          "arm": 2,
+          "h/s": "2/1",
+          "a": 1,
+          "gu": "5+",
+          "pi": "4+",
+          "ew": "6+",
+          "react-weapons": "MMG (AA)",
+          "mounted-weapons": "-",
+          "traits": "Jump Jets:2, AMS",
+          "type": "Drone",
+          "height": 0.5
+        },
+        {
+          "model": "Demo Drone",
+          "tv": 1,
+          "role": "Upgrade",
+          "mr": "G:5",
+          "arm": 2,
+          "h/s": "2/1",
+          "a": 1,
+          "gu": "5+",
+          "pi": "6+",
+          "ew": "6+",
+          "react-weapons": "-",
+          "mounted-weapons": "BB (AP:2, Demo:4)",
+          "traits": "Offroad",
+          "type": "Drone",
+          "height": 0.5
+        }
+      ]
+    },
+    {
       "name": "Dragonfly",
       "upgrades": [
         {

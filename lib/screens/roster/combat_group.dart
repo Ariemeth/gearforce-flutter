@@ -5,6 +5,7 @@ import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/combatGroups/group.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/unit/command.dart';
+import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
@@ -165,7 +166,10 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
         });
       },
       onWillAccept: (UnitCore? uc) {
-        return uc!.role == null || uc.role!.includesRole([group.role()]);
+        var r = uc!.role;
+        return r == null ||
+            r.includesRole([RoleType.Upgrade]) ||
+            r.includesRole([group.role()]);
       },
     );
 
