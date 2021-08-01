@@ -170,18 +170,25 @@ class SelectionList extends StatelessWidget {
       DataCell(UnitSelectionTextCell.content('${uc.tv}')),
       DataCell(
         UnitSelectionTextCell.content(
-          '${uc.role!.roles.join(', ')}',
+          uc.role != null ? '${uc.role!.roles.join(', ')}' : 'N/A',
           maxLines: 2,
           softWrap: false,
         ),
       ),
-      DataCell(UnitSelectionTextCell.content('${uc.movement}')),
-      DataCell(UnitSelectionTextCell.content('${uc.armor}')),
-      DataCell(UnitSelectionTextCell.content('${uc.hull}/${uc.structure}')),
-      DataCell(UnitSelectionTextCell.content('${uc.actions}')),
-      DataCell(UnitSelectionTextCell.content('${uc.gunnery}+')),
-      DataCell(UnitSelectionTextCell.content('${uc.piloting}+')),
-      DataCell(UnitSelectionTextCell.content('${uc.ew}+')),
+      DataCell(UnitSelectionTextCell.content(
+          '${uc.movement == null ? '-' : uc.movement}')),
+      DataCell(UnitSelectionTextCell.content(
+          '${uc.armor == null ? '-' : uc.armor}')),
+      DataCell(UnitSelectionTextCell.content(
+          '${uc.hull == null ? '-' : uc.hull}/${uc.structure == null ? '-' : uc.structure}')),
+      DataCell(UnitSelectionTextCell.content(
+          '${uc.actions == null ? '-' : uc.actions}')),
+      DataCell(UnitSelectionTextCell.content(
+          uc.gunnery == null ? '-' : '${uc.gunnery}+')),
+      DataCell(UnitSelectionTextCell.content(
+          uc.piloting == null ? '-' : '${uc.piloting}+')),
+      DataCell(
+          UnitSelectionTextCell.content(uc.ew == null ? '-' : '${uc.ew}+')),
       DataCell(
         UnitSelectionTextCell.content(
           '${uc.reactWeapons.join(', ')}',
