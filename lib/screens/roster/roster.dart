@@ -5,21 +5,17 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/screens/roster/combat_groups_display.dart';
+import 'package:gearforce/screens/roster/download/download.dart'
+    if (dart.library.js) 'package:gearforce/screens/roster/download/webDownload.dart';
 import 'package:gearforce/screens/roster/roster_header_info.dart';
 import 'package:gearforce/screens/unitSelector/unit_selection.dart';
 import 'package:provider/provider.dart';
 
-// using dart:html to allow rosters to be saved locally on web builds.
-// ignore: avoid_web_libraries_in_flutter
-import 'dart:html' as webFile;
-
 const double _leftPanelWidth = 670.0;
 const double _menuTitleHeight = 60.0;
-const String _version = '0.17.3';
+const String _version = '0.17.4';
 const String _bugMessage =
     'Please report any issues to gearforce@metadiversions.com';
-const String _defaultRosterFileName = 'roster';
-const String _downloadFileExtension = 'gf';
 
 class RosterWidget extends StatefulWidget {
   RosterWidget({
@@ -133,20 +129,7 @@ class _RosterWidgetState extends State<RosterWidget> {
               ),
               enabled: kIsWeb,
               onTap: () async {
-                var encodedRoster = json.encode(roster);
-                //TODO remove print when satisfied with external testing
-                print(encodedRoster);
-                var blob =
-                    webFile.Blob([encodedRoster], 'application/json', 'native');
-                webFile.AnchorElement(
-                  href: webFile.Url.createObjectUrlFromBlob(blob).toString(),
-                )
-                  ..setAttribute(
-                      "download",
-                      roster.name == null
-                          ? '$_defaultRosterFileName.$_downloadFileExtension'
-                          : '${roster.name}.$_downloadFileExtension')
-                  ..click();
+                downloadRoster(roster);
               },
             ),
             AboutListTile(
