@@ -256,8 +256,11 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
     var units = group.allUnits();
     for (var i = 0; i < units.length; i++) {
       var unit = units[i];
-      var isNonModel =
-          unit.attribute(UnitAttribute.type) as String == 'Airstrike Counter';
+      var canNotBeCommand = unit.core.type == 'Airstrike Counter' ||
+          unit.core.type == 'Drone' ||
+          unit.core.type == 'Building' ||
+          (unit.attribute(UnitAttribute.traits) as List<String>)
+              .contains('Conscript');
       var nameCell = DataCell(UnitTextCell.content(
         unit.attribute(UnitAttribute.name),
         alignment: Alignment.centerLeft,
@@ -280,7 +283,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
                 padding: const EdgeInsets.fromLTRB(15, 5, 15, 5),
                 child: Center(
                   child: DropdownButton<String>(
-                    value: isNonModel
+                    value: canNotBeCommand
                         ? null
                         : commandLevelString(unit.commandLevel()),
                     hint: Text('Select Command Level'),
@@ -298,7 +301,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
                             : convertToCommand(newValue));
                       });
                     },
-                    items: isNonModel
+                    items: canNotBeCommand
                         ? null
                         : CommandLevel.values.map<DropdownMenuItem<String>>(
                             (CommandLevel value) {
