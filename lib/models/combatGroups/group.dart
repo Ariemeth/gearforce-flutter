@@ -100,7 +100,9 @@ class Group extends ChangeNotifier {
   int totalActions() {
     var total = 0;
     this._units.forEach((element) {
-      total += element.attribute(UnitAttribute.actions) as int? ?? 0;
+      if (element.core.type.toLowerCase() != 'drone') {
+        total += element.attribute(UnitAttribute.actions) as int? ?? 0;
+      }
     });
     return total;
   }
