@@ -63,7 +63,16 @@ class StandardModification extends BaseModification {
   }
 
   factory StandardModification.drones(Unit u, CombatGroup cg) {
-    return StandardModification(name: 'Drones', id: droneId)
+    return StandardModification(
+      name: 'Drones',
+      id: droneId,
+      requirementCheck: () {
+        if (u.hasMod(droneId)) {
+          return false;
+        }
+        return cg.modCount(droneId) < 2;
+      },
+    )
       ..addMod(UnitAttribute.tv, createSimpleIntMod(0),
           description: 'TV +1 per drone, Max 2 drones')
       ..addMod(UnitAttribute.traits, createAddToList('Transport: 1 Drone'));
