@@ -82,6 +82,14 @@ class Group extends ChangeNotifier {
     return _units.toList();
   }
 
+  int modCount(String id) {
+    return this._units.where((unit) => unit.hasMod(id)).length;
+  }
+
+  List<Unit> unitsWithMod(String id) {
+    return this._units.where((unit) => unit.hasMod(id)).toList();
+  }
+
   void reset() {
     this._role = _defaultRoleType;
     this._units.clear();

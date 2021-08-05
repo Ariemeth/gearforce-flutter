@@ -285,7 +285,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
                   child: DropdownButton<String>(
                     value: canNotBeCommand
                         ? null
-                        : commandLevelString(unit.commandLevel()),
+                        : commandLevelString(unit.commandLevel),
                     hint: Text('Select Command Level'),
                     icon: const Icon(Icons.arrow_downward),
                     iconSize: 16,
@@ -296,9 +296,9 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
                     underline: SizedBox(),
                     onChanged: (String? newValue) {
                       setState(() {
-                        unit.makeCommand(newValue == null
+                        unit.commandLevel = newValue == null
                             ? CommandLevel.none
-                            : convertToCommand(newValue));
+                            : convertToCommand(newValue);
                       });
                     },
                     items: canNotBeCommand
@@ -423,6 +423,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
             value: unit,
             child: UpgradesDialog(
               roster: roster,
+              cg: widget.getOwnCG(),
             ),
           );
         });

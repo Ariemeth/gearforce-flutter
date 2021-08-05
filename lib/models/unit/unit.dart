@@ -1,9 +1,10 @@
 import 'package:flutter/widgets.dart';
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
+import 'package:gearforce/models/mods/base_modification.dart';
 import 'package:gearforce/models/mods/unitUpgrades/unit_upgrades.dart';
 import 'package:gearforce/models/unit/command.dart';
-import 'package:gearforce/models/mods/modification.dart';
+import 'package:gearforce/models/unit/movement.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
@@ -49,12 +50,11 @@ class Unit extends ChangeNotifier {
   }
 
   final UnitCore core;
-  final List<Modification> _mods = [];
+  final List<BaseModification> _mods = [];
   CommandLevel _commandLevel = CommandLevel.none;
 
-  CommandLevel commandLevel() => _commandLevel;
-
-  void makeCommand(CommandLevel cl) {
+  CommandLevel get commandLevel => _commandLevel;
+  set commandLevel(CommandLevel cl) {
     _commandLevel = cl;
     notifyListeners();
   }
@@ -101,6 +101,16 @@ class Unit extends ChangeNotifier {
     return value;
   }
 
+  Movement? get movement {
+    var value = this.core.movement;
+
+    for (var mod in this._mods) {
+      value = mod.applyMods(UnitAttribute.movement, value);
+    }
+
+    return value;
+  }
+
   List<String> get reactWeapons {
     var value = this.core.reactWeapons;
 
@@ -121,6 +131,26 @@ class Unit extends ChangeNotifier {
     return value;
   }
 
+  List<String> get traits {
+    var value = this.core.traits;
+
+    for (var mod in this._mods) {
+      value = mod.applyMods(UnitAttribute.traits, value);
+    }
+
+    return value;
+  }
+
+  String get type {
+    var value = this.core.type;
+
+    for (var mod in this._mods) {
+      value = mod.applyMods(UnitAttribute.type, value);
+    }
+
+    return value;
+  }
+
   dynamic attribute(UnitAttribute att) {
     var value = this.core.attribute(att);
 
@@ -131,7 +161,7 @@ class Unit extends ChangeNotifier {
     return value;
   }
 
-  void addUnitMod(Modification mod) {
+  void addUnitMod(BaseModification mod) {
     _mods.add(mod);
     notifyListeners();
   }

@@ -2,7 +2,7 @@ import 'package:gearforce/models/mods/modification.dart';
 import 'package:gearforce/models/mods/mods.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
 
-Modification wizard = Modification(name: 'Wizard Upgrade')
+final Modification wizard = Modification(name: 'Wizard Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Wizard'))
   ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
@@ -12,7 +12,7 @@ Modification wizard = Modification(name: 'Wizard Upgrade')
   ..addMod(UnitAttribute.traits, createAddToList('ECCM (Aux)'),
       description: '+ECCM (Aux)');
 
-Modification utopianSpecialOperations =
+final Modification utopianSpecialOperations =
     Modification(name: 'Utopian Special Operations Upgrade')
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
       ..addMod(UnitAttribute.name,

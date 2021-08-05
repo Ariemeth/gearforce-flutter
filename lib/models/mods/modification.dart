@@ -1,41 +1,14 @@
-import 'package:gearforce/models/unit/unit_attribute.dart';
+import 'package:gearforce/models/mods/base_modification.dart';
 import 'package:gearforce/models/unit/unit.dart';
-import 'package:uuid/uuid.dart';
 
-class Modification {
+class Modification extends BaseModification {
   Modification({
-    required this.name,
+    required String name,
     this.requirementCheck = _defaultRequirementsFunction,
-  });
-
-  final String name;
-  final List<String> _description = [];
-  final String _id = Uuid().v4();
-  String get id => _id;
-
-  List<String> get description => this._description.toList();
+  }) : super(name: name);
 
   // function to ensure the modification can be applied to the unit
   final bool Function(Unit) requirementCheck;
 
-  final Map<UnitAttribute, dynamic Function(dynamic)> _mods = Map();
-
-  static bool _defaultRequirementsFunction(dynamic u) => true;
-
-  void addMod(UnitAttribute att, dynamic Function(dynamic) mod,
-      {String? description}) {
-    this._mods[att] = mod;
-    if (description != null) {
-      this._description.add(description);
-    }
-  }
-
-  dynamic applyMods(UnitAttribute att, dynamic startingValue) {
-    var mod = this._mods[att];
-    if (mod != null) {
-      return mod(startingValue);
-    }
-
-    return startingValue;
-  }
+  static bool _defaultRequirementsFunction(Unit u) => true;
 }
