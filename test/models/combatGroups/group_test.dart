@@ -1,4 +1,5 @@
 import 'package:gearforce/models/combatGroups/group.dart';
+import 'package:gearforce/models/mods/unitUpgrades/north.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
 import 'package:test/test.dart';
@@ -60,5 +61,30 @@ void main() {
   test('test totalActions with 2 added units', () {
     var g = Group()..addUnit(UnitCore.test())..addUnit(UnitCore.test());
     expect(g.totalActions(), equals(2), reason: 'check total actions');
+  });
+
+  test('test totalActions with 2 added units plus a drone', () {
+    var g = Group()
+      ..addUnit(UnitCore.test())
+      ..addUnit(UnitCore.test())
+      ..addUnit(UnitCore.test(type: 'Drone'));
+    expect(g.totalActions(), equals(2), reason: 'check total actions');
+  });
+
+  test('test modCount with 0 mods', () {
+    var g = Group()..addUnit(UnitCore.test());
+    expect(g.modCount('noid'), equals(0), reason: 'no mods');
+  });
+
+  test('test modCount with 1 mod but wrong id', () {
+    var g = Group()..addUnit(UnitCore.test());
+    g.allUnits()[0].addUnitMod(headHunter);
+    expect(g.modCount('noid'), equals(0), reason: 'no mods');
+  });
+
+  test('test modCount with 1 mod', () {
+    var g = Group()..addUnit(UnitCore.test());
+    g.allUnits()[0].addUnitMod(headHunter);
+    expect(g.modCount(headHunter.id), equals(1), reason: 'should find 1 mod');
   });
 }

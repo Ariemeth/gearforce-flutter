@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:gearforce/models/mods/modification.dart';
+import 'package:gearforce/models/combatGroups/combat_group.dart';
+import 'package:gearforce/models/mods/base_modification.dart';
+import 'package:gearforce/models/mods/standardUpgrades/standard_upgrades.dart';
 import 'package:gearforce/models/mods/unitUpgrades/unit_upgrades.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/unit/unit.dart';
@@ -14,14 +16,17 @@ class UpgradesDialog extends StatelessWidget {
   UpgradesDialog({
     Key? key,
     required this.roster,
+    required this.cg,
   }) : super(key: key);
 
   final UnitRoster roster;
+  final CombatGroup cg;
 
   @override
   Widget build(BuildContext context) {
     final unit = Provider.of<Unit>(context);
     final unitMods = getUnitMods(unit.core.frame);
+    final standardMods = getStandardMods(unit, cg);
 
     var dialog = SimpleDialog(
       clipBehavior: Clip.antiAlias,
@@ -49,6 +54,8 @@ class UpgradesDialog extends StatelessWidget {
           children: [
             upgradeTitle('Unit Upgrades'),
             unitUpgrades(unitMods, unit),
+            upgradeTitle('Standard Upgrades'),
+            unitUpgrades(standardMods, unit)
           ],
         ),
         SimpleDialogOption(
@@ -80,10 +87,21 @@ Container upgradeTitle(String title) {
   );
 }
 
-Widget unitUpgrades(List<Modification> mods, Unit unit) {
+Widget unitUpgrades(List<BaseModification> mods, Unit unit) {
   if (mods.isEmpty) {
-    const Center(child: Text('no upgrades available'));
+    return const Center(
+      child: Text(
+        'no upgrades available',
+        style: TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+          fontStyle: FontStyle.normal,
+        ),
+      ),
+    );
   }
+
+  final ScrollController _scrollController = ScrollController();
 
   return Container(
     width: _upgradeSectionWidth,
@@ -91,15 +109,21 @@ Widget unitUpgrades(List<Modification> mods, Unit unit) {
         (mods.length > _maxVisibleUnitUpgrades
             ? _maxVisibleUnitUpgrades
             : mods.length.toDouble()),
-    child: ListView.builder(
-      itemCount: mods.length,
-      shrinkWrap: true,
-      itemBuilder: (BuildContext context, int index) {
-        return UpgradeDisplayLine(
-          mod: mods[index],
-          unit: unit,
-        );
-      },
+    child: Scrollbar(
+      isAlwaysShown: true,
+      controller: _scrollController,
+      interactive: true,
+      child: ListView.builder(
+        itemCount: mods.length,
+        controller: _scrollController,
+        shrinkWrap: true,
+        itemBuilder: (BuildContext context, int index) {
+          return UpgradeDisplayLine(
+            mod: mods[index],
+            unit: unit,
+          );
+        },
+      ),
     ),
   );
 }

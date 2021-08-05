@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/combatGroups/group.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
+import 'package:gearforce/models/unit/unit.dart';
 
 class CombatGroup extends ChangeNotifier {
   late final Group primary;
@@ -44,6 +45,15 @@ class CombatGroup extends ChangeNotifier {
 
   bool hasDuelist() {
     return this.primary.hasDuelist() || this.secondary.hasDuelist();
+  }
+
+  int modCount(String id) {
+    return primary.modCount(id) + secondary.modCount(id);
+  }
+
+  List<Unit> unitsWithMod(String id) {
+    return primary.unitsWithMod(id).toList()
+      ..addAll(secondary.unitsWithMod(id).toList());
   }
 
   void clear() {
