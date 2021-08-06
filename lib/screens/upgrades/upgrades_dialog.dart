@@ -55,7 +55,8 @@ class UpgradesDialog extends StatelessWidget {
             upgradeTitle('Unit Upgrades'),
             unitUpgrades(unitMods, unit),
             upgradeTitle('Standard Upgrades'),
-            unitUpgrades(standardMods, unit)
+            unitUpgrades(standardMods, unit),
+            upgradeTitle('Veteran Upgrades'),
           ],
         ),
         SimpleDialogOption(

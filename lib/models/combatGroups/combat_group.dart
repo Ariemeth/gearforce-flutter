@@ -8,6 +8,16 @@ class CombatGroup extends ChangeNotifier {
   late final Group primary;
   late final Group secondary;
   final String name;
+  bool _isVeteran = false;
+
+  bool get isVeteran => _isVeteran;
+  set isVeteran(bool value) {
+    if (value == _isVeteran) {
+      return;
+    }
+    _isVeteran = value;
+    notifyListeners();
+  }
 
   CombatGroup(this.name, {Group? primary, Group? secondary}) {
     this.primary = primary == null ? Group() : primary;
@@ -59,6 +69,7 @@ class CombatGroup extends ChangeNotifier {
   void clear() {
     this.primary.reset();
     this.secondary.reset();
+    this._isVeteran = false;
   }
 
   @override
