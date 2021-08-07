@@ -94,6 +94,8 @@ class UnitCore {
         return this.type;
       case UnitAttribute.height:
         return this.height;
+      case UnitAttribute.special:
+        return [];
     }
   }
 
@@ -174,42 +176,57 @@ class UnitCore {
     return false;
   }
 
-  factory UnitCore.fromJson(dynamic json, {String frame = ''}) => UnitCore(
-        frame: frame,
-        name: json['model'] as String,
-        tv: json['tv'] as int,
-        role: json['role'] == 'N/A' || json['role'] == '-'
-            ? null
-            : Roles.fromJson(json['role']),
-        movement: json['mr'] == '-' ? null : Movement.fromJson(json['mr']),
-        armor: json['arm'] == '-' ? null : json['arm'] as int,
-        hull: json['h/s'] == '-'
-            ? null
-            : int.parse(json['h/s'].toString().split("/").first),
-        structure: json['h/s'] == '-'
-            ? null
-            : int.parse(json['h/s'].toString().split("/").last),
-        actions: json['a'] == '-' ? null : json['a'] as int,
-        gunnery: json['gu'].toString() == '-'
-            ? null
-            : int.parse(json['gu'].toString().substring(0, 1)),
-        piloting: json['pi'].toString() == '-'
-            ? null
-            : int.parse(json['pi'].toString().substring(0, 1)),
-        ew: json['ew'].toString() == '-'
-            ? null
-            : int.parse(json['ew'].toString().substring(0, 1)),
-        reactWeapons: json['react-weapons'] == '-'
-            ? []
-            : List.from(json['react-weapons'].toString().split(',')),
-        mountedWeapons: json['mounted-weapons'] == '-'
-            ? []
-            : List.from(json['mounted-weapons'].toString().split(',')),
-        traits: List.from(json['traits'].toString().split(',')),
-        type: json['type'],
-        height: json['height'].toString(),
-      );
+  factory UnitCore.fromJson(dynamic json, {String frame = ''}) {
+    List<String> reactWeapons = json['react-weapons'] == '-'
+        ? []
+        : List.from(json['react-weapons']
+            .toString()
+            .split(',')
+            .map((e) => e.trim())
+            .toList());
+    List<String> mountedWeapons = json['mounted-weapons'] == '-'
+        ? []
+        : List.from(json['mounted-weapons']
+            .toString()
+            .split(',')
+            .map((e) => e.trim())
+            .toList());
+    List<String> traits = List.from(
+        json['traits'].toString().split(',').map((e) => e.trim()).toList());
 
+    var uc = UnitCore(
+      frame: frame,
+      name: json['model'] as String,
+      tv: json['tv'] as int,
+      role: json['role'] == 'N/A' || json['role'] == '-'
+          ? null
+          : Roles.fromJson(json['role']),
+      movement: json['mr'] == '-' ? null : Movement.fromJson(json['mr']),
+      armor: json['arm'] == '-' ? null : json['arm'] as int,
+      hull: json['h/s'] == '-'
+          ? null
+          : int.parse(json['h/s'].toString().split("/").first),
+      structure: json['h/s'] == '-'
+          ? null
+          : int.parse(json['h/s'].toString().split("/").last),
+      actions: json['a'] == '-' ? null : json['a'] as int,
+      gunnery: json['gu'].toString() == '-'
+          ? null
+          : int.parse(json['gu'].toString().substring(0, 1)),
+      piloting: json['pi'].toString() == '-'
+          ? null
+          : int.parse(json['pi'].toString().substring(0, 1)),
+      ew: json['ew'].toString() == '-'
+          ? null
+          : int.parse(json['ew'].toString().substring(0, 1)),
+      reactWeapons: reactWeapons,
+      mountedWeapons: mountedWeapons,
+      traits: traits,
+      type: json['type'],
+      height: json['height'].toString(),
+    );
+    return uc;
+  }
   @override
   String toString() {
     var r = this.role == null ? 'N/A' : '${this.role}';

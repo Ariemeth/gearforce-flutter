@@ -15,4 +15,5 @@ enum UnitAttribute {
   traits,
   type,
   height,
+  special,
 }

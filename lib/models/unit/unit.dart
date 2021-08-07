@@ -52,6 +52,7 @@ class Unit extends ChangeNotifier {
   final UnitCore core;
   final List<BaseModification> _mods = [];
   CommandLevel _commandLevel = CommandLevel.none;
+  List<String> _special = [];
 
   CommandLevel get commandLevel => _commandLevel;
   set commandLevel(CommandLevel cl) {
@@ -61,10 +62,8 @@ class Unit extends ChangeNotifier {
 
   bool isDuelist = false;
   bool isVeteran() {
-    String? value = this
-        .core
-        .traits
-        .firstWhere((element) => element.contains("Vet"), orElse: () {
+    String? value = this.traits.firstWhere((element) => element.contains("Vet"),
+        orElse: () {
       return '';
     });
     return value == '' ? false : true;
@@ -111,6 +110,14 @@ class Unit extends ChangeNotifier {
     return value;
   }
 
+  int? get armor {
+    var value = this.core.armor;
+    for (var mod in this._mods) {
+      value = mod.applyMods(UnitAttribute.armor, value);
+    }
+    return value;
+  }
+
   List<String> get reactWeapons {
     var value = this.core.reactWeapons;
 
@@ -148,6 +155,14 @@ class Unit extends ChangeNotifier {
       value = mod.applyMods(UnitAttribute.type, value);
     }
 
+    return value;
+  }
+
+  List<String> get special {
+    var value = this._special.toList();
+    for (var mod in this._mods) {
+      value = mod.applyMods(UnitAttribute.special, value);
+    }
     return value;
   }
 
