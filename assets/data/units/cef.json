@@ -725,7 +725,7 @@
           "ew": "6+",
           "react-weapons": "HRL (AA, Auto), 2x MRL(R), 2x MRL(L)",
           "mounted-weapons": "HRP(R), HRP(L)",
-          "traits": "Transport: 4 Squads, Vet, CBS, Resist:H, Jump Jets:2, Stable",
+          "traits": "Transport: 4 Squads, Vet, CBS, Resist:Haywire, Jump Jets:2, Stable",
           "type": "Vehicle",
           "height": 2
         }
@@ -809,7 +809,7 @@
           "ew": "3+",
           "react-weapons": "LLC",
           "mounted-weapons": "LRP",
-          "traits": "Agile, Airdrop, TD, Comms, Satup, Vuln:HECM+, ECCM, Sensors:36, Jump Jets:4 (Aux)",
+          "traits": "Agile, Airdrop, TD, Comms, Satup, Vuln:Haywire, ECM+, ECCM, Sensors:36, Jump Jets:4 (Aux)",
           "type": "Vehicle",
           "height": 2
         },
@@ -826,7 +826,7 @@
           "ew": "3+",
           "react-weapons": "LLC",
           "mounted-weapons": "LATM (LA:1)",
-          "traits": "Agile, Airdrop, TD, Comms, Satup, Vuln:H, ECM+, ECCM, Sensors:36, Jump Jets:4 (Aux)",
+          "traits": "Agile, Airdrop, TD, Comms, Satup, Vuln:Haywire, ECM+, ECCM, Sensors:36, Jump Jets:4 (Aux)",
           "type": "Vehicle",
           "height": 2
         }

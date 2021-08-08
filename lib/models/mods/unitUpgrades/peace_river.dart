@@ -102,8 +102,8 @@ final Modification crusaderV = Modification(name: 'Crusader V Upgrade')
         newItems: ['MRP', 'MFM'],
       ),
       description: '-MRP (Link), -LFM, +MRP, +MFM')
-  ..addMod(UnitAttribute.traits, createRemoveFromList('Vuln:H'),
-      description: '-Vuln:H');
+  ..addMod(UnitAttribute.traits, createRemoveFromList('Vuln:Haywire'),
+      description: '-Vuln:Haywire');
 
 final Modification cataphractLord = Modification(name: 'Lord Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')

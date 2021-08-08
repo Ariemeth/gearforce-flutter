@@ -57,8 +57,9 @@ dynamic Function(dynamic) createRemoveFromList(String newValue) {
     }
 
     var newList = new List<String>.from(value);
+    newList.remove(newValue);
 
-    return newList.remove(newValue);
+    return newList;
   };
 }
 

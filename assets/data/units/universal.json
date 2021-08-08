@@ -47,7 +47,7 @@
           "ew": "6+",
           "react-weapons": "LAC, MCW (Reach:1, Demo:4)",
           "mounted-weapons": "LHG, LSE",
-          "traits": "Hands, Repair, Brawl:1, Vuln:F",
+          "traits": "Hands, Repair, Brawl:1, Vuln:Fire",
           "type": "Gear",
           "height": 1.5
         },
@@ -64,7 +64,7 @@
           "ew": "6+",
           "react-weapons": "MFC,MCW (Reach:1, Demo:4)",
           "mounted-weapons": "LHG, LSE",
-          "traits": "Hands, Repair, Brawl:1, Vuln:F",
+          "traits": "Hands, Repair, Brawl:1, Vuln:Fire",
           "type": "Gear",
           "height": 1.5
         },
@@ -81,7 +81,7 @@
           "ew": "6+",
           "react-weapons": "MSC,MCW (Reach:1, Demo:4)",
           "mounted-weapons": "LHG, LSE",
-          "traits": "Hands, Repair, Brawl:1, Vuln:F",
+          "traits": "Hands, Repair, Brawl:1, Vuln:Fire",
           "type": "Gear",
           "height": 1.5
         }
@@ -114,7 +114,7 @@
           "ew": "6+",
           "react-weapons": "HAC, LVB",
           "mounted-weapons": "HIM, MHG, MSE",
-          "traits": "Hands, Brawl:1, Repair, Vuln:F",
+          "traits": "Hands, Brawl:1, Repair, Vuln:Fire",
           "type": "Gear",
           "height": 2
         }
@@ -144,7 +144,7 @@
           "ew": "6+",
           "react-weapons": "LAC,MCW (Reach:1, Demo:4)",
           "mounted-weapons": "LHG, LSE",
-          "traits": "Hands, Brawl:1, Repair, Vuln:F",
+          "traits": "Hands, Brawl:1, Repair, Vuln:Fire",
           "type": "Gear",
           "height": 1.5
         },
@@ -161,7 +161,7 @@
           "ew": "6+",
           "react-weapons": "MFC,MCW (Reach:1, Demo:4)",
           "mounted-weapons": "LHG, LSE",
-          "traits": "Hands, Brawl:1, Repair, Vuln:F",
+          "traits": "Hands, Brawl:1, Repair, Vuln:Fire",
           "type": "Gear",
           "height": 1.5
         }
@@ -194,7 +194,7 @@
           "ew": "6+",
           "react-weapons": "HAC, LVB",
           "mounted-weapons": "HIM, MHG, MSE",
-          "traits": "Hands, Brawl:1, Repair, Vuln:F",
+          "traits": "Hands, Brawl:1, Repair, Vuln:Fire",
           "type": "Gear",
           "height": 2
         }
@@ -227,7 +227,7 @@
           "ew": "6+",
           "react-weapons": "LAC, MCW (Reach:1, Demo:4)",
           "mounted-weapons": "LHG, LSE, LAPGL",
-          "traits": "Hands, Brawl:1, Repair, Vuln:F",
+          "traits": "Hands, Brawl:1, Repair, Vuln:Fire",
           "type": "Gear",
           "height": 1.5
         },
@@ -244,7 +244,7 @@
           "ew": "6+",
           "react-weapons": "MSC, MCW (Reach:1, Demo:4)",
           "mounted-weapons": "LHG, LSE, LAPGL",
-          "traits": "Hands, Brawl:1, Repair, Vuln:F",
+          "traits": "Hands, Brawl:1, Repair, Vuln:Fire",
           "type": "Gear",
           "height": 1.5
         },
@@ -261,7 +261,7 @@
           "ew": "6+",
           "react-weapons": "MFC, MCW (Reach:1, Demo:4)",
           "mounted-weapons": "LHG, LSE, LAPGL",
-          "traits": "Hands, Brawl:1, Repair, Vuln:F",
+          "traits": "Hands, Brawl:1, Repair, Vuln:Fire",
           "type": "Gear",
           "height": 1.5
         },
@@ -278,7 +278,7 @@
           "ew": "5+",
           "react-weapons": "LAC,  MCW (Reach:1, Demo:4)",
           "mounted-weapons": "LHG, LSE, LAPGL",
-          "traits": "Hands, Brawl:1, Repair, Vuln:F, Comms",
+          "traits": "Hands, Brawl:1, Repair, Vuln:Fire, Comms",
           "type": "Gear",
           "height": 1.5
         }

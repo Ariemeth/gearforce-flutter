@@ -3,6 +3,7 @@ import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/mods/base_modification.dart';
 import 'package:gearforce/models/mods/standardUpgrades/standard_upgrades.dart';
 import 'package:gearforce/models/mods/unitUpgrades/unit_upgrades.dart';
+import 'package:gearforce/models/mods/veteranUpgrades/veteran_upgrades.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/screens/upgrades/upgrade_display_line.dart';
@@ -27,6 +28,7 @@ class UpgradesDialog extends StatelessWidget {
     final unit = Provider.of<Unit>(context);
     final unitMods = getUnitMods(unit.core.frame);
     final standardMods = getStandardMods(unit, cg);
+    final veteranMods = getVeteranMods(unit, cg);
 
     var dialog = SimpleDialog(
       clipBehavior: Clip.antiAlias,
@@ -55,7 +57,9 @@ class UpgradesDialog extends StatelessWidget {
             upgradeTitle('Unit Upgrades'),
             unitUpgrades(unitMods, unit),
             upgradeTitle('Standard Upgrades'),
-            unitUpgrades(standardMods, unit)
+            unitUpgrades(standardMods, unit),
+            upgradeTitle('Veteran Upgrades'),
+            unitUpgrades(veteranMods, unit),
           ],
         ),
         SimpleDialogOption(

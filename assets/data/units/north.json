@@ -387,7 +387,7 @@
           "ew": "4+",
           "react-weapons": "HAC, LVB",
           "mounted-weapons": "LAPGL",
-          "traits": "Hands, SP:+1, Comms, SatUp, ECCM, Vuln:H",
+          "traits": "Hands, SP:+1, Comms, SatUp, ECCM, Vuln:Haywire",
           "type": "Gear",
           "height": 1.5
         },
@@ -438,7 +438,7 @@
           "ew": "6+",
           "react-weapons": "LAC, LVB",
           "mounted-weapons": "LRP, HIM",
-          "traits": "Hands, Vuln:H",
+          "traits": "Hands, Vuln:Haywire",
           "type": "Gear",
           "height": 1.5
         }
@@ -1087,7 +1087,7 @@
           "ew": "4+",
           "react-weapons": "LSMG, LVB",
           "mounted-weapons": "-",
-          "traits": "Hands, Brawl:-1, ECM, ECCM, Comms, Vuln:H, SatUp (Aux), Sensors:36 (Aux)",
+          "traits": "Hands, Brawl:-1, ECM, ECCM, Comms, Vuln:Haywire, SatUp (Aux), Sensors:36 (Aux)",
           "type": "Gear",
           "height": 1
         }

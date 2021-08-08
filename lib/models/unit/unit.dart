@@ -52,6 +52,7 @@ class Unit extends ChangeNotifier {
   final UnitCore core;
   final List<BaseModification> _mods = [];
   CommandLevel _commandLevel = CommandLevel.none;
+  List<String> _special = [];
 
   CommandLevel get commandLevel => _commandLevel;
   set commandLevel(CommandLevel cl) {
@@ -61,10 +62,8 @@ class Unit extends ChangeNotifier {
 
   bool isDuelist = false;
   bool isVeteran() {
-    String? value = this
-        .core
-        .traits
-        .firstWhere((element) => element.contains("Vet"), orElse: () {
+    String? value = this.traits.firstWhere((element) => element.contains("Vet"),
+        orElse: () {
       return '';
     });
     return value == '' ? false : true;
@@ -111,8 +110,48 @@ class Unit extends ChangeNotifier {
     return value;
   }
 
+  int? get armor {
+    var value = this.core.armor;
+    for (var mod in this._mods) {
+      value = mod.applyMods(UnitAttribute.armor, value);
+    }
+    return value;
+  }
+
+  int? get actions {
+    var value = this.core.actions;
+    for (var mod in this._mods) {
+      value = mod.applyMods(UnitAttribute.actions, value);
+    }
+    return value;
+  }
+
+  int? get gunnery {
+    var value = this.core.gunnery;
+    for (var mod in this._mods) {
+      value = mod.applyMods(UnitAttribute.gunnery, value);
+    }
+    return value;
+  }
+
+  int? get piloting {
+    var value = this.core.piloting;
+    for (var mod in this._mods) {
+      value = mod.applyMods(UnitAttribute.piloting, value);
+    }
+    return value;
+  }
+
+  int? get ew {
+    var value = this.core.ew;
+    for (var mod in this._mods) {
+      value = mod.applyMods(UnitAttribute.ew, value);
+    }
+    return value;
+  }
+
   List<String> get reactWeapons {
-    var value = this.core.reactWeapons;
+    var value = this.core.reactWeapons.toList();
 
     for (var mod in this._mods) {
       value = mod.applyMods(UnitAttribute.react_weapons, value);
@@ -122,7 +161,7 @@ class Unit extends ChangeNotifier {
   }
 
   List<String> get mountedWeapons {
-    var value = this.core.mountedWeapons;
+    var value = this.core.mountedWeapons.toList();
 
     for (var mod in this._mods) {
       value = mod.applyMods(UnitAttribute.mounted_weapons, value);
@@ -132,7 +171,7 @@ class Unit extends ChangeNotifier {
   }
 
   List<String> get traits {
-    var value = this.core.traits;
+    var value = this.core.traits.toList();
 
     for (var mod in this._mods) {
       value = mod.applyMods(UnitAttribute.traits, value);
@@ -148,6 +187,14 @@ class Unit extends ChangeNotifier {
       value = mod.applyMods(UnitAttribute.type, value);
     }
 
+    return value;
+  }
+
+  List<String> get special {
+    var value = this._special.toList();
+    for (var mod in this._mods) {
+      value = mod.applyMods(UnitAttribute.special, value);
+    }
     return value;
   }
 

@@ -9,14 +9,10 @@ import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
-import 'package:gearforce/screens/roster/select_role.dart';
+import 'package:gearforce/screens/roster/group_header.dart';
 import 'package:gearforce/screens/upgrades/upgrades_dialog.dart';
-import 'package:gearforce/widgets/display_value.dart';
 import 'package:gearforce/widgets/unit_text_cell.dart';
 import 'package:provider/provider.dart';
-
-const _maxPrimaryActions = 6;
-const _minPrimaryActions = 4;
 
 class CombatGroupWidget extends StatefulWidget {
   CombatGroupWidget(this.data, this.roster, {required this.name});
@@ -44,9 +40,8 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _generateGroupHeader(
-          context: context,
-          group: widget.getOwnCG().primary,
+        GroupHeader(
+          cg: widget.getOwnCG(),
           isPrimary: true,
         ),
         Expanded(
@@ -56,9 +51,8 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
             isPrimary: true,
           ),
         ),
-        _generateGroupHeader(
-          context: context,
-          group: widget.getOwnCG().secondary,
+        GroupHeader(
+          cg: widget.getOwnCG(),
           isPrimary: false,
         ),
         Expanded(
@@ -69,70 +63,6 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
           ),
         ),
       ],
-    );
-  }
-
-  Widget _generateGroupHeader({
-    required BuildContext context,
-    required Group group,
-    bool isPrimary = true,
-  }) {
-    String groupType = isPrimary ? 'Primary' : 'Secondary';
-    final actions = group.totalActions();
-    return Padding(
-      padding: const EdgeInsets.all(4.0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            width: 85,
-            child: Text(
-              groupType,
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-          ),
-          Text(
-            "Role: ",
-            style: TextStyle(fontSize: 16),
-          ),
-          SizedBox(
-            child: SelectRole(
-              group: group,
-            ),
-            width: 75,
-          ),
-          SizedBox(
-            width: 20,
-          ),
-          DisplayValue(text: 'TV:', value: group.totalTV()),
-          Tooltip(
-            message: isPrimary
-                // a cg is only valid if the number of actions is greater then 4 and
-                // less then or equal to 6
-                ? actions > _maxPrimaryActions || actions < _minPrimaryActions
-                    ? 'too many or too few actions'
-                    : 'valid number of actions'
-                : actions >
-                        (widget.getOwnCG().primary.totalActions() / 2).ceil()
-                    ? 'too many actions or too few actions'
-                    : 'valid number of actions',
-            child: DisplayValue(
-              text: 'Actions',
-              value: actions,
-              textColor: isPrimary
-                  // a cg is only valid if the number of actions is greater then 4 and
-                  // less then or equal to 6
-                  ? actions > _maxPrimaryActions || actions < _minPrimaryActions
-                      ? Colors.red
-                      : Colors.green
-                  : actions >
-                          (widget.getOwnCG().primary.totalActions() / 2).ceil()
-                      ? Colors.red
-                      : Colors.green,
-            ),
-          ),
-        ],
-      ),
     );
   }
 
