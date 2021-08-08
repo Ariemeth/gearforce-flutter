@@ -11,6 +11,11 @@ List<VeternModification> getVeteranMods(Unit u, CombatGroup cg) {
     VeternModification.inYourFace2(u, cg),
     VeternModification.insulated(u, cg),
     VeternModification.fireproof(u, cg),
+    VeternModification.oldReliable(u, cg),
     VeternModification.stainlessSteel(u, cg),
+    VeternModification.sharpShooter(u, cg),
+    VeternModification.trickShot(u, cg),
+    VeternModification.meleeWeaponUpgradeLCW(u, cg),
+    VeternModification.meleeWeaponUpgradeLVB(u, cg),
   ];
 }

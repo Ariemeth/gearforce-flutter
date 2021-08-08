@@ -17,7 +17,7 @@ final stainlessSteelId = Uuid().v4();
 final sharpshooterId = Uuid().v4();
 final trickShotId = Uuid().v4();
 final meleeUpgradeLVB = Uuid().v4();
-final meleeUpgradLCW = Uuid().v4();
+final meleeUpgradeLCW = Uuid().v4();
 
 class VeternModification extends BaseModification {
   VeternModification({
@@ -51,6 +51,10 @@ class VeternModification extends BaseModification {
           description: '+Vet');
   }
 
+  /*
+  EW SPECIALIST 1 TV
+  Add +1D6 to any EW rolls made by this model
+  */
   factory VeternModification.ewSpecialist(Unit u, CombatGroup cg) {
     return VeternModification(
         name: 'EW Specialist',
@@ -68,6 +72,15 @@ class VeternModification extends BaseModification {
           description: 'Add +1d6 to any EW rolls made by this model');
   }
 
+  /*
+  FIELD ARMOR 1–4 TV
+  Add the Field Armor trait to any model. The cost is
+  determined by its listed Armor:
+  Z Armor 6 or lower for 1 TV
+  Z Armor 7–8 for 2 TV
+  Z Armor 9–10 for 3 TV
+  Z Armor 11–12 for 4 TV
+  */
   factory VeternModification.fieldArmor(Unit u, CombatGroup cg) {
     return VeternModification(
         name: 'Field Armor',
@@ -99,6 +112,12 @@ class VeternModification extends BaseModification {
           description: '+Field Armor');
   }
 
+  /*
+  IN YOUR FACE 1–2 TV
+  Add the Brawl:1 trait or increase an existing Brawl trait
+  by +1 for 1 TV. Or this model may add the Brawl:2 trait
+  or increase the Brawl trait by 2 for 2 TV.
+  */
   factory VeternModification.inYourFace1(Unit u, CombatGroup cg) {
     final brawlCheck = RegExp(r'Brawl:(\d)', caseSensitive: false);
     final traits = u.traits.toList();
@@ -130,6 +149,12 @@ class VeternModification extends BaseModification {
       }, description: '+Brawl:1 or +1 to existing Brawl');
   }
 
+  /*
+  IN YOUR FACE 1–2 TV
+  Add the Brawl:1 trait or increase an existing Brawl trait
+  by +1 for 1 TV. Or this model may add the Brawl:2 trait
+  or increase the Brawl trait by 2 for 2 TV.
+  */
   factory VeternModification.inYourFace2(Unit u, CombatGroup cg) {
     final brawlCheck = RegExp(r'Brawl:(\d)', caseSensitive: false);
     final traits = u.traits.toList();
@@ -162,9 +187,9 @@ class VeternModification extends BaseModification {
   }
 
   /*
-INSULATED 1 TV
-Add the Resist:Haywire trait or remove the Vuln:Haywire
-trait.
+  INSULATED 1 TV
+  Add the Resist:Haywire trait or remove the Vuln:Haywire
+  trait.
   */
   factory VeternModification.insulated(Unit u, CombatGroup cg) {
     final traits = u.traits.toList();
@@ -202,8 +227,8 @@ trait.
   }
 
   /*
-FIREPROOF 1 TV
-Add the Resist:Fire trait or remove the Vuln:Fire trait.
+  FIREPROOF 1 TV
+  Add the Resist:Fire trait or remove the Vuln:Fire trait.
   */
   factory VeternModification.fireproof(Unit u, CombatGroup cg) {
     final traits = u.traits.toList();
@@ -241,21 +266,49 @@ Add the Resist:Fire trait or remove the Vuln:Fire trait.
   }
 
   /*
-OLD RELIABLE 0 TV
-One Light (L) or Medium (M) melee weapon with the
-React trait can be swapped for an equal class melee
-weapon for 0 TV, i.e. a LCW can be swapped for a
-LVB or a LSG. This upgrade does not include Shaped
-Explosives. It also does not include traits belonging to
-the previous weapons unless it was the React trait. I.e.
-A LCW (React, Brawl:1) will become LVB (React). The
-Brawl:X trait does not swap with it.
+  OLD RELIABLE 0 TV
+  One Light (L) or Medium (M) melee weapon with the
+  React trait can be swapped for an equal class melee
+  weapon for 0 TV, i.e. a LCW can be swapped for a
+  LVB or a LSG. This upgrade does not include Shaped
+  Explosives. It also does not include traits belonging to
+  the previous weapons unless it was the React trait. I.e.
+  A LCW (React, Brawl:1) will become LVB (React). The
+  Brawl:X trait does not swap with it.
   */
 
+  factory VeternModification.oldReliable(Unit u, CombatGroup cg) {
+    final RegExp meleeCheck = RegExp(r'(\[)*(([LM])(VB|SG|CW))');
+    final mounted = u.mountedWeapons;
+    final react = u.reactWeapons;
+    return VeternModification(
+        name: 'Old Reliable',
+        id: oldReliableId,
+        requirementCheck: () {
+          if (u.hasMod(oldReliableId)) {
+            return false;
+          }
+
+          // check to ensure the unit has an appropriate weapon that can be upgraded
+          final hasMatchingWeapon = meleeCheck.hasMatch(mounted.toString()) ||
+              meleeCheck.hasMatch(react.toString());
+          if (!hasMatchingWeapon) {
+            return false;
+          }
+
+          return u.traits.contains('Vet');
+        })
+      ..addMod(UnitAttribute.tv, createSimpleIntMod(0),
+          description:
+              'TV +0, One Light (L) or Medium (M) melee weapon with the React trait ' +
+                  'can be swapped for an equal class melee weapon for 0 TV,' +
+                  'i.e. a LCW can be swapped for a LVB or a LSG');
+  }
+
   /*
-STAINLESS STEEL 1 TV
-Add the Resist:Corrosion trait or remove the
-Vuln:Corrosion trait.
+  STAINLESS STEEL 1 TV
+  Add the Resist:Corrosion trait or remove the
+  Vuln:Corrosion trait.
   */
   factory VeternModification.stainlessSteel(Unit u, CombatGroup cg) {
     final traits = u.traits.toList();
@@ -294,26 +347,141 @@ Vuln:Corrosion trait.
   }
 
   /*
-SHARPSHOOTER 2 TV
-Gunnery rolls made by this model have -1 TN
-(minimum 2+). This costs 2 TV for each action point
-that the models has. This cost increases by 2TV per
-additional action purchased via other upgrades.
+  SHARPSHOOTER 2 TV
+  Gunnery rolls made by this model have -1 TN
+  (minimum 2+). This costs 2 TV for each action point
+  that the models has. This cost increases by 2TV per
+  additional action purchased via other upgrades.
   */
+  factory VeternModification.sharpShooter(Unit u, CombatGroup cg) {
+    final actions = u.actions;
+    final gunnery = u.gunnery;
+
+    return VeternModification(
+        name: 'Sharpshooter',
+        id: sharpshooterId,
+        requirementCheck: () {
+          if (u.hasMod(sharpshooterId)) {
+            return false;
+          }
+
+          if (u.actions == null) {
+            return false;
+          }
+
+          return u.traits.contains('Vet');
+        })
+      ..addMod(
+        UnitAttribute.tv,
+        createSimpleIntMod(actions != null ? actions * 2 : 0),
+        description: 'TV +${actions != null ? actions * 2 : 0}',
+      )
+      ..addMod(
+        UnitAttribute.gunnery,
+        (value) {
+          if (value is! int) {
+            return value;
+          }
+          if (value <= 2) {
+            return value;
+          }
+          return value - 1;
+        },
+        description:
+            'Gunnery -1 TN to (${gunnery == null ? '-' : '${gunnery <= 2 ? 2 : gunnery - 1}+'}), min 2+',
+      );
+  }
 
   /*
-TRICK SHOT 1 TV
-This model does not suffer the -1D6 modifier when
-using the Split weapon trait.
+  TRICK SHOT 1 TV
+  This model does not suffer the -1D6 modifier when
+  using the Split weapon trait.
   */
+  factory VeternModification.trickShot(Unit u, CombatGroup cg) {
+    return VeternModification(
+        name: 'Trick Shot',
+        id: trickShotId,
+        requirementCheck: () {
+          if (u.hasMod(trickShotId)) {
+            return false;
+          }
+
+          return u.traits.contains('Vet');
+        })
+      ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
+      ..addMod(
+          UnitAttribute.special,
+          createAddToList(
+              'This model does not suffer the -1D6 modifier when using the Split weapon trait'),
+          description:
+              'This model does not suffer the -1D6 modifier when using the Split weapon trait');
+  }
 
   /*
-MELEE WEAPON UPGRADE 1TV
-One gear with a melee weapon, that has the React trait,
-can upgrade it to one of the following:
-Z LVB (React, Precise)
-Z LCW (React, Brawl:1)
+  MELEE WEAPON UPGRADE 1TV
+  One gear with a melee weapon, that has the React trait,
+  can upgrade it to one of the following:
+  > LVB (React, Precise)
+  > LCW (React, Brawl:1)
   */
+  factory VeternModification.meleeWeaponUpgradeLCW(Unit u, CombatGroup cg) {
+    final RegExp meleeCheck = RegExp(r'(\[)*(([LMH])(VB|SG|CW|SE|ICW))');
+    final react = u.reactWeapons;
+    return VeternModification(
+        name: 'Melee Weapon Upgrade (LCW)',
+        id: meleeUpgradeLCW,
+        requirementCheck: () {
+          if (u.hasMod(meleeUpgradeLCW) || u.hasMod(meleeUpgradeLVB)) {
+            return false;
+          }
+
+          // check to ensure the unit has an appropriate weapon that can be upgraded
+          if (!meleeCheck.hasMatch(react.toString())) {
+            return false;
+          }
+
+          return u.traits.contains('Vet');
+        })
+      ..addMod(
+        UnitAttribute.tv,
+        createSimpleIntMod(1),
+        description:
+            'TV +1, Swap 1 react melee weapon for a LCW(React, Brawl:1)',
+      );
+  }
+
+  /*
+  MELEE WEAPON UPGRADE 1TV
+  One gear with a melee weapon, that has the React trait,
+  can upgrade it to one of the following:
+  > LVB (React, Precise)
+  > LCW (React, Brawl:1)
+  */
+  factory VeternModification.meleeWeaponUpgradeLVB(Unit u, CombatGroup cg) {
+    final RegExp meleeCheck = RegExp(r'(\[)*(([LMH])(VB|SG|CW|SE|ICW))');
+    final react = u.reactWeapons;
+    return VeternModification(
+        name: 'Melee Weapon Upgrade (LVB)',
+        id: meleeUpgradeLCW,
+        requirementCheck: () {
+          if (u.hasMod(meleeUpgradeLCW) || u.hasMod(meleeUpgradeLVB)) {
+            return false;
+          }
+
+          // check to ensure the unit has an appropriate weapon that can be upgraded
+          if (!meleeCheck.hasMatch(react.toString())) {
+            return false;
+          }
+
+          return u.traits.contains('Vet');
+        })
+      ..addMod(
+        UnitAttribute.tv,
+        createSimpleIntMod(1),
+        description:
+            'TV +1, Swap 1 react melee weapon for a LVB(React, Precise)',
+      );
+  }
 }
 
 int _fieldArmorCost(int? armor) {

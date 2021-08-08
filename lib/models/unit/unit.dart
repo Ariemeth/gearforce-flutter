@@ -118,6 +118,38 @@ class Unit extends ChangeNotifier {
     return value;
   }
 
+  int? get actions {
+    var value = this.core.actions;
+    for (var mod in this._mods) {
+      value = mod.applyMods(UnitAttribute.actions, value);
+    }
+    return value;
+  }
+
+  int? get gunnery {
+    var value = this.core.gunnery;
+    for (var mod in this._mods) {
+      value = mod.applyMods(UnitAttribute.gunnery, value);
+    }
+    return value;
+  }
+
+  int? get piloting {
+    var value = this.core.piloting;
+    for (var mod in this._mods) {
+      value = mod.applyMods(UnitAttribute.piloting, value);
+    }
+    return value;
+  }
+
+  int? get ew {
+    var value = this.core.ew;
+    for (var mod in this._mods) {
+      value = mod.applyMods(UnitAttribute.ew, value);
+    }
+    return value;
+  }
+
   List<String> get reactWeapons {
     var value = this.core.reactWeapons.toList();
 
