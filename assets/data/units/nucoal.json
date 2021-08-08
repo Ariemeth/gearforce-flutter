@@ -715,7 +715,7 @@
           "ew": "6+",
           "react-weapons": "MFL, LVB",
           "mounted-weapons": "LAPR (Fire:1), LHG, LAPGL",
-          "traits": "Hands, Brawl:1, Resist:F",
+          "traits": "Hands, Brawl:1, Resist:Fire",
           "type": "Gear",
           "height": 1.5
         }

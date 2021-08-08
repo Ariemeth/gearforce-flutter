@@ -7,5 +7,10 @@ List<VeternModification> getVeteranMods(Unit u, CombatGroup cg) {
     VeternModification.makeVet(u, cg),
     VeternModification.ewSpecialist(u, cg),
     VeternModification.fieldArmor(u, cg),
+    VeternModification.inYourFace1(u, cg),
+    VeternModification.inYourFace2(u, cg),
+    VeternModification.insulated(u, cg),
+    VeternModification.fireproof(u, cg),
+    VeternModification.stainlessSteel(u, cg),
   ];
 }

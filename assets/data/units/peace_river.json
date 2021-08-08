@@ -913,7 +913,7 @@
           "ew": "5+",
           "react-weapons": "HAC, MVB (Reach:1)",
           "mounted-weapons": "MRP (Link), LFM, LAPGL",
-          "traits": "Hands, React+, Brawl:1, Vuln:H",
+          "traits": "Hands, React+, Brawl:1, Vuln:Haywire",
           "type": "Gear",
           "height": 2
         },
@@ -930,7 +930,7 @@
           "ew": "5+",
           "react-weapons": "MSC, MVB (Reach:1)",
           "mounted-weapons": "MRP (Link), LFM, LAPGL",
-          "traits": "Hands, React+, Brawl:1, Vuln:H",
+          "traits": "Hands, React+, Brawl:1, Vuln:Haywire",
           "type": "Gear",
           "height": 2
         },
@@ -947,7 +947,7 @@
           "ew": "5+",
           "react-weapons": "MBZ, MVB (Reach:1)",
           "mounted-weapons": "MRP (Link), LFM, LAPGL",
-          "traits": "Hands, React+, Brawl:1, Vuln:H",
+          "traits": "Hands, React+, Brawl:1, Vuln:Haywire",
           "type": "Gear",
           "height": 2
         }
@@ -970,7 +970,7 @@
           "ew": "5+",
           "react-weapons": "HRC, MVB (Reach:1)",
           "mounted-weapons": "MAR, MHG, MAPGL",
-          "traits": "Hands, Brawl:2, Vet, Field Armor, Resist:H",
+          "traits": "Hands, Brawl:2, Vet, Field Armor, Resist:Haywire",
           "type": "Gear",
           "height": 2
         },
@@ -987,7 +987,7 @@
           "ew": "5+",
           "react-weapons": "MSC (Precise), MVB (Reach:1)",
           "mounted-weapons": "MAPR (Fire:2), MHG, MSE, MAPGL",
-          "traits": "Hands, Brawl:2, Vet, Field Armor, Resist:H",
+          "traits": "Hands, Brawl:2, Vet, Field Armor, Resist:Haywire",
           "type": "Gear",
           "height": 2
         },
@@ -1004,7 +1004,7 @@
           "ew": "5+",
           "react-weapons": "HBZ, MVB (Reach:1)",
           "mounted-weapons": "LATM, MHG, MAPGL",
-          "traits": "Hands, Brawl:2, Vet, Field Armor, Resist:H",
+          "traits": "Hands, Brawl:2, Vet, Field Armor, Resist:Haywire",
           "type": "Gear",
           "height": 2
         }

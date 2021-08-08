@@ -106,7 +106,7 @@
           "ew": "6+",
           "react-weapons": "MFL, LVB",
           "mounted-weapons": "LAPR (Fire:1), LAPGL",
-          "traits": "Hands, Resist:F",
+          "traits": "Hands, Resist:Fire",
           "type": "Gear",
           "height": 1.5
         },
@@ -902,7 +902,7 @@
           "ew": "6+",
           "react-weapons": "MFL, LVB",
           "mounted-weapons": "LAPR (Fire:1), LHG, LAPGL",
-          "traits": "Hands, Brawl:1, Resist:F",
+          "traits": "Hands, Brawl:1, Resist:Fire",
           "type": "Gear",
           "height": 1.5
         }
@@ -1523,7 +1523,7 @@
           "ew": "6+",
           "react-weapons": "HFL, LVB",
           "mounted-weapons": "MAPR (Fire:2), MAR (Fire:2), LGM, MMG",
-          "traits": "Hands, React+, Resist:F",
+          "traits": "Hands, React+, Resist:Fire",
           "type": "Gear",
           "height": 2
         }
@@ -2047,7 +2047,7 @@
           "ew": "5+",
           "react-weapons": "HBZ (Apex, Precise), HFL, HFC (T, Auto), HSG (Reach:1)",
           "mounted-weapons": "HRP (Link), MABM",
-          "traits": "Hands, Brawl:2, Shield, Resist:F",
+          "traits": "Hands, Brawl:2, Shield, Resist:Fire",
           "type": "Strider",
           "height": 3
         },
@@ -2064,7 +2064,7 @@
           "ew": "5+",
           "react-weapons": "MLC (Link), HFL, HFC (T, Auto), HSG (Reach:1)",
           "mounted-weapons": "HRP (Link), MABM",
-          "traits": "Hands, Brawl:2, Shield, Resist:F",
+          "traits": "Hands, Brawl:2, Shield, Resist:Fire",
           "type": "Strider",
           "height": 3
         },
@@ -2081,7 +2081,7 @@
           "ew": "5+",
           "react-weapons": "HRL (Link), HFL, HGL, HFC (T, Auto), HSG (Reach:1)",
           "mounted-weapons": "HAPR (Link, Fire:3)",
-          "traits": "Hands, Brawl:2, Shield, Resist:F",
+          "traits": "Hands, Brawl:2, Shield, Resist:Fire",
           "type": "Strider",
           "height": 3
         },
@@ -2098,7 +2098,7 @@
           "ew": "4+",
           "react-weapons": "HRC, HFL, HFC (T, Auto), HSG (Reach:1)",
           "mounted-weapons": "HRP (Link), MABM",
-          "traits": "Hands, Brawl:2, Shield, AMS, ECCM, Comms, SatUp, Resist:F",
+          "traits": "Hands, Brawl:2, Shield, AMS, ECCM, Comms, SatUp, Resist:Fire",
           "type": "Strider",
           "height": 3
         }

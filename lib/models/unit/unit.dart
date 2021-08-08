@@ -119,7 +119,7 @@ class Unit extends ChangeNotifier {
   }
 
   List<String> get reactWeapons {
-    var value = this.core.reactWeapons;
+    var value = this.core.reactWeapons.toList();
 
     for (var mod in this._mods) {
       value = mod.applyMods(UnitAttribute.react_weapons, value);
@@ -129,7 +129,7 @@ class Unit extends ChangeNotifier {
   }
 
   List<String> get mountedWeapons {
-    var value = this.core.mountedWeapons;
+    var value = this.core.mountedWeapons.toList();
 
     for (var mod in this._mods) {
       value = mod.applyMods(UnitAttribute.mounted_weapons, value);
@@ -139,7 +139,7 @@ class Unit extends ChangeNotifier {
   }
 
   List<String> get traits {
-    var value = this.core.traits;
+    var value = this.core.traits.toList();
 
     for (var mod in this._mods) {
       value = mod.applyMods(UnitAttribute.traits, value);
