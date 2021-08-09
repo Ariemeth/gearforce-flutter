@@ -233,7 +233,14 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
                     },
                     items: canNotBeCommand
                         ? null
-                        : CommandLevel.values.map<DropdownMenuItem<String>>(
+                        : CommandLevel.values.where((element) {
+                            if (unit.isDuelist &&
+                                (element == CommandLevel.cgl ||
+                                    element == CommandLevel.secic)) {
+                              return false;
+                            }
+                            return true;
+                          }).map<DropdownMenuItem<String>>(
                             (CommandLevel value) {
                             return DropdownMenuItem<String>(
                               value: commandLevelString(value),
@@ -258,7 +265,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
           Expanded(
             child: Container(
               child: Radio<bool>(
-                value: false,
+                value: unit.isDuelist,
                 groupValue: true,
                 toggleable: true,
                 onChanged: (bool? value) {},

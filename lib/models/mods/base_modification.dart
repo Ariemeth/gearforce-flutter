@@ -13,22 +13,29 @@ abstract class BaseModification {
 
   List<String> get description => this._description.toList();
 
-  final Map<UnitAttribute, dynamic Function(dynamic)> _mods = Map();
+  final Map<UnitAttribute, List<dynamic Function(dynamic)>> _mods = Map();
 
   void addMod(UnitAttribute att, dynamic Function(dynamic) mod,
       {String? description}) {
-    this._mods[att] = mod;
+    if (this._mods[att] == null) {
+      this._mods[att] = [];
+    }
+    this._mods[att]!.add(mod);
     if (description != null) {
       this._description.add(description);
     }
   }
 
   dynamic applyMods(UnitAttribute att, dynamic startingValue) {
-    var mod = this._mods[att];
-    if (mod != null) {
-      return mod(startingValue);
+    var mods = this._mods[att];
+    if (mods == null) {
+      return startingValue;
     }
+    dynamic result = startingValue;
+    mods.forEach((element) {
+      result = element(result);
+    });
 
-    return startingValue;
+    return result;
   }
 }
