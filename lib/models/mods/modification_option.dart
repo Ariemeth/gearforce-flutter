@@ -1,6 +1,11 @@
 class ModificationOption {
   ModificationOption(this.text, {this.options});
   final String text;
-  List<ModificationOption>? options;
+  final List<ModificationOption>? options;
   ModificationOption? selectedOption;
+
+  @override
+  String toString() {
+    return text;
+  }
 }

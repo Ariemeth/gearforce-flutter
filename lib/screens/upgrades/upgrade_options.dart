@@ -18,6 +18,7 @@ class UpgradeOptions extends StatelessWidget {
         child: Text('Options'),
       ),
       children: [
+        ..._buildOptions(options),
         SimpleDialogOption(
           onPressed: () {
             Navigator.pop(context, null);
@@ -32,5 +33,47 @@ class UpgradeOptions extends StatelessWidget {
       ],
     );
     return screen;
+  }
+}
+
+List<Widget> _buildOptions(List<ModificationOption> options) {
+  if (options.isEmpty) {
+    return [];
+  }
+
+  List<Widget> results = [];
+
+  results.add(Row(
+    children: [
+      OptionDropdown(options: options),
+    ],
+  ));
+
+  return results;
+}
+
+class OptionDropdown extends StatefulWidget {
+  OptionDropdown({
+    Key? key,
+    required this.options,
+  }) : super(key: key);
+
+  final List<ModificationOption> options;
+  @override
+  _OptionDropdownState createState() => _OptionDropdownState();
+}
+
+class _OptionDropdownState extends State<OptionDropdown> {
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButton<String>(
+      items: <String>['One', 'Two', 'Free', 'Four']
+          .map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        );
+      }).toList(),
+    );
   }
 }
