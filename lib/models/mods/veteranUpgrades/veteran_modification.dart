@@ -1,5 +1,6 @@
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/mods/base_modification.dart';
+import 'package:gearforce/models/mods/modification_option.dart';
 import 'package:gearforce/models/mods/mods.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
@@ -26,7 +27,8 @@ class VeternModification extends BaseModification {
     this.requirementCheck = _defaultRequirementsFunction,
     this.unit,
     this.group,
-  }) : super(name: name, id: id);
+    List<ModificationOption>? options,
+  }) : super(name: name, id: id, options: options);
 
   // function to ensure the modification can be applied to the unit
   final bool Function() requirementCheck;
@@ -278,21 +280,66 @@ class VeternModification extends BaseModification {
   */
 
   factory VeternModification.oldReliable(Unit u, CombatGroup cg) {
-    final RegExp meleeCheck = RegExp(r'(\[)*(([LM])(VB|SG|CW))');
-    final mounted = u.mountedWeapons;
+    final RegExp meleeCheck = RegExp(r'\b([LM])(VB|SG|CW)');
     final react = u.reactWeapons;
+
+    var check = meleeCheck.allMatches(react.toString());
+    List<ModificationOption>? options;
+    if (check.length > 0) {
+      options = [];
+      check.forEach((match) {
+        switch (match.group(2)?.toUpperCase()) {
+          case 'VB':
+            options!.add(
+              ModificationOption(
+                '-${match.group(1)}VB',
+                options: [
+                  ModificationOption('+${match.group(1)}SG'),
+                  ModificationOption('+${match.group(1)}CW'),
+                ],
+              ),
+            );
+            break;
+          case 'SG':
+            options!.add(
+              ModificationOption(
+                '-${match.group(1)}SG',
+                options: [
+                  ModificationOption('+${match.group(1)}VB'),
+                  ModificationOption('+${match.group(1)}CW'),
+                ],
+              ),
+            );
+            break;
+          case 'CW':
+            options!.add(
+              ModificationOption(
+                '-${match.group(1)}CW',
+                options: [
+                  ModificationOption('+${match.group(1)}SG'),
+                  ModificationOption('+${match.group(1)}VB'),
+                ],
+              ),
+            );
+            break;
+        }
+      });
+    }
     return VeternModification(
         name: 'Old Reliable',
         id: oldReliableId,
+        options: options,
         requirementCheck: () {
           if (u.hasMod(oldReliableId)) {
             return false;
           }
 
+          if (u.core.type != 'Gear' && u.core.type != 'Strider') {
+            return false;
+          }
+
           // check to ensure the unit has an appropriate weapon that can be upgraded
-          final hasMatchingWeapon = meleeCheck.hasMatch(mounted.toString()) ||
-              meleeCheck.hasMatch(react.toString());
-          if (!hasMatchingWeapon) {
+          if (!meleeCheck.hasMatch(react.toString())) {
             return false;
           }
 
