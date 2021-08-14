@@ -903,7 +903,7 @@
           "pi": "5+",
           "ew": "6+",
           "react-weapons": "MBZ, LVB",
-          "mounted-weapons": "MAPR (Fire:2, Link), LGM, HMG (Link)",
+          "mounted-weapons": "MAPR (Fire:2 Link), LGM, HMG (Link)",
           "traits": "Hands, React+",
           "type": "Gear",
           "height": 2
@@ -1129,7 +1129,7 @@
           "pi": "4+",
           "ew": "6+",
           "react-weapons": "HRC/HVB, HMG",
-          "mounted-weapons": "LFG (T, Link)",
+          "mounted-weapons": "LFG (T Link)",
           "traits": "Hands, Brawl:1",
           "type": "Strider",
           "height": 3
@@ -1146,7 +1146,7 @@
           "pi": "4+",
           "ew": "6+",
           "react-weapons": "HRC/HVB, HMG",
-          "mounted-weapons": "HRP (T, Link)",
+          "mounted-weapons": "HRP (T Link)",
           "traits": "Hands, Brawl:1",
           "type": "Strider",
           "height": 3
@@ -1163,7 +1163,7 @@
           "pi": "4+",
           "ew": "6+",
           "react-weapons": "HRC/HVB, HMG",
-          "mounted-weapons": "HABM (T, Link)",
+          "mounted-weapons": "HABM (T Link)",
           "traits": "Hands, Brawl:1",
           "type": "Strider",
           "height": 3
@@ -1180,7 +1180,7 @@
           "pi": "4+",
           "ew": "6+",
           "react-weapons": "HRC/HVB, HMG",
-          "mounted-weapons": "HRC (T, AA, Link, Split:3)",
+          "mounted-weapons": "HRC (T AA Link Split:3)",
           "traits": "Hands, Brawl:1",
           "type": "Strider",
           "height": 3
@@ -1219,7 +1219,7 @@
           "gu": "4+",
           "pi": "4+",
           "ew": "6+",
-          "react-weapons": "LLC (T, AA)",
+          "react-weapons": "LLC (T AA)",
           "mounted-weapons": "HAC (T), MRP (T), LAPGL",
           "traits": "Agile, Airdrop, Jump Jets:3 (Aux)",
           "type": "Vehicle",
@@ -1236,7 +1236,7 @@
           "gu": "4+",
           "pi": "4+",
           "ew": "6+",
-          "react-weapons": "LLC (T, AA)",
+          "react-weapons": "LLC (T AA)",
           "mounted-weapons": "HAC (T), LATM (T), LAPGL",
           "traits": "Agile, Airdrop, Jump Jets:3 (Aux)",
           "type": "Vehicle",
@@ -1287,7 +1287,7 @@
           "pi": "6+",
           "ew": "6+",
           "react-weapons": "MLC (T)",
-          "mounted-weapons": "LFG (T, Link, Precise), 2 X MATM, HMG, HAPGL",
+          "mounted-weapons": "LFG (T Link Precise), 2 X MATM, HMG, HAPGL",
           "traits": "Offroad, Smoke",
           "type": "Vehicle",
           "height": 1.5
@@ -1304,7 +1304,7 @@
           "pi": "6+",
           "ew": "6+",
           "react-weapons": "MLC (T)",
-          "mounted-weapons": "HTG (T, Precise), 2 X MATM, HMG, HAPGL",
+          "mounted-weapons": "HTG (T Precise), 2 X MATM, HMG, HAPGL",
           "traits": "Offroad, Smoke",
           "type": "Vehicle",
           "height": 1.5
@@ -1331,7 +1331,7 @@
           "pi": "4+",
           "ew": "6+",
           "react-weapons": "-",
-          "mounted-weapons": "LAC (T, Link)",
+          "mounted-weapons": "LAC (T Link)",
           "traits": "Transport:2 Squads, Jump Jets:2 (Aux)",
           "type": "Vehicle",
           "height": 2
@@ -1348,7 +1348,7 @@
           "pi": "4+",
           "ew": "6+",
           "react-weapons": "-",
-          "mounted-weapons": "LRP (T, Link)",
+          "mounted-weapons": "LRP (T Link)",
           "traits": "Transport:2 Squads, Jump Jets:2 (Aux)",
           "type": "Vehicle",
           "height": 2
@@ -1566,7 +1566,7 @@
           "gu": "4+",
           "pi": "4+",
           "ew": "6+",
-          "react-weapons": "MIW, HICW, MICW (AP:1, Reach:1)",
+          "react-weapons": "MIW, HICW, MICW (AP:1 Reach:1)",
           "mounted-weapons": "-",
           "traits": "Brawl:1, Climber",
           "type": "Vehicle",
@@ -1671,7 +1671,7 @@
           "pi": "3+",
           "ew": "6+",
           "react-weapons": "LIW, MICW",
-          "mounted-weapons": "MIM (Brace, Corrosion)",
+          "mounted-weapons": "MIM (Brace Corrosion)",
           "traits": "Agile, Stealth",
           "type": "Infantry",
           "height": 0.5
@@ -1694,7 +1694,7 @@
           "pi": "3+",
           "ew": "5+",
           "react-weapons": "LIW, HICW (AP:1)",
-          "mounted-weapons": "HIR (Advanced, Silent)",
+          "mounted-weapons": "HIR (Advanced Silent)",
           "traits": "Agile, Brawl:1, Stealth, Vet",
           "type": "Infantry",
           "height": 0.5
