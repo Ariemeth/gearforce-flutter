@@ -239,7 +239,7 @@
           "pi": "4+",
           "ew": "5+",
           "react-weapons": "-",
-          "mounted-weapons": "HIS (AP:1, Silent)",
+          "mounted-weapons": "HIS (AP:1 Silent)",
           "traits": "Conscript, Comms, Stealth, TD",
           "type": "Gear",
           "height": 1
@@ -632,7 +632,7 @@
           "pi": "5+",
           "ew": "5+",
           "react-weapons": "-",
-          "mounted-weapons": "MPA (T), HRP (T, Link), LAPGL, LCW",
+          "mounted-weapons": "MPA (T), HRP (T Link), LAPGL, LCW",
           "traits": "Stable",
           "type": "Gear",
           "height": 2
@@ -649,7 +649,7 @@
           "pi": "5+",
           "ew": "5+",
           "react-weapons": "-",
-          "mounted-weapons": "MPA (T), MATM (T, Link), LAPGL, LCW",
+          "mounted-weapons": "MPA (T), MATM (T Link), LAPGL, LCW",
           "traits": "Stable",
           "type": "Gear",
           "height": 2
@@ -665,7 +665,7 @@
           "gu": "4+",
           "pi": "5+",
           "ew": "5+",
-          "react-weapons": "MRL (T, AA, Link)",
+          "react-weapons": "MRL (T AA Link)",
           "mounted-weapons": "MPA (T), LAPGL, LCW",
           "traits": "Stable",
           "type": "Gear",

@@ -283,16 +283,21 @@ class VeternModification extends BaseModification {
     final RegExp meleeCheck = RegExp(r'\b([LM])(VB|SG|CW)');
     final react = u.reactWeapons;
 
-    var check = meleeCheck.allMatches(react.toString());
+    var myList = react.toList().where((weapon) => meleeCheck.hasMatch(weapon));
+
     List<ModificationOption>? _options;
-    if (check.length > 0) {
+    if (myList.isNotEmpty) {
       _options = [];
-      check.forEach((match) {
+      myList.forEach((item) {
+        var match = meleeCheck.firstMatch(item);
+        if (match == null) {
+          return;
+        }
         switch (match.group(2)?.toUpperCase()) {
           case 'VB':
             _options!.add(
               ModificationOption(
-                '-${match.group(1)}VB',
+                '-$item',
                 subOptions: [
                   ModificationOption('+${match.group(1)}SG'),
                   ModificationOption('+${match.group(1)}CW'),
@@ -303,7 +308,7 @@ class VeternModification extends BaseModification {
           case 'SG':
             _options!.add(
               ModificationOption(
-                '-${match.group(1)}SG',
+                '-$item',
                 subOptions: [
                   ModificationOption('+${match.group(1)}VB'),
                   ModificationOption('+${match.group(1)}CW'),
@@ -314,7 +319,7 @@ class VeternModification extends BaseModification {
           case 'CW':
             _options!.add(
               ModificationOption(
-                '-${match.group(1)}CW',
+                '-$item',
                 subOptions: [
                   ModificationOption('+${match.group(1)}SG'),
                   ModificationOption('+${match.group(1)}VB'),
@@ -360,6 +365,7 @@ class VeternModification extends BaseModification {
           return value;
         }
 
+        // Grab the substring starting at position 1 to exclude the - or +
         var remove = modOptions.selectedOption;
         if (remove != null) {
           value = createRemoveFromList(remove.text.substring(1))(value);
@@ -529,7 +535,7 @@ class VeternModification extends BaseModification {
     final react = u.reactWeapons;
     return VeternModification(
         name: 'Melee Weapon Upgrade (LVB)',
-        id: meleeUpgradeLCW,
+        id: meleeUpgradeLVB,
         requirementCheck: () {
           if (u.hasMod(meleeUpgradeLCW) || u.hasMod(meleeUpgradeLVB)) {
             return false;
