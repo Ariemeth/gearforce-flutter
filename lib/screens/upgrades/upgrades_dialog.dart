@@ -127,7 +127,10 @@ Widget unitUpgrades(List<BaseModification> mods, Unit unit) {
         shrinkWrap: true,
         itemBuilder: (BuildContext context, int index) {
           return UpgradeDisplayLine(
-            mod: mods[index],
+            // if the unit already has the mod, use that instance instead of a new one
+            mod: unit.hasMod(mods[index].id)
+                ? unit.getMod(mods[index].id)!
+                : mods[index],
             unit: unit,
           );
         },

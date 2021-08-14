@@ -27,7 +27,7 @@ class VeternModification extends BaseModification {
     this.requirementCheck = _defaultRequirementsFunction,
     this.unit,
     this.group,
-    List<ModificationOption>? options,
+    ModificationOption? options,
   }) : super(name: name, id: id, options: options);
 
   // function to ensure the modification can be applied to the unit
@@ -284,16 +284,16 @@ class VeternModification extends BaseModification {
     final react = u.reactWeapons;
 
     var check = meleeCheck.allMatches(react.toString());
-    List<ModificationOption>? options;
+    List<ModificationOption>? _options;
     if (check.length > 0) {
-      options = [];
+      _options = [];
       check.forEach((match) {
         switch (match.group(2)?.toUpperCase()) {
           case 'VB':
-            options!.add(
+            _options!.add(
               ModificationOption(
                 '-${match.group(1)}VB',
-                options: [
+                subOptions: [
                   ModificationOption('+${match.group(1)}SG'),
                   ModificationOption('+${match.group(1)}CW'),
                 ],
@@ -301,10 +301,10 @@ class VeternModification extends BaseModification {
             );
             break;
           case 'SG':
-            options!.add(
+            _options!.add(
               ModificationOption(
                 '-${match.group(1)}SG',
-                options: [
+                subOptions: [
                   ModificationOption('+${match.group(1)}VB'),
                   ModificationOption('+${match.group(1)}CW'),
                 ],
@@ -312,10 +312,10 @@ class VeternModification extends BaseModification {
             );
             break;
           case 'CW':
-            options!.add(
+            _options!.add(
               ModificationOption(
                 '-${match.group(1)}CW',
-                options: [
+                subOptions: [
                   ModificationOption('+${match.group(1)}SG'),
                   ModificationOption('+${match.group(1)}VB'),
                 ],
@@ -325,10 +325,11 @@ class VeternModification extends BaseModification {
         }
       });
     }
+    var modOptions = ModificationOption('Old Reliable', subOptions: _options);
     return VeternModification(
         name: 'Old Reliable',
         id: oldReliableId,
-        options: options,
+        options: modOptions,
         requirementCheck: () {
           if (u.hasMod(oldReliableId)) {
             return false;
@@ -349,7 +350,22 @@ class VeternModification extends BaseModification {
           description:
               'TV +0, One Light (L) or Medium (M) melee weapon with the React trait ' +
                   'can be swapped for an equal class melee weapon for 0 TV,' +
-                  'i.e. a LCW can be swapped for a LVB or a LSG');
+                  'i.e. a LCW can be swapped for a LVB or a LSG')
+      ..addMod(UnitAttribute.react_weapons, (value) {
+        if (!(value is List<String>)) {
+          return value;
+        }
+
+        var remove = modOptions.selectedOption;
+        if (remove != null) {
+          value = createRemoveFromList(remove.text.substring(1))(value);
+        }
+        var add = remove?.selectedOption;
+        if (add != null) {
+          value = createAddToList(add.text.substring(1))(value);
+        }
+        return value;
+      });
   }
 
   /*

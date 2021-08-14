@@ -8,17 +8,16 @@ class UpgradeOptions extends StatelessWidget {
     required this.options,
   }) : super(key: key);
 
-  final List<ModificationOption> options;
-// TODO create UI to select the different options
+  final ModificationOption options;
 
   @override
   Widget build(BuildContext context) {
     var screen = SimpleDialog(
       title: Center(
-        child: Text('Options'),
+        child: Text(options.text),
       ),
       children: [
-        ..._buildOptions(options),
+        OptionDropdown(options: options),
         SimpleDialogOption(
           onPressed: () {
             Navigator.pop(context, null);
@@ -36,29 +35,14 @@ class UpgradeOptions extends StatelessWidget {
   }
 }
 
-List<Widget> _buildOptions(List<ModificationOption> options) {
-  if (options.isEmpty) {
-    return [];
-  }
-
-  List<Widget> results = [];
-
-  results.add(Row(
-    children: [
-      OptionDropdown(options: options),
-    ],
-  ));
-
-  return results;
-}
-
 class OptionDropdown extends StatefulWidget {
   OptionDropdown({
     Key? key,
     required this.options,
   }) : super(key: key);
 
-  final List<ModificationOption> options;
+  final ModificationOption options;
+
   @override
   _OptionDropdownState createState() => _OptionDropdownState();
 }
@@ -66,14 +50,34 @@ class OptionDropdown extends StatefulWidget {
 class _OptionDropdownState extends State<OptionDropdown> {
   @override
   Widget build(BuildContext context) {
-    return DropdownButton<String>(
-      items: <String>['One', 'Two', 'Free', 'Four']
-          .map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(value),
-        );
-      }).toList(),
+    var selectionRow = Row(
+      children: [
+        DropdownButton<ModificationOption>(
+          value: widget.options.selectedOption,
+          hint: Text('Choose'),
+          onChanged: (ModificationOption? newValue) {
+            setState(() {
+              widget.options.selectedOption = newValue;
+            });
+          },
+          items: widget.options.subOptions!
+              .map<DropdownMenuItem<ModificationOption>>(
+                  (ModificationOption value) {
+            return DropdownMenuItem<ModificationOption>(
+              value: value,
+              child: Text(value.text),
+            );
+          }).toList(),
+        )
+      ],
     );
+
+    if (widget.options.selectedOption != null &&
+        widget.options.selectedOption!.hasOptions()) {
+      selectionRow.children
+          .add(OptionDropdown(options: widget.options.selectedOption!));
+    }
+
+    return selectionRow;
   }
 }

@@ -231,6 +231,13 @@ class Unit extends ChangeNotifier {
       .where((element) => element.name == id || element.id == id)
       .isNotEmpty;
 
+  BaseModification? getMod(String id) {
+    if (!this.hasMod(id)) {
+      return null;
+    }
+    return this._mods.firstWhere((mod) => mod.id == id);
+  }
+
   int numUnitMods() => _mods.length;
   void clearUnitMods() {
     _mods.clear();

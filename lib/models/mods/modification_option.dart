@@ -1,11 +1,10 @@
 class ModificationOption {
-  ModificationOption(this.text, {this.options});
+  ModificationOption(this.text, {this.subOptions});
   final String text;
-  final List<ModificationOption>? options;
+  final List<ModificationOption>? subOptions;
   ModificationOption? selectedOption;
 
-  @override
-  String toString() {
-    return text;
+  bool hasOptions() {
+    return subOptions != null && subOptions!.isNotEmpty;
   }
 }

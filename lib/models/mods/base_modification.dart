@@ -15,8 +15,8 @@ abstract class BaseModification {
   final List<String> _description = [];
   late final String _id;
   String get id => _id;
-  final List<ModificationOption>? options;
-  bool get hasOptions => this.options != null && this.options!.isNotEmpty;
+  final ModificationOption? options;
+  bool get hasOptions => this.options != null && this.options!.hasOptions();
 
   List<String> get description => this._description.toList();
 
