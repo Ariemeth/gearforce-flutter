@@ -64,6 +64,12 @@ List<Widget> createModChanges(
   if (mod.hasOptions) {
     results.add(
       IconButton(
+        color: mod.options!.selectionComplete()
+            ? Colors.green
+            : isSelectable
+                ? Colors.red
+                : Colors.black,
+        tooltip: 'This upgrade has options to select.',
         onPressed: () {
           showDialog<bool>(
               context: context,

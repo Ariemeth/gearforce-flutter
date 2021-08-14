@@ -325,7 +325,11 @@ class VeternModification extends BaseModification {
         }
       });
     }
-    var modOptions = ModificationOption('Old Reliable', subOptions: _options);
+    var modOptions = ModificationOption('Old Reliable',
+        subOptions: _options,
+        description:
+            'One Light (L) or Medium (M) melee weapon with the React trait ' +
+                'can be swapped for an equal class melee weapon for 0 TV,');
     return VeternModification(
         name: 'Old Reliable',
         id: oldReliableId,
