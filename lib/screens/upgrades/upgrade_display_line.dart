@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gearforce/models/mods/base_modification.dart';
+import 'package:gearforce/models/mods/duelist/duelist_modification.dart';
 import 'package:gearforce/models/mods/modification.dart';
 import 'package:gearforce/models/mods/standardUpgrades/standard_modification.dart';
 import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart';
@@ -28,6 +29,9 @@ class UpgradeDisplayLine extends StatelessWidget {
     } else if (mod is VeternModification) {
       isModSelectable =
           (mod as VeternModification).requirementCheck() || unit.hasMod(mod.id);
+    } else if (mod is DuelistModification) {
+      isModSelectable = (mod as DuelistModification).requirementCheck() ||
+          unit.hasMod(mod.id);
     }
     return UnitModLine(
       unit: unit,

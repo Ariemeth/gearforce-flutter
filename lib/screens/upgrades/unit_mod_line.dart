@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gearforce/models/mods/base_modification.dart';
 import 'package:gearforce/models/unit/unit.dart';
+import 'package:gearforce/screens/upgrades/mod_option_button.dart';
 
 const int _maxUpgradeNameLines = 2;
 const int _maxUpgradeDescriptionLines = 4;
@@ -46,38 +47,49 @@ class UnitModLine extends StatelessWidget {
             ),
             maxLines: _maxUpgradeNameLines,
           ),
-          ...createModChanges(mod, isSelectable: isModSelectable),
+          ..._createModChanges(context, mod),
         ],
       ),
     );
   }
-}
 
-List<Widget> createModChanges(
-  BaseModification mod, {
-  bool isSelectable = true,
-}) {
-  return mod.description.map((modChange) {
-    if (mod.description[mod.description.length - 1] == modChange) {
-      return Text(
-        modChange,
-        style: TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.normal,
-          fontStyle: FontStyle.italic,
-          decoration: isSelectable ? null : TextDecoration.lineThrough,
+  List<Widget> _createModChanges(BuildContext context, BaseModification mod) {
+    List<Widget> results = [];
+
+    if (mod.hasOptions) {
+      results.add(
+        ModOptionButton(
+          mod: mod,
+          isSelectable: isModSelectable,
         ),
-        maxLines: _maxUpgradeDescriptionLines,
       );
     }
-    return Text(
-      '$modChange, ',
-      style: TextStyle(
-        fontSize: 16,
-        fontWeight: FontWeight.normal,
-        fontStyle: FontStyle.italic,
-        decoration: isSelectable ? null : TextDecoration.lineThrough,
-      ),
+
+    results.addAll(
+      mod.description.map((modChange) {
+        if (mod.description[mod.description.length - 1] == modChange) {
+          return Text(
+            modChange,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.normal,
+              fontStyle: FontStyle.italic,
+              decoration: isModSelectable ? null : TextDecoration.lineThrough,
+            ),
+            maxLines: _maxUpgradeDescriptionLines,
+          );
+        }
+        return Text(
+          '$modChange, ',
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.normal,
+            fontStyle: FontStyle.italic,
+            decoration: isModSelectable ? null : TextDecoration.lineThrough,
+          ),
+        );
+      }).toList(),
     );
-  }).toList();
+    return results;
+  }
 }

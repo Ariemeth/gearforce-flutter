@@ -60,7 +60,15 @@ class Unit extends ChangeNotifier {
     notifyListeners();
   }
 
-  bool isDuelist = false;
+  bool get isDuelist {
+    var t = this.traits;
+    String? value =
+        t.firstWhere((element) => element.contains("Duelist"), orElse: () {
+      return '';
+    });
+    return value == '' ? false : true;
+  }
+
   bool isVeteran() {
     String? value = this.traits.firstWhere((element) => element.contains("Vet"),
         orElse: () {
@@ -222,6 +230,13 @@ class Unit extends ChangeNotifier {
       ._mods
       .where((element) => element.name == id || element.id == id)
       .isNotEmpty;
+
+  BaseModification? getMod(String id) {
+    if (!this.hasMod(id)) {
+      return null;
+    }
+    return this._mods.firstWhere((mod) => mod.id == id);
+  }
 
   int numUnitMods() => _mods.length;
   void clearUnitMods() {

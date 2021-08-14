@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/mods/base_modification.dart';
+import 'package:gearforce/models/mods/duelist/duelist_upgrades.dart';
 import 'package:gearforce/models/mods/standardUpgrades/standard_upgrades.dart';
 import 'package:gearforce/models/mods/unitUpgrades/unit_upgrades.dart';
 import 'package:gearforce/models/mods/veteranUpgrades/veteran_upgrades.dart';
@@ -29,6 +30,7 @@ class UpgradesDialog extends StatelessWidget {
     final unitMods = getUnitMods(unit.core.frame);
     final standardMods = getStandardMods(unit, cg);
     final veteranMods = getVeteranMods(unit, cg);
+    final duelistMods = getDuelistMods(unit, roster);
 
     var dialog = SimpleDialog(
       clipBehavior: Clip.antiAlias,
@@ -60,6 +62,8 @@ class UpgradesDialog extends StatelessWidget {
             unitUpgrades(standardMods, unit),
             upgradeTitle('Veteran Upgrades'),
             unitUpgrades(veteranMods, unit),
+            upgradeTitle('Duelist Upgrades'),
+            unitUpgrades(duelistMods, unit),
           ],
         ),
         SimpleDialogOption(
@@ -123,7 +127,10 @@ Widget unitUpgrades(List<BaseModification> mods, Unit unit) {
         shrinkWrap: true,
         itemBuilder: (BuildContext context, int index) {
           return UpgradeDisplayLine(
-            mod: mods[index],
+            // if the unit already has the mod, use that instance instead of a new one
+            mod: unit.hasMod(mods[index].id)
+                ? unit.getMod(mods[index].id)!
+                : mods[index],
             unit: unit,
           );
         },

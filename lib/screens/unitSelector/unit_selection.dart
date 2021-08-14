@@ -30,18 +30,21 @@ class _UnitSelectionState extends State<UnitSelection> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SelectionFilters(
-          roleFilter: widget._roleFilter,
-          onChanged: (RoleType role, bool newValue) {
-            setState(() {
-              widget._roleFilter[role] = newValue;
-            });
-          },
-          onFilterChanged: (String text) {
-            setState(() {
-              _filter = text;
-            });
-          },
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: SelectionFilters(
+            roleFilter: widget._roleFilter,
+            onChanged: (RoleType role, bool newValue) {
+              setState(() {
+                widget._roleFilter[role] = newValue;
+              });
+            },
+            onFilterChanged: (String text) {
+              setState(() {
+                _filter = text;
+              });
+            },
+          ),
         ),
         Expanded(
             child: SelectionList(
