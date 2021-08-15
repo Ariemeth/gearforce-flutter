@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:gearforce/models/traits/trait.dart';
 import 'package:test/test.dart';
 
