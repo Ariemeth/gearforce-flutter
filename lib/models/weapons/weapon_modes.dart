@@ -8,5 +8,3 @@ enum weaponModes {
 String getWeaponModeName(weaponModes wm) {
   return wm.toString().split('.').last;
 }
-
-
