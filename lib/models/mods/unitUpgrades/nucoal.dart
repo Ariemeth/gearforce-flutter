@@ -1,5 +1,6 @@
 import 'package:gearforce/models/mods/modification.dart';
 import 'package:gearforce/models/mods/mods.dart';
+import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
 
@@ -7,20 +8,22 @@ final Modification cv = Modification(name: 'CV Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'CV'))
   ..addMod(UnitAttribute.ew, createSetIntMod(5), description: 'EW 5+')
-  ..addMod(UnitAttribute.traits, createAddToList('Comms'),
+  ..addMod(UnitAttribute.traits, createAddToList(Trait(name: 'Comms')),
       description: '+Comms')
-  ..addMod(UnitAttribute.traits, createAddToList('ECCM (Aux)'),
+  ..addMod(
+      UnitAttribute.traits, createAddToList(Trait(name: 'ECCM', isAux: true)),
       description: '+ECCM (Aux)');
 
 final Modification cuirassierCv = Modification(name: 'CV Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'CV'))
   ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
-  ..addMod(UnitAttribute.traits, createAddToList('Comms'),
+  ..addMod(UnitAttribute.traits, createAddToList(Trait(name: 'Comms')),
       description: '+Comms')
-  ..addMod(UnitAttribute.traits, createAddToList('SatUp'),
+  ..addMod(UnitAttribute.traits, createAddToList(Trait(name: 'SatUp')),
       description: '+SatUp')
-  ..addMod(UnitAttribute.traits, createAddToList('ECCM (Aux)'),
+  ..addMod(
+      UnitAttribute.traits, createAddToList(Trait(name: 'ECCM', isAux: true)),
       description: '+ECCM (Aux)');
 
 final Modification fragCannon = Modification(
@@ -49,9 +52,9 @@ final Modification espionCv = Modification(name: 'CV Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'CV'))
   ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
-  ..addMod(UnitAttribute.traits, createAddToList('Comms'),
+  ..addMod(UnitAttribute.traits, createAddToList(Trait(name: 'Comms')),
       description: '+Comms')
-  ..addMod(UnitAttribute.traits, createAddToList('SatUp'),
+  ..addMod(UnitAttribute.traits, createAddToList(Trait(name: 'SatUp')),
       description: '+SatUp');
 
 final Modification mfmBoa = Modification(
@@ -69,11 +72,12 @@ final Modification cv2 = Modification(name: 'CV Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'CV'))
   ..addMod(UnitAttribute.ew, createSetIntMod(5), description: 'EW 5+')
-  ..addMod(UnitAttribute.traits, createAddToList('Comms'),
+  ..addMod(UnitAttribute.traits, createAddToList(Trait(name: 'Comms')),
       description: '+Comms')
-  ..addMod(UnitAttribute.traits, createAddToList('SatUp'),
+  ..addMod(UnitAttribute.traits, createAddToList(Trait(name: 'SatUp')),
       description: '+SatUp')
-  ..addMod(UnitAttribute.traits, createAddToList('ECCM (Aux)'),
+  ..addMod(
+      UnitAttribute.traits, createAddToList(Trait(name: 'ECCM', isAux: true)),
       description: '+ECCM (Aux)');
 
 final Modification voltigeurABM = Modification(
@@ -102,11 +106,12 @@ final Modification voltigeurCv = Modification(name: 'CV Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'CV'))
   ..addMod(UnitAttribute.ew, createSetIntMod(5), description: 'EW 5+')
-  ..addMod(UnitAttribute.traits, createAddToList('Comms'),
+  ..addMod(UnitAttribute.traits, createAddToList(Trait(name: 'Comms')),
       description: '+Comms')
-  ..addMod(UnitAttribute.traits, createAddToList('SatUp'),
+  ..addMod(UnitAttribute.traits, createAddToList(Trait(name: 'SatUp')),
       description: '+SatUp')
-  ..addMod(UnitAttribute.traits, createAddToList('ECCM'), description: '+ECCM');
+  ..addMod(UnitAttribute.traits, createAddToList(Trait(name: 'ECCM')),
+      description: '+ECCM');
 
 final Modification team = Modification(name: 'Team')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(-1), description: 'TV -1')
@@ -118,7 +123,7 @@ final Modification koreshi = Modification(name: 'Koreshi Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Koreshi'))
   ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
-  ..addMod(UnitAttribute.traits, createAddToList('SP:+1'),
+  ..addMod(UnitAttribute.traits, createAddToList(Trait(name: 'SP', level: 1)),
       description: '+SP:+1')
-  ..addMod(UnitAttribute.traits, createAddToList('Comms'),
+  ..addMod(UnitAttribute.traits, createAddToList(Trait(name: 'Comms')),
       description: '+Comms');

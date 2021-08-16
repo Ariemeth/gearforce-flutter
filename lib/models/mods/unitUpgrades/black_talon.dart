@@ -1,5 +1,6 @@
 import 'package:gearforce/models/mods/modification.dart';
 import 'package:gearforce/models/mods/mods.dart';
+import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
 
@@ -7,31 +8,35 @@ final Modification psi = Modification(name: 'Psi Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Psi'))
   ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
-  ..addMod(UnitAttribute.traits, createAddToList('Comms'),
+  ..addMod(UnitAttribute.traits, createAddToList(Trait(name: 'Comms')),
       description: '+Comms');
 
 final Modification darkJaguarPsi = Modification(name: 'Psi Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Psi'))
   ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
-  ..addMod(UnitAttribute.traits, createAddToList('Comms'),
+  ..addMod(UnitAttribute.traits, createAddToList(Trait(name: 'Comms')),
       description: '+Comms')
-  ..addMod(UnitAttribute.traits, createAddToList('SatUp (Aux)'),
-      description: '+SatUp (Aux)');
+  ..addMod(
+    UnitAttribute.traits,
+    createAddToList(Trait(name: 'SatUp', isAux: true)),
+    description: '+SatUp (Aux)',
+  );
 
 final Modification phi = Modification(name: 'Phi Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Phi'))
   ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
-  ..addMod(UnitAttribute.traits, createAddToList('ECCM'), description: '+ECCM');
+  ..addMod(UnitAttribute.traits, createAddToList(Trait(name: 'ECCM')),
+      description: '+ECCM');
 
 final Modification darkMambaPsi = Modification(name: 'Psi Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Psi'))
   ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
-  ..addMod(UnitAttribute.traits, createAddToList('Comms'),
+  ..addMod(UnitAttribute.traits, createAddToList(Trait(name: 'Comms')),
       description: '+Comms')
-  ..addMod(UnitAttribute.traits, createAddToList('SatUp'),
+  ..addMod(UnitAttribute.traits, createAddToList(Trait(name: 'SatUp')),
       description: '+SatUp');
 
 final Modification xi = Modification(name: 'Xi Upgrade')
@@ -66,15 +71,20 @@ final Modification darkCoyotePsi = Modification(name: 'Psi Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(3), description: 'TV +3')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Psi'))
   ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
-  ..addMod(UnitAttribute.traits, createAddToList('SP:+1'),
+  ..addMod(UnitAttribute.traits, createAddToList(Trait(name: 'SP', level: 1)),
       description: '+SP:+1')
-  ..addMod(UnitAttribute.traits, createAddToList('Comms'),
+  ..addMod(UnitAttribute.traits, createAddToList(Trait(name: 'Comms')),
       description: '+Comms')
-  ..addMod(UnitAttribute.traits, createAddToList('SatUp'),
+  ..addMod(UnitAttribute.traits, createAddToList(Trait(name: 'SatUp')),
       description: '+SatUp')
-  ..addMod(UnitAttribute.traits, createAddToList('ECCM'), description: '+ECCM')
-  ..addMod(UnitAttribute.traits,
-      createReplaceInList(oldValue: 'ECM', newValue: 'ECM+'),
+  ..addMod(UnitAttribute.traits, createAddToList(Trait(name: 'ECCM')),
+      description: '+ECCM')
+  ..addMod(
+      UnitAttribute.traits,
+      createReplaceInList(
+        oldValue: Trait(name: 'ECM'),
+        newValue: Trait(name: 'ECM+'),
+      ),
       description: '-ECM, +ECM+');
 
 final Modification iota = Modification(name: 'Iota Upgrade')
@@ -98,11 +108,11 @@ final Modification darkHoplitePsi = Modification(name: 'Psi Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Psi'))
   ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
-  ..addMod(UnitAttribute.traits, createAddToList('SP:+1'),
+  ..addMod(UnitAttribute.traits, createAddToList(Trait(name: 'SP', level: 1)),
       description: '+SP:+1')
-  ..addMod(UnitAttribute.traits, createAddToList('Comms'),
+  ..addMod(UnitAttribute.traits, createAddToList(Trait(name: 'Comms')),
       description: '+Comms')
-  ..addMod(UnitAttribute.traits, createAddToList('SatUp'),
+  ..addMod(UnitAttribute.traits, createAddToList(Trait(name: 'SatUp')),
       description: '+SatUp');
 
 final Modification blackwindTheta = Modification(name: 'Theta Upgrade')

@@ -1,3 +1,4 @@
+import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/movement.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
@@ -35,7 +36,7 @@ class UnitCore {
   final int? ew;
   final List<String> reactWeapons;
   final List<String> mountedWeapons;
-  final List<String> traits;
+  final List<Trait> traits;
   final String type;
   final String height;
   final String frame;
@@ -191,8 +192,13 @@ class UnitCore {
             .split(',')
             .map((e) => e.trim())
             .toList());
-    List<String> traits = List.from(
-        json['traits'].toString().split(',').map((e) => e.trim()).toList());
+    List<Trait> traits = json['traits'] == '-'
+        ? []
+        : List.from(json['traits']
+            .toString()
+            .split(',')
+            .map((e) => Trait.fromString(e.trim()))
+            .toList());
 
     var uc = UnitCore(
       frame: frame,

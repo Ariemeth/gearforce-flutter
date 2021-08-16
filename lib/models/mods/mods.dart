@@ -34,13 +34,13 @@ dynamic Function(dynamic) createSetMovementMod(Movement newValue) {
   };
 }
 
-dynamic Function(dynamic) createAddToList(String newValue) {
+dynamic Function(dynamic) createAddToList<T>(T newValue) {
   return (value) {
-    if (value is! List<String>) {
+    if (value is! List<T>) {
       return value;
     }
 
-    var newList = new List<String>.from(value);
+    var newList = new List<T>.from(value);
 
     if (!newList.contains(newValue)) {
       newList.add(newValue);
@@ -50,27 +50,27 @@ dynamic Function(dynamic) createAddToList(String newValue) {
   };
 }
 
-dynamic Function(dynamic) createRemoveFromList(String newValue) {
+dynamic Function(dynamic) createRemoveFromList<T>(T newValue) {
   return (value) {
-    if (value is! List<String>) {
+    if (value is! List<T>) {
       return value;
     }
 
-    var newList = new List<String>.from(value);
+    var newList = new List<T>.from(value);
     newList.remove(newValue);
 
     return newList;
   };
 }
 
-dynamic Function(dynamic) createReplaceInList(
-    {required String oldValue, required String newValue}) {
+dynamic Function(dynamic) createReplaceInList<T>(
+    {required T oldValue, required T newValue}) {
   return (value) {
-    if (value is! List<String>) {
+    if (value is! List<T>) {
       return value;
     }
 
-    var newList = new List<String>.from(value);
+    var newList = new List<T>.from(value);
 
     newList.remove(oldValue);
 
@@ -82,14 +82,14 @@ dynamic Function(dynamic) createReplaceInList(
   };
 }
 
-dynamic Function(dynamic) createMultiReplaceInList(
-    {required List<String> oldItems, required List<String> newItems}) {
+dynamic Function(dynamic) createMultiReplaceInList<T>(
+    {required List<T> oldItems, required List<T> newItems}) {
   return (value) {
-    if (value is! List<String>) {
+    if (value is! List<T>) {
       return value;
     }
 
-    var newList = new List<String>.from(value);
+    var newList = new List<T>.from(value);
 
     oldItems.forEach((element) {
       newList.remove(element);

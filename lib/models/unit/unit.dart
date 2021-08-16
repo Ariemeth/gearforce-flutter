@@ -3,6 +3,7 @@ import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/mods/base_modification.dart';
 import 'package:gearforce/models/mods/unitUpgrades/unit_upgrades.dart';
+import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/movement.dart';
 import 'package:gearforce/models/unit/role.dart';
@@ -61,20 +62,11 @@ class Unit extends ChangeNotifier {
   }
 
   bool get isDuelist {
-    var t = this.traits;
-    String? value =
-        t.firstWhere((element) => element.contains("Duelist"), orElse: () {
-      return '';
-    });
-    return value == '' ? false : true;
+    return this.traits.any((element) => element.name == 'Duelist');
   }
 
   bool isVeteran() {
-    String? value = this.traits.firstWhere((element) => element.contains("Vet"),
-        orElse: () {
-      return '';
-    });
-    return value == '' ? false : true;
+    return this.traits.any((element) => element.name == 'Vet');
   }
 
   String get name {
@@ -178,7 +170,7 @@ class Unit extends ChangeNotifier {
     return value;
   }
 
-  List<String> get traits {
+  List<Trait> get traits {
     var value = this.core.traits.toList();
 
     for (var mod in this._mods) {

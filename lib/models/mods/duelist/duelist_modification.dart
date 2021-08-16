@@ -2,6 +2,7 @@ import 'package:gearforce/models/mods/base_modification.dart';
 import 'package:gearforce/models/mods/mods.dart';
 import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart';
 import 'package:gearforce/models/roster/roster.dart';
+import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
 import 'package:uuid/uuid.dart';
@@ -37,7 +38,8 @@ class DuelistModification extends BaseModification {
 
   factory DuelistModification.makeDuelist(Unit u, UnitRoster roster) {
     final traits = u.traits.toList();
-    final isVet = u.core.traits.contains('Vet') || u.hasMod(veteranId);
+    final isVet =
+        traits.any((element) => element.name == 'Vet') || u.hasMod(veteranId);
     var mod = DuelistModification(
         name: 'Duelist Upgrade',
         id: duelistId,
@@ -56,27 +58,30 @@ class DuelistModification extends BaseModification {
             }
           }
 
-          return !traits.contains('Duelist');
+          return !traits.any((element) => element.name == 'Duelist');
         });
     mod.addMod(
       UnitAttribute.tv,
       (value) {
         return createSimpleIntMod(
-          u.core.traits.contains('Vet') || u.hasMod(veteranId) ? 0 : 2,
+          u.core.traits.any((element) => element.name == 'Vet') ||
+                  u.hasMod(veteranId)
+              ? 0
+              : 2,
         )(value);
       },
       description: 'TV +${isVet ? 0 : 2}',
     );
     mod.addMod(
       UnitAttribute.traits,
-      createAddToList('Duelist'),
+      createAddToList(Trait(name: 'Duelist')),
       description: '+Duelist',
     );
 
     if (!isVet) {
       mod.addMod(
         UnitAttribute.traits,
-        createAddToList('Vet'),
+        createAddToList(Trait(name: 'Vet')),
         description: '+Vet',
       );
     }

@@ -1,5 +1,6 @@
 import 'package:gearforce/models/mods/modification.dart';
 import 'package:gearforce/models/mods/mods.dart';
+import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
 
@@ -53,8 +54,11 @@ final Modification demolisher = Modification(
   ..addMod(UnitAttribute.react_weapons,
       createReplaceInList(oldValue: 'HAC', newValue: 'MCW (Link, Demo:4)'),
       description: '-HAC, +MCW (Link, Demo:4)')
-  ..addMod(UnitAttribute.traits,
-      createReplaceInList(oldValue: 'Brawl:1', newValue: 'Brawl:2'),
+  ..addMod(
+      UnitAttribute.traits,
+      createReplaceInList(
+          oldValue: Trait(name: 'Brawl', level: 1),
+          newValue: Trait(name: 'Brawl', level: 2)),
       description: '-Brawl:1, +Brawl:2');
 
 final Modification heavyChainswordSwap = Modification(
@@ -138,21 +142,22 @@ final Modification paratrooper = Modification(name: 'Paratrooper Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Paratrooper'))
   ..addMod(UnitAttribute.piloting, createSetIntMod(3), description: 'PI:3+')
-  ..addMod(UnitAttribute.traits, createAddToList('Airdrop'),
+  ..addMod(UnitAttribute.traits, createAddToList(Trait(name: 'Airdrop')),
       description: '+Airdrop');
 
 final Modification mountaineering = Modification(name: 'Mountaineering Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Mountaineering'))
   ..addMod(UnitAttribute.piloting, createSetIntMod(3), description: 'PI:3+')
-  ..addMod(UnitAttribute.traits, createAddToList('Climber'),
+  ..addMod(UnitAttribute.traits, createAddToList(Trait(name: 'Climber')),
       description: '+Climber');
 
 final Modification frogmen = Modification(name: 'Frogmen Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Frogmen'))
   ..addMod(UnitAttribute.piloting, createSetIntMod(3), description: 'PI:3+')
-  ..addMod(UnitAttribute.traits, createAddToList('Sub'), description: '+Sub');
+  ..addMod(UnitAttribute.traits, createAddToList(Trait(name: 'Sub')),
+      description: '+Sub');
 
 final Modification latm = Modification(name: 'LATM Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
@@ -165,4 +170,5 @@ final Modification ecm = Modification(name: 'ECM Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
   ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'with ECM'))
   ..addMod(UnitAttribute.ew, createSetIntMod(5), description: 'EW:5+')
-  ..addMod(UnitAttribute.traits, createAddToList('ECM'), description: '+ECM');
+  ..addMod(UnitAttribute.traits, createAddToList(Trait(name: 'ECM')),
+      description: '+ECM');

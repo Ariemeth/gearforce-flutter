@@ -1,6 +1,7 @@
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/mods/base_modification.dart';
 import 'package:gearforce/models/mods/mods.dart';
+import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
 import 'package:uuid/uuid.dart';
@@ -17,6 +18,9 @@ final subMachineGunId = Uuid().v4();
 final shapedExplosivesLId = Uuid().v4();
 final shapedExplosivesMId = Uuid().v4();
 final smokeId = Uuid().v4();
+
+final RegExp _handsMatch = RegExp(r'^(Hands)', caseSensitive: false);
+final RegExp _vtolMatch = RegExp(r'^(VTOL)', caseSensitive: false);
 
 class StandardModification extends BaseModification {
   StandardModification({
@@ -75,7 +79,8 @@ class StandardModification extends BaseModification {
     )
       ..addMod(UnitAttribute.tv, createSimpleIntMod(0),
           description: 'TV +1 per drone, Max 2 drones')
-      ..addMod(UnitAttribute.traits, createAddToList('Transport: 1 Drone'));
+      ..addMod(UnitAttribute.traits,
+          createAddToList(Trait(name: 'Transport', level: 1, type: 'Drone')));
   }
 
   factory StandardModification.grenadeSwap(Unit u, CombatGroup cg) {
@@ -97,18 +102,14 @@ class StandardModification extends BaseModification {
   }
 
   factory StandardModification.handGrenadeLHG(Unit u, CombatGroup cg) {
+    final traits = u.traits.toList();
     return StandardModification(
         name: 'Hand Grenades (LHG)',
         id: handGrenadeLId,
         unit: u,
         group: cg,
         requirementCheck: () {
-          final RegExp exp = RegExp(
-            r'^([[:space:]]|,|\[)*(Hands)([[:space:]]|\])*($|,)',
-            caseSensitive: false,
-          );
-
-          if (!exp.hasMatch(u.traits.toString())) {
+          if (!traits.any((element) => _handsMatch.hasMatch(element.name))) {
             return false;
           }
 
@@ -157,16 +158,12 @@ class StandardModification extends BaseModification {
   }
 
   factory StandardModification.handGrenadeMHG(Unit u, CombatGroup cg) {
+    final traits = u.traits.toList();
     return StandardModification(
         name: 'Hand Grenades (MHG)',
         id: handGrenadeMId,
         requirementCheck: () {
-          final RegExp exp = RegExp(
-            r'^([[:space:]]|,|\[)*(Hands)([[:space:]]|\])*($|,)',
-            caseSensitive: false,
-          );
-
-          if (!exp.hasMatch(u.traits.toString())) {
+          if (!traits.any((element) => _handsMatch.hasMatch(element.name))) {
             return false;
           }
 
@@ -191,18 +188,14 @@ class StandardModification extends BaseModification {
   }
 
   factory StandardModification.panzerfaustsL(Unit u, CombatGroup cg) {
+    final traits = u.traits.toList();
     return StandardModification(
         name: 'Panzerfausts (LPZ)',
         id: panzerfaustsLId,
         unit: u,
         group: cg,
         requirementCheck: () {
-          final RegExp exp = RegExp(
-            r'^([[:space:]]|,|\[)*(Hands)([[:space:]]|\])*($|,)',
-            caseSensitive: false,
-          );
-
-          if (!exp.hasMatch(u.traits.toString())) {
+          if (!traits.any((element) => _handsMatch.hasMatch(element.name))) {
             return false;
           }
 
@@ -250,16 +243,12 @@ class StandardModification extends BaseModification {
   }
 
   factory StandardModification.panzerfaustsM(Unit u, CombatGroup cg) {
+    final traits = u.traits.toList();
     return StandardModification(
         name: 'Panzerfausts (MPZ)',
         id: panzerfaustsMId,
         requirementCheck: () {
-          final RegExp exp = RegExp(
-            r'^([[:space:]]|,|\[)*(Hands)([[:space:]]|\])*($|,)',
-            caseSensitive: false,
-          );
-
-          if (!exp.hasMatch(u.traits.toString())) {
+          if (!traits.any((element) => _handsMatch.hasMatch(element.name))) {
             return false;
           }
 
@@ -284,18 +273,14 @@ class StandardModification extends BaseModification {
   }
 
   factory StandardModification.sidearmLP(Unit u, CombatGroup cg) {
+    final traits = u.traits.toList();
     return StandardModification(
         name: 'Sidearm (LP)',
         id: pistolsId,
         unit: u,
         group: cg,
         requirementCheck: () {
-          final RegExp exp = RegExp(
-            r'^([[:space:]]|,|\[)*(Hands)([[:space:]]|\])*($|,)',
-            caseSensitive: false,
-          );
-
-          if (!exp.hasMatch(u.traits.toString())) {
+          if (!traits.any((element) => _handsMatch.hasMatch(element.name))) {
             return false;
           }
 
@@ -346,18 +331,14 @@ class StandardModification extends BaseModification {
   }
 
   factory StandardModification.sidearmSMG(Unit u, CombatGroup cg) {
+    final traits = u.traits.toList();
     return StandardModification(
         name: 'Sidearm (LSMG)',
         id: subMachineGunId,
         unit: u,
         group: cg,
         requirementCheck: () {
-          final RegExp exp = RegExp(
-            r'^([[:space:]]|,|\[)*(Hands)([[:space:]]|\])*($|,)',
-            caseSensitive: false,
-          );
-
-          if (!exp.hasMatch(u.traits.toString())) {
+          if (!traits.any((element) => _handsMatch.hasMatch(element.name))) {
             return false;
           }
 
@@ -408,22 +389,19 @@ class StandardModification extends BaseModification {
   }
 
   factory StandardModification.shapedExplosivesL(Unit u, CombatGroup cg) {
+    final traits = u.traits.toList();
     return StandardModification(
         name: 'Shaped Explosives (LSE)',
         id: shapedExplosivesLId,
         unit: u,
         group: cg,
         requirementCheck: () {
-          final RegExp exp = RegExp(
-            r'^([[:space:]]|,|\[)*(Hands)([[:space:]]|\])*($|,)',
-            caseSensitive: false,
-          );
-
           if (u.hasMod(shapedExplosivesMId) || u.hasMod(shapedExplosivesLId)) {
             return false;
           }
 
-          if (!(exp.hasMatch(u.traits.toString()) || u.type == 'Infantry')) {
+          if (!(traits.any((element) => _handsMatch.hasMatch(element.name))) ||
+              u.type == 'Infantry') {
             return false;
           }
 
@@ -467,16 +445,13 @@ class StandardModification extends BaseModification {
   }
 
   factory StandardModification.shapedExplosivesM(Unit u, CombatGroup cg) {
+    final traits = u.traits.toList();
     return StandardModification(
         name: 'Shaped Explosives (MSE)',
         id: shapedExplosivesMId,
         requirementCheck: () {
-          final RegExp exp = RegExp(
-            r'^([[:space:]]|,|\[)*(Hands)([[:space:]]|\])*($|,)',
-            caseSensitive: false,
-          );
-
-          if (!(exp.hasMatch(u.traits.toString()) || u.type == 'Infantry')) {
+          if (!(traits.any((element) => _handsMatch.hasMatch(element.name)) ||
+              u.type == 'Infantry')) {
             return false;
           }
 
@@ -501,16 +476,12 @@ class StandardModification extends BaseModification {
   }
 
   factory StandardModification.smoke(Unit u, CombatGroup cg) {
+    final traits = u.traits.toList();
     return StandardModification(
         name: 'Smoke',
         id: smokeId,
         requirementCheck: () {
-          final RegExp exp = RegExp(
-            r'^([[:space:]]|,|\[)*(VTOL)([[:space:]]|\])*($|,)',
-            caseSensitive: false,
-          );
-
-          if (exp.hasMatch(u.traits.toString())) {
+          if (traits.any((element) => _vtolMatch.hasMatch(element.name))) {
             return false;
           }
 
@@ -528,7 +499,7 @@ class StandardModification extends BaseModification {
       )
       ..addMod(
         UnitAttribute.traits,
-        createAddToList('Smoke'),
+        createAddToList(Trait(name: 'Smoke')),
         description: '+Smoke',
       );
   }
