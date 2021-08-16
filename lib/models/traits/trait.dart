@@ -46,12 +46,12 @@ class Trait {
         type != null,
         'trait: [$str] vuln,resist type check should not be null',
       );
-      // handle transport traits
-    } else if (nameCheck == 'Transport') {
+      // handle transport or occupancy traits
+    } else if (nameCheck == 'Transport' || nameCheck == 'Occupancy') {
       var transportTypeCheck = typeMatch.firstMatch(str)?.group(1);
       assert(
         transportTypeCheck != null,
-        'trait: [$str] transport type check should not be null',
+        'trait: [$str] type check should not be null',
       );
       type = transportTypeCheck;
     }
