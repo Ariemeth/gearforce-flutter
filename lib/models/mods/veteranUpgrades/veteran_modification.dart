@@ -59,7 +59,7 @@ class VeternModification extends BaseModification {
   EW SPECIALIST 1 TV
   Add +1D6 to any EW rolls made by this model
   */
-  factory VeternModification.ewSpecialist(Unit u, CombatGroup cg) {
+  factory VeternModification.ewSpecialist(Unit u) {
     return VeternModification(
         name: 'EW Specialist',
         id: ewSpecId,
@@ -85,7 +85,7 @@ class VeternModification extends BaseModification {
   Z Armor 9–10 for 3 TV
   Z Armor 11–12 for 4 TV
   */
-  factory VeternModification.fieldArmor(Unit u, CombatGroup cg) {
+  factory VeternModification.fieldArmor(Unit u) {
     return VeternModification(
         name: 'Field Armor',
         id: fieldArmorId,
@@ -125,7 +125,7 @@ class VeternModification extends BaseModification {
   by +1 for 1 TV. Or this model may add the Brawl:2 trait
   or increase the Brawl trait by 2 for 2 TV.
   */
-  factory VeternModification.inYourFace1(Unit u, CombatGroup cg) {
+  factory VeternModification.inYourFace1(Unit u) {
     final traits = u.traits.toList();
     return VeternModification(
         name: 'In Your Face',
@@ -162,7 +162,7 @@ class VeternModification extends BaseModification {
   by +1 for 1 TV. Or this model may add the Brawl:2 trait
   or increase the Brawl trait by 2 for 2 TV.
   */
-  factory VeternModification.inYourFace2(Unit u, CombatGroup cg) {
+  factory VeternModification.inYourFace2(Unit u) {
     final traits = u.traits.toList();
     return VeternModification(
         name: 'In Your Face',
@@ -198,7 +198,7 @@ class VeternModification extends BaseModification {
   Add the Resist:Haywire trait or remove the Vuln:Haywire
   trait.
   */
-  factory VeternModification.insulated(Unit u, CombatGroup cg) {
+  factory VeternModification.insulated(Unit u) {
     final traits = u.traits.toList();
     final isVulnerable = traits
         .any((element) => element.name == 'Vuln' && element.type == 'Haywire');
@@ -243,7 +243,7 @@ class VeternModification extends BaseModification {
   FIREPROOF 1 TV
   Add the Resist:Fire trait or remove the Vuln:Fire trait.
   */
-  factory VeternModification.fireproof(Unit u, CombatGroup cg) {
+  factory VeternModification.fireproof(Unit u) {
     final traits = u.traits.toList();
     final isVulnerable = traits
         .any((element) => element.name == 'Vuln' && element.type == 'Fire');
@@ -294,7 +294,7 @@ class VeternModification extends BaseModification {
   Brawl:X trait does not swap with it.
   */
 
-  factory VeternModification.oldReliable(Unit u, CombatGroup cg) {
+  factory VeternModification.oldReliable(Unit u) {
     final RegExp meleeCheck = RegExp(r'\b([LM])(VB|SG|CW)');
     final react = u.reactWeapons;
 
@@ -398,7 +398,7 @@ class VeternModification extends BaseModification {
   Add the Resist:Corrosion trait or remove the
   Vuln:Corrosion trait.
   */
-  factory VeternModification.stainlessSteel(Unit u, CombatGroup cg) {
+  factory VeternModification.stainlessSteel(Unit u) {
     final traits = u.traits.toList();
     final isVulnerable = traits.any(
         (element) => element.name == 'Vuln' && element.type == 'Corrosion');
@@ -446,7 +446,7 @@ class VeternModification extends BaseModification {
   that the models has. This cost increases by 2TV per
   additional action purchased via other upgrades.
   */
-  factory VeternModification.sharpShooter(Unit u, CombatGroup cg) {
+  factory VeternModification.sharpShooter(Unit u) {
     final actions = u.actions;
     final gunnery = u.gunnery;
 
@@ -490,7 +490,7 @@ class VeternModification extends BaseModification {
   This model does not suffer the -1D6 modifier when
   using the Split weapon trait.
   */
-  factory VeternModification.trickShot(Unit u, CombatGroup cg) {
+  factory VeternModification.trickShot(Unit u) {
     return VeternModification(
         name: 'Trick Shot',
         id: trickShotId,
@@ -517,7 +517,7 @@ class VeternModification extends BaseModification {
   > LVB (React, Precise)
   > LCW (React, Brawl:1)
   */
-  factory VeternModification.meleeWeaponUpgradeLCW(Unit u, CombatGroup cg) {
+  factory VeternModification.meleeWeaponUpgradeLCW(Unit u) {
     final RegExp meleeCheck = RegExp(r'(\[)*(([LMH])(VB|SG|CW|SE|ICW))');
     final react = u.reactWeapons;
     return VeternModification(
@@ -550,7 +550,7 @@ class VeternModification extends BaseModification {
   > LVB (React, Precise)
   > LCW (React, Brawl:1)
   */
-  factory VeternModification.meleeWeaponUpgradeLVB(Unit u, CombatGroup cg) {
+  factory VeternModification.meleeWeaponUpgradeLVB(Unit u) {
     final RegExp meleeCheck = RegExp(r'(\[)*(([LMH])(VB|SG|CW|SE|ICW))');
     final react = u.reactWeapons;
     return VeternModification(
