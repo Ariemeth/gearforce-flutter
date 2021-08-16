@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
 import 'package:test/test.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
