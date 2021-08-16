@@ -29,7 +29,7 @@ class Range {
     var result = '$min';
 
     if (hasReach) {
-      result= 'Reach $result';
+      result = 'Reach $result';
     }
 
     if (increasableReach) {
