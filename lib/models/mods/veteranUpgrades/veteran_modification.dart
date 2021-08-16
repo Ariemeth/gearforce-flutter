@@ -147,11 +147,12 @@ class VeternModification extends BaseModification {
         if (traits.any((element) => element.name == 'Brawl')) {
           var oldTrait =
               traits.firstWhere((element) => element.name == 'Brawl');
-          newLevel = oldTrait.level == null ? 1 : oldTrait.level! + 1;
-          value = createRemoveFromList(oldTrait);
+          newLevel = oldTrait.level == null ? 1 : oldTrait.level!;
+          value = createRemoveFromList(oldTrait)(value);
         }
 
-        return createAddToList(Trait(name: 'Brawl', level: newLevel));
+        return createAddToList(Trait(name: 'Brawl', level: newLevel + 1))(
+            value);
       }, description: '+Brawl:1 or +1 to existing Brawl');
   }
 
@@ -183,11 +184,12 @@ class VeternModification extends BaseModification {
         if (traits.any((element) => element.name == 'Brawl')) {
           var oldTrait =
               traits.firstWhere((element) => element.name == 'Brawl');
-          newLevel = oldTrait.level == null ? 2 : oldTrait.level! + 2;
-          value = createRemoveFromList(oldTrait);
+          newLevel = oldTrait.level == null ? 0 : oldTrait.level!;
+          value = createRemoveFromList(oldTrait)(value);
         }
 
-        return createAddToList(Trait(name: 'Brawl', level: newLevel));
+        return createAddToList(Trait(name: 'Brawl', level: newLevel + 2))(
+            value);
       }, description: '+Brawl:2 or +2 to existing Brawl');
   }
 

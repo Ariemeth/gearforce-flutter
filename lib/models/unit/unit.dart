@@ -62,13 +62,11 @@ class Unit extends ChangeNotifier {
   }
 
   bool get isDuelist {
-    var t = this.traits.where((element) => element.name == 'Duelist');
-    return t.isEmpty ? false : true;
+    return this.traits.any((element) => element.name == 'Duelist');
   }
 
   bool isVeteran() {
-    var t = this.traits.where((element) => element.name == 'Duelist');
-    return t.isEmpty ? false : true;
+    return this.traits.any((element) => element.name == 'Vet');
   }
 
   String get name {
