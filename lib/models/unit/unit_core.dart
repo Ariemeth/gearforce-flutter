@@ -194,8 +194,11 @@ class UnitCore {
             .toList());
     List<Trait> traits = json['traits'] == '-'
         ? []
-        : List.from(
-            json['traits'].toString().split(',').map((e) => Trait.fromString(e.trim())).toList());
+        : List.from(json['traits']
+            .toString()
+            .split(',')
+            .map((e) => Trait.fromString(e.trim()))
+            .toList());
 
     var uc = UnitCore(
       frame: frame,

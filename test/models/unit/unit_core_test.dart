@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
 import 'package:test/test.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
@@ -30,7 +31,7 @@ void main() {
         reason: "React Weapons check");
     expect(fromJson.mountedWeapons, equals(['LRP', 'LAPGL', 'LPZ']),
         reason: "Mounted Weapons check");
-    expect(fromJson.traits, equals(['Hands']), reason: "Traits check");
+    expect(fromJson.traits.first.name, equals('Hands'), reason: "Traits check");
     expect(fromJson.type, equals('Gear'), reason: "Unit type check");
     expect(fromJson.height, equals('1.5'), reason: "Height check");
   });
@@ -55,7 +56,7 @@ void main() {
       equals([]),
       reason: "Mounted Weapons check",
     );
-    expect(fromJson.traits, equals(['Hands']), reason: "Traits check");
+    expect(fromJson.traits.first.name, equals('Hands'), reason: "Traits check");
     expect(fromJson.type, equals('Gear'), reason: "Unit type check");
     expect(fromJson.height, equals('1.5'), reason: "Height check");
   });

@@ -2,6 +2,7 @@ import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/mods/base_modification.dart';
 import 'package:gearforce/models/mods/modification_option.dart';
 import 'package:gearforce/models/mods/mods.dart';
+import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
 import 'package:uuid/uuid.dart';
@@ -46,10 +47,11 @@ class VeternModification extends BaseModification {
             return false;
           }
 
-          return cg.isVeteran && !u.traits.contains('Vet');
+          return cg.isVeteran &&
+              !u.traits.any((element) => element.name == 'Vet');
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
-      ..addMod(UnitAttribute.traits, createAddToList('Vet'),
+      ..addMod(UnitAttribute.traits, createAddToList(Trait(name: 'Vet')),
           description: '+Vet');
   }
 
@@ -66,7 +68,7 @@ class VeternModification extends BaseModification {
             return false;
           }
 
-          return u.traits.contains('Vet');
+          return u.traits.any((element) => element.name == 'Vet');
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
       ..addMod(UnitAttribute.special,
@@ -96,7 +98,7 @@ class VeternModification extends BaseModification {
             return false;
           }
 
-          return u.traits.contains('Vet');
+          return u.traits.any((element) => element.name == 'Vet');
         })
       ..addMod(
         UnitAttribute.tv,
@@ -110,8 +112,11 @@ class VeternModification extends BaseModification {
         },
         description: 'TV +${_fieldArmorCost(u.armor)}',
       )
-      ..addMod(UnitAttribute.traits, createAddToList('Field Armor'),
-          description: '+Field Armor');
+      ..addMod(
+        UnitAttribute.traits,
+        createAddToList(Trait(name: 'Field Armor')),
+        description: '+Field Armor',
+      );
   }
 
   /*
@@ -121,7 +126,6 @@ class VeternModification extends BaseModification {
   or increase the Brawl trait by 2 for 2 TV.
   */
   factory VeternModification.inYourFace1(Unit u, CombatGroup cg) {
-    final brawlCheck = RegExp(r'Brawl:(\d)', caseSensitive: false);
     final traits = u.traits.toList();
     return VeternModification(
         name: 'In Your Face',
@@ -131,23 +135,23 @@ class VeternModification extends BaseModification {
             return false;
           }
 
-          return u.traits.contains('Vet');
+          return u.traits.any((element) => element.name == 'Vet');
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
       ..addMod(UnitAttribute.traits, (value) {
-        if (!(value is List<String>)) {
+        if (!(value is List<Trait>)) {
           return value;
         }
-        if (traits.any((trait) => brawlCheck.hasMatch(trait))) {
-          var result = traits.firstWhere((trait) => brawlCheck.hasMatch(trait));
-          return createReplaceInList(
-                  oldValue: result,
-                  newValue:
-                      'brawl:${(int.parse(brawlCheck.firstMatch(result)!.group(1)!)) + 1}')(
-              value);
+
+        var newLevel = 0;
+        if (traits.any((element) => element.name == 'Brawl')) {
+          var oldTrait =
+              traits.firstWhere((element) => element.name == 'Brawl');
+          newLevel = oldTrait.level == null ? 1 : oldTrait.level! + 1;
+          value = createRemoveFromList(oldTrait);
         }
 
-        return createAddToList('Brawl:1')(value);
+        return createAddToList(Trait(name: 'Brawl', level: newLevel));
       }, description: '+Brawl:1 or +1 to existing Brawl');
   }
 
@@ -158,7 +162,6 @@ class VeternModification extends BaseModification {
   or increase the Brawl trait by 2 for 2 TV.
   */
   factory VeternModification.inYourFace2(Unit u, CombatGroup cg) {
-    final brawlCheck = RegExp(r'Brawl:(\d)', caseSensitive: false);
     final traits = u.traits.toList();
     return VeternModification(
         name: 'In Your Face',
@@ -168,23 +171,23 @@ class VeternModification extends BaseModification {
             return false;
           }
 
-          return u.traits.contains('Vet');
+          return u.traits.any((element) => element.name == 'Vet');
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
       ..addMod(UnitAttribute.traits, (value) {
-        if (!(value is List<String>)) {
+        if (!(value is List<Trait>)) {
           return value;
         }
-        if (traits.any((trait) => brawlCheck.hasMatch(trait))) {
-          var result = traits.firstWhere((trait) => brawlCheck.hasMatch(trait));
-          return createReplaceInList(
-                  oldValue: result,
-                  newValue:
-                      'brawl:${(int.parse(brawlCheck.firstMatch(result)!.group(1)!)) + 2}')(
-              value);
+
+        var newLevel = 0;
+        if (traits.any((element) => element.name == 'Brawl')) {
+          var oldTrait =
+              traits.firstWhere((element) => element.name == 'Brawl');
+          newLevel = oldTrait.level == null ? 2 : oldTrait.level! + 2;
+          value = createRemoveFromList(oldTrait);
         }
 
-        return createAddToList('Brawl:2')(value);
+        return createAddToList(Trait(name: 'Brawl', level: newLevel));
       }, description: '+Brawl:2 or +2 to existing Brawl');
   }
 
@@ -195,7 +198,8 @@ class VeternModification extends BaseModification {
   */
   factory VeternModification.insulated(Unit u, CombatGroup cg) {
     final traits = u.traits.toList();
-    final isVulnerable = traits.contains('Vuln:Haywire');
+    final isVulnerable = traits
+        .any((element) => element.name == 'Vuln' && element.type == 'Haywire');
     return VeternModification(
         name: 'Insulated',
         id: insulatedId,
@@ -204,24 +208,29 @@ class VeternModification extends BaseModification {
             return false;
           }
 
-          if (traits.contains('Resist:Haywire')) {
+          if (traits.any((element) =>
+              element.name == 'Resist' && element.type == 'Haywire')) {
             return false;
           }
 
-          return u.traits.contains('Vet');
+          return u.traits.any((element) => element.name == 'Vet');
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
       ..addMod(
         UnitAttribute.traits,
         (value) {
-          if (!(value is List<String>)) {
+          if (!(value is List<Trait>)) {
             return value;
           }
 
           if (isVulnerable) {
-            return createRemoveFromList('Vuln:Haywire')(value);
+            var oldTrait = traits.firstWhere((element) =>
+                element.name == 'Vuln' && element.type == 'Haywire');
+            return createRemoveFromList(oldTrait)(value);
           } else {
-            return createAddToList('Resist:Haywire')(value);
+            return createAddToList(
+              Trait(name: 'Resist', type: 'Haywire'),
+            )(value);
           }
         },
         description: '${isVulnerable ? '-Vuln:Haywire' : ' +Resist:Haywire'}',
@@ -234,7 +243,8 @@ class VeternModification extends BaseModification {
   */
   factory VeternModification.fireproof(Unit u, CombatGroup cg) {
     final traits = u.traits.toList();
-    final isVulnerable = traits.contains('Vuln:Fire');
+    final isVulnerable = traits
+        .any((element) => element.name == 'Vuln' && element.type == 'Fire');
     return VeternModification(
         name: 'Fireproof',
         id: fireproofId,
@@ -243,24 +253,27 @@ class VeternModification extends BaseModification {
             return false;
           }
 
-          if (traits.contains('Resist:Fire')) {
+          if (traits.any((element) =>
+              element.name == 'Resist' && element.type == 'Fire')) {
             return false;
           }
 
-          return u.traits.contains('Vet');
+          return u.traits.any((element) => element.name == 'Vet');
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
       ..addMod(
         UnitAttribute.traits,
         (value) {
-          if (!(value is List<String>)) {
+          if (!(value is List<Trait>)) {
             return value;
           }
 
           if (isVulnerable) {
-            return createRemoveFromList('Vuln:Fire')(value);
+            var oldTrait = traits.firstWhere(
+                (element) => element.name == 'Vuln' && element.type == 'Fire');
+            return createRemoveFromList(oldTrait)(value);
           } else {
-            return createAddToList('Resist:Fire')(value);
+            return createAddToList(Trait(name: 'Resist', type: 'Fire'))(value);
           }
         },
         description: '${isVulnerable ? '-Vuln:Fire' : ' +Resist:Fire'}',
@@ -353,7 +366,7 @@ class VeternModification extends BaseModification {
             return false;
           }
 
-          return u.traits.contains('Vet');
+          return u.traits.any((element) => element.name == 'Vet');
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(0),
           description:
@@ -385,7 +398,8 @@ class VeternModification extends BaseModification {
   */
   factory VeternModification.stainlessSteel(Unit u, CombatGroup cg) {
     final traits = u.traits.toList();
-    final isVulnerable = traits.contains('Vuln:Corrosion');
+    final isVulnerable = traits.any(
+        (element) => element.name == 'Vuln' && element.type == 'Corrosion');
     return VeternModification(
         name: 'Stainless Steel',
         id: stainlessSteelId,
@@ -394,24 +408,28 @@ class VeternModification extends BaseModification {
             return false;
           }
 
-          if (traits.contains('Resist:Corrosion')) {
+          if (traits.any((element) =>
+              element.name == 'Resist' && element.type == 'Corrosion')) {
             return false;
           }
 
-          return u.traits.contains('Vet');
+          return u.traits.any((element) => element.name == 'Vet');
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
       ..addMod(
         UnitAttribute.traits,
         (value) {
-          if (!(value is List<String>)) {
+          if (!(value is List<Trait>)) {
             return value;
           }
 
           if (isVulnerable) {
-            return createRemoveFromList('Vuln:Corrosion')(value);
+            var oldTrait = traits.firstWhere((element) =>
+                element.name == 'Vuln' && element.type == 'Corrosion');
+            return createRemoveFromList(oldTrait)(value);
           } else {
-            return createAddToList('Resist:Corrosion')(value);
+            return createAddToList(Trait(name: 'Resist', type: 'Corrosion'))(
+                value);
           }
         },
         description:
@@ -442,7 +460,7 @@ class VeternModification extends BaseModification {
             return false;
           }
 
-          return u.traits.contains('Vet');
+          return u.traits.any((element) => element.name == 'Vet');
         })
       ..addMod(
         UnitAttribute.tv,
@@ -479,7 +497,7 @@ class VeternModification extends BaseModification {
             return false;
           }
 
-          return u.traits.contains('Vet');
+          return u.traits.any((element) => element.name == 'Vet');
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
       ..addMod(
@@ -513,7 +531,7 @@ class VeternModification extends BaseModification {
             return false;
           }
 
-          return u.traits.contains('Vet');
+          return u.traits.any((element) => element.name == 'Vet');
         })
       ..addMod(
         UnitAttribute.tv,
@@ -546,7 +564,7 @@ class VeternModification extends BaseModification {
             return false;
           }
 
-          return u.traits.contains('Vet');
+          return u.traits.any((element) => element.name == 'Vet');
         })
       ..addMod(
         UnitAttribute.tv,

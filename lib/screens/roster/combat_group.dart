@@ -189,8 +189,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
       var canNotBeCommand = unit.core.type == 'Airstrike Counter' ||
           unit.core.type == 'Drone' ||
           unit.core.type == 'Building' ||
-          (unit.attribute(UnitAttribute.traits) as List<String>)
-              .contains('Conscript');
+          unit.traits.any((element) => element.name == 'Conscript');
       var nameCell = DataCell(UnitTextCell.content(
         unit.attribute(UnitAttribute.name),
         alignment: Alignment.centerLeft,

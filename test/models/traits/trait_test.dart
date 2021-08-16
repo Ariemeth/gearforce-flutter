@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:gearforce/models/traits/trait.dart';
 import 'package:test/test.dart';
 
@@ -12,6 +10,7 @@ void main() {
     expect(w.name, equals(traitName), reason: 'check name');
     expect(w.level, isNull, reason: 'check level');
     expect(w.isAux, isFalse, reason: 'check aux');
+    expect(w.type, isNull, reason: 'check type');
     expect(w.toString(), equals(toString), reason: 'check toString');
   });
 
@@ -24,6 +23,7 @@ void main() {
     expect(w.name, equals(traitName), reason: 'check name');
     expect(w.level, equals(traitLevel), reason: 'check level');
     expect(w.isAux, isFalse, reason: 'check aux');
+    expect(w.type, isNull, reason: 'check type');
     expect(w.toString(), equals(toString), reason: 'check toString');
   });
 
@@ -35,6 +35,7 @@ void main() {
     const w = Trait(name: traitName, isAux: isAux);
     expect(w.name, equals(traitName), reason: 'check name');
     expect(w.isAux, equals(isAux), reason: 'check aux');
+    expect(w.type, isNull, reason: 'check type');
     expect(w.toString(), equals(toString), reason: 'check toString');
   });
 
@@ -46,6 +47,7 @@ void main() {
     final w = Trait.fromString(toString);
     expect(w.name, equals(traitName), reason: 'check name');
     expect(w.isAux, equals(isAux), reason: 'check aux');
+    expect(w.type, isNull, reason: 'check type');
     expect(w.toString(), equals(toString), reason: 'check toString');
   });
 
@@ -57,6 +59,7 @@ void main() {
     final w = Trait.fromString(toString);
     expect(w.name, equals(traitName), reason: 'check name');
     expect(w.isAux, equals(isAux), reason: 'check aux');
+    expect(w.type, isNull, reason: 'check type');
     expect(w.toString(), equals(toString), reason: 'check toString');
   });
 
@@ -70,6 +73,46 @@ void main() {
     expect(w.name, equals(traitName), reason: 'check name');
     expect(w.isAux, equals(isAux), reason: 'check aux');
     expect(w.level, equals(level), reason: 'check level');
+    expect(w.type, isNull, reason: 'check type');
+    expect(w.toString(), equals(toString), reason: 'check toString');
+  });
+
+  test('test fromString with transport trait', () {
+    const traitName = 'Transport';
+    const capacity = 2;
+    const transportType = "Squads";
+
+    const isAux = false;
+    const toString = '$traitName:$capacity $transportType';
+
+    final w = Trait.fromString(toString);
+    expect(w.name, equals(traitName), reason: 'check name');
+    expect(w.isAux, equals(isAux), reason: 'check aux');
+    expect(w.type, equals(transportType), reason: 'check transport type');
+    expect(w.toString(), equals(toString), reason: 'check toString');
+  });
+
+  test('test fromString with vuln trait', () {
+    const traitName = 'Vuln';
+    const vulnType = "Fire";
+    const toString = '$traitName:$vulnType';
+
+    final w = Trait.fromString(toString);
+    expect(w.name, equals(traitName), reason: 'check name');
+    expect(w.isAux, equals(false), reason: 'check aux');
+    expect(w.type, equals(vulnType), reason: 'check transport type');
+    expect(w.toString(), equals(toString), reason: 'check toString');
+  });
+
+  test('test fromString with resist trait', () {
+    const traitName = 'Resist';
+    const vulnType = "Fire";
+    const toString = '$traitName:$vulnType';
+
+    final w = Trait.fromString(toString);
+    expect(w.name, equals(traitName), reason: 'check name');
+    expect(w.isAux, equals(false), reason: 'check aux');
+    expect(w.type, equals(vulnType), reason: 'check transport type');
     expect(w.toString(), equals(toString), reason: 'check toString');
   });
 }

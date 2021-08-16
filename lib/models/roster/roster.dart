@@ -25,7 +25,6 @@ class UnitRoster extends ChangeNotifier {
         value.clear();
       });
     });
-    //TODO probably should not be creating this
     createCG();
   }
 

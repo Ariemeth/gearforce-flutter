@@ -1,4 +1,5 @@
 import 'package:gearforce/models/mods/mods.dart';
+import 'package:gearforce/models/traits/trait.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -37,9 +38,9 @@ void main() {
   });
 
   test('test createAddToList mod adds Comms to list', () {
-    const trait = 'Comms';
+    const trait = Trait(name: 'Comms');
     final mod = createAddToList(trait);
-    final List<String> traits = ['something'];
+    final List<Trait> traits = [Trait(name: 'something')];
     expect(mod(traits), contains(trait));
     expect(traits, hasLength(1),
         reason: 'original list should not have changed in length');
@@ -67,10 +68,10 @@ void main() {
   });
 
   test('test createReplaceInList mod adds Brawl:2 to list removes Brawl:1', () {
-    const traitOld = 'Brawl:1';
-    const traitNew = 'Brawl:2';
+    const traitOld = Trait(name: 'Brawl', level: 1);
+    const traitNew = Trait(name: 'Brawl', level: 2);
     final mod = createReplaceInList(oldValue: traitOld, newValue: traitNew);
-    final List<String> traits = [traitOld];
+    final List<Trait> traits = [traitOld];
     expect(mod(traits), contains(traitNew));
     expect(mod(traits), isNot(contains(traitOld)));
     expect(traits, hasLength(1),

@@ -1,4 +1,5 @@
 import 'package:gearforce/models/mods/unitUpgrades/north.dart';
+import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
 import 'package:test/test.dart';
 
@@ -24,14 +25,10 @@ void main() {
 
   test('test headhunter mod adds Comms to list', () {
     final mod = headHunter;
-    final List<String> traits = ["something"];
-    expect(mod.applyMods(UnitAttribute.traits, traits), contains('Comms'));
-  });
-
-  test('test headhunter mod adds Comms to list', () {
-    final mod = headHunter;
-    final List<String> traits = ["Comms+"];
-    expect(mod.applyMods(UnitAttribute.traits, traits), contains('Comms'));
+    final List<Trait> traits = [Trait(name: 'Comms+')];
+    final List<Trait> result = mod.applyMods(UnitAttribute.traits, traits);
+    expect(result.any((element) => element.name == 'Comms+'), isTrue,
+        reason: 'check Comms+ exists');
     expect(mod.applyMods(UnitAttribute.traits, traits), hasLength(2));
   });
 
