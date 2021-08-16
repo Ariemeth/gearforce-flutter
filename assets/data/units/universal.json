@@ -857,7 +857,7 @@
           "pi": "4+",
           "ew": "-",
           "react-weapons": "-",
-          "mounted-weapons": "BB(AP:2 Guided)",
+          "mounted-weapons": "BB (AP:2 Guided)",
           "traits": "-",
           "type": "Airstrike Counter",
           "height": "-"
@@ -874,7 +874,7 @@
           "pi": "4+",
           "ew": "-",
           "react-weapons": "-",
-          "mounted-weapons": "BB(AI Fire:2)",
+          "mounted-weapons": "BB (AI Fire:2)",
           "traits": "-",
           "type": "Airstrike Counter",
           "height": "-"
