@@ -1,8 +1,8 @@
 class Range {
-  const Range({
-    required this.min,
-    required this.short,
-    required this.long,
+  const Range(
+    this.min,
+    this.short,
+    this.long, {
     this.hasReach = false,
     this.increasableReach = false,
     this.isProximity = false,

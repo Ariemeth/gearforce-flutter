@@ -10,7 +10,7 @@ void main() {
     const weaponName = 'Autocannon';
     const weaponDamage = 1;
     const mode = weaponModes.Direct;
-    const range = Range(min: 12, short: 36, long: 72);
+    const range = Range(12, 36, 72);
 
     const w = Weapon(
       code: weaponCode,
@@ -33,7 +33,7 @@ void main() {
     const weaponName = 'Autocannon';
     const weaponDamage = 1;
     const mode = weaponModes.Direct;
-    const range = Range(min: 12, short: 36, long: 72);
+    const range = Range(12, 36, 72);
 
     const w = Weapon(
       code: weaponCode,
@@ -58,7 +58,7 @@ void main() {
     const mode = weaponModes.Direct;
     const weaponDamage = 1;
     const trait = Trait(name: 'AE', level: 1);
-    const range = Range(min: 12, short: 36, long: 72);
+    const range = Range(12, 36, 72);
 
     const w = Weapon(
       code: weaponCode,
@@ -84,7 +84,7 @@ void main() {
     const mode = weaponModes.Direct;
     const weaponDamage = 1;
     const trait = Trait(name: 'AE', level: 1);
-    const range = Range(min: 12, short: 36, long: 72);
+    const range = Range(12, 36, 72);
 
     const w = Weapon(
       code: weaponCode,

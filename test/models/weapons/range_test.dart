@@ -8,9 +8,9 @@ void main() {
     const longRange = 36;
 
     const r = Range(
-      min: minRange,
-      short: shortRange,
-      long: longRange,
+      minRange,
+      shortRange,
+      longRange,
     );
     expect(r.min, equals(minRange), reason: 'check min range');
     expect(r.short, equals(shortRange), reason: 'check short range');
@@ -26,9 +26,9 @@ void main() {
     const hasReach = true;
 
     const r = Range(
-      min: minRange,
-      short: shortRange,
-      long: longRange,
+      minRange,
+      shortRange,
+      longRange,
       hasReach: hasReach,
     );
     expect(r.min, equals(minRange), reason: 'check min range');
@@ -46,9 +46,9 @@ void main() {
     const toString = '$minRange-$shortRange/$longRange';
 
     const r = Range(
-      min: minRange,
-      short: shortRange,
-      long: longRange,
+      minRange,
+      shortRange,
+      longRange,
       hasReach: canIncrease,
     );
     expect(r.toString(), equals(toString));
@@ -63,9 +63,9 @@ void main() {
     const toString = 'Reach $minRange+';
 
     const r = Range(
-      min: minRange,
-      short: shortRange,
-      long: longRange,
+      minRange,
+      shortRange,
+      longRange,
       hasReach: hasReach,
       increasableReach: canIncrease,
     );
@@ -81,9 +81,9 @@ void main() {
     const toString = 'Reach $minRange';
 
     const r = Range(
-      min: minRange,
-      short: shortRange,
-      long: longRange,
+      minRange,
+      shortRange,
+      longRange,
       hasReach: hasReach,
       increasableReach: canIncrease,
     );
@@ -99,9 +99,9 @@ void main() {
     const toString = 'Radius $minRange';
 
     const r = Range(
-      min: minRange,
-      short: shortRange,
-      long: longRange,
+      minRange,
+      shortRange,
+      longRange,
       hasReach: canIncrease,
       isProximity: isProximity,
     );

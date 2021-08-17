@@ -27,7 +27,7 @@ Weapon? buildWeapon({
   List<weaponModes> modes = [];
   int damage = -1;
   bool hasReact = false;
-  Range range = Range(min: 0, short: 1, long: 2);
+  Range range = Range(0, 1, 2);
   List<Trait> traits = [];
   List<Trait> optionalTraits = [];
   bool isCombo = comboMatch.hasMatch(code);
