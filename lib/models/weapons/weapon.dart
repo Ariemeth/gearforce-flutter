@@ -23,4 +23,9 @@ class Weapon {
   final List<Trait> traits;
   final List<Trait> optionalTraits;
   final Weapon? combo;
+
+  @override
+  String toString() {
+    return combo != null ? '$code/${combo!.code}' : code;
+  }
 }

@@ -75,7 +75,7 @@ void main() {
     TestTable(
       code: 'AM',
       name: 'Artillery Missile',
-      modes: [weaponModes.Direct],
+      modes: [weaponModes.Indirect],
       range: Range(18, 48, 96),
       damage: {'L': 9, 'M': 10, 'H': 11},
       traits: [
@@ -383,8 +383,14 @@ void main() {
           expect(l?.name, equals(tt.name), reason: 'check name');
           expect(l?.modes, equals(tt.modes), reason: 'check modes');
           expect(l?.damage, equals(tt.damage[size]), reason: 'check damage');
-          expect(l?.range, equals(tt.range), reason: 'check range');
-          expect(l?.traits, equals(tt.traits), reason: 'check traits');
+          expect(l?.range.toString(), equals(tt.range.toString()),
+              reason: 'check range');
+          expect(l?.traits.toString(), equals(tt.traits.toString()),
+              reason: 'check traits');
+          expect(l?.optionalTraits.length, equals(tt.optionalTraits.length),
+              reason: 'check traits');
+          expect(l?.toString(), equals('$size${tt.code}'),
+              reason: 'check toString');
         });
       }
     });
@@ -394,21 +400,28 @@ void main() {
   // ATM
   group('test building ATMs', () {
     const code = 'ATM';
+    const name = 'Anti-Tank Missile';
+    const modes = [weaponModes.Direct, weaponModes.Indirect];
+    const range = Range(12, 36, 72);
     const damage = {'L': 8, 'M': 9, 'H': 10};
     const ap = {'L': 3, 'M': 4, 'H': 5};
     for (var size in _sizes) {
+      final traits = [
+        Trait(name: 'AP', level: ap[size]),
+        Trait(name: 'Guided'),
+      ];
       test('test building $size$code', () {
         final l = buildWeapon(code: '$size$code');
         expect(l, isNotNull, reason: 'weapon should not be null');
         expect(l?.code, '$size$code', reason: 'check weapon code');
-        expect(l?.name, equals('Anti-Tank Missile'), reason: 'check name');
-        expect(l?.modes, equals([weaponModes.Direct, weaponModes.Indirect]),
-            reason: 'check modes');
+        expect(l?.name, equals(name), reason: 'check name');
+        expect(l?.modes, equals(modes), reason: 'check modes');
         expect(l?.damage, equals(damage[size]), reason: 'check damage');
-        expect(l?.range, equals(Range(12, 36, 72)), reason: 'check range');
-        expect(l?.traits,
-            equals([Trait(name: 'AP', level: ap[size]), Trait(name: 'Guided')]),
+        expect(l?.range.toString(), equals(range.toString()),
+            reason: 'check range');
+        expect(l?.traits.toString(), equals(traits.toString()),
             reason: 'check traits');
+        expect(l?.optionalTraits, isEmpty, reason: 'check optional traits');
       });
     }
   });
@@ -431,9 +444,11 @@ void main() {
         expect(l?.name, equals(name), reason: 'check name');
         expect(l?.modes, equals(modes), reason: 'check modes');
         expect(l?.damage, equals(damage[size]), reason: 'check damage');
-        expect(l?.range, equals(range), reason: 'check range');
-        expect(l?.traits, equals(traits), reason: 'check traits');
-        expect(l?.optionalTraits, isNull, reason: 'check optional traits');
+        expect(l?.range.toString(), equals(range.toString()),
+            reason: 'check range');
+        expect(l?.traits.toString(), equals(traits.toString()),
+            reason: 'check traits');
+        expect(l?.optionalTraits, isEmpty, reason: 'check optional traits');
       });
     }
   });
@@ -460,9 +475,11 @@ void main() {
         expect(l?.name, equals(name), reason: 'check name');
         expect(l?.modes, equals(modes), reason: 'check modes');
         expect(l?.damage, equals(damage[size]), reason: 'check damage');
-        expect(l?.range, equals(range), reason: 'check range');
-        expect(l?.traits, equals(traits), reason: 'check traits');
-        expect(l?.optionalTraits, equals(optionalTraits),
+        expect(l?.range.toString(), equals(range.toString()),
+            reason: 'check range');
+        expect(l?.traits.toString(), equals(traits.toString()),
+            reason: 'check traits');
+        expect(l?.optionalTraits.toString(), equals(optionalTraits.toString()),
             reason: 'check optional traits');
       });
     }
@@ -489,9 +506,11 @@ void main() {
         expect(l?.name, equals(name), reason: 'check name');
         expect(l?.modes, equals(modes), reason: 'check modes');
         expect(l?.damage, equals(damage[size]), reason: 'check damage');
-        expect(l?.range, equals(range), reason: 'check range');
-        expect(l?.traits, equals(traits), reason: 'check traits');
-        expect(l?.optionalTraits, isNull, reason: 'check optional traits');
+        expect(l?.range.toString(), equals(range.toString()),
+            reason: 'check range');
+        expect(l?.traits.toString(), equals(traits.toString()),
+            reason: 'check traits');
+        expect(l?.optionalTraits, isEmpty, reason: 'check optional traits');
       });
     }
   });
@@ -515,9 +534,11 @@ void main() {
         expect(l?.name, equals(name), reason: 'check name');
         expect(l?.modes, equals(modes), reason: 'check modes');
         expect(l?.damage, equals(damage[size]), reason: 'check damage');
-        expect(l?.range, equals(range), reason: 'check range');
-        expect(l?.traits, equals(traits), reason: 'check traits');
-        expect(l?.optionalTraits, isNull, reason: 'check optional traits');
+        expect(l?.range.toString(), equals(range.toString()),
+            reason: 'check range');
+        expect(l?.traits.toString(), equals(traits.toString()),
+            reason: 'check traits');
+        expect(l?.optionalTraits, isEmpty, reason: 'check optional traits');
       });
     }
   });
@@ -540,9 +561,11 @@ void main() {
         expect(l?.name, equals(name), reason: 'check name');
         expect(l?.modes, equals(modes), reason: 'check modes');
         expect(l?.damage, equals(damage[size]), reason: 'check damage');
-        expect(l?.range, equals(range), reason: 'check range');
-        expect(l?.traits, equals(traits), reason: 'check traits');
-        expect(l?.optionalTraits, isNull, reason: 'check optional traits');
+        expect(l?.range.toString(), equals(range.toString()),
+            reason: 'check range');
+        expect(l?.traits.toString(), equals(traits.toString()),
+            reason: 'check traits');
+        expect(l?.optionalTraits, isEmpty, reason: 'check optional traits');
       });
     }
   });
@@ -566,9 +589,11 @@ void main() {
         expect(l?.name, equals(name), reason: 'check name');
         expect(l?.modes, equals(modes), reason: 'check modes');
         expect(l?.damage, equals(damage[size]), reason: 'check damage');
-        expect(l?.range, equals(range), reason: 'check range');
-        expect(l?.traits, equals(traits), reason: 'check traits');
-        expect(l?.optionalTraits, isNull, reason: 'check optional traits');
+        expect(l?.range.toString(), equals(range.toString()),
+            reason: 'check range');
+        expect(l?.traits.toString(), equals(traits.toString()),
+            reason: 'check traits');
+        expect(l?.optionalTraits, isEmpty, reason: 'check optional traits');
       });
     }
   });
@@ -592,9 +617,11 @@ void main() {
         expect(l?.name, equals(name), reason: 'check name');
         expect(l?.modes, equals(modes), reason: 'check modes');
         expect(l?.damage, equals(damage[size]), reason: 'check damage');
-        expect(l?.range, equals(range), reason: 'check range');
-        expect(l?.traits, equals(traits), reason: 'check traits');
-        expect(l?.optionalTraits, isNull, reason: 'check optional traits');
+        expect(l?.range.toString(), equals(range.toString()),
+            reason: 'check range');
+        expect(l?.traits.toString(), equals(traits.toString()),
+            reason: 'check traits');
+        expect(l?.optionalTraits, isEmpty, reason: 'check optional traits');
       });
     }
   });
@@ -619,9 +646,11 @@ void main() {
         expect(l?.name, equals(name), reason: 'check name');
         expect(l?.modes, equals(modes), reason: 'check modes');
         expect(l?.damage, equals(damage[size]), reason: 'check damage');
-        expect(l?.range, equals(range), reason: 'check range');
-        expect(l?.traits, equals(traits), reason: 'check traits');
-        expect(l?.optionalTraits, isNull, reason: 'check optional traits');
+        expect(l?.range.toString(), equals(range.toString()),
+            reason: 'check range');
+        expect(l?.traits.toString(), equals(traits.toString()),
+            reason: 'check traits');
+        expect(l?.optionalTraits, isEmpty, reason: 'check optional traits');
       });
     }
   });
@@ -644,9 +673,11 @@ void main() {
         expect(l?.name, equals(name), reason: 'check name');
         expect(l?.modes, equals(modes), reason: 'check modes');
         expect(l?.damage, equals(damage[size]), reason: 'check damage');
-        expect(l?.range, equals(range), reason: 'check range');
-        expect(l?.traits, equals(traits), reason: 'check traits');
-        expect(l?.optionalTraits, isNull, reason: 'check optional traits');
+        expect(l?.range.toString(), equals(range.toString()),
+            reason: 'check range');
+        expect(l?.traits.toString(), equals(traits.toString()),
+            reason: 'check traits');
+        expect(l?.optionalTraits, isEmpty, reason: 'check optional traits');
       });
     }
   });
@@ -670,9 +701,11 @@ void main() {
         expect(l?.name, equals(name), reason: 'check name');
         expect(l?.modes, equals(modes), reason: 'check modes');
         expect(l?.damage, equals(damage[size]), reason: 'check damage');
-        expect(l?.range, equals(range), reason: 'check range');
-        expect(l?.traits, equals(traits), reason: 'check traits');
-        expect(l?.optionalTraits, isNull, reason: 'check optional traits');
+        expect(l?.range.toString(), equals(range.toString()),
+            reason: 'check range');
+        expect(l?.traits.toString(), equals(traits.toString()),
+            reason: 'check traits');
+        expect(l?.optionalTraits, isEmpty, reason: 'check optional traits');
       });
     }
   });
@@ -695,9 +728,11 @@ void main() {
         expect(l?.name, equals(name), reason: 'check name');
         expect(l?.modes, equals(modes), reason: 'check modes');
         expect(l?.damage, equals(damage[size]), reason: 'check damage');
-        expect(l?.range, equals(range), reason: 'check range');
-        expect(l?.traits, equals(traits), reason: 'check traits');
-        expect(l?.optionalTraits, isNull, reason: 'check optional traits');
+        expect(l?.range.toString(), equals(range.toString()),
+            reason: 'check range');
+        expect(l?.traits.toString(), equals(traits.toString()),
+            reason: 'check traits');
+        expect(l?.optionalTraits, isEmpty, reason: 'check optional traits');
       });
     }
   });
@@ -705,12 +740,14 @@ void main() {
   test('test building combo weapon', () {
     final l = buildWeapon(code: 'LAC/LGL');
     expect(l, isNotNull, reason: 'weapon should not be null');
-    expect(l?.code, 'LAC/LGL', reason: 'check weapon code');
+    expect(l?.code, equals('LAC'), reason: 'check weapon code');
     expect(l?.name, isNotNull, reason: 'check that name is not null');
     expect(l?.damage, isNot(equals(-1)), reason: 'check that damage is not -1');
     expect(l?.combo, isNotNull, reason: 'combo should not be null');
     expect(l?.combo?.damage, isNot(equals(-1)),
         reason: 'combo weapons damage should not be -1');
+    expect(l?.combo?.code, equals('LGL'), reason: 'combo weapon name');
+    expect(l?.toString(), equals('LAC/LGL'), reason: 'check toString');
   });
 
   test('test building standard BB', () {
@@ -726,7 +763,9 @@ void main() {
     expect(l?.name, equals(name), reason: 'check name');
     expect(l?.modes, equals(modes), reason: 'check modes');
     expect(l?.damage, equals(damage), reason: 'check damage');
-    expect(l?.range, equals(range), reason: 'check range');
-    expect(l?.traits, equals(traits), reason: 'check traits');
+    expect(l?.range.toString(), equals(range.toString()),
+        reason: 'check range');
+    expect(l?.traits.toString(), equals(traits.toString()),
+        reason: 'check traits');
   });
 }
