@@ -8,7 +8,6 @@ final comboMatch = RegExp(r'(?<combo>[\/])(?<code>[a-zA-Z]+)');
 
 Weapon? buildWeapon({
   required String code,
-  int? damageOverride,
   List<Trait>? bonusTraits,
   bool hasReact = false,
 }) {
@@ -534,15 +533,43 @@ Weapon? buildWeapon({
       ];
       break;
     default:
-      print('Unknown weapon code [$code], damage override [$damageOverride],' +
-          ' bonusTraits [$bonusTraits]');
+      print('Unknown weapon code [$code], bonusTraits [$bonusTraits]');
       return null;
+  }
+
+  if (bonusTraits != null) {
+    bonusTraits.forEach((bonusTrait) {
+      // if a bonus trait has the same name as an existing trait, set the trait
+      // to equal the bonus trait
+      if (traits.any((element) => element.name == bonusTrait.name)) {
+        var oldTrait =
+            traits.firstWhere((element) => element.name == bonusTrait.name);
+        var newTrait = Trait(
+            name: oldTrait.name,
+            level: bonusTrait.level,
+            isAux: bonusTrait.isAux,
+            type: bonusTrait.type);
+        // since we cannot modify an existing trait, get the index of the
+        // existing trait so the new one can be inserted at the same position
+        var index = traits.indexOf(oldTrait);
+        if (index != -1) {
+          traits.removeAt(index);
+          traits.insert(index, newTrait);
+        } else {
+          print(
+              'could not get index for $oldTrait after it was found with any');
+        }
+      } else {
+        // bonus trait does not match an existing trait
+        traits.add(bonusTrait);
+      }
+    });
   }
 
   if (isCombo) {
     final comboCode = comboMatch.firstMatch(code)?.namedGroup('code');
     if (comboCode != null) {
-      comboWeapon = buildWeapon(code: comboCode);
+      comboWeapon = buildWeapon(code: comboCode, bonusTraits: bonusTraits);
     }
   }
 

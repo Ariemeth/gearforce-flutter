@@ -15,6 +15,7 @@ class TestTable {
     required this.damage,
     required this.traits,
     this.optionalTraits = const [],
+    this.bonusTraits,
   });
   final String code;
   final String name;
@@ -23,6 +24,7 @@ class TestTable {
   final Map<String, int> damage;
   final List<Trait> traits;
   final List<Trait> optionalTraits;
+  final List<Trait>? bonusTraits;
 }
 
 void main() {
@@ -737,6 +739,79 @@ void main() {
     }
   });
 
+  group('test building weapons with unique bonus traits', () {
+    final tt = TestTable(
+      code: 'AAM',
+      name: 'Anti-Air Missile',
+      modes: [weaponModes.Direct, weaponModes.Indirect],
+      range: Range(12, 36, 72),
+      damage: {'L': 7, 'M': 8, 'H': 9},
+      traits: [Trait(name: 'Flak'), Trait(name: 'Guided'), Trait(name: 'T')],
+      bonusTraits: [Trait(name: 'T')],
+    );
+
+    for (var size in _sizes) {
+      test(
+        'test building $size${tt.code}',
+        () {
+          final l =
+              buildWeapon(code: '$size${tt.code}', bonusTraits: tt.bonusTraits);
+          expect(l, isNotNull, reason: 'weapon should not be null');
+          expect(l?.code, '$size${tt.code}', reason: 'check weapon code');
+          expect(l?.name, equals(tt.name), reason: 'check name');
+          expect(l?.modes, equals(tt.modes), reason: 'check modes');
+          expect(l?.damage, equals(tt.damage[size]), reason: 'check damage');
+          expect(l?.range.toString(), equals(tt.range.toString()),
+              reason: 'check range');
+          expect(l?.traits.toString(), equals(tt.traits.toString()),
+              reason: 'check traits');
+          expect(l?.optionalTraits.length, equals(tt.optionalTraits.length),
+              reason: 'check traits');
+          expect(l?.toString(), equals('$size${tt.code}'),
+              reason: 'check toString');
+        },
+      );
+    }
+  });
+
+  group('test building weapons with non-unique bonus traits', () {
+    final tt = TestTable(
+      code: 'AC',
+      name: 'Autocannon',
+      modes: [weaponModes.Direct],
+      range: Range(6, 18, 36),
+      damage: {'L': 6, 'M': 7, 'H': 8},
+      traits: [
+        Trait(name: 'Burst', level: 2),
+        Trait(name: 'Split', level: 2),
+      ],
+      bonusTraits: [Trait(name: 'Burst', level: 2)],
+    );
+
+    for (var size in _sizes) {
+      test(
+        'test building $size${tt.code}',
+        () {
+          final l =
+              buildWeapon(code: '$size${tt.code}', bonusTraits: tt.bonusTraits);
+          expect(l, isNotNull, reason: 'weapon should not be null');
+          expect(l?.code, '$size${tt.code}', reason: 'check weapon code');
+          expect(l?.name, equals(tt.name), reason: 'check name');
+          expect(l?.modes, equals(tt.modes), reason: 'check modes');
+          expect(l?.damage, equals(tt.damage[size]), reason: 'check damage');
+          expect(l?.range.toString(), equals(tt.range.toString()),
+              reason: 'check range');
+          expect(l?.traits.toString(), equals(tt.traits.toString()),
+              reason: 'check traits');
+          expect(l?.optionalTraits.length, equals(tt.optionalTraits.length),
+              reason: 'check traits');
+          expect(l?.toString(), equals('$size${tt.code}'),
+              reason: 'check toString');
+        },
+      );
+    }
+  });
+
   test('test building combo weapon', () {
     final l = buildWeapon(code: 'LAC/LGL');
     expect(l, isNotNull, reason: 'weapon should not be null');
@@ -767,5 +842,10 @@ void main() {
         reason: 'check range');
     expect(l?.traits.toString(), equals(traits.toString()),
         reason: 'check traits');
+  });
+
+  test('test building non-existent type', () {
+    final l = buildWeapon(code: 'zzzzzz');
+    expect(l, isNull);
   });
 }
