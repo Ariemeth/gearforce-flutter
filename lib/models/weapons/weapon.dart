@@ -28,4 +28,22 @@ class Weapon {
   String toString() {
     return combo != null ? '$code/${combo!.code}' : code;
   }
+
+  factory Weapon.fromString(String str) {
+    /*
+    Examples:
+    BB (AP:2 Guided)
+    LATM (LA:2)
+    LBZ (AP:1 Burst:1)
+    LAC (Precise Silent)
+    LAC(Precise Silent)
+    */
+    return Weapon(
+      code: '',
+      name: '',
+      modes: [],
+      range: Range(0, null, null),
+      damage: -1,
+    );
+  }
 }
