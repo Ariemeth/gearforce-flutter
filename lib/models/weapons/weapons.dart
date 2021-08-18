@@ -3,7 +3,9 @@ import 'package:gearforce/models/weapons/range.dart';
 import 'package:gearforce/models/weapons/weapon.dart';
 import 'package:gearforce/models/weapons/weapon_modes.dart';
 
-final weaponMatch = RegExp(r'^(?<size>[BLMH])(?<type>[a-zA-Z]+)');
+const groupSize = 'size';
+final weaponMatch = RegExp(
+    r'(^|[[:blank:]])(?<size>[BLMH])(?<type>[a-zA-Z]+)([[:blank:]]|(?<combo>\/))?\(?(?<traits>[a-zA-Z :0-9]+)?\)?$');
 final comboMatch = RegExp(r'(?<combo>[\/])(?<code>[a-zA-Z]+)');
 
 Weapon? buildWeapon({
@@ -12,11 +14,14 @@ Weapon? buildWeapon({
   bool hasReact = false,
 }) {
   if (!weaponMatch.hasMatch(code)) {
+    print('$code does not match');
     return null;
   }
 
   final weaponCheck = weaponMatch.firstMatch(code);
-  if (weaponCheck == null || weaponCheck.groupCount != 2) {
+  if (weaponCheck == null || weaponCheck.groupCount < 2) {
+    print(
+        'weapon check failed for $code with ${weaponCheck?.groupCount} groups');
     return null;
   }
 
