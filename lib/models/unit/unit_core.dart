@@ -2,6 +2,8 @@ import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/movement.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
+import 'package:gearforce/models/weapons/weapon.dart';
+import 'package:gearforce/models/weapons/weapons.dart';
 
 class UnitCore {
   const UnitCore({
@@ -185,6 +187,14 @@ class UnitCore {
             .split(',')
             .map((e) => e.trim())
             .toList());
+    //TODO use this instead of the above
+    List<Weapon?> rw =
+        reactWeapons.map((e) => buildWeapon(e, hasReact: true)).toList();
+    if (rw.any((element) => element == null)) {
+      print(
+          'null react weapon found on ${json['model']}, original: ${reactWeapons.toString()}, new: ${rw.toString()}');
+    }
+
     List<String> mountedWeapons = json['mounted-weapons'] == '-'
         ? []
         : List.from(json['mounted-weapons']
@@ -192,6 +202,13 @@ class UnitCore {
             .split(',')
             .map((e) => e.trim())
             .toList());
+//TODO use this instead of the above
+    List<Weapon?> mw = mountedWeapons.map((e) => buildWeapon(e)).toList();
+    if (mw.any((element) => element == null)) {
+      print(
+          'null mounted weapon found on ${json['model']}, original: ${mountedWeapons.toString()}, new: ${mw.toString()}');
+    }
+
     List<Trait> traits = json['traits'] == '-'
         ? []
         : List.from(json['traits']

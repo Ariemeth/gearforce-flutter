@@ -3,7 +3,8 @@ import 'package:gearforce/models/weapons/range.dart';
 import 'package:gearforce/models/weapons/weapon.dart';
 import 'package:gearforce/models/weapons/weapon_modes.dart';
 
-final weaponMatch = RegExp(r'^(?<size>[BLMH])(?<type>[a-zA-Z]+)');
+final weaponMatch =
+    RegExp(r'^((?<number>[2-9]) X )?(?<size>[BLMH])(?<type>[a-zA-Z]+)');
 final comboMatch = RegExp(r'(?<combo>[\/])(?<code>[a-zA-Z]+)');
 final traitsMatch = RegExp(r'\((?<traits>[a-zA-Z :0-9]+)\)$');
 
@@ -25,6 +26,7 @@ Weapon? buildWeapon(
 
   final String size = weaponCheck.namedGroup('size')!;
   final String type = weaponCheck.namedGroup('type')!;
+  final String? numberOf = weaponCheck.namedGroup('number');
   final String? bonusString =
       traitsMatch.firstMatch(weaponString)?.namedGroup('traits');
   final bonusTraits =
@@ -585,6 +587,7 @@ Weapon? buildWeapon(
   return Weapon(
     code: '$size$type',
     name: name,
+    numberOf: numberOf != null ? int.parse(numberOf) : 1,
     modes: modes,
     range: range,
     damage: damage,
@@ -592,5 +595,6 @@ Weapon? buildWeapon(
     traits: traits,
     optionalTraits: optionalTraits,
     combo: comboWeapon,
+    bonusTraits: bonusTraits,
   );
 }

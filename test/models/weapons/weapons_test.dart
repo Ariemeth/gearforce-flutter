@@ -739,6 +739,35 @@ void main() {
     }
   });
 
+  group('test building 2 x VBs', () {
+    const code = 'VB';
+    const name = 'Vibroblade';
+    const modes = [weaponModes.Melee];
+    const range = Range(0, null, null, hasReach: true, increasableReach: true);
+    const damage = {'L': 7, 'M': 8, 'H': 9};
+    const ap = {'L': 1, 'M': 3, 'H': 5};
+    for (var size in _sizes) {
+      final traits = [
+        Trait(name: 'AP', level: ap[size]),
+      ];
+      test('test building 2 X $size$code', () {
+        final l = buildWeapon('2 X $size$code');
+        expect(l, isNotNull, reason: 'weapon should not be null');
+        expect(l?.code, '$size$code', reason: 'check weapon code');
+        expect(l?.name, equals(name), reason: 'check name');
+        expect(l?.modes, equals(modes), reason: 'check modes');
+        expect(l?.damage, equals(damage[size]), reason: 'check damage');
+        expect(l?.range.toString(), equals(range.toString()),
+            reason: 'check range');
+        expect(l?.traits.toString(), equals(traits.toString()),
+            reason: 'check traits');
+        expect(l?.optionalTraits, isEmpty, reason: 'check optional traits');
+        expect(l?.toString(), equals('2 X $size$code'),
+            reason: 'toString check');
+      });
+    }
+  });
+
   group('test building weapons with unique bonus traits', () {
     final tt = TestTable(
       code: 'AAM',
@@ -746,8 +775,13 @@ void main() {
       modes: [weaponModes.Direct, weaponModes.Indirect],
       range: Range(12, 36, 72),
       damage: {'L': 7, 'M': 8, 'H': 9},
-      traits: [Trait(name: 'Flak'), Trait(name: 'Guided'), Trait(name: 'T')],
-      bonusTraits: '(T)',
+      traits: [
+        Trait(name: 'Flak'),
+        Trait(name: 'Guided'),
+        Trait(name: 'T'),
+        Trait(name: 'Auto'),
+      ],
+      bonusTraits: '(T Auto)',
     );
 
     for (var size in _sizes) {
@@ -766,7 +800,7 @@ void main() {
               reason: 'check traits');
           expect(l?.optionalTraits.length, equals(tt.optionalTraits.length),
               reason: 'check traits');
-          expect(l?.toString(), equals('$size${tt.code}'),
+          expect(l?.toString(), equals('$size${tt.code} ${tt.bonusTraits}'),
               reason: 'check toString');
         },
       );
@@ -803,7 +837,7 @@ void main() {
               reason: 'check traits');
           expect(l?.optionalTraits.length, equals(tt.optionalTraits.length),
               reason: 'check traits');
-          expect(l?.toString(), equals('$size${tt.code}'),
+          expect(l?.toString(), equals('$size${tt.code} ${tt.bonusTraits}'),
               reason: 'check toString');
         },
       );
@@ -835,7 +869,7 @@ void main() {
     expect(l?.combo?.code, equals('LGL'), reason: 'combo weapon name');
     expect(l?.traits.last.toString(), equals(l?.combo?.traits.last.toString()),
         reason: 'compare main weapon traits with combo weapon traits');
-    expect(l?.toString(), equals('LAC/LGL'), reason: 'check toString');
+    expect(l?.toString(), equals('LAC/LGL (Auto)'), reason: 'check toString');
   });
 
   test('test building standard BB', () {

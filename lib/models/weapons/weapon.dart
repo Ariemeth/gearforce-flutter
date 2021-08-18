@@ -9,24 +9,42 @@ class Weapon {
     required this.modes,
     required this.range,
     required this.damage,
+    this.numberOf = 1,
     this.hasReact = false,
     this.traits = const [],
     this.optionalTraits = const [],
+    this.bonusTraits,
     this.combo,
   });
   final String code;
   final String name;
+  final int numberOf;
   final List<weaponModes> modes;
   final Range range;
   final int damage;
   final bool hasReact;
   final List<Trait> traits;
   final List<Trait> optionalTraits;
+  final List<Trait>? bonusTraits;
   final Weapon? combo;
 
   @override
   String toString() {
-    return combo != null ? '$code/${combo!.code}' : code;
+    String result = '';
+    if (numberOf > 1) {
+      result = '$numberOf X ';
+    }
+
+    if (combo != null) {
+      result = '$result$code/${combo!.code}';
+    } else {
+      result = '$result$code';
+    }
+
+    if (bonusTraits != null) {
+      result = '$result (${bonusTraits.toString().replaceAll(RegExp(r'\[|\]|,'), '')})';
+    }
+    return result;
   }
 
   factory Weapon.fromString(String str) {
