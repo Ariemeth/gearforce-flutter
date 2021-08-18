@@ -3,30 +3,32 @@ import 'package:gearforce/models/weapons/range.dart';
 import 'package:gearforce/models/weapons/weapon.dart';
 import 'package:gearforce/models/weapons/weapon_modes.dart';
 
-const groupSize = 'size';
-final weaponMatch = RegExp(
-    r'(^|[[:blank:]])(?<size>[BLMH])(?<type>[a-zA-Z]+)([[:blank:]]|(?<combo>\/))?\(?(?<traits>[a-zA-Z :0-9]+)?\)?$');
+final weaponMatch = RegExp(r'^(?<size>[BLMH])(?<type>[a-zA-Z]+)');
 final comboMatch = RegExp(r'(?<combo>[\/])(?<code>[a-zA-Z]+)');
+final traitsMatch = RegExp(r'\((?<traits>[a-zA-Z :0-9]+)\)$');
 
-Weapon? buildWeapon({
-  required String code,
-  List<Trait>? bonusTraits,
+Weapon? buildWeapon(
+  String weaponString, {
   bool hasReact = false,
 }) {
-  if (!weaponMatch.hasMatch(code)) {
-    print('$code does not match');
+  if (!weaponMatch.hasMatch(weaponString)) {
+    print('$weaponString does not match');
     return null;
   }
 
-  final weaponCheck = weaponMatch.firstMatch(code);
+  final weaponCheck = weaponMatch.firstMatch(weaponString);
   if (weaponCheck == null || weaponCheck.groupCount < 2) {
     print(
-        'weapon check failed for $code with ${weaponCheck?.groupCount} groups');
+        'weapon check failed for $weaponString with ${weaponCheck?.groupCount} groups');
     return null;
   }
 
   final String size = weaponCheck.namedGroup('size')!;
   final String type = weaponCheck.namedGroup('type')!;
+  final String? bonusString =
+      traitsMatch.firstMatch(weaponString)?.namedGroup('traits');
+  final bonusTraits =
+      bonusString?.split(' ').map((e) => Trait.fromString(e)).toList();
 
   String name = '';
   List<weaponModes> modes = [];
@@ -34,8 +36,6 @@ Weapon? buildWeapon({
   Range range = Range(0, 1, 2);
   List<Trait> traits = [];
   List<Trait> optionalTraits = [];
-  bool isCombo = comboMatch.hasMatch(code);
-  Weapon? comboWeapon;
 
   switch (type.toUpperCase()) {
     case 'AAM':
@@ -538,7 +538,7 @@ Weapon? buildWeapon({
       ];
       break;
     default:
-      print('Unknown weapon code [$code], bonusTraits [$bonusTraits]');
+      print('Unknown weapon [$weaponString], bonusTraits [$bonusTraits]');
       return null;
   }
 
@@ -571,10 +571,14 @@ Weapon? buildWeapon({
     });
   }
 
+  bool isCombo = comboMatch.hasMatch(weaponString);
+  Weapon? comboWeapon;
   if (isCombo) {
-    final comboCode = comboMatch.firstMatch(code)?.namedGroup('code');
+    final comboCheck = comboMatch.firstMatch(weaponString);
+    final comboCode = comboCheck?.namedGroup('code');
     if (comboCode != null) {
-      comboWeapon = buildWeapon(code: comboCode, bonusTraits: bonusTraits);
+      comboWeapon = buildWeapon(
+          '$comboCode${bonusString != null ? ' ($bonusString)' : ''}');
     }
   }
 

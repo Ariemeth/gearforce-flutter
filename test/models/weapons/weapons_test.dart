@@ -24,7 +24,7 @@ class TestTable {
   final Map<String, int> damage;
   final List<Trait> traits;
   final List<Trait> optionalTraits;
-  final List<Trait>? bonusTraits;
+  final String? bonusTraits;
 }
 
 void main() {
@@ -379,7 +379,7 @@ void main() {
     group('test building ${tt.code}s', () {
       for (var size in _sizes) {
         test('test building $size${tt.code}', () {
-          final l = buildWeapon(code: '$size${tt.code}');
+          final l = buildWeapon('$size${tt.code}');
           expect(l, isNotNull, reason: 'weapon should not be null');
           expect(l?.code, '$size${tt.code}', reason: 'check weapon code');
           expect(l?.name, equals(tt.name), reason: 'check name');
@@ -413,7 +413,7 @@ void main() {
         Trait(name: 'Guided'),
       ];
       test('test building $size$code', () {
-        final l = buildWeapon(code: '$size$code');
+        final l = buildWeapon('$size$code');
         expect(l, isNotNull, reason: 'weapon should not be null');
         expect(l?.code, '$size$code', reason: 'check weapon code');
         expect(l?.name, equals(name), reason: 'check name');
@@ -440,7 +440,7 @@ void main() {
         Trait(name: 'AP', level: ap[size]),
       ];
       test('test building $size$code', () {
-        final l = buildWeapon(code: '$size$code');
+        final l = buildWeapon('$size$code');
         expect(l, isNotNull, reason: 'weapon should not be null');
         expect(l?.code, '$size$code', reason: 'check weapon code');
         expect(l?.name, equals(name), reason: 'check name');
@@ -471,7 +471,7 @@ void main() {
         Trait(name: 'Blast'),
       ];
       test('test building $size$code', () {
-        final l = buildWeapon(code: '$size$code');
+        final l = buildWeapon('$size$code');
         expect(l, isNotNull, reason: 'weapon should not be null');
         expect(l?.code, '$size$code', reason: 'check weapon code');
         expect(l?.name, equals(name), reason: 'check name');
@@ -502,7 +502,7 @@ void main() {
         Trait(name: 'Spray'),
       ];
       test('test building $size$code', () {
-        final l = buildWeapon(code: '$size$code');
+        final l = buildWeapon('$size$code');
         expect(l, isNotNull, reason: 'weapon should not be null');
         expect(l?.code, '$size$code', reason: 'check weapon code');
         expect(l?.name, equals(name), reason: 'check name');
@@ -530,7 +530,7 @@ void main() {
         Trait(name: 'Advanced'),
       ];
       test('test building $size$code', () {
-        final l = buildWeapon(code: '$size$code');
+        final l = buildWeapon('$size$code');
         expect(l, isNotNull, reason: 'weapon should not be null');
         expect(l?.code, '$size$code', reason: 'check weapon code');
         expect(l?.name, equals(name), reason: 'check name');
@@ -557,7 +557,7 @@ void main() {
         Trait(name: 'AP', level: ap[size]),
       ];
       test('test building $size$code', () {
-        final l = buildWeapon(code: '$size$code');
+        final l = buildWeapon('$size$code');
         expect(l, isNotNull, reason: 'weapon should not be null');
         expect(l?.code, '$size$code', reason: 'check weapon code');
         expect(l?.name, equals(name), reason: 'check name');
@@ -585,7 +585,7 @@ void main() {
         Trait(name: 'Advanced')
       ];
       test('test building $size$code', () {
-        final l = buildWeapon(code: '$size$code');
+        final l = buildWeapon('$size$code');
         expect(l, isNotNull, reason: 'weapon should not be null');
         expect(l?.code, '$size$code', reason: 'check weapon code');
         expect(l?.name, equals(name), reason: 'check name');
@@ -613,7 +613,7 @@ void main() {
         Trait(name: 'Demo', level: 3),
       ];
       test('test building $size$code', () {
-        final l = buildWeapon(code: '$size$code');
+        final l = buildWeapon('$size$code');
         expect(l, isNotNull, reason: 'weapon should not be null');
         expect(l?.code, '$size$code', reason: 'check weapon code');
         expect(l?.name, equals(name), reason: 'check name');
@@ -642,7 +642,7 @@ void main() {
         Trait(name: 'Brawl', level: -1),
       ];
       test('test building $size$code', () {
-        final l = buildWeapon(code: '$size$code');
+        final l = buildWeapon('$size$code');
         expect(l, isNotNull, reason: 'weapon should not be null');
         expect(l?.code, '$size$code', reason: 'check weapon code');
         expect(l?.name, equals(name), reason: 'check name');
@@ -669,7 +669,7 @@ void main() {
         Trait(name: 'AP', level: ap[size]),
       ];
       test('test building $size$code', () {
-        final l = buildWeapon(code: '$size$code');
+        final l = buildWeapon('$size$code');
         expect(l, isNotNull, reason: 'weapon should not be null');
         expect(l?.code, '$size$code', reason: 'check weapon code');
         expect(l?.name, equals(name), reason: 'check name');
@@ -697,7 +697,7 @@ void main() {
         Trait(name: 'Demo', level: 2),
       ];
       test('test building $size$code', () {
-        final l = buildWeapon(code: '$size$code');
+        final l = buildWeapon('$size$code');
         expect(l, isNotNull, reason: 'weapon should not be null');
         expect(l?.code, '$size$code', reason: 'check weapon code');
         expect(l?.name, equals(name), reason: 'check name');
@@ -724,7 +724,7 @@ void main() {
         Trait(name: 'AP', level: ap[size]),
       ];
       test('test building $size$code', () {
-        final l = buildWeapon(code: '$size$code');
+        final l = buildWeapon('$size$code');
         expect(l, isNotNull, reason: 'weapon should not be null');
         expect(l?.code, '$size$code', reason: 'check weapon code');
         expect(l?.name, equals(name), reason: 'check name');
@@ -747,15 +747,14 @@ void main() {
       range: Range(12, 36, 72),
       damage: {'L': 7, 'M': 8, 'H': 9},
       traits: [Trait(name: 'Flak'), Trait(name: 'Guided'), Trait(name: 'T')],
-      bonusTraits: [Trait(name: 'T')],
+      bonusTraits: '(T)',
     );
 
     for (var size in _sizes) {
       test(
         'test building $size${tt.code}',
         () {
-          final l =
-              buildWeapon(code: '$size${tt.code}', bonusTraits: tt.bonusTraits);
+          final l = buildWeapon('$size${tt.code} ${tt.bonusTraits}');
           expect(l, isNotNull, reason: 'weapon should not be null');
           expect(l?.code, '$size${tt.code}', reason: 'check weapon code');
           expect(l?.name, equals(tt.name), reason: 'check name');
@@ -785,15 +784,14 @@ void main() {
         Trait(name: 'Burst', level: 2),
         Trait(name: 'Split', level: 2),
       ],
-      bonusTraits: [Trait(name: 'Burst', level: 2)],
+      bonusTraits: '(Burst:2)',
     );
 
     for (var size in _sizes) {
       test(
         'test building $size${tt.code}',
         () {
-          final l =
-              buildWeapon(code: '$size${tt.code}', bonusTraits: tt.bonusTraits);
+          final l = buildWeapon('$size${tt.code} ${tt.bonusTraits}');
           expect(l, isNotNull, reason: 'weapon should not be null');
           expect(l?.code, '$size${tt.code}', reason: 'check weapon code');
           expect(l?.name, equals(tt.name), reason: 'check name');
@@ -813,7 +811,7 @@ void main() {
   });
 
   test('test building combo weapon', () {
-    final l = buildWeapon(code: 'LAC/LGL');
+    final l = buildWeapon('LAC/LGL');
     expect(l, isNotNull, reason: 'weapon should not be null');
     expect(l?.code, equals('LAC'), reason: 'check weapon code');
     expect(l?.name, isNotNull, reason: 'check that name is not null');
@@ -825,6 +823,21 @@ void main() {
     expect(l?.toString(), equals('LAC/LGL'), reason: 'check toString');
   });
 
+  test('test building combo weapon with bonus traits', () {
+    final l = buildWeapon('LAC/LGL (Auto)');
+    expect(l, isNotNull, reason: 'weapon should not be null');
+    expect(l?.code, equals('LAC'), reason: 'check weapon code');
+    expect(l?.name, isNotNull, reason: 'check that name is not null');
+    expect(l?.damage, isNot(equals(-1)), reason: 'check that damage is not -1');
+    expect(l?.combo, isNotNull, reason: 'combo should not be null');
+    expect(l?.combo?.damage, isNot(equals(-1)),
+        reason: 'combo weapons damage should not be -1');
+    expect(l?.combo?.code, equals('LGL'), reason: 'combo weapon name');
+    expect(l?.traits.last.toString(), equals(l?.combo?.traits.last.toString()),
+        reason: 'compare main weapon traits with combo weapon traits');
+    expect(l?.toString(), equals('LAC/LGL'), reason: 'check toString');
+  });
+
   test('test building standard BB', () {
     final modes = [weaponModes.Direct];
     final range = Range(0, null, null);
@@ -832,7 +845,7 @@ void main() {
     final traits = [Trait(name: 'AE', level: 4)];
     const name = 'Bomb';
 
-    final l = buildWeapon(code: 'BB');
+    final l = buildWeapon('BB');
     expect(l, isNotNull, reason: 'weapon should not be null');
     expect(l?.code, 'BB', reason: 'check weapon code');
     expect(l?.name, equals(name), reason: 'check name');
@@ -845,7 +858,7 @@ void main() {
   });
 
   test('test building non-existent type', () {
-    final l = buildWeapon(code: 'zzzzzz');
+    final l = buildWeapon('zzzzzz');
     expect(l, isNull);
   });
 }
