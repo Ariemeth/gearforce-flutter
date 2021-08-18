@@ -42,7 +42,8 @@ class Weapon {
     }
 
     if (bonusTraits != null) {
-      result = '$result (${bonusTraits.toString().replaceAll(RegExp(r'\[|\]|,'), '')})';
+      result =
+          '$result (${bonusTraits.toString().replaceAll(RegExp(r'\[|\]|,'), '')})';
     }
     return result;
   }
