@@ -148,4 +148,48 @@ void main() {
     );
     expect(w.code, equals('AC'));
   });
+
+  test('test isCombo with combo weapon', () {
+    const weaponAbbreviation = 'LAC\LGL';
+    const weaponName = 'Autocannon';
+    const mode = weaponModes.Direct;
+    const weaponDamage = 1;
+    const trait = Trait(name: 'AE', level: 1);
+    const range = Range(12, 36, 72);
+
+    const w = Weapon(
+        abbreviation: weaponAbbreviation,
+        name: weaponName,
+        range: range,
+        modes: [mode],
+        damage: weaponDamage,
+        hasReact: true,
+        traits: [trait],
+        combo: Weapon(
+            abbreviation: 'LGL',
+            name: 'Grenade Launcher',
+            modes: [weaponModes.Indirect],
+            range: range,
+            damage: 1));
+    expect(w.isCombo, isTrue);
+  });
+  test('test isCombo with non-combo weapon', () {
+    const weaponAbbreviation = 'LAC';
+    const weaponName = 'Autocannon';
+    const mode = weaponModes.Direct;
+    const weaponDamage = 1;
+    const trait = Trait(name: 'AE', level: 1);
+    const range = Range(12, 36, 72);
+
+    const w = Weapon(
+      abbreviation: weaponAbbreviation,
+      name: weaponName,
+      range: range,
+      modes: [mode],
+      damage: weaponDamage,
+      hasReact: true,
+      traits: [trait],
+    );
+    expect(w.isCombo, isFalse);
+  });
 }

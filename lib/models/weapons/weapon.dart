@@ -30,6 +30,7 @@ class Weapon {
 
   String get size => abbreviation.substring(0, 1);
   String get code => abbreviation.substring(1);
+  bool get isCombo => combo != null;
 
   @override
   String toString() {

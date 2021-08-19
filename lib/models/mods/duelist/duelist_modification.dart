@@ -58,13 +58,13 @@ class DuelistModification extends BaseModification {
             }
           }
 
-          return !traits.any((element) => element.name == 'Duelist');
+          return !traits.any((trait) => trait.name == 'Duelist');
         });
     mod.addMod(
       UnitAttribute.tv,
       (value) {
         return createSimpleIntMod(
-          u.core.traits.any((element) => element.name == 'Vet') ||
+          u.core.traits.any((trait) => trait.name == 'Vet') ||
                   u.hasMod(veteranId)
               ? 0
               : 2,
