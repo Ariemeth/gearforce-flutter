@@ -26,9 +26,9 @@ void main() {
     expect(fromJson.gunnery, equals(4), reason: "Gunnery check");
     expect(fromJson.piloting, equals(4), reason: "Piloting check");
     expect(fromJson.ew, equals(6), reason: "EW check");
-    expect(fromJson.reactWeapons, equals(['LAC', 'LVB']),
+    expect(fromJson.reactWeapons.toString(), equals('[LAC, LVB]'),
         reason: "React Weapons check");
-    expect(fromJson.mountedWeapons, equals(['LRP', 'LAPGL', 'LPZ']),
+    expect(fromJson.mountedWeapons.toString(), equals('[LRP, LAPGL, LPZ]'),
         reason: "Mounted Weapons check");
     expect(fromJson.traits.first.name, equals('Hands'), reason: "Traits check");
     expect(fromJson.type, equals('Gear'), reason: "Unit type check");

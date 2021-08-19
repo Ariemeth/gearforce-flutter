@@ -381,10 +381,12 @@ void main() {
         test('test building $size${tt.code}', () {
           final l = buildWeapon('$size${tt.code}');
           expect(l, isNotNull, reason: 'weapon should not be null');
-          expect(l?.code, '$size${tt.code}', reason: 'check weapon code');
+          expect(l?.abbreviation, '$size${tt.code}',
+              reason: 'check weapon code');
           expect(l?.name, equals(tt.name), reason: 'check name');
           expect(l?.modes, equals(tt.modes), reason: 'check modes');
-          expect(l?.damage, equals(tt.damage[size]), reason: 'check damage');
+          expect(l?.baseDamage, equals(tt.damage[size]),
+              reason: 'check damage');
           expect(l?.range.toString(), equals(tt.range.toString()),
               reason: 'check range');
           expect(l?.traits.toString(), equals(tt.traits.toString()),
@@ -415,10 +417,10 @@ void main() {
       test('test building $size$code', () {
         final l = buildWeapon('$size$code');
         expect(l, isNotNull, reason: 'weapon should not be null');
-        expect(l?.code, '$size$code', reason: 'check weapon code');
+        expect(l?.abbreviation, '$size$code', reason: 'check weapon code');
         expect(l?.name, equals(name), reason: 'check name');
         expect(l?.modes, equals(modes), reason: 'check modes');
-        expect(l?.damage, equals(damage[size]), reason: 'check damage');
+        expect(l?.baseDamage, equals(damage[size]), reason: 'check damage');
         expect(l?.range.toString(), equals(range.toString()),
             reason: 'check range');
         expect(l?.traits.toString(), equals(traits.toString()),
@@ -442,10 +444,10 @@ void main() {
       test('test building $size$code', () {
         final l = buildWeapon('$size$code');
         expect(l, isNotNull, reason: 'weapon should not be null');
-        expect(l?.code, '$size$code', reason: 'check weapon code');
+        expect(l?.abbreviation, '$size$code', reason: 'check weapon code');
         expect(l?.name, equals(name), reason: 'check name');
         expect(l?.modes, equals(modes), reason: 'check modes');
-        expect(l?.damage, equals(damage[size]), reason: 'check damage');
+        expect(l?.baseDamage, equals(damage[size]), reason: 'check damage');
         expect(l?.range.toString(), equals(range.toString()),
             reason: 'check range');
         expect(l?.traits.toString(), equals(traits.toString()),
@@ -473,10 +475,10 @@ void main() {
       test('test building $size$code', () {
         final l = buildWeapon('$size$code');
         expect(l, isNotNull, reason: 'weapon should not be null');
-        expect(l?.code, '$size$code', reason: 'check weapon code');
+        expect(l?.abbreviation, '$size$code', reason: 'check weapon code');
         expect(l?.name, equals(name), reason: 'check name');
         expect(l?.modes, equals(modes), reason: 'check modes');
-        expect(l?.damage, equals(damage[size]), reason: 'check damage');
+        expect(l?.baseDamage, equals(damage[size]), reason: 'check damage');
         expect(l?.range.toString(), equals(range.toString()),
             reason: 'check range');
         expect(l?.traits.toString(), equals(traits.toString()),
@@ -504,10 +506,10 @@ void main() {
       test('test building $size$code', () {
         final l = buildWeapon('$size$code');
         expect(l, isNotNull, reason: 'weapon should not be null');
-        expect(l?.code, '$size$code', reason: 'check weapon code');
+        expect(l?.abbreviation, '$size$code', reason: 'check weapon code');
         expect(l?.name, equals(name), reason: 'check name');
         expect(l?.modes, equals(modes), reason: 'check modes');
-        expect(l?.damage, equals(damage[size]), reason: 'check damage');
+        expect(l?.baseDamage, equals(damage[size]), reason: 'check damage');
         expect(l?.range.toString(), equals(range.toString()),
             reason: 'check range');
         expect(l?.traits.toString(), equals(traits.toString()),
@@ -532,10 +534,10 @@ void main() {
       test('test building $size$code', () {
         final l = buildWeapon('$size$code');
         expect(l, isNotNull, reason: 'weapon should not be null');
-        expect(l?.code, '$size$code', reason: 'check weapon code');
+        expect(l?.abbreviation, '$size$code', reason: 'check weapon code');
         expect(l?.name, equals(name), reason: 'check name');
         expect(l?.modes, equals(modes), reason: 'check modes');
-        expect(l?.damage, equals(damage[size]), reason: 'check damage');
+        expect(l?.baseDamage, equals(damage[size]), reason: 'check damage');
         expect(l?.range.toString(), equals(range.toString()),
             reason: 'check range');
         expect(l?.traits.toString(), equals(traits.toString()),
@@ -559,10 +561,10 @@ void main() {
       test('test building $size$code', () {
         final l = buildWeapon('$size$code');
         expect(l, isNotNull, reason: 'weapon should not be null');
-        expect(l?.code, '$size$code', reason: 'check weapon code');
+        expect(l?.abbreviation, '$size$code', reason: 'check weapon code');
         expect(l?.name, equals(name), reason: 'check name');
         expect(l?.modes, equals(modes), reason: 'check modes');
-        expect(l?.damage, equals(damage[size]), reason: 'check damage');
+        expect(l?.baseDamage, equals(damage[size]), reason: 'check damage');
         expect(l?.range.toString(), equals(range.toString()),
             reason: 'check range');
         expect(l?.traits.toString(), equals(traits.toString()),
@@ -587,10 +589,10 @@ void main() {
       test('test building $size$code', () {
         final l = buildWeapon('$size$code');
         expect(l, isNotNull, reason: 'weapon should not be null');
-        expect(l?.code, '$size$code', reason: 'check weapon code');
+        expect(l?.abbreviation, '$size$code', reason: 'check weapon code');
         expect(l?.name, equals(name), reason: 'check name');
         expect(l?.modes, equals(modes), reason: 'check modes');
-        expect(l?.damage, equals(damage[size]), reason: 'check damage');
+        expect(l?.baseDamage, equals(damage[size]), reason: 'check damage');
         expect(l?.range.toString(), equals(range.toString()),
             reason: 'check range');
         expect(l?.traits.toString(), equals(traits.toString()),
@@ -615,10 +617,10 @@ void main() {
       test('test building $size$code', () {
         final l = buildWeapon('$size$code');
         expect(l, isNotNull, reason: 'weapon should not be null');
-        expect(l?.code, '$size$code', reason: 'check weapon code');
+        expect(l?.abbreviation, '$size$code', reason: 'check weapon code');
         expect(l?.name, equals(name), reason: 'check name');
         expect(l?.modes, equals(modes), reason: 'check modes');
-        expect(l?.damage, equals(damage[size]), reason: 'check damage');
+        expect(l?.baseDamage, equals(damage[size]), reason: 'check damage');
         expect(l?.range.toString(), equals(range.toString()),
             reason: 'check range');
         expect(l?.traits.toString(), equals(traits.toString()),
@@ -644,10 +646,10 @@ void main() {
       test('test building $size$code', () {
         final l = buildWeapon('$size$code');
         expect(l, isNotNull, reason: 'weapon should not be null');
-        expect(l?.code, '$size$code', reason: 'check weapon code');
+        expect(l?.abbreviation, '$size$code', reason: 'check weapon code');
         expect(l?.name, equals(name), reason: 'check name');
         expect(l?.modes, equals(modes), reason: 'check modes');
-        expect(l?.damage, equals(damage[size]), reason: 'check damage');
+        expect(l?.baseDamage, equals(damage[size]), reason: 'check damage');
         expect(l?.range.toString(), equals(range.toString()),
             reason: 'check range');
         expect(l?.traits.toString(), equals(traits.toString()),
@@ -671,10 +673,10 @@ void main() {
       test('test building $size$code', () {
         final l = buildWeapon('$size$code');
         expect(l, isNotNull, reason: 'weapon should not be null');
-        expect(l?.code, '$size$code', reason: 'check weapon code');
+        expect(l?.abbreviation, '$size$code', reason: 'check weapon code');
         expect(l?.name, equals(name), reason: 'check name');
         expect(l?.modes, equals(modes), reason: 'check modes');
-        expect(l?.damage, equals(damage[size]), reason: 'check damage');
+        expect(l?.baseDamage, equals(damage[size]), reason: 'check damage');
         expect(l?.range.toString(), equals(range.toString()),
             reason: 'check range');
         expect(l?.traits.toString(), equals(traits.toString()),
@@ -699,10 +701,10 @@ void main() {
       test('test building $size$code', () {
         final l = buildWeapon('$size$code');
         expect(l, isNotNull, reason: 'weapon should not be null');
-        expect(l?.code, '$size$code', reason: 'check weapon code');
+        expect(l?.abbreviation, '$size$code', reason: 'check weapon code');
         expect(l?.name, equals(name), reason: 'check name');
         expect(l?.modes, equals(modes), reason: 'check modes');
-        expect(l?.damage, equals(damage[size]), reason: 'check damage');
+        expect(l?.baseDamage, equals(damage[size]), reason: 'check damage');
         expect(l?.range.toString(), equals(range.toString()),
             reason: 'check range');
         expect(l?.traits.toString(), equals(traits.toString()),
@@ -726,10 +728,10 @@ void main() {
       test('test building $size$code', () {
         final l = buildWeapon('$size$code');
         expect(l, isNotNull, reason: 'weapon should not be null');
-        expect(l?.code, '$size$code', reason: 'check weapon code');
+        expect(l?.abbreviation, '$size$code', reason: 'check weapon code');
         expect(l?.name, equals(name), reason: 'check name');
         expect(l?.modes, equals(modes), reason: 'check modes');
-        expect(l?.damage, equals(damage[size]), reason: 'check damage');
+        expect(l?.baseDamage, equals(damage[size]), reason: 'check damage');
         expect(l?.range.toString(), equals(range.toString()),
             reason: 'check range');
         expect(l?.traits.toString(), equals(traits.toString()),
@@ -753,10 +755,10 @@ void main() {
       test('test building 2 X $size$code', () {
         final l = buildWeapon('2 X $size$code');
         expect(l, isNotNull, reason: 'weapon should not be null');
-        expect(l?.code, '$size$code', reason: 'check weapon code');
+        expect(l?.abbreviation, '$size$code', reason: 'check weapon code');
         expect(l?.name, equals(name), reason: 'check name');
         expect(l?.modes, equals(modes), reason: 'check modes');
-        expect(l?.damage, equals(damage[size]), reason: 'check damage');
+        expect(l?.baseDamage, equals(damage[size]), reason: 'check damage');
         expect(l?.range.toString(), equals(range.toString()),
             reason: 'check range');
         expect(l?.traits.toString(), equals(traits.toString()),
@@ -790,10 +792,12 @@ void main() {
         () {
           final l = buildWeapon('$size${tt.code} ${tt.bonusTraits}');
           expect(l, isNotNull, reason: 'weapon should not be null');
-          expect(l?.code, '$size${tt.code}', reason: 'check weapon code');
+          expect(l?.abbreviation, '$size${tt.code}',
+              reason: 'check weapon code');
           expect(l?.name, equals(tt.name), reason: 'check name');
           expect(l?.modes, equals(tt.modes), reason: 'check modes');
-          expect(l?.damage, equals(tt.damage[size]), reason: 'check damage');
+          expect(l?.baseDamage, equals(tt.damage[size]),
+              reason: 'check damage');
           expect(l?.range.toString(), equals(tt.range.toString()),
               reason: 'check range');
           expect(l?.traits.toString(), equals(tt.traits.toString()),
@@ -827,10 +831,12 @@ void main() {
         () {
           final l = buildWeapon('$size${tt.code} ${tt.bonusTraits}');
           expect(l, isNotNull, reason: 'weapon should not be null');
-          expect(l?.code, '$size${tt.code}', reason: 'check weapon code');
+          expect(l?.abbreviation, '$size${tt.code}',
+              reason: 'check weapon code');
           expect(l?.name, equals(tt.name), reason: 'check name');
           expect(l?.modes, equals(tt.modes), reason: 'check modes');
-          expect(l?.damage, equals(tt.damage[size]), reason: 'check damage');
+          expect(l?.baseDamage, equals(tt.damage[size]),
+              reason: 'check damage');
           expect(l?.range.toString(), equals(tt.range.toString()),
               reason: 'check range');
           expect(l?.traits.toString(), equals(tt.traits.toString()),
@@ -847,26 +853,28 @@ void main() {
   test('test building combo weapon', () {
     final l = buildWeapon('LAC/LGL');
     expect(l, isNotNull, reason: 'weapon should not be null');
-    expect(l?.code, equals('LAC'), reason: 'check weapon code');
+    expect(l?.abbreviation, equals('LAC'), reason: 'check weapon code');
     expect(l?.name, isNotNull, reason: 'check that name is not null');
-    expect(l?.damage, isNot(equals(-1)), reason: 'check that damage is not -1');
+    expect(l?.baseDamage, isNot(equals(-1)),
+        reason: 'check that damage is not -1');
     expect(l?.combo, isNotNull, reason: 'combo should not be null');
-    expect(l?.combo?.damage, isNot(equals(-1)),
+    expect(l?.combo?.baseDamage, isNot(equals(-1)),
         reason: 'combo weapons damage should not be -1');
-    expect(l?.combo?.code, equals('LGL'), reason: 'combo weapon name');
+    expect(l?.combo?.abbreviation, equals('LGL'), reason: 'combo weapon name');
     expect(l?.toString(), equals('LAC/LGL'), reason: 'check toString');
   });
 
   test('test building combo weapon with bonus traits', () {
     final l = buildWeapon('LAC/LGL (Auto)');
     expect(l, isNotNull, reason: 'weapon should not be null');
-    expect(l?.code, equals('LAC'), reason: 'check weapon code');
+    expect(l?.abbreviation, equals('LAC'), reason: 'check weapon code');
     expect(l?.name, isNotNull, reason: 'check that name is not null');
-    expect(l?.damage, isNot(equals(-1)), reason: 'check that damage is not -1');
+    expect(l?.baseDamage, isNot(equals(-1)),
+        reason: 'check that damage is not -1');
     expect(l?.combo, isNotNull, reason: 'combo should not be null');
-    expect(l?.combo?.damage, isNot(equals(-1)),
+    expect(l?.combo?.baseDamage, isNot(equals(-1)),
         reason: 'combo weapons damage should not be -1');
-    expect(l?.combo?.code, equals('LGL'), reason: 'combo weapon name');
+    expect(l?.combo?.abbreviation, equals('LGL'), reason: 'combo weapon name');
     expect(l?.traits.last.toString(), equals(l?.combo?.traits.last.toString()),
         reason: 'compare main weapon traits with combo weapon traits');
     expect(l?.toString(), equals('LAC/LGL (Auto)'), reason: 'check toString');
@@ -881,10 +889,10 @@ void main() {
 
     final l = buildWeapon('BB');
     expect(l, isNotNull, reason: 'weapon should not be null');
-    expect(l?.code, 'BB', reason: 'check weapon code');
+    expect(l?.abbreviation, 'BB', reason: 'check weapon code');
     expect(l?.name, equals(name), reason: 'check name');
     expect(l?.modes, equals(modes), reason: 'check modes');
-    expect(l?.damage, equals(damage), reason: 'check damage');
+    expect(l?.baseDamage, equals(damage), reason: 'check damage');
     expect(l?.range.toString(), equals(range.toString()),
         reason: 'check range');
     expect(l?.traits.toString(), equals(traits.toString()),

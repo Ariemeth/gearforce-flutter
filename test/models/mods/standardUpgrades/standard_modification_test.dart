@@ -2,12 +2,15 @@ import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/mods/standardUpgrades/standard_modification.dart';
 import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
+import 'package:gearforce/models/weapons/weapons.dart';
 import 'package:test/test.dart';
 
 void main() {
   test('test Anti-Air requirement check for weapon type', () {
+    final w1 = buildWeapon('LATM', hasReact: true)!;
+    final w2 = buildWeapon('MRP', hasReact: true)!;
     var cg = CombatGroup('test1')
-      ..primary.addUnit(UnitCore.test(reactWeapons: ['LATM,MRP']));
+      ..primary.addUnit(UnitCore.test(reactWeapons: [w1, w2]));
     var u = cg.primary.allUnits()[0];
 
     final mod = StandardModification.antiAir(u, cg);
@@ -15,8 +18,10 @@ void main() {
   });
 
   test('test Anti-Air requirement check for weapon type, weapon not found', () {
+    final w1 = buildWeapon('LFC', hasReact: true)!;
+    final w2 = buildWeapon('MRP', hasReact: true)!;
     var cg = CombatGroup('test1')
-      ..primary.addUnit(UnitCore.test(reactWeapons: ['LFC,MRP']));
+      ..primary.addUnit(UnitCore.test(reactWeapons: [w1, w2]));
     var u = cg.primary.allUnits()[0];
 
     final mod = StandardModification.antiAir(u, cg);
@@ -24,10 +29,13 @@ void main() {
   });
 
   test('test Anti-Air requirement check with 1 in group already', () {
+    final w1 = buildWeapon('LATM', hasReact: true)!;
+    final w2 = buildWeapon('MRP', hasReact: true)!;
+    final w3 = buildWeapon('MAC', hasReact: true)!;
     var cg = CombatGroup('test1')
-      ..primary.addUnit(UnitCore.test(reactWeapons: ['LATM,MRP']))
-      ..primary.addUnit(UnitCore.test(reactWeapons: ['LATM']))
-      ..primary.addUnit(UnitCore.test(reactWeapons: ['MAC']));
+      ..primary.addUnit(UnitCore.test(reactWeapons: [w1, w2]))
+      ..primary.addUnit(UnitCore.test(reactWeapons: [w1]))
+      ..primary.addUnit(UnitCore.test(reactWeapons: [w3]));
 
     var u = cg.primary.allUnits().last;
     final mod = StandardModification.antiAir(u, cg);
@@ -36,10 +44,13 @@ void main() {
   });
 
   test('test Anti-Air requirement check with 2 in group already', () {
+    final w1 = buildWeapon('LATM')!;
+    final w2 = buildWeapon('MRP')!;
+    final w3 = buildWeapon('MAC', hasReact: true)!;
     var cg = CombatGroup('test1')
-      ..primary.addUnit(UnitCore.test(reactWeapons: ['LATM,MRP']))
-      ..primary.addUnit(UnitCore.test(reactWeapons: ['LATM']))
-      ..primary.addUnit(UnitCore.test(reactWeapons: ['MAC']));
+      ..primary.addUnit(UnitCore.test(reactWeapons: [w1, w2]))
+      ..primary.addUnit(UnitCore.test(reactWeapons: [w1]))
+      ..primary.addUnit(UnitCore.test(reactWeapons: [w3]));
 
     var u = cg.primary.allUnits().last;
     final mod = StandardModification.antiAir(u, cg);

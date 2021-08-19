@@ -36,8 +36,8 @@ class UnitCore {
   final int? gunnery;
   final int? piloting;
   final int? ew;
-  final List<String> reactWeapons;
-  final List<String> mountedWeapons;
+  final List<Weapon> reactWeapons;
+  final List<Weapon> mountedWeapons;
   final List<Trait> traits;
   final String type;
   final String height;
@@ -180,34 +180,23 @@ class UnitCore {
   }
 
   factory UnitCore.fromJson(dynamic json, {String frame = ''}) {
-    List<String> reactWeapons = json['react-weapons'] == '-'
+    List<Weapon> reactWeapons = json['react-weapons'] == '-'
         ? []
         : List.from(json['react-weapons']
             .toString()
             .split(',')
-            .map((e) => e.trim())
+            .map<Weapon?>((e) => buildWeapon(e.trim(), hasReact: true))
+            .whereType<Weapon>()
             .toList());
-    //TODO use this instead of the above
-    List<Weapon?> rw =
-        reactWeapons.map((e) => buildWeapon(e, hasReact: true)).toList();
-    if (rw.any((element) => element == null)) {
-      print(
-          'null react weapon found on ${json['model']}, original: ${reactWeapons.toString()}, new: ${rw.toString()}');
-    }
 
-    List<String> mountedWeapons = json['mounted-weapons'] == '-'
+    List<Weapon> mountedWeapons = json['mounted-weapons'] == '-'
         ? []
         : List.from(json['mounted-weapons']
             .toString()
             .split(',')
-            .map((e) => e.trim())
+            .map<Weapon?>((e) => buildWeapon(e.trim()))
+            .whereType<Weapon>()
             .toList());
-//TODO use this instead of the above
-    List<Weapon?> mw = mountedWeapons.map((e) => buildWeapon(e)).toList();
-    if (mw.any((element) => element == null)) {
-      print(
-          'null mounted weapon found on ${json['model']}, original: ${mountedWeapons.toString()}, new: ${mw.toString()}');
-    }
 
     List<Trait> traits = json['traits'] == '-'
         ? []

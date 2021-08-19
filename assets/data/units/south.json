@@ -1942,7 +1942,7 @@
           "ew": "5+",
           "react-weapons": "HAC/LFC, LVB (Precise)",
           "mounted-weapons": "LRP, MPZ, LAPGL",
-          "traits": "Hands, Agile, Brawl:1, VetField Armor",
+          "traits": "Hands, Agile, Brawl:1, Vet Field Armor",
           "type": "Gear",
           "height": 1.5
         },
@@ -1959,7 +1959,7 @@
           "ew": "5+",
           "react-weapons": "MRF, MVB (Precise)",
           "mounted-weapons": "LRP, LPZ, LAPGL",
-          "traits": "Hands, Agile, Brawl:1, VetField Armor",
+          "traits": "Hands, Agile, Brawl:1, Vet Field Armor",
           "type": "Gear",
           "height": 1.5
         }

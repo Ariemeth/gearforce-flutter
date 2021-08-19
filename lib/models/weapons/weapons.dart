@@ -585,12 +585,12 @@ Weapon? buildWeapon(
   }
 
   return Weapon(
-    code: '$size$type',
+    abbreviation: '$size$type',
     name: name,
     numberOf: numberOf != null ? int.parse(numberOf) : 1,
     modes: modes,
     range: range,
-    damage: damage,
+    baseDamage: damage,
     hasReact: hasReact,
     traits: traits,
     optionalTraits: optionalTraits,

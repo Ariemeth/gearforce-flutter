@@ -4,11 +4,11 @@ import 'package:gearforce/models/weapons/weapon_modes.dart';
 
 class Weapon {
   const Weapon({
-    required this.code,
+    required this.abbreviation,
     required this.name,
     required this.modes,
     required this.range,
-    required this.damage,
+    required this.baseDamage,
     this.numberOf = 1,
     this.hasReact = false,
     this.traits = const [],
@@ -16,17 +16,24 @@ class Weapon {
     this.bonusTraits,
     this.combo,
   });
-  final String code;
+  final String abbreviation;
   final String name;
   final int numberOf;
   final List<weaponModes> modes;
   final Range range;
-  final int damage;
+  final int baseDamage;
   final bool hasReact;
   final List<Trait> traits;
   final List<Trait> optionalTraits;
   final List<Trait>? bonusTraits;
   final Weapon? combo;
+
+  String get size => abbreviation.substring(0, 1);
+  String get code => abbreviation.substring(1);
+  int get damage =>
+      traits.any((element) => element.name.toUpperCase() == 'APEX')
+          ? baseDamage + 1
+          : baseDamage;
 
   @override
   String toString() {
@@ -36,9 +43,9 @@ class Weapon {
     }
 
     if (combo != null) {
-      result = '$result$code/${combo!.code}';
+      result = '$result$abbreviation/${combo!.abbreviation}';
     } else {
-      result = '$result$code';
+      result = '$result$abbreviation';
     }
 
     if (bonusTraits != null) {
@@ -58,11 +65,11 @@ class Weapon {
     LAC(Precise Silent)
     */
     return Weapon(
-      code: '',
+      abbreviation: '',
       name: '',
       modes: [],
       range: Range(0, null, null),
-      damage: -1,
+      baseDamage: -1,
     );
   }
 }

@@ -19,8 +19,8 @@ final shapedExplosivesLId = Uuid().v4();
 final shapedExplosivesMId = Uuid().v4();
 final smokeId = Uuid().v4();
 
-final RegExp _handsMatch = RegExp(r'^(Hands)', caseSensitive: false);
-final RegExp _vtolMatch = RegExp(r'^(VTOL)', caseSensitive: false);
+final RegExp _handsMatch = RegExp(r'^Hands', caseSensitive: false);
+final RegExp _vtolMatch = RegExp(r'^VTOL', caseSensitive: false);
 
 class StandardModification extends BaseModification {
   StandardModification({
@@ -47,12 +47,15 @@ class StandardModification extends BaseModification {
             return false;
           }
 
-          final RegExp exp = RegExp(
-              r'^([[:space:]]|,|\[)*(([LMH])(AC|RC|LC|ATM))([[:space:]]|\])*($|,)');
+          final RegExp exp = RegExp(r'^(([LMH])(AC|RC|LC|ATM))');
 
           // check to ensure the unit has an appropriate weapon that can be upgraded
-          final hasMatchingWeapon = exp.hasMatch(u.mountedWeapons.toString()) ||
-              exp.hasMatch(u.reactWeapons.toString());
+          final hasMatchingWeapon = u.mountedWeapons
+                  .any((element) => exp.hasMatch(element.abbreviation)) ||
+              u.reactWeapons
+                  .any((element) => exp.hasMatch(element.abbreviation));
+          //  final hasMatchingWeapon = exp.hasMatch(u.mountedWeapons.toString()) ||
+          //      exp.hasMatch(u.reactWeapons.toString());
           if (!hasMatchingWeapon) {
             return false;
           }
@@ -125,7 +128,6 @@ class StandardModification extends BaseModification {
         UnitAttribute.tv,
         (value) {
           var numMods = cg.modCount(handGrenadeLId);
-          print('num mods found: $numMods');
           var change = 0;
           switch (numMods) {
             case 0:

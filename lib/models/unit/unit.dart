@@ -9,6 +9,7 @@ import 'package:gearforce/models/unit/movement.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
+import 'package:gearforce/models/weapons/weapon.dart';
 
 class Unit extends ChangeNotifier {
   Unit({
@@ -150,7 +151,7 @@ class Unit extends ChangeNotifier {
     return value;
   }
 
-  List<String> get reactWeapons {
+  List<Weapon> get reactWeapons {
     var value = this.core.reactWeapons.toList();
 
     for (var mod in this._mods) {
@@ -160,7 +161,7 @@ class Unit extends ChangeNotifier {
     return value;
   }
 
-  List<String> get mountedWeapons {
+  List<Weapon> get mountedWeapons {
     var value = this.core.mountedWeapons.toList();
 
     for (var mod in this._mods) {
