@@ -54,6 +54,10 @@ class Roles {
     );
   }
 
+  factory Roles.from(Roles old) {
+    return Roles(roles: old.roles.toList());
+  }
+
   bool includesRole(List<RoleType?> roleType) {
     return roles.any((element) => roleType.contains(element.name));
   }

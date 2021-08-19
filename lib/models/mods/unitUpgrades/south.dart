@@ -1,14 +1,19 @@
 import 'package:gearforce/models/mods/modification.dart';
+import 'package:gearforce/models/mods/modification_option.dart';
 import 'package:gearforce/models/mods/mods.dart';
 import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
+import 'package:gearforce/models/weapons/weapon.dart';
+import 'package:gearforce/models/weapons/weapons.dart';
+
+final _plusMinusMatch = RegExp(r'^(\+|-)');
 
 final Modification command = Modification(name: 'Command Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Command'))
   ..addMod(UnitAttribute.ew, createSetIntMod(5), description: 'EW 5+')
-  ..addMod(UnitAttribute.traits, createAddToList(Trait(name: 'Comms')),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'Comms')),
       description: '+Comms');
 
 final Modification mortarUpgrade = Modification(name: 'Mortar Upgrade')
@@ -16,9 +21,9 @@ final Modification mortarUpgrade = Modification(name: 'Mortar Upgrade')
   ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'with mortar'))
   ..addMod(
       UnitAttribute.mounted_weapons,
-      createReplaceInList(
-        oldValue: 'MRP',
-        newValue: 'LGM',
+      createReplaceWeaponInList(
+        oldValue: buildWeapon('MRP')!,
+        newValue: buildWeapon('LGM')!,
       ),
       description: '-MRP, +LGM');
 
@@ -26,10 +31,10 @@ final Modification sidewinderCommand = Modification(name: 'Command Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Command'))
   ..addMod(UnitAttribute.ew, createSetIntMod(5), description: 'EW 5+')
-  ..addMod(UnitAttribute.traits, createAddToList(Trait(name: 'Comms')),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'Comms')),
       description: '+Comms')
-  ..addMod(
-      UnitAttribute.traits, createAddToList(Trait(name: 'SatUp', isAux: true)),
+  ..addMod(UnitAttribute.traits,
+      createAddTraitToList(Trait(name: 'SatUp', isAux: true)),
       description: '+SatUp (Aux)');
 
 final Modification razorFang = Modification(name: 'Razor Fang Upgrade')
@@ -38,55 +43,89 @@ final Modification razorFang = Modification(name: 'Razor Fang Upgrade')
   ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
   ..addMod(
     UnitAttribute.traits,
-    createAddToList(Trait(name: 'Comms')),
+    createAddTraitToList(Trait(name: 'Comms')),
     description: '+Comms',
   )
   ..addMod(
     UnitAttribute.traits,
-    createAddToList(Trait(name: 'SatUp')),
+    createAddTraitToList(Trait(name: 'SatUp')),
     description: '+SatUp',
   );
 
 final Modification ruggedTerrain = Modification(name: 'Rugged Terrain Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Rugged Terrain'))
-  ..addMod(UnitAttribute.react_weapons, createAddToList('MCW'),
+  ..addMod(UnitAttribute.react_weapons,
+      createAddWeaponToList(buildWeapon('MCW', hasReact: true)!),
       description: '+MCW')
-  ..addMod(UnitAttribute.traits, createAddToList(Trait(name: 'Climber')),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'Climber')),
       description: '+Climber');
 
 final Modification copperheadArenaPilot = Modification(name: 'Arena Pilot')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'with Arena Pilot'))
-  ..addMod(UnitAttribute.react_weapons, createAddToList('MVB'),
+  ..addMod(UnitAttribute.react_weapons,
+      createAddWeaponToList(buildWeapon('MVB', hasReact: true)!),
       description: '+MVB')
-  ..addMod(UnitAttribute.traits, createAddToList(Trait(name: 'Shield')),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'Shield')),
       description: '+Shield');
 
 final Modification longFang = Modification(name: 'Long Fang Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Long Fang'))
-  ..addMod(UnitAttribute.mounted_weapons,
-      createReplaceInList(oldValue: 'MAPR', newValue: 'MAR'),
+  ..addMod(
+      UnitAttribute.mounted_weapons,
+      createReplaceWeaponInList(
+          oldValue: buildWeapon('MAPR')!, newValue: buildWeapon('MAR')!),
       description: '-MAPR, +MAR');
 
-final Modification diamondbackArenaPilot = Modification(name: 'Arena Pilot')
-  ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
-  ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'with Arena Pilot'))
-  ..addMod(UnitAttribute.react_weapons,
-      createAddToList('LVB (Precise) or LCW (Brawl:1)'),
-      description: '+LVB (Precise) or +LCW (Brawl:1)')
-  ..addMod(
-      UnitAttribute.traits, createAddToList(Trait(name: 'Brawl', level: 1)),
-      description: '+Brawl:1');
+Modification diamondbackArenaPilot(Unit u) {
+  List<ModificationOption> _options = [];
+  _options.add(ModificationOption('+LVB (Precise)'));
+  _options.add(ModificationOption('+LCW (Brawl:1)'));
+
+  var modOptions = ModificationOption('Arena Pilot',
+      subOptions: _options, description: 'Choose one');
+
+  return Modification(
+      name: 'Arena Pilot', options: modOptions, id: 'diamondbackArenaPilot')
+    ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
+    ..addMod(UnitAttribute.name, createSimpleStringMod(false, ' Arena Pilot'))
+    ..addMod(UnitAttribute.react_weapons, (value) {
+      if (!(value is List<Weapon>)) {
+        print('value is not a List<Weapon>, $value');
+        return value;
+      }
+
+      // check if a option has been chosen
+      if (modOptions.selectedOption == null) {
+        return value;
+      }
+
+      final newList = value.toList();
+      var add = buildWeapon(
+          // need to remove the + or - from the front of the text
+          modOptions.selectedOption!.text.replaceAll(_plusMinusMatch, ''),
+          hasReact: true);
+      if (add != null) {
+        newList.add(add);
+      }
+
+      return newList;
+    }, description: '+LVB (Precise) or +LCW (Brawl:1)')
+    ..addMod(UnitAttribute.traits,
+        createAddTraitToList(Trait(name: 'Brawl', level: 1)),
+        description: '+Brawl:1');
+}
 
 final Modification blackAdderArenaPilot = Modification(name: 'Arena Pilot')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'with Arena Pilot'))
-  ..addMod(UnitAttribute.react_weapons, createAddToList('MVB (Reach:1)'),
+  ..addMod(UnitAttribute.react_weapons,
+      createAddWeaponToList(buildWeapon('MVB (Reach:1)', hasReact: true)!),
       description: '+MVB (Reach:1)')
-  ..addMod(
-      UnitAttribute.traits, createAddToList(Trait(name: 'Brawl', level: 2)),
+  ..addMod(UnitAttribute.traits,
+      createAddTraitToList(Trait(name: 'Brawl', level: 2)),
       description: '+Brawl:2');
 
 final Modification cobraRazorFang = Modification(name: 'Razor Fang Upgrade')
@@ -95,12 +134,12 @@ final Modification cobraRazorFang = Modification(name: 'Razor Fang Upgrade')
   ..addMod(UnitAttribute.ew, createSetIntMod(5), description: 'EW 5+')
   ..addMod(
     UnitAttribute.traits,
-    createAddToList(Trait(name: 'Comms')),
+    createAddTraitToList(Trait(name: 'Comms')),
     description: '+Comms',
   )
   ..addMod(
     UnitAttribute.traits,
-    createAddToList(Trait(name: 'SatUp')),
+    createAddTraitToList(Trait(name: 'SatUp')),
     description: '+SatUp',
   );
 
@@ -111,8 +150,10 @@ final Modification boasLongFang = Modification(
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Long Fang'))
-  ..addMod(UnitAttribute.mounted_weapons,
-      createReplaceInList(oldValue: 'LGM', newValue: 'MFM'),
+  ..addMod(
+      UnitAttribute.mounted_weapons,
+      createReplaceWeaponInList(
+          oldValue: buildWeapon('LGM')!, newValue: buildWeapon('MFM')!),
       description: '-LGM, +MFM');
 
 final Modification meleeSwap = Modification(
@@ -124,15 +165,16 @@ final Modification meleeSwap = Modification(
   ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'with melee swap'))
   ..addMod(
       UnitAttribute.react_weapons,
-      createReplaceInList(
-          oldValue: 'MVB (Reach:1)', newValue: 'MCW (Reach:1, Demo:4)'),
+      createReplaceWeaponInList(
+          oldValue: buildWeapon('MVB (Reach:1)', hasReact: true)!,
+          newValue: buildWeapon('MCW (Reach:1, Demo:4)', hasReact: true)!),
       description: '-MVB (Reach:1), +MCW (Reach:1, Demo:4)');
 
 final Modification boasArenaPilot = Modification(name: 'Arena Pilot')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'with Arena Pilot'))
-  ..addMod(
-      UnitAttribute.traits, createAddToList(Trait(name: 'Brawl', level: 2)),
+  ..addMod(UnitAttribute.traits,
+      createAddTraitToList(Trait(name: 'Brawl', level: 2)),
       description: '+Brawl:2');
 
 final Modification barbed = Modification(
@@ -142,18 +184,20 @@ final Modification barbed = Modification(
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Barbed'))
-  ..addMod(UnitAttribute.mounted_weapons,
-      createReplaceInList(oldValue: 'LRP', newValue: 'MRP'),
+  ..addMod(
+      UnitAttribute.mounted_weapons,
+      createReplaceWeaponInList(
+          oldValue: buildWeapon('LRP')!, newValue: buildWeapon('MRP')!),
       description: '-LRP, +MRP');
 
 final Modification mpCommand = Modification(name: 'Command Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Command'))
   ..addMod(UnitAttribute.ew, createSetIntMod(5), description: 'EW 5+')
-  ..addMod(UnitAttribute.traits, createAddToList(Trait(name: 'Comms')),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'Comms')),
       description: '+Comms')
-  ..addMod(
-      UnitAttribute.traits, createAddToList(Trait(name: 'ECCM', isAux: true)),
+  ..addMod(UnitAttribute.traits,
+      createAddTraitToList(Trait(name: 'ECCM', isAux: true)),
       description: '+ECCM (Aux)');
 
 final Modification antiGear = Modification(
@@ -163,8 +207,10 @@ final Modification antiGear = Modification(
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(0), description: 'TV: +0')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Anti-Gear'))
-  ..addMod(UnitAttribute.mounted_weapons,
-      createReplaceInList(oldValue: 'MABM', newValue: 'MRP (Link)'),
+  ..addMod(
+      UnitAttribute.mounted_weapons,
+      createReplaceWeaponInList(
+          oldValue: buildWeapon('MABM')!, newValue: buildWeapon('MRP (Link)')!),
       description: '-MABM, +MRP (Link)');
 
 final Modification spark = Modification(
@@ -174,8 +220,11 @@ final Modification spark = Modification(
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(0), description: 'TV: +0')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Spark'))
-  ..addMod(UnitAttribute.react_weapons,
-      createReplaceInList(oldValue: 'MRC', newValue: 'LPA'),
+  ..addMod(
+      UnitAttribute.react_weapons,
+      createReplaceWeaponInList(
+          oldValue: buildWeapon('MRC', hasReact: true)!,
+          newValue: buildWeapon('LPA', hasReact: true)!),
       description: '-MRC, +LPA');
 
 final Modification flame = Modification(
@@ -185,34 +234,37 @@ final Modification flame = Modification(
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Flame'))
-  ..addMod(UnitAttribute.react_weapons,
-      createReplaceInList(oldValue: 'MRC', newValue: 'MFL'),
+  ..addMod(
+      UnitAttribute.react_weapons,
+      createReplaceWeaponInList(
+          oldValue: buildWeapon('MRC', hasReact: true)!,
+          newValue: buildWeapon('MFL', hasReact: true)!),
       description: '-MRC, +MFL');
 
 final Modification hetairoiCommand = Modification(name: 'Command Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Command'))
   ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
-  ..addMod(UnitAttribute.traits, createAddToList(Trait(name: 'Comms')),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'Comms')),
       description: '+Comms')
-  ..addMod(UnitAttribute.traits, createAddToList(Trait(name: 'SatUp')),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'SatUp')),
       description: '+SatUp')
-  ..addMod(
-      UnitAttribute.traits, createAddToList(Trait(name: 'ECCM', isAux: true)),
+  ..addMod(UnitAttribute.traits,
+      createAddTraitToList(Trait(name: 'ECCM', isAux: true)),
       description: '+ECCM (Aux)');
 
 final Modification caimanCommand = Modification(name: 'Command Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Command'))
   ..addMod(UnitAttribute.ew, createSetIntMod(5), description: 'EW 5+')
-  ..addMod(UnitAttribute.traits, createAddToList(Trait(name: 'Comms')),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'Comms')),
       description: '+Comms')
-  ..addMod(UnitAttribute.traits, createAddToList(Trait(name: 'SatUp')),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'SatUp')),
       description: '+SatUp')
-  ..addMod(UnitAttribute.traits, createAddToList(Trait(name: 'ECM')),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'ECM')),
       description: '+ECM')
-  ..addMod(
-      UnitAttribute.traits, createAddToList(Trait(name: 'ECCM', isAux: true)),
+  ..addMod(UnitAttribute.traits,
+      createAddTraitToList(Trait(name: 'ECCM', isAux: true)),
       description: '+ECCM (Aux)');
 
 final Modification single = Modification(name: 'Single')

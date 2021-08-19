@@ -4,6 +4,7 @@ import 'package:gearforce/models/mods/mods.dart';
 import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
+import 'package:gearforce/models/weapons/weapons.dart';
 import 'package:uuid/uuid.dart';
 
 final antiAirId = Uuid().v4();
@@ -80,8 +81,10 @@ class StandardModification extends BaseModification {
     )
       ..addMod(UnitAttribute.tv, createSimpleIntMod(0),
           description: 'TV +1 per drone, Max 2 drones')
-      ..addMod(UnitAttribute.traits,
-          createAddToList(Trait(name: 'Transport', level: 1, type: 'Drone')));
+      ..addMod(
+          UnitAttribute.traits,
+          createAddTraitToList(
+              Trait(name: 'Transport', level: 1, type: 'Drone')));
   }
 
   factory StandardModification.grenadeSwap(Unit u, CombatGroup cg) {
@@ -152,7 +155,7 @@ class StandardModification extends BaseModification {
       )
       ..addMod(
         UnitAttribute.mounted_weapons,
-        createAddToList('LHG'),
+        createAddWeaponToList(buildWeapon('LHG')!),
         description: '+LHG',
       );
   }
@@ -182,7 +185,7 @@ class StandardModification extends BaseModification {
       )
       ..addMod(
         UnitAttribute.mounted_weapons,
-        createAddToList('MHG'),
+        createAddWeaponToList(buildWeapon('MHG')!),
         description: '+MHG',
       );
   }
@@ -237,7 +240,7 @@ class StandardModification extends BaseModification {
       )
       ..addMod(
         UnitAttribute.mounted_weapons,
-        createAddToList('LPZ'),
+        createAddWeaponToList(buildWeapon('LPZ')!),
         description: '+LPZ',
       );
   }
@@ -267,7 +270,7 @@ class StandardModification extends BaseModification {
       )
       ..addMod(
         UnitAttribute.mounted_weapons,
-        createAddToList('MPZ'),
+        createAddWeaponToList(buildWeapon('MPZ')!),
         description: '+MPZ',
       );
   }
@@ -325,7 +328,7 @@ class StandardModification extends BaseModification {
       )
       ..addMod(
         UnitAttribute.react_weapons,
-        createAddToList('LP'),
+        createAddWeaponToList(buildWeapon('LP', hasReact: true)!),
         description: '+LP',
       );
   }
@@ -383,7 +386,7 @@ class StandardModification extends BaseModification {
       )
       ..addMod(
         UnitAttribute.react_weapons,
-        createAddToList('LSMG'),
+        createAddWeaponToList(buildWeapon('LSMG', hasReact: true)!),
         description: '+LSMG',
       );
   }
@@ -439,7 +442,7 @@ class StandardModification extends BaseModification {
       )
       ..addMod(
         UnitAttribute.mounted_weapons,
-        createAddToList('LSE'),
+        createAddWeaponToList(buildWeapon('LSE')!),
         description: '+LSE',
       );
   }
@@ -470,7 +473,7 @@ class StandardModification extends BaseModification {
       )
       ..addMod(
         UnitAttribute.mounted_weapons,
-        createAddToList('MSE'),
+        createAddWeaponToList(buildWeapon('MSE')!),
         description: '+MSE',
       );
   }
@@ -499,7 +502,7 @@ class StandardModification extends BaseModification {
       )
       ..addMod(
         UnitAttribute.traits,
-        createAddToList(Trait(name: 'Smoke')),
+        createAddTraitToList(Trait(name: 'Smoke')),
         description: '+Smoke',
       );
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
@@ -352,7 +353,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
     UnitRoster roster,
   ) {
     /*Future<OptionResult?> futureResult =*/
-    showDialog<OptionResult>(
+    var result = showDialog<OptionResult>(
         context: context,
         builder: (BuildContext context) {
           return ChangeNotifierProvider.value(
@@ -363,6 +364,14 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
             ),
           );
         });
+
+    result.whenComplete(() {
+      if (!kReleaseMode) {
+        print('unit weapons after returning from upgrade screen');
+        print('react weapons: ${unit.reactWeapons.toString()}');
+        print('mount weapons: ${unit.mountedWeapons.toString()}');
+      }
+    });
 
     /* futureResult.then((value) {
       switch (value) {
