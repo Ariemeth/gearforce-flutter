@@ -38,7 +38,7 @@ class Unit extends ChangeNotifier {
 
     var decodedMods = json['mods'] as List;
     if (decodedMods.isNotEmpty) {
-      var availableUnitMods = getUnitMods(u.core.frame);
+      var availableUnitMods = getUnitMods(u.core.frame, u);
       decodedMods.forEach((modeName) {
         try {
           var mod = availableUnitMods.firstWhere((mod) => mod.name == modeName);

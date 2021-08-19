@@ -55,7 +55,7 @@ class VeternModification extends BaseModification {
               !u.traits.any((element) => element.name == 'Vet');
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
-      ..addMod(UnitAttribute.traits, createAddToList(Trait(name: 'Vet')),
+      ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'Vet')),
           description: '+Vet');
   }
 
@@ -76,7 +76,7 @@ class VeternModification extends BaseModification {
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
       ..addMod(UnitAttribute.special,
-          createAddToList('Add +1d6 to any EW rolls made by this model'),
+          createAddStringToList('Add +1d6 to any EW rolls made by this model'),
           description: 'Add +1d6 to any EW rolls made by this model');
   }
 
@@ -122,7 +122,7 @@ class VeternModification extends BaseModification {
       )
       ..addMod(
         UnitAttribute.traits,
-        createAddToList(Trait(name: 'Field Armor')),
+        createAddTraitToList(Trait(name: 'Field Armor')),
         description: '+Field Armor',
       );
   }
@@ -159,7 +159,7 @@ class VeternModification extends BaseModification {
           value = createRemoveFromList(oldTrait)(value);
         }
 
-        return createAddToList(Trait(name: 'Brawl', level: newLevel + 1))(
+        return createAddTraitToList(Trait(name: 'Brawl', level: newLevel + 1))(
             value);
       }, description: '+Brawl:1 or +1 to existing Brawl');
   }
@@ -196,7 +196,7 @@ class VeternModification extends BaseModification {
           value = createRemoveFromList(oldTrait)(value);
         }
 
-        return createAddToList(Trait(name: 'Brawl', level: newLevel + 2))(
+        return createAddTraitToList(Trait(name: 'Brawl', level: newLevel + 2))(
             value);
       }, description: '+Brawl:2 or +2 to existing Brawl');
   }
@@ -238,7 +238,7 @@ class VeternModification extends BaseModification {
                 element.name == 'Vuln' && element.type == 'Haywire');
             return createRemoveFromList(oldTrait)(value);
           } else {
-            return createAddToList(
+            return createAddTraitToList(
               Trait(name: 'Resist', type: 'Haywire'),
             )(value);
           }
@@ -283,7 +283,8 @@ class VeternModification extends BaseModification {
                 (element) => element.name == 'Vuln' && element.type == 'Fire');
             return createRemoveFromList(oldTrait)(value);
           } else {
-            return createAddToList(Trait(name: 'Resist', type: 'Fire'))(value);
+            return createAddTraitToList(Trait(name: 'Resist', type: 'Fire'))(
+                value);
           }
         },
         description: '${isVulnerable ? '-Vuln:Fire' : ' +Resist:Fire'}',
@@ -444,8 +445,8 @@ class VeternModification extends BaseModification {
                 element.name == 'Vuln' && element.type == 'Corrosion');
             return createRemoveFromList(oldTrait)(value);
           } else {
-            return createAddToList(Trait(name: 'Resist', type: 'Corrosion'))(
-                value);
+            return createAddTraitToList(
+                Trait(name: 'Resist', type: 'Corrosion'))(value);
           }
         },
         description:
@@ -518,7 +519,7 @@ class VeternModification extends BaseModification {
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
       ..addMod(
           UnitAttribute.special,
-          createAddToList(
+          createAddStringToList(
               'This model does not suffer the -1D6 modifier when using the Split weapon trait'),
           description:
               'This model does not suffer the -1D6 modifier when using the Split weapon trait');

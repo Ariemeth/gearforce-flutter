@@ -74,14 +74,14 @@ class DuelistModification extends BaseModification {
     );
     mod.addMod(
       UnitAttribute.traits,
-      createAddToList(Trait(name: 'Duelist')),
+      createAddTraitToList(Trait(name: 'Duelist')),
       description: '+Duelist',
     );
 
     if (!isVet) {
       mod.addMod(
         UnitAttribute.traits,
-        createAddToList(Trait(name: 'Vet')),
+        createAddTraitToList(Trait(name: 'Vet')),
         description: '+Vet',
       );
     }

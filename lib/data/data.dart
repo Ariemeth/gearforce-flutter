@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:gearforce/models/factions/faction.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/unit/frame.dart';
-import 'package:gearforce/models/mods/modification.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
 
@@ -29,17 +28,6 @@ class Data {
   /// Retrieves a list of factions.
   List<Faction> factions() {
     return _factions;
-  }
-
-  /// Returns a list of Modifications for a specific [faction]'s [frame]
-  ///
-  /// If no frames are found for a [faction] or there are no modifications
-  /// found, the returned list will be empty.
-  List<Modification> availableUnitMods(FactionType faction, String frame) {
-    var l = _factionFrames[faction];
-    return l == null
-        ? []
-        : l.where((element) => element.name == frame).first.availableUpgrades;
   }
 
   /// Returns a list of UnitCore's for the specified [faction] and [role] if

@@ -27,7 +27,7 @@ class UpgradesDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final unit = Provider.of<Unit>(context);
-    final unitMods = getUnitMods(unit.core.frame);
+    final unitMods = getUnitMods(unit.core.frame, unit);
     final standardMods = getStandardMods(unit, cg);
     final veteranMods = getVeteranMods(unit, cg);
     final duelistMods = getDuelistMods(unit, roster);

@@ -11,8 +11,9 @@ import 'package:gearforce/models/mods/unitUpgrades/peace_river.dart'
 import 'package:gearforce/models/mods/unitUpgrades/south.dart' as south;
 import 'package:gearforce/models/mods/unitUpgrades/universal.dart' as universal;
 import 'package:gearforce/models/mods/unitUpgrades/utopia.dart' as utopia;
+import 'package:gearforce/models/unit/unit.dart';
 
-List<Modification> getUnitMods(String frameName) {
+List<Modification> getUnitMods(String frameName, Unit unit) {
   switch (frameName.toLowerCase()) {
     // Northern units
     case 'hunter':
@@ -59,7 +60,7 @@ List<Modification> getUnitMods(String frameName) {
     case 'copperhead':
       return [south.copperheadArenaPilot];
     case 'diamondback':
-      return [south.longFang, south.diamondbackArenaPilot];
+      return [south.longFang, south.diamondbackArenaPilot(unit)];
     case 'salamander':
       return [south.ruggedTerrain];
     case 'desert viper':
