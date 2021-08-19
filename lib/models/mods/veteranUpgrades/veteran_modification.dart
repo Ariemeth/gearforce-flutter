@@ -102,6 +102,10 @@ class VeternModification extends BaseModification {
             return false;
           }
 
+          if (u.traits.any((element) => element.name == 'Field Armor')) {
+            return false;
+          }
+
           return u.traits.any((element) => element.name == 'Vet');
         })
       ..addMod(

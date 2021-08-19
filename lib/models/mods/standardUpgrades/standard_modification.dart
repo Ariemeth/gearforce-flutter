@@ -54,8 +54,6 @@ class StandardModification extends BaseModification {
                   .any((element) => exp.hasMatch(element.abbreviation)) ||
               u.reactWeapons
                   .any((element) => exp.hasMatch(element.abbreviation));
-          //  final hasMatchingWeapon = exp.hasMatch(u.mountedWeapons.toString()) ||
-          //      exp.hasMatch(u.reactWeapons.toString());
           if (!hasMatchingWeapon) {
             return false;
           }
