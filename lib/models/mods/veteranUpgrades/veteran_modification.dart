@@ -5,6 +5,8 @@ import 'package:gearforce/models/mods/mods.dart';
 import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
+import 'package:gearforce/models/weapons/weapon.dart';
+import 'package:gearforce/models/weapons/weapons.dart';
 import 'package:uuid/uuid.dart';
 
 final veteranId = Uuid().v4();
@@ -20,6 +22,8 @@ final sharpshooterId = Uuid().v4();
 final trickShotId = Uuid().v4();
 final meleeUpgradeLVB = Uuid().v4();
 final meleeUpgradeLCW = Uuid().v4();
+
+final _plusMinusMatch = RegExp(r'^(\+|-)');
 
 class VeternModification extends BaseModification {
   VeternModification({
@@ -95,6 +99,10 @@ class VeternModification extends BaseModification {
           }
 
           if (u.armor == null || u.armor! > 12) {
+            return false;
+          }
+
+          if (u.traits.any((element) => element.name == 'Field Armor')) {
             return false;
           }
 
@@ -296,26 +304,23 @@ class VeternModification extends BaseModification {
 
   factory VeternModification.oldReliable(Unit u) {
     final RegExp meleeCheck = RegExp(r'\b([LM])(VB|SG|CW)');
-    final react = u.reactWeapons;
+    final react = u.reactWeapons.toList();
 
-    var myList = react.toList().where((weapon) => meleeCheck.hasMatch(weapon));
+    final matchingWeapons =
+        react.where((element) => meleeCheck.hasMatch(element.abbreviation));
 
     List<ModificationOption>? _options;
-    if (myList.isNotEmpty) {
+    if (matchingWeapons.isNotEmpty) {
       _options = [];
-      myList.forEach((item) {
-        var match = meleeCheck.firstMatch(item);
-        if (match == null) {
-          return;
-        }
-        switch (match.group(2)?.toUpperCase()) {
+      matchingWeapons.forEach((item) {
+        switch (item.code) {
           case 'VB':
             _options!.add(
               ModificationOption(
                 '-$item',
                 subOptions: [
-                  ModificationOption('+${match.group(1)}SG'),
-                  ModificationOption('+${match.group(1)}CW'),
+                  ModificationOption('+${item.size}SG'),
+                  ModificationOption('+${item.size}CW'),
                 ],
               ),
             );
@@ -325,8 +330,8 @@ class VeternModification extends BaseModification {
               ModificationOption(
                 '-$item',
                 subOptions: [
-                  ModificationOption('+${match.group(1)}VB'),
-                  ModificationOption('+${match.group(1)}CW'),
+                  ModificationOption('+${item.size}VB'),
+                  ModificationOption('+${item.size}CW'),
                 ],
               ),
             );
@@ -336,8 +341,8 @@ class VeternModification extends BaseModification {
               ModificationOption(
                 '-$item',
                 subOptions: [
-                  ModificationOption('+${match.group(1)}SG'),
-                  ModificationOption('+${match.group(1)}VB'),
+                  ModificationOption('+${item.size}SG'),
+                  ModificationOption('+${item.size}VB'),
                 ],
               ),
             );
@@ -350,6 +355,7 @@ class VeternModification extends BaseModification {
         description:
             'One Light (L) or Medium (M) melee weapon with the React trait ' +
                 'can be swapped for an equal class melee weapon for 0 TV,');
+
     return VeternModification(
         name: 'Old Reliable',
         id: oldReliableId,
@@ -364,7 +370,7 @@ class VeternModification extends BaseModification {
           }
 
           // check to ensure the unit has an appropriate weapon that can be upgraded
-          if (!meleeCheck.hasMatch(react.toString())) {
+          if (matchingWeapons.isEmpty) {
             return false;
           }
 
@@ -376,19 +382,27 @@ class VeternModification extends BaseModification {
                   'can be swapped for an equal class melee weapon for 0 TV,' +
                   'i.e. a LCW can be swapped for a LVB or a LSG')
       ..addMod(UnitAttribute.react_weapons, (value) {
-        if (!(value is List<String>)) {
+        if (!(value is List<Weapon>)) {
           return value;
         }
 
         // Grab the substring starting at position 1 to exclude the - or +
-        var remove = modOptions.selectedOption;
-        if (remove != null) {
-          value = createRemoveFromList(remove.text.substring(1))(value);
+        if (modOptions.selectedOption == null ||
+            modOptions.selectedOption!.selectedOption == null) {
+          return value;
         }
-        var add = remove?.selectedOption;
+        var remove = value.firstWhere((element) =>
+            element.abbreviation ==
+            modOptions.selectedOption!.text.replaceAll(_plusMinusMatch, ''));
+
+        value = value.toList()..remove(remove);
+
+        var add = buildWeapon(modOptions.selectedOption!.selectedOption!.text
+            .replaceAll(_plusMinusMatch, ''));
         if (add != null) {
-          value = createAddToList(add.text.substring(1))(value);
+          value.add(add);
         }
+
         return value;
       });
   }

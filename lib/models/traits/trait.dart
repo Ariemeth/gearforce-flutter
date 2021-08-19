@@ -1,4 +1,4 @@
-final traitNameMatch = RegExp(r'^([a-zA-Z+]+)', caseSensitive: false);
+final traitNameMatch = RegExp(r'^([a-zA-Z +]+)', caseSensitive: false);
 final auxMatch = RegExp(r'(Aux)', caseSensitive: false);
 final levelMatch = RegExp(r':([+-]?\d+)');
 final typeMatch = RegExp(r'([a-zA-Z+]+)$', caseSensitive: false);
@@ -33,7 +33,7 @@ class Trait {
   }
 
   factory Trait.fromString(String str) {
-    var nameCheck = traitNameMatch.firstMatch(str)?.group(1);
+    var nameCheck = traitNameMatch.firstMatch(str)?.group(1)?.trim();
     assert(nameCheck != null, 'trait: [$str] name must match, but did not');
     final auxCheck = auxMatch.hasMatch(str);
     var levelCheck = levelMatch.firstMatch(str)?.group(1);
@@ -46,12 +46,12 @@ class Trait {
         type != null,
         'trait: [$str] vuln,resist type check should not be null',
       );
-      // handle transport traits
-    } else if (nameCheck == 'Transport') {
+      // handle transport or occupancy traits
+    } else if (nameCheck == 'Transport' || nameCheck == 'Occupancy') {
       var transportTypeCheck = typeMatch.firstMatch(str)?.group(1);
       assert(
         transportTypeCheck != null,
-        'trait: [$str] transport type check should not be null',
+        'trait: [$str] type check should not be null',
       );
       type = transportTypeCheck;
     }

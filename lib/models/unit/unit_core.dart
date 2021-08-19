@@ -2,6 +2,8 @@ import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/movement.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
+import 'package:gearforce/models/weapons/weapon.dart';
+import 'package:gearforce/models/weapons/weapons.dart';
 
 class UnitCore {
   const UnitCore({
@@ -34,8 +36,8 @@ class UnitCore {
   final int? gunnery;
   final int? piloting;
   final int? ew;
-  final List<String> reactWeapons;
-  final List<String> mountedWeapons;
+  final List<Weapon> reactWeapons;
+  final List<Weapon> mountedWeapons;
   final List<Trait> traits;
   final String type;
   final String height;
@@ -178,20 +180,24 @@ class UnitCore {
   }
 
   factory UnitCore.fromJson(dynamic json, {String frame = ''}) {
-    List<String> reactWeapons = json['react-weapons'] == '-'
+    List<Weapon> reactWeapons = json['react-weapons'] == '-'
         ? []
         : List.from(json['react-weapons']
             .toString()
             .split(',')
-            .map((e) => e.trim())
+            .map<Weapon?>((e) => buildWeapon(e.trim(), hasReact: true))
+            .whereType<Weapon>()
             .toList());
-    List<String> mountedWeapons = json['mounted-weapons'] == '-'
+
+    List<Weapon> mountedWeapons = json['mounted-weapons'] == '-'
         ? []
         : List.from(json['mounted-weapons']
             .toString()
             .split(',')
-            .map((e) => e.trim())
+            .map<Weapon?>((e) => buildWeapon(e.trim()))
+            .whereType<Weapon>()
             .toList());
+
     List<Trait> traits = json['traits'] == '-'
         ? []
         : List.from(json['traits']

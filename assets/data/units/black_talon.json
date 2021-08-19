@@ -629,7 +629,7 @@
           "ew": "4+",
           "react-weapons": "MRC",
           "mounted-weapons": "MATM, LCW",
-          "traits": "+SP:+1, React+, Airdrop, Vet, ECM, Comms, SatUp, ECCM (Aux), Stealth (Aux), TD (Aux), Sensor Boom (Aux)",
+          "traits": "SP:+1, React+, Airdrop, Vet, ECM, Comms, SatUp, ECCM (Aux), Stealth (Aux), TD (Aux), Sensor Boom (Aux)",
           "type": "Strider",
           "height": 2
         }
