@@ -590,7 +590,7 @@ Weapon? buildWeapon(
     numberOf: numberOf != null ? int.parse(numberOf) : 1,
     modes: modes,
     range: range,
-    baseDamage: damage,
+    damage: damage,
     hasReact: hasReact,
     traits: traits,
     optionalTraits: optionalTraits,

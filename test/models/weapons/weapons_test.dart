@@ -385,7 +385,7 @@ void main() {
               reason: 'check weapon code');
           expect(l?.name, equals(tt.name), reason: 'check name');
           expect(l?.modes, equals(tt.modes), reason: 'check modes');
-          expect(l?.baseDamage, equals(tt.damage[size]),
+          expect(l?.damage, equals(tt.damage[size]),
               reason: 'check damage');
           expect(l?.range.toString(), equals(tt.range.toString()),
               reason: 'check range');
@@ -420,7 +420,7 @@ void main() {
         expect(l?.abbreviation, '$size$code', reason: 'check weapon code');
         expect(l?.name, equals(name), reason: 'check name');
         expect(l?.modes, equals(modes), reason: 'check modes');
-        expect(l?.baseDamage, equals(damage[size]), reason: 'check damage');
+        expect(l?.damage, equals(damage[size]), reason: 'check damage');
         expect(l?.range.toString(), equals(range.toString()),
             reason: 'check range');
         expect(l?.traits.toString(), equals(traits.toString()),
@@ -447,7 +447,7 @@ void main() {
         expect(l?.abbreviation, '$size$code', reason: 'check weapon code');
         expect(l?.name, equals(name), reason: 'check name');
         expect(l?.modes, equals(modes), reason: 'check modes');
-        expect(l?.baseDamage, equals(damage[size]), reason: 'check damage');
+        expect(l?.damage, equals(damage[size]), reason: 'check damage');
         expect(l?.range.toString(), equals(range.toString()),
             reason: 'check range');
         expect(l?.traits.toString(), equals(traits.toString()),
@@ -478,7 +478,7 @@ void main() {
         expect(l?.abbreviation, '$size$code', reason: 'check weapon code');
         expect(l?.name, equals(name), reason: 'check name');
         expect(l?.modes, equals(modes), reason: 'check modes');
-        expect(l?.baseDamage, equals(damage[size]), reason: 'check damage');
+        expect(l?.damage, equals(damage[size]), reason: 'check damage');
         expect(l?.range.toString(), equals(range.toString()),
             reason: 'check range');
         expect(l?.traits.toString(), equals(traits.toString()),
@@ -509,7 +509,7 @@ void main() {
         expect(l?.abbreviation, '$size$code', reason: 'check weapon code');
         expect(l?.name, equals(name), reason: 'check name');
         expect(l?.modes, equals(modes), reason: 'check modes');
-        expect(l?.baseDamage, equals(damage[size]), reason: 'check damage');
+        expect(l?.damage, equals(damage[size]), reason: 'check damage');
         expect(l?.range.toString(), equals(range.toString()),
             reason: 'check range');
         expect(l?.traits.toString(), equals(traits.toString()),
@@ -537,7 +537,7 @@ void main() {
         expect(l?.abbreviation, '$size$code', reason: 'check weapon code');
         expect(l?.name, equals(name), reason: 'check name');
         expect(l?.modes, equals(modes), reason: 'check modes');
-        expect(l?.baseDamage, equals(damage[size]), reason: 'check damage');
+        expect(l?.damage, equals(damage[size]), reason: 'check damage');
         expect(l?.range.toString(), equals(range.toString()),
             reason: 'check range');
         expect(l?.traits.toString(), equals(traits.toString()),
@@ -564,7 +564,7 @@ void main() {
         expect(l?.abbreviation, '$size$code', reason: 'check weapon code');
         expect(l?.name, equals(name), reason: 'check name');
         expect(l?.modes, equals(modes), reason: 'check modes');
-        expect(l?.baseDamage, equals(damage[size]), reason: 'check damage');
+        expect(l?.damage, equals(damage[size]), reason: 'check damage');
         expect(l?.range.toString(), equals(range.toString()),
             reason: 'check range');
         expect(l?.traits.toString(), equals(traits.toString()),
@@ -592,7 +592,7 @@ void main() {
         expect(l?.abbreviation, '$size$code', reason: 'check weapon code');
         expect(l?.name, equals(name), reason: 'check name');
         expect(l?.modes, equals(modes), reason: 'check modes');
-        expect(l?.baseDamage, equals(damage[size]), reason: 'check damage');
+        expect(l?.damage, equals(damage[size]), reason: 'check damage');
         expect(l?.range.toString(), equals(range.toString()),
             reason: 'check range');
         expect(l?.traits.toString(), equals(traits.toString()),
@@ -620,7 +620,7 @@ void main() {
         expect(l?.abbreviation, '$size$code', reason: 'check weapon code');
         expect(l?.name, equals(name), reason: 'check name');
         expect(l?.modes, equals(modes), reason: 'check modes');
-        expect(l?.baseDamage, equals(damage[size]), reason: 'check damage');
+        expect(l?.damage, equals(damage[size]), reason: 'check damage');
         expect(l?.range.toString(), equals(range.toString()),
             reason: 'check range');
         expect(l?.traits.toString(), equals(traits.toString()),
@@ -649,7 +649,7 @@ void main() {
         expect(l?.abbreviation, '$size$code', reason: 'check weapon code');
         expect(l?.name, equals(name), reason: 'check name');
         expect(l?.modes, equals(modes), reason: 'check modes');
-        expect(l?.baseDamage, equals(damage[size]), reason: 'check damage');
+        expect(l?.damage, equals(damage[size]), reason: 'check damage');
         expect(l?.range.toString(), equals(range.toString()),
             reason: 'check range');
         expect(l?.traits.toString(), equals(traits.toString()),
@@ -676,7 +676,7 @@ void main() {
         expect(l?.abbreviation, '$size$code', reason: 'check weapon code');
         expect(l?.name, equals(name), reason: 'check name');
         expect(l?.modes, equals(modes), reason: 'check modes');
-        expect(l?.baseDamage, equals(damage[size]), reason: 'check damage');
+        expect(l?.damage, equals(damage[size]), reason: 'check damage');
         expect(l?.range.toString(), equals(range.toString()),
             reason: 'check range');
         expect(l?.traits.toString(), equals(traits.toString()),
@@ -704,7 +704,7 @@ void main() {
         expect(l?.abbreviation, '$size$code', reason: 'check weapon code');
         expect(l?.name, equals(name), reason: 'check name');
         expect(l?.modes, equals(modes), reason: 'check modes');
-        expect(l?.baseDamage, equals(damage[size]), reason: 'check damage');
+        expect(l?.damage, equals(damage[size]), reason: 'check damage');
         expect(l?.range.toString(), equals(range.toString()),
             reason: 'check range');
         expect(l?.traits.toString(), equals(traits.toString()),
@@ -731,7 +731,7 @@ void main() {
         expect(l?.abbreviation, '$size$code', reason: 'check weapon code');
         expect(l?.name, equals(name), reason: 'check name');
         expect(l?.modes, equals(modes), reason: 'check modes');
-        expect(l?.baseDamage, equals(damage[size]), reason: 'check damage');
+        expect(l?.damage, equals(damage[size]), reason: 'check damage');
         expect(l?.range.toString(), equals(range.toString()),
             reason: 'check range');
         expect(l?.traits.toString(), equals(traits.toString()),
@@ -758,7 +758,7 @@ void main() {
         expect(l?.abbreviation, '$size$code', reason: 'check weapon code');
         expect(l?.name, equals(name), reason: 'check name');
         expect(l?.modes, equals(modes), reason: 'check modes');
-        expect(l?.baseDamage, equals(damage[size]), reason: 'check damage');
+        expect(l?.damage, equals(damage[size]), reason: 'check damage');
         expect(l?.range.toString(), equals(range.toString()),
             reason: 'check range');
         expect(l?.traits.toString(), equals(traits.toString()),
@@ -796,7 +796,7 @@ void main() {
               reason: 'check weapon code');
           expect(l?.name, equals(tt.name), reason: 'check name');
           expect(l?.modes, equals(tt.modes), reason: 'check modes');
-          expect(l?.baseDamage, equals(tt.damage[size]),
+          expect(l?.damage, equals(tt.damage[size]),
               reason: 'check damage');
           expect(l?.range.toString(), equals(tt.range.toString()),
               reason: 'check range');
@@ -835,7 +835,7 @@ void main() {
               reason: 'check weapon code');
           expect(l?.name, equals(tt.name), reason: 'check name');
           expect(l?.modes, equals(tt.modes), reason: 'check modes');
-          expect(l?.baseDamage, equals(tt.damage[size]),
+          expect(l?.damage, equals(tt.damage[size]),
               reason: 'check damage');
           expect(l?.range.toString(), equals(tt.range.toString()),
               reason: 'check range');
@@ -855,10 +855,10 @@ void main() {
     expect(l, isNotNull, reason: 'weapon should not be null');
     expect(l?.abbreviation, equals('LAC'), reason: 'check weapon code');
     expect(l?.name, isNotNull, reason: 'check that name is not null');
-    expect(l?.baseDamage, isNot(equals(-1)),
+    expect(l?.damage, isNot(equals(-1)),
         reason: 'check that damage is not -1');
     expect(l?.combo, isNotNull, reason: 'combo should not be null');
-    expect(l?.combo?.baseDamage, isNot(equals(-1)),
+    expect(l?.combo?.damage, isNot(equals(-1)),
         reason: 'combo weapons damage should not be -1');
     expect(l?.combo?.abbreviation, equals('LGL'), reason: 'combo weapon name');
     expect(l?.toString(), equals('LAC/LGL'), reason: 'check toString');
@@ -869,10 +869,10 @@ void main() {
     expect(l, isNotNull, reason: 'weapon should not be null');
     expect(l?.abbreviation, equals('LAC'), reason: 'check weapon code');
     expect(l?.name, isNotNull, reason: 'check that name is not null');
-    expect(l?.baseDamage, isNot(equals(-1)),
+    expect(l?.damage, isNot(equals(-1)),
         reason: 'check that damage is not -1');
     expect(l?.combo, isNotNull, reason: 'combo should not be null');
-    expect(l?.combo?.baseDamage, isNot(equals(-1)),
+    expect(l?.combo?.damage, isNot(equals(-1)),
         reason: 'combo weapons damage should not be -1');
     expect(l?.combo?.abbreviation, equals('LGL'), reason: 'combo weapon name');
     expect(l?.traits.last.toString(), equals(l?.combo?.traits.last.toString()),
@@ -892,7 +892,7 @@ void main() {
     expect(l?.abbreviation, 'BB', reason: 'check weapon code');
     expect(l?.name, equals(name), reason: 'check name');
     expect(l?.modes, equals(modes), reason: 'check modes');
-    expect(l?.baseDamage, equals(damage), reason: 'check damage');
+    expect(l?.damage, equals(damage), reason: 'check damage');
     expect(l?.range.toString(), equals(range.toString()),
         reason: 'check range');
     expect(l?.traits.toString(), equals(traits.toString()),

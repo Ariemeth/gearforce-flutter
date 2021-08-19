@@ -17,13 +17,13 @@ void main() {
       name: weaponName,
       modes: [mode],
       range: range,
-      baseDamage: weaponDamage,
+      damage: weaponDamage,
     );
     expect(w.abbreviation, equals(weaponAbbreviation),
         reason: 'check weapon abbreviation');
     expect(w.name, equals(weaponName), reason: 'check weapon name');
     expect(w.modes, equals([mode]), reason: 'check weapon mode');
-    expect(w.baseDamage, equals(weaponDamage), reason: 'check weapon damage');
+    expect(w.damage, equals(weaponDamage), reason: 'check weapon damage');
     expect(w.hasReact, isFalse, reason: 'check hasReact');
     expect(w.traits, isEmpty, reason: 'check traits');
     expect(w.optionalTraits, isEmpty, reason: 'check optional traits');
@@ -41,14 +41,14 @@ void main() {
       name: weaponName,
       modes: [mode],
       range: range,
-      baseDamage: weaponDamage,
+      damage: weaponDamage,
       hasReact: true,
     );
     expect(w.abbreviation, equals(weaponAbbreviation),
         reason: 'check weapon abbreviation');
     expect(w.name, equals(weaponName), reason: 'check weapon name');
     expect(w.modes, equals([mode]), reason: 'check weapon mode');
-    expect(w.baseDamage, equals(weaponDamage), reason: 'check weapon damage');
+    expect(w.damage, equals(weaponDamage), reason: 'check weapon damage');
     expect(w.hasReact, isTrue, reason: 'check hasReact');
     expect(w.traits, isEmpty, reason: 'check traits');
     expect(w.optionalTraits, isEmpty, reason: 'check optional traits');
@@ -67,14 +67,14 @@ void main() {
       name: weaponName,
       modes: [mode],
       range: range,
-      baseDamage: weaponDamage,
+      damage: weaponDamage,
       traits: [trait],
     );
     expect(w.abbreviation, equals(weaponAbbreviation),
         reason: 'check weapon abbreviation');
     expect(w.name, equals(weaponName), reason: 'check weapon name');
     expect(w.modes, equals([mode]), reason: 'check weapon mode');
-    expect(w.baseDamage, equals(weaponDamage), reason: 'check weapon damage');
+    expect(w.damage, equals(weaponDamage), reason: 'check weapon damage');
     expect(w.hasReact, isFalse, reason: 'check hasReact');
     expect(w.traits, hasLength(1), reason: 'check traits size');
     expect(w.traits.first, equals(trait), reason: 'ensure trait was added');
@@ -94,7 +94,7 @@ void main() {
       name: weaponName,
       range: range,
       modes: [mode],
-      baseDamage: weaponDamage,
+      damage: weaponDamage,
       hasReact: true,
       traits: [trait],
     );
@@ -102,7 +102,7 @@ void main() {
         reason: 'check weapon abbreviation');
     expect(w.name, equals(weaponName), reason: 'check weapon name');
     expect(w.modes, equals([mode]), reason: 'check weapon mode');
-    expect(w.baseDamage, equals(weaponDamage), reason: 'check weapon damage');
+    expect(w.damage, equals(weaponDamage), reason: 'check weapon damage');
     expect(w.hasReact, isTrue, reason: 'check hasReact');
     expect(w.traits, hasLength(1), reason: 'check traits size');
     expect(w.traits.first, equals(trait), reason: 'ensure trait was added');
@@ -122,7 +122,7 @@ void main() {
       name: weaponName,
       range: range,
       modes: [mode],
-      baseDamage: weaponDamage,
+      damage: weaponDamage,
       hasReact: true,
       traits: [trait],
     );
@@ -142,7 +142,7 @@ void main() {
       name: weaponName,
       range: range,
       modes: [mode],
-      baseDamage: weaponDamage,
+      damage: weaponDamage,
       hasReact: true,
       traits: [trait],
     );

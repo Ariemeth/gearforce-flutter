@@ -8,7 +8,7 @@ class Weapon {
     required this.name,
     required this.modes,
     required this.range,
-    required this.baseDamage,
+    required this.damage,
     this.numberOf = 1,
     this.hasReact = false,
     this.traits = const [],
@@ -21,7 +21,7 @@ class Weapon {
   final int numberOf;
   final List<weaponModes> modes;
   final Range range;
-  final int baseDamage;
+  final int damage;
   final bool hasReact;
   final List<Trait> traits;
   final List<Trait> optionalTraits;
@@ -30,10 +30,6 @@ class Weapon {
 
   String get size => abbreviation.substring(0, 1);
   String get code => abbreviation.substring(1);
-  int get damage =>
-      traits.any((element) => element.name.toUpperCase() == 'APEX')
-          ? baseDamage + 1
-          : baseDamage;
 
   @override
   String toString() {
@@ -69,7 +65,7 @@ class Weapon {
       name: '',
       modes: [],
       range: Range(0, null, null),
-      baseDamage: -1,
+      damage: -1,
     );
   }
 }
