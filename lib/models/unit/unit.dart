@@ -172,6 +172,8 @@ class Unit extends ChangeNotifier {
   }
 
   List<Trait> get traits {
+    // TODO Need to think about creating new traits and weapons before returning
+    // them from these properties, instead of having to do it in every mod
     var value = this.core.traits.toList();
 
     for (var mod in this._mods) {

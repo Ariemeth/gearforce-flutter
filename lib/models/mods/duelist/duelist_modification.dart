@@ -345,15 +345,52 @@ class DuelistModification extends BaseModification {
   be used.
   */
   factory DuelistModification.lunge(Unit u) {
+    final react = u.reactWeapons;
+    final List<ModificationOption> _options = [];
+    const traitToAdd = Trait(name: 'Brawl', level: 1);
+    final allowedWeaponMatch = RegExp(r'^(VB|SG|CW)$');
+    react.where((weapon) {
+      return allowedWeaponMatch.hasMatch(weapon.code) &&
+          !weapon.traits.any((trait) => trait.name == 'Reach');
+    }).forEach((weapon) {
+      _options.add(ModificationOption(weapon.toString()));
+    });
+
+    final modOptions = ModificationOption('Lunge',
+        subOptions: _options,
+        description: 'Choose one of the available weapons to add Reach:1');
+
     return DuelistModification(
         name: 'Lunge',
         id: lungeId,
+        options: modOptions,
         requirementCheck: () {
           if (u.hasMod(lungeId)) {
             return false;
           }
+
+          if (!u.reactWeapons.any((weapon) =>
+              allowedWeaponMatch.hasMatch(weapon.code) &&
+              !weapon.traits.any((trait) => trait.name == 'Reach'))) {
+            return false;
+          }
           return u.isDuelist;
-        });
+        })
+      ..addMod(UnitAttribute.tv, createSimpleIntMod(0), description: 'TV +0')
+      ..addMod(UnitAttribute.react_weapons, (value) {
+        if (!(value is List<Weapon>)) {
+          return value;
+        }
+        final newList =
+            value.map((weapon) => Weapon.fromWeapon(weapon)).toList();
+        if (modOptions.selectedOption != null) {
+          var existingWeapon = newList.firstWhere(
+              (weapon) => weapon.toString() == modOptions.selectedOption?.text);
+          existingWeapon.bonusTraits.add(traitToAdd);
+        }
+      },
+          description:
+              'Add the Reach:1 trait to any Vibro Blade, Spike Gun or Combat Weapon with the React trait.');
   }
 
   /*
