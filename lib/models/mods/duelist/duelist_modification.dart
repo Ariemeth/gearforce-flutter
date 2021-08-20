@@ -1,10 +1,13 @@
 import 'package:gearforce/models/mods/base_modification.dart';
+import 'package:gearforce/models/mods/modification_option.dart';
 import 'package:gearforce/models/mods/mods.dart';
 import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
+import 'package:gearforce/models/weapons/weapon.dart';
+import 'package:gearforce/models/weapons/weapons.dart';
 import 'package:uuid/uuid.dart';
 
 final duelistId = Uuid().v4();
@@ -27,7 +30,8 @@ class DuelistModification extends BaseModification {
     this.requirementCheck = _defaultRequirementsFunction,
     this.unit,
     this.roster,
-  }) : super(name: name, id: id);
+    final ModificationOption? options,
+  }) : super(name: name, id: id, options: options);
 
   // function to ensure the modification can be applied to the unit
   final bool Function() requirementCheck;
@@ -94,15 +98,75 @@ class DuelistModification extends BaseModification {
   the Stable trait to a combo weapon for 3 TV.
   */
   factory DuelistModification.aceGunner(Unit u) {
-    return DuelistModification(
+    final react = u.reactWeapons;
+    final mounted = u.mountedWeapons;
+    final List<ModificationOption> _options = [];
+    const traitToAdd = Trait(name: 'Stable');
+
+    final allWeapons = react.toList()..addAll(mounted);
+    allWeapons.forEach((weapon) {
+      _options.add(ModificationOption('${weapon.toString()}'));
+    });
+
+    var modOptions = ModificationOption('Ace Gunner',
+        subOptions: _options,
+        description: 'Choose a weapon to gain the Stable trait.');
+
+    final mod = DuelistModification(
         name: 'Ace Gunner',
         id: aceGunnerId,
+        options: modOptions,
         requirementCheck: () {
           if (u.hasMod(aceGunnerId)) {
             return false;
           }
           return u.isDuelist;
-        });
+        })
+      ..addMod(UnitAttribute.tv, (value) {
+        if (!(value is int)) {
+          return value;
+        }
+
+        return value + _aceGunnerCost(modOptions.selectedOption);
+      },
+          description:
+              'TV +2/3 Add Stable to a weapon for TV +3 for combo weapons or +2 for regular weapons')
+      ..addMod(UnitAttribute.react_weapons, (value) {
+        if (!(value is List<Weapon>)) {
+          return value;
+        }
+        final newList =
+            value.map((weapon) => Weapon.fromWeapon(weapon)).toList();
+        if (modOptions.selectedOption != null &&
+            newList.any((weapon) =>
+                weapon.toString() == modOptions.selectedOption?.text &&
+                weapon.hasReact)) {
+          var existingWeapon = newList.firstWhere((weapon) =>
+              weapon.toString() == modOptions.selectedOption?.text &&
+              weapon.hasReact);
+          existingWeapon.bonusTraits.add(traitToAdd);
+        }
+        return newList;
+      })
+      ..addMod(UnitAttribute.mounted_weapons, (value) {
+        if (!(value is List<Weapon>)) {
+          return value;
+        }
+        final newList =
+            value.map((weapon) => Weapon.fromWeapon(weapon)).toList();
+        if (modOptions.selectedOption != null &&
+            newList.any((weapon) =>
+                weapon.toString() == modOptions.selectedOption?.text &&
+                !weapon.hasReact)) {
+          var existingWeapon = newList.firstWhere((weapon) =>
+              weapon.toString() == modOptions.selectedOption?.text &&
+              !weapon.hasReact);
+          existingWeapon.bonusTraits.add(traitToAdd);
+        }
+        return newList;
+      });
+
+    return mod;
   }
 
   /*
@@ -288,4 +352,16 @@ class DuelistModification extends BaseModification {
           return u.isDuelist;
         });
   }
+}
+
+int _aceGunnerCost(ModificationOption? selectedOption) {
+  int result = 0;
+  if (selectedOption != null) {
+    var w = buildWeapon(selectedOption.text);
+
+    if (w != null) {
+      result = w.isCombo ? 3 : 2;
+    }
+  }
+  return result;
 }

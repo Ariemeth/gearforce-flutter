@@ -68,7 +68,7 @@ void main() {
       modes: [mode],
       range: range,
       damage: weaponDamage,
-      traits: [trait],
+      baseTraits: [trait],
     );
     expect(w.abbreviation, equals(weaponAbbreviation),
         reason: 'check weapon abbreviation');
@@ -77,7 +77,7 @@ void main() {
     expect(w.damage, equals(weaponDamage), reason: 'check weapon damage');
     expect(w.hasReact, isFalse, reason: 'check hasReact');
     expect(w.traits, hasLength(1), reason: 'check traits size');
-    expect(w.traits.first, equals(trait), reason: 'ensure trait was added');
+    expect(w.traits.first.name, equals(trait.name), reason: 'ensure trait was added');
     expect(w.optionalTraits, isEmpty, reason: 'check optional traits');
   });
 
@@ -96,7 +96,7 @@ void main() {
       modes: [mode],
       damage: weaponDamage,
       hasReact: true,
-      traits: [trait],
+      baseTraits: [trait],
     );
     expect(w.abbreviation, equals(weaponAbbreviation),
         reason: 'check weapon abbreviation');
@@ -105,7 +105,7 @@ void main() {
     expect(w.damage, equals(weaponDamage), reason: 'check weapon damage');
     expect(w.hasReact, isTrue, reason: 'check hasReact');
     expect(w.traits, hasLength(1), reason: 'check traits size');
-    expect(w.traits.first, equals(trait), reason: 'ensure trait was added');
+    expect(w.traits.first.name, equals(trait.name), reason: 'ensure trait was added');
     expect(w.optionalTraits, isEmpty, reason: 'check optional traits');
   });
 
@@ -124,7 +124,7 @@ void main() {
       modes: [mode],
       damage: weaponDamage,
       hasReact: true,
-      traits: [trait],
+      baseTraits: [trait],
     );
     expect(w.size, equals('L'));
   });
@@ -144,7 +144,7 @@ void main() {
       modes: [mode],
       damage: weaponDamage,
       hasReact: true,
-      traits: [trait],
+      baseTraits: [trait],
     );
     expect(w.code, equals('AC'));
   });
@@ -164,7 +164,7 @@ void main() {
         modes: [mode],
         damage: weaponDamage,
         hasReact: true,
-        traits: [trait],
+        baseTraits: [trait],
         combo: Weapon(
             abbreviation: 'LGL',
             name: 'Grenade Launcher',
@@ -188,7 +188,7 @@ void main() {
       modes: [mode],
       damage: weaponDamage,
       hasReact: true,
-      traits: [trait],
+      baseTraits: [trait],
     );
     expect(w.isCombo, isFalse);
   });

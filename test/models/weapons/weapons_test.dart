@@ -839,7 +839,7 @@ void main() {
           expect(l?.traits.toString(), equals(tt.traits.toString()),
               reason: 'check traits');
           expect(l?.optionalTraits.length, equals(tt.optionalTraits.length),
-              reason: 'check traits');
+              reason: 'check optional traits');
           expect(l?.toString(), equals('$size${tt.code} ${tt.bonusTraits}'),
               reason: 'check toString');
         },
@@ -870,8 +870,6 @@ void main() {
     expect(l?.combo?.damage, isNot(equals(-1)),
         reason: 'combo weapons damage should not be -1');
     expect(l?.combo?.abbreviation, equals('LGL'), reason: 'combo weapon name');
-    expect(l?.traits.last.toString(), equals(l?.combo?.traits.last.toString()),
-        reason: 'compare main weapon traits with combo weapon traits');
     expect(l?.toString(), equals('LAC/LGL (Auto)'), reason: 'check toString');
   });
 

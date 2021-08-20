@@ -13,7 +13,7 @@ Weapon? buildWeapon(
   bool hasReact = false,
 }) {
   if (!weaponMatch.hasMatch(weaponString)) {
-    print('$weaponString does not match');
+    print('buildWeapon: $weaponString does not match');
     return null;
   }
 
@@ -29,8 +29,11 @@ Weapon? buildWeapon(
   final String? numberOf = weaponCheck.namedGroup('number');
   final String? bonusString =
       traitsMatch.firstMatch(weaponString)?.namedGroup('traits');
-  final bonusTraits =
-      bonusString?.split(' ').map((e) => Trait.fromString(e)).toList();
+  final List<Trait> bonusTraits = [];
+  final bt = bonusString?.split(' ').map((e) => Trait.fromString(e)).toList();
+  if (bt != null) {
+    bonusTraits.addAll(bt);
+  }
 
   String name = '';
   List<weaponModes> modes = [];
@@ -544,35 +547,6 @@ Weapon? buildWeapon(
       return null;
   }
 
-  if (bonusTraits != null) {
-    bonusTraits.forEach((bonusTrait) {
-      // if a bonus trait has the same name as an existing trait, set the trait
-      // to equal the bonus trait
-      if (traits.any((element) => element.name == bonusTrait.name)) {
-        var oldTrait =
-            traits.firstWhere((element) => element.name == bonusTrait.name);
-        var newTrait = Trait(
-            name: oldTrait.name,
-            level: bonusTrait.level,
-            isAux: bonusTrait.isAux,
-            type: bonusTrait.type);
-        // since we cannot modify an existing trait, get the index of the
-        // existing trait so the new one can be inserted at the same position
-        var index = traits.indexOf(oldTrait);
-        if (index != -1) {
-          traits.removeAt(index);
-          traits.insert(index, newTrait);
-        } else {
-          print(
-              'could not get index for $oldTrait after it was found with any');
-        }
-      } else {
-        // bonus trait does not match an existing trait
-        traits.add(bonusTrait);
-      }
-    });
-  }
-
   bool isCombo = comboMatch.hasMatch(weaponString);
   Weapon? comboWeapon;
   if (isCombo) {
@@ -592,7 +566,7 @@ Weapon? buildWeapon(
     range: range,
     damage: damage,
     hasReact: hasReact,
-    traits: traits,
+    baseTraits: traits,
     optionalTraits: optionalTraits,
     combo: comboWeapon,
     bonusTraits: bonusTraits,

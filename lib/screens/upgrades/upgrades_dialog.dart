@@ -45,7 +45,7 @@ class UpgradesDialog extends StatelessWidget {
               maxLines: 2,
             ),
             Text(
-              unit.core.name,
+              '${unit.core.name} TV: ${unit.tv}',
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
           ],
