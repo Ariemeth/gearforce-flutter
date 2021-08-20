@@ -361,6 +361,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
             child: UpgradesDialog(
               roster: roster,
               cg: widget.getOwnCG(),
+              unit: unit,
             ),
           );
         });
