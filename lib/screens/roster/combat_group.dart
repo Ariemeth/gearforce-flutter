@@ -372,6 +372,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
         print('react weapons: ${unit.reactWeapons.toString()}');
         print('mount weapons: ${unit.mountedWeapons.toString()}');
         print('       traits: ${unit.traits.toString()}');
+        print('      actions: ${unit.actions}');
       }
     });
 

@@ -182,8 +182,22 @@ class DuelistModification extends BaseModification {
           if (u.hasMod(advancedControlSystemId)) {
             return false;
           }
+
+          if (u.actions != null && u.actions! >= 3) {
+            return false;
+          }
           return u.isDuelist;
-        });
+        })
+      ..addMod(UnitAttribute.tv, createSimpleIntMod(3), description: 'TV +3')
+      ..addMod(UnitAttribute.actions, (value) {
+        if (!(value is int)) {
+          return value;
+        }
+        if (value >= 3) {
+          return value;
+        }
+        return value + 1;
+      });
   }
 
   /*
