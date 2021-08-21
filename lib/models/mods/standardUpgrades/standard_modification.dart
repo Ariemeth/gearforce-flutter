@@ -110,7 +110,8 @@ class StandardModification extends BaseModification {
             if (index >= 0) {
               newList.removeAt(index);
               final aam = buildWeapon(
-                  '${existingWeapon.size}AAM ${existingWeapon.bonusString}',hasReact: true);
+                  '${existingWeapon.size}AAM ${existingWeapon.bonusString}',
+                  hasReact: true);
               if (aam != null) {
                 newList.insert(index, aam);
               }
@@ -127,7 +128,7 @@ class StandardModification extends BaseModification {
         if (!(value is List<Weapon>)) {
           return value;
         }
-         final newList =
+        final newList =
             value.map((weapon) => Weapon.fromWeapon(weapon)).toList();
         if (modOptions.selectedOption != null &&
             newList.any((weapon) =>
@@ -171,6 +172,7 @@ class StandardModification extends BaseModification {
         if (u.hasMod(droneId)) {
           return false;
         }
+        
         return cg.modCount(droneId) < 2;
       },
     )
