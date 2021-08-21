@@ -172,7 +172,7 @@ class StandardModification extends BaseModification {
         if (u.hasMod(droneId)) {
           return false;
         }
-        
+
         return cg.modCount(droneId) < 2;
       },
     )
