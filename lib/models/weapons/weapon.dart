@@ -11,9 +11,9 @@ class Weapon {
     required this.damage,
     this.numberOf = 1,
     this.hasReact = false,
-    this.traits = const [],
+    this.baseTraits = const [],
     this.optionalTraits = const [],
-    this.bonusTraits,
+    this.bonusTraits = const [],
     this.combo,
   });
   final String abbreviation;
@@ -23,13 +23,38 @@ class Weapon {
   final Range range;
   final int damage;
   final bool hasReact;
-  final List<Trait> traits;
+  final List<Trait> baseTraits;
   final List<Trait> optionalTraits;
-  final List<Trait>? bonusTraits;
+  final List<Trait> bonusTraits;
   final Weapon? combo;
 
   String get size => abbreviation.substring(0, 1);
   String get code => abbreviation.substring(1);
+  bool get isCombo => combo != null;
+  List<Trait> get traits {
+    final List<Trait> result =
+        baseTraits.map<Trait>((trait) => Trait.fromTrait(trait)).toList();
+
+    final List<Trait> bonuses =
+        bonusTraits.map((trait) => Trait.fromTrait(trait)).toList();
+    // add the bonus traits to the result list to return
+    bonuses.forEach((bonusTrait) {
+      // if a bonus trait already has a version as part of the base traits,
+      // update the existing trait to the bonus level
+      if (result.any((trait) => trait.name == bonusTrait.name)) {
+        final index =
+            result.indexWhere((trait) => trait.name == bonusTrait.name);
+        if (index >= 0) {
+          result.removeAt(index);
+          result.insert(index, bonusTrait);
+        }
+      } else {
+        result.add(bonusTrait);
+      }
+    });
+
+    return result;
+  }
 
   @override
   String toString() {
@@ -44,11 +69,31 @@ class Weapon {
       result = '$result$abbreviation';
     }
 
-    if (bonusTraits != null) {
+    if (bonusTraits.isNotEmpty) {
       result =
           '$result (${bonusTraits.toString().replaceAll(RegExp(r'\[|\]|,'), '')})';
     }
     return result;
+  }
+
+  factory Weapon.fromWeapon(Weapon original) {
+    return Weapon(
+      abbreviation: original.abbreviation,
+      name: original.name,
+      numberOf: original.numberOf,
+      modes: original.modes,
+      range: original.range,
+      damage: original.damage,
+      hasReact: original.hasReact,
+      baseTraits:
+          original.baseTraits.map((trait) => Trait.fromTrait(trait)).toList(),
+      optionalTraits: original.optionalTraits
+          .map((trait) => Trait.fromTrait(trait))
+          .toList(),
+      bonusTraits:
+          original.bonusTraits.map((trait) => Trait.fromTrait(trait)).toList(),
+      combo: original.combo != null ? Weapon.fromWeapon(original.combo!) : null,
+    );
   }
 
   factory Weapon.fromString(String str) {

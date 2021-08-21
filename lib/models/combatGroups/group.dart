@@ -99,7 +99,7 @@ class Group extends ChangeNotifier {
   int totalTV() {
     var total = 0;
     this._units.forEach((element) {
-      total += element.tv();
+      total += element.tv;
     });
 
     return total;

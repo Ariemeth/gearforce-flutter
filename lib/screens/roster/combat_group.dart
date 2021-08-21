@@ -197,7 +197,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
         textAlignment: TextAlign.left,
       ));
 
-      var tvCell = DataCell(UnitTextCell.content(unit.tv().toString()));
+      var tvCell = DataCell(UnitTextCell.content(unit.tv.toString()));
 
       var actionCell = DataCell(UnitTextCell.content(
           unit.attribute(UnitAttribute.actions) == null
@@ -361,15 +361,19 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
             child: UpgradesDialog(
               roster: roster,
               cg: widget.getOwnCG(),
+              unit: unit,
             ),
           );
         });
 
     result.whenComplete(() {
+      setState(() {});
       if (!kReleaseMode) {
         print('unit weapons after returning from upgrade screen');
         print('react weapons: ${unit.reactWeapons.toString()}');
         print('mount weapons: ${unit.mountedWeapons.toString()}');
+        print('       traits: ${unit.traits.toString()}');
+        print('      actions: ${unit.actions}');
       }
     });
 

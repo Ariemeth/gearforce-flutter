@@ -80,7 +80,7 @@ class Unit extends ChangeNotifier {
     return value;
   }
 
-  int tv() {
+  int get tv {
     var value = this.core.tv;
     value = value + commandTVCost(this._commandLevel);
 
@@ -172,6 +172,8 @@ class Unit extends ChangeNotifier {
   }
 
   List<Trait> get traits {
+    // TODO Need to think about creating new traits and weapons before returning
+    // them from these properties, instead of having to do it in every mod
     var value = this.core.traits.toList();
 
     for (var mod in this._mods) {
@@ -216,6 +218,10 @@ class Unit extends ChangeNotifier {
 
   void removeUnitMod(String id) {
     _mods.removeWhere((mod) => mod.id == id);
+    notifyListeners();
+  }
+
+  void forceNotify() {
     notifyListeners();
   }
 

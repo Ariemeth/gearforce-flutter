@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/mods/base_modification.dart';
+import 'package:gearforce/models/mods/duelist/duelist_modification.dart';
 import 'package:gearforce/models/mods/duelist/duelist_upgrades.dart';
+import 'package:gearforce/models/mods/modification.dart';
+import 'package:gearforce/models/mods/standardUpgrades/standard_modification.dart';
 import 'package:gearforce/models/mods/standardUpgrades/standard_upgrades.dart';
 import 'package:gearforce/models/mods/unitUpgrades/unit_upgrades.dart';
+import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart';
 import 'package:gearforce/models/mods/veteranUpgrades/veteran_upgrades.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/unit/unit.dart';
@@ -19,18 +23,25 @@ class UpgradesDialog extends StatelessWidget {
     Key? key,
     required this.roster,
     required this.cg,
-  }) : super(key: key);
+    required this.unit,
+  }) : super(key: key) {
+    unitMods = getUnitMods(unit.core.frame, unit);
+    standardMods = getStandardMods(unit, cg);
+    veteranMods = getVeteranMods(unit, cg);
+    duelistMods = getDuelistMods(unit, roster);
+  }
 
   final UnitRoster roster;
   final CombatGroup cg;
+  final Unit unit;
+  late final List<Modification> unitMods;
+  late final List<StandardModification> standardMods;
+  late final List<VeternModification> veteranMods;
+  late final List<DuelistModification> duelistMods;
 
   @override
   Widget build(BuildContext context) {
-    final unit = Provider.of<Unit>(context);
-    final unitMods = getUnitMods(unit.core.frame, unit);
-    final standardMods = getStandardMods(unit, cg);
-    final veteranMods = getVeteranMods(unit, cg);
-    final duelistMods = getDuelistMods(unit, roster);
+    context.watch<Unit>();
 
     var dialog = SimpleDialog(
       clipBehavior: Clip.antiAlias,
@@ -45,7 +56,7 @@ class UpgradesDialog extends StatelessWidget {
               maxLines: 2,
             ),
             Text(
-              unit.core.name,
+              '${unit.core.name} TV: ${unit.tv}',
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
           ],

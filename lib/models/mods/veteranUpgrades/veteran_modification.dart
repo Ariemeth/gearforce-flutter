@@ -23,8 +23,6 @@ final trickShotId = Uuid().v4();
 final meleeUpgradeLVB = Uuid().v4();
 final meleeUpgradeLCW = Uuid().v4();
 
-final _plusMinusMatch = RegExp(r'^(\+|-)');
-
 class VeternModification extends BaseModification {
   VeternModification({
     required String name,
@@ -308,7 +306,7 @@ class VeternModification extends BaseModification {
     final react = u.reactWeapons.toList();
 
     final matchingWeapons =
-        react.where((element) => meleeCheck.hasMatch(element.abbreviation));
+        react.where((weapon) => meleeCheck.hasMatch(weapon.abbreviation));
 
     List<ModificationOption>? _options;
     if (matchingWeapons.isNotEmpty) {
@@ -318,10 +316,10 @@ class VeternModification extends BaseModification {
           case 'VB':
             _options!.add(
               ModificationOption(
-                '-$item',
+                '${item.toString()}',
                 subOptions: [
-                  ModificationOption('+${item.size}SG'),
-                  ModificationOption('+${item.size}CW'),
+                  ModificationOption('${item.size}SG'),
+                  ModificationOption('${item.size}CW'),
                 ],
               ),
             );
@@ -329,10 +327,10 @@ class VeternModification extends BaseModification {
           case 'SG':
             _options!.add(
               ModificationOption(
-                '-$item',
+                '${item.toString()}',
                 subOptions: [
-                  ModificationOption('+${item.size}VB'),
-                  ModificationOption('+${item.size}CW'),
+                  ModificationOption('${item.size}VB'),
+                  ModificationOption('${item.size}CW'),
                 ],
               ),
             );
@@ -340,10 +338,10 @@ class VeternModification extends BaseModification {
           case 'CW':
             _options!.add(
               ModificationOption(
-                '-$item',
+                '${item.toString()}',
                 subOptions: [
-                  ModificationOption('+${item.size}SG'),
-                  ModificationOption('+${item.size}VB'),
+                  ModificationOption('${item.size}SG'),
+                  ModificationOption('${item.size}VB'),
                 ],
               ),
             );
@@ -392,14 +390,12 @@ class VeternModification extends BaseModification {
             modOptions.selectedOption!.selectedOption == null) {
           return value;
         }
-        var remove = value.firstWhere((element) =>
-            element.abbreviation ==
-            modOptions.selectedOption!.text.replaceAll(_plusMinusMatch, ''));
+        var remove = value.firstWhere(
+            (weapon) => weapon.toString() == modOptions.selectedOption!.text);
 
         value = value.toList()..remove(remove);
 
-        var add = buildWeapon(modOptions.selectedOption!.selectedOption!.text
-            .replaceAll(_plusMinusMatch, ''));
+        var add = buildWeapon(modOptions.selectedOption!.selectedOption!.text);
         if (add != null) {
           value.add(add);
         }

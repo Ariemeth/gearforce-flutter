@@ -6,7 +6,7 @@ import 'package:gearforce/screens/upgrades/mod_option_button.dart';
 const int _maxUpgradeNameLines = 2;
 const int _maxUpgradeDescriptionLines = 4;
 
-class UnitModLine extends StatelessWidget {
+class UnitModLine extends StatefulWidget {
   const UnitModLine({
     Key? key,
     required this.unit,
@@ -19,7 +19,14 @@ class UnitModLine extends StatelessWidget {
   final bool isModSelectable;
 
   @override
+  _UnitModLineState createState() => _UnitModLineState();
+}
+
+class _UnitModLineState extends State<UnitModLine> {
+  @override
   Widget build(BuildContext context) {
+    //  final bool hasOptionToSelect =
+    //      widget.mod.hasOptions && widget.mod.options!.selectedOption == null;
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       controller: ScrollController(),
@@ -27,40 +34,45 @@ class UnitModLine extends StatelessWidget {
       child: Row(
         children: [
           Checkbox(
-              value: unit.hasMod(mod.id),
-              onChanged: isModSelectable
+              value: widget.unit.hasMod(widget.mod.id),
+              onChanged: widget.isModSelectable // && !hasOptionToSelect
                   ? (bool? newValue) {
                       if (newValue!) {
-                        unit.addUnitMod(mod);
+                        widget.unit.addUnitMod(widget.mod);
                       } else {
-                        unit.removeUnitMod(mod.id);
+                        widget.unit.removeUnitMod(widget.mod.id);
                       }
                     }
                   : null),
           Text(
-            '${mod.name}: ',
+            '${widget.mod.name}: ',
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w600,
               fontStyle: FontStyle.normal,
-              decoration: isModSelectable ? null : TextDecoration.lineThrough,
+              decoration:
+                  widget.isModSelectable ? null : TextDecoration.lineThrough,
             ),
             maxLines: _maxUpgradeNameLines,
           ),
-          ..._createModChanges(context, mod),
+          ..._createModChanges(context, widget.mod, () {
+            widget.unit.forceNotify();
+          }),
         ],
       ),
     );
   }
 
-  List<Widget> _createModChanges(BuildContext context, BaseModification mod) {
+  List<Widget> _createModChanges(
+      BuildContext context, BaseModification mod, Function() onChanged) {
     List<Widget> results = [];
 
     if (mod.hasOptions) {
       results.add(
         ModOptionButton(
           mod: mod,
-          isSelectable: isModSelectable,
+          isSelectable: widget.isModSelectable,
+          onChanged: onChanged,
         ),
       );
     }
@@ -74,7 +86,8 @@ class UnitModLine extends StatelessWidget {
               fontSize: 16,
               fontWeight: FontWeight.normal,
               fontStyle: FontStyle.italic,
-              decoration: isModSelectable ? null : TextDecoration.lineThrough,
+              decoration:
+                  widget.isModSelectable ? null : TextDecoration.lineThrough,
             ),
             maxLines: _maxUpgradeDescriptionLines,
           );
@@ -85,7 +98,8 @@ class UnitModLine extends StatelessWidget {
             fontSize: 16,
             fontWeight: FontWeight.normal,
             fontStyle: FontStyle.italic,
-            decoration: isModSelectable ? null : TextDecoration.lineThrough,
+            decoration:
+                widget.isModSelectable ? null : TextDecoration.lineThrough,
           ),
         );
       }).toList(),

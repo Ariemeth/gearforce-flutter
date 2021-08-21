@@ -32,6 +32,15 @@ class Trait {
     return levelStr != null ? '${this.name}$levelStr' : '${this.name}';
   }
 
+  factory Trait.fromTrait(Trait original) {
+    return Trait(
+      name: original.name,
+      type: original.type,
+      level: original.level,
+      isAux: original.isAux,
+    );
+  }
+
   factory Trait.fromString(String str) {
     var nameCheck = traitNameMatch.firstMatch(str)?.group(1)?.trim();
     assert(nameCheck != null, 'trait: [$str] name must match, but did not');

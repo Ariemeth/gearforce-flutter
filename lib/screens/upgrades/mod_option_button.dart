@@ -7,10 +7,12 @@ class ModOptionButton extends StatefulWidget {
     Key? key,
     required this.mod,
     required this.isSelectable,
+    required this.onChanged,
   }) : super(key: key);
 
   final BaseModification mod;
   final bool isSelectable;
+  final Function onChanged;
 
   @override
   _ModOptionButtonState createState() => _ModOptionButtonState();
@@ -34,8 +36,9 @@ class _ModOptionButtonState extends State<ModOptionButton> {
                 options: widget.mod.options!,
               );
             });
-        await results;
-        setState(() {});
+        results.whenComplete(() {
+          widget.onChanged();
+        });
       },
       icon: const Icon(Icons.add_link_sharp),
     );
