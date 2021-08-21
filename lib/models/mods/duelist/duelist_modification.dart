@@ -197,7 +197,9 @@ class DuelistModification extends BaseModification {
           return value;
         }
         return value + 1;
-      });
+      },
+          description:
+              'Gain +1 action point. All models have a maximum of 3 actions');
   }
 
   /*
