@@ -489,10 +489,11 @@ class DuelistModification extends BaseModification {
             _comboNotComboCost(modOptions.selectedOption,
                 comboCost: 2, nonComboCost: 1);
       },
-          description: 'Add the Link trait to one Pistol, Submachine Gun, ' +
-              'Autocannon, Frag Cannon, Flamer or Grenade ' +
-              'Launcher with the React trait for 1 TV. Or add the Link' +
-              'trait to a combo weapon with the React trait for 2 TV.')
+          description:
+              'TV +1/2 Add the Link trait to one Pistol, Submachine Gun, ' +
+                  'Autocannon, Frag Cannon, Flamer or Grenade ' +
+                  'Launcher with the React trait for 1 TV. Or add the Link' +
+                  'trait to a combo weapon with the React trait for 2 TV.')
       ..addMod(UnitAttribute.react_weapons, (value) {
         if (!(value is List<Weapon>)) {
           return value;
