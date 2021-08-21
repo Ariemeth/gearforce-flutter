@@ -127,7 +127,9 @@ class DuelistModification extends BaseModification {
           return value;
         }
 
-        return value + _comboNotComboCost(modOptions.selectedOption);
+        return value +
+            _comboNotComboCost(modOptions.selectedOption,
+                comboCost: 3, nonComboCost: 2);
       },
           description:
               'TV +2/3 Add Stable to a weapon for TV +3 for combo weapons or +2 for regular weapons')
@@ -237,7 +239,9 @@ class DuelistModification extends BaseModification {
           return value;
         }
 
-        return value + _comboNotComboCost(modOptions.selectedOption);
+        return value +
+            _comboNotComboCost(modOptions.selectedOption,
+                comboCost: 3, nonComboCost: 2);
       },
           description:
               'TV +2/3 Add Precise to a weapon for TV +3 for combo weapons or +2 for regular weapons')
@@ -364,15 +368,70 @@ class DuelistModification extends BaseModification {
   */
   factory DuelistModification.dualWield(Unit u) {
     final RegExp meleeCheck = RegExp(r'(VB|CW)');
+    final react = u.reactWeapons;
+    final mounted = u.mountedWeapons;
+    final List<ModificationOption> _options = [];
+    const traitToAdd = Trait(name: 'Link');
+
+    final allWeapons = react.toList()..addAll(mounted);
+    allWeapons
+        .where((weapon) => meleeCheck.hasMatch(weapon.code))
+        .forEach((weapon) {
+      _options.add(ModificationOption('${weapon.toString()}'));
+    });
+
+    var modOptions = ModificationOption('Dual Wield',
+        subOptions: _options,
+        description: 'Choose a melee weapon to have the Link trait added');
+
     return DuelistModification(
         name: 'Dual Wield',
         id: dualWieldId,
+        options: modOptions,
         requirementCheck: () {
           if (u.hasMod(dualWieldId)) {
             return false;
           }
           return u.isDuelist;
-        });
+        })
+      ..addMod(UnitAttribute.tv, createSimpleIntMod(1),
+          description: 'Add the Link trait to any melee weapon other than ' +
+              'Shaped Explosives. This adds a second weapon of the ' +
+              'same type to the model.')
+      ..addMod(UnitAttribute.react_weapons, (value) {
+        if (!(value is List<Weapon>)) {
+          return value;
+        }
+        final newList =
+            value.map((weapon) => Weapon.fromWeapon(weapon)).toList();
+        if (modOptions.selectedOption != null &&
+            newList.any((weapon) =>
+                weapon.toString() == modOptions.selectedOption?.text &&
+                weapon.hasReact)) {
+          var existingWeapon = newList.firstWhere((weapon) =>
+              weapon.toString() == modOptions.selectedOption?.text &&
+              weapon.hasReact);
+          existingWeapon.bonusTraits.add(traitToAdd);
+        }
+        return newList;
+      })
+      ..addMod(UnitAttribute.mounted_weapons, (value) {
+        if (!(value is List<Weapon>)) {
+          return value;
+        }
+        final newList =
+            value.map((weapon) => Weapon.fromWeapon(weapon)).toList();
+        if (modOptions.selectedOption != null &&
+            newList.any((weapon) =>
+                weapon.toString() == modOptions.selectedOption?.text &&
+                !weapon.hasReact)) {
+          var existingWeapon = newList.firstWhere((weapon) =>
+              weapon.toString() == modOptions.selectedOption?.text &&
+              !weapon.hasReact);
+          existingWeapon.bonusTraits.add(traitToAdd);
+        }
+        return newList;
+      });
   }
 
   /*
@@ -387,15 +446,70 @@ class DuelistModification extends BaseModification {
   LACs (ideally one in each hand).
   */
   factory DuelistModification.gunslinger(Unit u) {
+    final RegExp weaponCheck = RegExp(r'^(P|SMG|AC|FC|FL|GL)');
+    final react = u.reactWeapons;
+    final List<ModificationOption> _options = [];
+    const traitToAdd = Trait(name: 'Link');
+
+    final allWeapons = react.toList();
+    allWeapons
+        .where((weapon) => weaponCheck.hasMatch(weapon.code) || weapon.isCombo)
+        .forEach((weapon) {
+      _options.add(ModificationOption('${weapon.toString()}'));
+    });
+
+    var modOptions = ModificationOption('Gunslinger',
+        subOptions: _options,
+        description: 'Add the Link trait to one Pistol, Submachine Gun, ' +
+            'Autocannon, Frag Cannon, Flamer or Grenade ' +
+            'Launcher with the React trait for 1 TV. Or add the Link' +
+            'trait to a combo weapon with the React trait for 2 TV.');
+
     return DuelistModification(
         name: 'Gunslinger',
         id: gunslingerId,
+        options: modOptions,
         requirementCheck: () {
           if (u.hasMod(gunslingerId)) {
             return false;
           }
+
+          if (!u.reactWeapons.any((weapon) =>
+              weaponCheck.hasMatch(weapon.code) || weapon.isCombo)) {
+            return false;
+          }
           return u.isDuelist;
-        });
+        })
+      ..addMod(UnitAttribute.tv, (value) {
+        if (!(value is int)) {
+          return value;
+        }
+
+        return value +
+            _comboNotComboCost(modOptions.selectedOption,
+                comboCost: 2, nonComboCost: 1);
+      },
+          description: 'Add the Link trait to one Pistol, Submachine Gun, ' +
+              'Autocannon, Frag Cannon, Flamer or Grenade ' +
+              'Launcher with the React trait for 1 TV. Or add the Link' +
+              'trait to a combo weapon with the React trait for 2 TV.')
+      ..addMod(UnitAttribute.react_weapons, (value) {
+        if (!(value is List<Weapon>)) {
+          return value;
+        }
+        final newList =
+            value.map((weapon) => Weapon.fromWeapon(weapon)).toList();
+        if (modOptions.selectedOption != null &&
+            newList.any((weapon) =>
+                weapon.toString() == modOptions.selectedOption?.text &&
+                weapon.hasReact)) {
+          var existingWeapon = newList.firstWhere((weapon) =>
+              weapon.toString() == modOptions.selectedOption?.text &&
+              weapon.hasReact);
+          existingWeapon.bonusTraits.add(traitToAdd);
+        }
+        return newList;
+      });
   }
 
   /*
@@ -526,13 +640,14 @@ class DuelistModification extends BaseModification {
   }
 }
 
-int _comboNotComboCost(ModificationOption? selectedOption) {
+int _comboNotComboCost(ModificationOption? selectedOption,
+    {required int comboCost, required int nonComboCost}) {
   int result = 0;
   if (selectedOption != null) {
     var w = buildWeapon(selectedOption.text);
 
     if (w != null) {
-      result = w.isCombo ? 3 : 2;
+      result = w.isCombo ? comboCost : nonComboCost;
     }
   }
   return result;
