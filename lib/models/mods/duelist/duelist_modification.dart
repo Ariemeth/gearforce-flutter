@@ -285,15 +285,73 @@ class DuelistModification extends BaseModification {
   with the Frag or Burst trait.
   */
   factory DuelistModification.defender(Unit u) {
+    final react = u.reactWeapons;
+    final mounted = u.mountedWeapons;
+    final List<ModificationOption> _options = [];
+    const traitToAdd = Trait(name: 'AMS');
+
+    final allWeapons = react.toList()..addAll(mounted);
+    allWeapons
+        .where((weapon) =>
+            weapon.traits.any((trait) => trait.name == 'Frag') ||
+            weapon.traits.any((trait) => trait.name == 'Burst'))
+        .forEach((weapon) {
+      _options.add(ModificationOption('${weapon.toString()}'));
+    });
+
+    var modOptions = ModificationOption('Defender',
+        subOptions: _options,
+        description:
+            'Choose an available weapon to gain the Anti-Missile System (AMS)' +
+                ' trait');
     return DuelistModification(
         name: 'Defender',
         id: defenderId,
+        options: modOptions,
         requirementCheck: () {
           if (u.hasMod(defenderId)) {
             return false;
           }
           return u.isDuelist;
-        });
+        })
+      ..addMod(UnitAttribute.tv, createSimpleIntMod(1),
+          description:
+              'TV +1 Add the Anti-Missile System (AMS) trait to any weapon ' +
+                  'with the Frag or Burst trait.')
+      ..addMod(UnitAttribute.react_weapons, (value) {
+        if (!(value is List<Weapon>)) {
+          return value;
+        }
+        final newList =
+            value.map((weapon) => Weapon.fromWeapon(weapon)).toList();
+        if (modOptions.selectedOption != null &&
+            newList.any((weapon) =>
+                weapon.toString() == modOptions.selectedOption?.text &&
+                weapon.hasReact)) {
+          var existingWeapon = newList.firstWhere((weapon) =>
+              weapon.toString() == modOptions.selectedOption?.text &&
+              weapon.hasReact);
+          existingWeapon.bonusTraits.add(traitToAdd);
+        }
+        return newList;
+      })
+      ..addMod(UnitAttribute.mounted_weapons, (value) {
+        if (!(value is List<Weapon>)) {
+          return value;
+        }
+        final newList =
+            value.map((weapon) => Weapon.fromWeapon(weapon)).toList();
+        if (modOptions.selectedOption != null &&
+            newList.any((weapon) =>
+                weapon.toString() == modOptions.selectedOption?.text &&
+                !weapon.hasReact)) {
+          var existingWeapon = newList.firstWhere((weapon) =>
+              weapon.toString() == modOptions.selectedOption?.text &&
+              !weapon.hasReact);
+          existingWeapon.bonusTraits.add(traitToAdd);
+        }
+        return newList;
+      });
   }
 
   /*
@@ -305,6 +363,7 @@ class DuelistModification extends BaseModification {
   one in each hand).
   */
   factory DuelistModification.dualWield(Unit u) {
+    final RegExp meleeCheck = RegExp(r'(VB|CW)');
     return DuelistModification(
         name: 'Dual Wield',
         id: dualWieldId,
