@@ -6,6 +6,7 @@ import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
 import 'package:gearforce/models/weapons/weapon.dart';
+import 'package:gearforce/models/weapons/weapon_modes.dart';
 import 'package:gearforce/models/weapons/weapons.dart';
 import 'package:uuid/uuid.dart';
 
@@ -395,7 +396,8 @@ class VeternModification extends BaseModification {
 
         value = value.toList()..remove(remove);
 
-        var add = buildWeapon(modOptions.selectedOption!.selectedOption!.text);
+        var add = buildWeapon(modOptions.selectedOption!.selectedOption!.text,
+            hasReact: true);
         if (add != null) {
           value.add(add);
         }
@@ -528,63 +530,82 @@ class VeternModification extends BaseModification {
   > LVB (React, Precise)
   > LCW (React, Brawl:1)
   */
-  factory VeternModification.meleeWeaponUpgradeLCW(Unit u) {
-    final RegExp meleeCheck = RegExp(r'(\[)*(([LMH])(VB|SG|CW|SE|ICW))');
+  factory VeternModification.meleeWeaponUpgrade(Unit u) {
     final react = u.reactWeapons;
+    final List<ModificationOption> _options = [];
+
+    final availableWeapons = react.where(
+        (weapon) => weapon.modes.any((mode) => mode == weaponModes.Melee));
+
+    availableWeapons.forEach((weapon) {
+      _options.add(ModificationOption(weapon.toString(), subOptions: [
+        ModificationOption('LVB (React Precise)'),
+        ModificationOption('LCW (React Brawl:1)')
+      ]));
+    });
+
+    var modOptions = ModificationOption('Melee Weapon Upgrade',
+        subOptions: _options,
+        description: 'One gear with a melee weapon, that has the React ' +
+            'trait, can upgrade it to either a LVB (React, ' +
+            'Precise) or LCW (React, Brawl:1)');
+
     return VeternModification(
-        name: 'Melee Weapon Upgrade (LCW)',
+        name: 'Melee Weapon Upgrade',
         id: meleeUpgradeLCW,
+        options: modOptions,
         requirementCheck: () {
           if (u.hasMod(meleeUpgradeLCW) || u.hasMod(meleeUpgradeLVB)) {
             return false;
           }
 
-          // check to ensure the unit has an appropriate weapon that can be upgraded
-          if (!meleeCheck.hasMatch(react.toString())) {
-            return false;
-          }
-
-          return u.traits.any((element) => element.name == 'Vet');
-        })
-      ..addMod(
-        UnitAttribute.tv,
-        createSimpleIntMod(1),
-        description:
-            'TV +1, Swap 1 react melee weapon for a LCW(React, Brawl:1)',
-      );
-  }
-
-  /*
-  MELEE WEAPON UPGRADE 1TV
-  One gear with a melee weapon, that has the React trait,
-  can upgrade it to one of the following:
-  > LVB (React, Precise)
-  > LCW (React, Brawl:1)
-  */
-  factory VeternModification.meleeWeaponUpgradeLVB(Unit u) {
-    final RegExp meleeCheck = RegExp(r'(\[)*(([LMH])(VB|SG|CW|SE|ICW))');
-    final react = u.reactWeapons;
-    return VeternModification(
-        name: 'Melee Weapon Upgrade (LVB)',
-        id: meleeUpgradeLVB,
-        requirementCheck: () {
-          if (u.hasMod(meleeUpgradeLCW) || u.hasMod(meleeUpgradeLVB)) {
+          if (u.type != 'Gear') {
             return false;
           }
 
           // check to ensure the unit has an appropriate weapon that can be upgraded
-          if (!meleeCheck.hasMatch(react.toString())) {
+          if (!u.reactWeapons.any((weapon) =>
+              weapon.modes.any((mode) => mode == weaponModes.Melee))) {
             return false;
           }
 
-          return u.traits.any((element) => element.name == 'Vet');
+          return u.traits.any((trait) => trait.name == 'Vet');
         })
       ..addMod(
         UnitAttribute.tv,
         createSimpleIntMod(1),
-        description:
-            'TV +1, Swap 1 react melee weapon for a LVB(React, Precise)',
-      );
+        description: 'TV +1',
+      )
+      ..addMod(UnitAttribute.react_weapons, (value) {
+        if (!(value is List<Weapon>)) {
+          return value;
+        }
+
+        final newList =
+            value.map((weapon) => Weapon.fromWeapon(weapon)).toList();
+
+        // check if an option has been selected
+        if (modOptions.selectedOption == null ||
+            modOptions.selectedOption!.selectedOption == null) {
+          return newList;
+        }
+
+        var indexToRemove = newList.indexWhere(
+            (weapon) => weapon.toString() == modOptions.selectedOption!.text);
+
+        final weaponToAdd = buildWeapon(
+            modOptions.selectedOption!.selectedOption!.text,
+            hasReact: true);
+        if (weaponToAdd != null) {
+          newList.removeAt(indexToRemove);
+          newList.insert(indexToRemove, weaponToAdd);
+        }
+
+        return newList;
+      },
+          description: 'One gear with a melee weapon, that has the React ' +
+              'trait, can upgrade it to either a LVB (React, ' +
+              'Precise) or LCW (React, Brawl:1)');
   }
 }
 

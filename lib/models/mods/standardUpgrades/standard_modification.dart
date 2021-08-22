@@ -1,9 +1,11 @@
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/mods/base_modification.dart';
+import 'package:gearforce/models/mods/modification_option.dart';
 import 'package:gearforce/models/mods/mods.dart';
 import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
+import 'package:gearforce/models/weapons/weapon.dart';
 import 'package:gearforce/models/weapons/weapons.dart';
 import 'package:uuid/uuid.dart';
 
@@ -30,7 +32,8 @@ class StandardModification extends BaseModification {
     this.unit,
     this.group,
     String? id,
-  }) : super(name: name, id: id);
+    ModificationOption? options,
+  }) : super(name: name, id: id, options: options);
 
   // function to ensure the modification can be applied to the unit
   final bool Function() requirementCheck;
@@ -39,22 +42,47 @@ class StandardModification extends BaseModification {
 
   static bool _defaultRequirementsFunction() => true;
 
+  /*
+  ANTI-AIR 1–2 TV
+  Up to 2 models may select one of the options below:
+  > Add the Anti-Air trait to one autocannon, rotary
+  cannon, or laser cannon for 1 TV each.
+  > Upgrade any one Anti-Tank Missile (ATM) to an
+  Anti-Air Missile (AAM) of the same class for 1 TV
+  each.
+  */
   factory StandardModification.antiAir(Unit u, CombatGroup cg) {
+    final react = u.reactWeapons;
+    final mounted = u.mountedWeapons;
+    final List<ModificationOption> _options = [];
+    final RegExp weaponMatch = RegExp(r'^(AC|RC|LC|ATM)');
+    final traitToAdd = Trait(name: 'AA');
+
+    final allWeapons = react.toList()..addAll(mounted);
+    allWeapons
+        .where((weapon) => weaponMatch.hasMatch(weapon.code))
+        .forEach((weapon) {
+      _options.add(ModificationOption('${weapon.toString()}'));
+    });
+
+    var modOptions = ModificationOption('Anti-Air',
+        subOptions: _options,
+        description: 'Choose a weapon to gain the AA trait or an ATM to be ' +
+            'converted to an AAM.');
+
     return StandardModification(
         name: 'Anti-Air',
         id: antiAirId,
+        options: modOptions,
         requirementCheck: () {
           if (u.hasMod(antiAirId)) {
             return false;
           }
 
-          final RegExp exp = RegExp(r'^(([LMH])(AC|RC|LC|ATM))');
-
           // check to ensure the unit has an appropriate weapon that can be upgraded
           final hasMatchingWeapon = u.mountedWeapons
-                  .any((element) => exp.hasMatch(element.abbreviation)) ||
-              u.reactWeapons
-                  .any((element) => exp.hasMatch(element.abbreviation));
+                  .any((weapon) => weaponMatch.hasMatch(weapon.code)) ||
+              u.reactWeapons.any((weapon) => weaponMatch.hasMatch(weapon.code));
           if (!hasMatchingWeapon) {
             return false;
           }
@@ -63,11 +91,80 @@ class StandardModification extends BaseModification {
           return cg.modCount(antiAirId) < 2;
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
-      ..addMod(UnitAttribute.mounted_weapons, (dynamic v) => v,
+      ..addMod(UnitAttribute.react_weapons, (value) {
+        if (!(value is List<Weapon>)) {
+          return value;
+        }
+        final newList =
+            value.map((weapon) => Weapon.fromWeapon(weapon)).toList();
+        if (modOptions.selectedOption != null &&
+            newList.any((weapon) =>
+                weapon.toString() == modOptions.selectedOption?.text &&
+                weapon.hasReact)) {
+          var existingWeapon = newList.firstWhere((weapon) =>
+              weapon.toString() == modOptions.selectedOption?.text &&
+              weapon.hasReact);
+          if (existingWeapon.code == 'ATM') {
+            final index = newList.indexWhere((weapon) =>
+                weapon.toString() == modOptions.selectedOption?.text);
+            if (index >= 0) {
+              newList.removeAt(index);
+              final aam = buildWeapon(
+                  '${existingWeapon.size}AAM ${existingWeapon.bonusString}',
+                  hasReact: true);
+              if (aam != null) {
+                newList.insert(index, aam);
+              }
+            }
+          } else {
+            existingWeapon.bonusTraits.add(traitToAdd);
+          }
+        }
+        return newList;
+      },
           description:
-              'Add the Anti-Air trait to one AC, RC, or LC or upgrade any one ATM to AAM of the same class');
+              'Add the Anti-Air trait to one AC, RC, or LC or upgrade any ' +
+                  'one ATM to AAM of the same class')
+      ..addMod(UnitAttribute.mounted_weapons, (value) {
+        if (!(value is List<Weapon>)) {
+          return value;
+        }
+        final newList =
+            value.map((weapon) => Weapon.fromWeapon(weapon)).toList();
+        if (modOptions.selectedOption != null &&
+            newList.any((weapon) =>
+                weapon.toString() == modOptions.selectedOption?.text &&
+                !weapon.hasReact)) {
+          var existingWeapon = newList.firstWhere((weapon) =>
+              weapon.toString() == modOptions.selectedOption?.text &&
+              !weapon.hasReact);
+          if (existingWeapon.code == 'ATM') {
+            final index = newList.indexWhere((weapon) =>
+                weapon.toString() == modOptions.selectedOption?.text);
+            if (index >= 0) {
+              newList.removeAt(index);
+              final aam = buildWeapon(
+                  '${existingWeapon.size}AAM ${existingWeapon.bonusString}');
+              if (aam != null) {
+                newList.insert(index, aam);
+              }
+            }
+          } else {
+            existingWeapon.bonusTraits.add(traitToAdd);
+          }
+        }
+        return newList;
+      });
   }
 
+  /*
+  DRONES 1–2 TV
+  All Drones cost 1 TV each. Up to 2 Drones may be
+  attached to models. A model with a Drone gains the
+  trait Transport: 1 Drone if it doesn’t already have the
+  Transport Trait. A Drone’s Action is not counted when
+  constructing a force.
+  */
   factory StandardModification.drones(Unit u, CombatGroup cg) {
     return StandardModification(
       name: 'Drones',
@@ -76,6 +173,7 @@ class StandardModification extends BaseModification {
         if (u.hasMod(droneId)) {
           return false;
         }
+
         return cg.modCount(droneId) < 2;
       },
     )
@@ -87,24 +185,135 @@ class StandardModification extends BaseModification {
               Trait(name: 'Transport', level: 1, type: 'Drone')));
   }
 
+  /*
+  GRENADE SWAP 0 TV
+  Any number of models may swap their hand grenades
+  for panzerfausts or vice versa. The swapped item must
+  be of the same class, such as L, M, or H.
+  */
   factory StandardModification.grenadeSwap(Unit u, CombatGroup cg) {
+    final react = u.reactWeapons;
+    final mounted = u.mountedWeapons;
+    final List<ModificationOption> _options = [];
+    final RegExp weaponMatch = RegExp(r'^(HG|PZ)$');
+
+    final availableWeapons = react.toList()..addAll(mounted);
+    availableWeapons
+        .where((weapon) => weaponMatch.hasMatch(weapon.code))
+        .toList()
+        .forEach(
+      (weapon) {
+        _options.add(ModificationOption(weapon.toString()));
+      },
+    );
+
+    var modOptions = ModificationOption('Grenade Swap',
+        subOptions: _options,
+        description: 'Chose a grenade to swap for a panzerfaust or a ' +
+            'panzerfaust to swap for a grenade');
+
     return StandardModification(
         name: 'Grenade Swap',
         id: grenadeSwapId,
+        options: modOptions,
         requirementCheck: () {
           if (u.hasMod(grenadeSwapId)) {
             return false;
           }
-          final RegExp exp = RegExp(
-              r'^([[:space:]]|,|\[)*(([LMH])(HG|PZ))([[:space:]]|\])*($|,)');
-          return exp.hasMatch(u.mountedWeapons.toString()) ||
-              exp.hasMatch(u.reactWeapons.toString());
+
+          return u.mountedWeapons
+                  .any((weapon) => weaponMatch.hasMatch(weapon.code)) ||
+              u.reactWeapons.any((weapon) => weaponMatch.hasMatch(weapon.code));
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(0),
           description:
-              'swap their hand grenades for panzerfausts or vice versa. The swapped item must be of the same class, such as L, M, or H');
+              'swap their hand grenades for panzerfausts or vice versa. The ' +
+                  'swapped item must be of the same class, such as L, M, or H')
+      ..addMod(UnitAttribute.react_weapons, (value) {
+        if (!(value is List<Weapon>)) {
+          return value;
+        }
+        final newList =
+            value.map((weapon) => Weapon.fromWeapon(weapon)).toList();
+        if (modOptions.selectedOption != null &&
+            newList.any((weapon) =>
+                weapon.toString() == modOptions.selectedOption?.text &&
+                weapon.hasReact)) {
+          var existingWeapon = newList.firstWhere((weapon) =>
+              weapon.toString() == modOptions.selectedOption?.text &&
+              weapon.hasReact);
+
+          var newWeaponAbb = '';
+
+          if (existingWeapon.code == 'HG') {
+            newWeaponAbb = '${existingWeapon.size}PZ';
+          } else if (existingWeapon.code == 'PZ') {
+            newWeaponAbb = '${existingWeapon.size}HG';
+          } else {
+            print('weapon code ${existingWeapon.toString()} is not a HG or PZ');
+            return newList;
+          }
+
+          final newWeapon = buildWeapon(newWeaponAbb, hasReact: true);
+          if (newWeapon != null) {
+            final index = newList.indexWhere(
+                (weapon) => weapon.toString() == existingWeapon.toString());
+            if (index >= 0) {
+              newList.removeAt(index);
+              newList.insert(index, newWeapon);
+            }
+          }
+        }
+        return newList;
+      })
+      ..addMod(UnitAttribute.mounted_weapons, (value) {
+        if (!(value is List<Weapon>)) {
+          return value;
+        }
+        final newList =
+            value.map((weapon) => Weapon.fromWeapon(weapon)).toList();
+        if (modOptions.selectedOption != null &&
+            newList.any((weapon) =>
+                weapon.toString() == modOptions.selectedOption?.text &&
+                !weapon.hasReact)) {
+          var existingWeapon = newList.firstWhere((weapon) =>
+              weapon.toString() == modOptions.selectedOption?.text &&
+              !weapon.hasReact);
+
+          var newWeaponAbb = '';
+
+          if (existingWeapon.code == 'HG') {
+            newWeaponAbb = '${existingWeapon.size}PZ';
+          } else if (existingWeapon.code == 'PZ') {
+            newWeaponAbb = '${existingWeapon.size}HG';
+          } else {
+            print('weapon code ${existingWeapon.toString()} is not a HG or PZ');
+            return newList;
+          }
+
+          final newWeapon = buildWeapon(newWeaponAbb);
+          if (newWeapon != null) {
+            final index = newList.indexWhere(
+                (weapon) => weapon.toString() == existingWeapon.toString());
+            if (index >= 0) {
+              newList.removeAt(index);
+              newList.insert(index, newWeapon);
+            }
+          }
+        }
+        return newList;
+      });
   }
 
+  /*
+  HAND GRENADES 1–2 TV
+  Only models with the Hands trait can purchase Hand
+  Grenades. Choose one option:
+  > Up to 2 models may purchase Light Hand Grenades
+  (LHG) for 1 TV total.
+  > Up to 2 models may purchase Medium Hand
+  Grenades (MHG) for 1 TV each.
+  */
   factory StandardModification.handGrenadeLHG(Unit u, CombatGroup cg) {
     final traits = u.traits.toList();
     return StandardModification(
@@ -160,6 +369,15 @@ class StandardModification extends BaseModification {
       );
   }
 
+  /*
+  HAND GRENADES 1–2 TV
+  Only models with the Hands trait can purchase Hand
+  Grenades. Choose one option:
+  > Up to 2 models may purchase Light Hand Grenades
+  (LHG) for 1 TV total.
+  > Up to 2 models may purchase Medium Hand
+  Grenades (MHG) for 1 TV each.
+  */
   factory StandardModification.handGrenadeMHG(Unit u, CombatGroup cg) {
     final traits = u.traits.toList();
     return StandardModification(
@@ -190,6 +408,15 @@ class StandardModification extends BaseModification {
       );
   }
 
+  /*
+  PANZERFAUSTS 1–2 TV
+  Only models with the Hands trait can purchase
+  panzerfausts. Choose one option:
+  > Up to 2 models may purchase Light Panzerfausts
+  (LPZ) for 1 TV total.
+  > Or, up to 2 models may purchase Medium
+  Panzerfausts (MPZ) for 1 TV each.
+  */
   factory StandardModification.panzerfaustsL(Unit u, CombatGroup cg) {
     final traits = u.traits.toList();
     return StandardModification(
@@ -245,6 +472,15 @@ class StandardModification extends BaseModification {
       );
   }
 
+  /*
+  PANZERFAUSTS 1–2 TV
+  Only models with the Hands trait can purchase
+  panzerfausts. Choose one option:
+  > Up to 2 models may purchase Light Panzerfausts
+  (LPZ) for 1 TV total.
+  > Or, up to 2 models may purchase Medium
+  Panzerfausts (MPZ) for 1 TV each.
+  */
   factory StandardModification.panzerfaustsM(Unit u, CombatGroup cg) {
     final traits = u.traits.toList();
     return StandardModification(
@@ -275,6 +511,13 @@ class StandardModification extends BaseModification {
       );
   }
 
+  /*
+  SIDEARMS 1 TV
+  Only models with the Hands trait can purchase
+  sidearms. Up to 2 models may purchase Light Pistols
+  (LP) or Light Submachine Guns (LSMGs) for 1 TV total.
+  These weapons have the React trait.
+  */
   factory StandardModification.sidearmLP(Unit u, CombatGroup cg) {
     final traits = u.traits.toList();
     return StandardModification(
@@ -333,6 +576,13 @@ class StandardModification extends BaseModification {
       );
   }
 
+  /*
+  SIDEARMS 1 TV
+  Only models with the Hands trait can purchase
+  sidearms. Up to 2 models may purchase Light Pistols
+  (LP) or Light Submachine Guns (LSMGs) for 1 TV total.
+  These weapons have the React trait.
+  */
   factory StandardModification.sidearmSMG(Unit u, CombatGroup cg) {
     final traits = u.traits.toList();
     return StandardModification(
@@ -391,6 +641,16 @@ class StandardModification extends BaseModification {
       );
   }
 
+  /*
+  SHAPED EXPLOSIVES 1–2 TV
+  Only models with the Hands trait or the infantry
+  movement type can purchase shaped explosives.
+  Choose one option:
+  > Up to 2 models may purchase Light Shaped
+  Explosives (LSE) for 1 TV total.
+  > Or up to 2 models may purchase Medium Shaped
+  Explosives (MSE) for 1 TV each
+  */
   factory StandardModification.shapedExplosivesL(Unit u, CombatGroup cg) {
     final traits = u.traits.toList();
     return StandardModification(
@@ -447,6 +707,16 @@ class StandardModification extends BaseModification {
       );
   }
 
+  /*
+  SHAPED EXPLOSIVES 1–2 TV
+  Only models with the Hands trait or the infantry
+  movement type can purchase shaped explosives.
+  Choose one option:
+  > Up to 2 models may purchase Light Shaped
+  Explosives (LSE) for 1 TV total.
+  > Or up to 2 models may purchase Medium Shaped
+  Explosives (MSE) for 1 TV each
+  */
   factory StandardModification.shapedExplosivesM(Unit u, CombatGroup cg) {
     final traits = u.traits.toList();
     return StandardModification(
@@ -478,6 +748,12 @@ class StandardModification extends BaseModification {
       );
   }
 
+  /*
+  SMOKE 1–2 TV
+  Up to 2 models may purchase the smoke trait for 1
+  TV each. Models with the VTOL Trait cannot purchase
+  Smoke Upgrades
+  */
   factory StandardModification.smoke(Unit u, CombatGroup cg) {
     final traits = u.traits.toList();
     return StandardModification(

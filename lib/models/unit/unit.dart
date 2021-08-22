@@ -152,35 +152,42 @@ class Unit extends ChangeNotifier {
   }
 
   List<Weapon> get reactWeapons {
-    var value = this.core.reactWeapons.toList();
+    var newList = this
+        .core
+        .reactWeapons
+        .map((weapon) => Weapon.fromWeapon(weapon))
+        .toList();
 
     for (var mod in this._mods) {
-      value = mod.applyMods(UnitAttribute.react_weapons, value);
+      newList = mod.applyMods(UnitAttribute.react_weapons, newList);
     }
 
-    return value;
+    return newList;
   }
 
   List<Weapon> get mountedWeapons {
-    var value = this.core.mountedWeapons.toList();
+    var newList = this
+        .core
+        .mountedWeapons
+        .map((weapon) => Weapon.fromWeapon(weapon))
+        .toList();
 
     for (var mod in this._mods) {
-      value = mod.applyMods(UnitAttribute.mounted_weapons, value);
+      newList = mod.applyMods(UnitAttribute.mounted_weapons, newList);
     }
 
-    return value;
+    return newList;
   }
 
   List<Trait> get traits {
-    // TODO Need to think about creating new traits and weapons before returning
-    // them from these properties, instead of having to do it in every mod
-    var value = this.core.traits.toList();
+    var newList =
+        this.core.traits.map((trait) => Trait.fromTrait(trait)).toList();
 
     for (var mod in this._mods) {
-      value = mod.applyMods(UnitAttribute.traits, value);
+      newList = mod.applyMods(UnitAttribute.traits, newList);
     }
 
-    return value;
+    return newList;
   }
 
   String get type {

@@ -56,6 +56,17 @@ class Weapon {
     return result;
   }
 
+  String get bonusString {
+    if (this.bonusTraits.isEmpty) {
+      return '';
+    }
+    return bonusTraits
+        .toString()
+        .replaceAll(RegExp(r','), ' ')
+        .replaceAll(RegExp(r'\['), '(')
+        .replaceAll(RegExp(r'\]'), ')');
+  }
+
   @override
   String toString() {
     String result = '';

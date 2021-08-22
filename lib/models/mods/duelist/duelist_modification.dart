@@ -138,8 +138,8 @@ class DuelistModification extends BaseModification {
         if (!(value is List<Weapon>)) {
           return value;
         }
-        final newList =
-            value.map((weapon) => Weapon.fromWeapon(weapon)).toList();
+        final newList = value;
+
         if (modOptions.selectedOption != null &&
             newList.any((weapon) =>
                 weapon.toString() == modOptions.selectedOption?.text &&
@@ -155,8 +155,8 @@ class DuelistModification extends BaseModification {
         if (!(value is List<Weapon>)) {
           return value;
         }
-        final newList =
-            value.map((weapon) => Weapon.fromWeapon(weapon)).toList();
+        final newList = value;
+
         if (modOptions.selectedOption != null &&
             newList.any((weapon) =>
                 weapon.toString() == modOptions.selectedOption?.text &&
@@ -250,8 +250,8 @@ class DuelistModification extends BaseModification {
         if (!(value is List<Weapon>)) {
           return value;
         }
-        final newList =
-            value.map((weapon) => Weapon.fromWeapon(weapon)).toList();
+        final newList = value;
+
         if (modOptions.selectedOption != null &&
             newList.any((weapon) =>
                 weapon.toString() == modOptions.selectedOption?.text &&
@@ -267,8 +267,8 @@ class DuelistModification extends BaseModification {
         if (!(value is List<Weapon>)) {
           return value;
         }
-        final newList =
-            value.map((weapon) => Weapon.fromWeapon(weapon)).toList();
+        final newList = value;
+
         if (modOptions.selectedOption != null &&
             newList.any((weapon) =>
                 weapon.toString() == modOptions.selectedOption?.text &&
@@ -327,8 +327,8 @@ class DuelistModification extends BaseModification {
         if (!(value is List<Weapon>)) {
           return value;
         }
-        final newList =
-            value.map((weapon) => Weapon.fromWeapon(weapon)).toList();
+        final newList = value;
+
         if (modOptions.selectedOption != null &&
             newList.any((weapon) =>
                 weapon.toString() == modOptions.selectedOption?.text &&
@@ -344,8 +344,8 @@ class DuelistModification extends BaseModification {
         if (!(value is List<Weapon>)) {
           return value;
         }
-        final newList =
-            value.map((weapon) => Weapon.fromWeapon(weapon)).toList();
+        final newList = value;
+
         if (modOptions.selectedOption != null &&
             newList.any((weapon) =>
                 weapon.toString() == modOptions.selectedOption?.text &&
@@ -421,8 +421,8 @@ class DuelistModification extends BaseModification {
         if (!(value is List<Weapon>)) {
           return value;
         }
-        final newList =
-            value.map((weapon) => Weapon.fromWeapon(weapon)).toList();
+        final newList = value;
+
         if (modOptions.selectedOption != null &&
             newList.any((weapon) =>
                 weapon.toString() == modOptions.selectedOption?.text &&
@@ -495,8 +495,8 @@ class DuelistModification extends BaseModification {
         if (!(value is List<Weapon>)) {
           return value;
         }
-        final newList =
-            value.map((weapon) => Weapon.fromWeapon(weapon)).toList();
+        final newList = value;
+
         if (modOptions.selectedOption != null &&
             newList.any((weapon) =>
                 weapon.toString() == modOptions.selectedOption?.text &&
@@ -558,13 +558,14 @@ class DuelistModification extends BaseModification {
         if (!(value is List<Weapon>)) {
           return value;
         }
-        final newList =
-            value.map((weapon) => Weapon.fromWeapon(weapon)).toList();
+        final newList = value;
+
         if (modOptions.selectedOption != null) {
           var existingWeapon = newList.firstWhere(
               (weapon) => weapon.toString() == modOptions.selectedOption?.text);
           existingWeapon.bonusTraits.add(traitToAdd);
         }
+        return newList;
       },
           description: 'Add the Reach:1 trait to any Vibro Blade, Spike Gun ' +
               'or Combat Weapon with the React trait.');
@@ -644,8 +645,8 @@ class DuelistModification extends BaseModification {
           if (!(value is List<Weapon>)) {
             return value;
           }
-          final newList =
-              value.map((weapon) => Weapon.fromWeapon(weapon)).toList();
+          final newList = value;
+
           if (modOptions.selectedOption != null &&
               newList.any((weapon) =>
                   weapon.toString() == modOptions.selectedOption?.text)) {
@@ -753,8 +754,9 @@ class DuelistModification extends BaseModification {
         var indexToRemove = value.indexWhere(
             (weapon) => weapon.toString() == modOptions.selectedOption!.text);
 
-        final weaponToAdd =
-            buildWeapon(modOptions.selectedOption!.selectedOption!.text);
+        final weaponToAdd = buildWeapon(
+            modOptions.selectedOption!.selectedOption!.text,
+            hasReact: true);
         if (weaponToAdd != null) {
           value = value
               .where((weapon) =>
