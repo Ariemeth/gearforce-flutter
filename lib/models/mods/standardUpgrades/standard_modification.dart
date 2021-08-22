@@ -253,7 +253,7 @@ class StandardModification extends BaseModification {
             return newList;
           }
 
-          final newWeapon = buildWeapon(newWeaponAbb);
+          final newWeapon = buildWeapon(newWeaponAbb, hasReact: true);
           if (newWeapon != null) {
             final index = newList.indexWhere(
                 (weapon) => weapon.toString() == existingWeapon.toString());

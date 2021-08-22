@@ -57,7 +57,8 @@ final Modification zeta = Modification(
   ..addMod(
       UnitAttribute.react_weapons,
       createReplaceWeaponInList(
-          oldValue: buildWeapon('MRC')!, newValue: buildWeapon('LPA')!),
+          oldValue: buildWeapon('MRC', hasReact: true)!,
+          newValue: buildWeapon('LPA', hasReact: true)!),
       description: '-MRC, +LPA');
 
 final Modification pur = Modification(

@@ -396,7 +396,8 @@ class VeternModification extends BaseModification {
 
         value = value.toList()..remove(remove);
 
-        var add = buildWeapon(modOptions.selectedOption!.selectedOption!.text);
+        var add = buildWeapon(modOptions.selectedOption!.selectedOption!.text,
+            hasReact: true);
         if (add != null) {
           value.add(add);
         }
@@ -592,8 +593,9 @@ class VeternModification extends BaseModification {
         var indexToRemove = newList.indexWhere(
             (weapon) => weapon.toString() == modOptions.selectedOption!.text);
 
-        final weaponToAdd =
-            buildWeapon(modOptions.selectedOption!.selectedOption!.text);
+        final weaponToAdd = buildWeapon(
+            modOptions.selectedOption!.selectedOption!.text,
+            hasReact: true);
         if (weaponToAdd != null) {
           newList.removeAt(indexToRemove);
           newList.insert(indexToRemove, weaponToAdd);

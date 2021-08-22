@@ -192,10 +192,10 @@ final Modification arbalest = Modification(name: 'Arbalest Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(0), description: 'TV +0')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Arbalest'))
   ..addMod(UnitAttribute.react_weapons,
-      createRemoveWeaponFromList(buildWeapon('MRC (T AA)')!),
+      createRemoveWeaponFromList(buildWeapon('MRC (T AA)', hasReact: true)!),
       description: '-MRC (T, AA)')
   ..addMod(UnitAttribute.mounted_weapons,
-      createAddWeaponToList(buildWeapon('2 X HAAM (T)')!),
+      createAddWeaponToList(buildWeapon('2 X HAAM (T)', hasReact: true)!),
       description: '+2 X HAAM (T)');
 
 final Modification herdLord = Modification(name: 'Herd Lord Upgrade')
