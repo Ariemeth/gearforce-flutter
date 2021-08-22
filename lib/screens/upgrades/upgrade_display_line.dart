@@ -26,9 +26,9 @@ class UpgradeDisplayLine extends StatelessWidget {
     } else if (mod is StandardModification) {
       isModSelectable = (mod as StandardModification).requirementCheck() ||
           unit.hasMod(mod.id);
-    } else if (mod is VeternModification) {
+    } else if (mod is VeteranModification) {
       isModSelectable =
-          (mod as VeternModification).requirementCheck() || unit.hasMod(mod.id);
+          (mod as VeteranModification).requirementCheck() || unit.hasMod(mod.id);
     } else if (mod is DuelistModification) {
       isModSelectable = (mod as DuelistModification).requirementCheck() ||
           unit.hasMod(mod.id);

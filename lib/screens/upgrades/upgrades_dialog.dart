@@ -36,7 +36,7 @@ class UpgradesDialog extends StatelessWidget {
   final Unit unit;
   late final List<Modification> unitMods;
   late final List<StandardModification> standardMods;
-  late final List<VeternModification> veteranMods;
+  late final List<VeteranModification> veteranMods;
   late final List<DuelistModification> duelistMods;
 
   @override

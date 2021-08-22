@@ -84,13 +84,12 @@ class DuelistModification extends BaseModification {
       description: '+Duelist',
     );
 
-    if (!isVet) {
-      mod.addMod(
-        UnitAttribute.traits,
-        createAddTraitToList(Trait(name: 'Vet')),
-        description: '+Vet',
-      );
-    }
+    mod.addMod(
+      UnitAttribute.traits,
+      createAddTraitToList(Trait(name: 'Vet')),
+      description: '+Vet',
+    );
+
     return mod;
   }
 

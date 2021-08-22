@@ -2,7 +2,9 @@ import 'package:flutter/widgets.dart';
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/mods/base_modification.dart';
+import 'package:gearforce/models/mods/duelist/duelist_modification.dart';
 import 'package:gearforce/models/mods/unitUpgrades/unit_upgrades.dart';
+import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart';
 import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/movement.dart';
@@ -225,6 +227,18 @@ class Unit extends ChangeNotifier {
 
   void removeUnitMod(String id) {
     _mods.removeWhere((mod) => mod.id == id);
+    if (id == veteranId) {
+      // only remove all vet upgrades if the unit doesn't still have the vet trait
+      if (!traits.any((trait) => trait.name == 'Vet')) {
+        _mods.removeWhere((mod) => mod is VeteranModification);
+      }
+    } else if (id == duelistId) {
+      _mods.removeWhere((mod) => mod is DuelistModification);
+      // if the unit isn't also a vet remove the vet traits
+      if (!traits.any((trait) => trait.name == 'Vet')) {
+        _mods.removeWhere((mod) => mod is VeteranModification);
+      }
+    }
     notifyListeners();
   }
 
