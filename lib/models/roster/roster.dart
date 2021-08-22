@@ -17,6 +17,7 @@ class UnitRoster extends ChangeNotifier {
   String _activeCG = '';
   String get rulesVersion => _currentRulesVersion;
   String get compendiumVersion => _currentCompendiumVersion;
+  bool _isEliteForce = false;
 
   UnitRoster() {
     faction.addListener(() {
@@ -26,6 +27,16 @@ class UnitRoster extends ChangeNotifier {
       });
     });
     createCG();
+  }
+
+  bool get isEliteForce => _isEliteForce;
+  set isEliteForce(bool newValue) {
+    if (newValue == _isEliteForce) {
+      return;
+    }
+
+    _isEliteForce = newValue;
+    notifyListeners();
   }
 
   @override

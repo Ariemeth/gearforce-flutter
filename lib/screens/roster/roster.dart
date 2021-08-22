@@ -144,6 +144,23 @@ class _RosterWidgetState extends State<RosterWidget> {
                 printPDF(roster);
               },
             ),
+            ListTile(
+              title: Row(children: [
+                Text(
+                  'Elite force',
+                ),
+                Checkbox(
+                    value: roster.isEliteForce,
+                    onChanged: (bool? newValue) {
+                      if (newValue == null) {
+                        return;
+                      }
+                      setState(() {
+                        roster.isEliteForce = newValue;
+                      });
+                    })
+              ]),
+            ),
             AboutListTile(
               applicationName: 'Gearforce',
               applicationVersion: _version,
