@@ -6,7 +6,6 @@ import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
 import 'package:gearforce/models/weapons/weapon.dart';
-import 'package:gearforce/models/weapons/weapon_modes.dart';
 import 'package:gearforce/models/weapons/weapons.dart';
 import 'package:uuid/uuid.dart';
 
