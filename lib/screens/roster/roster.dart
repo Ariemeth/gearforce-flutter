@@ -14,7 +14,7 @@ import 'package:provider/provider.dart';
 
 const double _leftPanelWidth = 670.0;
 const double _menuTitleHeight = 60.0;
-const String _version = '0.26.0';
+const String _version = '0.27.0';
 const String _bugMessage =
     'Please report any issues to gearforce@metadiversions.com';
 const bool _enablePDF = false;

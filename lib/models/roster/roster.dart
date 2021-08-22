@@ -100,7 +100,7 @@ class UnitRoster extends ChangeNotifier {
   }
 
   CombatGroup createCG() {
-    var cg = CombatGroup('CG ${this._totalCreated + 1}');
+    var cg = CombatGroup('CG ${this._totalCreated + 1}', roster: this);
     this.addCG(cg);
     if (_activeCG == '') {
       _activeCG = cg.name;

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/combatGroups/group.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
+import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart';
+import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/unit/unit.dart';
 
 class CombatGroup extends ChangeNotifier {
@@ -9,17 +11,28 @@ class CombatGroup extends ChangeNotifier {
   late final Group secondary;
   final String name;
   bool _isVeteran = false;
+  final UnitRoster? roster;
 
   bool get isVeteran => _isVeteran;
   set isVeteran(bool value) {
     if (value == _isVeteran) {
       return;
     }
+    if (value) {
+      if ((roster != null && roster!.getCGs().any((cg) => cg._isVeteran))) {
+        return;
+      }
+    }
     _isVeteran = value;
+    if (!value) {
+      primary.allUnits().forEach((unit) {
+        unit.removeUnitMod(veteranId);
+      });
+    }
     notifyListeners();
   }
 
-  CombatGroup(this.name, {Group? primary, Group? secondary}) {
+  CombatGroup(this.name, {Group? primary, Group? secondary, this.roster}) {
     this.primary = primary == null ? Group() : primary;
     this.secondary = secondary == null ? Group() : secondary;
 

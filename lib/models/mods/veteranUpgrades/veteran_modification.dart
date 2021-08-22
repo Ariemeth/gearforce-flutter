@@ -24,8 +24,8 @@ final trickShotId = Uuid().v4();
 final meleeUpgradeLVB = Uuid().v4();
 final meleeUpgradeLCW = Uuid().v4();
 
-class VeternModification extends BaseModification {
-  VeternModification({
+class VeteranModification extends BaseModification {
+  VeteranModification({
     required String name,
     required String id,
     this.requirementCheck = _defaultRequirementsFunction,
@@ -41,8 +41,8 @@ class VeternModification extends BaseModification {
 
   static bool _defaultRequirementsFunction() => true;
 
-  factory VeternModification.makeVet(Unit u, CombatGroup cg) {
-    return VeternModification(
+  factory VeteranModification.makeVet(Unit u, CombatGroup cg) {
+    return VeteranModification(
         name: 'Veteran Upgrade',
         id: veteranId,
         requirementCheck: () {
@@ -50,8 +50,7 @@ class VeternModification extends BaseModification {
             return false;
           }
 
-          return cg.isVeteran &&
-              !u.traits.any((element) => element.name == 'Vet');
+          return cg.isVeteran && !u.traits.any((trait) => trait.name == 'Vet');
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
       ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'Vet')),
@@ -62,8 +61,8 @@ class VeternModification extends BaseModification {
   EW SPECIALIST 1 TV
   Add +1D6 to any EW rolls made by this model
   */
-  factory VeternModification.ewSpecialist(Unit u) {
-    return VeternModification(
+  factory VeteranModification.ewSpecialist(Unit u) {
+    return VeteranModification(
         name: 'EW Specialist',
         id: ewSpecId,
         requirementCheck: () {
@@ -71,7 +70,7 @@ class VeternModification extends BaseModification {
             return false;
           }
 
-          return u.traits.any((element) => element.name == 'Vet');
+          return u.traits.any((trait) => trait.name == 'Vet');
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
       ..addMod(UnitAttribute.special,
@@ -88,8 +87,8 @@ class VeternModification extends BaseModification {
   Z Armor 9–10 for 3 TV
   Z Armor 11–12 for 4 TV
   */
-  factory VeternModification.fieldArmor(Unit u) {
-    return VeternModification(
+  factory VeteranModification.fieldArmor(Unit u) {
+    return VeteranModification(
         name: 'Field Armor',
         id: fieldArmorId,
         requirementCheck: () {
@@ -105,7 +104,7 @@ class VeternModification extends BaseModification {
             return false;
           }
 
-          return u.traits.any((element) => element.name == 'Vet');
+          return u.traits.any((trait) => trait.name == 'Vet');
         })
       ..addMod(
         UnitAttribute.tv,
@@ -132,9 +131,9 @@ class VeternModification extends BaseModification {
   by +1 for 1 TV. Or this model may add the Brawl:2 trait
   or increase the Brawl trait by 2 for 2 TV.
   */
-  factory VeternModification.inYourFace1(Unit u) {
+  factory VeteranModification.inYourFace1(Unit u) {
     final traits = u.traits.toList();
-    return VeternModification(
+    return VeteranModification(
         name: 'In Your Face',
         id: inYourFaceId1,
         requirementCheck: () {
@@ -142,7 +141,7 @@ class VeternModification extends BaseModification {
             return false;
           }
 
-          return u.traits.any((element) => element.name == 'Vet');
+          return u.traits.any((trait) => trait.name == 'Vet');
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
       ..addMod(UnitAttribute.traits, (value) {
@@ -169,9 +168,9 @@ class VeternModification extends BaseModification {
   by +1 for 1 TV. Or this model may add the Brawl:2 trait
   or increase the Brawl trait by 2 for 2 TV.
   */
-  factory VeternModification.inYourFace2(Unit u) {
+  factory VeteranModification.inYourFace2(Unit u) {
     final traits = u.traits.toList();
-    return VeternModification(
+    return VeteranModification(
         name: 'In Your Face',
         id: inYourFaceId2,
         requirementCheck: () {
@@ -179,7 +178,7 @@ class VeternModification extends BaseModification {
             return false;
           }
 
-          return u.traits.any((element) => element.name == 'Vet');
+          return u.traits.any((trait) => trait.name == 'Vet');
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
       ..addMod(UnitAttribute.traits, (value) {
@@ -205,11 +204,11 @@ class VeternModification extends BaseModification {
   Add the Resist:Haywire trait or remove the Vuln:Haywire
   trait.
   */
-  factory VeternModification.insulated(Unit u) {
+  factory VeteranModification.insulated(Unit u) {
     final traits = u.traits.toList();
     final isVulnerable = traits
         .any((element) => element.name == 'Vuln' && element.type == 'Haywire');
-    return VeternModification(
+    return VeteranModification(
         name: 'Insulated',
         id: insulatedId,
         requirementCheck: () {
@@ -222,7 +221,7 @@ class VeternModification extends BaseModification {
             return false;
           }
 
-          return u.traits.any((element) => element.name == 'Vet');
+          return u.traits.any((trait) => trait.name == 'Vet');
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
       ..addMod(
@@ -250,11 +249,11 @@ class VeternModification extends BaseModification {
   FIREPROOF 1 TV
   Add the Resist:Fire trait or remove the Vuln:Fire trait.
   */
-  factory VeternModification.fireproof(Unit u) {
+  factory VeteranModification.fireproof(Unit u) {
     final traits = u.traits.toList();
     final isVulnerable = traits
         .any((element) => element.name == 'Vuln' && element.type == 'Fire');
-    return VeternModification(
+    return VeteranModification(
         name: 'Fireproof',
         id: fireproofId,
         requirementCheck: () {
@@ -267,7 +266,7 @@ class VeternModification extends BaseModification {
             return false;
           }
 
-          return u.traits.any((element) => element.name == 'Vet');
+          return u.traits.any((trait) => trait.name == 'Vet');
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
       ..addMod(
@@ -302,7 +301,7 @@ class VeternModification extends BaseModification {
   Brawl:X trait does not swap with it.
   */
 
-  factory VeternModification.oldReliable(Unit u) {
+  factory VeteranModification.oldReliable(Unit u) {
     final RegExp meleeCheck = RegExp(r'\b([LM])(VB|SG|CW)');
     final react = u.reactWeapons.toList();
 
@@ -356,7 +355,7 @@ class VeternModification extends BaseModification {
             'One Light (L) or Medium (M) melee weapon with the React trait ' +
                 'can be swapped for an equal class melee weapon for 0 TV,');
 
-    return VeternModification(
+    return VeteranModification(
         name: 'Old Reliable',
         id: oldReliableId,
         options: modOptions,
@@ -374,7 +373,7 @@ class VeternModification extends BaseModification {
             return false;
           }
 
-          return u.traits.any((element) => element.name == 'Vet');
+          return u.traits.any((trait) => trait.name == 'Vet');
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(0),
           description:
@@ -411,11 +410,11 @@ class VeternModification extends BaseModification {
   Add the Resist:Corrosion trait or remove the
   Vuln:Corrosion trait.
   */
-  factory VeternModification.stainlessSteel(Unit u) {
+  factory VeteranModification.stainlessSteel(Unit u) {
     final traits = u.traits.toList();
     final isVulnerable = traits.any(
         (element) => element.name == 'Vuln' && element.type == 'Corrosion');
-    return VeternModification(
+    return VeteranModification(
         name: 'Stainless Steel',
         id: stainlessSteelId,
         requirementCheck: () {
@@ -428,7 +427,7 @@ class VeternModification extends BaseModification {
             return false;
           }
 
-          return u.traits.any((element) => element.name == 'Vet');
+          return u.traits.any((trait) => trait.name == 'Vet');
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
       ..addMod(
@@ -459,11 +458,11 @@ class VeternModification extends BaseModification {
   that the models has. This cost increases by 2TV per
   additional action purchased via other upgrades.
   */
-  factory VeternModification.sharpShooter(Unit u) {
+  factory VeteranModification.sharpShooter(Unit u) {
     final actions = u.actions;
     final gunnery = u.gunnery;
 
-    return VeternModification(
+    return VeteranModification(
         name: 'Sharpshooter',
         id: sharpshooterId,
         requirementCheck: () {
@@ -475,7 +474,7 @@ class VeternModification extends BaseModification {
             return false;
           }
 
-          return u.traits.any((element) => element.name == 'Vet');
+          return u.traits.any((trait) => trait.name == 'Vet');
         })
       ..addMod(
         UnitAttribute.tv,
@@ -503,8 +502,8 @@ class VeternModification extends BaseModification {
   This model does not suffer the -1D6 modifier when
   using the Split weapon trait.
   */
-  factory VeternModification.trickShot(Unit u) {
-    return VeternModification(
+  factory VeteranModification.trickShot(Unit u) {
+    return VeteranModification(
         name: 'Trick Shot',
         id: trickShotId,
         requirementCheck: () {
@@ -512,7 +511,7 @@ class VeternModification extends BaseModification {
             return false;
           }
 
-          return u.traits.any((element) => element.name == 'Vet');
+          return u.traits.any((trait) => trait.name == 'Vet');
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
       ..addMod(
@@ -530,7 +529,7 @@ class VeternModification extends BaseModification {
   > LVB (React, Precise)
   > LCW (React, Brawl:1)
   */
-  factory VeternModification.meleeWeaponUpgrade(Unit u) {
+  factory VeteranModification.meleeWeaponUpgrade(Unit u) {
     final react = u.reactWeapons;
     final List<ModificationOption> _options = [];
 
@@ -550,7 +549,7 @@ class VeternModification extends BaseModification {
             'trait, can upgrade it to either a LVB (React, ' +
             'Precise) or LCW (React, Brawl:1)');
 
-    return VeternModification(
+    return VeteranModification(
         name: 'Melee Weapon Upgrade',
         id: meleeUpgradeLCW,
         options: modOptions,
