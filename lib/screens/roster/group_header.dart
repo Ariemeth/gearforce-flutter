@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
+import 'package:gearforce/models/mods/duelist/duelist_modification.dart';
 import 'package:gearforce/screens/roster/select_role.dart';
 import 'package:gearforce/widgets/display_value.dart';
 
@@ -59,15 +60,18 @@ class GroupHeader extends StatelessWidget {
             child: DisplayValue(
               text: 'Actions',
               value: actions,
-              textColor: isPrimary
-                  // a cg is only valid if the number of actions is greater then 4 and
-                  // less then or equal to 6
-                  ? actions > _maxPrimaryActions || actions < _minPrimaryActions
-                      ? Colors.red
-                      : Colors.green
-                  : actions > (cg.primary.totalActions() / 2).ceil()
-                      ? Colors.red
-                      : Colors.green,
+              textColor: cg.modCount(indepdentOperatorId) != 0
+                  ? Colors.green
+                  : isPrimary
+                      // a cg is only valid if the number of actions is greater then 4 and
+                      // less then or equal to 6
+                      ? actions > _maxPrimaryActions ||
+                              actions < _minPrimaryActions
+                          ? Colors.red
+                          : Colors.green
+                      : actions > (cg.primary.totalActions() / 2).ceil()
+                          ? Colors.red
+                          : Colors.green,
             ),
           ),
           isPrimary

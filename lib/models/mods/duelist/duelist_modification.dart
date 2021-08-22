@@ -12,6 +12,7 @@ import 'package:gearforce/models/weapons/weapons.dart';
 import 'package:uuid/uuid.dart';
 
 final duelistId = Uuid().v4();
+final indepdentOperatorId = Uuid().v4();
 final aceGunnerId = Uuid().v4();
 final advancedControlSystemId = Uuid().v4();
 final crackShotId = Uuid().v4();
@@ -91,6 +92,26 @@ class DuelistModification extends BaseModification {
       );
     }
     return mod;
+  }
+
+  factory DuelistModification.independentOperator(Unit u, UnitRoster roster) {
+    return DuelistModification(
+        name: 'Independent Operator',
+        id: indepdentOperatorId,
+        requirementCheck: () {
+          if (u.hasMod(indepdentOperatorId)) {
+            return false;
+          }
+
+          return u.isDuelist;
+        })
+      ..addMod(
+        UnitAttribute.traits,
+        createAddTraitToList(Trait(name: 'Independent Operator')),
+        description:
+            'Duelist is an Independent Operator and will be the sole ' +
+                'model in a combat group',
+      );
   }
 
   /*
