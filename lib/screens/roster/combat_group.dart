@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/combatGroups/group.dart';
+import 'package:gearforce/models/mods/duelist/duelist_modification.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/role.dart';
@@ -234,7 +235,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
                     items: canNotBeCommand
                         ? null
                         : CommandLevel.values.where((element) {
-                            if (unit.isDuelist &&
+                            if (unit.hasMod(indepdentOperatorId) &&
                                 (element == CommandLevel.cgl ||
                                     element == CommandLevel.secic)) {
                               return false;

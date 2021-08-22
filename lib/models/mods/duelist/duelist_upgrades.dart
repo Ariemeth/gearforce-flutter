@@ -5,6 +5,7 @@ import 'package:gearforce/models/unit/unit.dart';
 List<DuelistModification> getDuelistMods(Unit u, UnitRoster roster) {
   return [
     DuelistModification.makeDuelist(u, roster),
+    DuelistModification.independentOperator(u, roster),
     DuelistModification.aceGunner(u),
     DuelistModification.advancedControlSystem(u),
     DuelistModification.crackShot(u),
