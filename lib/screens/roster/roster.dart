@@ -14,7 +14,7 @@ import 'package:provider/provider.dart';
 
 const double _leftPanelWidth = 670.0;
 const double _menuTitleHeight = 60.0;
-const String _version = '0.27.0';
+const String _version = '0.28.0';
 const String _bugMessage =
     'Please report any issues to gearforce@metadiversions.com';
 const bool _enablePDF = false;
@@ -143,6 +143,23 @@ class _RosterWidgetState extends State<RosterWidget> {
               onTap: () async {
                 printPDF(roster);
               },
+            ),
+            ListTile(
+              title: Row(children: [
+                Text(
+                  'Elite force',
+                ),
+                Checkbox(
+                    value: roster.isEliteForce,
+                    onChanged: (bool? newValue) {
+                      if (newValue == null) {
+                        return;
+                      }
+                      setState(() {
+                        roster.isEliteForce = newValue;
+                      });
+                    })
+              ]),
             ),
             AboutListTile(
               applicationName: 'Gearforce',

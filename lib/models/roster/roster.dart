@@ -17,6 +17,7 @@ class UnitRoster extends ChangeNotifier {
   String _activeCG = '';
   String get rulesVersion => _currentRulesVersion;
   String get compendiumVersion => _currentCompendiumVersion;
+  bool _isEliteForce = false;
 
   UnitRoster() {
     faction.addListener(() {
@@ -26,6 +27,16 @@ class UnitRoster extends ChangeNotifier {
       });
     });
     createCG();
+  }
+
+  bool get isEliteForce => _isEliteForce;
+  set isEliteForce(bool newValue) {
+    if (newValue == _isEliteForce) {
+      return;
+    }
+
+    _isEliteForce = newValue;
+    notifyListeners();
   }
 
   @override
@@ -44,6 +55,7 @@ class UnitRoster extends ChangeNotifier {
         'version': _currentRosterVersion,
         'rulesVersion': rulesVersion,
         'compendiumVersion': compendiumVersion,
+        'isEliteForce': isEliteForce,
         'whenCreated': DateTime.now().toString(),
       };
 
@@ -64,12 +76,15 @@ class UnitRoster extends ChangeNotifier {
               data,
               ur.faction.value,
               ur.subFaction.value,
+              ur,
             ))
         .toList()
           ..forEach((element) {
             ur.addCG(element);
           });
     ur._totalCreated = json['totalCreated'] as int;
+    ur._isEliteForce =
+        json['isEliteForce'] != null ? json['isEliteForce'] as bool : false;
     return ur;
   }
 
@@ -83,6 +98,7 @@ class UnitRoster extends ChangeNotifier {
       this.addCG(value);
     });
     this._totalCreated = ur._totalCreated;
+    this._isEliteForce = ur._isEliteForce;
   }
 
   CombatGroup? getCG(String name) => _combatGroups[name];

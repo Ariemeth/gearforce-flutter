@@ -13,7 +13,7 @@ class CombatGroup extends ChangeNotifier {
   bool _isVeteran = false;
   final UnitRoster? roster;
 
-  bool get isVeteran => _isVeteran;
+  bool get isVeteran => _isVeteran || isEliteForce;
   set isVeteran(bool value) {
     if (value == _isVeteran) {
       return;
@@ -28,8 +28,23 @@ class CombatGroup extends ChangeNotifier {
       primary.allUnits().forEach((unit) {
         unit.removeUnitMod(veteranId);
       });
+      secondary.allUnits().forEach((unit) {
+        unit.removeUnitMod(veteranId);
+      });
     }
     notifyListeners();
+  }
+
+  bool get isEliteForce => roster != null && roster!.isEliteForce;
+  set isEliteForce(bool newValue) {
+    if (!newValue && !isVeteran) {
+      primary.allUnits().forEach((unit) {
+        unit.removeUnitMod(veteranId);
+      });
+      secondary.allUnits().forEach((unit) {
+        unit.removeUnitMod(veteranId);
+      });
+    }
   }
 
   CombatGroup(this.name, {Group? primary, Group? secondary, this.roster}) {
@@ -48,6 +63,7 @@ class CombatGroup extends ChangeNotifier {
         'primary': primary.toJson(),
         'secondary': secondary.toJson(),
         'name': '$name',
+        'isVet': _isVeteran,
       };
 
   factory CombatGroup.fromJson(
@@ -55,12 +71,14 @@ class CombatGroup extends ChangeNotifier {
     Data data,
     FactionType? faction,
     String? subfaction,
+    UnitRoster? roster,
   ) =>
       CombatGroup(
         json['name'] as String,
         primary: Group.fromJson(json['primary'], data, faction, subfaction),
         secondary: Group.fromJson(json['secondary'], data, faction, subfaction),
-      );
+        roster: roster,
+      ).._isVeteran = json['isVet'] != null ? json['isVet'] as bool : false;
 
   int totalTV() {
     return primary.totalTV() + secondary.totalTV();
