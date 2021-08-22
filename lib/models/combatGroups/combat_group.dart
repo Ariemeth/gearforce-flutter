@@ -63,6 +63,7 @@ class CombatGroup extends ChangeNotifier {
         'primary': primary.toJson(),
         'secondary': secondary.toJson(),
         'name': '$name',
+        'isVet': _isVeteran,
       };
 
   factory CombatGroup.fromJson(
@@ -70,12 +71,14 @@ class CombatGroup extends ChangeNotifier {
     Data data,
     FactionType? faction,
     String? subfaction,
+    UnitRoster? roster,
   ) =>
       CombatGroup(
         json['name'] as String,
         primary: Group.fromJson(json['primary'], data, faction, subfaction),
         secondary: Group.fromJson(json['secondary'], data, faction, subfaction),
-      );
+        roster: roster,
+      ).._isVeteran = json['isVet'] != null ? json['isVet'] as bool : false;
 
   int totalTV() {
     return primary.totalTV() + secondary.totalTV();

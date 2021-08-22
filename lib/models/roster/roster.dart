@@ -55,6 +55,7 @@ class UnitRoster extends ChangeNotifier {
         'version': _currentRosterVersion,
         'rulesVersion': rulesVersion,
         'compendiumVersion': compendiumVersion,
+        'isEliteForce': isEliteForce,
         'whenCreated': DateTime.now().toString(),
       };
 
@@ -75,12 +76,15 @@ class UnitRoster extends ChangeNotifier {
               data,
               ur.faction.value,
               ur.subFaction.value,
+              ur,
             ))
         .toList()
           ..forEach((element) {
             ur.addCG(element);
           });
     ur._totalCreated = json['totalCreated'] as int;
+    ur._isEliteForce =
+        json['isEliteForce'] != null ? json['isEliteForce'] as bool : false;
     return ur;
   }
 
@@ -94,6 +98,7 @@ class UnitRoster extends ChangeNotifier {
       this.addCG(value);
     });
     this._totalCreated = ur._totalCreated;
+    this._isEliteForce = ur._isEliteForce;
   }
 
   CombatGroup? getCG(String name) => _combatGroups[name];
