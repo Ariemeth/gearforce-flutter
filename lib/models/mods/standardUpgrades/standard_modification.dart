@@ -123,7 +123,8 @@ class StandardModification extends BaseModification {
         return newList;
       },
           description:
-              'asdfAdd the Anti-Air trait to one AC, RC, or LC or upgrade any one ATM to AAM of the same class')
+              'Add the Anti-Air trait to one AC, RC, or LC or upgrade any ' +
+                  'one ATM to AAM of the same class')
       ..addMod(UnitAttribute.mounted_weapons, (value) {
         if (!(value is List<Weapon>)) {
           return value;
