@@ -3,7 +3,7 @@ import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/mods/base_modification.dart';
 import 'package:gearforce/models/mods/duelist/duelist_modification.dart';
 import 'package:gearforce/models/mods/duelist/duelist_upgrades.dart';
-import 'package:gearforce/models/mods/modification.dart';
+import 'package:gearforce/models/mods/unitUpgrades/unit_modification.dart';
 import 'package:gearforce/models/mods/standardUpgrades/standard_modification.dart';
 import 'package:gearforce/models/mods/standardUpgrades/standard_upgrades.dart';
 import 'package:gearforce/models/mods/unitUpgrades/unit_upgrades.dart';
@@ -34,7 +34,7 @@ class UpgradesDialog extends StatelessWidget {
   final UnitRoster roster;
   final CombatGroup cg;
   final Unit unit;
-  late final List<Modification> unitMods;
+  late final List<UnitModification> unitMods;
   late final List<StandardModification> standardMods;
   late final List<VeteranModification> veteranMods;
   late final List<DuelistModification> duelistMods;

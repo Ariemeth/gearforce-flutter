@@ -1,4 +1,4 @@
-import 'package:gearforce/models/mods/modification.dart';
+import 'package:gearforce/models/mods/unitUpgrades/unit_modification.dart';
 import 'package:gearforce/models/mods/mods.dart';
 import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/movement.dart';
@@ -6,7 +6,7 @@ import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
 import 'package:gearforce/models/weapons/weapons.dart';
 
-final Modification antiTank = Modification(name: 'Anti-Tank Upgrade')
+final UnitModification antiTank = UnitModification(name: 'Anti-Tank Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Anti-Tank'))
   ..addMod(
@@ -15,7 +15,7 @@ final Modification antiTank = Modification(name: 'Anti-Tank Upgrade')
           oldValue: buildWeapon('MRP')!, newValue: buildWeapon('LATM')!),
       description: '-MRP, +LATM');
 
-final Modification vtol = Modification(name: 'VTOL Upgrade')
+final UnitModification vtol = UnitModification(name: 'VTOL Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
   ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'VTOL'))
   ..addMod(UnitAttribute.movement,
@@ -24,7 +24,7 @@ final Modification vtol = Modification(name: 'VTOL Upgrade')
   ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'VTOL')),
       description: '+VTOL');
 
-final Modification rocket = Modification(name: 'Rocket Upgrade')
+final UnitModification rocket = UnitModification(name: 'Rocket Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'with Rockets'))
   ..addMod(
@@ -33,7 +33,7 @@ final Modification rocket = Modification(name: 'Rocket Upgrade')
           oldValue: buildWeapon('LRP')!, newValue: buildWeapon('MRP')!),
       description: '-LRP, +MRP');
 
-final Modification nlil = Modification(name: 'N-LIL Upgrade')
+final UnitModification nlil = UnitModification(name: 'N-LIL Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
   ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'with N-LIL'))
   ..addMod(UnitAttribute.movement,
@@ -44,14 +44,14 @@ final Modification nlil = Modification(name: 'N-LIL Upgrade')
   ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'VTOL')),
       description: '+VTOL');
 
-final Modification rocket2 = Modification(name: 'Rocket Upgrade')
+final UnitModification rocket2 = UnitModification(name: 'Rocket Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'with Rockets'))
   ..addMod(UnitAttribute.mounted_weapons,
       createAddWeaponToList(buildWeapon('LRP', hasReact: true)!),
       description: '+LRP');
 
-final Modification sniper = Modification(name: 'Sniper Upgrade')
+final UnitModification sniper = UnitModification(name: 'Sniper Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(0), description: 'TV +0')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Sniper'))
   ..addMod(
@@ -60,7 +60,7 @@ final Modification sniper = Modification(name: 'Sniper Upgrade')
           oldValue: buildWeapon('HRC')!, newValue: buildWeapon('MLC')!),
       description: '-HRC, +MLC');
 
-final Modification edenWizard = Modification(name: 'Eden Wizard Upgrade')
+final UnitModification edenWizard = UnitModification(name: 'Eden Wizard Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Eden Wizard'))
   ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
@@ -73,7 +73,7 @@ final Modification edenWizard = Modification(name: 'Eden Wizard Upgrade')
       createAddTraitToList(Trait(name: 'ECCM', isAux: true)),
       description: '+ECCM (Aux)');
 
-final Modification specialOperations = Modification(
+final UnitModification specialOperations = UnitModification(
     name: 'Special Operations Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(
@@ -86,7 +86,7 @@ final Modification specialOperations = Modification(
       createAddTraitToList(Trait(name: 'Stealth', isAux: true)),
       description: '+Stealth (Aux)');
 
-final Modification node = Modification(name: 'Node Upgrade')
+final UnitModification node = UnitModification(name: 'Node Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Node'))
   ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')

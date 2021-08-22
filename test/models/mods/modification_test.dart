@@ -1,4 +1,4 @@
-import 'package:gearforce/models/mods/modification.dart';
+import 'package:gearforce/models/mods/unitUpgrades/unit_modification.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
@@ -6,7 +6,7 @@ import 'package:test/test.dart';
 
 void main() {
   test('check default modification constructor', () {
-    final m = Modification(
+    final m = UnitModification(
       name: 'test',
     );
     const testCDore = UnitCore.test();
@@ -17,7 +17,7 @@ void main() {
   });
 
   test('check requirement check should be false', () {
-    final m = Modification(
+    final m = UnitModification(
       name: 'test',
       requirementCheck: (Unit u) => false,
     );
@@ -28,7 +28,7 @@ void main() {
   });
 
   test('test mod to increase ew by 1, from 5 to 4', () {
-    final m = Modification(
+    final m = UnitModification(
       name: 'increase ew by 1',
       requirementCheck: (Unit uc) => false,
     );
@@ -41,7 +41,7 @@ void main() {
   });
 
   test('test applyMod with no stored mod', () {
-    final m = Modification(
+    final m = UnitModification(
       name: 'empty mod',
       requirementCheck: (Unit u) => false,
     );

@@ -1,4 +1,4 @@
-import 'package:gearforce/models/mods/modification.dart';
+import 'package:gearforce/models/mods/unitUpgrades/unit_modification.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
@@ -111,7 +111,7 @@ void main() {
     const uc = UnitCore.test();
     final tu = Unit(core: uc)
       ..addUnitMod(
-        Modification(
+        UnitModification(
           name: 'add postfix to name',
           requirementCheck: (Unit u) => false,
         )..addMod(UnitAttribute.name,
@@ -123,7 +123,7 @@ void main() {
 
   test('test add 1 mod remove 1 mod', () {
     const uc = UnitCore.test();
-    final testMod = Modification(
+    final testMod = UnitModification(
       name: 'add postfix to name',
       requirementCheck: (Unit u) => false,
     )..addMod(
@@ -139,14 +139,14 @@ void main() {
     const uc = UnitCore.test();
     final tu = Unit(core: uc)
       ..addUnitMod(
-        Modification(
+        UnitModification(
           name: 'add postfix to name',
           requirementCheck: (Unit u) => false,
         )..addMod(UnitAttribute.name,
             (dynamic value) => '${(value as String)} upgrade'),
       )
       ..addUnitMod(
-        Modification(
+        UnitModification(
           name: 'add 1 to tv',
           requirementCheck: (Unit u) => false,
         )..addMod(UnitAttribute.tv, (dynamic value) => (value as int) + 1),
@@ -159,7 +159,7 @@ void main() {
     const uc = UnitCore.test();
     final tu = Unit(core: uc)
       ..addUnitMod(
-        Modification(
+        UnitModification(
           name: 'add postfix to name',
           requirementCheck: (Unit u) => false,
         )..addMod(UnitAttribute.name,
@@ -174,7 +174,7 @@ void main() {
     const uc = UnitCore.test();
     final tu = Unit(core: uc)
       ..addUnitMod(
-        Modification(
+        UnitModification(
           name: 'add postfix to name',
           requirementCheck: (Unit u) => false,
         )..addMod(UnitAttribute.name,
@@ -192,7 +192,7 @@ void main() {
     const uc = UnitCore.test();
     final tu = Unit(core: uc)
       ..addUnitMod(
-        Modification(
+        UnitModification(
           name: 'increase tv and gunnery by 1',
           requirementCheck: (Unit u) => false,
         )
@@ -215,13 +215,13 @@ void main() {
     const uc = UnitCore.test();
     final tu = Unit(core: uc)
       ..addUnitMod(
-        Modification(
+        UnitModification(
           name: 'add 1 to tv',
           requirementCheck: (Unit u) => false,
         )..addMod(UnitAttribute.tv, (dynamic value) => (value as int) + 1),
       )
       ..addUnitMod(
-        Modification(
+        UnitModification(
           name: 'add 1 to tv',
           requirementCheck: (Unit u) => false,
         )..addMod(UnitAttribute.tv, (dynamic value) => (value as int) + 1),

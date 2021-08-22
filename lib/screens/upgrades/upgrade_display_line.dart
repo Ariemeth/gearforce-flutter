@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gearforce/models/mods/base_modification.dart';
 import 'package:gearforce/models/mods/duelist/duelist_modification.dart';
-import 'package:gearforce/models/mods/modification.dart';
+import 'package:gearforce/models/mods/unitUpgrades/unit_modification.dart';
 import 'package:gearforce/models/mods/standardUpgrades/standard_modification.dart';
 import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart';
 import 'package:gearforce/models/unit/unit.dart';
@@ -20,9 +20,9 @@ class UpgradeDisplayLine extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool isModSelectable = true;
-    if (mod is Modification) {
+    if (mod is UnitModification) {
       isModSelectable =
-          (mod as Modification).requirementCheck(unit) || unit.hasMod(mod.id);
+          (mod as UnitModification).requirementCheck(unit) || unit.hasMod(mod.id);
     } else if (mod is StandardModification) {
       isModSelectable = (mod as StandardModification).requirementCheck() ||
           unit.hasMod(mod.id);

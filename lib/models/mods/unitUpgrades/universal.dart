@@ -1,11 +1,11 @@
-import 'package:gearforce/models/mods/modification.dart';
+import 'package:gearforce/models/mods/unitUpgrades/unit_modification.dart';
 import 'package:gearforce/models/mods/mods.dart';
 import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
 import 'package:gearforce/models/weapons/weapons.dart';
 
-final Modification sawBladeSwap = Modification(
+final UnitModification sawBladeSwap = UnitModification(
     name: 'Saw Blade Swap',
     requirementCheck: (Unit u) {
       return u.reactWeapons.contains('MCW (Reach:1, Demo:4)');
@@ -20,7 +20,7 @@ final Modification sawBladeSwap = Modification(
           newValue: buildWeapon('MCW (Brawl:1)', hasReact: true)!),
       description: '-MCW (Reach:1, Demo:4), +MCW (Brawl:1)');
 
-final Modification vibroswordSwap = Modification(
+final UnitModification vibroswordSwap = UnitModification(
     name: 'Vibrosword Swap',
     requirementCheck: (Unit u) {
       return u.reactWeapons.contains('MCW (Reach:1, Demo:4)');
@@ -35,7 +35,7 @@ final Modification vibroswordSwap = Modification(
           newValue: buildWeapon('MVB (Reach:1)', hasReact: true)!),
       description: '-MCW (Reach:1, Demo:4), +MVB (Reach:1)');
 
-final Modification destroyer = Modification(
+final UnitModification destroyer = UnitModification(
     name: 'Destroyer Upgrade',
     requirementCheck: (Unit u) {
       return u.reactWeapons.contains('HAC');
@@ -49,7 +49,7 @@ final Modification destroyer = Modification(
           newValue: buildWeapon('MBZ', hasReact: true)!),
       description: '-HAC, +MBZ');
 
-final Modification demolisher = Modification(
+final UnitModification demolisher = UnitModification(
     name: 'Demolisher Hand Swap',
     requirementCheck: (Unit u) {
       return u.reactWeapons.contains('HAC');
@@ -70,7 +70,7 @@ final Modification demolisher = Modification(
           newValue: Trait(name: 'Brawl', level: 2)),
       description: '-Brawl:1, +Brawl:2');
 
-final Modification heavyChainswordSwap = Modification(
+final UnitModification heavyChainswordSwap = UnitModification(
     name: 'Heavy Chainsword Swap',
     requirementCheck: (Unit u) {
       return u.reactWeapons.contains('LVB');
@@ -85,7 +85,7 @@ final Modification heavyChainswordSwap = Modification(
           newValue: buildWeapon('MCW (Brawl:1, Reach:1)', hasReact: true)!),
       description: '-LVB, +MCW (Brawl:1, Reach:1)');
 
-final Modification maulerFistSwap = Modification(
+final UnitModification maulerFistSwap = UnitModification(
     name: 'Mauler Fist Swap',
     requirementCheck: (Unit u) {
       return u.reactWeapons.contains('MCW (Reach:1, Demo:4)');
@@ -100,7 +100,7 @@ final Modification maulerFistSwap = Modification(
           newValue: buildWeapon('MCW (Brawl:1, Demo:4)', hasReact: true)!),
       description: '-MCW (Reach:1, Demo:4), +MCW (Brawl:1, Demo:4)');
 
-final Modification chainswordSwap = Modification(
+final UnitModification chainswordSwap = UnitModification(
     name: 'Chainsword Swap',
     requirementCheck: (Unit u) {
       return u.reactWeapons.contains('MCW (Reach:1, Demo:4)');
@@ -115,7 +115,7 @@ final Modification chainswordSwap = Modification(
           newValue: buildWeapon('LCW (Brawl:1, Reach:1)', hasReact: true)!),
       description: '-MCW (Reach:1, Demo:4), +LCW (Brawl:1, Reach:1)');
 
-final Modification strike = Modification(
+final UnitModification strike = UnitModification(
     name: 'Strike Upgrade',
     requirementCheck: (Unit u) {
       return u.reactWeapons.contains('HAC');
@@ -129,7 +129,7 @@ final Modification strike = Modification(
           newValue: buildWeapon('MBZ', hasReact: true)!),
       description: '-HAC, +MBZ');
 
-final Modification clawSwap = Modification(
+final UnitModification clawSwap = UnitModification(
     name: 'Claw Swap',
     requirementCheck: (Unit u) {
       return u.reactWeapons.contains('MCW (Reach:1, Demo:4)');
@@ -143,7 +143,7 @@ final Modification clawSwap = Modification(
           newValue: buildWeapon('MVB', hasReact: true)!),
       description: '-MCW (Reach:1, Demo:4), +MVB)');
 
-final Modification hammerSwap = Modification(
+final UnitModification hammerSwap = UnitModification(
     name: 'Hammer Swap',
     requirementCheck: (Unit u) {
       return u.reactWeapons.contains('MCW (Brawl:1, Reach:1)');
@@ -157,28 +157,28 @@ final Modification hammerSwap = Modification(
           newValue: buildWeapon('MCW (Reach:1, Demo:4)', hasReact: true)!),
       description: '-MCW (Brawl:1, Reach:1), +MCW (Reach:1, Demo:4)');
 
-final Modification paratrooper = Modification(name: 'Paratrooper Upgrade')
+final UnitModification paratrooper = UnitModification(name: 'Paratrooper Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Paratrooper'))
   ..addMod(UnitAttribute.piloting, createSetIntMod(3), description: 'PI:3+')
   ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'Airdrop')),
       description: '+Airdrop');
 
-final Modification mountaineering = Modification(name: 'Mountaineering Upgrade')
+final UnitModification mountaineering = UnitModification(name: 'Mountaineering Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Mountaineering'))
   ..addMod(UnitAttribute.piloting, createSetIntMod(3), description: 'PI:3+')
   ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'Climber')),
       description: '+Climber');
 
-final Modification frogmen = Modification(name: 'Frogmen Upgrade')
+final UnitModification frogmen = UnitModification(name: 'Frogmen Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Frogmen'))
   ..addMod(UnitAttribute.piloting, createSetIntMod(3), description: 'PI:3+')
   ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'Sub')),
       description: '+Sub');
 
-final Modification latm = Modification(name: 'LATM Upgrade')
+final UnitModification latm = UnitModification(name: 'LATM Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
   ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'with LATM'))
   ..addMod(
@@ -188,7 +188,7 @@ final Modification latm = Modification(name: 'LATM Upgrade')
           newValue: buildWeapon('LATM (Link)')!),
       description: '-LAAM (Link), +LATM (Link)');
 
-final Modification ecm = Modification(name: 'ECM Upgrade')
+final UnitModification ecm = UnitModification(name: 'ECM Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
   ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'with ECM'))
   ..addMod(UnitAttribute.ew, createSetIntMod(5), description: 'EW:5+')
