@@ -6,6 +6,7 @@ import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
 import 'package:gearforce/models/weapons/weapon.dart';
+import 'package:gearforce/models/weapons/weapon_modes.dart';
 import 'package:gearforce/models/weapons/weapons.dart';
 import 'package:uuid/uuid.dart';
 
@@ -191,21 +192,117 @@ class StandardModification extends BaseModification {
   be of the same class, such as L, M, or H.
   */
   factory StandardModification.grenadeSwap(Unit u, CombatGroup cg) {
+    final react = u.reactWeapons;
+    final mounted = u.mountedWeapons;
+    final List<ModificationOption> _options = [];
+    final RegExp weaponMatch = RegExp(r'^(HG|PZ)$');
+
+    final availableWeapons = react.toList()..addAll(mounted);
+    availableWeapons
+        .where((weapon) => weaponMatch.hasMatch(weapon.code))
+        .toList()
+        .forEach(
+      (weapon) {
+        _options.add(ModificationOption(weapon.toString()));
+      },
+    );
+
+    var modOptions = ModificationOption('Grenade Swap',
+        subOptions: _options,
+        description: 'Chose a grenade to swap for a panzerfaust or a ' +
+            'panzerfaust to swap for a grenade');
+
     return StandardModification(
         name: 'Grenade Swap',
         id: grenadeSwapId,
+        options: modOptions,
         requirementCheck: () {
           if (u.hasMod(grenadeSwapId)) {
             return false;
           }
-          final RegExp exp = RegExp(
-              r'^([[:space:]]|,|\[)*(([LMH])(HG|PZ))([[:space:]]|\])*($|,)');
-          return exp.hasMatch(u.mountedWeapons.toString()) ||
-              exp.hasMatch(u.reactWeapons.toString());
+
+          return u.mountedWeapons
+                  .any((weapon) => weaponMatch.hasMatch(weapon.code)) ||
+              u.reactWeapons.any((weapon) => weaponMatch.hasMatch(weapon.code));
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(0),
           description:
-              'swap their hand grenades for panzerfausts or vice versa. The swapped item must be of the same class, such as L, M, or H');
+              'swap their hand grenades for panzerfausts or vice versa. The ' +
+                  'swapped item must be of the same class, such as L, M, or H')
+      ..addMod(UnitAttribute.react_weapons, (value) {
+        if (!(value is List<Weapon>)) {
+          return value;
+        }
+        final newList =
+            value.map((weapon) => Weapon.fromWeapon(weapon)).toList();
+        if (modOptions.selectedOption != null &&
+            newList.any((weapon) =>
+                weapon.toString() == modOptions.selectedOption?.text &&
+                weapon.hasReact)) {
+          var existingWeapon = newList.firstWhere((weapon) =>
+              weapon.toString() == modOptions.selectedOption?.text &&
+              weapon.hasReact);
+
+          var newWeaponAbb = '';
+
+          if (existingWeapon.code == 'HG') {
+            newWeaponAbb = '${existingWeapon.size}PZ';
+          } else if (existingWeapon.code == 'PZ') {
+            newWeaponAbb = '${existingWeapon.size}HG';
+          } else {
+            print('weapon code ${existingWeapon.toString()} is not a HG or PZ');
+            return newList;
+          }
+
+          final newWeapon = buildWeapon(newWeaponAbb);
+          if (newWeapon != null) {
+            final index = newList.indexWhere(
+                (weapon) => weapon.toString() == existingWeapon.toString());
+            if (index >= 0) {
+              newList.removeAt(index);
+              newList.insert(index, newWeapon);
+            }
+          }
+        }
+        return newList;
+      })
+      ..addMod(UnitAttribute.mounted_weapons, (value) {
+        if (!(value is List<Weapon>)) {
+          return value;
+        }
+        final newList =
+            value.map((weapon) => Weapon.fromWeapon(weapon)).toList();
+        if (modOptions.selectedOption != null &&
+            newList.any((weapon) =>
+                weapon.toString() == modOptions.selectedOption?.text &&
+                !weapon.hasReact)) {
+          var existingWeapon = newList.firstWhere((weapon) =>
+              weapon.toString() == modOptions.selectedOption?.text &&
+              !weapon.hasReact);
+
+          var newWeaponAbb = '';
+
+          if (existingWeapon.code == 'HG') {
+            newWeaponAbb = '${existingWeapon.size}PZ';
+          } else if (existingWeapon.code == 'PZ') {
+            newWeaponAbb = '${existingWeapon.size}HG';
+          } else {
+            print('weapon code ${existingWeapon.toString()} is not a HG or PZ');
+            return newList;
+          }
+
+          final newWeapon = buildWeapon(newWeaponAbb);
+          if (newWeapon != null) {
+            final index = newList.indexWhere(
+                (weapon) => weapon.toString() == existingWeapon.toString());
+            if (index >= 0) {
+              newList.removeAt(index);
+              newList.insert(index, newWeapon);
+            }
+          }
+        }
+        return newList;
+      });
   }
 
   /*
