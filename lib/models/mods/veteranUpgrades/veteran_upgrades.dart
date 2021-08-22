@@ -15,7 +15,6 @@ List<VeternModification> getVeteranMods(Unit u, CombatGroup cg) {
     VeternModification.stainlessSteel(u),
     VeternModification.sharpShooter(u),
     VeternModification.trickShot(u),
-    VeternModification.meleeWeaponUpgradeLCW(u),
-    VeternModification.meleeWeaponUpgradeLVB(u),
+    VeternModification.meleeWeaponUpgrade(u),
   ];
 }
