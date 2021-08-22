@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/combatGroups/group.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
+import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart';
 import 'package:gearforce/models/unit/unit.dart';
 
 class CombatGroup extends ChangeNotifier {
@@ -16,6 +17,11 @@ class CombatGroup extends ChangeNotifier {
       return;
     }
     _isVeteran = value;
+    if (!_isVeteran) {
+      primary.allUnits().forEach((unit) {
+        unit.removeUnitMod(veteranId);
+      });
+    }
     notifyListeners();
   }
 
