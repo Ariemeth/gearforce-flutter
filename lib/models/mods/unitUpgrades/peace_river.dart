@@ -59,7 +59,8 @@ final UnitModification meleeSpecialist1 = UnitModification(
           newValue: Trait(name: 'Brawl', level: 2)),
       description: '-Brawl:1, +Brawl:2');
 
-final UnitModification greyhoundChieftain = UnitModification(name: 'Chieftain Upgrade')
+final UnitModification greyhoundChieftain = UnitModification(
+    name: 'Chieftain Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Chieftain'))
   ..addMod(UnitAttribute.ew, createSetIntMod(3), description: 'EW 3+')
@@ -69,16 +70,19 @@ final UnitModification greyhoundChieftain = UnitModification(name: 'Chieftain Up
   ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'ECCM')),
       description: '+ECCM');
 
-final UnitModification skirmisherChieftain = UnitModification(name: 'Chieftain Upgrade')
-  ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
-  ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Chieftain'))
-  ..addMod(UnitAttribute.ew, createSetIntMod(3), description: 'EW 3+')
-  ..addMod(UnitAttribute.traits,
-      createAddTraitToList(Trait(name: 'SatUp', isAux: true)),
-      description: '+SatUp (Aux)')
-  ..addMod(UnitAttribute.traits,
-      createAddTraitToList(Trait(name: 'ECCM', isAux: true)),
-      description: '+ECCM (Aux)');
+final UnitModification skirmisherChieftain =
+    UnitModification(name: 'Chieftain Upgrade')
+      ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
+      ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Chieftain'))
+      ..addMod(UnitAttribute.ew, createSetIntMod(3), description: 'EW 3+')
+      ..addMod(
+          UnitAttribute.traits,
+          createAddTraitToList(Trait(name: 'SatUp', isAux: true)),
+          description: '+SatUp (Aux)')
+      ..addMod(
+          UnitAttribute.traits,
+          createAddTraitToList(Trait(name: 'ECCM', isAux: true)),
+          description: '+ECCM (Aux)');
 
 final UnitModification skirmisherTag = UnitModification(name: 'Tag Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
@@ -90,7 +94,8 @@ final UnitModification skirmisherTag = UnitModification(name: 'Tag Upgrade')
       createAddTraitToList(Trait(name: 'ECCM', isAux: true)),
       description: '+ECCM (Aux)');
 
-final UnitModification specialForces = UnitModification(name: 'Special Forces Upgrade')
+final UnitModification specialForces = UnitModification(
+    name: 'Special Forces Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'Special Forces'))
   ..addMod(UnitAttribute.ew, createSetIntMod(3), description: 'EW 3+')
@@ -108,14 +113,15 @@ final UnitModification shinobiMeleeSpecialist = UnitModification(
       createAddTraitToList(Trait(name: 'Brawl', level: 2)),
       description: '+Brawl:2');
 
-final UnitModification shinobiChieftain = UnitModification(name: 'Chieftain Upgrade')
-  ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
-  ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Chieftain'))
-  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'ECCM')),
-      description: '+ECCM')
-  ..addMod(UnitAttribute.traits,
-      createAddTraitToList(Trait(name: 'SatUp', isAux: true)),
-      description: '+SatUp (Aux)');
+final UnitModification shinobiChieftain =
+    UnitModification(name: 'Chieftain Upgrade')
+      ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
+      ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Chieftain'))
+      ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'ECCM')),
+          description: '+ECCM')
+      ..addMod(UnitAttribute.traits,
+          createAddTraitToList(Trait(name: 'SatUp', isAux: true)),
+          description: '+SatUp (Aux)');
 
 final UnitModification crusaderV = UnitModification(name: 'Crusader V Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
@@ -143,15 +149,16 @@ final UnitModification cataphractLord = UnitModification(name: 'Lord Upgrade')
   ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'ECCM')),
       description: '+ECCM');
 
-final UnitModification tankHunter = UnitModification(name: 'Tank Hunter Upgrade')
-  ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
-  ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Tank Hunter'))
-  ..addMod(
-      UnitAttribute.mounted_weapons,
-      createReplaceWeaponInList(
-          oldValue: buildWeapon('HRP (Link)')!,
-          newValue: buildWeapon('MTG (Link)')!),
-      description: '-HRP (Link), +MTG (Link)');
+final UnitModification tankHunter =
+    UnitModification(name: 'Tank Hunter Upgrade')
+      ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
+      ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Tank Hunter'))
+      ..addMod(
+          UnitAttribute.mounted_weapons,
+          createReplaceWeaponInList(
+              oldValue: buildWeapon('HRP (Link)')!,
+              newValue: buildWeapon('MTG (Link)')!),
+          description: '-HRP (Link), +MTG (Link)');
 
 final UnitModification uhlanLord = UnitModification(name: 'Lord Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')

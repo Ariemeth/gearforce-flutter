@@ -21,8 +21,8 @@ class UpgradeDisplayLine extends StatelessWidget {
   Widget build(BuildContext context) {
     bool isModSelectable = true;
     if (mod is UnitModification) {
-      isModSelectable =
-          (mod as UnitModification).requirementCheck(unit) || unit.hasMod(mod.id);
+      isModSelectable = (mod as UnitModification).requirementCheck(unit) ||
+          unit.hasMod(mod.id);
     } else if (mod is StandardModification) {
       isModSelectable = (mod as StandardModification).requirementCheck() ||
           unit.hasMod(mod.id);

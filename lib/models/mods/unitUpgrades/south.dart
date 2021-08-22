@@ -27,15 +27,17 @@ final UnitModification mortarUpgrade = UnitModification(name: 'Mortar Upgrade')
       ),
       description: '-MRP, +LGM');
 
-final UnitModification sidewinderCommand = UnitModification(name: 'Command Upgrade')
-  ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
-  ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Command'))
-  ..addMod(UnitAttribute.ew, createSetIntMod(5), description: 'EW 5+')
-  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'Comms')),
-      description: '+Comms')
-  ..addMod(UnitAttribute.traits,
-      createAddTraitToList(Trait(name: 'SatUp', isAux: true)),
-      description: '+SatUp (Aux)');
+final UnitModification sidewinderCommand =
+    UnitModification(name: 'Command Upgrade')
+      ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
+      ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Command'))
+      ..addMod(UnitAttribute.ew, createSetIntMod(5), description: 'EW 5+')
+      ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'Comms')),
+          description: '+Comms')
+      ..addMod(
+          UnitAttribute.traits,
+          createAddTraitToList(Trait(name: 'SatUp', isAux: true)),
+          description: '+SatUp (Aux)');
 
 final UnitModification razorFang = UnitModification(name: 'Razor Fang Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
@@ -52,7 +54,8 @@ final UnitModification razorFang = UnitModification(name: 'Razor Fang Upgrade')
     description: '+SatUp',
   );
 
-final UnitModification ruggedTerrain = UnitModification(name: 'Rugged Terrain Upgrade')
+final UnitModification ruggedTerrain = UnitModification(
+    name: 'Rugged Terrain Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Rugged Terrain'))
   ..addMod(UnitAttribute.react_weapons,
@@ -61,7 +64,8 @@ final UnitModification ruggedTerrain = UnitModification(name: 'Rugged Terrain Up
   ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'Climber')),
       description: '+Climber');
 
-final UnitModification copperheadArenaPilot = UnitModification(name: 'Arena Pilot')
+final UnitModification copperheadArenaPilot = UnitModification(
+    name: 'Arena Pilot')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'with Arena Pilot'))
   ..addMod(UnitAttribute.react_weapons,
@@ -118,7 +122,8 @@ UnitModification diamondbackArenaPilot(Unit u) {
         description: '+Brawl:1');
 }
 
-final UnitModification blackAdderArenaPilot = UnitModification(name: 'Arena Pilot')
+final UnitModification blackAdderArenaPilot = UnitModification(
+    name: 'Arena Pilot')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'with Arena Pilot'))
   ..addMod(UnitAttribute.react_weapons,
@@ -128,20 +133,21 @@ final UnitModification blackAdderArenaPilot = UnitModification(name: 'Arena Pilo
       createAddTraitToList(Trait(name: 'Brawl', level: 2)),
       description: '+Brawl:2');
 
-final UnitModification cobraRazorFang = UnitModification(name: 'Razor Fang Upgrade')
-  ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
-  ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Razor Fang'))
-  ..addMod(UnitAttribute.ew, createSetIntMod(5), description: 'EW 5+')
-  ..addMod(
-    UnitAttribute.traits,
-    createAddTraitToList(Trait(name: 'Comms')),
-    description: '+Comms',
-  )
-  ..addMod(
-    UnitAttribute.traits,
-    createAddTraitToList(Trait(name: 'SatUp')),
-    description: '+SatUp',
-  );
+final UnitModification cobraRazorFang =
+    UnitModification(name: 'Razor Fang Upgrade')
+      ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
+      ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Razor Fang'))
+      ..addMod(UnitAttribute.ew, createSetIntMod(5), description: 'EW 5+')
+      ..addMod(
+        UnitAttribute.traits,
+        createAddTraitToList(Trait(name: 'Comms')),
+        description: '+Comms',
+      )
+      ..addMod(
+        UnitAttribute.traits,
+        createAddTraitToList(Trait(name: 'SatUp')),
+        description: '+SatUp',
+      );
 
 final UnitModification boasLongFang = UnitModification(
     name: 'Long Fang Upgrade',
@@ -241,17 +247,18 @@ final UnitModification flame = UnitModification(
           newValue: buildWeapon('MFL', hasReact: true)!),
       description: '-MRC, +MFL');
 
-final UnitModification hetairoiCommand = UnitModification(name: 'Command Upgrade')
-  ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
-  ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Command'))
-  ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
-  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'Comms')),
-      description: '+Comms')
-  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'SatUp')),
-      description: '+SatUp')
-  ..addMod(UnitAttribute.traits,
-      createAddTraitToList(Trait(name: 'ECCM', isAux: true)),
-      description: '+ECCM (Aux)');
+final UnitModification hetairoiCommand =
+    UnitModification(name: 'Command Upgrade')
+      ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
+      ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Command'))
+      ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
+      ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'Comms')),
+          description: '+Comms')
+      ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'SatUp')),
+          description: '+SatUp')
+      ..addMod(UnitAttribute.traits,
+          createAddTraitToList(Trait(name: 'ECCM', isAux: true)),
+          description: '+ECCM (Aux)');
 
 final UnitModification caimanCommand = UnitModification(name: 'Command Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')

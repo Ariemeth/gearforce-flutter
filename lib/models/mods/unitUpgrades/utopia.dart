@@ -60,18 +60,20 @@ final UnitModification sniper = UnitModification(name: 'Sniper Upgrade')
           oldValue: buildWeapon('HRC')!, newValue: buildWeapon('MLC')!),
       description: '-HRC, +MLC');
 
-final UnitModification edenWizard = UnitModification(name: 'Eden Wizard Upgrade')
-  ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
-  ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Eden Wizard'))
-  ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
-  ..addMod(UnitAttribute.roles, createAddRoleToList(Role(name: RoleType.RC)),
-      description: '+RC')
-  ..addMod(UnitAttribute.traits,
-      createAddTraitToList(Trait(name: 'ECM', isAux: true)),
-      description: '+ECM (Aux)')
-  ..addMod(UnitAttribute.traits,
-      createAddTraitToList(Trait(name: 'ECCM', isAux: true)),
-      description: '+ECCM (Aux)');
+final UnitModification edenWizard =
+    UnitModification(name: 'Eden Wizard Upgrade')
+      ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
+      ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Eden Wizard'))
+      ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
+      ..addMod(
+          UnitAttribute.roles, createAddRoleToList(Role(name: RoleType.RC)),
+          description: '+RC')
+      ..addMod(UnitAttribute.traits,
+          createAddTraitToList(Trait(name: 'ECM', isAux: true)),
+          description: '+ECM (Aux)')
+      ..addMod(UnitAttribute.traits,
+          createAddTraitToList(Trait(name: 'ECCM', isAux: true)),
+          description: '+ECCM (Aux)');
 
 final UnitModification specialOperations = UnitModification(
     name: 'Special Operations Upgrade')

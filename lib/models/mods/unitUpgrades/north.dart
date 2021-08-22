@@ -28,14 +28,15 @@ final UnitModification meleeSpecialist1 = UnitModification(
           newValue: Trait(name: 'Brawl', level: 2)),
       description: 'Brawl:2');
 
-final UnitModification thunderJaguar = UnitModification(name: 'Thunder Jaguar Upgrade')
-  ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
-  ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Thunder'))
-  ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
-  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'Comms')),
-      description: '+Comms')
-  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'SatUp')),
-      description: '+SatUp');
+final UnitModification thunderJaguar =
+    UnitModification(name: 'Thunder Jaguar Upgrade')
+      ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
+      ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Thunder'))
+      ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
+      ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'Comms')),
+          description: '+Comms')
+      ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'SatUp')),
+          description: '+SatUp');
 
 final UnitModification seccom = UnitModification(name: 'Seccom Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
@@ -108,35 +109,38 @@ final UnitModification denMother = UnitModification(name: 'Den Mother Upgrade')
   ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'SatUp')),
       description: '+SatUp');
 
-final UnitModification rotaryLaser = UnitModification(name: 'Rotary Laser Upgrade')
-  ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
-  ..addMod(
-      UnitAttribute.name, createSimpleStringMod(false, 'with Rotary Laser'))
-  ..addMod(
-      UnitAttribute.mounted_weapons,
-      createMultiReplaceWeaponsInList(
-        oldItems: [buildWeapon('LATM')!, buildWeapon('MATM')!],
-        newItems: [buildWeapon('MRL (T Link)')!],
-      ),
-      description: '-LATM, -MATM, +MRL (T,Link)');
+final UnitModification rotaryLaser =
+    UnitModification(name: 'Rotary Laser Upgrade')
+      ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
+      ..addMod(
+          UnitAttribute.name, createSimpleStringMod(false, 'with Rotary Laser'))
+      ..addMod(
+          UnitAttribute.mounted_weapons,
+          createMultiReplaceWeaponsInList(
+            oldItems: [buildWeapon('LATM')!, buildWeapon('MATM')!],
+            newItems: [buildWeapon('MRL (T Link)')!],
+          ),
+          description: '-LATM, -MATM, +MRL (T,Link)');
 
-final UnitModification scimitarCommand = UnitModification(name: 'Command Upgrade')
-  ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
-  ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Command'))
-  ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
-  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'Comms')),
-      description: '+Comms')
-  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'SatUp')),
-      description: '+SatUp')
-  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'ECCM')),
-      description: '+ECCM');
+final UnitModification scimitarCommand =
+    UnitModification(name: 'Command Upgrade')
+      ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
+      ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Command'))
+      ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
+      ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'Comms')),
+          description: '+Comms')
+      ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'SatUp')),
+          description: '+SatUp')
+      ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'ECCM')),
+          description: '+ECCM');
 
-final UnitModification sledgehammer = UnitModification(name: 'Sledgehammer Upgrade')
-  ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
-  ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Sledgehammer'))
-  ..addMod(UnitAttribute.mounted_weapons,
-      createAddWeaponToList(buildWeapon('2 X MAR')!),
-      description: '+2 x MAR');
+final UnitModification sledgehammer =
+    UnitModification(name: 'Sledgehammer Upgrade')
+      ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
+      ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Sledgehammer'))
+      ..addMod(UnitAttribute.mounted_weapons,
+          createAddWeaponToList(buildWeapon('2 X MAR')!),
+          description: '+2 x MAR');
 
 final UnitModification aegis = UnitModification(name: 'Aegis Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(0), description: 'TV +0')
