@@ -51,6 +51,7 @@ class CombatGroup extends ChangeNotifier {
     this.primary = primary == null ? Group() : primary;
     this.secondary = secondary == null ? Group() : secondary;
 
+// TODO maybe turn the groups into properties that can be set after the combat group is created?
     this.primary.addListener(() {
       notifyListeners();
     });

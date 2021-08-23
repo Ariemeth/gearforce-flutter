@@ -60,7 +60,7 @@ class UnitCore {
     this.traits = const [],
     this.type = 'gear',
     this.height = '1.5',
-    this.frame = '',
+    this.frame = 'none',
   });
 
   dynamic attribute(UnitAttribute att) {
