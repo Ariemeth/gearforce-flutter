@@ -9,21 +9,20 @@ import 'package:gearforce/models/unit/unit_attribute.dart';
 import 'package:gearforce/models/weapons/weapon.dart';
 import 'package:gearforce/models/weapons/weapon_modes.dart';
 import 'package:gearforce/models/weapons/weapons.dart';
-import 'package:uuid/uuid.dart';
 
-final duelistId = Uuid().v4();
-final indepdentOperatorId = Uuid().v4();
-final aceGunnerId = Uuid().v4();
-final advancedControlSystemId = Uuid().v4();
-final crackShotId = Uuid().v4();
-final defenderId = Uuid().v4();
-final dualWieldId = Uuid().v4();
-final gunslingerId = Uuid().v4();
-final lungeId = Uuid().v4();
-final pushTheEnvelopeId = Uuid().v4();
-final quickDrawId = Uuid().v4();
-final shieldBearerId = Uuid().v4();
-final smashFestId = Uuid().v4();
+const duelistId = 'duelist';
+const independentOperatorId = 'duelist: independent';
+const aceGunnerId = 'duelist: ace gunner';
+const advancedControlSystemId = 'duelist: advanced control system';
+const crackShotId = 'duelist: crack shot';
+const defenderId = 'duelist: defender';
+const dualWieldId = 'duelist: dual wield';
+const gunslingerId = 'duelist: gunslinger';
+const lungeId = 'duelist: lunge';
+const pushTheEnvelopeId = 'duelist: push the envelope';
+const quickDrawId = 'duelist: quickdraw';
+const shieldBearerId = 'duelist: shield bearer';
+const smashFestId = 'duelist: smash fest';
 
 class DuelistModification extends BaseModification {
   DuelistModification({
@@ -96,9 +95,9 @@ class DuelistModification extends BaseModification {
   factory DuelistModification.independentOperator(Unit u, UnitRoster roster) {
     return DuelistModification(
         name: 'Independent Operator',
-        id: indepdentOperatorId,
+        id: independentOperatorId,
         requirementCheck: () {
-          if (u.hasMod(indepdentOperatorId)) {
+          if (u.hasMod(independentOperatorId)) {
             return false;
           }
 

@@ -8,21 +8,19 @@ import 'package:gearforce/models/unit/unit_attribute.dart';
 import 'package:gearforce/models/weapons/weapon.dart';
 import 'package:gearforce/models/weapons/weapon_modes.dart';
 import 'package:gearforce/models/weapons/weapons.dart';
-import 'package:uuid/uuid.dart';
 
-final veteranId = Uuid().v4();
-final ewSpecId = Uuid().v4();
-final fieldArmorId = Uuid().v4();
-final inYourFaceId1 = Uuid().v4();
-final inYourFaceId2 = Uuid().v4();
-final insulatedId = Uuid().v4();
-final fireproofId = Uuid().v4();
-final oldReliableId = Uuid().v4();
-final stainlessSteelId = Uuid().v4();
-final sharpshooterId = Uuid().v4();
-final trickShotId = Uuid().v4();
-final meleeUpgradeLVB = Uuid().v4();
-final meleeUpgradeLCW = Uuid().v4();
+const veteranId = 'veteran';
+const ewSpecId = 'vet: ew specialist';
+const fieldArmorId = 'vet: field armor';
+const inYourFaceId1 = 'vet: in your face 1';
+const inYourFaceId2 = 'vet: in your face 2';
+const insulatedId = 'vet: insulated';
+const fireproofId = 'vet: fire proof';
+const oldReliableId = 'vet: old reliable';
+const stainlessSteelId = 'vet: stainless steel';
+const sharpshooterId = 'vet: sharp shooter';
+const trickShotId = 'vet: trick shot';
+const meleeUpgrade = 'vet: melee upgrade';
 
 class VeteranModification extends BaseModification {
   VeteranModification({
@@ -551,10 +549,10 @@ class VeteranModification extends BaseModification {
 
     return VeteranModification(
         name: 'Melee Weapon Upgrade',
-        id: meleeUpgradeLCW,
+        id: meleeUpgrade,
         options: modOptions,
         requirementCheck: () {
-          if (u.hasMod(meleeUpgradeLCW) || u.hasMod(meleeUpgradeLVB)) {
+          if (u.hasMod(meleeUpgrade)) {
             return false;
           }
 

@@ -1,12 +1,17 @@
 import 'package:flutter/widgets.dart';
 import 'package:gearforce/data/data.dart';
+import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/mods/base_modification.dart';
 import 'package:gearforce/models/mods/duelist/duelist_modification.dart';
+import 'package:gearforce/models/mods/duelist/duelist_upgrades.dart';
 import 'package:gearforce/models/mods/standardUpgrades/standard_modification.dart';
+import 'package:gearforce/models/mods/standardUpgrades/standard_upgrades.dart';
 import 'package:gearforce/models/mods/unitUpgrades/unit_modification.dart';
 import 'package:gearforce/models/mods/unitUpgrades/unit_upgrades.dart';
 import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart';
+import 'package:gearforce/models/mods/veteranUpgrades/veteran_upgrades.dart';
+import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/movement.dart';
@@ -32,17 +37,17 @@ class Unit extends ChangeNotifier {
         if (mods['standard'] == null) {
           mods['standard'] = [];
         }
-        mods['standard']!.add(mod.name);
+        mods['standard']!.add(mod.id);
       } else if (mod is VeteranModification) {
         if (mods['vet'] == null) {
           mods['vet'] = [];
         }
-        mods['vet']!.add(mod.name);
+        mods['vet']!.add(mod.id);
       } else if (mod is DuelistModification) {
         if (mods['duelist'] == null) {
           mods['duelist'] = [];
         }
-        mods['duelist']!.add(mod.name);
+        mods['duelist']!.add(mod.id);
       }
     });
 
@@ -59,6 +64,8 @@ class Unit extends ChangeNotifier {
     Data data,
     FactionType faction,
     String? subfaction,
+    CombatGroup cg,
+    UnitRoster roster,
   ) {
     var core = data
         .unitList(faction)
@@ -84,7 +91,12 @@ class Unit extends ChangeNotifier {
       final mods = modMap['standard'] as List;
 
       mods.forEach((modeName) {
-        try {} on StateError catch (e) {
+        try {
+          var mod = buildStandardUpgrade(modeName, u, cg);
+          if (mod != null) {
+            u.addUnitMod(mod);
+          }
+        } on StateError catch (e) {
           print('standard mod $modeName not found in available mods, $e');
         }
       });
@@ -93,7 +105,12 @@ class Unit extends ChangeNotifier {
       final mods = modMap['vet'] as List;
 
       mods.forEach((modeName) {
-        try {} on StateError catch (e) {
+        try {
+          var mod = buildVetUpgrade(modeName, u, cg);
+          if (mod != null) {
+            u.addUnitMod(mod);
+          }
+        } on StateError catch (e) {
           print('vet mod $modeName not found in available mods, $e');
         }
       });
@@ -102,24 +119,17 @@ class Unit extends ChangeNotifier {
       final mods = modMap['duelist'] as List;
 
       mods.forEach((modeName) {
-        try {} on StateError catch (e) {
+        try {
+          var mod = buildDuelistUpgrade(modeName, u, roster);
+          if (mod != null) {
+            u.addUnitMod(mod);
+          }
+        } on StateError catch (e) {
           print('duelist mod $modeName not found in available mods, $e');
         }
       });
     }
 
-    /*if (decodedMods.isNotEmpty) {
-      var availableUnitMods = getUnitMods(u.core.frame, u);
-      decodedMods.forEach((modeName) {
-        try {
-          var mod = availableUnitMods.firstWhere((mod) => mod.name == modeName);
-          u.addUnitMod(mod);
-        } on StateError catch (e) {
-          print('mod $modeName not found in available mods, $e');
-        }
-      });
-    }
-    */
     return u;
   }
 

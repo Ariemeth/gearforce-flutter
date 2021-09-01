@@ -18,3 +18,33 @@ List<VeteranModification> getVeteranMods(Unit u, CombatGroup cg) {
     VeteranModification.meleeWeaponUpgrade(u),
   ];
 }
+
+VeteranModification? buildVetUpgrade(String id, Unit u, CombatGroup cg) {
+  switch (id) {
+    case veteranId:
+      return VeteranModification.makeVet(u, cg);
+    case ewSpecId:
+      return VeteranModification.ewSpecialist(u);
+    case fieldArmorId:
+      return VeteranModification.fieldArmor(u);
+    case inYourFaceId1:
+      return VeteranModification.inYourFace1(u);
+    case inYourFaceId2:
+      return VeteranModification.inYourFace2(u);
+    case insulatedId:
+      return VeteranModification.insulated(u);
+    case fireproofId:
+      return VeteranModification.fireproof(u);
+    case oldReliableId:
+      return VeteranModification.oldReliable(u);
+    case stainlessSteelId:
+      return VeteranModification.stainlessSteel(u);
+    case sharpshooterId:
+      return VeteranModification.sharpShooter(u);
+    case trickShotId:
+      return VeteranModification.trickShot(u);
+    case meleeUpgrade:
+      return VeteranModification.meleeWeaponUpgrade(u);
+  }
+  return null;
+}

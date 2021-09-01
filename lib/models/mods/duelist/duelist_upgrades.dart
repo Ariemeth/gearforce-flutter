@@ -19,3 +19,36 @@ List<DuelistModification> getDuelistMods(Unit u, UnitRoster roster) {
     DuelistModification.smashfest(u),
   ];
 }
+
+DuelistModification? buildDuelistUpgrade(String id, Unit u, UnitRoster roster) {
+  switch (id) {
+    case duelistId:
+      return DuelistModification.makeDuelist(u, roster);
+    case independentOperatorId:
+      return DuelistModification.independentOperator(u, roster);
+    case aceGunnerId:
+      return DuelistModification.aceGunner(u);
+    case advancedControlSystemId:
+      return DuelistModification.advancedControlSystem(u);
+    case crackShotId:
+      return DuelistModification.crackShot(u);
+    case defenderId:
+      return DuelistModification.defender(u);
+    case dualWieldId:
+      return DuelistModification.dualWield(u);
+    case gunslingerId:
+      return DuelistModification.gunslinger(u);
+    case lungeId:
+      return DuelistModification.lunge(u);
+    case pushTheEnvelopeId:
+      return DuelistModification.pushTheEnvelope(u);
+    case quickDrawId:
+      return DuelistModification.quickDraw(u);
+    case shieldBearerId:
+      return DuelistModification.shieldBearer(u);
+    case smashFestId:
+      return DuelistModification.smashfest(u);
+  }
+
+  return null;
+}
