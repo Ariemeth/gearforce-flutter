@@ -58,3 +58,16 @@ Example json format for mods
     };
   }
 }
+
+class ModSelectInfo {
+  const ModSelectInfo({required this.text, this.selected});
+  final String text;
+  final ModSelectInfo? selected;
+
+  Map<String, dynamic> toJson() {
+    return {
+      'text': this.text,
+      'selected': this.selected == null ? null : this.selected!.toJson(),
+    };
+  }
+}

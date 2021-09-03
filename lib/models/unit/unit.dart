@@ -74,6 +74,8 @@ class Unit extends ChangeNotifier {
 
     u._commandLevel = convertToCommand(json['command']);
 
+    final Map<BaseModification, Map<String, dynamic>> modsWithOptions = {};
+
     final modMap = json['mods'] as Map;
     if (modMap['unit'] != null) {
       final mods = modMap['unit'] as List;
@@ -83,6 +85,11 @@ class Unit extends ChangeNotifier {
           var mod = availableUnitMods
               .firstWhere((unitMod) => unitMod.name == loadedMod['id']);
           u.addUnitMod(mod);
+          final selected = loadedMod['selected'];
+          if (selected != null) {
+            print(selected);
+            modsWithOptions[mod] = selected;
+          }
         } catch (e) {
           print('unit mod $loadedMod not found in available mods, $e');
         }
@@ -93,9 +100,17 @@ class Unit extends ChangeNotifier {
 
       mods.forEach((loadedMod) {
         try {
-          var mod = buildStandardUpgrade(loadedMod, u, cg);
+          final modId = loadedMod['id'];
+          var mod = buildStandardUpgrade(modId, u, cg);
           if (mod != null) {
             u.addUnitMod(mod);
+            final selected = loadedMod['selected'];
+            if (selected != null) {
+              print(selected);
+              modsWithOptions[mod] = selected;
+            }
+          } else {
+            print('Standard mod $modId not found');
           }
         } catch (e) {
           print('standard mod $loadedMod not found in available mods, $e');
@@ -108,9 +123,17 @@ class Unit extends ChangeNotifier {
       mods.forEach((loadedMod) {
         print(loadedMod);
         try {
-          var mod = buildVetUpgrade(loadedMod, u, cg);
+          final modId = loadedMod['id'];
+          var mod = buildVetUpgrade(modId, u, cg);
           if (mod != null) {
             u.addUnitMod(mod);
+            final selected = loadedMod['selected'];
+            if (selected != null) {
+              print(selected);
+              modsWithOptions[mod] = selected;
+            }
+          } else {
+            print('Vet mod $modId not found');
           }
         } catch (e) {
           print('vet mod $loadedMod not found in available mods, $e');
@@ -123,15 +146,30 @@ class Unit extends ChangeNotifier {
       mods.forEach((loadedMod) {
         print(loadedMod);
         try {
-          var mod = buildDuelistUpgrade(loadedMod, u, roster);
+          final modId = loadedMod['id'];
+          var mod = buildDuelistUpgrade(modId, u, roster);
           if (mod != null) {
             u.addUnitMod(mod);
+            final selected = loadedMod['selected'];
+            if (selected != null) {
+              print(selected);
+              modsWithOptions[mod] = selected;
+            }
+          } else {
+            print('Duelist mod $modId not found');
           }
         } catch (e) {
           print('duelist mod $loadedMod not found in available mods, $e');
         }
       });
     }
+
+    modsWithOptions.forEach((modWithOptions, modOptions) {
+      final selectedOptionText = modOptions['text'];
+      if(selectedOptionText!= null){
+        
+      }
+    });
 
     return u;
   }

@@ -88,10 +88,16 @@ class ModInfo {
   factory ModInfo.fromJson(dynamic json) {
     return ModInfo(id: '');
   }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> result = {
+      'id': this.id,
+    };
+    if (selected != null) {
+      result['selected'] = selected!.selected?.toJson();
+    }
+
+    return result;
+  }
 }
 
-class ModSelectInfo {
-  const ModSelectInfo({required this.text, this.selected});
-  final String text;
-  final ModSelectInfo? selected;
-}
