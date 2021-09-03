@@ -8,7 +8,7 @@ class UnitModification extends BaseModification {
     this.requirementCheck = _defaultRequirementsFunction,
     ModificationOption? options,
     String? id,
-  }) : super(name: name, options: options, id: id);
+  }) : super(name: name, options: options, id: id ?? name);
 
   // function to ensure the modification can be applied to the unit
   final bool Function(Unit) requirementCheck;

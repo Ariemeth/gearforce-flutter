@@ -20,4 +20,41 @@ class ModificationOption {
 
     return selectedOption!.selectionComplete();
   }
+
+  ModificationOption? optionByText(String text) {
+    if (subOptions == null ||
+        !subOptions!.any((option) => option.text == text)) {
+      return null;
+    }
+    return subOptions?.firstWhere((option) => option.text == text);
+  }
+
+  /*
+Example json format for mods
+{
+	"duelist": [{
+		"id": "duelist",
+		"selected": null
+	}, {
+		"id": "duelist: independent",
+		"selected": null
+	}, {
+		"id": "duelist: ace gunner",
+		"selected": {
+			"text": "LRP",
+			"selected": {
+				"text": null,
+				"selected": null
+			}
+		}
+	}]
+}
+*/
+
+  Map<String, dynamic> toJson() {
+    return {
+      'text': this.text,
+      'selected': this.selectedOption == null ? null : selectedOption!.toJson(),
+    };
+  }
 }

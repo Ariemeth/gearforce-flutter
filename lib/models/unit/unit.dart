@@ -32,22 +32,22 @@ class Unit extends ChangeNotifier {
         if (mods['unit'] == null) {
           mods['unit'] = [];
         }
-        mods['unit']!.add(mod.name);
+        mods['unit']!.add(mod.toJson());
       } else if (mod is StandardModification) {
         if (mods['standard'] == null) {
           mods['standard'] = [];
         }
-        mods['standard']!.add(mod.id);
+        mods['standard']!.add(mod.toJson());
       } else if (mod is VeteranModification) {
         if (mods['vet'] == null) {
           mods['vet'] = [];
         }
-        mods['vet']!.add(mod.id);
+        mods['vet']!.add(mod.toJson());
       } else if (mod is DuelistModification) {
         if (mods['duelist'] == null) {
           mods['duelist'] = [];
         }
-        mods['duelist']!.add(mod.id);
+        mods['duelist']!.add(mod.toJson());
       }
     });
 
@@ -78,54 +78,57 @@ class Unit extends ChangeNotifier {
     if (modMap['unit'] != null) {
       final mods = modMap['unit'] as List;
       var availableUnitMods = getUnitMods(u.core.frame, u);
-      mods.forEach((modeName) {
+      mods.forEach((loadedMod) {
         try {
-          var mod = availableUnitMods.firstWhere((mod) => mod.name == modeName);
+          var mod = availableUnitMods
+              .firstWhere((unitMod) => unitMod.name == loadedMod['id']);
           u.addUnitMod(mod);
-        } on StateError catch (e) {
-          print('unit mod $modeName not found in available mods, $e');
+        } catch (e) {
+          print('unit mod $loadedMod not found in available mods, $e');
         }
       });
     }
     if (modMap['standard'] != null) {
       final mods = modMap['standard'] as List;
 
-      mods.forEach((modeName) {
+      mods.forEach((loadedMod) {
         try {
-          var mod = buildStandardUpgrade(modeName, u, cg);
+          var mod = buildStandardUpgrade(loadedMod, u, cg);
           if (mod != null) {
             u.addUnitMod(mod);
           }
-        } on StateError catch (e) {
-          print('standard mod $modeName not found in available mods, $e');
+        } catch (e) {
+          print('standard mod $loadedMod not found in available mods, $e');
         }
       });
     }
     if (modMap['vet'] != null) {
       final mods = modMap['vet'] as List;
 
-      mods.forEach((modeName) {
+      mods.forEach((loadedMod) {
+        print(loadedMod);
         try {
-          var mod = buildVetUpgrade(modeName, u, cg);
+          var mod = buildVetUpgrade(loadedMod, u, cg);
           if (mod != null) {
             u.addUnitMod(mod);
           }
-        } on StateError catch (e) {
-          print('vet mod $modeName not found in available mods, $e');
+        } catch (e) {
+          print('vet mod $loadedMod not found in available mods, $e');
         }
       });
     }
     if (modMap['duelist'] != null) {
       final mods = modMap['duelist'] as List;
 
-      mods.forEach((modeName) {
+      mods.forEach((loadedMod) {
+        print(loadedMod);
         try {
-          var mod = buildDuelistUpgrade(modeName, u, roster);
+          var mod = buildDuelistUpgrade(loadedMod, u, roster);
           if (mod != null) {
             u.addUnitMod(mod);
           }
-        } on StateError catch (e) {
-          print('duelist mod $modeName not found in available mods, $e');
+        } catch (e) {
+          print('duelist mod $loadedMod not found in available mods, $e');
         }
       });
     }

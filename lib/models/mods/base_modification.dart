@@ -33,6 +33,39 @@ abstract class BaseModification {
     }
   }
 
+/*
+Example json format for mods
+{
+	"duelist": [{
+		"id": "duelist",
+		"selected": null
+	}, {
+		"id": "duelist: independent",
+		"selected": null
+	}, {
+		"id": "duelist: ace gunner",
+		"selected": {
+			"text": "LRP",
+			"selected": {
+				"text": null,
+				"selected": null
+			}
+		}
+	}]
+}
+*/
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> result = {
+      'id': _id,
+    };
+    if (options != null) {
+      result['selected'] = options!.selectedOption?.toJson();
+    }
+
+    return result;
+  }
+
   dynamic applyMods(UnitAttribute att, dynamic startingValue) {
     var mods = this._mods[att];
     if (mods == null) {
@@ -45,4 +78,20 @@ abstract class BaseModification {
 
     return result;
   }
+}
+
+class ModInfo {
+  const ModInfo({required this.id, this.selected});
+  final String id;
+  final ModSelectInfo? selected;
+
+  factory ModInfo.fromJson(dynamic json) {
+    return ModInfo(id: '');
+  }
+}
+
+class ModSelectInfo {
+  const ModSelectInfo({required this.text, this.selected});
+  final String text;
+  final ModSelectInfo? selected;
 }
