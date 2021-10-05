@@ -157,14 +157,13 @@ final UnitModification hammerSwap = UnitModification(
           newValue: buildWeapon('MCW (Reach:1, Demo:4)', hasReact: true)!),
       description: '-MCW (Brawl:1, Reach:1), +MCW (Reach:1, Demo:4)');
 
-final UnitModification paratrooper =
-    UnitModification(name: 'Paratrooper Upgrade')
-      ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
-      ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Paratrooper'))
-      ..addMod(UnitAttribute.piloting, createSetIntMod(3), description: 'PI:3+')
-      ..addMod(
-          UnitAttribute.traits, createAddTraitToList(Trait(name: 'Airdrop')),
-          description: '+Airdrop');
+final UnitModification paratrooper = UnitModification(
+    name: 'Paratrooper Upgrade')
+  ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
+  ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Paratrooper'))
+  ..addMod(UnitAttribute.piloting, createSetIntMod(3), description: 'PI:3+')
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'Airdrop')),
+      description: '+Airdrop');
 
 final UnitModification mountaineering = UnitModification(
     name: 'Mountaineering Upgrade')

@@ -86,7 +86,17 @@ class ModInfo {
   final ModSelectInfo? selected;
 
   factory ModInfo.fromJson(dynamic json) {
-    return ModInfo(id: '');
+    //TODO flesh out the fromJson method
+    String modId = '';
+    if (json['id'] != null) {
+      modId = json['id'];
+    }
+
+    var selectedModInfo = json['selected'] == null
+        ? null
+        : ModSelectInfo.fromJson(json['selected']);
+
+    return ModInfo(id: modId, selected: selectedModInfo);
   }
 
   Map<String, dynamic> toJson() {
@@ -94,10 +104,9 @@ class ModInfo {
       'id': this.id,
     };
     if (selected != null) {
-      result['selected'] = selected!.selected?.toJson();
+      result['selected'] = selected!.toJson();
     }
 
     return result;
   }
 }
-

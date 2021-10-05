@@ -100,9 +100,11 @@ final UnitModification iota = UnitModification(name: 'Iota Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(0), description: 'TV +0')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Iota'))
   ..addMod(UnitAttribute.mounted_weapons,
-      createRemoveWeaponFromList(buildWeapon('MRP')!), description: '-MRP')
+      createRemoveWeaponFromList(buildWeapon('MRP')!),
+      description: '-MRP')
   ..addMod(UnitAttribute.mounted_weapons,
-      createAddWeaponToList(buildWeapon('LAPR')!), description: '+LAPR')
+      createAddWeaponToList(buildWeapon('LAPR')!),
+      description: '+LAPR')
   ..addMod(UnitAttribute.mounted_weapons,
       createAddWeaponToList(buildWeapon('LAPGL')!),
       description: '+LAPGL');

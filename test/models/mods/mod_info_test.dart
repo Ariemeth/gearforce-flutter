@@ -9,7 +9,7 @@ void main() {
     const testjson =
         '{"id":"vet: old reliable","selected":{"text":"LVB","selected":{"text":"LCW","selected":null}}}';
     final mf = ModInfo.fromJson(json.decode(testjson));
-    expect(mf.id, equals('vet'), reason: 'check id');
+    expect(mf.id, equals('vet: old reliable'), reason: 'check id');
     expect(mf.selected, isNotNull, reason: 'select should not be null');
     expect(mf.selected!.text, equals('LVB'), reason: 'check selected text');
     expect(mf.selected!.selected, isNotNull,
@@ -18,18 +18,21 @@ void main() {
         reason: 'check selected.selected.txt');
     expect(mf.selected!.selected!.selected, isNull,
         reason: 'selected.selected.selected should be null');
-  }, skip: true);
+  });
 
   test('Test toJson', () {
     const testjson =
         '{"id":"vet: old reliable","selected":{"text":"LVB","selected":{"text":"LCW","selected":null}}}';
+
     final mf = ModInfo(
-      id: 'vet',
+      id: 'vet: old reliable',
       selected: ModSelectInfo(
         text: 'LVB',
         selected: ModSelectInfo(text: 'LCW'),
       ),
     );
-    expect(mf.id, equals('vet'), reason: 'check id');
-  }, skip: true);
+
+    expect(mf.toJson(), equals(json.decode(testjson)),
+        reason: 'convert to json');
+  });
 }

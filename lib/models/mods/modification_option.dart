@@ -64,6 +64,20 @@ class ModSelectInfo {
   final String text;
   final ModSelectInfo? selected;
 
+  factory ModSelectInfo.fromJson(dynamic json) {
+    //TODO flesh out the fromJson method
+    String modText = '';
+    if (json['text'] != null) {
+      modText = json['text'];
+    }
+
+    var selectedModInfo = json['selected'] == null
+        ? null
+        : ModSelectInfo.fromJson(json['selected']);
+
+    return ModSelectInfo(text: modText, selected: selectedModInfo);
+  }
+
   Map<String, dynamic> toJson() {
     return {
       'text': this.text,

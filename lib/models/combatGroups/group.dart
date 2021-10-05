@@ -37,9 +37,9 @@ class Group extends ChangeNotifier {
       decodedUnits
           .map((e) => Unit.fromJson(e, data, faction, subfaction, cg, roster))
           .toList()
-            ..forEach((element) {
-              g._addUnit(element);
-            });
+        ..forEach((element) {
+          g._addUnit(element);
+        });
     }
     return g;
   }

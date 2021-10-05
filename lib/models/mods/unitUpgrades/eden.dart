@@ -17,16 +17,15 @@ final UnitModification wizard = UnitModification(name: 'Wizard Upgrade')
       createAddTraitToList(Trait(name: 'ECCM', isAux: true)),
       description: '+ECCM (Aux)');
 
-final UnitModification utopianSpecialOperations =
-    UnitModification(name: 'Utopian Special Operations Upgrade')
-      ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
-      ..addMod(UnitAttribute.name,
-          createSimpleStringMod(false, 'Utopian Special Operations'))
-      ..addMod(UnitAttribute.roles, createSetStringListMod(['SO']),
-          description: 'SO')
-      ..addMod(
-          UnitAttribute.traits, createAddTraitToList(Trait(name: 'Airdrop')),
-          description: '+Airdrop')
-      ..addMod(UnitAttribute.traits,
-          createAddTraitToList(Trait(name: 'Stealth', isAux: true)),
-          description: '+Stealth (Aux)');
+final UnitModification utopianSpecialOperations = UnitModification(
+    name: 'Utopian Special Operations Upgrade')
+  ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
+  ..addMod(UnitAttribute.name,
+      createSimpleStringMod(false, 'Utopian Special Operations'))
+  ..addMod(UnitAttribute.roles, createSetStringListMod(['SO']),
+      description: 'SO')
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'Airdrop')),
+      description: '+Airdrop')
+  ..addMod(UnitAttribute.traits,
+      createAddTraitToList(Trait(name: 'Stealth', isAux: true)),
+      description: '+Stealth (Aux)');

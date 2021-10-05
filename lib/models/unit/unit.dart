@@ -166,9 +166,7 @@ class Unit extends ChangeNotifier {
 
     modsWithOptions.forEach((modWithOptions, modOptions) {
       final selectedOptionText = modOptions['text'];
-      if(selectedOptionText!= null){
-        
-      }
+      if (selectedOptionText != null) {}
     });
 
     return u;

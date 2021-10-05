@@ -75,12 +75,10 @@ final UnitModification skirmisherChieftain =
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
       ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Chieftain'))
       ..addMod(UnitAttribute.ew, createSetIntMod(3), description: 'EW 3+')
-      ..addMod(
-          UnitAttribute.traits,
+      ..addMod(UnitAttribute.traits,
           createAddTraitToList(Trait(name: 'SatUp', isAux: true)),
           description: '+SatUp (Aux)')
-      ..addMod(
-          UnitAttribute.traits,
+      ..addMod(UnitAttribute.traits,
           createAddTraitToList(Trait(name: 'ECCM', isAux: true)),
           description: '+ECCM (Aux)');
 

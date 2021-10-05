@@ -34,8 +34,7 @@ final UnitModification sidewinderCommand =
       ..addMod(UnitAttribute.ew, createSetIntMod(5), description: 'EW 5+')
       ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'Comms')),
           description: '+Comms')
-      ..addMod(
-          UnitAttribute.traits,
+      ..addMod(UnitAttribute.traits,
           createAddTraitToList(Trait(name: 'SatUp', isAux: true)),
           description: '+SatUp (Aux)');
 
