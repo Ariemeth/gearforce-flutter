@@ -5,6 +5,7 @@ import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/mods/base_modification.dart';
 import 'package:gearforce/models/mods/duelist/duelist_modification.dart';
 import 'package:gearforce/models/mods/duelist/duelist_upgrades.dart';
+import 'package:gearforce/models/mods/modification_option.dart';
 import 'package:gearforce/models/mods/standardUpgrades/standard_modification.dart';
 import 'package:gearforce/models/mods/standardUpgrades/standard_upgrades.dart';
 import 'package:gearforce/models/mods/unitUpgrades/unit_modification.dart';
@@ -166,7 +167,10 @@ class Unit extends ChangeNotifier {
 
     modsWithOptions.forEach((modWithOptions, modOptions) {
       final selectedOptionText = modOptions['text'];
-      if (selectedOptionText != null) {}
+      if (selectedOptionText != null) {
+        //TODO fill in the right info from the options
+        print('mod with options text: $selectedOptionText');
+      }
     });
 
     return u;
