@@ -7,14 +7,21 @@ abstract class BaseModification {
     required this.name,
     String? id,
     this.options,
+    BaseModification Function()? refreshData,
   }) {
     _id = id ?? Uuid().v4();
+
+    _refreshData = refreshData;
   }
 
   final String name;
   final List<String> _description = [];
+  late final BaseModification Function()? _refreshData;
+  BaseModification refreshData() =>
+      _refreshData == null ? this : _refreshData!();
   late final String _id;
   String get id => _id;
+
   ModificationOption? options;
   bool get hasOptions => this.options != null && this.options!.hasOptions();
 

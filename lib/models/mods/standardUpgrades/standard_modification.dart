@@ -32,7 +32,8 @@ class StandardModification extends BaseModification {
     this.group,
     String? id,
     ModificationOption? options,
-  }) : super(name: name, id: id, options: options);
+    final BaseModification Function()? refreshData,
+  }) : super(name: name, id: id, options: options, refreshData: refreshData);
 
   // function to ensure the modification can be applied to the unit
   final bool Function() requirementCheck;
@@ -88,6 +89,9 @@ class StandardModification extends BaseModification {
 
           // check to ensure this upgrade has not already been given to 2 or more units
           return cg.modCount(antiAirId) < 2;
+        },
+        refreshData: () {
+          return StandardModification.antiAir(u, cg);
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
       ..addMod(UnitAttribute.react_weapons, (value) {

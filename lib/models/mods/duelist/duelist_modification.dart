@@ -32,7 +32,8 @@ class DuelistModification extends BaseModification {
     this.unit,
     this.roster,
     final ModificationOption? options,
-  }) : super(name: name, id: id, options: options);
+    final BaseModification Function()? refreshData,
+  }) : super(name: name, id: id, options: options, refreshData: refreshData);
 
   // function to ensure the modification can be applied to the unit
   final bool Function() requirementCheck;
@@ -136,6 +137,9 @@ class DuelistModification extends BaseModification {
         name: 'Ace Gunner',
         id: aceGunnerId,
         options: modOptions,
+        refreshData: () {
+          return DuelistModification.aceGunner(u);
+        },
         requirementCheck: () {
           if (u.hasMod(aceGunnerId)) {
             return false;
@@ -253,6 +257,9 @@ class DuelistModification extends BaseModification {
             return false;
           }
           return u.isDuelist;
+        },
+        refreshData: () {
+          return DuelistModification.crackShot(u);
         })
       ..addMod(UnitAttribute.tv, (value) {
         if (!(value is int)) {
@@ -337,6 +344,9 @@ class DuelistModification extends BaseModification {
             return false;
           }
           return u.isDuelist;
+        },
+        refreshData: () {
+          return DuelistModification.defender(u);
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1),
           description:
@@ -413,6 +423,9 @@ class DuelistModification extends BaseModification {
             return false;
           }
           return u.isDuelist;
+        },
+        refreshData: () {
+          return DuelistModification.dualWield(u);
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1),
           description:
@@ -500,6 +513,9 @@ class DuelistModification extends BaseModification {
             return false;
           }
           return u.isDuelist;
+        },
+        refreshData: () {
+          return DuelistModification.gunslinger(u);
         })
       ..addMod(UnitAttribute.tv, (value) {
         if (!(value is int)) {
@@ -571,6 +587,9 @@ class DuelistModification extends BaseModification {
             return false;
           }
           return u.isDuelist;
+        },
+        refreshData: () {
+          return DuelistModification.lunge(u);
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(0), description: 'TV +0')
       ..addMod(UnitAttribute.react_weapons, (value) {
@@ -656,6 +675,9 @@ class DuelistModification extends BaseModification {
             return false;
           }
           return u.isDuelist;
+        },
+        refreshData: () {
+          return DuelistModification.quickDraw(u);
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
       ..addMod(
@@ -757,6 +779,9 @@ class DuelistModification extends BaseModification {
             return false;
           }
           return u.isDuelist;
+        },
+        refreshData: () {
+          return DuelistModification.smashfest(u);
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
       ..addMod(UnitAttribute.react_weapons, (value) {

@@ -29,6 +29,15 @@ class ModificationOption {
     return subOptions?.firstWhere((option) => option.text == text);
   }
 
+  bool validate() {
+    final result = optionByText(text);
+    if (result == null || false) {
+      selectedOption = null;
+      return false;
+    }
+    return true;
+  }
+
   /*
 Example json format for mods
 {

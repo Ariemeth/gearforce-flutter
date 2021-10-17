@@ -30,7 +30,8 @@ class VeteranModification extends BaseModification {
     this.unit,
     this.group,
     ModificationOption? options,
-  }) : super(name: name, id: id, options: options);
+    final BaseModification Function()? refreshData,
+  }) : super(name: name, id: id, options: options, refreshData: refreshData);
 
   // function to ensure the modification can be applied to the unit
   final bool Function() requirementCheck;
@@ -140,6 +141,9 @@ class VeteranModification extends BaseModification {
           }
 
           return u.traits.any((trait) => trait.name == 'Vet');
+        },
+        refreshData: () {
+          return VeteranModification.inYourFace1(u);
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
       ..addMod(UnitAttribute.traits, (value) {
@@ -177,6 +181,9 @@ class VeteranModification extends BaseModification {
           }
 
           return u.traits.any((trait) => trait.name == 'Vet');
+        },
+        refreshData: () {
+          return VeteranModification.inYourFace2(u);
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
       ..addMod(UnitAttribute.traits, (value) {
@@ -372,6 +379,9 @@ class VeteranModification extends BaseModification {
           }
 
           return u.traits.any((trait) => trait.name == 'Vet');
+        },
+        refreshData: () {
+          return VeteranModification.oldReliable(u);
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(0),
           description:
@@ -567,6 +577,9 @@ class VeteranModification extends BaseModification {
           }
 
           return u.traits.any((trait) => trait.name == 'Vet');
+        },
+        refreshData: () {
+          return VeteranModification.meleeWeaponUpgrade(u);
         })
       ..addMod(
         UnitAttribute.tv,

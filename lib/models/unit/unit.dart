@@ -74,7 +74,7 @@ class Unit extends ChangeNotifier {
 
     u._commandLevel = convertToCommand(json['command']);
 
-    final Map<BaseModification, Map<String, dynamic>> modsWithOptions = {};
+    Map<BaseModification, Map<String, dynamic>> modsWithOptions = {};
 
     final modMap = json['mods'] as Map;
     if (modMap['unit'] != null) {
@@ -87,7 +87,6 @@ class Unit extends ChangeNotifier {
           u.addUnitMod(mod);
           final selected = loadedMod['selected'];
           if (selected != null) {
-            print(selected);
             modsWithOptions[mod] = selected;
           }
         } catch (e) {
@@ -106,7 +105,6 @@ class Unit extends ChangeNotifier {
             u.addUnitMod(mod);
             final selected = loadedMod['selected'];
             if (selected != null) {
-              print(selected);
               modsWithOptions[mod] = selected;
             }
           } else {
@@ -121,7 +119,6 @@ class Unit extends ChangeNotifier {
       final mods = modMap['vet'] as List;
 
       mods.forEach((loadedMod) {
-        print(loadedMod);
         try {
           final modId = loadedMod['id'];
           var mod = buildVetUpgrade(modId, u, cg);
@@ -129,7 +126,6 @@ class Unit extends ChangeNotifier {
             u.addUnitMod(mod);
             final selected = loadedMod['selected'];
             if (selected != null) {
-              print(selected);
               modsWithOptions[mod] = selected;
             }
           } else {
@@ -144,7 +140,6 @@ class Unit extends ChangeNotifier {
       final mods = modMap['duelist'] as List;
 
       mods.forEach((loadedMod) {
-        print(loadedMod);
         try {
           final modId = loadedMod['id'];
           var mod = buildDuelistUpgrade(modId, u, roster);
@@ -152,7 +147,6 @@ class Unit extends ChangeNotifier {
             u.addUnitMod(mod);
             final selected = loadedMod['selected'];
             if (selected != null) {
-              print(selected);
               modsWithOptions[mod] = selected;
             }
           } else {
@@ -164,49 +158,12 @@ class Unit extends ChangeNotifier {
       });
     }
 
-    modsWithOptions.forEach((modWithOptions, modOptions) {
-      /*
-      {
-        "text": "LAC",
-        "selected": null
-      }
-      ////////////////////
-      {
-        "text": "LSG",
-        "selected": {
-          "text": "LCW",
-          "selected": null
-        }
-      }
-      */
-      final selectedOptionText = modOptions['text'];
-      final seletedOptionSelection = modOptions['selected'];
-
-      if (selectedOptionText != null) {
-        final selectedOption =
-            modWithOptions.options!.optionByText(selectedOptionText);
-        if (selectedOption != null) {
-          modWithOptions.options!.selectedOption = selectedOption;
-          if (seletedOptionSelection != null) {
-            final subOptionText = seletedOptionSelection['text'];
-            if (subOptionText != null) {
-              final selectedSubOption =
-                  selectedOption.optionByText(subOptionText);
-              if (selectedSubOption != null) {
-                selectedOption.selectedOption = selectedSubOption;
-              } else {
-                print('was unable to find a sub option that matches the ' +
-                    'selected text value of $subOptionText for mod ' +
-                    '${modWithOptions.id}');
-              }
-            }
-          }
-        } else {
-          print('was unable to find an option that matches the selected text' +
-              ' value of $selectedOptionText for mod ${modWithOptions.id}');
-        }
-      }
-    });
+    var loadAttempts = 0;
+    while (modsWithOptions.isNotEmpty && loadAttempts < 5) {
+      modsWithOptions = _loadOptionsFromJSON(modsWithOptions,
+          refreshOptions: loadAttempts != 0);
+      loadAttempts++;
+    }
 
     return u;
   }
@@ -397,6 +354,10 @@ class Unit extends ChangeNotifier {
         _mods.removeWhere((mod) => mod is VeteranModification);
       }
     }
+    _mods.forEach((element) {
+      element.refreshData();
+      element.options?.validate();
+    });
     notifyListeners();
   }
 
@@ -421,4 +382,61 @@ class Unit extends ChangeNotifier {
     _mods.clear();
     notifyListeners();
   }
+}
+
+Map<BaseModification, Map<String, dynamic>> _loadOptionsFromJSON(
+    Map<BaseModification, Map<String, dynamic>> modsWithOptionsToLoad,
+    {bool refreshOptions = false}) {
+  /*
+      {
+        "text": "LAC",
+        "selected": null
+      }
+      ////////////////////
+      {
+        "text": "LSG",
+        "selected": {
+          "text": "LCW",
+          "selected": null
+        }
+      }
+      */
+  final Map<BaseModification, Map<String, dynamic>> failedToLoadOptions = {};
+  modsWithOptionsToLoad.forEach((modWithOptions, modOptions) {
+    final selectedOptionText = modOptions['text'];
+    final seletedOptionSelection = modOptions['selected'];
+
+    if (refreshOptions) {
+      modWithOptions = modWithOptions.refreshData();
+    }
+
+    if (selectedOptionText != null) {
+      final selectedOption =
+          modWithOptions.options!.optionByText(selectedOptionText);
+      if (selectedOption != null) {
+        modWithOptions.options!.selectedOption = selectedOption;
+        if (seletedOptionSelection != null) {
+          final subOptionText = seletedOptionSelection['text'];
+          if (subOptionText != null) {
+            final selectedSubOption =
+                selectedOption.optionByText(subOptionText);
+            if (selectedSubOption != null) {
+              selectedOption.selectedOption = selectedSubOption;
+            } else {
+              failedToLoadOptions[modWithOptions] = modOptions;
+              print('was unable to find a sub option that matches the ' +
+                  'selected text value of $subOptionText for mod ' +
+                  '${modWithOptions.id}');
+            }
+          }
+        }
+      } else {
+        failedToLoadOptions[modWithOptions] = modOptions;
+        print('was unable to find an option that matches the selected text' +
+            ' value of $selectedOptionText for mod ${modWithOptions.id}');
+      }
+    }
+  });
+
+  return failedToLoadOptions;
 }
