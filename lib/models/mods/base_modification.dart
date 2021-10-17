@@ -79,34 +79,3 @@ Example json format for mods
     return result;
   }
 }
-
-class ModInfo {
-  const ModInfo({required this.id, this.selected});
-  final String id;
-  final ModSelectInfo? selected;
-
-  factory ModInfo.fromJson(dynamic json) {
-    //TODO flesh out the fromJson method
-    String modId = '';
-    if (json['id'] != null) {
-      modId = json['id'];
-    }
-
-    var selectedModInfo = json['selected'] == null
-        ? null
-        : ModSelectInfo.fromJson(json['selected']);
-
-    return ModInfo(id: modId, selected: selectedModInfo);
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> result = {
-      'id': this.id,
-    };
-    if (selected != null) {
-      result['selected'] = selected!.toJson();
-    }
-
-    return result;
-  }
-}

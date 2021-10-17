@@ -165,27 +165,46 @@ class Unit extends ChangeNotifier {
     }
 
     modsWithOptions.forEach((modWithOptions, modOptions) {
+      /*
+      {
+        "text": "LAC",
+        "selected": null
+      }
+      ////////////////////
+      {
+        "text": "LSG",
+        "selected": {
+          "text": "LCW",
+          "selected": null
+        }
+      }
+      */
       final selectedOptionText = modOptions['text'];
+      final seletedOptionSelection = modOptions['selected'];
+
       if (selectedOptionText != null) {
-        //TODO fill in the right info from the options
-        final mi = ModInfo.fromJson(modOptions);
-        if (mi.selected?.text != "") {
-          // make sure a mod option with this name is available
-          final opt = modWithOptions.options!.optionByText(mi.selected!.text);
-          if (opt != null) {
-            if (mi.selected != null) {
-              final subopt = opt.selectedOption!.selectedOption
-                  ?.optionByText(mi.selected!.text);
-              if (subopt != null) {
-                opt.selectedOption!.selectedOption = subopt;
+        final selectedOption =
+            modWithOptions.options!.optionByText(selectedOptionText);
+        if (selectedOption != null) {
+          modWithOptions.options!.selectedOption = selectedOption;
+          if (seletedOptionSelection != null) {
+            final subOptionText = seletedOptionSelection['text'];
+            if (subOptionText != null) {
+              final selectedSubOption =
+                  selectedOption.optionByText(subOptionText);
+              if (selectedSubOption != null) {
+                selectedOption.selectedOption = selectedSubOption;
+              } else {
+                print('was unable to find a sub option that matches the ' +
+                    'selected text value of $subOptionText for mod ' +
+                    '${modWithOptions.id}');
               }
             }
-            modWithOptions.options!.selectedOption = opt;
-          } else {
-            print('opt was null for id ${mi.id}');
           }
+        } else {
+          print('was unable to find an option that matches the selected text' +
+              ' value of $selectedOptionText for mod ${modWithOptions.id}');
         }
-        print('mod with options text: $selectedOptionText');
       }
     });
 
