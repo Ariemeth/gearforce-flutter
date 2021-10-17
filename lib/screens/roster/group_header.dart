@@ -27,7 +27,7 @@ class GroupHeader extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
-            width: 85,
+            width: 100,
             child: Text(
               isPrimary ? 'Primary' : 'Secondary',
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),

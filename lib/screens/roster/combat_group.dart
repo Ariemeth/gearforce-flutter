@@ -76,7 +76,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
     var table = DataTable(
       columns: _generateTableHeading(),
       rows: _generateTableRows(context: context, group: group),
-      columnSpacing: 2.0,
+      columnSpacing: 1.0,
       horizontalMargin: 0.0,
       headingRowHeight: 30.0,
       headingRowColor: MaterialStateColor.resolveWith(
@@ -123,7 +123,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
       ),
       DataColumn(
         label: Container(
-          width: 50,
+          width: 40,
           child: UnitTextCell.columnTitle(
             'TV',
           ),

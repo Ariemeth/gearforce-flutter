@@ -21,7 +21,7 @@ class DisplayValue extends StatelessWidget {
         child: Row(
           children: [
             Padding(
-              padding: EdgeInsets.only(right: 5, left: 5, top: 5, bottom: 5),
+              padding: EdgeInsets.only(right: 2, left: 5, top: 5, bottom: 5),
               child: Text(
                 text,
                 textAlign: TextAlign.right,
@@ -29,9 +29,10 @@ class DisplayValue extends StatelessWidget {
               ),
             ),
             SizedBox(
-              width: 60,
+              width: 50,
+              height: 30,
               child: Padding(
-                padding: EdgeInsets.only(right: 10, left: 5, top: 5, bottom: 5),
+                padding: EdgeInsets.only(right: 5, left: 2, top: 5, bottom: 5),
                 child: CombatGroupTVTotal(
                   totalTV: value,
                   textColor: textColor,
