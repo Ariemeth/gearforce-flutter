@@ -1,12 +1,10 @@
 import 'dart:convert';
 import 'package:file_picker_cross/file_picker_cross.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/screens/roster/combat_groups_display.dart';
-import 'package:gearforce/screens/roster/download/download.dart'
-    if (dart.library.js) 'package:gearforce/screens/roster/download/webDownload.dart';
+import 'package:gearforce/screens/roster/download/download.dart';
 import 'package:gearforce/screens/roster/pdf/pdf.dart';
 import 'package:gearforce/screens/roster/roster_header_info.dart';
 import 'package:gearforce/screens/unitSelector/unit_selection.dart';
@@ -14,7 +12,7 @@ import 'package:provider/provider.dart';
 
 const double _leftPanelWidth = 670.0;
 const double _menuTitleHeight = 60.0;
-const String _version = '0.29.1';
+const String _version = '0.29.2';
 const String _bugMessage =
     'Please report any issues to gearforce@metadiversions.com';
 const bool _enablePDF = false;
@@ -129,7 +127,6 @@ class _RosterWidgetState extends State<RosterWidget> {
                   fontSize: 16,
                 ),
               ),
-              enabled: kIsWeb,
               onTap: () async {
                 downloadRoster(roster);
               },
