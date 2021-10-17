@@ -2,13 +2,13 @@ import 'package:gearforce/models/mods/base_modification.dart';
 import 'package:gearforce/models/mods/modification_option.dart';
 import 'package:gearforce/models/unit/unit.dart';
 
-class Modification extends BaseModification {
-  Modification({
+class UnitModification extends BaseModification {
+  UnitModification({
     required String name,
     this.requirementCheck = _defaultRequirementsFunction,
     ModificationOption? options,
     String? id,
-  }) : super(name: name, options: options, id: id);
+  }) : super(name: name, options: options, id: id ?? name);
 
   // function to ensure the modification can be applied to the unit
   final bool Function(Unit) requirementCheck;

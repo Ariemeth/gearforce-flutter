@@ -60,7 +60,7 @@ class GroupHeader extends StatelessWidget {
             child: DisplayValue(
               text: 'Actions',
               value: actions,
-              textColor: cg.modCount(indepdentOperatorId) != 0
+              textColor: cg.modCount(independentOperatorId) != 0
                   ? Colors.green
                   : isPrimary
                       // a cg is only valid if the number of actions is greater then 4 and

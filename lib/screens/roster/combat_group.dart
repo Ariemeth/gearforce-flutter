@@ -235,7 +235,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
                     items: canNotBeCommand
                         ? null
                         : CommandLevel.values.where((element) {
-                            if (unit.hasMod(indepdentOperatorId) &&
+                            if (unit.hasMod(independentOperatorId) &&
                                 (element == CommandLevel.cgl ||
                                     element == CommandLevel.secic)) {
                               return false;

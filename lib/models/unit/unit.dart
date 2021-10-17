@@ -1,10 +1,17 @@
 import 'package:flutter/widgets.dart';
 import 'package:gearforce/data/data.dart';
+import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/mods/base_modification.dart';
 import 'package:gearforce/models/mods/duelist/duelist_modification.dart';
+import 'package:gearforce/models/mods/duelist/duelist_upgrades.dart';
+import 'package:gearforce/models/mods/standardUpgrades/standard_modification.dart';
+import 'package:gearforce/models/mods/standardUpgrades/standard_upgrades.dart';
+import 'package:gearforce/models/mods/unitUpgrades/unit_modification.dart';
 import 'package:gearforce/models/mods/unitUpgrades/unit_upgrades.dart';
 import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart';
+import 'package:gearforce/models/mods/veteranUpgrades/veteran_upgrades.dart';
+import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/movement.dart';
@@ -18,18 +25,47 @@ class Unit extends ChangeNotifier {
     required this.core,
   });
 
-  Map<String, dynamic> toJson() => {
-        'frame': core.frame,
-        'variant': core.name,
-        'mods': _mods.map((e) => e.name).toList(),
-        'command': commandLevelString(_commandLevel)
-      };
+  Map<String, dynamic> toJson() {
+    Map<String, List<dynamic>> mods = {};
+    _mods.forEach((mod) {
+      if (mod is UnitModification) {
+        if (mods['unit'] == null) {
+          mods['unit'] = [];
+        }
+        mods['unit']!.add(mod.toJson());
+      } else if (mod is StandardModification) {
+        if (mods['standard'] == null) {
+          mods['standard'] = [];
+        }
+        mods['standard']!.add(mod.toJson());
+      } else if (mod is VeteranModification) {
+        if (mods['vet'] == null) {
+          mods['vet'] = [];
+        }
+        mods['vet']!.add(mod.toJson());
+      } else if (mod is DuelistModification) {
+        if (mods['duelist'] == null) {
+          mods['duelist'] = [];
+        }
+        mods['duelist']!.add(mod.toJson());
+      }
+    });
+
+    return {
+      'frame': core.frame,
+      'variant': core.name,
+      'mods': mods,
+      'command': commandLevelString(_commandLevel)
+    };
+  }
 
   factory Unit.fromJson(
     dynamic json,
     Data data,
     FactionType faction,
     String? subfaction,
+    CombatGroup cg,
+    UnitRoster roster,
   ) {
     var core = data
         .unitList(faction)
@@ -38,18 +74,97 @@ class Unit extends ChangeNotifier {
 
     u._commandLevel = convertToCommand(json['command']);
 
-    var decodedMods = json['mods'] as List;
-    if (decodedMods.isNotEmpty) {
+    Map<BaseModification, Map<String, dynamic>> modsWithOptions = {};
+
+    final modMap = json['mods'] as Map;
+    if (modMap['unit'] != null) {
+      final mods = modMap['unit'] as List;
       var availableUnitMods = getUnitMods(u.core.frame, u);
-      decodedMods.forEach((modeName) {
+      mods.forEach((loadedMod) {
         try {
-          var mod = availableUnitMods.firstWhere((mod) => mod.name == modeName);
+          var mod = availableUnitMods
+              .firstWhere((unitMod) => unitMod.name == loadedMod['id']);
           u.addUnitMod(mod);
-        } on StateError catch (e) {
-          print('mod $modeName not found in available mods, $e');
+          final selected = loadedMod['selected'];
+          if (selected != null) {
+            modsWithOptions[mod] = selected;
+          }
+        } catch (e) {
+          print('unit mod $loadedMod not found in available mods, $e');
         }
       });
     }
+    if (modMap['standard'] != null) {
+      final mods = modMap['standard'] as List;
+
+      mods.forEach((loadedMod) {
+        try {
+          final modId = loadedMod['id'];
+          var mod = buildStandardUpgrade(modId, u, cg);
+          if (mod != null) {
+            u.addUnitMod(mod);
+            final selected = loadedMod['selected'];
+            if (selected != null) {
+              modsWithOptions[mod] = selected;
+            }
+          } else {
+            print('Standard mod $modId not found');
+          }
+        } catch (e) {
+          print('standard mod $loadedMod not found in available mods, $e');
+        }
+      });
+    }
+    if (modMap['vet'] != null) {
+      final mods = modMap['vet'] as List;
+
+      mods.forEach((loadedMod) {
+        try {
+          final modId = loadedMod['id'];
+          var mod = buildVetUpgrade(modId, u, cg);
+          if (mod != null) {
+            u.addUnitMod(mod);
+            final selected = loadedMod['selected'];
+            if (selected != null) {
+              modsWithOptions[mod] = selected;
+            }
+          } else {
+            print('Vet mod $modId not found');
+          }
+        } catch (e) {
+          print('vet mod $loadedMod not found in available mods, $e');
+        }
+      });
+    }
+    if (modMap['duelist'] != null) {
+      final mods = modMap['duelist'] as List;
+
+      mods.forEach((loadedMod) {
+        try {
+          final modId = loadedMod['id'];
+          var mod = buildDuelistUpgrade(modId, u, roster);
+          if (mod != null) {
+            u.addUnitMod(mod);
+            final selected = loadedMod['selected'];
+            if (selected != null) {
+              modsWithOptions[mod] = selected;
+            }
+          } else {
+            print('Duelist mod $modId not found');
+          }
+        } catch (e) {
+          print('duelist mod $loadedMod not found in available mods, $e');
+        }
+      });
+    }
+
+    var loadAttempts = 0;
+    while (modsWithOptions.isNotEmpty && loadAttempts < 5) {
+      modsWithOptions = _loadOptionsFromJSON(modsWithOptions,
+          refreshOptions: loadAttempts != 0);
+      loadAttempts++;
+    }
+
     return u;
   }
 
@@ -239,6 +354,10 @@ class Unit extends ChangeNotifier {
         _mods.removeWhere((mod) => mod is VeteranModification);
       }
     }
+    _mods.forEach((element) {
+      element.refreshData();
+      element.options?.validate();
+    });
     notifyListeners();
   }
 
@@ -263,4 +382,61 @@ class Unit extends ChangeNotifier {
     _mods.clear();
     notifyListeners();
   }
+}
+
+Map<BaseModification, Map<String, dynamic>> _loadOptionsFromJSON(
+    Map<BaseModification, Map<String, dynamic>> modsWithOptionsToLoad,
+    {bool refreshOptions = false}) {
+  /*
+      {
+        "text": "LAC",
+        "selected": null
+      }
+      ////////////////////
+      {
+        "text": "LSG",
+        "selected": {
+          "text": "LCW",
+          "selected": null
+        }
+      }
+      */
+  final Map<BaseModification, Map<String, dynamic>> failedToLoadOptions = {};
+  modsWithOptionsToLoad.forEach((modWithOptions, modOptions) {
+    final selectedOptionText = modOptions['text'];
+    final seletedOptionSelection = modOptions['selected'];
+
+    if (refreshOptions) {
+      modWithOptions = modWithOptions.refreshData();
+    }
+
+    if (selectedOptionText != null) {
+      final selectedOption =
+          modWithOptions.options!.optionByText(selectedOptionText);
+      if (selectedOption != null) {
+        modWithOptions.options!.selectedOption = selectedOption;
+        if (seletedOptionSelection != null) {
+          final subOptionText = seletedOptionSelection['text'];
+          if (subOptionText != null) {
+            final selectedSubOption =
+                selectedOption.optionByText(subOptionText);
+            if (selectedSubOption != null) {
+              selectedOption.selectedOption = selectedSubOption;
+            } else {
+              failedToLoadOptions[modWithOptions] = modOptions;
+              print('was unable to find a sub option that matches the ' +
+                  'selected text value of $subOptionText for mod ' +
+                  '${modWithOptions.id}');
+            }
+          }
+        }
+      } else {
+        failedToLoadOptions[modWithOptions] = modOptions;
+        print('was unable to find an option that matches the selected text' +
+            ' value of $selectedOptionText for mod ${modWithOptions.id}');
+      }
+    }
+  });
+
+  return failedToLoadOptions;
 }

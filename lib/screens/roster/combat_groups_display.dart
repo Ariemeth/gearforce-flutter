@@ -44,13 +44,13 @@ class _CombatGroupsDisplayState extends State<CombatGroupsDisplay>
                 .getCGs()
                 .map((e) => CombatGroupWidget(data, roster, name: e.name))
                 .toList()
-                  ..add(
-                    CombatGroupWidget(
-                      data,
-                      roster,
-                      name: 'add cg button',
-                    ),
-                  ),
+              ..add(
+                CombatGroupWidget(
+                  data,
+                  roster,
+                  name: 'add cg button',
+                ),
+              ),
           ),
         ),
       ),

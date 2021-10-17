@@ -79,9 +79,9 @@ class UnitRoster extends ChangeNotifier {
               ur,
             ))
         .toList()
-          ..forEach((element) {
-            ur.addCG(element);
-          });
+      ..forEach((element) {
+        ur.addCG(element);
+      });
     ur._totalCreated = json['totalCreated'] as int;
     ur._isEliteForce =
         json['isEliteForce'] != null ? json['isEliteForce'] as bool : false;

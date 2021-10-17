@@ -18,3 +18,33 @@ List<StandardModification> getStandardMods(Unit u, CombatGroup cg) {
     StandardModification.smoke(u, cg),
   ];
 }
+
+StandardModification? buildStandardUpgrade(String id, Unit u, CombatGroup cg) {
+  switch (id) {
+    case antiAirId:
+      return StandardModification.antiAir(u, cg);
+    case droneId:
+      return StandardModification.drones(u, cg);
+    case grenadeSwapId:
+      return StandardModification.grenadeSwap(u, cg);
+    case handGrenadeLId:
+      return StandardModification.handGrenadeLHG(u, cg);
+    case handGrenadeMId:
+      return StandardModification.handGrenadeMHG(u, cg);
+    case panzerfaustsLId:
+      return StandardModification.panzerfaustsL(u, cg);
+    case panzerfaustsMId:
+      return StandardModification.panzerfaustsM(u, cg);
+    case pistolsId:
+      return StandardModification.sidearmLP(u, cg);
+    case subMachineGunId:
+      return StandardModification.sidearmSMG(u, cg);
+    case shapedExplosivesLId:
+      return StandardModification.shapedExplosivesL(u, cg);
+    case shapedExplosivesMId:
+      return StandardModification.shapedExplosivesM(u, cg);
+    case smokeId:
+      return StandardModification.smoke(u, cg);
+  }
+  return null;
+}

@@ -1,18 +1,18 @@
-import 'package:gearforce/models/mods/modification.dart';
+import 'package:gearforce/models/mods/unitUpgrades/unit_modification.dart';
 import 'package:gearforce/models/mods/mods.dart';
 import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
 import 'package:gearforce/models/weapons/weapons.dart';
 
-final Modification psi = Modification(name: 'Psi Upgrade')
+final UnitModification psi = UnitModification(name: 'Psi Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Psi'))
   ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
   ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'Comms')),
       description: '+Comms');
 
-final Modification darkJaguarPsi = Modification(name: 'Psi Upgrade')
+final UnitModification darkJaguarPsi = UnitModification(name: 'Psi Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Psi'))
   ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
@@ -24,14 +24,14 @@ final Modification darkJaguarPsi = Modification(name: 'Psi Upgrade')
     description: '+SatUp (Aux)',
   );
 
-final Modification phi = Modification(name: 'Phi Upgrade')
+final UnitModification phi = UnitModification(name: 'Phi Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Phi'))
   ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
   ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'ECCM')),
       description: '+ECCM');
 
-final Modification darkMambaPsi = Modification(name: 'Psi Upgrade')
+final UnitModification darkMambaPsi = UnitModification(name: 'Psi Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Psi'))
   ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
@@ -40,14 +40,14 @@ final Modification darkMambaPsi = Modification(name: 'Psi Upgrade')
   ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'SatUp')),
       description: '+SatUp');
 
-final Modification xi = Modification(name: 'Xi Upgrade')
+final UnitModification xi = UnitModification(name: 'Xi Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Xi'))
   ..addMod(
       UnitAttribute.mounted_weapons, createAddWeaponToList(buildWeapon('MGM')!),
       description: '+MGM');
 
-final Modification zeta = Modification(
+final UnitModification zeta = UnitModification(
     name: 'Zeta Upgrade',
     requirementCheck: (Unit u) {
       return u.reactWeapons.any((element) => element.abbreviation == 'MRC');
@@ -61,7 +61,7 @@ final Modification zeta = Modification(
           newValue: buildWeapon('LPA', hasReact: true)!),
       description: '-MRC, +LPA');
 
-final Modification pur = Modification(
+final UnitModification pur = UnitModification(
     name: 'Pur Upgrade',
     requirementCheck: (Unit u) {
       return u.reactWeapons.contains('MRC');
@@ -75,7 +75,7 @@ final Modification pur = Modification(
           newValue: buildWeapon('MFL', hasReact: true)!),
       description: '-MRC, +MFL');
 
-final Modification darkCoyotePsi = Modification(name: 'Psi Upgrade')
+final UnitModification darkCoyotePsi = UnitModification(name: 'Psi Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(3), description: 'TV +3')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Psi'))
   ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
@@ -96,18 +96,20 @@ final Modification darkCoyotePsi = Modification(name: 'Psi Upgrade')
       ),
       description: '-ECM, +ECM+');
 
-final Modification iota = Modification(name: 'Iota Upgrade')
+final UnitModification iota = UnitModification(name: 'Iota Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(0), description: 'TV +0')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Iota'))
   ..addMod(UnitAttribute.mounted_weapons,
-      createRemoveWeaponFromList(buildWeapon('MRP')!), description: '-MRP')
+      createRemoveWeaponFromList(buildWeapon('MRP')!),
+      description: '-MRP')
   ..addMod(UnitAttribute.mounted_weapons,
-      createAddWeaponToList(buildWeapon('LAPR')!), description: '+LAPR')
+      createAddWeaponToList(buildWeapon('LAPR')!),
+      description: '+LAPR')
   ..addMod(UnitAttribute.mounted_weapons,
       createAddWeaponToList(buildWeapon('LAPGL')!),
       description: '+LAPGL');
 
-final Modification theta = Modification(name: 'Theta Upgrade')
+final UnitModification theta = UnitModification(name: 'Theta Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Theta'))
   ..addMod(
@@ -116,7 +118,7 @@ final Modification theta = Modification(name: 'Theta Upgrade')
           oldValue: buildWeapon('MGM')!, newValue: buildWeapon('MATM')!),
       description: '-MGM, +MATM');
 
-final Modification darkHoplitePsi = Modification(name: 'Psi Upgrade')
+final UnitModification darkHoplitePsi = UnitModification(name: 'Psi Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Psi'))
   ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
@@ -128,7 +130,7 @@ final Modification darkHoplitePsi = Modification(name: 'Psi Upgrade')
   ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'SatUp')),
       description: '+SatUp');
 
-final Modification blackwindTheta = Modification(name: 'Theta Upgrade')
+final UnitModification blackwindTheta = UnitModification(name: 'Theta Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Theta'))
   ..addMod(

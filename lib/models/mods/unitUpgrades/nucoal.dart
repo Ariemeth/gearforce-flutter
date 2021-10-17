@@ -1,11 +1,11 @@
-import 'package:gearforce/models/mods/modification.dart';
+import 'package:gearforce/models/mods/unitUpgrades/unit_modification.dart';
 import 'package:gearforce/models/mods/mods.dart';
 import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
 import 'package:gearforce/models/weapons/weapons.dart';
 
-final Modification cv = Modification(name: 'CV Upgrade')
+final UnitModification cv = UnitModification(name: 'CV Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'CV'))
   ..addMod(UnitAttribute.ew, createSetIntMod(5), description: 'EW 5+')
@@ -15,7 +15,7 @@ final Modification cv = Modification(name: 'CV Upgrade')
       createAddTraitToList(Trait(name: 'ECCM', isAux: true)),
       description: '+ECCM (Aux)');
 
-final Modification cuirassierCv = Modification(name: 'CV Upgrade')
+final UnitModification cuirassierCv = UnitModification(name: 'CV Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'CV'))
   ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
@@ -27,7 +27,7 @@ final Modification cuirassierCv = Modification(name: 'CV Upgrade')
       createAddTraitToList(Trait(name: 'ECCM', isAux: true)),
       description: '+ECCM (Aux)');
 
-final Modification fragCannon = Modification(
+final UnitModification fragCannon = UnitModification(
     name: 'Frag Cannon Upgrade',
     requirementCheck: (Unit u) {
       return u.reactWeapons.contains('LRF');
@@ -41,7 +41,7 @@ final Modification fragCannon = Modification(
           newValue: buildWeapon('MFC', hasReact: true)!),
       description: '-LRF, +MFC');
 
-final Modification rapidFireBazooka = Modification(
+final UnitModification rapidFireBazooka = UnitModification(
     name: 'Rapid Fire Bazooka Upgrade',
     requirementCheck: (Unit u) {
       return u.reactWeapons.contains('LRF');
@@ -55,7 +55,7 @@ final Modification rapidFireBazooka = Modification(
           newValue: buildWeapon('MFC', hasReact: true)!),
       description: '-LRF, +LBZ(AP:1, Burst:1)');
 
-final Modification espionCv = Modification(name: 'CV Upgrade')
+final UnitModification espionCv = UnitModification(name: 'CV Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'CV'))
   ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
@@ -64,7 +64,7 @@ final Modification espionCv = Modification(name: 'CV Upgrade')
   ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'SatUp')),
       description: '+SatUp');
 
-final Modification mfmBoa = Modification(
+final UnitModification mfmBoa = UnitModification(
     name: 'MFM Upgrade',
     requirementCheck: (Unit u) {
       return u.mountedWeapons.contains('LGM');
@@ -77,7 +77,7 @@ final Modification mfmBoa = Modification(
           oldValue: buildWeapon('LGM')!, newValue: buildWeapon('MFM')!),
       description: '-LGM, +MFM');
 
-final Modification cv2 = Modification(name: 'CV Upgrade')
+final UnitModification cv2 = UnitModification(name: 'CV Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'CV'))
   ..addMod(UnitAttribute.ew, createSetIntMod(5), description: 'EW 5+')
@@ -89,7 +89,7 @@ final Modification cv2 = Modification(name: 'CV Upgrade')
       createAddTraitToList(Trait(name: 'ECCM', isAux: true)),
       description: '+ECCM (Aux)');
 
-final Modification voltigeurABM = Modification(
+final UnitModification voltigeurABM = UnitModification(
     name: 'ABM Upgrade',
     requirementCheck: (Unit u) {
       return u.mountedWeapons.contains('2 X MATM');
@@ -103,7 +103,7 @@ final Modification voltigeurABM = Modification(
           newValue: buildWeapon('2 X MABM')!),
       description: '-2 X MATM, +2 X MABM');
 
-final Modification voltigeurAM = Modification(
+final UnitModification voltigeurAM = UnitModification(
     name: 'AM Upgrade',
     requirementCheck: (Unit u) {
       return u.mountedWeapons.contains('2 X MATM');
@@ -117,7 +117,7 @@ final Modification voltigeurAM = Modification(
           newValue: buildWeapon('2 X MAM')!),
       description: '-2 X MATM, +2 X MAM');
 
-final Modification voltigeurCv = Modification(name: 'CV Upgrade')
+final UnitModification voltigeurCv = UnitModification(name: 'CV Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'CV'))
   ..addMod(UnitAttribute.ew, createSetIntMod(5), description: 'EW 5+')
@@ -128,13 +128,13 @@ final Modification voltigeurCv = Modification(name: 'CV Upgrade')
   ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'ECCM')),
       description: '+ECCM');
 
-final Modification team = Modification(name: 'Team')
+final UnitModification team = UnitModification(name: 'Team')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(-1), description: 'TV -1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'Team'))
   ..addMod(UnitAttribute.hull, createSetIntMod(2), description: 'H/S: 2/1')
   ..addMod(UnitAttribute.structure, createSetIntMod(1));
 
-final Modification koreshi = Modification(name: 'Koreshi Upgrade')
+final UnitModification koreshi = UnitModification(name: 'Koreshi Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Koreshi'))
   ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')

@@ -7,15 +7,22 @@ abstract class BaseModification {
     required this.name,
     String? id,
     this.options,
+    BaseModification Function()? refreshData,
   }) {
     _id = id ?? Uuid().v4();
+
+    _refreshData = refreshData;
   }
 
   final String name;
   final List<String> _description = [];
+  late final BaseModification Function()? _refreshData;
+  BaseModification refreshData() =>
+      _refreshData == null ? this : _refreshData!();
   late final String _id;
   String get id => _id;
-  final ModificationOption? options;
+
+  ModificationOption? options;
   bool get hasOptions => this.options != null && this.options!.hasOptions();
 
   List<String> get description => this._description.toList();
@@ -31,6 +38,39 @@ abstract class BaseModification {
     if (description != null) {
       this._description.add(description);
     }
+  }
+
+/*
+Example json format for mods
+{
+	"duelist": [{
+		"id": "duelist",
+		"selected": null
+	}, {
+		"id": "duelist: independent",
+		"selected": null
+	}, {
+		"id": "duelist: ace gunner",
+		"selected": {
+			"text": "LRP",
+			"selected": {
+				"text": null,
+				"selected": null
+			}
+		}
+	}]
+}
+*/
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> result = {
+      'id': _id,
+    };
+    if (options != null) {
+      result['selected'] = options!.selectedOption?.toJson();
+    }
+
+    return result;
   }
 
   dynamic applyMods(UnitAttribute att, dynamic startingValue) {

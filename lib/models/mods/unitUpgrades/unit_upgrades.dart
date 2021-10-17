@@ -1,4 +1,4 @@
-import 'package:gearforce/models/mods/modification.dart';
+import 'package:gearforce/models/mods/unitUpgrades/unit_modification.dart';
 import 'package:gearforce/models/mods/unitUpgrades/black_talon.dart'
     as blackTalon;
 import 'package:gearforce/models/mods/unitUpgrades/caprice.dart' as caprice;
@@ -13,7 +13,7 @@ import 'package:gearforce/models/mods/unitUpgrades/universal.dart' as universal;
 import 'package:gearforce/models/mods/unitUpgrades/utopia.dart' as utopia;
 import 'package:gearforce/models/unit/unit.dart';
 
-List<Modification> getUnitMods(String frameName, Unit unit) {
+List<UnitModification> getUnitMods(String frameName, Unit unit) {
   switch (frameName.toLowerCase()) {
     // Northern units
     case 'hunter':

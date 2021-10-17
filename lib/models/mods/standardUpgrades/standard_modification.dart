@@ -7,20 +7,19 @@ import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
 import 'package:gearforce/models/weapons/weapon.dart';
 import 'package:gearforce/models/weapons/weapons.dart';
-import 'package:uuid/uuid.dart';
 
-final antiAirId = Uuid().v4();
-final droneId = Uuid().v4();
-final grenadeSwapId = Uuid().v4();
-final handGrenadeLId = Uuid().v4();
-final handGrenadeMId = Uuid().v4();
-final panzerfaustsLId = Uuid().v4();
-final panzerfaustsMId = Uuid().v4();
-final pistolsId = Uuid().v4();
-final subMachineGunId = Uuid().v4();
-final shapedExplosivesLId = Uuid().v4();
-final shapedExplosivesMId = Uuid().v4();
-final smokeId = Uuid().v4();
+const antiAirId = 'standard: anti-air';
+const droneId = 'standard: drone';
+const grenadeSwapId = 'standard: grenade swap';
+const handGrenadeLId = 'standard: grenade l';
+const handGrenadeMId = 'standard: grenade m';
+const panzerfaustsLId = 'standard: panzerfausts l';
+const panzerfaustsMId = 'standard: panzerfausts m';
+const pistolsId = 'standard: pistols';
+const subMachineGunId = 'standard: smg';
+const shapedExplosivesLId = 'standard: explosives l';
+const shapedExplosivesMId = 'standard: explosives m';
+const smokeId = 'standard: smoke';
 
 final RegExp _handsMatch = RegExp(r'^Hands', caseSensitive: false);
 final RegExp _vtolMatch = RegExp(r'^VTOL', caseSensitive: false);
@@ -33,7 +32,8 @@ class StandardModification extends BaseModification {
     this.group,
     String? id,
     ModificationOption? options,
-  }) : super(name: name, id: id, options: options);
+    final BaseModification Function()? refreshData,
+  }) : super(name: name, id: id, options: options, refreshData: refreshData);
 
   // function to ensure the modification can be applied to the unit
   final bool Function() requirementCheck;
@@ -89,6 +89,9 @@ class StandardModification extends BaseModification {
 
           // check to ensure this upgrade has not already been given to 2 or more units
           return cg.modCount(antiAirId) < 2;
+        },
+        refreshData: () {
+          return StandardModification.antiAir(u, cg);
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
       ..addMod(UnitAttribute.react_weapons, (value) {
