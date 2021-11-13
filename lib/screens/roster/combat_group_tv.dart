@@ -11,13 +11,10 @@ class CombatGroupTVTotal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Padding(
-        padding: const EdgeInsets.all(1.0),
-        child: Text(
-          totalTV.toString(),
-          textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 16, color: this.textColor),
-        ),
+      child: Text(
+        totalTV.toString(),
+        textAlign: TextAlign.center,
+        style: TextStyle(fontSize: 16, color: this.textColor),
       ),
       decoration: BoxDecoration(
         color: Colors.grey[300],

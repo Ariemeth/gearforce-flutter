@@ -13,10 +13,12 @@ class DisplayValue extends StatelessWidget {
   final Color textColor;
   final String text;
 
+  final double _widgetHeight = 35.0;
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 35,
+      height: _widgetHeight,
       child: Align(
         child: Row(
           children: [
@@ -30,7 +32,7 @@ class DisplayValue extends StatelessWidget {
             ),
             SizedBox(
               width: 50,
-              height: 30,
+              height: _widgetHeight,
               child: Padding(
                 padding: EdgeInsets.only(right: 5, left: 2, top: 5, bottom: 5),
                 child: CombatGroupTVTotal(
