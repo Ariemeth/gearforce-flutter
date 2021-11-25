@@ -85,6 +85,16 @@ jobs:
           target: release
           tags: ${{ steps.gather-variables.outputs.IMAGE_TAGS }}
       
+      - name: Kubernetes set context
+        uses: Azure/k8s-set-context@v1
+        with:
+          method: kubeconfig
+          kubeconfig: ${{ secrets.KUBE_CONFIG }}
+
+      - name: Deploy to linode cluster
+        run: |
+          helm upgrade --install --set image.tag=${{ github.sha }} ${{ secrets.HELM_RELEASE_NAME }} chart/gearforce
+
       - name: 'Login via Azure CLI'
         uses: azure/login@v1
         with:
