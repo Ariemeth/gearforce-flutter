@@ -205,6 +205,7 @@ func makeServerFromMux(mux *http.ServeMux) *http.Server {
 func makeHTTPServer(h http.Handler) *http.Server {
 	mux := &http.ServeMux{}
 	mux.HandleFunc("/", h.ServeHTTP)
+	mux.HandleFunc("/healthz", ServeHealth)
 	return makeServerFromMux(mux)
 
 }
@@ -219,4 +220,8 @@ func makeHTTPToHTTPSRedirectServer() *http.Server {
 	mux := &http.ServeMux{}
 	mux.HandleFunc("/", handleRedirect)
 	return makeServerFromMux(mux)
+}
+
+func ServeHealth(w http.ResponseWriter, r *http.Request) {
+	w.Write([]byte("Healthy"))
 }
