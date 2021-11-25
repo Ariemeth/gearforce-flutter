@@ -204,8 +204,8 @@ func makeServerFromMux(mux *http.ServeMux) *http.Server {
 // as root '/'
 func makeHTTPServer(h http.Handler) *http.Server {
 	mux := &http.ServeMux{}
-	mux.HandleFunc("/", h.ServeHTTP)
 	mux.HandleFunc("/healthz", ServeHealth)
+	mux.HandleFunc("/", h.ServeHTTP)
 	return makeServerFromMux(mux)
 
 }
