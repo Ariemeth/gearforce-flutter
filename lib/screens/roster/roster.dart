@@ -12,10 +12,10 @@ import 'package:provider/provider.dart';
 
 const double _leftPanelWidth = 670.0;
 const double _menuTitleHeight = 60.0;
-const String _version = '0.29.6';
+const String _version = '0.30.0';
 const String _bugMessage =
     'Please report any issues to gearforce@metadiversions.com';
-const bool _enablePDF = false;
+const bool _enablePDF = true;
 
 class RosterWidget extends StatefulWidget {
   RosterWidget({
@@ -139,6 +139,16 @@ class _RosterWidgetState extends State<RosterWidget> {
               enabled: _enablePDF,
               onTap: () async {
                 printPDF(roster);
+              },
+            ),
+            ListTile(
+              title: Text(
+                'Save PDF',
+                style: TextStyle(fontSize: 16),
+              ),
+              enabled: _enablePDF,
+              onTap: () async {
+                downloadPDF(roster);
               },
             ),
             ListTile(
