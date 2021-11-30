@@ -2,7 +2,6 @@ import 'dart:typed_data';
 
 import 'package:file_picker_cross/file_picker_cross.dart';
 import 'package:gearforce/models/roster/roster.dart';
-import 'package:gearforce/screens/roster/pdf/roster.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
@@ -38,7 +37,7 @@ Future<Uint8List> buildPdf(PdfPageFormat format, UnitRoster roster) async {
   );
 
   // Build and return the final Pdf file data
-  return await doc.save();
+  return doc.save();
 }
 
 const String _defaultRosterFileName = 'hg-roster';
@@ -47,20 +46,25 @@ const String _downloadFileExtension = 'pdf';
 Future<void> downloadPDF(UnitRoster roster) async {
   final pdf = await buildPdf(PdfPageFormat.letter, roster);
 
-var myFile = FilePickerCross(pdf,
+  var myFile = FilePickerCross(pdf,
       type: FileTypeCross.custom, fileExtension: _downloadFileExtension);
   final filename = roster.name == null || roster.name!.isEmpty
       ? _defaultRosterFileName
       : roster.name;
   myFile.exportToStorage(fileName: '$filename.$_downloadFileExtension');
-
 }
 
-/*
-var myFile = FilePickerCross(Uint8List.fromList(data),
-      type: FileTypeCross.custom, fileExtension: _downloadFileExtension);
-  final filename = roster.name == null || roster.name!.isEmpty
-      ? _defaultRosterFileName
-      : roster.name;
-  myFile.exportToStorage(fileName: '$filename.$_downloadFileExtension');
-*/
+List<pw.Widget> buildRosterContent(pw.Font font, UnitRoster roster) {
+  return [
+    pw.ConstrainedBox(
+      constraints: pw.BoxConstraints.tightForFinite(),
+      child: pw.FittedBox(
+        fit: pw.BoxFit.none,
+        child: pw.Text(
+          'Hello World',
+          style: pw.TextStyle(font: font, fontSize: 10),
+        ),
+      ),
+    )
+  ];
+}
