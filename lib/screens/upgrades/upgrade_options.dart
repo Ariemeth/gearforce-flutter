@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:gearforce/models/mods/modification_option.dart';
 import 'package:gearforce/screens/upgrades/option_dropdown.dart';
 
