@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:file_picker_cross/file_picker_cross.dart';
+import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
@@ -56,15 +57,37 @@ Future<void> downloadPDF(UnitRoster roster) async {
 
 List<pw.Widget> buildRosterContent(pw.Font font, UnitRoster roster) {
   return [
-    pw.ConstrainedBox(
+    /*  pw.ConstrainedBox(
       constraints: pw.BoxConstraints.tightForFinite(),
       child: pw.FittedBox(
         fit: pw.BoxFit.none,
-        child: pw.Text(
-          'Hello World',
-          style: pw.TextStyle(font: font, fontSize: 10),
-        ),
+        child: pw.Column(children: [
+          pw.Row(children: [
+            pw.Text(
+              'Heavy Gear Bltiz Force Record Sheet',
+              style: pw.TextStyle(font: font, fontSize: 16),
+            ),
+          ]),
+        ]),
       ),
-    )
+    ),*/
+    pw.Column(children: [
+      pw.Center(
+        child: pw.Text('Heavy Gear Bltiz Force Record Sheet',
+            style: pw.TextStyle(font: font, fontSize: 24)),
+      ),
+      pw.Row(children: [
+        pw.Expanded(
+            child: pw.Column(children: [
+          pw.Text('${roster.player}'),
+        ])),
+        pw.Expanded(
+            child: pw.Column(children: [
+          pw.Container(
+              child: pw.Text(
+                  '${factionTypeToString(roster.faction.value!)}/${roster.subFaction.value}'))
+        ])),
+      ]),
+    ])
   ];
 }

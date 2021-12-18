@@ -12,11 +12,11 @@ import 'package:provider/provider.dart';
 
 const double _leftPanelWidth = 670.0;
 const double _menuTitleHeight = 60.0;
-const String _version = '0.30.0';
+const String _version = '0.30.1';
 const String _bugMessage =
     'Please report any issues to gearforce@metadiversions.com';
-const bool _enablePDF = false;
-const bool _enablePrinting = false;
+const bool _enablePDF = true;
+const bool _enablePrinting = true;
 
 class RosterWidget extends StatefulWidget {
   RosterWidget({

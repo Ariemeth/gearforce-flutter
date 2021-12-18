@@ -154,7 +154,7 @@ packages:
       name: file_picker
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.2.7"
+    version: "4.2.8"
   file_picker_cross:
     dependency: "direct main"
     description:
@@ -379,7 +379,7 @@ packages:
       name: path_provider_linux
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.2"
+    version: "2.1.4"
   path_provider_macos:
     dependency: transitive
     description:
