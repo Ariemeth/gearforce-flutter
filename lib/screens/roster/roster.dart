@@ -16,7 +16,7 @@ const String _version = '0.30.1';
 const String _bugMessage =
     'Please report any issues to gearforce@metadiversions.com';
 const bool _enablePDF = true;
-const bool _enablePrinting = true;
+const bool _enablePrinting = false;
 
 class RosterWidget extends StatefulWidget {
   RosterWidget({
@@ -144,7 +144,7 @@ class _RosterWidgetState extends State<RosterWidget> {
             ),
             ListTile(
               title: Text(
-                'Save PDF',
+                'Export to PDF',
                 style: TextStyle(fontSize: 16),
               ),
               enabled: _enablePDF,
@@ -156,6 +156,7 @@ class _RosterWidgetState extends State<RosterWidget> {
               title: Row(children: [
                 Text(
                   'Elite force',
+                  style: TextStyle(fontSize: 16),
                 ),
                 Checkbox(
                     value: roster.isEliteForce,
