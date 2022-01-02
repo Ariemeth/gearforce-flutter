@@ -59,15 +59,18 @@ pw.Widget _buildCombatGroupHeader(pw.Font font, CombatGroup cg) {
     fontWeight: pw.FontWeight.bold,
   );
 
-  return pw.Row(
-    children: [
-      pw.Expanded(
-        child: pw.Text(
-          'Combat Group: ${cg.name}',
-          style: headerTextStyle,
+  return pw.Padding(
+    padding: pw.EdgeInsets.only(bottom: 2.5),
+    child: pw.Row(
+      children: [
+        pw.Expanded(
+          child: pw.Text(
+            'Combat Group: ${cg.name}',
+            style: headerTextStyle,
+          ),
         ),
-      ),
-    ],
+      ],
+    ),
   );
 }
 
