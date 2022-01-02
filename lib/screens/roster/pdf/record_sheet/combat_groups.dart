@@ -6,10 +6,15 @@ import 'package:gearforce/models/combatGroups/group.dart';
 import 'package:gearforce/models/unit/command.dart';
 import 'package:pdf/widgets.dart' as pw;
 
-const double _standardTextSize = 12;
+const double _headerTextSize = 12;
+const double _standardTextSize = 10;
 const double _smallTextSize = 8;
 const double _groupSpacing = 25.0;
 const double _primarySecondarySpacing = 15.0;
+const double _modelNameColumnWidth = 150.0;
+const double _commandNameColumnWidth = 60.0;
+const double _actionsColumnWidth = 50.0;
+const double _tvColumnWidth = 30;
 
 final primarySecondaryDivide =
     pw.Padding(padding: pw.EdgeInsets.only(bottom: 5.0));
@@ -17,123 +22,26 @@ final primarySecondaryDivide =
 List<pw.Widget> buildCombatGroups(pw.Font font, UnitRoster roster) {
   final List<pw.Widget> combatGroups = [];
   roster.getCGs().forEach((cg) {
-    combatGroups.add(buildCombatGroup(font, cg));
+    combatGroups.add(_buildCombatGroup(font, cg));
   });
   return combatGroups;
 }
 
-pw.Widget buildCombatGroup(pw.Font font, CombatGroup cg) {
+pw.Widget _buildCombatGroup(pw.Font font, CombatGroup cg) {
   if (cg.primary.allUnits().length == 0) {
     return pw.Container();
   }
 
-  final headerTextStyle = pw.TextStyle(
-    font: font,
-    fontSize: _standardTextSize,
-    fontWeight: pw.FontWeight.bold,
-  );
-  final smallTextStyle = pw.TextStyle(
-    font: font,
-    fontSize: _smallTextSize,
-  );
-
-  final primary = pw.Column(
-    children: [
-      pw.Row(
-        children: [
-          pw.Expanded(
-              child: pw.Text(
-            'Combat Group: ${cg.name}',
-            style: headerTextStyle,
-          )),
-          pw.Text(
-            'TV: ',
-            style: headerTextStyle,
-          ),
-          pw.Text(
-            '${cg.primary.totalTV()}',
-            style: headerTextStyle,
-          ),
-        ],
-      ),
-      pw.Row(children: [
-        pw.Container(
-          child: pw.Padding(
-            padding: pw.EdgeInsets.all(5.0),
-            child: pw.Transform.rotateBox(
-              angle: pi / 2,
-              child: pw.Text(
-                'Primary',
-                style: smallTextStyle,
-                textAlign: pw.TextAlign.center,
-              ),
-            ),
-          ),
-          decoration: pw.BoxDecoration(
-            border: pw.Border.all(),
-            borderRadius: const pw.BorderRadius.all(
-              pw.Radius.circular(2),
-            ),
-          ),
-        ),
-        pw.Expanded(child: _contentTable(font, cg.primary)),
-      ]),
-    ],
-  );
-
-  final secondary = pw.Column(
-    children: [
-      pw.Row(
-        children: [
-          pw.Expanded(
-              child: pw.Text(
-            '',
-            style: headerTextStyle,
-          )),
-          pw.Text(
-            'TV: ',
-            style: headerTextStyle,
-          ),
-          pw.Text(
-            '${cg.secondary.totalTV()}',
-            style: headerTextStyle,
-          ),
-        ],
-      ),
-      pw.Row(children: [
-        pw.Container(
-          child: pw.Padding(
-            padding: pw.EdgeInsets.all(5.0),
-            child: pw.Transform.rotateBox(
-              angle: pi / 2,
-              child: pw.Text(
-                'Secondary',
-                style: smallTextStyle,
-                textAlign: pw.TextAlign.center,
-              ),
-            ),
-          ),
-          decoration: pw.BoxDecoration(
-            border: pw.Border.all(),
-            borderRadius: const pw.BorderRadius.all(
-              pw.Radius.circular(2),
-            ),
-          ),
-        ),
-        pw.Expanded(child: _contentTable(font, cg.secondary)),
-      ]),
-    ],
-  );
-
   final result = pw.Column(children: [
-    primary,
+    _buildCombatGroupHeader(font, cg),
+    _buildGroupContent(font, cg.primary, 'Primary'),
   ]);
 
   if (cg.secondary.allUnits().length > 0) {
     result.children.add(
       pw.Padding(
         padding: pw.EdgeInsets.only(top: _primarySecondarySpacing),
-        child: secondary,
+        child: _buildGroupContent(font, cg.secondary, 'Secondary'),
       ),
     );
   }
@@ -144,12 +52,68 @@ pw.Widget buildCombatGroup(pw.Font font, CombatGroup cg) {
   );
 }
 
-pw.Widget _contentTable(pw.Font font, Group cg) {
+pw.Widget _buildCombatGroupHeader(pw.Font font, CombatGroup cg) {
+  final headerTextStyle = pw.TextStyle(
+    font: font,
+    fontSize: _headerTextSize,
+    fontWeight: pw.FontWeight.bold,
+  );
+
+  return pw.Row(
+    children: [
+      pw.Expanded(
+        child: pw.Text(
+          'Combat Group: ${cg.name}',
+          style: headerTextStyle,
+        ),
+      ),
+    ],
+  );
+}
+
+pw.Widget _buildGroupContent(pw.Font font, Group g, String groupType) {
+  final smallTextStyle = pw.TextStyle(
+    font: font,
+    fontSize: _smallTextSize,
+  );
+
+  return pw.Column(
+    children: [
+      pw.Container(
+        child: pw.Row(children: [
+          pw.Padding(
+            padding: pw.EdgeInsets.all(5.0),
+            child: pw.Transform.rotateBox(
+              angle: pi / 2,
+              child: pw.Text(
+                groupType,
+                style: smallTextStyle,
+                textAlign: pw.TextAlign.center,
+              ),
+            ),
+          ),
+          pw.Expanded(child: _buildGroupContentTable(font, g)),
+        ]),
+        decoration: pw.BoxDecoration(
+          border: pw.Border.all(),
+          borderRadius: const pw.BorderRadius.only(
+            topLeft: pw.Radius.circular(2),
+            topRight: pw.Radius.circular(2),
+            bottomLeft: pw.Radius.circular(2),
+          ),
+        ),
+      ),
+      _buildGroupFooter(font, g),
+    ],
+  );
+}
+
+pw.Widget _buildGroupContentTable(pw.Font font, Group cg) {
   const tableHeaders = [
     'Model',
     'Upgrades',
-    'Actions',
     'Command',
+    'Actions',
     'TV',
   ];
 
@@ -157,8 +121,10 @@ pw.Widget _contentTable(pw.Font font, Group cg) {
     border: null,
     cellAlignment: pw.Alignment.centerLeft,
     headerDecoration: pw.BoxDecoration(
-      borderRadius: const pw.BorderRadius.all(pw.Radius.circular(2)),
-      // color: baseColor,
+      border: pw.Border(
+        left: pw.BorderSide(width: 0.5),
+        //      color: accentColor,
+      ),
     ),
     headerHeight: 25,
     cellHeight: 30,
@@ -172,20 +138,18 @@ pw.Widget _contentTable(pw.Font font, Group cg) {
     headerStyle: pw.TextStyle(
       //  color: _baseTextColor,
       font: font,
-      fontSize: 10,
+      fontSize: _standardTextSize,
       fontWeight: pw.FontWeight.bold,
     ),
     cellStyle: pw.TextStyle(
       //  color: _darkColor,
       font: font,
-      fontSize: 10,
+      fontSize: _standardTextSize,
     ),
     rowDecoration: pw.BoxDecoration(
       border: pw.Border(
-        bottom: pw.BorderSide(
-          //      color: accentColor,
-          width: .5,
-        ),
+        top: pw.BorderSide(width: 0.5),
+        left: pw.BorderSide(width: 0.5),
       ),
     ),
     headers: List<String>.generate(
@@ -193,11 +157,11 @@ pw.Widget _contentTable(pw.Font font, Group cg) {
       (col) => tableHeaders[col],
     ),
     columnWidths: {
-      0: const pw.FixedColumnWidth(170),
+      0: const pw.FixedColumnWidth(_modelNameColumnWidth),
       1: const pw.FlexColumnWidth(2.0),
-      2: const pw.FixedColumnWidth(50),
-      3: const pw.FixedColumnWidth(60),
-      4: const pw.FixedColumnWidth(30),
+      2: const pw.FixedColumnWidth(_commandNameColumnWidth),
+      3: const pw.FixedColumnWidth(_actionsColumnWidth),
+      4: const pw.FixedColumnWidth(_tvColumnWidth),
     },
     data: List<List<String>>.generate(
       cg.allUnits().length,
@@ -207,11 +171,12 @@ pw.Widget _contentTable(pw.Font font, Group cg) {
           case 0:
             return unit.name;
           case 1:
-            return '${unit.modNames.join(', ')}';
+            return '${unit.modNamesWithCost.join(', ')}';
           case 2:
-            return '${unit.actions ?? ''}';
+            return '${unit.commandLevel == CommandLevel.none ? '-' : commandLevelString(unit.commandLevel)}';
+
           case 3:
-            return '${commandLevelString(unit.commandLevel)}';
+            return '${unit.actions ?? '-'}';
           case 4:
             return '${unit.tv}';
           default:
@@ -219,5 +184,59 @@ pw.Widget _contentTable(pw.Font font, Group cg) {
         }
       }),
     ),
+  );
+}
+
+pw.Widget _buildGroupFooter(pw.Font font, Group g) {
+  final footerTextStyle = pw.TextStyle(
+    //  color: _darkColor,
+    font: font,
+    fontSize: _standardTextSize,
+  );
+
+  return pw.Row(
+    mainAxisAlignment: pw.MainAxisAlignment.end,
+    children: [
+      pw.Container(
+        child: pw.Padding(
+          padding: pw.EdgeInsets.only(top: 5.0),
+          child: pw.Row(
+            children: [
+              pw.Container(
+                width: _commandNameColumnWidth,
+                child: pw.Text(
+                  'Total:',
+                  textAlign: pw.TextAlign.right,
+                  style: footerTextStyle,
+                ),
+              ),
+              pw.Container(
+                width: _actionsColumnWidth,
+                child: pw.Text(
+                  '${g.totalActions()}',
+                  textAlign: pw.TextAlign.center,
+                  style: footerTextStyle,
+                ),
+              ),
+              pw.Container(
+                width: _tvColumnWidth,
+                child: pw.Text(
+                  '${g.totalTV()}',
+                  textAlign: pw.TextAlign.center,
+                  style: footerTextStyle,
+                ),
+              ),
+            ],
+          ),
+        ),
+        decoration: pw.BoxDecoration(
+          border: pw.Border.all(width: 0.5),
+          borderRadius: const pw.BorderRadius.only(
+            bottomRight: pw.Radius.circular(2),
+            bottomLeft: pw.Radius.circular(2),
+          ),
+        ),
+      ),
+    ],
   );
 }
