@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/combatGroups/group.dart';
@@ -5,7 +7,7 @@ import 'package:gearforce/models/unit/command.dart';
 import 'package:pdf/widgets.dart' as pw;
 
 const double _standardTextSize = 12;
-//const double _smallTextSize = 8;
+const double _smallTextSize = 8;
 const double _groupSpacing = 25.0;
 const double _primarySecondarySpacing = 15.0;
 
@@ -30,7 +32,10 @@ pw.Widget buildCombatGroup(pw.Font font, CombatGroup cg) {
     fontSize: _standardTextSize,
     fontWeight: pw.FontWeight.bold,
   );
-  //final smallTextStyle = pw.TextStyle(font: font, fontSize: _smallTextSize);
+  final smallTextStyle = pw.TextStyle(
+    font: font,
+    fontSize: _smallTextSize,
+  );
 
   final primary = pw.Column(
     children: [
@@ -38,7 +43,7 @@ pw.Widget buildCombatGroup(pw.Font font, CombatGroup cg) {
         children: [
           pw.Expanded(
               child: pw.Text(
-            'Combat Group: ${cg.name} Primary',
+            'Combat Group: ${cg.name}',
             style: headerTextStyle,
           )),
           pw.Text(
@@ -51,7 +56,28 @@ pw.Widget buildCombatGroup(pw.Font font, CombatGroup cg) {
           ),
         ],
       ),
-      _contentTable(cg.primary),
+      pw.Row(children: [
+        pw.Container(
+          child: pw.Padding(
+            padding: pw.EdgeInsets.all(5.0),
+            child: pw.Transform.rotateBox(
+              angle: pi / 2,
+              child: pw.Text(
+                'Primary',
+                style: smallTextStyle,
+                textAlign: pw.TextAlign.center,
+              ),
+            ),
+          ),
+          decoration: pw.BoxDecoration(
+            border: pw.Border.all(),
+            borderRadius: const pw.BorderRadius.all(
+              pw.Radius.circular(2),
+            ),
+          ),
+        ),
+        pw.Expanded(child: _contentTable(font, cg.primary)),
+      ]),
     ],
   );
 
@@ -61,7 +87,7 @@ pw.Widget buildCombatGroup(pw.Font font, CombatGroup cg) {
         children: [
           pw.Expanded(
               child: pw.Text(
-            'Combat Group: ${cg.name} Secondary',
+            '',
             style: headerTextStyle,
           )),
           pw.Text(
@@ -74,7 +100,28 @@ pw.Widget buildCombatGroup(pw.Font font, CombatGroup cg) {
           ),
         ],
       ),
-      _contentTable(cg.secondary),
+      pw.Row(children: [
+        pw.Container(
+          child: pw.Padding(
+            padding: pw.EdgeInsets.all(5.0),
+            child: pw.Transform.rotateBox(
+              angle: pi / 2,
+              child: pw.Text(
+                'Secondary',
+                style: smallTextStyle,
+                textAlign: pw.TextAlign.center,
+              ),
+            ),
+          ),
+          decoration: pw.BoxDecoration(
+            border: pw.Border.all(),
+            borderRadius: const pw.BorderRadius.all(
+              pw.Radius.circular(2),
+            ),
+          ),
+        ),
+        pw.Expanded(child: _contentTable(font, cg.secondary)),
+      ]),
     ],
   );
 
@@ -97,7 +144,7 @@ pw.Widget buildCombatGroup(pw.Font font, CombatGroup cg) {
   );
 }
 
-pw.Widget _contentTable(Group cg) {
+pw.Widget _contentTable(pw.Font font, Group cg) {
   const tableHeaders = [
     'Model',
     'Upgrades',
@@ -124,11 +171,13 @@ pw.Widget _contentTable(Group cg) {
     },
     headerStyle: pw.TextStyle(
       //  color: _baseTextColor,
+      font: font,
       fontSize: 10,
       fontWeight: pw.FontWeight.bold,
     ),
-    cellStyle: const pw.TextStyle(
+    cellStyle: pw.TextStyle(
       //  color: _darkColor,
+      font: font,
       fontSize: 10,
     ),
     rowDecoration: pw.BoxDecoration(
@@ -145,7 +194,7 @@ pw.Widget _contentTable(Group cg) {
     ),
     columnWidths: {
       0: const pw.FixedColumnWidth(170),
-      1: const pw.FlexColumnWidth(),
+      1: const pw.FlexColumnWidth(2.0),
       2: const pw.FixedColumnWidth(50),
       3: const pw.FixedColumnWidth(60),
       4: const pw.FixedColumnWidth(30),
@@ -168,9 +217,7 @@ pw.Widget _contentTable(Group cg) {
           default:
             return '';
         }
-      }
-          // (col) => cg.allUnits()[row].getIndex(col),
-          ),
+      }),
     ),
   );
 }
