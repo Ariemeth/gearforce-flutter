@@ -207,7 +207,7 @@ pw.Widget _contentTable(pw.Font font, Group cg) {
           case 0:
             return unit.name;
           case 1:
-            return '';
+            return '${unit.modNames.join(', ')}';
           case 2:
             return '${unit.actions ?? ''}';
           case 3:

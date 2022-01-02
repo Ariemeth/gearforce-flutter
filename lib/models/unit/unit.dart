@@ -170,6 +170,7 @@ class Unit extends ChangeNotifier {
 
   final UnitCore core;
   final List<BaseModification> _mods = [];
+  List<String> get modNames => _mods.map((e) => e.name).toList();
   CommandLevel _commandLevel = CommandLevel.none;
   List<String> _special = [];
 
