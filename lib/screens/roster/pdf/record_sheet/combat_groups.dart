@@ -15,6 +15,8 @@ const double _modelNameColumnWidth = 150.0;
 const double _commandNameColumnWidth = 60.0;
 const double _actionsColumnWidth = 50.0;
 const double _tvColumnWidth = 30;
+const double _borderThickness = 0.5;
+const double _cornerRadius = 2.0;
 
 final primarySecondaryDivide =
     pw.Padding(padding: pw.EdgeInsets.only(bottom: 5.0));
@@ -100,9 +102,9 @@ pw.Widget _buildGroupContent(pw.Font font, Group g, String groupType) {
         decoration: pw.BoxDecoration(
           border: pw.Border.all(),
           borderRadius: const pw.BorderRadius.only(
-            topLeft: pw.Radius.circular(2),
-            topRight: pw.Radius.circular(2),
-            bottomLeft: pw.Radius.circular(2),
+            topLeft: pw.Radius.circular(_cornerRadius),
+            topRight: pw.Radius.circular(_cornerRadius),
+            bottomLeft: pw.Radius.circular(_cornerRadius),
           ),
         ),
       ),
@@ -125,7 +127,7 @@ pw.Widget _buildGroupContentTable(pw.Font font, Group cg) {
     cellAlignment: pw.Alignment.centerLeft,
     headerDecoration: pw.BoxDecoration(
       border: pw.Border(
-        left: pw.BorderSide(width: 0.5),
+        left: pw.BorderSide(width: _borderThickness),
         //      color: accentColor,
       ),
     ),
@@ -151,8 +153,8 @@ pw.Widget _buildGroupContentTable(pw.Font font, Group cg) {
     ),
     rowDecoration: pw.BoxDecoration(
       border: pw.Border(
-        top: pw.BorderSide(width: 0.5),
-        left: pw.BorderSide(width: 0.5),
+        top: pw.BorderSide(width: _borderThickness),
+        left: pw.BorderSide(width: _borderThickness),
       ),
     ),
     headers: List<String>.generate(
@@ -233,10 +235,10 @@ pw.Widget _buildGroupFooter(pw.Font font, Group g) {
           ),
         ),
         decoration: pw.BoxDecoration(
-          border: pw.Border.all(width: 0.5),
+          border: pw.Border.all(width: _borderThickness),
           borderRadius: const pw.BorderRadius.only(
-            bottomRight: pw.Radius.circular(2),
-            bottomLeft: pw.Radius.circular(2),
+            bottomRight: pw.Radius.circular(_cornerRadius),
+            bottomLeft: pw.Radius.circular(_cornerRadius),
           ),
         ),
       ),
