@@ -200,11 +200,11 @@ class _RosterWidgetState extends State<RosterWidget> {
                       style: TextStyle(color: Colors.black),
                     ),
                     TextSpan(
-                        text: 'https://www.dp9.com/',
+                        text: '$_dp9URL',
                         style: TextStyle(color: Colors.blue),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            launch('https://www.dp9.com/');
+                            launch('$_dp9URL');
                           }),
                     TextSpan(
                       text: ' for more information about',
