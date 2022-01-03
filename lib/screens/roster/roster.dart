@@ -17,6 +17,7 @@ const double _menuTitleHeight = 60.0;
 const String _version = '0.30.3';
 const String _bugEmailAddress = 'gearforce@metadiversions.com';
 const String _dp9URL = 'https://www.dp9.com/';
+const String _sourceCodeURL = 'https://github.com/Ariemeth/gearforce-flutter';
 
 class RosterWidget extends StatefulWidget {
   RosterWidget({
@@ -213,6 +214,22 @@ class _RosterWidgetState extends State<RosterWidget> {
                   ]),
                 ),
                 Text(' Dream Pod 9 or Heavy Gear'),
+                Text(''),
+                RichText(
+                  text: TextSpan(children: [
+                    TextSpan(
+                      text: 'Source code available at \n',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                    TextSpan(
+                        text: '$_sourceCodeURL',
+                        style: TextStyle(color: Colors.blue),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            launch('$_sourceCodeURL');
+                          }),
+                  ]),
+                ),
                 Text(''),
                 Text('Rules version: ${roster.rulesVersion}'),
                 Text('Compendium version: ${roster.compendiumVersion}'),
