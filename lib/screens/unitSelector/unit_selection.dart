@@ -10,6 +10,8 @@ import 'package:gearforce/screens/unitSelector/selection_filters.dart';
 import 'package:gearforce/screens/unitSelector/unit_selection_text_Cell.dart';
 import 'package:provider/provider.dart';
 
+const _reactSymbol = '»';
+
 class UnitSelection extends StatefulWidget {
   final Map<RoleType, bool> _roleFilter = <RoleType, bool>{};
 
@@ -138,9 +140,8 @@ class SelectionList extends StatelessWidget {
       _createTableColumn('GU'),
       _createTableColumn('PI'),
       _createTableColumn('EW'),
-      _createTableColumn('React Weapons'),
-      _createTableColumn('Mounted Weapons'),
-      _createTableColumn('Traits'),
+      _createTableColumn('Weapons', alignment: Alignment.centerLeft),
+      _createTableColumn('Traits', alignment: Alignment.centerLeft),
       _createTableColumn('Type'),
       _createTableColumn('Height'),
     ];
@@ -194,17 +195,18 @@ class SelectionList extends StatelessWidget {
           UnitSelectionTextCell.content(uc.ew == null ? '-' : '${uc.ew}+')),
       DataCell(
         UnitSelectionTextCell.content(
-          '${uc.reactWeapons.join(', ')}',
-          maxLines: 2,
+          '${(uc.reactWeapons.toList()..addAll(uc.mountedWeapons.toList())).map((e) => e.hasReact ? '$_reactSymbol${e.abbreviation}' : '${e.abbreviation}').toList().join(', ')}',
+          maxLines: 3,
+          alignment: Alignment.centerLeft,
+          textAlignment: TextAlign.left,
         ),
       ),
-      DataCell(
-        UnitSelectionTextCell.content(
-          '${uc.mountedWeapons.join(', ')}',
-          maxLines: 2,
-        ),
-      ),
-      DataCell(UnitSelectionTextCell.content('${uc.traits.join(', ')}')),
+      DataCell(UnitSelectionTextCell.content(
+        '${uc.traits.join(', ')}',
+        maxLines: 3,
+        alignment: Alignment.centerLeft,
+        textAlignment: TextAlign.left,
+      )),
       DataCell(UnitSelectionTextCell.content('${uc.type}')),
       DataCell(UnitSelectionTextCell.content('${uc.height}')),
     ]);
