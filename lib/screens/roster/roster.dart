@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:file_picker_cross/file_picker_cross.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/roster/roster.dart';
@@ -9,12 +10,13 @@ import 'package:gearforce/screens/roster/pdf/pdf.dart';
 import 'package:gearforce/screens/roster/roster_header_info.dart';
 import 'package:gearforce/screens/unitSelector/unit_selection.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 const double _leftPanelWidth = 670.0;
 const double _menuTitleHeight = 60.0;
-const String _version = '0.30.2';
-const String _bugMessage =
-    'Please report any issues to gearforce@metadiversions.com';
+const String _version = '0.30.3';
+const String _bugEmailAddress = 'gearforce@metadiversions.com';
+const String _dp9URL = 'https://www.dp9.com/';
 
 class RosterWidget extends StatefulWidget {
   RosterWidget({
@@ -170,9 +172,50 @@ class _RosterWidgetState extends State<RosterWidget> {
               applicationName: 'Gearforce',
               applicationVersion: _version,
               aboutBoxChildren: [
-                Text(_bugMessage),
+                Text('Gearforce is a Heavy Gear Blitz force creation tool'),
+                RichText(
+                  text: TextSpan(children: [
+                    TextSpan(
+                      text: 'Report any issues to ',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                    TextSpan(
+                        text: '$_bugEmailAddress',
+                        style: TextStyle(color: Colors.blue),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            launch(
+                              'mailto:$_bugEmailAddress?subject=Gearforce%20bug',
+                            );
+                          }),
+                  ]),
+                ),
+                Text(''),
+                Text('Heavy Gear Blitz is a trademark by Dream Pod 9'),
+                Text('Gearforce is not associated with Dream Pod 9'),
+                RichText(
+                  text: TextSpan(children: [
+                    TextSpan(
+                      text: 'Visit ',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                    TextSpan(
+                        text: 'https://www.dp9.com/',
+                        style: TextStyle(color: Colors.blue),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            launch('https://www.dp9.com/');
+                          }),
+                    TextSpan(
+                      text: ' for more information about',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                  ]),
+                ),
+                Text(' Dream Pod 9 or Heavy Gear'),
+                Text(''),
                 Text('Rules version: ${roster.rulesVersion}'),
-                Text('Compedndium version: ${roster.compendiumVersion}'),
+                Text('Compendium version: ${roster.compendiumVersion}'),
               ],
               dense: true,
               child: Text('About Gearforce',
