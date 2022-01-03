@@ -29,12 +29,12 @@ class _GearForceState extends State<GearForce> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Gear Force',
+      title: 'Gearforce',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
       home: RosterWidget(
-        title: 'Gear roster creator',
+        title: 'Gearforce',
       ),
     );
   }
