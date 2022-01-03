@@ -11,9 +11,11 @@ const double _standardTextSize = 10;
 const double _smallTextSize = 8;
 const double _groupSpacing = 25.0;
 const double _primarySecondarySpacing = 15.0;
+const double _tableHeaderHeight = 25.0;
+const double _tableCellHeight = 20.0;
 const double _modelNameColumnWidth = 150.0;
-const double _commandNameColumnWidth = 60.0;
-const double _actionsColumnWidth = 50.0;
+const double _commandNameColumnWidth = 65.0;
+const double _actionsColumnWidth = 45.0;
 const double _tvColumnWidth = 30;
 const double _borderThickness = 0.5;
 const double _cornerRadius = 2.0;
@@ -131,8 +133,8 @@ pw.Widget _buildGroupContentTable(pw.Font font, Group cg) {
         //      color: accentColor,
       ),
     ),
-    headerHeight: 25,
-    cellHeight: 30,
+    headerHeight: _tableHeaderHeight,
+    cellHeight: _tableCellHeight,
     cellAlignments: {
       0: pw.Alignment.centerLeft,
       1: pw.Alignment.centerLeft,
