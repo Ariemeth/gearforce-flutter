@@ -15,8 +15,6 @@ const double _menuTitleHeight = 60.0;
 const String _version = '0.30.1';
 const String _bugMessage =
     'Please report any issues to gearforce@metadiversions.com';
-const bool _enablePDF = true;
-const bool _enablePrinting = false;
 
 class RosterWidget extends StatefulWidget {
   RosterWidget({
@@ -137,7 +135,6 @@ class _RosterWidgetState extends State<RosterWidget> {
                 'Print',
                 style: TextStyle(fontSize: 16),
               ),
-              enabled: _enablePrinting,
               onTap: () async {
                 printPDF(roster);
               },
@@ -147,7 +144,6 @@ class _RosterWidgetState extends State<RosterWidget> {
                 'Export to PDF',
                 style: TextStyle(fontSize: 16),
               ),
-              enabled: _enablePDF,
               onTap: () async {
                 downloadPDF(roster);
               },
