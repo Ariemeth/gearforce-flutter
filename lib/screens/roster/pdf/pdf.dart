@@ -2,9 +2,15 @@ import 'dart:typed_data';
 
 import 'package:file_picker_cross/file_picker_cross.dart';
 import 'package:gearforce/models/roster/roster.dart';
+import 'package:gearforce/screens/roster/pdf/record_sheet/record_sheet.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
+
+const String _defaultRosterFileName = 'hg-roster';
+const String _downloadFileExtension = 'pdf';
+
+const double _pageMargins = 36.0;
 
 Future<bool> printPDF(UnitRoster roster) async {
   // This is where we print the document
@@ -29,9 +35,7 @@ Future<Uint8List> buildPdf(PdfPageFormat format, UnitRoster roster) async {
     pw.MultiPage(
       pageFormat: format,
       build: (pw.Context context) {
-        return [
-          ...buildRosterContent(font, roster),
-        ];
+        return buildRecordSheet(font, roster);
       },
     ),
   );
@@ -40,11 +44,14 @@ Future<Uint8List> buildPdf(PdfPageFormat format, UnitRoster roster) async {
   return doc.save();
 }
 
-const String _defaultRosterFileName = 'hg-roster';
-const String _downloadFileExtension = 'pdf';
-
 Future<void> downloadPDF(UnitRoster roster) async {
-  final pdf = await buildPdf(PdfPageFormat.letter, roster);
+  final pdf = await buildPdf(
+      PdfPageFormat.letter.copyWith(
+          marginLeft: _pageMargins,
+          marginRight: _pageMargins,
+          marginTop: _pageMargins,
+          marginBottom: _pageMargins),
+      roster);
 
   var myFile = FilePickerCross(pdf,
       type: FileTypeCross.custom, fileExtension: _downloadFileExtension);
@@ -52,19 +59,4 @@ Future<void> downloadPDF(UnitRoster roster) async {
       ? _defaultRosterFileName
       : roster.name;
   myFile.exportToStorage(fileName: '$filename.$_downloadFileExtension');
-}
-
-List<pw.Widget> buildRosterContent(pw.Font font, UnitRoster roster) {
-  return [
-    pw.ConstrainedBox(
-      constraints: pw.BoxConstraints.tightForFinite(),
-      child: pw.FittedBox(
-        fit: pw.BoxFit.none,
-        child: pw.Text(
-          'Hello World',
-          style: pw.TextStyle(font: font, fontSize: 10),
-        ),
-      ),
-    )
-  ];
 }
