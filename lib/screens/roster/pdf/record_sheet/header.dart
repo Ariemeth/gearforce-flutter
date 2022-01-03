@@ -6,7 +6,9 @@ const String _recordSheetHeadingText = 'Heavy Gear Blitz Force Record Sheet';
 const String _playerNameDescriptor = 'Player Name';
 const String _forceNameDescriptor = 'Force Name';
 const String _factionNameDescriptor = 'Faction / Sublist';
+const String _totalTVNameDescriptor = 'Total TV';
 const double _recordSheetHeadingFontSize = 30;
+const double _totalTVBlockWidth = 40.0;
 
 pw.Widget buildRosterHeader(pw.Font font, UnitRoster roster) {
   final standardTextStyle = pw.TextStyle(font: font, fontSize: 12);
@@ -106,6 +108,38 @@ pw.Widget buildRosterHeader(pw.Font font, UnitRoster roster) {
           mainAxisAlignment: pw.MainAxisAlignment.end,
         ),
       ),
+      pw.Padding(
+        padding: sideInset.copyWith(top: gapAboveFactionText),
+        child: pw.Row(
+          children: [
+            pw.Container(
+              width: _totalTVBlockWidth,
+              child: pw.Column(
+                children: [
+                  pw.Container(
+                    child: pw.Text(
+                      '${roster.totalTV()}',
+                      style: standardTextStyle,
+                      maxLines: 1,
+                      textAlign: pw.TextAlign.center,
+                    ),
+                    decoration: pw.BoxDecoration(
+                      border: pw.Border(bottom: pw.BorderSide()),
+                    ),
+                  ),
+                  pw.Text(
+                    _totalTVNameDescriptor,
+                    style: smallTextStyle,
+                    textAlign: pw.TextAlign.center,
+                  ),
+                ],
+                crossAxisAlignment: pw.CrossAxisAlignment.stretch,
+                mainAxisAlignment: pw.MainAxisAlignment.end,
+              ),
+            ),
+          ],
+        ),
+      )
     ],
   );
 }
