@@ -98,9 +98,27 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
       },
       onWillAccept: (UnitCore? uc) {
         var r = uc!.role;
-        return r == null ||
-            r.includesRole([RoleType.Upgrade]) ||
-            r.includesRole([group.role()]);
+
+        // having no role or role type upgrade are always allowed
+        if (r == null || r.includesRole([RoleType.Upgrade])) {
+          return true;
+        }
+
+        if (!r.includesRole([group.role()])) {
+          return false;
+        }
+
+        var count = group
+            .allUnits()
+            .where((element) => element.core.name == uc.name)
+            .length;
+
+        var maxCountAllowed = r.roles
+                .firstWhere(((element) => element.name == group.role()))
+                .unlimited
+            ? 20
+            : 2;
+        return count < maxCountAllowed;
       },
     );
 
