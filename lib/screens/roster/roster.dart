@@ -14,7 +14,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 const double _leftPanelWidth = 670.0;
 const double _menuTitleHeight = 60.0;
-const String _version = '0.31.0';
+const String _version = '0.31.1';
 const String _bugEmailAddress = 'gearforce@metadiversions.com';
 const String _dp9URL = 'https://www.dp9.com/';
 const String _sourceCodeURL = 'https://github.com/Ariemeth/gearforce-flutter';
@@ -192,7 +192,7 @@ class _RosterWidgetState extends State<RosterWidget> {
                   ]),
                 ),
                 Text(''),
-                Text('Heavy Gear Blitz is a trademark by Dream Pod 9'),
+                Text('Heavy Gear Blitz is a trademark of Dream Pod 9'),
                 Text('Gearforce is not associated with Dream Pod 9'),
                 RichText(
                   text: TextSpan(children: [
@@ -213,7 +213,7 @@ class _RosterWidgetState extends State<RosterWidget> {
                     ),
                   ]),
                 ),
-                Text(' Dream Pod 9 or Heavy Gear'),
+                Text('Dream Pod 9 or Heavy Gear'),
                 Text(''),
                 RichText(
                   text: TextSpan(children: [
@@ -228,6 +228,10 @@ class _RosterWidgetState extends State<RosterWidget> {
                           ..onTap = () {
                             launch('$_sourceCodeURL');
                           }),
+                    TextSpan(
+                      text: '\nunder the MIT license',
+                      style: TextStyle(color: Colors.black),
+                    )
                   ]),
                 ),
                 Text(''),
