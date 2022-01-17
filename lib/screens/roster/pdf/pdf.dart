@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:file_picker_cross/file_picker_cross.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/screens/roster/pdf/record_sheet/record_sheet.dart';
+import 'package:gearforce/screens/roster/pdf/unit_cards/unit_cards.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
@@ -39,6 +40,12 @@ Future<Uint8List> buildPdf(PdfPageFormat format, UnitRoster roster) async {
       },
     ),
   );
+  doc.addPage(pw.MultiPage(
+    pageFormat: format,
+    build: (pw.Context context) {
+      return buildUnitCards(font, roster);
+    },
+  ));
 
   // Build and return the final Pdf file data
   return doc.save();
