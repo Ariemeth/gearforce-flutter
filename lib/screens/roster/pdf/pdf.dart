@@ -40,10 +40,14 @@ Future<Uint8List> buildPdf(PdfPageFormat format, UnitRoster roster) async {
       },
     ),
   );
+
+  final unitCards = buildUnitCards(font, roster);
+
+  for (var i = 0; i < unitCards.length; i++) {}
   doc.addPage(pw.MultiPage(
     pageFormat: format,
     build: (pw.Context context) {
-      return buildUnitCards(font, roster);
+      return unitCards;
     },
   ));
 
