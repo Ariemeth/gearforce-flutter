@@ -12,6 +12,7 @@ const String _defaultRosterFileName = 'hg-roster';
 const String _downloadFileExtension = 'pdf';
 
 const double _pageMargins = 36.0;
+const double _unitCardMargins = 5.0;
 
 Future<bool> printPDF(UnitRoster roster) async {
   // This is where we print the document
@@ -61,14 +62,14 @@ List<pw.Widget> _buildCardRow(List<pw.Widget> unitCards) {
 
   for (var i = 0; i < unitCards.length; i++) {
     final leftCard = pw.Padding(
-      padding: pw.EdgeInsets.all(5.0),
+      padding: pw.EdgeInsets.all(_unitCardMargins),
       child: unitCards[i],
     );
     pw.Widget? rightCard;
     final nextCardIndex = i + 1;
     if (nextCardIndex < unitCards.length) {
       rightCard = pw.Padding(
-        padding: pw.EdgeInsets.all(5.0),
+        padding: pw.EdgeInsets.all(_unitCardMargins),
         child: unitCards[nextCardIndex],
       );
       i++;
