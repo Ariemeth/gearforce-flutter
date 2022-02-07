@@ -31,7 +31,7 @@ Future<Uint8List> buildPdf(PdfPageFormat format, UnitRoster roster) async {
   final pw.Document doc = pw.Document();
   final font = await PdfGoogleFonts.nunitoExtraLight();
 
-  // Add one page with centered text "Hello World"
+  // Add record sheet summary
   doc.addPage(
     pw.MultiPage(
       pageFormat: format,
@@ -42,17 +42,47 @@ Future<Uint8List> buildPdf(PdfPageFormat format, UnitRoster roster) async {
   );
 
   final unitCards = buildUnitCards(font, roster);
+  List<pw.Widget> cardRows = _buildCardRow(unitCards);
 
-  for (var i = 0; i < unitCards.length; i++) {}
+  // Add unit cards, they should be aligned in a 2 x 2 layout on each page
   doc.addPage(pw.MultiPage(
     pageFormat: format,
     build: (pw.Context context) {
-      return unitCards;
+      return cardRows;
     },
   ));
 
   // Build and return the final Pdf file data
   return doc.save();
+}
+
+List<pw.Widget> _buildCardRow(List<pw.Widget> unitCards) {
+  final List<pw.Widget> cardRows = [];
+
+  for (var i = 0; i < unitCards.length; i++) {
+    final leftCard = pw.Padding(
+      padding: pw.EdgeInsets.all(5.0),
+      child: unitCards[i],
+    );
+    pw.Widget? rightCard;
+    final nextCardIndex = i + 1;
+    if (nextCardIndex < unitCards.length) {
+      rightCard = pw.Padding(
+        padding: pw.EdgeInsets.all(5.0),
+        child: unitCards[nextCardIndex],
+      );
+      i++;
+    }
+    cardRows.add(
+      pw.Row(
+        children: [
+          leftCard,
+          rightCard ?? pw.Container(),
+        ],
+      ),
+    );
+  }
+  return cardRows;
 }
 
 Future<void> downloadPDF(UnitRoster roster) async {
