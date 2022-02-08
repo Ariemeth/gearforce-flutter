@@ -10,9 +10,9 @@ const double _cornerRadius = 5.0;
 const double _borderThickness = 1.0;
 const double _roleRowPadding = 5.0;
 const double _nameRowPadding = 5.0;
-
-final primarySecondaryDivide =
-    pw.Padding(padding: pw.EdgeInsets.only(bottom: 5.0));
+const double _statPadding = 8.0;
+const double _cardHeight = 300.0;
+const double _cardWidth = 250.0;
 
 List<pw.Widget> buildUnitCards(pw.Font font, UnitRoster roster) {
   final List<pw.Widget> units = [];
@@ -37,16 +37,16 @@ List<pw.Widget> _buildUnitCards(pw.Font font, List<Unit> units) {
 
 pw.Widget _buildUnitCard(pw.Font font, Unit u) {
   return pw.Container(
-    width: 250.0,
-    height: 300.0,
+    width: _cardWidth,
+    height: _cardHeight,
     child: pw.Column(
       crossAxisAlignment: pw.CrossAxisAlignment.stretch,
       children: [
-        _buildFirstSectionBlock(font, u),
-        _buildSecondSectionBlock(font, u),
-        _buildThirdSectionBlock(font, u),
-        _buildTraitsBlock(font, u),
-        _buildWeaponsBlock(font, u),
+        _buildFirstSection(font, u),
+        _buildSecondSection(font, u),
+        _buildThirdSection(font, u),
+        _buildTraitsSection(font, u),
+        _buildWeaponsSection(font, u),
       ],
     ),
     decoration: pw.BoxDecoration(
@@ -61,7 +61,7 @@ pw.Widget _buildUnitCard(pw.Font font, Unit u) {
   );
 }
 
-pw.Widget _buildFirstSectionBlock(pw.Font font, Unit u) {
+pw.Widget _buildFirstSection(pw.Font font, Unit u) {
   final titleTextStyle = pw.TextStyle(
     font: font,
     fontSize: _headerTextSize,
@@ -69,13 +69,11 @@ pw.Widget _buildFirstSectionBlock(pw.Font font, Unit u) {
   );
 
   return pw.Container(
-    child: pw.Padding(
-      padding: pw.EdgeInsets.all(_nameRowPadding),
-      child: pw.Text(
-        u.name,
-        style: titleTextStyle,
-        textAlign: pw.TextAlign.center,
-      ),
+    padding: pw.EdgeInsets.all(_nameRowPadding),
+    child: pw.Text(
+      u.name,
+      style: titleTextStyle,
+      textAlign: pw.TextAlign.center,
     ),
     decoration: pw.BoxDecoration(
       border: pw.Border(
@@ -87,41 +85,38 @@ pw.Widget _buildFirstSectionBlock(pw.Font font, Unit u) {
   );
 }
 
-pw.Widget _buildSecondSectionBlock(pw.Font font, Unit u) {
+pw.Widget _buildSecondSection(pw.Font font, Unit u) {
   final standardTextStyle = pw.TextStyle(
     font: font,
     fontSize: _standardTextSize,
   );
   return pw.Container(
-    child: pw.Padding(
-      padding:
-          pw.EdgeInsets.only(top: _roleRowPadding, bottom: _roleRowPadding),
-      child: pw.Row(
-        mainAxisAlignment: pw.MainAxisAlignment.spaceEvenly,
-        children: [
-          pw.Container(
-            child: pw.Text(
-              'Roles: ${u.role()!.roles.join(', ')}',
-              style: standardTextStyle,
-              textAlign: pw.TextAlign.center,
-            ),
+    padding: pw.EdgeInsets.only(top: _roleRowPadding, bottom: _roleRowPadding),
+    child: pw.Row(
+      mainAxisAlignment: pw.MainAxisAlignment.spaceEvenly,
+      children: [
+        pw.Container(
+          child: pw.Text(
+            'Roles: ${u.role()!.roles.join(', ')}',
+            style: standardTextStyle,
+            textAlign: pw.TextAlign.center,
           ),
-          pw.Container(
-            child: pw.Text(
-              'TV: ${u.tv}',
-              style: standardTextStyle,
-              textAlign: pw.TextAlign.center,
-            ),
+        ),
+        pw.Container(
+          child: pw.Text(
+            'TV: ${u.tv}',
+            style: standardTextStyle,
+            textAlign: pw.TextAlign.center,
           ),
-          pw.Container(
-            child: pw.Text(
-              'Type: ${u.type} ${u.core.height}',
-              style: standardTextStyle,
-              textAlign: pw.TextAlign.center,
-            ),
+        ),
+        pw.Container(
+          child: pw.Text(
+            'Type: ${u.type} ${u.core.height}',
+            style: standardTextStyle,
+            textAlign: pw.TextAlign.center,
           ),
-        ],
-      ),
+        ),
+      ],
     ),
     decoration: pw.BoxDecoration(
       border: pw.Border(
@@ -133,37 +128,105 @@ pw.Widget _buildSecondSectionBlock(pw.Font font, Unit u) {
   );
 }
 
-pw.Widget _buildThirdSectionBlock(pw.Font font, Unit u) {
-  return pw.Row(
-    children: [
-      _buildFirstStatBlock(font, u),
-      _buildSecondStatBlock(font, u),
-      _buildHullBlock(font, u),
-      _buildStructureBlock(font, u),
-    ],
+pw.Widget _buildThirdSection(pw.Font font, Unit u) {
+  return pw.Container(
+    child: pw.Row(
+      mainAxisAlignment: pw.MainAxisAlignment.end,
+      crossAxisAlignment: pw.CrossAxisAlignment.start,
+      children: [
+        _buildFirstStatBlock(font, u),
+        _buildSecondStatBlock(font, u),
+        _buildHullStructureBlock(font, 'Hull', u.hull ?? 0),
+        _buildHullStructureBlock(font, 'Structure', u.structure ?? 0),
+      ],
+    ),
+    decoration: pw.BoxDecoration(
+      border: pw.Border(
+        bottom: pw.BorderSide(
+          width: _borderThickness,
+        ),
+      ),
+    ),
   );
 }
 
 pw.Widget _buildFirstStatBlock(pw.Font font, Unit u) {
-  return pw.Container();
+  return pw.Container(
+    padding: pw.EdgeInsets.all(_statPadding),
+    child: pw.Column(
+      children: [
+        _buildStatLine(font, 'Gu: ', '${u.gunnery}+'),
+        _buildStatLine(font, 'Pi: ', '${u.piloting}+'),
+        _buildStatLine(font, 'Ew: ', '${u.ew}+'),
+      ],
+    ),
+    decoration: pw.BoxDecoration(
+      border: pw.Border(
+        right: pw.BorderSide(
+          width: _borderThickness,
+        ),
+      ),
+    ),
+  );
 }
 
 pw.Widget _buildSecondStatBlock(pw.Font font, Unit u) {
+  return pw.Container(
+    padding: pw.EdgeInsets.all(_statPadding),
+    child: pw.Column(
+      children: [
+        _buildStatLine(font, 'Actions: ', '${u.actions}'),
+        _buildStatLine(font, 'Armor: ', '${u.armor}'),
+        _buildStatLine(font, 'Move: ', '${u.movement}'),
+      ],
+    ),
+    decoration: pw.BoxDecoration(
+      border: pw.Border(
+        right: pw.BorderSide(
+          width: _borderThickness,
+        ),
+      ),
+    ),
+  );
+}
+
+pw.Widget _buildStatLine(pw.Font font, String statName, String stat) {
+  return pw.Row(
+    children: [
+      pw.Text(statName),
+      pw.Text(stat),
+    ],
+  );
+}
+
+pw.Widget _buildHullStructureBlock(pw.Font font, String typeName, int value) {
+  return pw.Container(
+    padding: pw.EdgeInsets.all(_statPadding),
+    child: pw.Column(
+      children: [
+        pw.Text(typeName),
+        pw.Row(
+          children: [pw.Text('$value')],
+        )
+      ],
+    ),
+    decoration: pw.BoxDecoration(
+      border: pw.Border(
+        left: pw.BorderSide(
+          width: _borderThickness,
+        ),
+        bottom: pw.BorderSide(
+          width: _borderThickness,
+        ),
+      ),
+    ),
+  );
+}
+
+pw.Widget _buildTraitsSection(pw.Font font, Unit u) {
   return pw.Container();
 }
 
-pw.Widget _buildHullBlock(pw.Font font, Unit u) {
-  return pw.Container();
-}
-
-pw.Widget _buildStructureBlock(pw.Font font, Unit u) {
-  return pw.Container();
-}
-
-pw.Widget _buildTraitsBlock(pw.Font font, Unit u) {
-  return pw.Container();
-}
-
-pw.Widget _buildWeaponsBlock(pw.Font font, Unit u) {
+pw.Widget _buildWeaponsSection(pw.Font font, Unit u) {
   return pw.Container();
 }
