@@ -251,9 +251,19 @@ pw.Widget _buildHullStructureBlock(
 }
 
 pw.Widget _buildTraitsSection(pw.Font font, Unit u) {
-  return pw.Container();
+  return pw.Container(
+    height: 10.0,
+    decoration: pw.BoxDecoration(
+      border: pw.Border.all(),
+    ),
+  );
 }
 
 pw.Widget _buildWeaponsSection(pw.Font font, Unit u) {
-  return pw.Container();
+  return pw.Container(
+    height: 10.0,
+    decoration: pw.BoxDecoration(
+      border: pw.Border.all(),
+    ),
+  );
 }
