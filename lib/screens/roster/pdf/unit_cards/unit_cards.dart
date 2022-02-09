@@ -10,9 +10,14 @@ const double _cornerRadius = 5.0;
 const double _borderThickness = 1.0;
 const double _roleRowPadding = 5.0;
 const double _nameRowPadding = 5.0;
-const double _statPadding = 8.0;
+const double _statPadding = 5.0;
 const double _cardHeight = 300.0;
 const double _cardWidth = 250.0;
+const double? _section3Height = 65.0;
+const double _combatStatsWidth = 50.0;
+const double _secondaryStatsWidth = 80.0;
+const double _hullWidth =
+    (_cardWidth - _combatStatsWidth - _secondaryStatsWidth) / 2;
 
 List<pw.Widget> buildUnitCards(pw.Font font, UnitRoster roster) {
   final List<pw.Widget> units = [];
@@ -130,6 +135,7 @@ pw.Widget _buildSecondSection(pw.Font font, Unit u) {
 
 pw.Widget _buildThirdSection(pw.Font font, Unit u) {
   return pw.Container(
+    height: _section3Height,
     child: pw.Row(
       mainAxisAlignment: pw.MainAxisAlignment.end,
       crossAxisAlignment: pw.CrossAxisAlignment.start,
@@ -152,12 +158,16 @@ pw.Widget _buildThirdSection(pw.Font font, Unit u) {
 
 pw.Widget _buildFirstStatBlock(pw.Font font, Unit u) {
   return pw.Container(
+    width: _combatStatsWidth,
     padding: pw.EdgeInsets.all(_statPadding),
     child: pw.Column(
       children: [
-        _buildStatLine(font, 'Gu: ', '${u.gunnery}+'),
-        _buildStatLine(font, 'Pi: ', '${u.piloting}+'),
-        _buildStatLine(font, 'Ew: ', '${u.ew}+'),
+        _buildStatLine(
+            font, 'Gu: ', '${u.gunnery ?? '-'}${u.gunnery != null ? '+' : ''}'),
+        _buildStatLine(font, 'Pi: ',
+            '${u.piloting ?? '-'}${u.piloting != null ? '+' : ''}'),
+        _buildStatLine(
+            font, 'Ew: ', '${u.ew ?? '-'}${u.ew != null ? '+' : ''}'),
       ],
     ),
     decoration: pw.BoxDecoration(
@@ -172,12 +182,13 @@ pw.Widget _buildFirstStatBlock(pw.Font font, Unit u) {
 
 pw.Widget _buildSecondStatBlock(pw.Font font, Unit u) {
   return pw.Container(
+    width: _secondaryStatsWidth,
     padding: pw.EdgeInsets.all(_statPadding),
     child: pw.Column(
       children: [
-        _buildStatLine(font, 'Actions: ', '${u.actions}'),
-        _buildStatLine(font, 'Armor: ', '${u.armor}'),
-        _buildStatLine(font, 'Move: ', '${u.movement}'),
+        _buildStatLine(font, 'Actions: ', '${u.actions ?? '-'}'),
+        _buildStatLine(font, 'Armor: ', '${u.armor ?? '-'}'),
+        _buildStatLine(font, 'Move: ', '${u.movement ?? '-'}'),
       ],
     ),
     decoration: pw.BoxDecoration(
@@ -199,14 +210,30 @@ pw.Widget _buildStatLine(pw.Font font, String statName, String stat) {
   );
 }
 
-pw.Widget _buildHullStructureBlock(pw.Font font, String typeName, int value) {
+pw.Widget _buildHullStructureBlock(
+    pw.Font font, String typeName, int numberOf) {
   return pw.Container(
+    width: _hullWidth,
     padding: pw.EdgeInsets.all(_statPadding),
     child: pw.Column(
       children: [
         pw.Text(typeName),
-        pw.Row(
-          children: [pw.Text('$value')],
+        pw.GridView(
+          padding: pw.EdgeInsets.only(top: 5.0),
+          crossAxisCount: 5,
+          childAspectRatio: 1,
+          children: [
+            for (var i = 0; i < numberOf; i++)
+              pw.Container(
+                  width: 15,
+                  height: 15,
+                  decoration: pw.BoxDecoration(
+                      border: pw.Border.all(),
+                      borderRadius:
+                          pw.BorderRadius.all(pw.Radius.circular(2.5))))
+          ],
+          crossAxisSpacing: 3.0,
+          mainAxisSpacing: 5.0,
         )
       ],
     ),
