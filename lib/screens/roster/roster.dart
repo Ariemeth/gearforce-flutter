@@ -139,7 +139,7 @@ class _RosterWidgetState extends State<RosterWidget> {
                 style: TextStyle(fontSize: 16),
               ),
               onTap: () async {
-                printPDF(roster);
+                printPDF(roster, version: _version);
               },
             ),
             ListTile(
@@ -148,7 +148,7 @@ class _RosterWidgetState extends State<RosterWidget> {
                 style: TextStyle(fontSize: 16),
               ),
               onTap: () async {
-                downloadPDF(roster);
+                downloadPDF(roster, version: _version);
               },
             ),
             ListTile(

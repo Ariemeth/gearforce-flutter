@@ -4,6 +4,7 @@ import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/weapons/weapon.dart';
 import 'package:gearforce/models/weapons/weapon_modes.dart';
+import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 
 const double _cornerRadius = 5.0;
@@ -14,6 +15,7 @@ const double _nameRowHorizontalPadding = 3.0;
 const double _statPadding = 3.0;
 const double _traitsSectionPadding = 3.0;
 const double _weaponSectionPadding = 3.0;
+const double _unitCardFooterPadding = 3.0;
 const double _cardHeight = 300.0;
 const double _cardWidth = 250.0;
 const double? _section3Height = 65.0;
@@ -25,6 +27,7 @@ const double _standardFontSize = 12;
 const double _weaponFontSize = 10;
 const double _traitFontSize = 10;
 const double _nameFontSize = 16;
+const double _unitCardFooterFontSize = 8;
 const double _structureBlockWidth = 15;
 const double _structureBlockHeight = 15;
 const double _structureBlockSpacingWidth = 3.0;
@@ -32,28 +35,46 @@ const double _structureBlockSpacingHeight = 5.0;
 
 const _reactSymbol = '»';
 
-List<pw.Widget> buildUnitCards(pw.Font font, UnitRoster roster) {
+List<pw.Widget> buildUnitCards(
+  pw.Font font,
+  UnitRoster roster, {
+  required String version,
+}) {
   final List<pw.Widget> units = [];
   roster.getCGs().forEach((cg) {
-    units.addAll(_buildCombatGroupUnits(font, cg));
+    units.addAll(_buildCombatGroupUnits(font, cg, version: version));
   });
   return units;
 }
 
-List<pw.Widget> _buildCombatGroupUnits(pw.Font font, CombatGroup cg) {
+List<pw.Widget> _buildCombatGroupUnits(
+  pw.Font font,
+  CombatGroup cg, {
+  required String version,
+}) {
   final List<pw.Widget> groupCards = [];
 
-  groupCards.addAll(_buildUnitCards(font, cg.primary.allUnits()));
-  groupCards.addAll(_buildUnitCards(font, cg.secondary.allUnits()));
+  groupCards
+      .addAll(_buildUnitCards(font, cg.primary.allUnits(), version: version));
+  groupCards
+      .addAll(_buildUnitCards(font, cg.secondary.allUnits(), version: version));
 
   return groupCards;
 }
 
-List<pw.Widget> _buildUnitCards(pw.Font font, List<Unit> units) {
-  return units.map((us) => _buildUnitCard(font, us)).toList();
+List<pw.Widget> _buildUnitCards(
+  pw.Font font,
+  List<Unit> units, {
+  required String version,
+}) {
+  return units.map((us) => _buildUnitCard(font, us, version: version)).toList();
 }
 
-pw.Widget _buildUnitCard(pw.Font font, Unit u) {
+pw.Widget _buildUnitCard(
+  pw.Font font,
+  Unit u, {
+  required String version,
+}) {
   return pw.Container(
     width: _cardWidth,
     height: _cardHeight,
@@ -64,7 +85,16 @@ pw.Widget _buildUnitCard(pw.Font font, Unit u) {
         _buildSecondSection(font, u),
         _buildThirdSection(font, u),
         _buildTraitsSection(font, u.traits),
-        _buildWeaponsSection(font, u.weapons),
+        pw.Expanded(child: _buildWeaponsSection(font, u.weapons)),
+        pw.Container(
+          alignment: pw.Alignment.bottomCenter,
+          child: pw.Text(
+            'Created using Gearforce $version',
+            style: pw.TextStyle(
+                color: PdfColors.grey, fontSize: _unitCardFooterFontSize),
+          ),
+          padding: pw.EdgeInsets.only(bottom: _unitCardFooterPadding),
+        ),
       ],
     ),
     decoration: pw.BoxDecoration(
@@ -373,6 +403,7 @@ pw.Widget _buildWeaponsSection(pw.Font font, List<Weapon> weapons) {
   final Map<int, pw.TableColumnWidth> columnWidths = {3: pw.FlexColumnWidth()};
 
   return pw.Container(
+    alignment: pw.Alignment.topLeft,
     padding: pw.EdgeInsets.all(_weaponSectionPadding),
     child: pw.Table(
       children: [headerRow, ...rows],
