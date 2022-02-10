@@ -272,6 +272,26 @@ class Unit extends ChangeNotifier {
     return value;
   }
 
+  int? get hull {
+    var value = this.core.hull;
+    for (var mod in this._mods) {
+      value = mod.applyMods(UnitAttribute.hull, value);
+    }
+    return value;
+  }
+
+  int? get structure {
+    var value = this.core.structure;
+    for (var mod in this._mods) {
+      value = mod.applyMods(UnitAttribute.structure, value);
+    }
+    return value;
+  }
+
+  List<Weapon> get weapons {
+    return reactWeapons..addAll(mountedWeapons);
+  }
+
   List<Weapon> get reactWeapons {
     var newList = this
         .core
