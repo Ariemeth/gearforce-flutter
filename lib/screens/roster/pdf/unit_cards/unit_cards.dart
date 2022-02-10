@@ -160,6 +160,7 @@ pw.Widget _buildThirdSection(pw.Font font, Unit u) {
 }
 
 pw.Widget _buildFirstStatBlock(pw.Font font, Unit u) {
+  final textStyle = pw.TextStyle(font: font, fontSize: _standardFontSize);
   return pw.Container(
     alignment: pw.Alignment.topCenter,
     width: _combatStatsWidth,
@@ -173,23 +174,23 @@ pw.Widget _buildFirstStatBlock(pw.Font font, Unit u) {
       children: [
         pw.TableRow(
           children: [
-            pw.Text('Gu:', textAlign: pw.TextAlign.right),
+            pw.Text('Gu:', style: textStyle, textAlign: pw.TextAlign.right),
             pw.Text('${u.gunnery ?? ' - '}${u.gunnery != null ? '+' : ''}',
-                textAlign: pw.TextAlign.right),
+                style: textStyle, textAlign: pw.TextAlign.right),
           ],
         ),
         pw.TableRow(
           children: [
-            pw.Text('Pi:', textAlign: pw.TextAlign.right),
+            pw.Text('Pi:', style: textStyle, textAlign: pw.TextAlign.right),
             pw.Text('${u.piloting ?? ' - '}${u.piloting != null ? '+' : ''}',
-                textAlign: pw.TextAlign.right),
+                style: textStyle, textAlign: pw.TextAlign.right),
           ],
         ),
         pw.TableRow(
           children: [
-            pw.Text('Ew:', textAlign: pw.TextAlign.right),
+            pw.Text('Ew:', style: textStyle, textAlign: pw.TextAlign.right),
             pw.Text('${u.ew ?? ' - '}${u.ew != null ? '+' : ''}',
-                textAlign: pw.TextAlign.right),
+                style: textStyle, textAlign: pw.TextAlign.right),
           ],
         ),
       ],
