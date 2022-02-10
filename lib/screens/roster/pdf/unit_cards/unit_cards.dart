@@ -4,13 +4,18 @@ import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/weapons/weapon.dart';
 import 'package:gearforce/models/weapons/weapon_modes.dart';
+import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 
 const double _cornerRadius = 5.0;
 const double _borderThickness = 1.0;
-const double _roleRowPadding = 5.0;
-const double _nameRowPadding = 5.0;
-const double _statPadding = 5.0;
+const double _roleRowPadding = 3.0;
+const double _nameRowVerticalPadding = 1.0;
+const double _nameRowHorizontalPadding = 3.0;
+const double _statPadding = 3.0;
+const double _traitsSectionPadding = 3.0;
+const double _weaponSectionPadding = 3.0;
+const double _unitCardFooterPadding = 3.0;
 const double _cardHeight = 300.0;
 const double _cardWidth = 250.0;
 const double? _section3Height = 65.0;
@@ -22,29 +27,54 @@ const double _standardFontSize = 12;
 const double _weaponFontSize = 10;
 const double _traitFontSize = 10;
 const double _nameFontSize = 16;
+const double _unitCardFooterFontSize = 8;
+const double _structureBlockWidth = 15;
+const double _structureBlockHeight = 15;
+const double _structureBlockSpacingWidth = 3.0;
+const double _structureBlockSpacingHeight = 5.0;
 
-List<pw.Widget> buildUnitCards(pw.Font font, UnitRoster roster) {
+const _reactSymbol = '»';
+
+List<pw.Widget> buildUnitCards(
+  pw.Font font,
+  UnitRoster roster, {
+  required String version,
+}) {
   final List<pw.Widget> units = [];
   roster.getCGs().forEach((cg) {
-    units.addAll(_buildCombatGroupUnits(font, cg));
+    units.addAll(_buildCombatGroupUnits(font, cg, version: version));
   });
   return units;
 }
 
-List<pw.Widget> _buildCombatGroupUnits(pw.Font font, CombatGroup cg) {
+List<pw.Widget> _buildCombatGroupUnits(
+  pw.Font font,
+  CombatGroup cg, {
+  required String version,
+}) {
   final List<pw.Widget> groupCards = [];
 
-  groupCards.addAll(_buildUnitCards(font, cg.primary.allUnits()));
-  groupCards.addAll(_buildUnitCards(font, cg.secondary.allUnits()));
+  groupCards
+      .addAll(_buildUnitCards(font, cg.primary.allUnits(), version: version));
+  groupCards
+      .addAll(_buildUnitCards(font, cg.secondary.allUnits(), version: version));
 
   return groupCards;
 }
 
-List<pw.Widget> _buildUnitCards(pw.Font font, List<Unit> units) {
-  return units.map((us) => _buildUnitCard(font, us)).toList();
+List<pw.Widget> _buildUnitCards(
+  pw.Font font,
+  List<Unit> units, {
+  required String version,
+}) {
+  return units.map((us) => _buildUnitCard(font, us, version: version)).toList();
 }
 
-pw.Widget _buildUnitCard(pw.Font font, Unit u) {
+pw.Widget _buildUnitCard(
+  pw.Font font,
+  Unit u, {
+  required String version,
+}) {
   return pw.Container(
     width: _cardWidth,
     height: _cardHeight,
@@ -55,7 +85,16 @@ pw.Widget _buildUnitCard(pw.Font font, Unit u) {
         _buildSecondSection(font, u),
         _buildThirdSection(font, u),
         _buildTraitsSection(font, u.traits),
-        _buildWeaponsSection(font, u.weapons),
+        pw.Expanded(child: _buildWeaponsSection(font, u.weapons)),
+        pw.Container(
+          alignment: pw.Alignment.bottomCenter,
+          child: pw.Text(
+            'Created using Gearforce $version',
+            style: pw.TextStyle(
+                color: PdfColors.grey, fontSize: _unitCardFooterFontSize),
+          ),
+          padding: pw.EdgeInsets.only(bottom: _unitCardFooterPadding),
+        ),
       ],
     ),
     decoration: pw.BoxDecoration(
@@ -72,7 +111,10 @@ pw.Widget _buildUnitCard(pw.Font font, Unit u) {
 
 pw.Widget _buildFirstSection(pw.Font font, Unit u) {
   return pw.Container(
-    padding: pw.EdgeInsets.all(_nameRowPadding),
+    padding: pw.EdgeInsets.symmetric(
+      vertical: _nameRowVerticalPadding,
+      horizontal: _nameRowHorizontalPadding,
+    ),
     child: pw.Text(
       u.name,
       style: pw.TextStyle(
@@ -155,25 +197,38 @@ pw.Widget _buildThirdSection(pw.Font font, Unit u) {
 }
 
 pw.Widget _buildFirstStatBlock(pw.Font font, Unit u) {
+  final textStyle = pw.TextStyle(font: font, fontSize: _standardFontSize);
   return pw.Container(
+    alignment: pw.Alignment.topCenter,
     width: _combatStatsWidth,
+    height: _section3Height,
     padding: pw.EdgeInsets.all(_statPadding),
-    child: pw.Column(
+    child: pw.Table(
+      columnWidths: {
+        0: pw.FixedColumnWidth(_combatStatsWidth * 0.45),
+        1: pw.FlexColumnWidth(),
+      },
       children: [
-        _buildStatLine(
-          font,
-          'Gu: ',
-          '${u.gunnery ?? '-'}${u.gunnery != null ? '+' : ''}',
+        pw.TableRow(
+          children: [
+            pw.Text('Gu:', style: textStyle, textAlign: pw.TextAlign.right),
+            pw.Text('${u.gunnery ?? ' - '}${u.gunnery != null ? '+' : ''}',
+                style: textStyle, textAlign: pw.TextAlign.right),
+          ],
         ),
-        _buildStatLine(
-          font,
-          'Pi: ',
-          '${u.piloting ?? '-'}${u.piloting != null ? '+' : ''}',
+        pw.TableRow(
+          children: [
+            pw.Text('Pi:', style: textStyle, textAlign: pw.TextAlign.right),
+            pw.Text('${u.piloting ?? ' - '}${u.piloting != null ? '+' : ''}',
+                style: textStyle, textAlign: pw.TextAlign.right),
+          ],
         ),
-        _buildStatLine(
-          font,
-          'Ew: ',
-          '${u.ew ?? '-'}${u.ew != null ? '+' : ''}',
+        pw.TableRow(
+          children: [
+            pw.Text('Ew:', style: textStyle, textAlign: pw.TextAlign.right),
+            pw.Text('${u.ew ?? ' - '}${u.ew != null ? '+' : ''}',
+                style: textStyle, textAlign: pw.TextAlign.right),
+          ],
         ),
       ],
     ),
@@ -193,9 +248,9 @@ pw.Widget _buildSecondStatBlock(pw.Font font, Unit u) {
     padding: pw.EdgeInsets.all(_statPadding),
     child: pw.Column(
       children: [
-        _buildStatLine(font, 'Actions: ', '${u.actions ?? '-'}'),
-        _buildStatLine(font, 'Armor: ', '${u.armor ?? '-'}'),
-        _buildStatLine(font, 'Move: ', '${u.movement ?? '-'}'),
+        _buildStatLine(font, 'Actions: ', '${u.actions ?? ' - '}'),
+        _buildStatLine(font, 'Armor: ', '${u.armor ?? ' - '}'),
+        _buildStatLine(font, 'Move: ', '${u.movement ?? ' - '}'),
       ],
     ),
     decoration: pw.BoxDecoration(
@@ -240,8 +295,8 @@ pw.Widget _buildHullStructureBlock(
           children: [
             for (var i = 0; i < numberOf; i++)
               pw.Container(
-                width: 15,
-                height: 15,
+                width: _structureBlockWidth,
+                height: _structureBlockHeight,
                 decoration: pw.BoxDecoration(
                   border: pw.Border.all(),
                   borderRadius: pw.BorderRadius.all(
@@ -250,8 +305,8 @@ pw.Widget _buildHullStructureBlock(
                 ),
               ),
           ],
-          crossAxisSpacing: 3.0,
-          mainAxisSpacing: 5.0,
+          crossAxisSpacing: _structureBlockSpacingWidth,
+          mainAxisSpacing: _structureBlockSpacingHeight,
         )
       ],
     ),
@@ -276,7 +331,7 @@ pw.Widget _buildTraitsSection(pw.Font font, List<Trait> traits) {
           fontSize: _traitFontSize,
           font: font,
         )),
-    padding: pw.EdgeInsets.all(_nameRowPadding),
+    padding: pw.EdgeInsets.all(_traitsSectionPadding),
     decoration: pw.BoxDecoration(
       border: pw.Border.all(),
     ),
@@ -284,52 +339,10 @@ pw.Widget _buildTraitsSection(pw.Font font, List<Trait> traits) {
 }
 
 pw.Widget _buildWeaponsSection(pw.Font font, List<Weapon> weapons) {
-  final rows = weapons
-      .map(
-        (w) => pw.TableRow(children: [
-          pw.Padding(
-            padding: pw.EdgeInsets.only(left: 5.0, right: 5.0, top: 5.0),
-            child: pw.Text(
-              w.abbreviation,
-              style: pw.TextStyle(font: font, fontSize: _weaponFontSize),
-            ),
-          ),
-          pw.Padding(
-            padding: pw.EdgeInsets.only(top: 5.0),
-            child: pw.Text(
-              w.range.toString(),
-              style: pw.TextStyle(font: font, fontSize: _weaponFontSize),
-            ),
-          ),
-          pw.Padding(
-            padding: pw.EdgeInsets.only(right: 5.0, left: 5.0, top: 5.0),
-            child: pw.Text(
-              w.damage.toString(),
-              style: pw.TextStyle(font: font, fontSize: _weaponFontSize),
-              textAlign: pw.TextAlign.center,
-            ),
-          ),
-          pw.Padding(
-            padding: pw.EdgeInsets.only(top: 5.0),
-            child: pw.Text(
-              w.traits.join(', '),
-              style: pw.TextStyle(font: font, fontSize: _weaponFontSize),
-            ),
-          ),
-          pw.Padding(
-            padding: pw.EdgeInsets.only(right: 5.0, top: 5.0),
-            child: pw.Text(
-              w.modes.map((e) => getWeaponModeName(e)[0]).join(', '),
-              style: pw.TextStyle(font: font, fontSize: _weaponFontSize),
-              textAlign: pw.TextAlign.center,
-            ),
-          ),
-        ]),
-      )
-      .toList();
+  final rows = weapons.map((w) => _buildWeaponRow(font, w)).toList();
   final headerRow = pw.TableRow(children: [
     pw.Padding(
-      padding: pw.EdgeInsets.only(left: 5.0, right: 5.0, top: 5.0),
+      padding: pw.EdgeInsets.only(right: 5.0),
       child: pw.Text(
         'Code',
         style: pw.TextStyle(
@@ -340,7 +353,7 @@ pw.Widget _buildWeaponsSection(pw.Font font, List<Weapon> weapons) {
       ),
     ),
     pw.Padding(
-      padding: pw.EdgeInsets.only(top: 5.0),
+      padding: pw.EdgeInsets.only(),
       child: pw.Text(
         'Range',
         style: pw.TextStyle(
@@ -351,7 +364,7 @@ pw.Widget _buildWeaponsSection(pw.Font font, List<Weapon> weapons) {
       ),
     ),
     pw.Padding(
-      padding: pw.EdgeInsets.only(right: 5.0, left: 5.0, top: 5.0),
+      padding: pw.EdgeInsets.only(right: 5.0, left: 5.0),
       child: pw.Text(
         'Damage',
         style: pw.TextStyle(
@@ -363,7 +376,7 @@ pw.Widget _buildWeaponsSection(pw.Font font, List<Weapon> weapons) {
       ),
     ),
     pw.Padding(
-      padding: pw.EdgeInsets.only(top: 5.0),
+      padding: pw.EdgeInsets.only(),
       child: pw.Text(
         'Traits',
         style: pw.TextStyle(
@@ -374,7 +387,7 @@ pw.Widget _buildWeaponsSection(pw.Font font, List<Weapon> weapons) {
       ),
     ),
     pw.Padding(
-      padding: pw.EdgeInsets.only(right: 5.0, top: 5.0),
+      padding: pw.EdgeInsets.only(),
       child: pw.Text(
         'Modes',
         style: pw.TextStyle(
@@ -386,8 +399,145 @@ pw.Widget _buildWeaponsSection(pw.Font font, List<Weapon> weapons) {
       ),
     ),
   ]);
+
+  final Map<int, pw.TableColumnWidth> columnWidths = {3: pw.FlexColumnWidth()};
+
   return pw.Container(
-    child: pw.Table(children: [headerRow, ...rows]),
+    alignment: pw.Alignment.topLeft,
+    padding: pw.EdgeInsets.all(_weaponSectionPadding),
+    child: pw.Table(
+      children: [headerRow, ...rows],
+      columnWidths: columnWidths,
+    ),
     decoration: pw.BoxDecoration(),
+  );
+}
+
+pw.TableRow _buildWeaponRow(pw.Font font, Weapon w) {
+  return pw.TableRow(children: [
+    pw.Padding(
+      padding: pw.EdgeInsets.only(right: 5.0),
+      child: _buildWeaponName(font, w),
+    ),
+    pw.Padding(
+      padding: pw.EdgeInsets.only(),
+      child: _buildWeaponRange(font, w),
+    ),
+    pw.Padding(
+      padding: pw.EdgeInsets.only(right: 5.0, left: 5.0),
+      child: _buildWeaponDamage(font, w),
+    ),
+    pw.Padding(
+      padding: pw.EdgeInsets.only(),
+      child: _buildWeaponTraits(font, w),
+    ),
+    pw.Padding(
+      padding: pw.EdgeInsets.only(),
+      child: _buildWeaponModes(font, w),
+    ),
+  ]);
+}
+
+pw.Widget _buildWeaponName(pw.Font font, Weapon w) {
+  final nameField = _buildWeaponField(
+    font,
+    '${w.hasReact ? _reactSymbol : ''}${w.abbreviation}',
+  );
+
+  if (!w.isCombo) {
+    return nameField;
+  }
+
+  return pw.Container(
+    padding: pw.EdgeInsets.only(left: 2.0),
+    child: pw.Column(
+      crossAxisAlignment: pw.CrossAxisAlignment.start,
+      children: [nameField, _buildWeaponName(font, w.combo!)],
+    ),
+    decoration: pw.BoxDecoration(
+      border: pw.Border(
+        top: pw.BorderSide(
+          width: 1.0,
+        ),
+        bottom: pw.BorderSide(
+          width: 1.0,
+        ),
+        left: pw.BorderSide(
+          width: 1.0,
+        ),
+      ),
+    ),
+  );
+}
+
+pw.Widget _buildWeaponRange(pw.Font font, Weapon w) {
+  final rangeField = _buildWeaponField(
+    font,
+    w.range.toString(),
+  );
+
+  if (!w.isCombo) {
+    return rangeField;
+  }
+
+  return pw.Column(
+    crossAxisAlignment: pw.CrossAxisAlignment.center,
+    children: [rangeField, _buildWeaponRange(font, w.combo!)],
+  );
+}
+
+pw.Widget _buildWeaponDamage(pw.Font font, Weapon w) {
+  final damageField = _buildWeaponField(font, w.damage.toString(),
+      textAlign: pw.TextAlign.center);
+
+  if (!w.isCombo) {
+    return damageField;
+  }
+
+  return pw.Column(
+    crossAxisAlignment: pw.CrossAxisAlignment.center,
+    children: [damageField, _buildWeaponDamage(font, w.combo!)],
+  );
+}
+
+pw.Widget _buildWeaponTraits(pw.Font font, Weapon w) {
+  final traitField = _buildWeaponField(
+    font,
+    w.traits.join(', '),
+  );
+  if (!w.isCombo) {
+    return traitField;
+  }
+
+  return pw.Column(
+    crossAxisAlignment: pw.CrossAxisAlignment.start,
+    children: [traitField, _buildWeaponTraits(font, w.combo!)],
+  );
+}
+
+pw.Widget _buildWeaponModes(pw.Font font, Weapon w) {
+  final modeField = _buildWeaponField(
+      font, w.modes.map((e) => getWeaponModeName(e)[0]).join(', '),
+      textAlign: pw.TextAlign.center);
+
+  if (!w.isCombo) {
+    return modeField;
+  }
+
+  return pw.Column(
+    crossAxisAlignment: pw.CrossAxisAlignment.center,
+    children: [modeField, _buildWeaponModes(font, w.combo!)],
+  );
+}
+
+pw.Widget _buildWeaponField(
+  pw.Font font,
+  String text, {
+  pw.TextAlign? textAlign,
+}) {
+  return pw.Text(
+    text,
+    style: pw.TextStyle(font: font, fontSize: _weaponFontSize),
+    textAlign: textAlign,
   );
 }

@@ -14,7 +14,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 const double _leftPanelWidth = 670.0;
 const double _menuTitleHeight = 60.0;
-const String _version = '0.32.0';
+const String _version = '0.32.1';
 const String _bugEmailAddress = 'gearforce@metadiversions.com';
 const String _dp9URL = 'https://www.dp9.com/';
 const String _sourceCodeURL = 'https://github.com/Ariemeth/gearforce-flutter';
@@ -139,7 +139,7 @@ class _RosterWidgetState extends State<RosterWidget> {
                 style: TextStyle(fontSize: 16),
               ),
               onTap: () async {
-                printPDF(roster);
+                printPDF(roster, version: _version);
               },
             ),
             ListTile(
@@ -148,7 +148,7 @@ class _RosterWidgetState extends State<RosterWidget> {
                 style: TextStyle(fontSize: 16),
               ),
               onTap: () async {
-                downloadPDF(roster);
+                downloadPDF(roster, version: _version);
               },
             ),
             ListTile(

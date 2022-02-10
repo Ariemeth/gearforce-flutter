@@ -554,7 +554,8 @@ Weapon? buildWeapon(
     final comboCode = comboCheck?.namedGroup('code');
     if (comboCode != null) {
       comboWeapon = buildWeapon(
-          '$comboCode${bonusString != null ? ' ($bonusString)' : ''}');
+          '$comboCode${bonusString != null ? ' ($bonusString)' : ''}',
+          hasReact: hasReact);
     }
   }
 

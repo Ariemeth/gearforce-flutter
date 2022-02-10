@@ -10,24 +10,26 @@ import 'package:printing/printing.dart';
 
 const String _defaultRosterFileName = 'hg-roster';
 const String _downloadFileExtension = 'pdf';
+const String _webURL = 'https://gf.metadiversions.com';
 
 const double _pageMargins = 36.0;
 const double _unitCardMargins = 5.0;
 
-Future<bool> printPDF(UnitRoster roster) async {
+Future<bool> printPDF(UnitRoster roster, {required String version}) async {
   // This is where we print the document
   return Printing.layoutPdf(
     // [onLayout] will be called multiple times
     // when the user changes the printer or printer settings
     onLayout: (PdfPageFormat format) {
       // Any valid Pdf document can be returned here as a list of int
-      return buildPdf(format, roster);
+      return buildPdf(format, roster, version: version);
     },
   );
 }
 
 /// This method takes a page format and generates the Pdf file data
-Future<Uint8List> buildPdf(PdfPageFormat format, UnitRoster roster) async {
+Future<Uint8List> buildPdf(PdfPageFormat format, UnitRoster roster,
+    {required String version}) async {
   // Create the Pdf document
   final pw.Document doc = pw.Document();
   final font = await PdfGoogleFonts.nunitoRegular();
@@ -35,14 +37,16 @@ Future<Uint8List> buildPdf(PdfPageFormat format, UnitRoster roster) async {
   // Add record sheet summary
   doc.addPage(
     pw.MultiPage(
-      pageFormat: format,
-      build: (pw.Context context) {
-        return buildRecordSheet(font, roster);
-      },
-    ),
+        pageFormat: format,
+        build: (pw.Context context) {
+          return buildRecordSheet(font, roster);
+        },
+        footer: (pw.Context context) {
+          return _buildFooter(context, version);
+        }),
   );
 
-  final unitCards = buildUnitCards(font, roster);
+  final unitCards = buildUnitCards(font, roster, version: version);
   List<pw.Widget> cardRows = _buildCardRow(unitCards);
 
   // Add unit cards, they should be aligned in a 2 x 2 layout on each page
@@ -51,10 +55,41 @@ Future<Uint8List> buildPdf(PdfPageFormat format, UnitRoster roster) async {
     build: (pw.Context context) {
       return cardRows;
     },
+    footer: (pw.Context context) {
+      return _buildFooter(context, version);
+    },
   ));
 
   // Build and return the final Pdf file data
   return doc.save();
+}
+
+pw.Widget _buildFooter(pw.Context context, String version) {
+  final footerStyle = pw.Theme.of(context)
+      .defaultTextStyle
+      .copyWith(color: PdfColors.grey, fontSize: 10);
+
+  return pw.Row(
+    mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+    children: [
+      pw.Container(
+        alignment: pw.Alignment.centerLeft,
+        margin: const pw.EdgeInsets.only(top: 1.0 * PdfPageFormat.cm),
+        child: pw.Text(
+          'Created using Gearforce version: $version\n$_webURL',
+          style: footerStyle,
+        ),
+      ),
+      pw.Container(
+        alignment: pw.Alignment.centerRight,
+        margin: const pw.EdgeInsets.only(top: 1.0 * PdfPageFormat.cm),
+        child: pw.Text(
+          'Page ${context.pageNumber} of ${context.pagesCount}',
+          style: footerStyle,
+        ),
+      ),
+    ],
+  );
 }
 
 List<pw.Widget> _buildCardRow(List<pw.Widget> unitCards) {
@@ -86,14 +121,16 @@ List<pw.Widget> _buildCardRow(List<pw.Widget> unitCards) {
   return cardRows;
 }
 
-Future<void> downloadPDF(UnitRoster roster) async {
+Future<void> downloadPDF(UnitRoster roster, {required String version}) async {
   final pdf = await buildPdf(
-      PdfPageFormat.letter.copyWith(
-          marginLeft: _pageMargins,
-          marginRight: _pageMargins,
-          marginTop: _pageMargins,
-          marginBottom: _pageMargins),
-      roster);
+    PdfPageFormat.letter.copyWith(
+        marginLeft: _pageMargins,
+        marginRight: _pageMargins,
+        marginTop: _pageMargins,
+        marginBottom: _pageMargins),
+    roster,
+    version: version,
+  );
 
   var myFile = FilePickerCross(pdf,
       type: FileTypeCross.custom, fileExtension: _downloadFileExtension);
