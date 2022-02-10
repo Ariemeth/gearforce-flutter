@@ -304,49 +304,7 @@ pw.Widget _buildTraitsSection(pw.Font font, List<Trait> traits) {
 }
 
 pw.Widget _buildWeaponsSection(pw.Font font, List<Weapon> weapons) {
-  final rows = weapons
-      .map(
-        (w) => pw.TableRow(children: [
-          pw.Padding(
-            padding: pw.EdgeInsets.only(right: 5.0),
-            child: pw.Text(
-              '${w.hasReact ? _reactSymbol : ''}${w.abbreviation}',
-              style: pw.TextStyle(font: font, fontSize: _weaponFontSize),
-            ),
-          ),
-          pw.Padding(
-            padding: pw.EdgeInsets.only(),
-            child: pw.Text(
-              w.range.toString(),
-              style: pw.TextStyle(font: font, fontSize: _weaponFontSize),
-            ),
-          ),
-          pw.Padding(
-            padding: pw.EdgeInsets.only(right: 5.0, left: 5.0),
-            child: pw.Text(
-              w.damage.toString(),
-              style: pw.TextStyle(font: font, fontSize: _weaponFontSize),
-              textAlign: pw.TextAlign.center,
-            ),
-          ),
-          pw.Padding(
-            padding: pw.EdgeInsets.only(),
-            child: pw.Text(
-              w.traits.join(', '),
-              style: pw.TextStyle(font: font, fontSize: _weaponFontSize),
-            ),
-          ),
-          pw.Padding(
-            padding: pw.EdgeInsets.only(),
-            child: pw.Text(
-              w.modes.map((e) => getWeaponModeName(e)[0]).join(', '),
-              style: pw.TextStyle(font: font, fontSize: _weaponFontSize),
-              textAlign: pw.TextAlign.center,
-            ),
-          ),
-        ]),
-      )
-      .toList();
+  final rows = weapons.map((w) => _buildWeaponRow(font, w)).toList();
   final headerRow = pw.TableRow(children: [
     pw.Padding(
       padding: pw.EdgeInsets.only(right: 5.0),
@@ -416,5 +374,118 @@ pw.Widget _buildWeaponsSection(pw.Font font, List<Weapon> weapons) {
       columnWidths: columnWidths,
     ),
     decoration: pw.BoxDecoration(),
+  );
+}
+
+pw.TableRow _buildWeaponRow(pw.Font font, Weapon w) {
+  return pw.TableRow(children: [
+    pw.Padding(
+      padding: pw.EdgeInsets.only(right: 5.0),
+      child: _buildWeaponName(font, w),
+    ),
+    pw.Padding(
+      padding: pw.EdgeInsets.only(),
+      child: _buildWeaponRange(font, w),
+    ),
+    pw.Padding(
+      padding: pw.EdgeInsets.only(right: 5.0, left: 5.0),
+      child: _buildWeaponDamage(font, w),
+    ),
+    pw.Padding(
+      padding: pw.EdgeInsets.only(),
+      child: _buildWeaponTraits(font, w),
+    ),
+    pw.Padding(
+      padding: pw.EdgeInsets.only(),
+      child: _buildWeaponModes(font, w),
+    ),
+  ]);
+}
+
+pw.Widget _buildWeaponName(pw.Font font, Weapon w) {
+  final nameField = _buildWeaponField(
+    font,
+    '${w.hasReact ? _reactSymbol : ''}${w.abbreviation}',
+  );
+
+  if (!w.isCombo) {
+    return nameField;
+  }
+
+  return pw.Column(
+    crossAxisAlignment: pw.CrossAxisAlignment.start,
+    children: [nameField, _buildWeaponName(font, w.combo!)],
+  );
+}
+
+pw.Widget _buildWeaponRange(pw.Font font, Weapon w) {
+  final rangeField = _buildWeaponField(
+    font,
+    w.range.toString(),
+  );
+
+  if (!w.isCombo) {
+    return rangeField;
+  }
+
+  return pw.Column(
+    crossAxisAlignment: pw.CrossAxisAlignment.center,
+    children: [rangeField, _buildWeaponRange(font, w.combo!)],
+  );
+}
+
+pw.Widget _buildWeaponDamage(pw.Font font, Weapon w) {
+  final damageField = _buildWeaponField(font, w.damage.toString(),
+      textAlign: pw.TextAlign.center);
+
+  if (!w.isCombo) {
+    return damageField;
+  }
+
+  return pw.Column(
+    crossAxisAlignment: pw.CrossAxisAlignment.center,
+    children: [damageField, _buildWeaponDamage(font, w.combo!)],
+  );
+}
+
+pw.Widget _buildWeaponTraits(pw.Font font, Weapon w) {
+  final traitField = _buildWeaponField(
+    font,
+    w.traits.join(', '),
+  );
+  if (!w.isCombo) {
+    return traitField;
+  }
+
+  return pw.Column(
+    crossAxisAlignment: pw.CrossAxisAlignment.start,
+    children: [traitField, _buildWeaponTraits(font, w.combo!)],
+  );
+}
+
+pw.Widget _buildWeaponModes(pw.Font font, Weapon w) {
+  final modeField = _buildWeaponField(
+      font, w.modes.map((e) => getWeaponModeName(e)[0]).join(', '),
+      textAlign: pw.TextAlign.center);
+
+  if (!w.isCombo) {
+    return modeField;
+  }
+
+  return pw.Column(
+    crossAxisAlignment: pw.CrossAxisAlignment.center,
+    children: [modeField, _buildWeaponModes(font, w.combo!)],
+  );
+}
+
+pw.Widget _buildWeaponField(
+  pw.Font font,
+  String text, {
+  pw.TextAlign? textAlign,
+}) {
+  return pw.Text(
+    text,
+    style: pw.TextStyle(font: font, fontSize: _weaponFontSize),
+    textAlign: textAlign,
   );
 }
