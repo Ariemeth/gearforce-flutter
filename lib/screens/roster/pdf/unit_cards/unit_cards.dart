@@ -8,10 +8,12 @@ import 'package:pdf/widgets.dart' as pw;
 
 const double _cornerRadius = 5.0;
 const double _borderThickness = 1.0;
-const double _roleRowPadding = 5.0;
-const double _nameRowPadding = 5.0;
-const double _statPadding = 5.0;
-const double _weaponSectionPadding = 5.0;
+const double _roleRowPadding = 3.0;
+const double _nameRowVerticalPadding = 1.0;
+const double _nameRowHorizontalPadding = 3.0;
+const double _statPadding = 3.0;
+const double _traitsSectionPadding = 3.0;
+const double _weaponSectionPadding = 3.0;
 const double _cardHeight = 300.0;
 const double _cardWidth = 250.0;
 const double? _section3Height = 65.0;
@@ -79,7 +81,10 @@ pw.Widget _buildUnitCard(pw.Font font, Unit u) {
 
 pw.Widget _buildFirstSection(pw.Font font, Unit u) {
   return pw.Container(
-    padding: pw.EdgeInsets.all(_nameRowPadding),
+    padding: pw.EdgeInsets.symmetric(
+      vertical: _nameRowVerticalPadding,
+      horizontal: _nameRowHorizontalPadding,
+    ),
     child: pw.Text(
       u.name,
       style: pw.TextStyle(
@@ -296,7 +301,7 @@ pw.Widget _buildTraitsSection(pw.Font font, List<Trait> traits) {
           fontSize: _traitFontSize,
           font: font,
         )),
-    padding: pw.EdgeInsets.all(_nameRowPadding),
+    padding: pw.EdgeInsets.all(_traitsSectionPadding),
     decoration: pw.BoxDecoration(
       border: pw.Border.all(),
     ),
