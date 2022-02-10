@@ -412,9 +412,25 @@ pw.Widget _buildWeaponName(pw.Font font, Weapon w) {
     return nameField;
   }
 
-  return pw.Column(
-    crossAxisAlignment: pw.CrossAxisAlignment.start,
-    children: [nameField, _buildWeaponName(font, w.combo!)],
+  return pw.Container(
+    padding: pw.EdgeInsets.only(left: 2.0),
+    child: pw.Column(
+      crossAxisAlignment: pw.CrossAxisAlignment.start,
+      children: [nameField, _buildWeaponName(font, w.combo!)],
+    ),
+    decoration: pw.BoxDecoration(
+      border: pw.Border(
+        top: pw.BorderSide(
+          width: 1.0,
+        ),
+        bottom: pw.BorderSide(
+          width: 1.0,
+        ),
+        left: pw.BorderSide(
+          width: 1.0,
+        ),
+      ),
+    ),
   );
 }
 
