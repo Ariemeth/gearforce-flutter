@@ -1,10 +1,12 @@
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/roster/roster.dart';
+import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/unit.dart';
+import 'package:gearforce/models/weapons/weapon.dart';
 import 'package:pdf/widgets.dart' as pw;
 
-const double _headerTextSize = 12;
-const double _standardTextSize = 10;
+//const double _headerTextSize = 12;
+//const double _standardTextSize = 10;
 //const double _smallTextSize = 8;
 const double _cornerRadius = 5.0;
 const double _borderThickness = 1.0;
@@ -50,8 +52,8 @@ pw.Widget _buildUnitCard(pw.Font font, Unit u) {
         _buildFirstSection(font, u),
         _buildSecondSection(font, u),
         _buildThirdSection(font, u),
-        _buildTraitsSection(font, u),
-        _buildWeaponsSection(font, u),
+        _buildTraitsSection(font, u.traits),
+        _buildWeaponsSection(font, u.weapons),
       ],
     ),
     decoration: pw.BoxDecoration(
@@ -67,17 +69,17 @@ pw.Widget _buildUnitCard(pw.Font font, Unit u) {
 }
 
 pw.Widget _buildFirstSection(pw.Font font, Unit u) {
-  final titleTextStyle = pw.TextStyle(
+/*  final titleTextStyle = pw.TextStyle(
     font: font,
     fontSize: _headerTextSize,
     fontWeight: pw.FontWeight.bold,
   );
-
+*/
   return pw.Container(
     padding: pw.EdgeInsets.all(_nameRowPadding),
     child: pw.Text(
       u.name,
-      style: titleTextStyle,
+      //     style: titleTextStyle,
       textAlign: pw.TextAlign.center,
     ),
     decoration: pw.BoxDecoration(
@@ -91,10 +93,11 @@ pw.Widget _buildFirstSection(pw.Font font, Unit u) {
 }
 
 pw.Widget _buildSecondSection(pw.Font font, Unit u) {
-  final standardTextStyle = pw.TextStyle(
+/*  final standardTextStyle = pw.TextStyle(
     font: font,
     fontSize: _standardTextSize,
   );
+  */
   return pw.Container(
     padding: pw.EdgeInsets.only(top: _roleRowPadding, bottom: _roleRowPadding),
     child: pw.Row(
@@ -103,21 +106,21 @@ pw.Widget _buildSecondSection(pw.Font font, Unit u) {
         pw.Container(
           child: pw.Text(
             'Roles: ${u.role()!.roles.join(', ')}',
-            style: standardTextStyle,
+//            style: standardTextStyle,
             textAlign: pw.TextAlign.center,
           ),
         ),
         pw.Container(
           child: pw.Text(
             'TV: ${u.tv}',
-            style: standardTextStyle,
+//            style: standardTextStyle,
             textAlign: pw.TextAlign.center,
           ),
         ),
         pw.Container(
           child: pw.Text(
             'Type: ${u.type} ${u.core.height}',
-            style: standardTextStyle,
+//            style: standardTextStyle,
             textAlign: pw.TextAlign.center,
           ),
         ),
@@ -250,18 +253,19 @@ pw.Widget _buildHullStructureBlock(
   );
 }
 
-pw.Widget _buildTraitsSection(pw.Font font, Unit u) {
+pw.Widget _buildTraitsSection(pw.Font font, List<Trait> traits) {
   return pw.Container(
-    height: 10.0,
+    child: pw.Text(traits.join(',')),
+    padding: pw.EdgeInsets.all(_nameRowPadding),
     decoration: pw.BoxDecoration(
       border: pw.Border.all(),
     ),
   );
 }
 
-pw.Widget _buildWeaponsSection(pw.Font font, Unit u) {
+pw.Widget _buildWeaponsSection(pw.Font font, List<Weapon> weapons) {
   return pw.Container(
-    height: 10.0,
+    child: pw.Table(),
     decoration: pw.BoxDecoration(
       border: pw.Border.all(),
     ),

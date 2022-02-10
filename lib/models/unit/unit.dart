@@ -288,6 +288,10 @@ class Unit extends ChangeNotifier {
     return value;
   }
 
+  List<Weapon> get weapons {
+    return reactWeapons..addAll(mountedWeapons);
+  }
+
   List<Weapon> get reactWeapons {
     var newList = this
         .core
