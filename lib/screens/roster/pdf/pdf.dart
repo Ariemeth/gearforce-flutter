@@ -30,7 +30,7 @@ Future<bool> printPDF(UnitRoster roster) async {
 Future<Uint8List> buildPdf(PdfPageFormat format, UnitRoster roster) async {
   // Create the Pdf document
   final pw.Document doc = pw.Document();
-  final font = await PdfGoogleFonts.nunitoExtraLight();
+  final font = await PdfGoogleFonts.nunitoRegular();
 
   // Add record sheet summary
   doc.addPage(
