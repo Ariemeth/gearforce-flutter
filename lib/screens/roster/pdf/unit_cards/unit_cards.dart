@@ -28,6 +28,8 @@ const double _structureBlockHeight = 15;
 const double _structureBlockSpacingWidth = 3.0;
 const double _structureBlockSpacingHeight = 5.0;
 
+const _reactSymbol = '»';
+
 List<pw.Widget> buildUnitCards(pw.Font font, UnitRoster roster) {
   final List<pw.Widget> units = [];
   roster.getCGs().forEach((cg) {
@@ -308,7 +310,7 @@ pw.Widget _buildWeaponsSection(pw.Font font, List<Weapon> weapons) {
           pw.Padding(
             padding: pw.EdgeInsets.only(right: 5.0),
             child: pw.Text(
-              w.abbreviation,
+              '${w.hasReact ? _reactSymbol : ''}${w.abbreviation}',
               style: pw.TextStyle(font: font, fontSize: _weaponFontSize),
             ),
           ),
