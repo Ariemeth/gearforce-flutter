@@ -33,7 +33,7 @@ class _SelectRoleState extends State<SelectRole> {
           widget.group.changeRole(convertRoleType(newValue!));
         });
       },
-      items: RoleType.values.map<DropdownMenuItem<String>>((value) {
+      items: RoleType.values.take(8).map<DropdownMenuItem<String>>((value) {
         var text = value.toString().split('.').last;
         return DropdownMenuItem<String>(
           value: text,
