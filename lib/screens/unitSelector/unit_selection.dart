@@ -75,15 +75,13 @@ class SelectionList extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(
         children: [
-          Align(
-            child: SingleChildScrollView(
-              child: _buildTable(data, roster.faction.value),
-              scrollDirection: Axis.horizontal,
-            ),
-            alignment: Alignment.centerLeft,
+          SingleChildScrollView(
+            child: _buildTable(data, roster.faction.value),
+            scrollDirection: Axis.horizontal,
           ),
         ],
       ),
+      primary: false,
     );
   }
 
