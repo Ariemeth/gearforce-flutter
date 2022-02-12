@@ -44,6 +44,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
         GroupHeader(
           cg: widget.getOwnCG(),
           isPrimary: true,
+          roster: widget.roster,
         ),
         Expanded(
           child: _generateTable(
@@ -321,6 +322,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
                     Icons.add_task,
                     color: Colors.green,
                   ),
+                  splashRadius: 20.0,
                 ),
               ),
             ),
@@ -340,6 +342,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
                     Icons.delete_forever,
                     color: Color.fromARGB(255, 200, 28, 28),
                   ),
+                  splashRadius: 20.0,
                 ),
               ),
             ),
@@ -370,7 +373,6 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
     Group group,
     UnitRoster roster,
   ) {
-    /*Future<OptionResult?> futureResult =*/
     var result = showDialog<OptionResult>(
         context: context,
         builder: (BuildContext context) {
@@ -394,18 +396,6 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
         print('      actions: ${unit.actions}');
       }
     });
-
-    /* futureResult.then((value) {
-      switch (value) {
-        case OptionResult.Remove:
-          setState(() {
-            group.removeUnit(unitIndex);
-          });
-          break;
-        default:
-      }
-    });
-    */
   }
 
   void _showConfirmDelete(
