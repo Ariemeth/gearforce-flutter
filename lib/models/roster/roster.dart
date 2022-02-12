@@ -115,6 +115,19 @@ class UnitRoster extends ChangeNotifier {
     notifyListeners();
   }
 
+  void removeCG(String name) {
+    _combatGroups.remove(name);
+    if (_activeCG == name) {
+      _activeCG = '';
+    }
+    if (_combatGroups.isNotEmpty) {
+      _activeCG = _combatGroups.keys.first;
+    } else {
+      createCG();
+    }
+    notifyListeners();
+  }
+
   CombatGroup createCG() {
     var cg = CombatGroup('CG ${this._totalCreated + 1}', roster: this);
     this.addCG(cg);
