@@ -245,9 +245,32 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
                     underline: SizedBox(),
                     onChanged: (String? newValue) {
                       setState(() {
-                        unit.commandLevel = newValue == null
+                        //unit.commandLevel = newValue == null
+                        final newCommandLevel = newValue == null
                             ? CommandLevel.none
                             : convertToCommand(newValue);
+                        switch (newCommandLevel) {
+                          case CommandLevel.none:
+                            // setting to command level none requires no checks
+                            break;
+                          case CommandLevel.cgl:
+                          case CommandLevel.secic:
+                            final commandUnit =
+                                group.getUnitWithCommand(newCommandLevel);
+                            if (commandUnit != null) {
+                              commandUnit.commandLevel = CommandLevel.none;
+                            }
+                            break;
+                          case CommandLevel.xo:
+
+                          case CommandLevel.co:
+
+                          case CommandLevel.tfc:
+                            // TODO: Handle this case.
+                            break;
+                        }
+                        unit.commandLevel = newCommandLevel;
+                        widget.getOwnCG();
                       });
                     },
                     items: canNotBeCommand

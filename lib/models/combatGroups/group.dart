@@ -3,6 +3,7 @@ import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/roster/roster.dart';
+import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
@@ -84,6 +85,12 @@ class Group extends ChangeNotifier {
 
   List<Unit> allUnits() {
     return _units.toList();
+  }
+
+  Unit? getUnitWithCommand(CommandLevel cl) {
+    return _units.any((u) => u.commandLevel == cl)
+        ? _units.firstWhere((u) => u.commandLevel == cl)
+        : null;
   }
 
   int modCount(String id) {
