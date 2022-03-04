@@ -1,7 +1,9 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
+import 'package:gearforce/models/unit/command.dart';
+import 'package:gearforce/models/unit/unit.dart';
 
 const _currentRosterVersion = 1;
 const _currentRulesVersion = '17-July-2021';
@@ -154,4 +156,14 @@ class UnitRoster extends ChangeNotifier {
 
   List<CombatGroup> getCGs() =>
       _combatGroups.entries.map((e) => e.value).toList();
+
+  Unit? getFirstUnitWithCommand(CommandLevel cl) {
+    for (var cg in _combatGroups.values) {
+      final u = cg.getUnitWithCommand(cl);
+      if (u != null) {
+        return u;
+      }
+    }
+    return null;
+  }
 }

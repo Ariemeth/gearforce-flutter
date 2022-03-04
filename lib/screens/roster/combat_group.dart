@@ -245,9 +245,87 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
                     underline: SizedBox(),
                     onChanged: (String? newValue) {
                       setState(() {
-                        unit.commandLevel = newValue == null
+                        final newCommandLevel = newValue == null
                             ? CommandLevel.none
                             : convertToCommand(newValue);
+                        switch (newCommandLevel) {
+                          case CommandLevel.none:
+                            // setting to command level none requires no checks
+                            break;
+                          case CommandLevel.cgl:
+                            final tfc = widget
+                                .getOwnCG()
+                                .getUnitWithCommand(CommandLevel.tfc);
+                            if (tfc != null) {
+                              tfc.commandLevel = CommandLevel.none;
+                            }
+                            final co = widget
+                                .getOwnCG()
+                                .getUnitWithCommand(CommandLevel.co);
+                            if (co != null) {
+                              co.commandLevel = CommandLevel.none;
+                            }
+                            final xo = widget
+                                .getOwnCG()
+                                .getUnitWithCommand(CommandLevel.xo);
+                            if (xo != null) {
+                              xo.commandLevel = CommandLevel.none;
+                            }
+                            final commandUnit = widget
+                                .getOwnCG()
+                                .getUnitWithCommand(newCommandLevel);
+                            if (commandUnit != null) {
+                              commandUnit.commandLevel = CommandLevel.none;
+                            }
+                            break;
+                          case CommandLevel.secic:
+                            final commandUnit = widget
+                                .getOwnCG()
+                                .getUnitWithCommand(newCommandLevel);
+                            if (commandUnit != null) {
+                              commandUnit.commandLevel = CommandLevel.none;
+                            }
+                            break;
+                          case CommandLevel.xo:
+                          case CommandLevel.co:
+                          case CommandLevel.tfc:
+                            // only 1 of xo, co, or tfc per combat group
+                            final tfc = widget
+                                .getOwnCG()
+                                .getUnitWithCommand(CommandLevel.tfc);
+                            if (tfc != null) {
+                              tfc.commandLevel = CommandLevel.none;
+                            }
+                            final co = widget
+                                .getOwnCG()
+                                .getUnitWithCommand(CommandLevel.co);
+                            if (co != null) {
+                              co.commandLevel = CommandLevel.none;
+                            }
+                            final xo = widget
+                                .getOwnCG()
+                                .getUnitWithCommand(CommandLevel.xo);
+                            if (xo != null) {
+                              xo.commandLevel = CommandLevel.none;
+                            }
+
+                            // only 1 xo, co, tfc per task force
+                            final prevCommander = widget.roster
+                                .getFirstUnitWithCommand(newCommandLevel);
+                            if (prevCommander != null) {
+                              prevCommander.commandLevel = CommandLevel.cgl;
+                            }
+
+                            // an XO, CO or TFC replaces a CGL
+                            final prevGroupLeader = widget
+                                .getOwnCG()
+                                .getUnitWithCommand(CommandLevel.cgl);
+                            if (prevGroupLeader != null) {
+                              prevGroupLeader.commandLevel = CommandLevel.none;
+                            }
+                            break;
+                        }
+                        unit.commandLevel = newCommandLevel;
                       });
                     },
                     items: canNotBeCommand
