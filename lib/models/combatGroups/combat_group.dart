@@ -4,6 +4,7 @@ import 'package:gearforce/models/combatGroups/group.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart';
 import 'package:gearforce/models/roster/roster.dart';
+import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/unit.dart';
 
 class CombatGroup extends ChangeNotifier {
@@ -129,6 +130,10 @@ class CombatGroup extends ChangeNotifier {
 
   int modCount(String id) {
     return _primary.modCount(id) + _secondary.modCount(id);
+  }
+
+  Unit? getUnitWithCommand(CommandLevel cl) {
+    return _primary.getUnitWithCommand(cl) ?? _secondary.getUnitWithCommand(cl);
   }
 
   List<Unit> unitsWithMod(String id) {

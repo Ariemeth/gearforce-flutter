@@ -262,15 +262,16 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
                             }
                             break;
                           case CommandLevel.xo:
-
                           case CommandLevel.co:
-
                           case CommandLevel.tfc:
-                            // TODO: Handle this case.
+                            final commandUnit = widget.roster
+                                .getUnitWithCommand(newCommandLevel);
+                            if (commandUnit != null) {
+                              commandUnit.commandLevel = CommandLevel.none;
+                            }
                             break;
                         }
                         unit.commandLevel = newCommandLevel;
-                        widget.getOwnCG();
                       });
                     },
                     items: canNotBeCommand
