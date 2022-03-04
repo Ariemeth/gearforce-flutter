@@ -157,7 +157,7 @@ class UnitRoster extends ChangeNotifier {
   List<CombatGroup> getCGs() =>
       _combatGroups.entries.map((e) => e.value).toList();
 
-  Unit? getUnitWithCommand(CommandLevel cl) {
+  Unit? getFirstUnitWithCommand(CommandLevel cl) {
     for (var cg in _combatGroups.values) {
       final u = cg.getUnitWithCommand(cl);
       if (u != null) {
