@@ -6,8 +6,7 @@ import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/unit.dart';
 
 const _currentRosterVersion = 1;
-const _currentRulesVersion = '17-July-2021';
-const _currentCompendiumVersion = '28-June-2021';
+const _currentRulesVersion = 'Beta 3.1 19-March-2022';
 
 class UnitRoster extends ChangeNotifier {
   String? player;
@@ -18,7 +17,6 @@ class UnitRoster extends ChangeNotifier {
   int _totalCreated = 0;
   String _activeCG = '';
   String get rulesVersion => _currentRulesVersion;
-  String get compendiumVersion => _currentCompendiumVersion;
   bool _isEliteForce = false;
 
   UnitRoster() {
@@ -56,7 +54,6 @@ class UnitRoster extends ChangeNotifier {
         'cgs': _combatGroups.entries.map((e) => e.value.toJson()).toList(),
         'version': _currentRosterVersion,
         'rulesVersion': rulesVersion,
-        'compendiumVersion': compendiumVersion,
         'isEliteForce': isEliteForce,
         'whenCreated': DateTime.now().toString(),
       };
