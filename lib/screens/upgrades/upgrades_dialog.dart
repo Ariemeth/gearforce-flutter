@@ -129,7 +129,7 @@ Widget unitUpgrades(List<BaseModification> mods, Unit unit) {
             ? _maxVisibleUnitUpgrades
             : mods.length.toDouble()),
     child: Scrollbar(
-      isAlwaysShown: true,
+      thumbVisibility: true,
       controller: _scrollController,
       interactive: true,
       child: ListView.builder(
