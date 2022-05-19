@@ -6,7 +6,7 @@ import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/unit.dart';
 
 const _currentRosterVersion = 1;
-const _currentRulesVersion = 'Beta 3.1 19-March-2022';
+const _currentRulesVersion = '3.1';
 
 class UnitRoster extends ChangeNotifier {
   String? player;
