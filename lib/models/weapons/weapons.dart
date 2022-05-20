@@ -35,17 +35,6 @@ Weapon? buildWeapon(
     bonusTraits.addAll(bt);
   }
 
-  //bool isCombo = comboMatch.hasMatch(weaponString);
-  //Weapon? comboWeapon;
-  //if (isCombo) {
-  //  final comboCheck = comboMatch.firstMatch(weaponString);
-  //  final comboCode = comboCheck?.namedGroup('code');
-  /*  if (comboCode != null) {
-      comboWeapon = buildWeapon(
-          '$comboCode${bonusString != null ? ' ($bonusString)' : ''}',
-          hasReact: hasReact);
-    }*/
-  //}
   String? comboType;
   String? comboSize;
   final comboName = comboMatch.firstMatch(weaponString)?.namedGroup('code');
