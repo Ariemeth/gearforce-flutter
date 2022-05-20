@@ -24,7 +24,8 @@ const double _secondaryStatsWidth = 80.0;
 const double _hullWidth =
     (_cardWidth - _combatStatsWidth - _secondaryStatsWidth) / 2;
 const double _standardFontSize = 12;
-const double _weaponFontSize = 10;
+const double _weaponHeaderFontSize = 10;
+const double _weaponFontSize = 8;
 const double _traitFontSize = 10;
 const double _nameFontSize = 16;
 const double _unitCardFooterFontSize = 8;
@@ -347,7 +348,7 @@ pw.Widget _buildWeaponsSection(pw.Font font, List<Weapon> weapons) {
         'Code',
         style: pw.TextStyle(
           font: font,
-          fontSize: _weaponFontSize,
+          fontSize: _weaponHeaderFontSize,
           fontWeight: pw.FontWeight.bold,
         ),
       ),
@@ -358,7 +359,7 @@ pw.Widget _buildWeaponsSection(pw.Font font, List<Weapon> weapons) {
         'Range',
         style: pw.TextStyle(
           font: font,
-          fontSize: _weaponFontSize,
+          fontSize: _weaponHeaderFontSize,
           fontWeight: pw.FontWeight.bold,
         ),
       ),
@@ -366,10 +367,10 @@ pw.Widget _buildWeaponsSection(pw.Font font, List<Weapon> weapons) {
     pw.Padding(
       padding: pw.EdgeInsets.only(right: 5.0, left: 5.0),
       child: pw.Text(
-        'Damage',
+        'Dam',
         style: pw.TextStyle(
           font: font,
-          fontSize: _weaponFontSize,
+          fontSize: _weaponHeaderFontSize,
           fontWeight: pw.FontWeight.bold,
         ),
         textAlign: pw.TextAlign.center,
@@ -381,7 +382,7 @@ pw.Widget _buildWeaponsSection(pw.Font font, List<Weapon> weapons) {
         'Traits',
         style: pw.TextStyle(
           font: font,
-          fontSize: _weaponFontSize,
+          fontSize: _weaponHeaderFontSize,
           fontWeight: pw.FontWeight.bold,
         ),
       ),
@@ -392,7 +393,7 @@ pw.Widget _buildWeaponsSection(pw.Font font, List<Weapon> weapons) {
         'Modes',
         style: pw.TextStyle(
           font: font,
-          fontSize: _weaponFontSize,
+          fontSize: _weaponHeaderFontSize,
           fontWeight: pw.FontWeight.bold,
         ),
         textAlign: pw.TextAlign.center,
@@ -441,7 +442,7 @@ pw.TableRow _buildWeaponRow(pw.Font font, Weapon w) {
 pw.Widget _buildWeaponName(pw.Font font, Weapon w) {
   final nameField = _buildWeaponField(
     font,
-    '${w.hasReact ? _reactSymbol : ''}${w.abbreviation}',
+    '${w.hasReact ? _reactSymbol : ''}${w}',
   );
 
   if (!w.isCombo) {
