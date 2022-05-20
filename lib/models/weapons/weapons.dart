@@ -46,6 +46,14 @@ Weapon? buildWeapon(
           hasReact: hasReact);
     }*/
   //}
+  String? comboType;
+  String? comboSize;
+  final comboName = comboMatch.firstMatch(weaponString)?.namedGroup('code');
+  if (comboName != null) {
+    final comboWeaponCheck = weaponMatch.firstMatch(comboName);
+    comboType = comboWeaponCheck?.namedGroup('type');
+    comboSize = comboWeaponCheck?.namedGroup('size');
+  }
 
   final generatedWeapon = _buildWeapon(
     size: size,
@@ -53,7 +61,8 @@ Weapon? buildWeapon(
     numberOf: numberOf,
     bonusTraits: bonusTraits,
     hasReact: hasReact,
-    comboCode: comboMatch.firstMatch(weaponString)?.namedGroup('code'),
+    comboType: comboType,
+    comboSize: comboSize,
   );
   if (generatedWeapon == null) {
     print('Unknown weapon [$weaponString], bonusTraits [$bonusTraits]');
@@ -66,7 +75,8 @@ Weapon? _buildWeapon({
   required String type,
   required String? numberOf,
   required List<Trait> bonusTraits,
-  String? comboCode,
+  String? comboType,
+  String? comboSize,
   bool hasReact = false,
 }) {
   String name = '';
@@ -587,17 +597,18 @@ Weapon? _buildWeapon({
           numberOf: numberOf,
           bonusTraits: bonusTraits,
           hasReact: hasReact,
-          comboCode: comboCode,
+          comboType: comboType,
+          comboSize: comboSize,
         );
       }
       return null;
   }
 
   Weapon? comboWeapon;
-  if (comboCode != null) {
+  if (comboType != null && comboSize != null) {
     comboWeapon = _buildWeapon(
-      size: size,
-      type: type,
+      size: comboSize,
+      type: comboType,
       numberOf: numberOf,
       bonusTraits: bonusTraits,
       hasReact: hasReact,
