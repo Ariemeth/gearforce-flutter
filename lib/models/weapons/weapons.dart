@@ -35,6 +35,40 @@ Weapon? buildWeapon(
     bonusTraits.addAll(bt);
   }
 
+  //bool isCombo = comboMatch.hasMatch(weaponString);
+  //Weapon? comboWeapon;
+  //if (isCombo) {
+  //  final comboCheck = comboMatch.firstMatch(weaponString);
+  //  final comboCode = comboCheck?.namedGroup('code');
+  /*  if (comboCode != null) {
+      comboWeapon = buildWeapon(
+          '$comboCode${bonusString != null ? ' ($bonusString)' : ''}',
+          hasReact: hasReact);
+    }*/
+  //}
+
+  final generatedWeapon = _buildWeapon(
+    size: size,
+    type: type,
+    numberOf: numberOf,
+    bonusTraits: bonusTraits,
+    hasReact: hasReact,
+    comboCode: comboMatch.firstMatch(weaponString)?.namedGroup('code'),
+  );
+  if (generatedWeapon == null) {
+    print('Unknown weapon [$weaponString], bonusTraits [$bonusTraits]');
+  }
+  return generatedWeapon;
+}
+
+Weapon? _buildWeapon({
+  required String size,
+  required String type,
+  required String? numberOf,
+  required List<Trait> bonusTraits,
+  String? comboCode,
+  bool hasReact = false,
+}) {
   String name = '';
   List<weaponModes> modes = [];
   int damage = -1;
@@ -543,20 +577,18 @@ Weapon? buildWeapon(
       ];
       break;
     default:
-      print('Unknown weapon [$weaponString], bonusTraits [$bonusTraits]');
       return null;
   }
 
-  bool isCombo = comboMatch.hasMatch(weaponString);
   Weapon? comboWeapon;
-  if (isCombo) {
-    final comboCheck = comboMatch.firstMatch(weaponString);
-    final comboCode = comboCheck?.namedGroup('code');
-    if (comboCode != null) {
-      comboWeapon = buildWeapon(
-          '$comboCode${bonusString != null ? ' ($bonusString)' : ''}',
-          hasReact: hasReact);
-    }
+  if (comboCode != null) {
+    comboWeapon = _buildWeapon(
+      size: size,
+      type: type,
+      numberOf: numberOf,
+      bonusTraits: bonusTraits,
+      hasReact: hasReact,
+    );
   }
 
   return Weapon(
