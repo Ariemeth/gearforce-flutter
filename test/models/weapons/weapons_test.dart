@@ -740,7 +740,7 @@ void main() {
     }
   });
 
-  group('test building 2 x VBs', () {
+  group('test building 2 x VB', () {
     const code = 'VB';
     const name = 'Vibroblade';
     const modes = [weaponModes.Melee];
@@ -753,6 +753,21 @@ void main() {
       ];
       test('test building 2 X $size$code', () {
         final l = buildWeapon('2 X $size$code');
+        expect(l, isNotNull, reason: 'weapon should not be null');
+        expect(l?.abbreviation, '$size$code', reason: 'check weapon code');
+        expect(l?.name, equals(name), reason: 'check name');
+        expect(l?.modes, equals(modes), reason: 'check modes');
+        expect(l?.damage, equals(damage[size]), reason: 'check damage');
+        expect(l?.range.toString(), equals(range.toString()),
+            reason: 'check range');
+        expect(l?.traits.toString(), equals(traits.toString()),
+            reason: 'check traits');
+        expect(l?.optionalTraits, isEmpty, reason: 'check optional traits');
+        expect(l?.toString(), equals('2 X $size$code'),
+            reason: 'toString check');
+      });
+      test('test building 2 X $size${code}s', () {
+        final l = buildWeapon('2 X $size${code}s');
         expect(l, isNotNull, reason: 'weapon should not be null');
         expect(l?.abbreviation, '$size$code', reason: 'check weapon code');
         expect(l?.name, equals(name), reason: 'check name');
