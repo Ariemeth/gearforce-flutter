@@ -577,6 +577,19 @@ Weapon? _buildWeapon({
       ];
       break;
     default:
+      print('Unknown weapon type: $type.');
+      if (type.trim().toUpperCase().endsWith('S')) {
+        final modifiedType = '${type.substring(0, type.length - 1)}';
+        print('Trying to build again with $modifiedType');
+        return _buildWeapon(
+          size: size,
+          type: modifiedType,
+          numberOf: numberOf,
+          bonusTraits: bonusTraits,
+          hasReact: hasReact,
+          comboCode: comboCode,
+        );
+      }
       return null;
   }
 
