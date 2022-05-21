@@ -6,7 +6,7 @@ import 'package:gearforce/models/weapons/weapon_modes.dart';
 final weaponMatch =
     RegExp(r'^((?<number>[2-9]) X )?(?<size>[BLMH])(?<type>[a-zA-Z]+)');
 final comboMatch = RegExp(r'(?<combo>[\/])(?<code>[a-zA-Z]+)');
-final traitsMatch = RegExp(r'\((?<traits>[a-zA-Z :0-9]+)\)$');
+final traitsMatch = RegExp(r'\((?<traits>[a-zA-Z,? :0-9]+)\)$');
 
 Weapon? buildWeapon(
   String weaponString, {
@@ -595,6 +595,7 @@ Weapon? _buildWeapon({
 
   Weapon? comboWeapon;
   if (comboType != null && comboSize != null) {
+    print('Attempting to build combo weapon $comboSize$comboType');
     comboWeapon = _buildWeapon(
       size: comboSize,
       type: comboType,
