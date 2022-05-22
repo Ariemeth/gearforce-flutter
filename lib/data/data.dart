@@ -17,6 +17,9 @@ const Map<FactionType, String> _factionUnitFiles = {
   FactionType.South: 'assets/data/units/south.json',
   FactionType.Terrain: 'assets/data/units/terrain.json',
   FactionType.Universal: 'assets/data/units/universal.json',
+  FactionType.Universal_TerraNova: 'assets/data/units/universal_terranova.json',
+  FactionType.Universal_Non_TerraNova:
+      'assets/data/units/universal_non_terranova.json',
   FactionType.Utopia: 'assets/data/units/utopia.json',
 };
 
@@ -49,20 +52,33 @@ class Data {
       case FactionType.NuCoal:
       case FactionType.PeaceRiver:
       case FactionType.BlackTalon:
-        var uniList = _factionFrames[FactionType.Universal];
+        var uniList = _factionFrames[FactionType.Universal_TerraNova];
         if (uniList != null) {
           factionUnit.addAll(uniList.toList());
         }
+        var fullUniList = _factionFrames[FactionType.Universal];
+        if (fullUniList != null) {
+          factionUnit.addAll(fullUniList.toList());
+        }
         break;
       case FactionType.CEF:
-        break;
       case FactionType.Caprice:
-        break;
       case FactionType.Utopia:
-        break;
       case FactionType.Eden:
+        var uniList = _factionFrames[FactionType.Universal_Non_TerraNova];
+        if (uniList != null) {
+          factionUnit.addAll(uniList.toList());
+        }
+        var fullUniList = _factionFrames[FactionType.Universal];
+        if (fullUniList != null) {
+          factionUnit.addAll(fullUniList.toList());
+        }
         break;
       case FactionType.Universal:
+        break;
+      case FactionType.Universal_Non_TerraNova:
+        break;
+      case FactionType.Universal_TerraNova:
         break;
       case FactionType.Terrain:
         break;

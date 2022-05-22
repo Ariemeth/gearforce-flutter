@@ -1,0 +1,133 @@
+{
+  "frames": [
+    {
+      "name": "Druid",
+      "variants": [
+        {
+          "model": "Druid",
+          "tv": 8,
+          "role": "GP+, SK, FS",
+          "mr": "W:6",
+          "arm": 6,
+          "h/s": "3/3",
+          "a": 1,
+          "gu": "4+",
+          "pi": "3+",
+          "ew": "6+",
+          "react-weapons": "HP, MCW (Demo:4)",
+          "mounted-weapons": "LSE, LCW (Fire:2)",
+          "traits": "Hands, Repair, Jetpack:8 (Aux), Brawl:1",
+          "type": "Gear",
+          "height": 1.5
+        },
+        {
+          "model": "Ger Druid",
+          "tv": 8,
+          "role": "GP, SK, FS",
+          "mr": "W:6",
+          "arm": 6,
+          "h/s": "3/3",
+          "a": 1,
+          "gu": "4+",
+          "pi": "3+",
+          "ew": "6+",
+          "react-weapons": "MBZ, MCW (Demo:4)",
+          "mounted-weapons": "LSE, LCW (Fire:2)",
+          "traits": "Hands, Repair, Jetpack:8 (Aux), Brawl:1",
+          "type": "Gear",
+          "height": 1.5
+        },
+        {
+          "model": "Ignus Druid",
+          "tv": 7,
+          "role": "GP, SK, FS",
+          "mr": "W:6",
+          "arm": 6,
+          "h/s": "3/3",
+          "a": 1,
+          "gu": "4+",
+          "pi": "3+",
+          "ew": "6+",
+          "react-weapons": "MFL, MCW (Demo:4)",
+          "mounted-weapons": "LSE, LCW (Fire:2)",
+          "traits": "Hands, Repair, Jetpack:8 (Aux), Brawl:1",
+          "type": "Gear",
+          "height": 1.5
+        },
+        {
+          "model": "Yeoman Druid",
+          "tv": 7,
+          "role": "GP, SK, FS",
+          "mr": "W:6",
+          "arm": 6,
+          "h/s": "3/3",
+          "a": 1,
+          "gu": "4+",
+          "pi": "3+",
+          "ew": "6+",
+          "react-weapons": "LRP, MCW (Demo:4)",
+          "mounted-weapons": "LSE, LCW (Fire:2)",
+          "traits": "Hands, Repair, Jetpack:8 (Aux), Brawl:1",
+          "type": "Gear",
+          "height": 1.5
+        }
+      ]
+    },
+    {
+      "name": "Saker",
+      "variants": [
+        {
+          "model": "Saker",
+          "tv": 7,
+          "role": "GP+, SK, FS",
+          "mr": "H:8",
+          "arm": 6,
+          "h/s": "3/3",
+          "a": 1,
+          "gu": "4+",
+          "pi": "4+",
+          "ew": "6+",
+          "react-weapons": "MMG (T)",
+          "mounted-weapons": "LAR (T)",
+          "traits": "Agile, Airdrop, Jump Jets:2",
+          "type": "Vehicle",
+          "height": 1.5
+        },
+        {
+          "model": "Squire",
+          "tv": 6,
+          "role": "GP+, SK, FS",
+          "mr": "H:8",
+          "arm": 6,
+          "h/s": "3/3",
+          "a": 1,
+          "gu": "4+",
+          "pi": "4+",
+          "ew": "6+",
+          "react-weapons": "MMG (T)",
+          "mounted-weapons": "-",
+          "traits": "Agile, Airdrop, Jump Jets:2, Supply",
+          "type": "Vehicle",
+          "height": 1.5
+        },
+        {
+          "model": "Anakite*",
+          "tv": 6,
+          "role": "GP+, SK, FS",
+          "mr": "H:8",
+          "arm": 6,
+          "h/s": "3/3",
+          "a": 1,
+          "gu": "4+",
+          "pi": "4+",
+          "ew": "6+",
+          "react-weapons": "MMG (T)",
+          "mounted-weapons": "-",
+          "traits": "Agile, Airdrop, Jump Jets:2, Transport: 1 Squad",
+          "type": "Vehicle",
+          "height": 1.5
+        }
+      ]
+    }
+  ]
+}
