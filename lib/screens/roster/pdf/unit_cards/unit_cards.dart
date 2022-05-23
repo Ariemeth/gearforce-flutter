@@ -442,7 +442,7 @@ pw.TableRow _buildWeaponRow(pw.Font font, Weapon w) {
 pw.Widget _buildWeaponName(pw.Font font, Weapon w) {
   final nameField = _buildWeaponField(
     font,
-    '${w.hasReact ? _reactSymbol : ''}${w}',
+    '${w.hasReact ? _reactSymbol : ''}${w.numberOf >= 2 ? '2 x ' : ''}${w.abbreviation}',
   );
 
   if (!w.isCombo) {

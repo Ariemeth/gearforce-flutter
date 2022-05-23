@@ -30,7 +30,9 @@ List<UnitModification> getUnitMods(String frameName, Unit unit) {
       return [north.sabertooth];
     case 'weasel':
       return [north.tattletale];
-    case 'mp gears':
+    case 'hunter mp':
+    case 'cheetah mp':
+    case 'jaguar mp':
       return [north.mpCommand];
     case 'lynx':
       return [north.armored];
@@ -41,9 +43,11 @@ List<UnitModification> getUnitMods(String frameName, Unit unit) {
     case 'bear':
       return [north.denMother];
     case 'scimitar':
-      return [north.rotaryLaser, north.scimitarCommand];
+      return [north.gatlingLaser, north.crossbow, north.scimitarCommand];
     case 'mammoth':
       return [north.sledgehammer, north.aegis];
+    case 'thunderhammer':
+      return [north.bastion];
     // Southern units
     case 'jager':
       return [south.command];
