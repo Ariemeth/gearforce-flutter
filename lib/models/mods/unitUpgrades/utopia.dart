@@ -2,7 +2,6 @@ import 'package:gearforce/models/mods/unitUpgrades/unit_modification.dart';
 import 'package:gearforce/models/mods/mods.dart';
 import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/movement.dart';
-import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
 import 'package:gearforce/models/weapons/weapons.dart';
 
@@ -19,8 +18,8 @@ final UnitModification vtol = UnitModification(name: 'VTOL Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
   ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'VTOL'))
   ..addMod(UnitAttribute.movement,
-      createSetMovementMod(Movement(type: 'H', rate: 10)),
-      description: 'MR: H:10')
+      createSetMovementMod(Movement(type: 'W/H', rate: 10)),
+      description: 'MR: W/H:10')
   ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'VTOL')),
       description: '+VTOL');
 
@@ -39,8 +38,8 @@ final UnitModification nlil = UnitModification(name: 'N-LIL Upgrade')
   ..addMod(UnitAttribute.movement,
       createSetMovementMod(Movement(type: 'H', rate: 10)),
       description: 'MR: H:10')
-  ..addMod(UnitAttribute.hull, createSetIntMod(3), description: 'H/S: 3/3')
-  ..addMod(UnitAttribute.structure, createSetIntMod(3))
+  ..addMod(UnitAttribute.hull, createSetIntMod(4), description: 'H/S: 4/2')
+  ..addMod(UnitAttribute.structure, createSetIntMod(2))
   ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'VTOL')),
       description: '+VTOL');
 
@@ -60,20 +59,6 @@ final UnitModification sniper = UnitModification(name: 'Sniper Upgrade')
           oldValue: buildWeapon('HRC')!, newValue: buildWeapon('MLC')!),
       description: '-HRC, +MLC');
 
-final UnitModification edenWizard = UnitModification(
-    name: 'Eden Wizard Upgrade')
-  ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
-  ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Eden Wizard'))
-  ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
-  ..addMod(UnitAttribute.roles, createAddRoleToList(Role(name: RoleType.RC)),
-      description: '+RC')
-  ..addMod(UnitAttribute.traits,
-      createAddTraitToList(Trait(name: 'ECM', isAux: true)),
-      description: '+ECM (Aux)')
-  ..addMod(UnitAttribute.traits,
-      createAddTraitToList(Trait(name: 'ECCM', isAux: true)),
-      description: '+ECCM (Aux)');
-
 final UnitModification specialOperations = UnitModification(
     name: 'Special Operations Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
@@ -87,7 +72,7 @@ final UnitModification specialOperations = UnitModification(
       createAddTraitToList(Trait(name: 'Stealth', isAux: true)),
       description: '+Stealth (Aux)');
 
-final UnitModification node = UnitModification(name: 'Node Upgrade')
+final UnitModification pazu = UnitModification(name: 'Pazu Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Node'))
   ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
@@ -95,3 +80,21 @@ final UnitModification node = UnitModification(name: 'Node Upgrade')
       description: '+Comms')
   ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'SatUp')),
       description: '+SatUp');
+
+final UnitModification gilgameshEngineering = UnitModification(
+    name: 'Engineering Upgrade')
+  ..addMod(UnitAttribute.tv, createSimpleIntMod(-1), description: 'TV -1')
+  ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'with Engineering'))
+  ..addMod(
+      UnitAttribute.react_weapons,
+      createReplaceWeaponInList(
+          oldValue: buildWeapon('2 x MRC (B)')!,
+          newValue: buildWeapon('HCW (B Link Reach:3')!),
+      description: '-2 x MRC (B), +HCW (B Link Reach:3')
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'Repair')),
+      description: '+Repair')
+  ..addMod(
+      UnitAttribute.traits,
+      createAddTraitToList(
+          Trait(name: 'Transport', level: 4, type: 'N-KIDU or 1 Armiger')),
+      description: '+Transport: 4 N-KIDU or 1 Armiger');

@@ -61,7 +61,7 @@ final UnitModification demolisher = UnitModification(
       UnitAttribute.react_weapons,
       createReplaceWeaponInList(
           oldValue: buildWeapon('HAC', hasReact: true)!,
-          newValue: buildWeapon('MCW (Link, Demo:4)', hasReact: true)!),
+          newValue: buildWeapon('MCW (Link Demo:4)', hasReact: true)!),
       description: '-HAC, +MCW (Link, Demo:4)')
   ..addMod(
       UnitAttribute.traits,
@@ -162,6 +162,8 @@ final UnitModification paratrooper = UnitModification(
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Paratrooper'))
   ..addMod(UnitAttribute.piloting, createSetIntMod(3), description: 'PI:3+')
+  ..addMod(UnitAttribute.roles, createSetStringListMod(['SO']),
+      description: 'SO')
   ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'Airdrop')),
       description: '+Airdrop');
 
@@ -170,12 +172,16 @@ final UnitModification mountaineering = UnitModification(
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Mountaineering'))
   ..addMod(UnitAttribute.piloting, createSetIntMod(3), description: 'PI:3+')
+  ..addMod(UnitAttribute.roles, createSetStringListMod(['SO']),
+      description: 'SO')
   ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'Climber')),
       description: '+Climber');
 
 final UnitModification frogmen = UnitModification(name: 'Frogmen Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Frogmen'))
+  ..addMod(UnitAttribute.roles, createSetStringListMod(['SO']),
+      description: 'SO')
   ..addMod(UnitAttribute.piloting, createSetIntMod(3), description: 'PI:3+')
   ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'Sub')),
       description: '+Sub');

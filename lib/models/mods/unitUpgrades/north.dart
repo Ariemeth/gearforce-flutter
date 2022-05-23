@@ -65,7 +65,7 @@ final UnitModification tattletale = UnitModification(name: 'Tattletale Upgrade')
 final UnitModification mpCommand = UnitModification(name: 'Command Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Command'))
-  ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
+  ..addMod(UnitAttribute.ew, createSetIntMod(5), description: 'EW 5+')
   ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'Comms')),
       description: '+Comms')
   ..addMod(UnitAttribute.traits,
@@ -113,7 +113,8 @@ final UnitModification denMother = UnitModification(name: 'Den Mother Upgrade')
 final UnitModification gatlingLaser = UnitModification(
     name: 'Gatling Laser Upgrade',
     requirementCheck: (Unit u) {
-      return !u.hasMod('Crossbow Upgrade');
+      return u.mountedWeapons
+          .any((w) => w.abbreviation == 'LATM' && w.bonusString == '(T)');
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
   ..addMod(
@@ -121,7 +122,7 @@ final UnitModification gatlingLaser = UnitModification(
   ..addMod(
       UnitAttribute.mounted_weapons,
       createMultiReplaceWeaponsInList(
-        oldItems: [buildWeapon('LATM')!],
+        oldItems: [buildWeapon('LATM (T)')!],
         newItems: [buildWeapon('MRL (T Link)')!],
       ),
       description: '-LATM, +MRL (T,Link)');
@@ -129,14 +130,15 @@ final UnitModification gatlingLaser = UnitModification(
 final UnitModification crossbow = UnitModification(
     name: 'Crossbow Upgrade',
     requirementCheck: (Unit u) {
-      return !u.hasMod('Gatling Upgrade');
+      return u.mountedWeapons
+          .any((w) => w.abbreviation == 'LATM' && w.bonusString == '(T)');
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Crossbow'))
   ..addMod(
       UnitAttribute.mounted_weapons,
       createMultiReplaceWeaponsInList(
-        oldItems: [buildWeapon('LATM')!],
+        oldItems: [buildWeapon('LATM (T)')!],
         newItems: [buildWeapon('MATM (T)')!],
       ),
       description: '-LATM, +MATM (T)');

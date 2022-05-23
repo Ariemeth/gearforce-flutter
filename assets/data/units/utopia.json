@@ -624,7 +624,7 @@
       ]
     },
     {
-      "name": "MAR-DK",
+      "name": "Gilgamesh front",
       "variants": [
         {
           "model": "Forward Body Type A",
@@ -638,23 +638,6 @@
           "pi": "6+",
           "ew": "5+",
           "react-weapons": "MRL, 2 x MRCs, HAPGL (Auto)",
-          "mounted-weapons": "-",
-          "traits": "Offroad, Stable, Resist:H, AMS",
-          "type": "Vehicle",
-          "height": 1.5
-        },
-        {
-          "model": "Rear Body Type A",
-          "tv": 23,
-          "role": "FS",
-          "mr": "-",
-          "arm": 11,
-          "h/s": "6/2",
-          "a": 2,
-          "gu": "4+",
-          "pi": "6+",
-          "ew": "5+",
-          "react-weapons": "2 x MRCs (B), HAPGL (Auto)",
           "mounted-weapons": "-",
           "traits": "Offroad, Stable, Resist:H, AMS",
           "type": "Vehicle",
@@ -676,6 +659,28 @@
           "traits": "Offroad, Stable, Resist:H, AMS, React+, Transport: 6 N-KIDU",
           "type": "Vehicle",
           "height": 1.5
+        }
+      ]
+    },
+    {
+      "name": "Gilgamesh Rear",
+      "variants": [
+        {
+          "model": "Rear Body Type A",
+          "tv": 23,
+          "role": "FS",
+          "mr": "-",
+          "arm": 11,
+          "h/s": "6/2",
+          "a": 2,
+          "gu": "4+",
+          "pi": "6+",
+          "ew": "5+",
+          "react-weapons": "2 x MRCs (B), HAPGL (Auto)",
+          "mounted-weapons": "-",
+          "traits": "Offroad, Stable, Resist:H, AMS",
+          "type": "Vehicle",
+          "height": 1.5
         },
         {
           "model": "Rear Body Type B",
@@ -693,7 +698,12 @@
           "traits": "Offroad, Stable, Resist:H, AMS, React+, Transport: 6 N-KIDU",
           "type": "Vehicle",
           "height": 1.5
-        },
+        }
+      ]
+    },
+    {
+      "name": "Gilgamesh Turret",
+      "variants": [
         {
           "model": "Turret",
           "tv": 30,
