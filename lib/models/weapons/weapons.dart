@@ -4,7 +4,7 @@ import 'package:gearforce/models/weapons/weapon.dart';
 import 'package:gearforce/models/weapons/weapon_modes.dart';
 
 final weaponMatch =
-    RegExp(r'^((?<number>[2-9]) X )?(?<size>[BLMH])(?<type>[a-zA-Z]+)');
+    RegExp(r'^((?<number>[2-9]) [xX] )?(?<size>[BLMH])(?<type>[a-zA-Z]+)');
 final comboMatch = RegExp(r'(?<combo>[\/])(?<code>[a-zA-Z]+)');
 final traitsMatch = RegExp(r'\((?<traits>[a-zA-Z :0-9]+)\)$');
 
@@ -35,6 +35,39 @@ Weapon? buildWeapon(
     bonusTraits.addAll(bt);
   }
 
+  String? comboType;
+  String? comboSize;
+  final comboName = comboMatch.firstMatch(weaponString)?.namedGroup('code');
+  if (comboName != null) {
+    final comboWeaponCheck = weaponMatch.firstMatch(comboName);
+    comboType = comboWeaponCheck?.namedGroup('type');
+    comboSize = comboWeaponCheck?.namedGroup('size');
+  }
+
+  final generatedWeapon = _buildWeapon(
+    size: size,
+    type: type,
+    numberOf: numberOf,
+    bonusTraits: bonusTraits,
+    hasReact: hasReact,
+    comboType: comboType,
+    comboSize: comboSize,
+  );
+  if (generatedWeapon == null) {
+    print('Unknown weapon [$weaponString], bonusTraits [$bonusTraits]');
+  }
+  return generatedWeapon;
+}
+
+Weapon? _buildWeapon({
+  required String size,
+  required String type,
+  required String? numberOf,
+  required List<Trait> bonusTraits,
+  String? comboType,
+  String? comboSize,
+  bool hasReact = false,
+}) {
   String name = '';
   List<weaponModes> modes = [];
   int damage = -1;
@@ -543,20 +576,32 @@ Weapon? buildWeapon(
       ];
       break;
     default:
-      print('Unknown weapon [$weaponString], bonusTraits [$bonusTraits]');
+      if (type.trim().toUpperCase().endsWith('S')) {
+        final modifiedType = '${type.substring(0, type.length - 1)}';
+        return _buildWeapon(
+          size: size,
+          type: modifiedType,
+          numberOf: numberOf,
+          bonusTraits: bonusTraits,
+          hasReact: hasReact,
+          comboType: comboType,
+          comboSize: comboSize,
+        );
+      } else {
+        print('Unknown weapon type: $type.');
+      }
       return null;
   }
 
-  bool isCombo = comboMatch.hasMatch(weaponString);
   Weapon? comboWeapon;
-  if (isCombo) {
-    final comboCheck = comboMatch.firstMatch(weaponString);
-    final comboCode = comboCheck?.namedGroup('code');
-    if (comboCode != null) {
-      comboWeapon = buildWeapon(
-          '$comboCode${bonusString != null ? ' ($bonusString)' : ''}',
-          hasReact: hasReact);
-    }
+  if (comboType != null && comboSize != null) {
+    comboWeapon = _buildWeapon(
+      size: comboSize,
+      type: comboType,
+      numberOf: numberOf,
+      bonusTraits: bonusTraits,
+      hasReact: hasReact,
+    );
   }
 
   return Weapon(

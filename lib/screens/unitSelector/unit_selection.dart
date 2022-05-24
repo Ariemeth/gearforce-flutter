@@ -193,7 +193,7 @@ class SelectionList extends StatelessWidget {
           UnitSelectionTextCell.content(uc.ew == null ? '-' : '${uc.ew}+')),
       DataCell(
         UnitSelectionTextCell.content(
-          '${(uc.reactWeapons.toList()..addAll(uc.mountedWeapons.toList())).map((e) => e.hasReact ? '$_reactSymbol${e.abbreviation}' : '${e.abbreviation}').toList().join(', ')}',
+          '${(uc.reactWeapons.toList()..addAll(uc.mountedWeapons.toList())).map((e) => e.hasReact ? '$_reactSymbol${e}' : '${e}').toList().join(', ')}',
           maxLines: 3,
           alignment: Alignment.centerLeft,
           textAlignment: TextAlign.left,

@@ -2,7 +2,6 @@
   "frames": [
     {
       "name": "Outpost",
-      "upgrades": [],
       "variants": [
         {
           "model": "Outpost",
@@ -15,7 +14,7 @@
           "gu": "4+",
           "pi": "6+",
           "ew": "5+",
-          "react-weapons": "MAC, MAC(R), MAC(L), MAC(B)",
+          "react-weapons": "MAC, MAC (R), MAC (L), MAC (B)",
           "mounted-weapons": "-",
           "traits": "Occupancy: 2 Squads, Comms, Supply, Sensors:36, Stationary",
           "type": "Building",
@@ -23,8 +22,8 @@
         },
         {
           "model": "Rotary Cannon Turret",
-          "tv": 15,
-          "role": "FT",
+          "tv": 13,
+          "role": "FT+",
           "mr": "-",
           "arm": 10,
           "h/s": "4/2",
@@ -34,14 +33,14 @@
           "ew": "6+",
           "react-weapons": "MRC (T Link AA)",
           "mounted-weapons": "-",
-          "traits": "Occupancy: 1 Squad,  Stationary, Sensors:24",
+          "traits": "Occupancy: 1 Squad, Stationary, Sensors:24",
           "type": "Building",
           "height": 1.5
         },
         {
           "model": "Rocket Turret",
-          "tv": 14,
-          "role": "FT",
+          "tv": 13,
+          "role": "FT+",
           "mr": "-",
           "arm": 10,
           "h/s": "4/2",
@@ -51,14 +50,14 @@
           "ew": "6+",
           "react-weapons": "-",
           "mounted-weapons": "HRP (T Link)",
-          "traits": "Occupancy: 1 Squad,  Stationary, Sensors:24",
+          "traits": "Occupancy: 1 Squad, Stationary, Sensors:24",
           "type": "Building",
           "height": 1.5
         },
         {
           "model": "Machine Gun Bunker",
           "tv": 5,
-          "role": "FT",
+          "role": "FT+",
           "mr": "-",
           "arm": 10,
           "h/s": "4/2",
@@ -75,13 +74,102 @@
       ]
     },
     {
-      "name": "Badlands Homestead Facilities",
-      "upgrades": [],
+      "name": "MAMO",
+      "variants": [
+        {
+          "model": "Middle Corridor",
+          "tv": 3,
+          "role": "FT+",
+          "mr": "-",
+          "arm": 8,
+          "h/s": "3/3",
+          "a": 1,
+          "gu": "-",
+          "pi": "6+",
+          "ew": "6+",
+          "react-weapons": "-",
+          "mounted-weapons": "-",
+          "traits": "Stationary, Occupancy: 1 Gear",
+          "type": "Building",
+          "height": 2.5
+        },
+        {
+          "model": "Hanger Module",
+          "tv": 4,
+          "role": "FT",
+          "mr": "-",
+          "arm": 8,
+          "h/s": "3/3",
+          "a": 1,
+          "gu": "-",
+          "pi": "6+",
+          "ew": "6+",
+          "react-weapons": "-",
+          "mounted-weapons": "-",
+          "traits": "Stationary, Occupancy: 1 Gear, Repair",
+          "type": "Building",
+          "height": 2.5
+        },
+        {
+          "model": "Storage Module",
+          "tv": 3,
+          "role": "FT",
+          "mr": "-",
+          "arm": 8,
+          "h/s": "3/3",
+          "a": 1,
+          "gu": "-",
+          "pi": "6+",
+          "ew": "6+",
+          "react-weapons": "-",
+          "mounted-weapons": "-",
+          "traits": "Stationary, Supply",
+          "type": "Building",
+          "height": 2.5
+        },
+        {
+          "model": "Office Module",
+          "tv": 4,
+          "role": "FT",
+          "mr": "-",
+          "arm": 8,
+          "h/s": "3/3",
+          "a": 1,
+          "gu": "-",
+          "pi": "6+",
+          "ew": "4+",
+          "react-weapons": "-",
+          "mounted-weapons": "-",
+          "traits": "Stationary, Comms, SatUp",
+          "type": "Building",
+          "height": 2.5
+        },
+        {
+          "model": "Living Quarters",
+          "tv": 2,
+          "role": "FT",
+          "mr": "-",
+          "arm": 8,
+          "h/s": "3/3",
+          "a": 1,
+          "gu": "-",
+          "pi": "6+",
+          "ew": "6+",
+          "react-weapons": "-",
+          "mounted-weapons": "-",
+          "traits": "Stationary, Occupancy: 1 Squad",
+          "type": "Building",
+          "height": 2.5
+        }
+      ]
+    },
+    {
+      "name": "Badlands Facilities",
       "variants": [
         {
           "model": "Housing Module",
           "tv": 5,
-          "role": "FT",
+          "role": "FT+",
           "mr": "-",
           "arm": 8,
           "h/s": "4/4",
@@ -96,9 +184,9 @@
           "height": 1.5
         },
         {
-          "model": "Homestead Tower*",
+          "model": "Badlands Tower*",
           "tv": 5,
-          "role": "FT",
+          "role": "FT+",
           "mr": "-",
           "arm": 8,
           "h/s": "4/4",
@@ -115,13 +203,12 @@
       ]
     },
     {
-      "name": "Badlands Ancillaries",
-      "upgrades": [],
+      "name": "Badlands Support Structures",
       "variants": [
         {
           "model": "Comms Array",
           "tv": 3,
-          "role": "FT",
+          "role": "FT+",
           "mr": "-",
           "arm": 5,
           "h/s": "2/2",
@@ -136,16 +223,16 @@
           "height": 2
         },
         {
-          "model": "Homestead Sheds",
+          "model": "Badlands Shed",
           "tv": 3,
-          "role": "FT",
+          "role": "FT+",
           "mr": "-",
           "arm": 6,
           "h/s": "6/0",
           "a": 1,
           "gu": "-",
           "pi": "6+",
-          "ew": "-",
+          "ew": "6+",
           "react-weapons": "-",
           "mounted-weapons": "-",
           "traits": "Occupancy:1 Squad, Stationary",
@@ -155,77 +242,81 @@
       ]
     },
     {
-      "name": "Badlands Peripheral Terrain",
-      "upgrades": [],
+      "name": "Badlands Ancillaries",
       "variants": [
         {
           "model": "Solar Panel",
           "tv": 1,
-          "role": "FT",
+          "role": "FT+",
           "mr": "-",
           "arm": 4,
           "h/s": "4/0",
           "a": 1,
-          "gu": "-",
+          "gu": 0,
           "pi": "6+",
           "ew": "-",
           "react-weapons": "-",
           "mounted-weapons": "-",
           "traits": "Stationary",
-          "type": "Building",
+          "type": "Terrain",
           "height": 2
         },
         {
           "model": "Windmill",
           "tv": 1,
-          "role": "FT",
+          "role": "FT+",
           "mr": "-",
           "arm": 4,
           "h/s": "4/0",
           "a": 1,
-          "gu": "-",
+          "gu": 0,
           "pi": "6+",
           "ew": "-",
           "react-weapons": "-",
           "mounted-weapons": "-",
           "traits": "Stationary",
-          "type": "Building",
+          "type": "Terrain",
           "height": 2
         },
         {
           "model": "Water Condenser",
           "tv": 2,
-          "role": "FT",
+          "role": "FT+",
           "mr": "-",
           "arm": 5,
           "h/s": "6/0",
           "a": 1,
-          "gu": "-",
+          "gu": 0,
           "pi": "6+",
           "ew": "-",
           "react-weapons": "-",
           "mounted-weapons": "-",
           "traits": "Stationary",
-          "type": "Building",
+          "type": "Terrain",
           "height": 2
         },
         {
           "model": "Twin Water Tanks",
           "tv": 2,
-          "role": "FT",
+          "role": "FT+",
           "mr": "-",
           "arm": 5,
           "h/s": "6/0",
           "a": 1,
-          "gu": "-",
+          "gu": 0,
           "pi": "6+",
           "ew": "-",
           "react-weapons": "-",
           "mounted-weapons": "-",
           "traits": "Stationary",
-          "type": "Building",
+          "type": "Terrain",
           "height": 1.5
-        },
+        }
+      ]
+    },
+    {
+      "name": "Shipping Container",
+      "variants": [
         {
           "model": "Shipping Container",
           "tv": 1,
@@ -234,7 +325,7 @@
           "arm": 7,
           "h/s": "4/0",
           "a": 1,
-          "gu": "-",
+          "gu": 0,
           "pi": "6+",
           "ew": "-",
           "react-weapons": "-",
@@ -242,16 +333,21 @@
           "traits": "Stationary",
           "type": "Terrain",
           "height": 0.5
-        },
+        }
+      ]
+    },
+    {
+      "name": "Barnaby Wreck",
+      "variants": [
         {
           "model": "Barnaby Wreck",
           "tv": 3,
-          "role": "FT",
+          "role": "FT+",
           "mr": "-",
           "arm": 7,
           "h/s": "8/0",
           "a": 1,
-          "gu": "-",
+          "gu": 0,
           "pi": "6+",
           "ew": "-",
           "react-weapons": "-",
@@ -264,10 +360,9 @@
     },
     {
       "name": "Stone Heads",
-      "upgrades": [],
       "variants": [
         {
-          "model": "Small  Stone Heads",
+          "model": "Small Stoneheads",
           "tv": 3,
           "role": "FT",
           "mr": "-",
@@ -284,7 +379,7 @@
           "height": 1.5
         },
         {
-          "model": "Large  Stone Heads",
+          "model": "Large Stoneheads",
           "tv": 3,
           "role": "FT",
           "mr": "-",
@@ -303,12 +398,11 @@
       ]
     },
     {
-      "name": "Battlefield Upgrades",
-      "upgrades": [],
+      "name": "Minefields",
       "variants": [
         {
-          "model": "Minefield  (6\" X 3\")",
-          "tv": 3,
+          "model": "Minefield (3\" X 3\")",
+          "tv": 2,
           "role": "FT",
           "mr": "-",
           "arm": "-",
@@ -322,9 +416,14 @@
           "traits": "Stationary",
           "type": "Terrain",
           "height": 0
-        },
+        }
+      ]
+    },
+    {
+      "name": "Trench",
+      "variants": [
         {
-          "model": "Trench  (6\" X 1\")",
+          "model": "Trench* (2\" or 3\" long)",
           "tv": 2,
           "role": "FT",
           "mr": "-",

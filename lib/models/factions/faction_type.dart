@@ -8,6 +8,8 @@ enum FactionType {
   Utopia,
   Eden,
   Universal,
+  Universal_TerraNova,
+  Universal_Non_TerraNova,
   Terrain,
   BlackTalon
 }
@@ -32,6 +34,10 @@ String factionTypeToString(FactionType f) {
       return 'Eden';
     case FactionType.Universal:
       return 'Universal';
+    case FactionType.Universal_TerraNova:
+      return 'Universal TerraNova';
+    case FactionType.Universal_Non_TerraNova:
+      return 'Universal Non TerraNova';
     case FactionType.Terrain:
       return 'Terrain';
     case FactionType.BlackTalon:

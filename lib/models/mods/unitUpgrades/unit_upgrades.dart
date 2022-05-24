@@ -30,7 +30,9 @@ List<UnitModification> getUnitMods(String frameName, Unit unit) {
       return [north.sabertooth];
     case 'weasel':
       return [north.tattletale];
-    case 'mp gears':
+    case 'hunter mp':
+    case 'cheetah mp':
+    case 'jaguar mp':
       return [north.mpCommand];
     case 'lynx':
       return [north.armored];
@@ -41,9 +43,12 @@ List<UnitModification> getUnitMods(String frameName, Unit unit) {
     case 'bear':
       return [north.denMother];
     case 'scimitar':
-      return [north.rotaryLaser, north.scimitarCommand];
+      return [north.gatlingLaser, north.crossbow, north.scimitarCommand];
     case 'mammoth':
       return [north.sledgehammer, north.aegis];
+    case 'thunderhammer':
+      return [north.bastion];
+
     // Southern units
     case 'jager':
       return [south.command];
@@ -63,6 +68,8 @@ List<UnitModification> getUnitMods(String frameName, Unit unit) {
       return [south.longFang, south.diamondbackArenaPilot(unit)];
     case 'salamander':
       return [south.ruggedTerrain];
+    case 'water viper':
+      return [south.SRUpgrade];
     case 'desert viper':
       return [south.ruggedTerrain];
     case 'black adder':
@@ -73,27 +80,35 @@ List<UnitModification> getUnitMods(String frameName, Unit unit) {
       return [south.boasLongFang, south.meleeSwap, south.boasArenaPilot];
     case 'gila':
       return [south.barbed];
-    case 'mp gears':
+    case 'mamba mp':
+    case 'cobra mp':
+    case 'iguana mp':
       return [south.mpCommand];
     case 'drake':
-      return [south.antiGear];
+      return [south.fang, south.drakeCommand];
     case 'naga':
-      return [south.spark, south.flame];
-    case 'hetairoi':
-      return [south.hetairoiCommand];
+      return [south.hooded, south.spark, south.flame];
     case 'caiman':
       return [south.caimanCommand];
     case 'lizard rider':
-      return [south.single];
+      return [south.team];
+
     // Peace River
     case 'warrior':
-      return [peaceRiver.chieftain];
+      return [peaceRiver.spectre, peaceRiver.chieftain];
     case 'warrior iv':
-      return [peaceRiver.jetpack, peaceRiver.chieftainIV];
+      return [
+        peaceRiver.jetpack,
+        peaceRiver.warriorIVSpecialForces,
+        peaceRiver.warriorIVSpectre,
+        peaceRiver.warriorIVChieftain
+      ];
     case 'jackal':
       return [peaceRiver.meleeSpecialist];
     case 'gladiator':
-      return [peaceRiver.meleeSpecialist1];
+      return [peaceRiver.meleeSpecialist1, peaceRiver.shield];
+    case 'pit bull':
+      return [peaceRiver.pitBullSpectre];
     case 'greyhound':
       return [peaceRiver.greyhoundChieftain];
     case 'harrier':
@@ -102,16 +117,24 @@ List<UnitModification> getUnitMods(String frameName, Unit unit) {
       return [
         peaceRiver.skirmisherChieftain,
         peaceRiver.skirmisherTag,
-        peaceRiver.specialForces
+        peaceRiver.SkirmisherSpecialForces
       ];
     case 'shinobi':
-      return [peaceRiver.shinobiMeleeSpecialist, peaceRiver.shinobiChieftain];
+      return [
+        peaceRiver.shinobiSpectre,
+        peaceRiver.shinobiMeleeSpecialist,
+        peaceRiver.shinobiChieftain
+      ];
+    case 'spartan':
+      return [peaceRiver.spartanSpectre];
     case 'crusader iv':
       return [peaceRiver.crusaderV];
     case 'cataphract':
-      return [peaceRiver.cataphractLord];
+      return [peaceRiver.cataphractSarisa, peaceRiver.cataphractLord];
     case 'uhlan':
       return [peaceRiver.tankHunter, peaceRiver.uhlanLord];
+    case 'hyene ii':
+      return [peaceRiver.hyeneIISpectre];
     case 'coyote':
       return [peaceRiver.alphaDog];
     case 'red bull mk2':
@@ -120,6 +143,7 @@ List<UnitModification> getUnitMods(String frameName, Unit unit) {
       return [peaceRiver.herdLord];
     case 'black wind':
       return [peaceRiver.missile];
+
     // NuCoal
     case 'chasseur':
       return [nucoal.cv];
@@ -142,15 +166,12 @@ List<UnitModification> getUnitMods(String frameName, Unit unit) {
     case 'voltigeur':
       return [nucoal.voltigeurABM, nucoal.voltigeurAM, nucoal.voltigeurCv];
     case 'sampson':
-      return [nucoal.cv2];
-    case 'grel':
-      return [cef.jan, nucoal.team];
-    case 'hoverbike grel':
-      return [cef.jan, south.single];
+      return [nucoal.sampsonCv];
     case 'sandrider':
-      return [nucoal.koreshi, nucoal.team];
+      return [nucoal.koreshi, nucoal.squad];
     case 'lizard sandrider':
-      return [south.single];
+      return [south.team];
+
     // CEF
     case 'f6-16':
       return [cef.command, cef.mobilityPack6, cef.stealth];
@@ -161,21 +182,28 @@ List<UnitModification> getUnitMods(String frameName, Unit unit) {
     case 'bf2-25':
       return [cef.mrl];
     case 'lht-67':
-      return [cef.flailCrew];
+      return [cef.grelCrew];
     case 'lht-71':
-      return [cef.flailCrew];
+      return [cef.grelCrew];
     case 'mht-95':
-      return [cef.flailCrew];
+      return [cef.grelCrew];
     case 'mht-68':
-      return [cef.flailCrew];
+      return [cef.grelCrew4];
     case 'mht-72':
-      return [cef.flailCrew];
+      return [cef.grelCrew4];
+    case 'hc-3a':
+      return [cef.grelCrew2];
     case 'hpc-64':
-      return [cef.command2];
+      return [cef.grelCrew3, cef.hpc64Command];
+    case 'grel':
+      return [cef.jan, cef.squad];
+    case 'hoverbike grel':
+      return [cef.jan, cef.team];
     case 'flail':
-      return [cef.lpz, south.single];
+      return [cef.lpz, cef.team];
     case 'peregrine gunship':
       return [cef.tankHunter];
+
     // Caprice
     case 'bashan':
       return [caprice.command];
@@ -185,21 +213,25 @@ List<UnitModification> getUnitMods(String frameName, Unit unit) {
       return [caprice.command2];
     case 'moab':
       return [caprice.command2];
+
     // Utopia
-    case 'commando armiger':
+    case 'commando armiger': //
       return [utopia.antiTank, utopia.vtol];
-    case 'commando n-kidu':
+    case 'commando n-kidu': //
       return [utopia.rocket, utopia.nlil];
-    case 'recce n-kidu':
+    case 'recce n-kidu': //
       return [utopia.rocket2];
-    case 'support armiger':
+    case 'support armiger': //
       return [utopia.sniper];
-    case 'constable ape':
-      return [utopia.edenWizard, utopia.specialOperations];
-    case 'man at arms ape':
+    case 'trooper ape':
+      return [eden.wizard, utopia.specialOperations];
+    case 'support ape':
       return [utopia.specialOperations];
     case 'mar-dk':
-      return [utopia.node];
+      return [utopia.pazu];
+    case 'gilgamesh rear':
+      return [utopia.gilgameshEngineering];
+
     // Black Talon
     case 'dark warrior':
       return [blackTalon.psi];
@@ -210,7 +242,7 @@ List<UnitModification> getUnitMods(String frameName, Unit unit) {
     case 'dark cobra':
       return [blackTalon.xi];
     case 'dark naga':
-      return [blackTalon.zeta, blackTalon.pur];
+      return [blackTalon.omi, blackTalon.zeta, blackTalon.pur];
     case 'dark coyote':
       return [blackTalon.darkCoyotePsi];
     case 'eagle':
@@ -219,18 +251,44 @@ List<UnitModification> getUnitMods(String frameName, Unit unit) {
       return [blackTalon.iota];
     case 'vulture':
       return [blackTalon.theta];
+    case 'dark hyena ii':
+      return [blackTalon.spectre];
     case 'dark hoplite':
       return [blackTalon.darkHoplitePsi];
-    case 'infantry':
-      return [nucoal.team];
+    case 'talon infantry':
+      return [nucoal.squad];
     case 'bt black wind':
       return [blackTalon.blackwindTheta];
+
     // Eden
-    case 'constable golem':
+    case 'constable':
       return [eden.wizard, eden.utopianSpecialOperations];
-    case 'man at arms golem':
+    case 'man at arms':
       return [eden.utopianSpecialOperations];
+    case 'centaur':
+      return [eden.dominus];
+    case 'doppel':
+      return [eden.halberd, eden.hydor, eden.doppelDominus];
+    case 'warlock':
+      return [eden.hydor];
+    case 'animus':
+      return [eden.dominus];
+    case 'gargoyle':
+      return [eden.saker];
+    case 'sepentina':
+      return [eden.lyddite, eden.serpentinaDominus];
+    case 'huni riders':
+      return [eden.team];
+
     // Universal
+    case 'chargeur':
+      return [universal.chainswordSwap, universal.clawSwap];
+    case 'sapeur':
+      return [universal.demolisher, universal.hammerSwap];
+    case 'druid':
+      return [eden.hydor];
+    case 'valence':
+      return [universal.maulerFistSwap, universal.valenceClawSwap];
     case 'bricklayer':
       return [universal.sawBladeSwap, universal.vibroswordSwap];
     case 'engineering grizzly':
@@ -240,28 +298,24 @@ List<UnitModification> getUnitMods(String frameName, Unit unit) {
         universal.heavyChainswordSwap
       ];
     case 'stonemason':
-      return [universal.maulerFistSwap, universal.chainswordSwap];
+      return [universal.maulerFistSwap, universal.stonemasonChainswordSwap];
     case 'engineering cobra':
       return [
         universal.strike,
         universal.demolisher,
         universal.heavyChainswordSwap
       ];
-    case 'valence':
-      return [universal.maulerFistSwap, universal.clawSwap];
-    case 'chargeur':
-      return [universal.chainswordSwap, universal.clawSwap];
-    case 'sapeur':
-      return [universal.demolisher, universal.hammerSwap];
-    case 'infantryman':
+    case 'saker':
+      return [eden.dominus];
+    case 'infantry':
       return [
         universal.paratrooper,
         universal.mountaineering,
         universal.frogmen,
-        nucoal.team
+        nucoal.squad
       ];
     case 'small vehicles':
-      return [south.single];
+      return [south.team];
     case 'dragonfly':
       return [universal.latm, universal.ecm];
     case 'varis':

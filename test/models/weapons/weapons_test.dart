@@ -401,7 +401,7 @@ void main() {
 
   // Weapons to test that have traits with variable valeus
   // ATM
-  group('test building ATMs', () {
+  group('test building ATM', () {
     const code = 'ATM';
     const name = 'Anti-Tank Missile';
     const modes = [weaponModes.Direct, weaponModes.Indirect];
@@ -429,7 +429,7 @@ void main() {
     }
   });
   // BZ
-  group('test building BZs', () {
+  group('test building BZ', () {
     const code = 'BZ';
     const name = 'Bazooka';
     const modes = [weaponModes.Direct];
@@ -456,7 +456,7 @@ void main() {
     }
   });
   // FG
-  group('test building FGs', () {
+  group('test building FG', () {
     const code = 'FG';
     const name = 'Field Gun';
     const modes = [weaponModes.Direct, weaponModes.Indirect];
@@ -488,7 +488,7 @@ void main() {
     }
   });
   // FL
-  group('test building FLs', () {
+  group('test building FL', () {
     const code = 'FL';
     const name = 'Flamer';
     const modes = [weaponModes.Direct];
@@ -518,7 +518,7 @@ void main() {
     }
   });
   // PL
-  group('test building PLs', () {
+  group('test building PL', () {
     const code = 'PL';
     const name = 'Pulse Laser';
     const modes = [weaponModes.Direct];
@@ -546,7 +546,7 @@ void main() {
     }
   });
   // PZ
-  group('test building PZs', () {
+  group('test building PZ', () {
     const code = 'PZ';
     const name = 'Panzerfaust';
     const modes = [weaponModes.Direct];
@@ -573,7 +573,7 @@ void main() {
     }
   });
   // RG
-  group('test building RGs', () {
+  group('test building RG', () {
     const code = 'RG';
     const name = 'Railgun';
     const modes = [weaponModes.Direct];
@@ -601,7 +601,7 @@ void main() {
     }
   });
   // SC
-  group('test building SCs', () {
+  group('test building SC', () {
     const code = 'SC';
     const name = 'Snub Cannon';
     const modes = [weaponModes.Direct];
@@ -629,7 +629,7 @@ void main() {
     }
   });
   // SE
-  group('test building SEs', () {
+  group('test building SE', () {
     const code = 'SE';
     const name = 'Shaped Explosives';
     const modes = [weaponModes.Melee];
@@ -658,7 +658,7 @@ void main() {
     }
   });
   // SG
-  group('test building SGs', () {
+  group('test building SG', () {
     const code = 'SG';
     const name = 'Spike Gun';
     const modes = [weaponModes.Melee];
@@ -685,7 +685,7 @@ void main() {
     }
   });
   // TG
-  group('test building TGs', () {
+  group('test building TG', () {
     const code = 'TG';
     const name = 'Tank Gun';
     const modes = [weaponModes.Direct];
@@ -713,7 +713,7 @@ void main() {
     }
   });
   // VB
-  group('test building VBs', () {
+  group('test building VB', () {
     const code = 'VB';
     const name = 'Vibroblade';
     const modes = [weaponModes.Melee];
@@ -740,7 +740,7 @@ void main() {
     }
   });
 
-  group('test building 2 x VBs', () {
+  group('test building 2 x VB', () {
     const code = 'VB';
     const name = 'Vibroblade';
     const modes = [weaponModes.Melee];
@@ -753,6 +753,21 @@ void main() {
       ];
       test('test building 2 X $size$code', () {
         final l = buildWeapon('2 X $size$code');
+        expect(l, isNotNull, reason: 'weapon should not be null');
+        expect(l?.abbreviation, '$size$code', reason: 'check weapon code');
+        expect(l?.name, equals(name), reason: 'check name');
+        expect(l?.modes, equals(modes), reason: 'check modes');
+        expect(l?.damage, equals(damage[size]), reason: 'check damage');
+        expect(l?.range.toString(), equals(range.toString()),
+            reason: 'check range');
+        expect(l?.traits.toString(), equals(traits.toString()),
+            reason: 'check traits');
+        expect(l?.optionalTraits, isEmpty, reason: 'check optional traits');
+        expect(l?.toString(), equals('2 X $size$code'),
+            reason: 'toString check');
+      });
+      test('test building 2 X $size${code}s', () {
+        final l = buildWeapon('2 X $size${code}s');
         expect(l, isNotNull, reason: 'weapon should not be null');
         expect(l?.abbreviation, '$size$code', reason: 'check weapon code');
         expect(l?.name, equals(name), reason: 'check name');

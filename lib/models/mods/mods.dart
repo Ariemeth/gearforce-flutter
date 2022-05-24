@@ -101,6 +101,8 @@ dynamic Function(dynamic) createAddRoleToList(Role newValue) {
         newRoles.removeAt(index);
         newRoles.insert(index, newValue);
       }
+    } else {
+      newRoles.add(newValue);
     }
 
     return Roles(roles: newRoles);
@@ -126,8 +128,17 @@ dynamic Function(dynamic) createRemoveWeaponFromList(Weapon newValue) {
       return value;
     }
 
-    var newList = new List<Weapon>.from(value).where((existingWeapon) =>
-        existingWeapon.abbreviation != newValue.abbreviation);
+    if (!value.any((w) =>
+        w.abbreviation == newValue.abbreviation &&
+        w.bonusString == newValue.bonusString)) {
+      return value;
+    }
+
+    var newList = new List<Weapon>.from(value)
+        .where((existingWeapon) =>
+            existingWeapon.abbreviation != newValue.abbreviation &&
+            existingWeapon.bonusString != newValue.bonusString)
+        .toList();
 
     return newList;
   };

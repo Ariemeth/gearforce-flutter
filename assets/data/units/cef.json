@@ -2,17 +2,6 @@
   "frames": [
     {
       "name": "F6-16",
-      "upgrades": [
-        {
-          "name": "Command Upgrade"
-        },
-        {
-          "name": "Mobility Pack Upgrade"
-        },
-        {
-          "name": "Stealth Upgrade"
-        }
-      ],
       "variants": [
         {
           "model": "F6-16",
@@ -27,7 +16,7 @@
           "ew": "4+",
           "react-weapons": "LLC, LCW",
           "mounted-weapons": "-",
-          "traits": "Hands, ECM (Aux)",
+          "traits": "Hands, ECM",
           "type": "Gear",
           "height": 1.5
         },
@@ -68,7 +57,7 @@
         {
           "model": "F6-16 Recon",
           "tv": 11,
-          "role": "GP, SK, RC, FS",
+          "role": "GP, SK, FS",
           "mr": "W/H:9",
           "arm": 7,
           "h/s": "3/3",
@@ -103,16 +92,11 @@
     },
     {
       "name": "BF2-21",
-      "upgrades": [
-        {
-          "name": "Mobility Pack Upgrade"
-        }
-      ],
       "variants": [
         {
-          "model": "BF2-21",
+          "model": "F2-21",
           "tv": 11,
-          "role": "GP, SK",
+          "role": "GP, SK, FS",
           "mr": "W/H:9",
           "arm": 7,
           "h/s": "4/2",
@@ -122,13 +106,13 @@
           "ew": "5+",
           "react-weapons": "LLC, LCW",
           "mounted-weapons": "-",
-          "traits": "Hands, ANN, ECM (Aux)",
+          "traits": "Hands, ECM",
           "type": "Gear",
           "height": 1.5
         },
         {
-          "model": "BF2-21 Anti-Tank",
-          "tv": 11,
+          "model": "F2-21 Anti-Tank",
+          "tv": 10,
           "role": "GP, SK, FS",
           "mr": "W/H:9",
           "arm": 7,
@@ -139,14 +123,14 @@
           "ew": "5+",
           "react-weapons": "LPA, LCW",
           "mounted-weapons": "LATM (LA:2)",
-          "traits": "Hands, ANN",
+          "traits": "Hands",
           "type": "Gear",
           "height": 1.5
         },
         {
-          "model": "BF2-21 Assault",
+          "model": "F2-21 Assault",
           "tv": 12,
-          "role": "GP, SK",
+          "role": "GP, SK, FS",
           "mr": "W/H:9",
           "arm": 7,
           "h/s": "4/2",
@@ -156,14 +140,14 @@
           "ew": "5+",
           "react-weapons": "MRL, LCW",
           "mounted-weapons": "-",
-          "traits": "Hands, ANN, Shield",
+          "traits": "Hands, Shield",
           "type": "Gear",
           "height": 1.5
         },
         {
-          "model": "BF2-21 Recon",
-          "tv": 12,
-          "role": "GP, SK, RC, FS",
+          "model": "F2-21 Recon",
+          "tv": 11,
+          "role": "GP, SK, FS",
           "mr": "W/H:9",
           "arm": 7,
           "h/s": "4/2",
@@ -173,13 +157,13 @@
           "ew": "4+",
           "react-weapons": "LLC, LCW",
           "mounted-weapons": "-",
-          "traits": "Hands, ANN, Sensors:24 (Aux), Comms, TD (Aux), Sensor Boom (Aux)",
+          "traits": "Hands, Sensors:24 (Aux), Comms, TD (Aux), Sensor Boom (Aux)",
           "type": "Gear",
           "height": 1.5
         },
         {
-          "model": "BF2-21 Striker",
-          "tv": 11,
+          "model": "F2-21 Striker",
+          "tv": 10,
           "role": "GP, SK, FS",
           "mr": "W/H:9",
           "arm": 7,
@@ -190,118 +174,18 @@
           "ew": "5+",
           "react-weapons": "LLC, LCW",
           "mounted-weapons": "LGM",
-          "traits": "Hands, ANN",
+          "traits": "Hands",
           "type": "Gear",
           "height": 1.5
         }
       ]
     },
     {
-      "name": "BF2-19",
-      "upgrades": [
-        {
-          "name": "Mobility Pack Upgrade"
-        }
-      ],
-      "variants": [
-        {
-          "model": "BF2-19",
-          "tv": 15,
-          "role": "FS, SK",
-          "mr": "W/H:7",
-          "arm": 8,
-          "h/s": "4/2",
-          "a": 1,
-          "gu": "4+",
-          "pi": "4+",
-          "ew": "5+",
-          "react-weapons": "MLC, MCW",
-          "mounted-weapons": "MRP, LATM",
-          "traits": "Hands, ANN, ECM (Aux), React+",
-          "type": "Gear",
-          "height": 2
-        },
-        {
-          "model": "BF2-19 Anti-Tank",
-          "tv": 15,
-          "role": "FS, SK",
-          "mr": "W/H:7",
-          "arm": 8,
-          "h/s": "4/2",
-          "a": 1,
-          "gu": "4+",
-          "pi": "4+",
-          "ew": "5+",
-          "react-weapons": "MPA, MCW",
-          "mounted-weapons": "MRP, MATM (LA:2)",
-          "traits": "Hands, ANN, React+",
-          "type": "Gear",
-          "height": 2
-        },
-        {
-          "model": "BF2-19 Assault",
-          "tv": 15,
-          "role": "FS, SK",
-          "mr": "W/H:7",
-          "arm": 8,
-          "h/s": "4/2",
-          "a": 1,
-          "gu": "4+",
-          "pi": "4+",
-          "ew": "5+",
-          "react-weapons": "MRL, MCW",
-          "mounted-weapons": "MRP, LATM",
-          "traits": "Hand, ANN, Shield, React+",
-          "type": "Gear",
-          "height": 2
-        },
-        {
-          "model": "BF2-19 Striker",
-          "tv": 15,
-          "role": "FS, SK",
-          "mr": "W/H:7",
-          "arm": 8,
-          "h/s": "4/2",
-          "a": 1,
-          "gu": "4+",
-          "pi": "4+",
-          "ew": "5+",
-          "react-weapons": "MLC, MCW",
-          "mounted-weapons": "LATM, MGM",
-          "traits": "Hands, ANN, React+",
-          "type": "Gear",
-          "height": 2
-        },
-        {
-          "model": "BF2-19 Recon",
-          "tv": 16,
-          "role": "FS, SK, RC",
-          "mr": "W/H:7",
-          "arm": 8,
-          "h/s": "4/2",
-          "a": 1,
-          "gu": "4+",
-          "pi": "4+",
-          "ew": "4+",
-          "react-weapons": "MRL, MCW",
-          "mounted-weapons": "MRP, LATM",
-          "traits": "Hands, ANN, React+, Comms, Sensors:24 (Aux), TD (Aux), Sensor Boom (Aux)",
-          "type": "Gear",
-          "height": 2
-        }
-      ]
-    },
-    {
       "name": "BF2-25",
-      "upgrades": [
-        {
-          "name": "MRL Upgrade"
-        }
-      ],
       "variants": [
         {
-          "model": "BF2-25",
-          "tv": 13,
+          "model": "F2-25",
+          "tv": 12,
           "role": "RC, SO, SK",
           "mr": "W/H:10",
           "arm": 7,
@@ -312,14 +196,14 @@
           "ew": "5+",
           "react-weapons": "LLC, LCW",
           "mounted-weapons": "-",
-          "traits": "Hands, Agile, Airdrop, ANN, ECM, Stealth (Aux), Jetpack:6 (Aux)",
+          "traits": "Hands, Agile, Airdrop, ECM, Stealth (Aux), Jetpack:6 (Aux)",
           "type": "Gear",
           "height": 1.5
         },
         {
-          "model": "BF2-25 Anti-Tank",
-          "tv": 12,
-          "role": "RC, SO, SK, FS",
+          "model": "F2-25 Anti-Tank",
+          "tv": 11,
+          "role": "RC, SO, SK",
           "mr": "W/H:10",
           "arm": 7,
           "h/s": "3/3",
@@ -329,13 +213,13 @@
           "ew": "5+",
           "react-weapons": "LLC, LCW",
           "mounted-weapons": "LATM (LA:2)",
-          "traits": "Hands, Agile, Airdrop, ANN, Stealth (Aux), Jetpack:6 (Aux)",
+          "traits": "Hands, Agile, Airdrop, Stealth (Aux), Jetpack:6 (Aux)",
           "type": "Gear",
           "height": 1.5
         },
         {
-          "model": "BF2-25 Assault",
-          "tv": 13,
+          "model": "F2-25 Assault",
+          "tv": 12,
           "role": "RC, SO, SK",
           "mr": "W/H:10",
           "arm": 7,
@@ -346,14 +230,14 @@
           "ew": "5+",
           "react-weapons": "LLC, LCW",
           "mounted-weapons": "-",
-          "traits": "Hands, Agile, Airdrop, ANN, Stealth (Aux), Jetpack:6 (Aux), Shield",
+          "traits": "Hands, Agile, Airdrop, Stealth (Aux), Jetpack:6 (Aux), Shield",
           "type": "Gear",
           "height": 1.5
         },
         {
-          "model": "BF2-25 Recon",
-          "tv": 13,
-          "role": "RC, SO, SK, FS",
+          "model": "F2-25 Recon",
+          "tv": 12,
+          "role": "RC, SO, SK",
           "mr": "W/H:10",
           "arm": 7,
           "h/s": "3/3",
@@ -363,26 +247,111 @@
           "ew": "4+",
           "react-weapons": "LLC, LCW",
           "mounted-weapons": "-",
-          "traits": "Hands, Agile, Airdrop, Sensors:36 (Aux), Stealth (Aux), ANN, Jetpack:6 (Aux), Comms, TD (Aux), Sensor Boom (Aux)",
+          "traits": "Hands, Agile, Airdrop, Sensors:36 (Aux), Stealth (Aux), Jetpack:6 (Aux), Comms, TD (Aux), Sensor Boom (Aux)",
           "type": "Gear",
           "height": 1.5
         }
       ]
     },
     {
-      "name": "LHT-67",
-      "upgrades": [
+      "name": "BF2-19",
+      "variants": [
         {
-          "name": "FLAIL Crew Upgrade"
+          "model": "F2-19",
+          "tv": 15,
+          "role": "SK, FS",
+          "mr": "W/H:7",
+          "arm": 8,
+          "h/s": "4/2",
+          "a": 1,
+          "gu": "4+",
+          "pi": "4+",
+          "ew": "5+",
+          "react-weapons": "MLC, MCW",
+          "mounted-weapons": "MRP, LATM",
+          "traits": "Hands, ECM, React+",
+          "type": "Gear",
+          "height": 2
+        },
+        {
+          "model": "F2-19 Anti-Tank",
+          "tv": 15,
+          "role": "SK, FS",
+          "mr": "W/H:7",
+          "arm": 8,
+          "h/s": "4/2",
+          "a": 1,
+          "gu": "4+",
+          "pi": "4+",
+          "ew": "5+",
+          "react-weapons": "MPA, MCW",
+          "mounted-weapons": "MRP, MATM (LA:2)",
+          "traits": "Hands, React+",
+          "type": "Gear",
+          "height": 2
+        },
+        {
+          "model": "F2-19 Assault",
+          "tv": 15,
+          "role": "SK, FS",
+          "mr": "W/H:7",
+          "arm": 8,
+          "h/s": "4/2",
+          "a": 1,
+          "gu": "4+",
+          "pi": "4+",
+          "ew": "5+",
+          "react-weapons": "MRL, MCW",
+          "mounted-weapons": "MRP, LATM",
+          "traits": "Hand, Shield, React+",
+          "type": "Gear",
+          "height": 2
+        },
+        {
+          "model": "F2-19 Striker",
+          "tv": 14,
+          "role": "SK, FS",
+          "mr": "W/H:7",
+          "arm": 8,
+          "h/s": "4/2",
+          "a": 1,
+          "gu": "4+",
+          "pi": "4+",
+          "ew": "5+",
+          "react-weapons": "MLC, MCW",
+          "mounted-weapons": "LATM, MGM",
+          "traits": "Hands, React+",
+          "type": "Gear",
+          "height": 2
+        },
+        {
+          "model": "F2-19 Recon",
+          "tv": 15,
+          "role": "SK, FS",
+          "mr": "W/H:7",
+          "arm": 8,
+          "h/s": "4/2",
+          "a": 1,
+          "gu": "4+",
+          "pi": "4+",
+          "ew": "4+",
+          "react-weapons": "MLC, MCW",
+          "mounted-weapons": "MRP, LATM",
+          "traits": "Hands, React+, Comms, Sensors:24 (Aux), TD (Aux), Sensor Boom (Aux)",
+          "type": "Gear",
+          "height": 2
         }
-      ],
+      ]
+    },
+    {
+      "name": "LHT-67",
       "variants": [
         {
           "model": "LHT-67",
-          "tv": 15,
+          "tv": 17,
           "role": "SK, RC, FS",
           "mr": "H:9",
-          "arm": 7,
+          "arm": 8,
           "h/s": "4/4",
           "a": 2,
           "gu": "4+",
@@ -396,10 +365,10 @@
         },
         {
           "model": "LHT-67 AA",
-          "tv": 17,
+          "tv": 18,
           "role": "SK, RC, FS",
           "mr": "H:9",
-          "arm": 7,
+          "arm": 8,
           "h/s": "4/4",
           "a": 2,
           "gu": "4+",
@@ -413,10 +382,10 @@
         },
         {
           "model": "LHT-67 Assault",
-          "tv": 15,
-          "role": "SK, RC",
+          "tv": 17,
+          "role": "SK, RC, FS",
           "mr": "H:9",
-          "arm": 7,
+          "arm": 8,
           "h/s": "4/4",
           "a": 2,
           "gu": "4+",
@@ -432,15 +401,10 @@
     },
     {
       "name": "LHT-71",
-      "upgrades": [
-        {
-          "name": "FLAIL Crew Upgrade"
-        }
-      ],
       "variants": [
         {
           "model": "LHT-71",
-          "tv": 19,
+          "tv": 18,
           "role": "SK, RC, FS",
           "mr": "H:10",
           "arm": 8,
@@ -457,7 +421,7 @@
         },
         {
           "model": "LHT-71 AA",
-          "tv": 21,
+          "tv": 19,
           "role": "SK, RC, FS",
           "mr": "H:10",
           "arm": 8,
@@ -474,8 +438,8 @@
         },
         {
           "model": "LHT-71 Assault",
-          "tv": 19,
-          "role": "SK, RC",
+          "tv": 18,
+          "role": "SK, RC, FS",
           "mr": "H:10",
           "arm": 8,
           "h/s": "5/3",
@@ -492,16 +456,157 @@
       ]
     },
     {
-      "name": "MHT-95",
-      "upgrades": [
+      "name": "MHT-68",
+      "variants": [
         {
-          "name": "FLAIL Crew Upgrade"
+          "model": "MHT-68",
+          "tv": 27,
+          "role": "FS",
+          "mr": "H:7",
+          "arm": 10,
+          "h/s": "4/4",
+          "a": 3,
+          "gu": "4+",
+          "pi": "5+",
+          "ew": "5+",
+          "react-weapons": "-",
+          "mounted-weapons": "HPA (T), MATM (T), MABM (T)",
+          "traits": "Airdrop, Jump Jets:2 (Aux), Sensors:24, TD",
+          "type": "Vehicle",
+          "height": 2
+        },
+        {
+          "model": "MHT-68 AA",
+          "tv": 27,
+          "role": "FS",
+          "mr": "H:7",
+          "arm": 10,
+          "h/s": "4/4",
+          "a": 3,
+          "gu": "4+",
+          "pi": "5+",
+          "ew": "5+",
+          "react-weapons": "-",
+          "mounted-weapons": "HLC (T AA), MATM (T), MAAM (T)",
+          "traits": "Airdrop, Jump Jets:2 (Aux), Sensors:24, TD",
+          "type": "Vehicle",
+          "height": 2
+        },
+        {
+          "model": "MHT-68 Assault",
+          "tv": 26,
+          "role": "FS",
+          "mr": "H:7",
+          "arm": 10,
+          "h/s": "4/4",
+          "a": 3,
+          "gu": "4+",
+          "pi": "5+",
+          "ew": "5+",
+          "react-weapons": "MFC (T Link)",
+          "mounted-weapons": "HRL (T), MATM (T)",
+          "traits": "Airdrop, Jump Jets:2 (Aux), Sensors:24, TD",
+          "type": "Vehicle",
+          "height": 2
+        },
+        {
+          "model": "MHT-68 Raider",
+          "tv": 27,
+          "role": "FS",
+          "mr": "H:7",
+          "arm": 10,
+          "h/s": "4/4",
+          "a": 3,
+          "gu": "4+",
+          "pi": "5+",
+          "ew": "5+",
+          "react-weapons": "-",
+          "mounted-weapons": "MPL (T Link), MATM (T), MABM (T)",
+          "traits": "Airdrop, Jump Jets:2 (Aux), Sensors:24, TD",
+          "type": "Vehicle",
+          "height": 2
         }
-      ],
+      ]
+    },
+    {
+      "name": "MHT-72",
+      "variants": [
+        {
+          "model": "MHT-72",
+          "tv": 29,
+          "role": "FS",
+          "mr": "H:8",
+          "arm": 10,
+          "h/s": "5/3",
+          "a": 3,
+          "gu": "4+",
+          "pi": "5+",
+          "ew": "5+",
+          "react-weapons": "-",
+          "mounted-weapons": "HPA (T), MATM (T), MABM (T)",
+          "traits": "Airdrop, Jump Jets:3 (Aux), Sensors:24, TD",
+          "type": "Vehicle",
+          "height": 2
+        },
+        {
+          "model": "MHT-72 AA",
+          "tv": 28,
+          "role": "FS",
+          "mr": "H:8",
+          "arm": 10,
+          "h/s": "5/3",
+          "a": 3,
+          "gu": "4+",
+          "pi": "5+",
+          "ew": "5+",
+          "react-weapons": "-",
+          "mounted-weapons": "HLC (T AA), MATM (T), MAAM (T)",
+          "traits": "Airdrop, Jump Jets:3 (Aux), Sensors:24, TD",
+          "type": "Vehicle",
+          "height": 2
+        },
+        {
+          "model": "MHT-72 Assault",
+          "tv": 28,
+          "role": "FS",
+          "mr": "H:8",
+          "arm": 10,
+          "h/s": "5/3",
+          "a": 3,
+          "gu": "4+",
+          "pi": "5+",
+          "ew": "5+",
+          "react-weapons": "MFC (T Link)",
+          "mounted-weapons": "HRL (T), MATM (T)",
+          "traits": "Airdrop, Jump Jets:3 (Aux), Sensors:24, TD",
+          "type": "Vehicle",
+          "height": 2
+        },
+        {
+          "model": "MHT-72 Raider",
+          "tv": 28,
+          "role": "FS",
+          "mr": "H:8",
+          "arm": 10,
+          "h/s": "5/3",
+          "a": 3,
+          "gu": "4+",
+          "pi": "5+",
+          "ew": "5+",
+          "react-weapons": "-",
+          "mounted-weapons": "MPL (T Link), MATM (T), MABM (T)",
+          "traits": "Airdrop, Jump Jets:3 (Aux), Sensors:24, TD",
+          "type": "Vehicle",
+          "height": 2
+        }
+      ]
+    },
+    {
+      "name": "MHT-95",
       "variants": [
         {
           "model": "MHT-95",
-          "tv": 24,
+          "tv": 22,
           "role": "SK, FS",
           "mr": "H:6",
           "arm": 9,
@@ -553,179 +658,39 @@
       ]
     },
     {
-      "name": "MHT-68",
-      "upgrades": [
-        {
-          "name": "FLAIL Crew Upgrade"
-        }
-      ],
+      "name": "HC-3A",
       "variants": [
         {
-          "model": "MHT-68",
-          "tv": 25,
-          "role": "FS",
-          "mr": "H:7",
-          "arm": 9,
-          "h/s": "4/4",
-          "a": 3,
+          "model": "HC-3",
+          "tv": 13,
+          "role": "RC+, FS",
+          "mr": "H:10",
+          "arm": 5,
+          "h/s": "3/3",
+          "a": 1,
           "gu": "4+",
-          "pi": "5+",
-          "ew": "5+",
-          "react-weapons": "-",
-          "mounted-weapons": "HPA (T), MATM (T), MABM (T)",
-          "traits": "Airdrop, Jump Jets:2 (Aux), Sensors:24, TD",
+          "pi": "4+",
+          "ew": "4+",
+          "react-weapons": "LLC",
+          "mounted-weapons": "LRP",
+          "traits": "Agile, Airdrop, TD, Comms, Satup, Vuln:H, ECM+, ECCM, Sensors:36, Jump Jets:4 (Aux)",
           "type": "Vehicle",
           "height": 2
         },
         {
-          "model": "MHT-68 AA",
-          "tv": 24,
-          "role": "FS",
-          "mr": "H:7",
-          "arm": 9,
-          "h/s": "4/4",
-          "a": 3,
+          "model": "HC-3 Anti-Tank",
+          "tv": 13,
+          "role": "RC+, FS",
+          "mr": "H:10",
+          "arm": 5,
+          "h/s": "3/3",
+          "a": 1,
           "gu": "4+",
-          "pi": "5+",
-          "ew": "5+",
-          "react-weapons": "-",
-          "mounted-weapons": "HLC (T AA), MATM (T), MAAM (T)",
-          "traits": "Airdrop, Jump Jets:2 (Aux), Sensors:24, TD",
-          "type": "Vehicle",
-          "height": 2
-        },
-        {
-          "model": "MHT-68 Assault",
-          "tv": 24,
-          "role": "FS",
-          "mr": "H:7",
-          "arm": 9,
-          "h/s": "4/4",
-          "a": 3,
-          "gu": "4+",
-          "pi": "5+",
-          "ew": "5+",
-          "react-weapons": "MFC (T Link)",
-          "mounted-weapons": "HRL (T), MATM (T)",
-          "traits": "Airdrop, Jump Jets:2 (Aux), Sensors:24, TD",
-          "type": "Vehicle",
-          "height": 2
-        },
-        {
-          "model": "MHT-68 Raider",
-          "tv": 24,
-          "role": "FS",
-          "mr": "H:7",
-          "arm": 9,
-          "h/s": "4/4",
-          "a": 3,
-          "gu": "4+",
-          "pi": "5+",
-          "ew": "5+",
-          "react-weapons": "-",
-          "mounted-weapons": "MPL (T Link), MATM (T), MABM (T)",
-          "traits": "Airdrop, Jump Jets:2 (Aux), Sensors:24, TD",
-          "type": "Vehicle",
-          "height": 2
-        }
-      ]
-    },
-    {
-      "name": "MHT-72",
-      "upgrades": [
-        {
-          "name": "FLAIL Crew Upgrade"
-        }
-      ],
-      "variants": [
-        {
-          "model": "MHT-72",
-          "tv": 30,
-          "role": "FS",
-          "mr": "H:8",
-          "arm": 10,
-          "h/s": "5/3",
-          "a": 3,
-          "gu": "4+",
-          "pi": "5+",
-          "ew": "5+",
-          "react-weapons": "-",
-          "mounted-weapons": "HPA (T), MATM (T), MABM (T)",
-          "traits": "Airdrop, Jump Jets:3 (Aux), Sensors:24, TD",
-          "type": "Vehicle",
-          "height": 2
-        },
-        {
-          "model": "MHT-72 AA",
-          "tv": 30,
-          "role": "FS",
-          "mr": "H:8",
-          "arm": 10,
-          "h/s": "5/3",
-          "a": 3,
-          "gu": "4+",
-          "pi": "5+",
-          "ew": "5+",
-          "react-weapons": "-",
-          "mounted-weapons": "HLC (T AA), MATM (T), MAAM (T)",
-          "traits": "Airdrop, Jump Jets:3 (Aux), Sensors:24, TD",
-          "type": "Vehicle",
-          "height": 2
-        },
-        {
-          "model": "MHT-72 Assault",
-          "tv": 29,
-          "role": "FS",
-          "mr": "H:8",
-          "arm": 10,
-          "h/s": "5/3",
-          "a": 3,
-          "gu": "4+",
-          "pi": "5+",
-          "ew": "5+",
-          "react-weapons": "MFC (T Link)",
-          "mounted-weapons": "HRL (T), MATM (T)",
-          "traits": "Airdrop, Jump Jets:3 (Aux), Sensors:24, TD",
-          "type": "Vehicle",
-          "height": 2
-        },
-        {
-          "model": "MHT-72 Raider",
-          "tv": 30,
-          "role": "FS",
-          "mr": "H:8",
-          "arm": 10,
-          "h/s": "5/3",
-          "a": 3,
-          "gu": "4+",
-          "pi": "5+",
-          "ew": "5+",
-          "react-weapons": "-",
-          "mounted-weapons": "MPL (T Link), MATM (T), MABM (T)",
-          "traits": "Airdrop, Jump Jets:3 (Aux), Sensors:24, TD",
-          "type": "Vehicle",
-          "height": 2
-        }
-      ]
-    },
-    {
-      "name": "HHT-90 Overlord",
-      "upgrades": [],
-      "variants": [
-        {
-          "model": "HHT-90 Overlord",
-          "tv": 70,
-          "role": "FS",
-          "mr": "H:6",
-          "arm": 12,
-          "h/s": "5/5",
-          "a": 3,
-          "gu": "5+",
-          "pi": "6+",
-          "ew": "6+",
-          "react-weapons": "HRL (AA Auto), 2 X MRL (R), 2 X MRL (L)",
-          "mounted-weapons": "HRP (R), HRP (L)",
-          "traits": "Transport: 4 Squads, Vet, CBS, Resist:Haywire, Jump Jets:2, Stable",
+          "pi": "4+",
+          "ew": "4+",
+          "react-weapons": "LLC",
+          "mounted-weapons": "LATM (LA:1)",
+          "traits": "Agile, Airdrop, TD, Comms, Satup, Vuln:H, ECM+, ECCM, Sensors:36, Jump Jets:4 (Aux)",
           "type": "Vehicle",
           "height": 2
         }
@@ -733,16 +698,11 @@
     },
     {
       "name": "HPC-64",
-      "upgrades": [
-        {
-          "name": "Command Upgrade"
-        }
-      ],
       "variants": [
         {
           "model": "HPC-64",
           "tv": 11,
-          "role": "GP+",
+          "role": "GP+, SK, FS",
           "mr": "H:9",
           "arm": 7,
           "h/s": "4/4",
@@ -752,14 +712,14 @@
           "ew": "5+",
           "react-weapons": "LRL (T)",
           "mounted-weapons": "-",
-          "traits": "Airdrop,  Jump Jets:2 (Aux), Transport: 2 Squads",
+          "traits": "Airdrop,  Jump Jets:2 (Aux) Transport: 2 Squads",
           "type": "Vehicle",
           "height": 2
         },
         {
           "model": "HPC-64 Striker",
-          "tv": 11,
-          "role": "GP, FS",
+          "tv": 12,
+          "role": "GP, SK, FS",
           "mr": "H:9",
           "arm": 7,
           "h/s": "4/4",
@@ -769,14 +729,14 @@
           "ew": "5+",
           "react-weapons": "LRL (T)",
           "mounted-weapons": "MAR (T)",
-          "traits": "Airdrop,  Jump Jets:2 (Aux), Transport: 2 Squads",
+          "traits": "Airdrop,  Jump Jets:2 (Aux) Transport: 2 Squads",
           "type": "Vehicle",
           "height": 2
         },
         {
           "model": "HPC-64 Medic",
-          "tv": 9,
-          "role": "GP",
+          "tv": 7,
+          "role": "GP, SK, FS",
           "mr": "H:9",
           "arm": 7,
           "h/s": "4/4",
@@ -793,63 +753,76 @@
       ]
     },
     {
-      "name": "HC-3A",
-      "upgrades": [],
+      "name": "Peregrine Gunship",
       "variants": [
         {
-          "model": "HC-3",
-          "tv": 14,
-          "role": "RC+, FS",
-          "mr": "H:10",
-          "arm": 5,
-          "h/s": "3/3",
-          "a": 2,
+          "model": "Peregrine Gunship",
+          "tv": 15,
+          "role": "FS+",
+          "mr": "H:12",
+          "arm": 6,
+          "h/s": "4/4",
+          "a": 1,
           "gu": "4+",
           "pi": "3+",
-          "ew": "3+",
-          "react-weapons": "LLC",
-          "mounted-weapons": "LRP",
-          "traits": "Agile, Airdrop, TD, Comms, Satup, Vuln:Haywire, ECM+, ECCM, Sensors:36, Jump Jets:4 (Aux)",
-          "type": "Vehicle",
-          "height": 2
-        },
-        {
-          "model": "HC-3 Anti-Tank",
-          "tv": 14,
-          "role": "RC+, FS",
-          "mr": "H:10",
-          "arm": 5,
-          "h/s": "3/3",
-          "a": 2,
-          "gu": "4+",
-          "pi": "3+",
-          "ew": "3+",
-          "react-weapons": "LLC",
-          "mounted-weapons": "LATM (LA:1)",
-          "traits": "Agile, Airdrop, TD, Comms, Satup, Vuln:Haywire, ECM+, ECCM, Sensors:36, Jump Jets:4 (Aux)",
+          "ew": "5+",
+          "react-weapons": "MRL (AA)",
+          "mounted-weapons": "MRP (Link)",
+          "traits": "Agile, VTOL, React+",
           "type": "Vehicle",
           "height": 2
         }
       ]
     },
     {
-      "name": "GREL",
-      "upgrades": [
-        {
-          "name": "Jan Upgrade"
-        },
-        {
-          "name": "Team"
-        }
-      ],
+      "name": "HHT-90 Overlord",
       "variants": [
         {
-          "model": "GREL Squad",
-          "tv": 5,
-          "role": "GP+",
+          "model": "Body",
+          "tv": 35,
+          "role": "FS",
+          "mr": "H:6",
+          "arm": 11,
+          "h/s": "5/5",
+          "a": 3,
+          "gu": "4+",
+          "pi": "6+",
+          "ew": "5+",
+          "react-weapons": "HRL (AA Auto), 2 x MRLs (R), 2 x MRLs (L)",
+          "mounted-weapons": "HRP (R), HRP (L)",
+          "traits": "Transport: 4 Squads, Vet, CBS, Resist:H, Jump Jets:2, Stable",
+          "type": "Vehicle",
+          "height": 2
+        },
+        {
+          "model": "Turret",
+          "tv": 35,
+          "role": "-",
+          "mr": "-",
+          "arm": 11,
+          "h/s": "5/3",
+          "a": 3,
+          "gu": "4+",
+          "pi": "6+",
+          "ew": "5+",
+          "react-weapons": "HPA (T Auto)",
+          "mounted-weapons": "HTG (T Apex Precise), HAM (T), HATM (T)",
+          "traits": "Stable, Comms, SatUp, Vet, CBS, Sensors:24, Resist:H",
+          "type": "Vehicle",
+          "height": 3
+        }
+      ]
+    },
+    {
+      "name": "GREL",
+      "variants": [
+        {
+          "model": "GREL Team",
+          "tv": 4,
+          "role": "GP+, SK, FS",
           "mr": "I:4",
           "arm": 4,
-          "h/s": "4/2",
+          "h/s": "2/1",
           "a": 1,
           "gu": "3+",
           "pi": "3+",
@@ -861,12 +834,12 @@
           "height": 0.5
         },
         {
-          "model": "GREL Mortar Squad",
-          "tv": 5,
-          "role": "GP, FS",
+          "model": "GREL Mortar Team",
+          "tv": 4,
+          "role": "GP, SK, FS",
           "mr": "I:4",
           "arm": 4,
-          "h/s": "4/2",
+          "h/s": "2/1",
           "a": 1,
           "gu": "3+",
           "pi": "3+",
@@ -878,12 +851,12 @@
           "height": 0.5
         },
         {
-          "model": "GREL Anti-Tank Squad",
-          "tv": 6,
-          "role": "GP, FS",
+          "model": "GREL Anti-Tank Team",
+          "tv": 5,
+          "role": "GP, SK, FS",
           "mr": "I:4",
           "arm": 4,
-          "h/s": "4/2",
+          "h/s": "2/1",
           "a": 1,
           "gu": "3+",
           "pi": "3+",
@@ -895,12 +868,12 @@
           "height": 0.5
         },
         {
-          "model": "GREL Raider Squad",
-          "tv": 6,
-          "role": "GP, FS",
+          "model": "GREL Raider Team",
+          "tv": 5,
+          "role": "GP, SK, FS",
           "mr": "I:4",
           "arm": 4,
-          "h/s": "4/2",
+          "h/s": "2/1",
           "a": 1,
           "gu": "3+",
           "pi": "3+",
@@ -912,12 +885,12 @@
           "height": 0.5
         },
         {
-          "model": "Morgana GREL Assault Squad",
-          "tv": 5,
+          "model": "Morgana GREL Assault Team",
+          "tv": 4,
           "role": "GP, SK, SO+",
           "mr": "I:5",
-          "arm": 3,
-          "h/s": "4/2",
+          "arm": 4,
+          "h/s": "2/1",
           "a": 1,
           "gu": "3+",
           "pi": "3+",
@@ -929,12 +902,12 @@
           "height": 0.5
         },
         {
-          "model": "Morgana GREL Sniper Squad",
-          "tv": 6,
+          "model": "Morgana GREL Sniper Team",
+          "tv": 5,
           "role": "GP, SK, SO+",
           "mr": "I:5",
-          "arm": 3,
-          "h/s": "4/2",
+          "arm": 4,
+          "h/s": "2/1",
           "a": 1,
           "gu": "3+",
           "pi": "3+",
@@ -949,69 +922,53 @@
     },
     {
       "name": "Hoverbike GREL",
-      "upgrades": [
-        {
-          "name": "Jan Upgrade"
-        },
-        {
-          "name": "Single"
-        }
-      ],
       "variants": [
         {
-          "model": "GREL Hoverbike Squad",
-          "tv": 6,
-          "role": "GP+",
+          "model": "GREL Hoverbike",
+          "tv": 4,
+          "role": "GP, SK",
           "mr": "H:12",
           "arm": 3,
-          "h/s": "4/2",
+          "h/s": "2/1",
           "a": 1,
           "gu": "4+",
-          "pi": "3+",
+          "pi": "4+",
           "ew": "6+",
-          "react-weapons": "HIW, MIGL, MICW",
+          "react-weapons": "HIW, LIGL, MICW",
           "mounted-weapons": "-",
           "traits": "Agile, Jump Jets:2",
-          "type": "Infantry",
+          "type": "Cavalry",
           "height": 1
         },
         {
-          "model": "GREL Anti-Tank Hoverbike Squad",
-          "tv": 7,
-          "role": "GP, FS",
+          "model": "GREL Anti-Tank Hoverbike",
+          "tv": 5,
+          "role": "GP, SK",
           "mr": "H:12",
           "arm": 3,
-          "h/s": "4/2",
+          "h/s": "2/1",
           "a": 1,
           "gu": "4+",
-          "pi": "3+",
+          "pi": "4+",
           "ew": "6+",
           "react-weapons": "HIW, MICW",
-          "mounted-weapons": "MAVM",
+          "mounted-weapons": "LAVM",
           "traits": "Agile, Jump Jets:2",
-          "type": "Infantry",
+          "type": "Cavalry",
           "height": 1
         }
       ]
     },
     {
       "name": "FLAIL",
-      "upgrades": [
-        {
-          "name": "LPZ Upgrade"
-        },
-        {
-          "name": "Single"
-        }
-      ],
       "variants": [
         {
-          "model": "FLAIL Squad",
+          "model": "FLAIL",
           "tv": 6,
           "role": "GP+, SK, FS",
           "mr": "I/H:6",
           "arm": 5,
-          "h/s": "4/2",
+          "h/s": "2/1",
           "a": 1,
           "gu": "3+",
           "pi": "4+",
@@ -1023,12 +980,12 @@
           "height": 1
         },
         {
-          "model": "FLAIL Mortar Squad",
+          "model": "FLAIL Mortar",
           "tv": 6,
           "role": "GP, SK, FS",
           "mr": "I/H:6",
           "arm": 5,
-          "h/s": "4/2",
+          "h/s": "2/1",
           "a": 1,
           "gu": "3+",
           "pi": "4+",
@@ -1040,12 +997,12 @@
           "height": 1
         },
         {
-          "model": "FLAIL Anti-Tank Squad",
+          "model": "FLAIL Anti-Tank",
           "tv": 7,
           "role": "GP, SK, FS",
           "mr": "I/H:6",
           "arm": 5,
-          "h/s": "4/2",
+          "h/s": "2/1",
           "a": 1,
           "gu": "3+",
           "pi": "4+",
@@ -1057,12 +1014,12 @@
           "height": 1
         },
         {
-          "model": "FLAIL Interdiction Squad",
+          "model": "FLAIL Interdiction",
           "tv": 6,
           "role": "GP, SK, FS",
           "mr": "I/H:6",
           "arm": 5,
-          "h/s": "4/2",
+          "h/s": "2/1",
           "a": 1,
           "gu": "3+",
           "pi": "4+",
@@ -1074,12 +1031,12 @@
           "height": 1
         },
         {
-          "model": "Command FLAIL Squad",
+          "model": "Jan FLAIL",
           "tv": 6,
-          "role": "GP",
+          "role": "GP, SK, FS",
           "mr": "I/H:6",
           "arm": 5,
-          "h/s": "4/2",
+          "h/s": "2/1",
           "a": 1,
           "gu": "3+",
           "pi": "4+",
@@ -1091,12 +1048,12 @@
           "height": 1
         },
         {
-          "model": "Morgana FLAIL Squad",
+          "model": "Morgana FLAIL",
           "tv": 7,
-          "role": "GP, SK, FS, SO+",
+          "role": "GP, SK, SO+",
           "mr": "I/H:7",
           "arm": 5,
-          "h/s": "4/2",
+          "h/s": "2/1",
           "a": 1,
           "gu": "3+",
           "pi": "4+",
@@ -1106,33 +1063,6 @@
           "traits": "Agile, Brawl:1, Stealth, Jetpack:4",
           "type": "Infantry",
           "height": 1
-        }
-      ]
-    },
-    {
-      "name": "Peregrine Gunship",
-      "upgrades": [
-        {
-          "name": "Tank Hunter Upgrade"
-        }
-      ],
-      "variants": [
-        {
-          "model": "Peregrine Gunship",
-          "tv": 16,
-          "role": "AS+, SK, FS",
-          "mr": "H:12",
-          "arm": 6,
-          "h/s": "4/4",
-          "a": 2,
-          "gu": "4+",
-          "pi": "3+",
-          "ew": "5+",
-          "react-weapons": "MRL (AA)",
-          "mounted-weapons": "MRP (Link)",
-          "traits": "Agile, VTOL",
-          "type": "Vehicle",
-          "height": 2
         }
       ]
     }

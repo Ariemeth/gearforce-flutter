@@ -1,0 +1,655 @@
+{
+  "frames": [
+    {
+      "name": "Valence",
+      "variants": [
+        {
+          "model": "Valence",
+          "tv": 5,
+          "role": "GP+, SK, FS",
+          "mr": "W:6",
+          "arm": 5,
+          "h/s": "3/3",
+          "a": 1,
+          "gu": "5+",
+          "pi": "4+",
+          "ew": "6+",
+          "react-weapons": "LAC, MCW (Reach:1 Demo:4)",
+          "mounted-weapons": "LHG, LSE, LAPGL",
+          "traits": "Hands, Brawl:1, Repair, Vuln:F",
+          "type": "Gear",
+          "height": 1.5
+        },
+        {
+          "model": "Demolisher Valence",
+          "tv": 5,
+          "role": "GP, SK, FS",
+          "mr": "W:6",
+          "arm": 5,
+          "h/s": "3/3",
+          "a": 1,
+          "gu": "5+",
+          "pi": "4+",
+          "ew": "6+",
+          "react-weapons": "MSC, MCW (Reach:1 Demo:4)",
+          "mounted-weapons": "LHG, LSE, LAPGL",
+          "traits": "Hands, Brawl:1, Repair, Vuln:F",
+          "type": "Gear",
+          "height": 1.5
+        },
+        {
+          "model": "Sweeper Valence",
+          "tv": 5,
+          "role": "GP, SK, FS",
+          "mr": "W:6",
+          "arm": 5,
+          "h/s": "3/3",
+          "a": 1,
+          "gu": "5+",
+          "pi": "4+",
+          "ew": "6+",
+          "react-weapons": "MFC, MCW (Reach:1 Demo:4)",
+          "mounted-weapons": "LHG, LSE, LAPGL",
+          "traits": "Hands, Brawl:1, Repair, Vuln:F",
+          "type": "Gear",
+          "height": 1.5
+        },
+        {
+          "model": "Foreman Valence",
+          "tv": 6,
+          "role": "GP, SK, FS",
+          "mr": "W:6",
+          "arm": 5,
+          "h/s": "3/3",
+          "a": 1,
+          "gu": "5+",
+          "pi": "4+",
+          "ew": "5+",
+          "react-weapons": "LAC, MCW (Reach:1 Demo:4)",
+          "mounted-weapons": "LHG, LSE, LAPGL",
+          "traits": "Hands, Brawl:1, Repair, Vuln:F, Comms",
+          "type": "Gear",
+          "height": 1.5
+        }
+      ]
+    },
+    {
+      "name": "Chargeur",
+      "variants": [
+        {
+          "model": "Chargeur",
+          "tv": 6,
+          "role": "GP+, SK, FS",
+          "mr": "W/G:6",
+          "arm": 5,
+          "h/s": "3/3",
+          "a": 1,
+          "gu": "5+",
+          "pi": "4+",
+          "ew": "6+",
+          "react-weapons": "LAC, MCW (Brawl:1 Demo:4)",
+          "mounted-weapons": "-",
+          "traits": "Hands, Brawl:1, Repair",
+          "type": "Gear",
+          "height": 1.5
+        }
+      ]
+    },
+    {
+      "name": "Sapeur",
+      "variants": [
+        {
+          "model": "Sapeur",
+          "tv": 10,
+          "role": "GP+, SK, FS",
+          "mr": "W/G:6",
+          "arm": 7,
+          "h/s": "4/2",
+          "a": 1,
+          "gu": "5+",
+          "pi": "4+",
+          "ew": "6+",
+          "react-weapons": "HAC, MCW (Brawl:1 Reach:1)",
+          "mounted-weapons": "HIM",
+          "traits": "Hands, Brawl:1, Repair, Shield",
+          "type": "Gear",
+          "height": 2
+        }
+      ]
+    },
+    {
+      "name": "Bricklayer",
+      "variants": [
+        {
+          "model": "Bricklayer",
+          "tv": 5,
+          "role": "GP+, SK, FS",
+          "mr": "W/G:6",
+          "arm": 5,
+          "h/s": "3/3",
+          "a": 1,
+          "gu": "5+",
+          "pi": "4+",
+          "ew": "6+",
+          "react-weapons": "LAC, MCW (Reach:1 Demo:4)",
+          "mounted-weapons": "LHG, LSE",
+          "traits": "Hands, Repair, Brawl:1, Vuln:F",
+          "type": "Gear",
+          "height": 1.5
+        },
+        {
+          "model": "Bricklayer UC",
+          "tv": 5,
+          "role": "GP+, SK, FS",
+          "mr": "W/G:6",
+          "arm": 5,
+          "h/s": "3/3",
+          "a": 1,
+          "gu": "5+",
+          "pi": "4+",
+          "ew": "6+",
+          "react-weapons": "MFC, MCW (Reach:1 Demo:4)",
+          "mounted-weapons": "LHG, LSE",
+          "traits": "Hands, Repair, Brawl:1, Vuln:F",
+          "type": "Gear",
+          "height": 1.5
+        },
+        {
+          "model": "Assault Bricklayer",
+          "tv": 6,
+          "role": "GP, SK, FS",
+          "mr": "W/G:6",
+          "arm": 5,
+          "h/s": "3/3",
+          "a": 1,
+          "gu": "5+",
+          "pi": "4+",
+          "ew": "6+",
+          "react-weapons": "MSC, MCW (Reach:1 Demo:4)",
+          "mounted-weapons": "LHG, LSE",
+          "traits": "Hands, Repair, Brawl:1, Vuln:F",
+          "type": "Gear",
+          "height": 1.5
+        }
+      ]
+    },
+    {
+      "name": "Engineering Grizzly",
+      "variants": [
+        {
+          "model": "Engineering Grizzly",
+          "tv": 9,
+          "role": "GP+, SK, FS",
+          "mr": "W/G:6",
+          "arm": 7,
+          "h/s": "3/3",
+          "a": 1,
+          "gu": "5+",
+          "pi": "4+",
+          "ew": "6+",
+          "react-weapons": "HAC, LVB",
+          "mounted-weapons": "HIM, MHG, MSE",
+          "traits": "Hands, Brawl:1, Repair, Vuln:F",
+          "type": "Gear",
+          "height": 2
+        }
+      ]
+    },
+    {
+      "name": "Stonemason",
+      "variants": [
+        {
+          "model": "Stonemason",
+          "tv": 5,
+          "role": "GP+, SK, FS",
+          "mr": "W/G:6",
+          "arm": 5,
+          "h/s": "3/3",
+          "a": 1,
+          "gu": "5+",
+          "pi": "4+",
+          "ew": "6+",
+          "react-weapons": "LAC, MCW (Reach:1 Demo:4)",
+          "mounted-weapons": "LHG, LSE",
+          "traits": "Hands, Brawl:1, Repair, Vuln:F",
+          "type": "Gear",
+          "height": 1.5
+        },
+        {
+          "model": "Stonemason Riotmaster",
+          "tv": 5,
+          "role": "GP+, SK, FS",
+          "mr": "W/G:6",
+          "arm": 5,
+          "h/s": "3/3",
+          "a": 1,
+          "gu": "5+",
+          "pi": "4+",
+          "ew": "6+",
+          "react-weapons": "MFC, MCW (Reach:1 Demo:4)",
+          "mounted-weapons": "LHG, LSE",
+          "traits": "Hands, Brawl:1, Repair, Vuln:F",
+          "type": "Gear",
+          "height": 1.5
+        }
+      ]
+    },
+    {
+      "name": "Engineering Cobra",
+      "variants": [
+        {
+          "model": "Engineering Cobra",
+          "tv": 9,
+          "role": "GP+, SK, FS",
+          "mr": "W/G:6",
+          "arm": 7,
+          "h/s": "3/3",
+          "a": 1,
+          "gu": "5+",
+          "pi": "4+",
+          "ew": "6+",
+          "react-weapons": "HAC, LVB",
+          "mounted-weapons": "HIM, MHG, MSE",
+          "traits": "Hands, Brawl:1, Repair, Vuln:F",
+          "type": "Gear",
+          "height": 2
+        }
+      ]
+    },
+    {
+      "name": "Badlands Python",
+      "variants": [
+        {
+          "model": "Badlands Python",
+          "tv": 13,
+          "role": "GP, SK, FS",
+          "mr": "W/G:6",
+          "arm": 8,
+          "h/s": "3/3",
+          "a": 1,
+          "gu": "4+",
+          "pi": "4+",
+          "ew": "6+",
+          "react-weapons": "HAC, LVB",
+          "mounted-weapons": "MRP, MFM",
+          "traits": "Hands, React+",
+          "type": "Gear",
+          "height": 2
+        }
+      ]
+    },
+    {
+      "name": "Barnaby Transport",
+      "variants": [
+        {
+          "model": "Barnaby Transport",
+          "tv": 7,
+          "role": "GP+, SK, FS",
+          "mr": "G:7",
+          "arm": 8,
+          "h/s": "3/5",
+          "a": 1,
+          "gu": "5+",
+          "pi": "6+",
+          "ew": "6+",
+          "react-weapons": "MMG (T)",
+          "mounted-weapons": "-",
+          "traits": "Transport: 5 Gears, Lumbering, Repair, Supply",
+          "type": "Vehicle",
+          "height": 3
+        }
+      ]
+    },
+    {
+      "name": "Camel Truck",
+      "variants": [
+        {
+          "model": "Camel Truck*",
+          "tv": 4,
+          "role": "GP+, SK, FS",
+          "mr": "G:7",
+          "arm": 5,
+          "h/s": "3/3",
+          "a": 1,
+          "gu": "4+",
+          "pi": "4+",
+          "ew": "6+",
+          "react-weapons": "LMG (T)",
+          "mounted-weapons": "-",
+          "traits": "Supply, Transport: 1 Squad",
+          "type": "Vehicle",
+          "height": 1
+        }
+      ]
+    },
+    {
+      "name": "Stinger",
+      "variants": [
+        {
+          "model": "Stinger",
+          "tv": 7,
+          "role": "GP, SK, FS",
+          "mr": "G:7",
+          "arm": 5,
+          "h/s": "3/3",
+          "a": 1,
+          "gu": "4+",
+          "pi": "4+",
+          "ew": "6+",
+          "react-weapons": "LMG (T)",
+          "mounted-weapons": "MABM (T)",
+          "traits": "-",
+          "type": "Vehicle",
+          "height": 1
+        }
+      ]
+    },
+    {
+      "name": "Antelope",
+      "variants": [
+        {
+          "model": "Antelope",
+          "tv": 4,
+          "role": "GP+, RC, FS",
+          "mr": "G:9",
+          "arm": 4,
+          "h/s": "3/3",
+          "a": 1,
+          "gu": "4+",
+          "pi": "4+",
+          "ew": "5+",
+          "react-weapons": "MMG (T)",
+          "mounted-weapons": "-",
+          "traits": "TD, Comms",
+          "type": "Vehicle",
+          "height": 0.5
+        },
+        {
+          "model": "Antelope Technical",
+          "tv": 2,
+          "role": "GP+, RC, FS",
+          "mr": "G:9",
+          "arm": 4,
+          "h/s": "3/3",
+          "a": 1,
+          "gu": "4+",
+          "pi": "4+",
+          "ew": "6+",
+          "react-weapons": "-",
+          "mounted-weapons": "-",
+          "traits": "Transport: 1 Team",
+          "type": "Vehicle",
+          "height": 0.5
+        },
+        {
+          "model": "Elan",
+          "tv": 4,
+          "role": "GP+, RC, FS",
+          "mr": "G:9",
+          "arm": 4,
+          "h/s": "3/3",
+          "a": 1,
+          "gu": "4+",
+          "pi": "4+",
+          "ew": "5+",
+          "react-weapons": "MMG (T)",
+          "mounted-weapons": "-",
+          "traits": "TD, Comms",
+          "type": "Vehicle",
+          "height": 0.5
+        },
+        {
+          "model": "Elan Technical",
+          "tv": 2,
+          "role": "GP+, RC, FS",
+          "mr": "G:9",
+          "arm": 4,
+          "h/s": "3/3",
+          "a": 1,
+          "gu": "4+",
+          "pi": "4+",
+          "ew": "6+",
+          "react-weapons": "-",
+          "mounted-weapons": "-",
+          "traits": "Transport: 1 Team",
+          "type": "Vehicle",
+          "height": 0.5
+        }
+      ]
+    },
+    {
+      "name": "Towed Field Gun",
+      "variants": [
+        {
+          "model": "Field Gun",
+          "tv": 5,
+          "role": "GP+, SK, FS",
+          "mr": "G:2",
+          "arm": 5,
+          "h/s": "3/1",
+          "a": 1,
+          "gu": "4+",
+          "pi": "6+",
+          "ew": "6+",
+          "react-weapons": "-",
+          "mounted-weapons": "LFG",
+          "traits": "Towed, Lumbering",
+          "type": "Vehicle",
+          "height": 0.5
+        }
+      ]
+    },
+    {
+      "name": "Small Vehicles",
+      "variants": [
+        {
+          "model": "Jackrabbit",
+          "tv": 4,
+          "role": "GP+, RC",
+          "mr": "G:11",
+          "arm": 3,
+          "h/s": "2/1",
+          "a": 1,
+          "gu": "4+",
+          "pi": "3+",
+          "ew": "6+",
+          "react-weapons": "LIW, LIGL, LICW",
+          "mounted-weapons": "-",
+          "traits": "Agile",
+          "type": "Cavalry",
+          "height": 0.5
+        },
+        {
+          "model": "Jackrabbit Recon*",
+          "tv": 4,
+          "role": "GP+, RC",
+          "mr": "G:10",
+          "arm": 3,
+          "h/s": "2/1",
+          "a": 1,
+          "gu": "4+",
+          "pi": "3+",
+          "ew": "5+",
+          "react-weapons": "LIW, LICW",
+          "mounted-weapons": "-",
+          "traits": "Agile, TD, Comms",
+          "type": "Cavalry",
+          "height": 0.5
+        },
+        {
+          "model": "Wallaby ATV",
+          "tv": 4,
+          "role": "GP+, RC",
+          "mr": "G:10",
+          "arm": 3,
+          "h/s": "2/1",
+          "a": 1,
+          "gu": "4+",
+          "pi": "3+",
+          "ew": "6+",
+          "react-weapons": "LIW, LIGL, LICW",
+          "mounted-weapons": "-",
+          "traits": "Agile, Offroad",
+          "type": "Cavalry",
+          "height": 0.5
+        },
+        {
+          "model": "Spitz Monowheel",
+          "tv": 4,
+          "role": "GP+, RC",
+          "mr": "G:11",
+          "arm": 4,
+          "h/s": "2/1",
+          "a": 1,
+          "gu": "4+",
+          "pi": "4+",
+          "ew": "5+",
+          "react-weapons": "LIW, LIGL, LICW",
+          "mounted-weapons": "-",
+          "traits": "Agile",
+          "type": "Cavalry",
+          "height": 0.5
+        }
+      ]
+    },
+    {
+      "name": "Riding Beasts",
+      "variants": [
+        {
+          "model": "Armadillo Rider",
+          "tv": 5,
+          "role": "GP+, SK",
+          "mr": "W:6",
+          "arm": 6,
+          "h/s": "3/3",
+          "a": 1,
+          "gu": "4+",
+          "pi": "4+",
+          "ew": "6+",
+          "react-weapons": "MIW, HICW, MICW (AP:1 Reach:1)",
+          "mounted-weapons": "-",
+          "traits": "Brawl:1, Climber",
+          "type": "Cavalry",
+          "height": 1
+        },
+        {
+          "model": "Barnaby Rider",
+          "tv": 4,
+          "role": "GP+, SK",
+          "mr": "W:7",
+          "arm": 4,
+          "h/s": "3/3",
+          "a": 1,
+          "gu": "4+",
+          "pi": "4+",
+          "ew": "6+",
+          "react-weapons": "MIW, HICW",
+          "mounted-weapons": "-",
+          "traits": "Agile, Climber, Brawl:1",
+          "type": "Cavalry",
+          "height": 1
+        }
+      ]
+    },
+    {
+      "name": "Dragonfly",
+      "variants": [
+        {
+          "model": "Dragonfly",
+          "tv": 14,
+          "role": "FS+",
+          "mr": "H:12",
+          "arm": 6,
+          "h/s": "4/4",
+          "a": 1,
+          "gu": "4+",
+          "pi": "3+",
+          "ew": "6+",
+          "react-weapons": "LLC (AA)",
+          "mounted-weapons": "LAAM (Link)",
+          "traits": "Agile, TD, VTOL, React+",
+          "type": "Vehicle",
+          "height": 2
+        }
+      ]
+    },
+    {
+      "name": "Varis",
+      "variants": [
+        {
+          "model": "Varis",
+          "tv": 15,
+          "role": "FS+",
+          "mr": "H:14",
+          "arm": 5,
+          "h/s": "4/4",
+          "a": 1,
+          "gu": "4+",
+          "pi": "3+",
+          "ew": "5+",
+          "react-weapons": "LLC (AA)",
+          "mounted-weapons": "LAAM (Link)",
+          "traits": "Agile, ECCM, TD, VTOL, React+",
+          "type": "Vehicle",
+          "height": 2
+        }
+      ]
+    },
+    {
+      "name": "Universal Drones",
+      "variants": [
+        {
+          "model": "Recon Drone",
+          "tv": 2,
+          "role": "RC+, SK, FS",
+          "mr": "H:7",
+          "arm": 2,
+          "h/s": "1/0",
+          "a": 1,
+          "gu": "6+",
+          "pi": "4+",
+          "ew": "5+",
+          "react-weapons": "-",
+          "mounted-weapons": "-",
+          "traits": "Comms, TD, Conscript, Vuln:H",
+          "type": "Drone",
+          "height": 0.5
+        },
+        {
+          "model": "Hunter Killer",
+          "tv": 2,
+          "role": "GP+, SK, FS",
+          "mr": "H:6",
+          "arm": 2,
+          "h/s": "1/0",
+          "a": 1,
+          "gu": "4+",
+          "pi": "4+",
+          "ew": "6+",
+          "react-weapons": "MMG",
+          "mounted-weapons": "-",
+          "traits": "Jump Jets:2, Conscript, Vuln:H",
+          "type": "Drone",
+          "height": 0.5
+        },
+        {
+          "model": "Demo Drone*",
+          "tv": 2,
+          "role": "GP+, SK, FS",
+          "mr": "G:5",
+          "arm": 2,
+          "h/s": "1/0",
+          "a": 1,
+          "gu": "4+",
+          "pi": "4+",
+          "ew": "6+",
+          "react-weapons": "-",
+          "mounted-weapons": "BB (AP:2 Demo:4)",
+          "traits": "Offroad, Conscript, Vuln:H",
+          "type": "Drone",
+          "height": 0.5
+        }
+      ]
+    }
+  ]
+}

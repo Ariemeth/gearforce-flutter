@@ -2,19 +2,11 @@
   "frames": [
     {
       "name": "Commando Armiger",
-      "upgrades": [
-        {
-          "name": "Anti-Tank Upgrade"
-        },
-        {
-          "name": "VTOL Upgrade"
-        }
-      ],
       "variants": [
         {
           "model": "Commando Armiger",
           "tv": 14,
-          "role": "GP, SK, FS, SO",
+          "role": "SK, FS, SO",
           "mr": "W/H:8",
           "arm": 7,
           "h/s": "3/3",
@@ -23,7 +15,7 @@
           "pi": "3+",
           "ew": "5+",
           "react-weapons": "MRL, LVB",
-          "mounted-weapons": "MRP, LHG, LAPGL",
+          "mounted-weapons": "MRP, MHG, LAPGL",
           "traits": "Hands, Agile, Airdrop, Jetpack:6, Stealth, Comms",
           "type": "Gear",
           "height": 1.5
@@ -31,7 +23,7 @@
         {
           "model": "Grenadier Commando Armiger",
           "tv": 13,
-          "role": "SO, SK, FS",
+          "role": "SK, FS, SO",
           "mr": "W/H:8",
           "arm": 7,
           "h/s": "3/3",
@@ -40,15 +32,15 @@
           "pi": "3+",
           "ew": "5+",
           "react-weapons": "MGL, LVB",
-          "mounted-weapons": "MRP, LHG, LAPGL",
+          "mounted-weapons": "MRP, MHG, LAPGL",
           "traits": "Hands, Agile, Airdrop, Jetpack:6, Stealth, Comms",
           "type": "Gear",
           "height": 1.5
         },
         {
-          "model": "Sniper Commando Armiger",
+          "model": "Sniper  Commando Armiger",
           "tv": 14,
-          "role": "SO, SK, FS",
+          "role": "SK, FS, SO",
           "mr": "W/H:8",
           "arm": 7,
           "h/s": "3/3",
@@ -57,7 +49,7 @@
           "pi": "3+",
           "ew": "5+",
           "react-weapons": "MLC, LVB",
-          "mounted-weapons": "MRP, LAPGL",
+          "mounted-weapons": "MRP, MHG, LAPGL",
           "traits": "Hands, Agile, Airdrop, Jetpack:6, Stealth, Comms",
           "type": "Gear",
           "height": 1.5
@@ -66,22 +58,14 @@
     },
     {
       "name": "Commando N-KIDU",
-      "upgrades": [
-        {
-          "name": "Rocket Upgrade"
-        },
-        {
-          "name": "N-LIL Upgrade"
-        }
-      ],
       "variants": [
         {
-          "model": "Commando N-KIDU",
-          "tv": 7,
-          "role": "SO+, SK+",
+          "model": "Commando  N-KIDU",
+          "tv": 6,
+          "role": "GP+, SK, SO",
           "mr": "H:8",
           "arm": 5,
-          "h/s": "4/2",
+          "h/s": "3/3",
           "a": 1,
           "gu": "4+",
           "pi": "4+",
@@ -93,12 +77,12 @@
           "height": 1.5
         },
         {
-          "model": "ECM Commando N-KIDU",
-          "tv": 8,
-          "role": "SO, SK",
+          "model": "ECM Commando  N-KIDU",
+          "tv": 7,
+          "role": "GP, SK, SO",
           "mr": "H:8",
           "arm": 5,
-          "h/s": "4/2",
+          "h/s": "3/3",
           "a": 1,
           "gu": "4+",
           "pi": "4+",
@@ -110,12 +94,12 @@
           "height": 1.5
         },
         {
-          "model": "EMT Commando N-KIDU",
-          "tv": 7,
-          "role": "GP, SK, FS, SO",
+          "model": "EMT Commando  N-KIDU",
+          "tv": 6,
+          "role": "GP, SK, SO",
           "mr": "H:8",
           "arm": 5,
-          "h/s": "4/2",
+          "h/s": "3/3",
           "a": 1,
           "gu": "4+",
           "pi": "4+",
@@ -129,10 +113,10 @@
         {
           "model": "Pazu-Commando N-KIDU*",
           "tv": 8,
-          "role": "SO, SK",
+          "role": "GP, SK, SO",
           "mr": "H:8",
           "arm": 5,
-          "h/s": "4/2",
+          "h/s": "3/3",
           "a": 1,
           "gu": "4+",
           "pi": "4+",
@@ -147,12 +131,11 @@
     },
     {
       "name": "Recce Armiger",
-      "upgrades": [],
       "variants": [
         {
           "model": "Recce Armiger",
           "tv": 14,
-          "role": "RC, SO, GP",
+          "role": "RC, FS, SO",
           "mr": "W/H:8",
           "arm": 7,
           "h/s": "4/2",
@@ -169,7 +152,7 @@
         {
           "model": "Close Support Recce Armiger",
           "tv": 14,
-          "role": "RC, SO, GP",
+          "role": "RC, FS, SO",
           "mr": "W/H:8",
           "arm": 7,
           "h/s": "4/2",
@@ -186,7 +169,7 @@
         {
           "model": "Missile Support Recce Armiger",
           "tv": 14,
-          "role": "RC, SO, FS",
+          "role": "RC, FS, SO",
           "mr": "W/H:8",
           "arm": 7,
           "h/s": "4/2",
@@ -204,21 +187,16 @@
     },
     {
       "name": "Recce N-KIDU",
-      "upgrades": [
-        {
-          "name": "Rocket Upgrade"
-        }
-      ],
       "variants": [
         {
-          "model": "Recce N-KIDU",
+          "model": "Recce  N-KIDU",
           "tv": 4,
-          "role": "RC+, SO",
+          "role": "GP+, RC, FS",
           "mr": "W:6",
           "arm": 5,
           "h/s": "4/2",
           "a": 1,
-          "gu": "5+",
+          "gu": "4+",
           "pi": "4+",
           "ew": "5+",
           "react-weapons": "-",
@@ -228,14 +206,14 @@
           "height": 1
         },
         {
-          "model": "Hunter Recce N-KIDU",
+          "model": "Hunter Recce  N-KIDU",
           "tv": 4,
-          "role": "RC+, SO",
+          "role": "GP+, RC, FS",
           "mr": "W:6",
           "arm": 5,
           "h/s": "4/2",
           "a": 1,
-          "gu": "5+",
+          "gu": "4+",
           "pi": "4+",
           "ew": "5+",
           "react-weapons": "-",
@@ -245,14 +223,14 @@
           "height": 1
         },
         {
-          "model": "MP Recce N-KIDU",
+          "model": "MP Recce  N-KIDU",
           "tv": 4,
-          "role": "RC+, SO",
+          "role": "GP+, RC, FS",
           "mr": "W:6",
           "arm": 5,
           "h/s": "4/2",
           "a": 1,
-          "gu": "5+",
+          "gu": "4+",
           "pi": "4+",
           "ew": "5+",
           "react-weapons": "-",
@@ -262,14 +240,14 @@
           "height": 1
         },
         {
-          "model": "ECM Recce N-KIDU",
+          "model": "ECM Recce  N-KIDU",
           "tv": 4,
-          "role": "RC, SO",
+          "role": "GP+, RC, FS",
           "mr": "W:6",
           "arm": 5,
           "h/s": "4/2",
           "a": 1,
-          "gu": "5+",
+          "gu": "4+",
           "pi": "4+",
           "ew": "5+",
           "react-weapons": "-",
@@ -279,14 +257,14 @@
           "height": 1
         },
         {
-          "model": "Pazu-Recce N-KIDU*",
-          "tv": 4,
-          "role": "RC, SO",
+          "model": "Pazu-Recce  N-KIDU*",
+          "tv": 5,
+          "role": "GP+, RC, FS",
           "mr": "W:6",
           "arm": 5,
           "h/s": "4/2",
           "a": 1,
-          "gu": "5+",
+          "gu": "4+",
           "pi": "4+",
           "ew": "4+",
           "react-weapons": "-",
@@ -299,22 +277,17 @@
     },
     {
       "name": "Support Armiger",
-      "upgrades": [
-        {
-          "name": "Sniper Upgrade"
-        }
-      ],
       "variants": [
         {
           "model": "Support Armiger",
-          "tv": 14,
-          "role": "FS, GP",
+          "tv": 13,
+          "role": "SK, FS",
           "mr": "G:5",
           "arm": 8,
           "h/s": "5/1",
           "a": 1,
           "gu": "4+",
-          "pi": "5+",
+          "pi": "4+",
           "ew": "5+",
           "react-weapons": "HRC, LVB",
           "mounted-weapons": "MGM, MRP, LAPGL",
@@ -325,13 +298,13 @@
         {
           "model": "Missile Support Armiger",
           "tv": 14,
-          "role": "FS",
+          "role": "SK, FS",
           "mr": "G:5",
           "arm": 8,
           "h/s": "5/1",
           "a": 1,
           "gu": "4+",
-          "pi": "5+",
+          "pi": "4+",
           "ew": "5+",
           "react-weapons": "HRC, LVB",
           "mounted-weapons": "MATM, MRP, LAPGL",
@@ -343,22 +316,17 @@
     },
     {
       "name": "Support N-KIDU",
-      "upgrades": [
-        {
-          "name": "Sniper Upgrade"
-        }
-      ],
       "variants": [
         {
-          "model": "Support N-KIDU",
+          "model": "Support  N-KIDU",
           "tv": 5,
-          "role": "FS+, SK",
+          "role": "GP, SK, FS",
           "mr": "G:6",
           "arm": 6,
           "h/s": "4/2",
           "a": 1,
           "gu": "4+",
-          "pi": "5+",
+          "pi": "4+",
           "ew": "5+",
           "react-weapons": "-",
           "mounted-weapons": "MRP",
@@ -367,15 +335,15 @@
           "height": 1
         },
         {
-          "model": "Missile Support N-KIDU",
+          "model": "Missile Support  N-KIDU",
           "tv": 7,
-          "role": "FS+",
+          "role": "GP, SK, FS",
           "mr": "G:6",
           "arm": 6,
           "h/s": "4/2",
           "a": 1,
           "gu": "4+",
-          "pi": "5+",
+          "pi": "4+",
           "ew": "5+",
           "react-weapons": "-",
           "mounted-weapons": "LATM",
@@ -384,15 +352,15 @@
           "height": 1
         },
         {
-          "model": "Mortar Support N-KIDU",
+          "model": "Mortar Support  N-KIDU",
           "tv": 5,
-          "role": "FS+",
+          "role": "GP, SK, FS",
           "mr": "G:6",
           "arm": 6,
           "h/s": "4/2",
           "a": 1,
           "gu": "4+",
-          "pi": "5+",
+          "pi": "4+",
           "ew": "5+",
           "react-weapons": "-",
           "mounted-weapons": "LGM",
@@ -401,15 +369,15 @@
           "height": 1
         },
         {
-          "model": "Pazu-Support N-KIDU*",
+          "model": "Pazu-Support  N-KIDU*",
           "tv": 7,
-          "role": "FS, SK",
+          "role": "GP, SK, FS",
           "mr": "G:6",
           "arm": 6,
           "h/s": "4/2",
           "a": 1,
           "gu": "4+",
-          "pi": "5+",
+          "pi": "4+",
           "ew": "4+",
           "react-weapons": "-",
           "mounted-weapons": "MRP",
@@ -420,80 +388,72 @@
       ]
     },
     {
-      "name": "Constable APE",
-      "upgrades": [
-        {
-          "name": "Eden Wizard Upgrade"
-        },
-        {
-          "name": "Special Operations Upgrade"
-        }
-      ],
+      "name": "Trooper APE",
       "variants": [
         {
-          "model": "Constable APE",
-          "tv": 7,
-          "role": "GP+, SK",
-          "mr": "W:6",
-          "arm": 6,
-          "h/s": "4/2",
+          "model": "Trooper APE",
+          "tv": 6,
+          "role": "GP+, SK, FS",
+          "mr": "W:7",
+          "arm": 5,
+          "h/s": "3/3",
           "a": 1,
           "gu": "4+",
           "pi": "4+",
           "ew": "5+",
-          "react-weapons": "LAC, LRP, LVB",
-          "mounted-weapons": "LHG, LAPGL",
+          "react-weapons": "LSMG/LAPGL, LRP, LVB",
+          "mounted-weapons": "LHG",
           "traits": "Hands, Jetpack:8 (Aux)",
           "type": "Gear",
           "height": 1
         },
         {
-          "model": "Ignus APE",
-          "tv": 7,
-          "role": "GP, SK",
-          "mr": "W:6",
-          "arm": 6,
-          "h/s": "4/2",
+          "model": "Fire APE",
+          "tv": 6,
+          "role": "GP, SK, FS",
+          "mr": "W:7",
+          "arm": 5,
+          "h/s": "3/3",
           "a": 1,
           "gu": "4+",
           "pi": "4+",
           "ew": "5+",
           "react-weapons": "MFL, LRP, LVB",
-          "mounted-weapons": "LHG, LAPGL",
+          "mounted-weapons": "LHG",
           "traits": "Hands, Jetpack:8 (Aux)",
           "type": "Gear",
           "height": 1
         },
         {
-          "model": "Suppressor APE",
-          "tv": 8,
-          "role": "GP, SK",
-          "mr": "W:6",
-          "arm": 6,
-          "h/s": "4/2",
+          "model": "Grenadier APE",
+          "tv": 7,
+          "role": "GP, SK, FS",
+          "mr": "W:7",
+          "arm": 5,
+          "h/s": "3/3",
           "a": 1,
           "gu": "4+",
           "pi": "4+",
           "ew": "5+",
           "react-weapons": "LGL, LRP, LVB",
-          "mounted-weapons": "LHG, LAPGL",
+          "mounted-weapons": "LHG",
           "traits": "Hands, Jetpack:8 (Aux)",
           "type": "Gear",
           "height": 1
         },
         {
-          "model": "Marshal APE",
-          "tv": 8,
-          "role": "GP, SK",
-          "mr": "W:6",
-          "arm": 6,
-          "h/s": "4/2",
+          "model": "Node APE",
+          "tv": 6,
+          "role": "GP, SK, FS",
+          "mr": "W:7",
+          "arm": 5,
+          "h/s": "3/3",
           "a": 1,
           "gu": "4+",
           "pi": "4+",
           "ew": "4+",
-          "react-weapons": "LAC, LVB",
-          "mounted-weapons": "LHG, LAPGL",
+          "react-weapons": "LSMG/LAPGL, LVB",
+          "mounted-weapons": "LHG",
           "traits": "Comms, Hands, Jetpack:8 (Aux)",
           "type": "Gear",
           "height": 1
@@ -501,111 +461,106 @@
       ]
     },
     {
-      "name": "Man at Arms APE",
-      "upgrades": [
-        {
-          "name": "Special Operations Upgrade"
-        }
-      ],
+      "name": "Support APE",
       "variants": [
         {
-          "model": "Man at Arms APE",
-          "tv": 9,
-          "role": "GP, SK+",
+          "model": "Support APE",
+          "tv": 8,
+          "role": "GP+, SK, FS",
           "mr": "W:6",
-          "arm": 7,
+          "arm": 6,
           "h/s": "4/2",
           "a": 1,
           "gu": "4+",
           "pi": "4+",
           "ew": "6+",
-          "react-weapons": "MRF, LVB",
-          "mounted-weapons": "MRP, LHG, LAPGL",
+          "react-weapons": "MRF/LAPGL, LVB",
+          "mounted-weapons": "MRP, LHG",
           "traits": "Hands, Jetpack:8 (Aux)",
           "type": "Gear",
           "height": 1
         },
         {
-          "model": "Gunner Arms APE",
-          "tv": 9,
-          "role": "GP, SK",
+          "model": "Gunner Support  APE",
+          "tv": 8,
+          "role": "GP, SK, FS",
           "mr": "W:6",
-          "arm": 7,
+          "arm": 6,
           "h/s": "4/2",
           "a": 1,
           "gu": "4+",
           "pi": "4+",
           "ew": "6+",
-          "react-weapons": "MAC, LVB",
-          "mounted-weapons": "MRP, LHG, LAPGL",
+          "react-weapons": "MSMG/LAPGL, LVB",
+          "mounted-weapons": "MRP, LHG",
           "traits": "Hands, Jetpack:8 (Aux)",
           "type": "Gear",
           "height": 1
         },
         {
-          "model": "Suppressor Arms APE",
-          "tv": 9,
-          "role": "GP, SK",
+          "model": "Grenadier Support APE",
+          "tv": 8,
+          "role": "GP, SK, FS",
           "mr": "W:6",
-          "arm": 7,
+          "arm": 6,
           "h/s": "4/2",
           "a": 1,
           "gu": "4+",
           "pi": "4+",
           "ew": "6+",
           "react-weapons": "LGL, LVB",
-          "mounted-weapons": "MRP, LHG, LAPGL",
+          "mounted-weapons": "MRP, LHG",
           "traits": "Hands, Jetpack:8 (Aux)",
           "type": "Gear",
           "height": 1
         },
         {
-          "model": "Ignus Arms APE",
-          "tv": 9,
-          "role": "GP, SK",
+          "model": "Fire Support  APE",
+          "tv": 8,
+          "role": "GP, SK, FS",
           "mr": "W:6",
-          "arm": 7,
+          "arm": 6,
           "h/s": "4/2",
           "a": 1,
           "gu": "4+",
           "pi": "4+",
           "ew": "6+",
           "react-weapons": "MFL, LVB",
-          "mounted-weapons": "MRP, LHG, LAPGL",
+          "mounted-weapons": "MRP, LHG",
           "traits": "Hands, Jetpack:8 (Aux)",
           "type": "Gear",
           "height": 1
         },
         {
-          "model": "Lucius Arms APE",
-          "tv": 9,
-          "role": "GP, SK",
+          "model": "Bazooka Support  APE",
+          "tv": 8,
+          "role": "GP, SK, FS",
           "mr": "W:6",
-          "arm": 7,
+          "arm": 6,
           "h/s": "4/2",
           "a": 1,
           "gu": "4+",
           "pi": "4+",
           "ew": "6+",
           "react-weapons": "MBZ, LVB",
-          "mounted-weapons": "MRP, LHG, LAPGL",
+          "mounted-weapons": "MRP, LHG",
           "traits": "Hands, Jetpack:8 (Aux)",
           "type": "Gear",
           "height": 1
         },
         {
-          "model": "Gladio Arms APE",
-          "tv": 11,
-          "role": "GP, SK",
+          "model": "Bulwark Support APE",
+          "tv": 10,
+          "role": "GP, SK, FS",
           "mr": "W:6",
-          "arm": 7,
+          "arm": 6,
           "h/s": "4/2",
           "a": 1,
           "gu": "4+",
           "pi": "4+",
           "ew": "6+",
           "react-weapons": "MRL, LVB",
-          "mounted-weapons": "MRP, LHG, LAPGL",
+          "mounted-weapons": "MRP, LHG",
           "traits": "Hands, Jetpack:8 (Aux)",
           "type": "Gear",
           "height": 1
@@ -614,11 +569,6 @@
     },
     {
       "name": "MAR-DK",
-      "upgrades": [
-        {
-          "name": "Node Upgrade"
-        }
-      ],
       "variants": [
         {
           "model": "MAR-DK",
@@ -629,7 +579,7 @@
           "h/s": "5/1",
           "a": 2,
           "gu": "4+",
-          "pi": "5+",
+          "pi": "4+",
           "ew": "5+",
           "react-weapons": "-",
           "mounted-weapons": "MPA (T), HRP (T Link), LAPGL, LCW",
@@ -646,7 +596,7 @@
           "h/s": "5/1",
           "a": 2,
           "gu": "4+",
-          "pi": "5+",
+          "pi": "4+",
           "ew": "5+",
           "react-weapons": "-",
           "mounted-weapons": "MPA (T), MATM (T Link), LAPGL, LCW",
@@ -656,20 +606,137 @@
         },
         {
           "model": "MAR-DK Bulwark",
-          "tv": 21,
+          "tv": 20,
           "role": "SK, FS",
           "mr": "W/G:6",
           "arm": 8,
           "h/s": "5/1",
           "a": 2,
           "gu": "4+",
-          "pi": "5+",
+          "pi": "4+",
           "ew": "5+",
-          "react-weapons": "MRL (T AA Link)",
+          "react-weapons": "LRL (T AA Link)",
           "mounted-weapons": "MPA (T), LAPGL, LCW",
           "traits": "Stable",
           "type": "Gear",
           "height": 2
+        }
+      ]
+    },
+    {
+      "name": "Gilgamesh front",
+      "variants": [
+        {
+          "model": "Forward Body Type A",
+          "tv": 25,
+          "role": "FS",
+          "mr": "G:6",
+          "arm": 11,
+          "h/s": "6/2",
+          "a": 2,
+          "gu": "4+",
+          "pi": "6+",
+          "ew": "5+",
+          "react-weapons": "MRL, 2 x MRCs, HAPGL (Auto)",
+          "mounted-weapons": "-",
+          "traits": "Offroad, Stable, Resist:H, AMS",
+          "type": "Vehicle",
+          "height": 1.5
+        },
+        {
+          "model": "Forward Body Type B",
+          "tv": 29,
+          "role": "FS",
+          "mr": "G:6",
+          "arm": 11,
+          "h/s": "6/2",
+          "a": 2,
+          "gu": "4+",
+          "pi": "6+",
+          "ew": "5+",
+          "react-weapons": "MRL, 2 x MRCs, HMG (R Auto), HMG (L Auto), HAPGL (Auto)",
+          "mounted-weapons": "MAM (T Link)",
+          "traits": "Offroad, Stable, Resist:H, AMS, React+, Transport: 6 N-KIDU",
+          "type": "Vehicle",
+          "height": 1.5
+        }
+      ]
+    },
+    {
+      "name": "Gilgamesh Rear",
+      "variants": [
+        {
+          "model": "Rear Body Type A",
+          "tv": 23,
+          "role": "FS",
+          "mr": "-",
+          "arm": 11,
+          "h/s": "6/2",
+          "a": 2,
+          "gu": "4+",
+          "pi": "6+",
+          "ew": "5+",
+          "react-weapons": "2 x MRCs (B), HAPGL (Auto)",
+          "mounted-weapons": "-",
+          "traits": "Offroad, Stable, Resist:H, AMS",
+          "type": "Vehicle",
+          "height": 1.5
+        },
+        {
+          "model": "Rear Body Type B",
+          "tv": 26,
+          "role": "FS",
+          "mr": "-",
+          "arm": 11,
+          "h/s": "6/2",
+          "a": 2,
+          "gu": "4+",
+          "pi": "6+",
+          "ew": "5+",
+          "react-weapons": "2 x MRCs (B), HMG (R Auto), HMG (L Auto), HAPGL (Auto)",
+          "mounted-weapons": "MGM (T Link)",
+          "traits": "Offroad, Stable, Resist:H, AMS, React+, Transport: 6 N-KIDU",
+          "type": "Vehicle",
+          "height": 1.5
+        }
+      ]
+    },
+    {
+      "name": "Gilgamesh Turret",
+      "variants": [
+        {
+          "model": "Turret",
+          "tv": 30,
+          "role": "FS",
+          "mr": "-",
+          "arm": 11,
+          "h/s": "6/2",
+          "a": 2,
+          "gu": "4+",
+          "pi": "6+",
+          "ew": "5+",
+          "react-weapons": "HMG (R Auto), HMG (L Auto)",
+          "mounted-weapons": "HTG (T Apex Precise), HRP (T Link)",
+          "traits": "Stable, AMS, Resist:H, Comms, Sensors:36, TD",
+          "type": "Vehicle",
+          "height": 2.5
+        },
+        {
+          "model": "Command Turret",
+          "tv": 30,
+          "role": "FS",
+          "mr": "-",
+          "arm": 11,
+          "h/s": "6/2",
+          "a": 2,
+          "gu": "4+",
+          "pi": "6+",
+          "ew": "5+",
+          "react-weapons": "HMG (R Auto), HMG (L Auto)",
+          "mounted-weapons": "HPA (T Apex Precise), HRP (T)",
+          "traits": "Stable, AMS, SP:+1, Resist:H, Comms, SatUp, Sensors:36, TD",
+          "type": "Vehicle",
+          "height": 2.5
         }
       ]
     }

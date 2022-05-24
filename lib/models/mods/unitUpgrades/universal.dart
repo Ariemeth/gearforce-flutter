@@ -1,6 +1,7 @@
 import 'package:gearforce/models/mods/unitUpgrades/unit_modification.dart';
 import 'package:gearforce/models/mods/mods.dart';
 import 'package:gearforce/models/traits/trait.dart';
+import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
 import 'package:gearforce/models/weapons/weapons.dart';
@@ -8,7 +9,8 @@ import 'package:gearforce/models/weapons/weapons.dart';
 final UnitModification sawBladeSwap = UnitModification(
     name: 'Saw Blade Swap',
     requirementCheck: (Unit u) {
-      return u.reactWeapons.contains('MCW (Reach:1, Demo:4)');
+      return u.reactWeapons.any((w) =>
+          w.abbreviation == 'MCW' && w.bonusString == '(Reach:1 Demo:4)');
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(0), description: 'TV +0')
   ..addMod(
@@ -16,14 +18,15 @@ final UnitModification sawBladeSwap = UnitModification(
   ..addMod(
       UnitAttribute.react_weapons,
       createReplaceWeaponInList(
-          oldValue: buildWeapon('MCW (Reach:1, Demo:4)', hasReact: true)!,
-          newValue: buildWeapon('MCW (Brawl:1)', hasReact: true)!),
-      description: '-MCW (Reach:1, Demo:4), +MCW (Brawl:1)');
+          oldValue: buildWeapon('MCW (Reach:1 Demo:4)', hasReact: true)!,
+          newValue: buildWeapon('MCW (Brawl:1 Demo:4)', hasReact: true)!),
+      description: '-MCW (Reach:1, Demo:4), +MCW (Brawl:1, Demo:4)');
 
 final UnitModification vibroswordSwap = UnitModification(
     name: 'Vibrosword Swap',
     requirementCheck: (Unit u) {
-      return u.reactWeapons.contains('MCW (Reach:1, Demo:4)');
+      return u.reactWeapons.any((w) =>
+          w.abbreviation == 'MCW' && w.bonusString == '(Reach:1 Demo:4)');
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(0), description: 'TV +0')
   ..addMod(
@@ -38,7 +41,7 @@ final UnitModification vibroswordSwap = UnitModification(
 final UnitModification destroyer = UnitModification(
     name: 'Destroyer Upgrade',
     requirementCheck: (Unit u) {
-      return u.reactWeapons.contains('HAC');
+      return u.reactWeapons.any((w) => w.abbreviation == 'HAC');
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(-1), description: 'TV -1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Destroyer Upgrade'))
@@ -52,7 +55,7 @@ final UnitModification destroyer = UnitModification(
 final UnitModification demolisher = UnitModification(
     name: 'Demolisher Hand Swap',
     requirementCheck: (Unit u) {
-      return u.reactWeapons.contains('HAC');
+      return u.reactWeapons.any((w) => w.abbreviation == 'HAC');
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(-1), description: 'TV -1')
   ..addMod(UnitAttribute.name,
@@ -61,7 +64,7 @@ final UnitModification demolisher = UnitModification(
       UnitAttribute.react_weapons,
       createReplaceWeaponInList(
           oldValue: buildWeapon('HAC', hasReact: true)!,
-          newValue: buildWeapon('MCW (Link, Demo:4)', hasReact: true)!),
+          newValue: buildWeapon('MCW (Link Demo:4)', hasReact: true)!),
       description: '-HAC, +MCW (Link, Demo:4)')
   ..addMod(
       UnitAttribute.traits,
@@ -73,7 +76,7 @@ final UnitModification demolisher = UnitModification(
 final UnitModification heavyChainswordSwap = UnitModification(
     name: 'Heavy Chainsword Swap',
     requirementCheck: (Unit u) {
-      return u.reactWeapons.contains('LVB');
+      return u.reactWeapons.any((w) => w.abbreviation == 'LVB');
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(0), description: 'TV +0')
   ..addMod(UnitAttribute.name,
@@ -82,13 +85,14 @@ final UnitModification heavyChainswordSwap = UnitModification(
       UnitAttribute.react_weapons,
       createReplaceWeaponInList(
           oldValue: buildWeapon('LVB', hasReact: true)!,
-          newValue: buildWeapon('MCW (Brawl:1, Reach:1)', hasReact: true)!),
+          newValue: buildWeapon('MCW (Brawl:1 Reach:1)', hasReact: true)!),
       description: '-LVB, +MCW (Brawl:1, Reach:1)');
 
 final UnitModification maulerFistSwap = UnitModification(
     name: 'Mauler Fist Swap',
     requirementCheck: (Unit u) {
-      return u.reactWeapons.contains('MCW (Reach:1, Demo:4)');
+      return u.reactWeapons.any((w) =>
+          w.abbreviation == 'MCW' && w.bonusString == '(Reach:1 Demo:4)');
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(0), description: 'TV +0')
   ..addMod(
@@ -103,7 +107,24 @@ final UnitModification maulerFistSwap = UnitModification(
 final UnitModification chainswordSwap = UnitModification(
     name: 'Chainsword Swap',
     requirementCheck: (Unit u) {
-      return u.reactWeapons.contains('MCW (Reach:1, Demo:4)');
+      return u.reactWeapons.any((w) =>
+          w.abbreviation == 'MCW' && w.bonusString == '(Brawl:1 Demo:4)');
+    })
+  ..addMod(UnitAttribute.tv, createSimpleIntMod(0), description: 'TV +0')
+  ..addMod(
+      UnitAttribute.name, createSimpleStringMod(false, 'with Chainsword Swap'))
+  ..addMod(
+      UnitAttribute.react_weapons,
+      createReplaceWeaponInList(
+          oldValue: buildWeapon('MCW (Brawl:1, Demo:4)', hasReact: true)!,
+          newValue: buildWeapon('LCW (Brawl:1, Reach:1)', hasReact: true)!),
+      description: '-MCW (Brawl:1, Demo:4), +LCW (Brawl:1, Reach:1)');
+
+final UnitModification stonemasonChainswordSwap = UnitModification(
+    name: 'Chainsword Swap',
+    requirementCheck: (Unit u) {
+      return u.reactWeapons.any((w) =>
+          w.abbreviation == 'MCW' && w.bonusString == '(Reach:1 Demo:4)');
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(0), description: 'TV +0')
   ..addMod(
@@ -118,7 +139,7 @@ final UnitModification chainswordSwap = UnitModification(
 final UnitModification strike = UnitModification(
     name: 'Strike Upgrade',
     requirementCheck: (Unit u) {
-      return u.reactWeapons.contains('HAC');
+      return u.reactWeapons.any((w) => w.abbreviation == 'HAC');
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(-1), description: 'TV -1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Strike Upgrade'))
@@ -132,7 +153,23 @@ final UnitModification strike = UnitModification(
 final UnitModification clawSwap = UnitModification(
     name: 'Claw Swap',
     requirementCheck: (Unit u) {
-      return u.reactWeapons.contains('MCW (Reach:1, Demo:4)');
+      return u.reactWeapons.any((w) =>
+          w.abbreviation == 'MCW' && w.bonusString == '(Brawl:1 Demo:4)');
+    })
+  ..addMod(UnitAttribute.tv, createSimpleIntMod(0), description: 'TV +0')
+  ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'with Claw Swap'))
+  ..addMod(
+      UnitAttribute.react_weapons,
+      createReplaceWeaponInList(
+          oldValue: buildWeapon('MCW (Brawl:1, Demo:4)', hasReact: true)!,
+          newValue: buildWeapon('MVB', hasReact: true)!),
+      description: '-MCW (Brawl:1, Demo:4), +MVB)');
+
+final UnitModification valenceClawSwap = UnitModification(
+    name: 'Claw Swap',
+    requirementCheck: (Unit u) {
+      return u.reactWeapons.any((w) =>
+          w.abbreviation == 'MCW' && w.bonusString == '(Reach:1 Demo:4)');
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(0), description: 'TV +0')
   ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'with Claw Swap'))
@@ -146,7 +183,8 @@ final UnitModification clawSwap = UnitModification(
 final UnitModification hammerSwap = UnitModification(
     name: 'Hammer Swap',
     requirementCheck: (Unit u) {
-      return u.reactWeapons.contains('MCW (Brawl:1, Reach:1)');
+      return u.reactWeapons.any((w) =>
+          w.abbreviation == 'MCW' && w.bonusString == '(Brawl:1 Reach:1)');
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(0), description: 'TV +0')
   ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'with Hammer Swap'))
@@ -162,6 +200,8 @@ final UnitModification paratrooper = UnitModification(
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Paratrooper'))
   ..addMod(UnitAttribute.piloting, createSetIntMod(3), description: 'PI:3+')
+  ..addMod(UnitAttribute.roles, createAddRoleToList(Role(name: RoleType.SO)),
+      description: '+SO')
   ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'Airdrop')),
       description: '+Airdrop');
 
@@ -170,12 +210,16 @@ final UnitModification mountaineering = UnitModification(
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Mountaineering'))
   ..addMod(UnitAttribute.piloting, createSetIntMod(3), description: 'PI:3+')
+  ..addMod(UnitAttribute.roles, createAddRoleToList(Role(name: RoleType.SO)),
+      description: '+SO')
   ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'Climber')),
       description: '+Climber');
 
 final UnitModification frogmen = UnitModification(name: 'Frogmen Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Frogmen'))
+  ..addMod(UnitAttribute.roles, createAddRoleToList(Role(name: RoleType.SO)),
+      description: '+SO')
   ..addMod(UnitAttribute.piloting, createSetIntMod(3), description: 'PI:3+')
   ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'Sub')),
       description: '+Sub');

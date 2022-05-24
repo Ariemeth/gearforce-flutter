@@ -2,18 +2,17 @@
   "frames": [
     {
       "name": "Acco",
-      "upgrades": [],
       "variants": [
         {
           "model": "Acco",
           "tv": 7,
-          "role": "GP+, SK, RC, FS",
+          "role": "GP+, SK, FS",
           "mr": "W:6",
           "arm": 6,
           "h/s": "3/3",
           "a": 1,
-          "gu": "5+",
-          "pi": "3+",
+          "gu": "4+",
+          "pi": "4+",
           "ew": "6+",
           "react-weapons": "LAC, LRP, MMG",
           "mounted-weapons": "LSG",
@@ -24,13 +23,13 @@
         {
           "model": "Stalker Acco",
           "tv": 7,
-          "role": "GP, SK, RC, FS",
+          "role": "GP, SK, FS",
           "mr": "W:6",
           "arm": 6,
           "h/s": "3/3",
           "a": 1,
-          "gu": "5+",
-          "pi": "3+",
+          "gu": "4+",
+          "pi": "4+",
           "ew": "6+",
           "react-weapons": "LFC, LRP, MMG",
           "mounted-weapons": "LSG",
@@ -41,15 +40,15 @@
         {
           "model": "Pyro Acco",
           "tv": 7,
-          "role": "GP, SK, RC, FS",
+          "role": "GP, SK, FS",
           "mr": "W:6",
           "arm": 6,
           "h/s": "3/3",
           "a": 1,
-          "gu": "5+",
-          "pi": "3+",
+          "gu": "4+",
+          "pi": "4+",
           "ew": "6+",
-          "react-weapons": "LFL, LRP, MMG",
+          "react-weapons": "MFL, LRP, MMG",
           "mounted-weapons": "LSG",
           "traits": "Agile, Climber, Stable",
           "type": "Gear",
@@ -58,13 +57,13 @@
         {
           "model": "Sniper Acco",
           "tv": 7,
-          "role": "GP, SK, RC, FS",
+          "role": "GP, SK, FS",
           "mr": "W:6",
           "arm": 6,
           "h/s": "3/3",
           "a": 1,
-          "gu": "5+",
-          "pi": "3+",
+          "gu": "4+",
+          "pi": "4+",
           "ew": "6+",
           "react-weapons": "LRF, LRP, MMG",
           "mounted-weapons": "LSG",
@@ -76,11 +75,6 @@
     },
     {
       "name": "Bashan",
-      "upgrades": [
-        {
-          "name": "Command Upgrade"
-        }
-      ],
       "variants": [
         {
           "model": "Bashan",
@@ -95,7 +89,7 @@
           "ew": "4+",
           "react-weapons": "MAC, MMG",
           "mounted-weapons": "LSG",
-          "traits": "React+, Brawl:1, Climber, Comms, ECM, ECCM, TD, Stable",
+          "traits": "Comms, ECM, ECCM, Sensors:24, TD, React+, Brawl:1, Climber, Stable",
           "type": "Strider",
           "height": 1
         },
@@ -112,7 +106,7 @@
           "ew": "4+",
           "react-weapons": "MAC",
           "mounted-weapons": "LSG",
-          "traits": "React+, Brawl:1, Climber, ECM+, ECCM, Comms, SatUp, TD, Stable",
+          "traits": "Comms, SatUp, ECM+, ECCM, Sensors:24, TD, React+, Brawl:1, Climber, Stable",
           "type": "Strider",
           "height": 1
         }
@@ -120,16 +114,11 @@
     },
     {
       "name": "Aphek",
-      "upgrades": [
-        {
-          "name": "Mortar Upgrade"
-        }
-      ],
       "variants": [
         {
           "model": "Aphek",
-          "tv": 14,
-          "role": "RC, SK, FS",
+          "tv": 13,
+          "role": "GP, SK, FS",
           "mr": "W:7",
           "arm": 7,
           "h/s": "4/4",
@@ -146,7 +135,7 @@
         {
           "model": "Aphek Barrage",
           "tv": 13,
-          "role": "RC, SK, FS",
+          "role": "GP, SK, FS",
           "mr": "W:7",
           "arm": 7,
           "h/s": "4/4",
@@ -163,7 +152,7 @@
         {
           "model": "Aphek Rex",
           "tv": 14,
-          "role": "RC, SK, FS",
+          "role": "GP, SK, FS",
           "mr": "W:7",
           "arm": 7,
           "h/s": "4/4",
@@ -181,16 +170,11 @@
     },
     {
       "name": "Kadesh",
-      "upgrades": [
-        {
-          "name": "Command Upgrade"
-        }
-      ],
       "variants": [
         {
           "model": "Kadesh",
-          "tv": 16,
-          "role": "FS, SK",
+          "tv": 15,
+          "role": "SK, FS",
           "mr": "W:6",
           "arm": 8,
           "h/s": "4/4",
@@ -207,7 +191,7 @@
         {
           "model": "Kadesh Barrage",
           "tv": 15,
-          "role": "FS, SK",
+          "role": "SK, FS",
           "mr": "W:6",
           "arm": 8,
           "h/s": "4/4",
@@ -224,7 +208,7 @@
         {
           "model": "Kadesh Neutron",
           "tv": 17,
-          "role": "FS, SK",
+          "role": "SK, FS",
           "mr": "W:6",
           "arm": 8,
           "h/s": "4/4",
@@ -242,90 +226,72 @@
     },
     {
       "name": "Meggido",
-      "upgrades": [],
       "variants": [
         {
           "model": "Meggido",
           "tv": 21,
-          "role": "FS, SK",
+          "role": "SK, FS",
           "mr": "W:6",
           "arm": 9,
           "h/s": "4/4",
-          "a": 1,
+          "a": 2,
           "gu": "4+",
           "pi": "4+",
           "ew": "6+",
           "react-weapons": "HRC, MGL, HMG",
           "mounted-weapons": "MSG",
-          "traits": "React+, Stable, Brawl:1, Climber, Jetpack:4",
+          "traits": "Stable, Brawl:1, Climber, Jetpack:4",
           "type": "Strider",
           "height": 1.5
         },
         {
           "model": "Meggido Rex",
           "tv": 21,
-          "role": "FS, SK",
+          "role": "SK, FS",
           "mr": "W:6",
           "arm": 9,
           "h/s": "4/4",
-          "a": 1,
+          "a": 2,
           "gu": "4+",
           "pi": "4+",
           "ew": "6+",
           "react-weapons": "HRC, LATM, HMG",
           "mounted-weapons": "MSG",
-          "traits": "React+, Stable, Brawl:1, Climber, Jetpack:4",
+          "traits": "Stable, Brawl:1, Climber, Jetpack:4",
           "type": "Strider",
           "height": 1.5
         },
         {
           "model": "Meggido Meteor",
-          "tv": 21,
-          "role": "FS, SK",
+          "tv": 22,
+          "role": "SK, FS",
           "mr": "W:6",
           "arm": 9,
           "h/s": "4/4",
-          "a": 1,
+          "a": 2,
           "gu": "4+",
           "pi": "4+",
           "ew": "6+",
           "react-weapons": "MLC, LATM, HMG",
           "mounted-weapons": "MSG",
-          "traits": "React+, Stable, Brawl:1, Climber, Jetpack:4",
-          "type": "Strider",
-          "height": 1.5
-        },
-        {
-          "model": "Meggido Nova",
-          "tv": 21,
-          "role": "FS, SK",
-          "mr": "W:6",
-          "arm": 9,
-          "h/s": "4/4",
-          "a": 1,
-          "gu": "4+",
-          "pi": "4+",
-          "ew": "6+",
-          "react-weapons": "MRL, MGL, HMG",
-          "mounted-weapons": "MSG",
-          "traits": "React+, Stable, Brawl:1, Climber, Jetpack:4",
+          "traits": "Stable, Brawl:1, Climber, Jetpack:4",
           "type": "Strider",
           "height": 1.5
         },
         {
           "model": "Meggido Barrage",
-          "tv": 19,
-          "role": "FS, SK",
+          "tv": 21,
+          "role": "SK, FS",
           "mr": "W:6",
           "arm": 9,
           "h/s": "4/4",
-          "a": 1,
+          "a": 2,
           "gu": "4+",
           "pi": "4+",
           "ew": "6+",
           "react-weapons": "MRP, LATM, HMG",
           "mounted-weapons": "MSG",
-          "traits": "React+, Stable, Brawl:1, Climber, Jetpack:4",
+          "traits": "Stable, Brawl:1, Climber, Jetpack:4",
           "type": "Strider",
           "height": 1.5
         }
@@ -333,7 +299,6 @@
     },
     {
       "name": "Ammon",
-      "upgrades": [],
       "variants": [
         {
           "model": "Ammon",
@@ -342,30 +307,30 @@
           "mr": "W:5",
           "arm": 11,
           "h/s": "4/4",
-          "a": 2,
+          "a": 3,
           "gu": "4+",
           "pi": "5+",
           "ew": "5+",
-          "react-weapons": "2 X HRP (Guided), HMG",
+          "react-weapons": "2 x HRPs (Guided), HMG",
           "mounted-weapons": "MSG",
-          "traits": "React+, Brawl:1, Climber, Stable, TD",
+          "traits": "Brawl:1, Climber, Stable, TD",
           "type": "Strider",
           "height": 2
         },
         {
           "model": "Ammon Quasar",
-          "tv": 36,
+          "tv": 34,
           "role": "FS",
           "mr": "W:5",
           "arm": 11,
           "h/s": "4/4",
-          "a": 2,
+          "a": 3,
           "gu": "4+",
           "pi": "5+",
           "ew": "5+",
-          "react-weapons": "2 X MRG, HMG",
+          "react-weapons": "2 x MRGs, HMG",
           "mounted-weapons": "MSG",
-          "traits": "React+, Brawl:1, Climber, Stable, TD",
+          "traits": "Brawl:1, Climber, Stable, TD",
           "type": "Strider",
           "height": 2
         },
@@ -376,13 +341,13 @@
           "mr": "W:5",
           "arm": 11,
           "h/s": "4/4",
-          "a": 2,
+          "a": 3,
           "gu": "4+",
           "pi": "5+",
           "ew": "5+",
-          "react-weapons": "2 X MATM, HMG",
+          "react-weapons": "2 x MATMs, HMG",
           "mounted-weapons": "MSG",
-          "traits": "React+, Brawl:1, Climber, Stable, TD",
+          "traits": "Brawl:1, Climber, Stable, TD",
           "type": "Strider",
           "height": 2
         }
@@ -390,60 +355,55 @@
     },
     {
       "name": "Moab",
-      "upgrades": [
-        {
-          "name": "Command Moab"
-        }
-      ],
       "variants": [
         {
           "model": "Moab",
-          "tv": 31,
+          "tv": 30,
           "role": "FS",
           "mr": "W:6",
           "arm": 10,
           "h/s": "4/4",
-          "a": 2,
+          "a": 3,
           "gu": "4+",
           "pi": "5+",
           "ew": "5+",
-          "react-weapons": "2 X HRL",
+          "react-weapons": "2 x HLCs",
           "mounted-weapons": "HCW",
-          "traits": "React+, Brawl:1, Climber, ECM, Stable, TD",
+          "traits": "Brawl:1, Climber, ECM, Stable, TD",
           "type": "Strider",
           "height": 2
         },
         {
           "model": "Moab Neutron",
-          "tv": 29,
+          "tv": 28,
           "role": "FS",
           "mr": "W:6",
           "arm": 10,
           "h/s": "4/4",
-          "a": 2,
+          "a": 3,
           "gu": "4+",
           "pi": "5+",
           "ew": "5+",
-          "react-weapons": "2 X MPA",
+          "react-weapons": "2 x MPAs",
           "mounted-weapons": "HCW",
-          "traits": "React+, Brawl:1, Climber, ECM, Stable, TD",
+          "traits": "Brawl:1, Climber, ECM, Stable, TD",
           "type": "Strider",
           "height": 2
         },
         {
           "model": "Moab Buster",
-          "tv": 29,
+          "tv": 28,
           "role": "FS",
           "mr": "W:6",
           "arm": 10,
           "h/s": "4/4",
-          "a": 2,
+          "a": 3,
           "gu": "4+",
           "pi": "5+",
           "ew": "5+",
-          "react-weapons": "2 X MATM",
+          "react-weapons": "2 x MATMs",
           "mounted-weapons": "HCW",
-          "traits": "React+, Brawl:1, Climber, ECM, Stable, TD",
+          "traits": "Brawl:1, Climber, ECM, Stable, TD",
           "type": "Strider",
           "height": 2
         }
@@ -451,81 +411,77 @@
     },
     {
       "name": "Hamath",
-      "upgrades": [],
-      "variants": [{
-        "model": "Hamath",
-        "tv": 10,
-        "role": "GP+",
-        "mr": "W:7",
-        "arm": 7,
-        "h/s": "4/4",
-        "a": 1,
-        "gu": "5+",
-        "pi": "4+",
-        "ew": "6+",
-        "react-weapons": "LRC (T), MMG",
-        "mounted-weapons": "LCW",
-        "traits": "Transport: 2 Squads, Climber, Stable",
-        "type": "Strider",
-        "height": 1.5
-      },
-      {
-        "model": "Hamath Medico",
-        "tv": 9,
-        "role": "GP",
-        "mr": "W:7",
-        "arm": 7,
-        "h/s": "4/4",
-        "a": 1,
-        "gu": "5+",
-        "pi": "4+",
-        "ew": "6+",
-        "react-weapons": "-",
-        "mounted-weapons": "LCW",
-        "traits": "Transport: 1 Squad, Climber, Stable, Medic",
-        "type": "Strider",
-        "height": 1.5
-      },
-      {
-        "model": "Command Hamath",
-        "tv": 12,
-        "role": "GP",
-        "mr": "W:7",
-        "arm": 7,
-        "h/s": "4/4",
-        "a": 1,
-        "gu": "5+",
-        "pi": "4+",
-        "ew": "5+",
-        "react-weapons": "LRC (T), MMG",
-        "mounted-weapons": "LCW",
-        "traits": "SP:+1, Comms, ECCM (Aux), Transport: 1 Squad, Climber, Stable",
-        "type": "Strider",
-        "height": 1.5
-      }]
+      "variants": [
+        {
+          "model": "Hamath",
+          "tv": 9,
+          "role": "GP+, SK, FS",
+          "mr": "W:7",
+          "arm": 7,
+          "h/s": "4/4",
+          "a": 1,
+          "gu": "5+",
+          "pi": "4+",
+          "ew": "6+",
+          "react-weapons": "LRC (T), MMG",
+          "mounted-weapons": "LCW",
+          "traits": "Transport: 2 Squads, Climber, Stable",
+          "type": "Strider",
+          "height": 1.5
+        },
+        {
+          "model": "Hamath Medico",
+          "tv": 9,
+          "role": "GP, SK, FS",
+          "mr": "W:7",
+          "arm": 7,
+          "h/s": "4/4",
+          "a": 1,
+          "gu": "5+",
+          "pi": "4+",
+          "ew": "6+",
+          "react-weapons": "-",
+          "mounted-weapons": "LCW",
+          "traits": "Transport: 1 Squad, Climber, Stable, Medic",
+          "type": "Strider",
+          "height": 1.5
+        },
+        {
+          "model": "Command Hamath",
+          "tv": 11,
+          "role": "GP, SK, FS",
+          "mr": "W:7",
+          "arm": 7,
+          "h/s": "4/4",
+          "a": 1,
+          "gu": "5+",
+          "pi": "4+",
+          "ew": "4+",
+          "react-weapons": "LRC (T), MMG",
+          "mounted-weapons": "LCW",
+          "traits": "SP:+1, Comms, ECCM (Aux), Transport: 1 Squad, Climber, Stable",
+          "type": "Strider",
+          "height": 1.5
+        }
+      ]
     },
     {
       "name": "Peregrine Gunship",
-      "upgrades": [
-        {
-          "name": "Tank Hunter Upgrade"
-        }
-      ],
       "variants": [
         {
           "model": "Peregrine Gunship",
-          "tv": 16,
-          "role": "AS+,SK,FS",
+          "tv": 15,
+          "role": "FS+",
           "mr": "H:12",
           "arm": 6,
           "h/s": "4/4",
-          "a": 2,
+          "a": 1,
           "gu": "4+",
           "pi": "3+",
           "ew": "5+",
           "react-weapons": "MRL (AA)",
           "mounted-weapons": "MRP (Link)",
-          "traits": "Agile, VTOL",
+          "traits": "Agile, VTOL, React+",
           "type": "Vehicle",
           "height": 2
         }

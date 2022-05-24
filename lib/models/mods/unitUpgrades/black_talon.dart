@@ -47,33 +47,50 @@ final UnitModification xi = UnitModification(name: 'Xi Upgrade')
       UnitAttribute.mounted_weapons, createAddWeaponToList(buildWeapon('MGM')!),
       description: '+MGM');
 
+final UnitModification omi = UnitModification(
+    name: 'Omi Upgrade',
+    requirementCheck: (Unit u) {
+      return u.reactWeapons
+          .any((w) => w.abbreviation == 'HMG' && w.bonusString == '(Apex)');
+    })
+  ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
+  ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Omi'))
+  ..addMod(
+      UnitAttribute.react_weapons,
+      createReplaceWeaponInList(
+          oldValue: buildWeapon('HMG (Apex)', hasReact: true)!,
+          newValue: buildWeapon('LLC', hasReact: true)!),
+      description: '-HMG (Apex), +LLC');
+
 final UnitModification zeta = UnitModification(
     name: 'Zeta Upgrade',
     requirementCheck: (Unit u) {
-      return u.reactWeapons.any((element) => element.abbreviation == 'MRC');
+      return u.reactWeapons
+          .any((w) => w.abbreviation == 'HMG' && w.bonusString == '(Apex)');
     })
-  ..addMod(UnitAttribute.tv, createSimpleIntMod(0), description: 'TV +0')
+  ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Zeta'))
   ..addMod(
       UnitAttribute.react_weapons,
       createReplaceWeaponInList(
-          oldValue: buildWeapon('MRC', hasReact: true)!,
+          oldValue: buildWeapon('HMG (Apex)', hasReact: true)!,
           newValue: buildWeapon('LPA', hasReact: true)!),
-      description: '-MRC, +LPA');
+      description: '-HMG (Apex), +LPA');
 
 final UnitModification pur = UnitModification(
     name: 'Pur Upgrade',
     requirementCheck: (Unit u) {
-      return u.reactWeapons.contains('MRC');
+      return u.reactWeapons
+          .any((w) => w.abbreviation == 'HMG' && w.bonusString == '(Apex)');
     })
-  ..addMod(UnitAttribute.tv, createSimpleIntMod(-1), description: 'TV -1')
+  ..addMod(UnitAttribute.tv, createSimpleIntMod(0), description: 'TV 0')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Pur'))
   ..addMod(
       UnitAttribute.react_weapons,
       createReplaceWeaponInList(
-          oldValue: buildWeapon('MRC', hasReact: true)!,
+          oldValue: buildWeapon('HMG (Apex)', hasReact: true)!,
           newValue: buildWeapon('MFL', hasReact: true)!),
-      description: '-MRC, +MFL');
+      description: '-HMG (Apex), +MFL');
 
 final UnitModification darkCoyotePsi = UnitModification(name: 'Psi Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(3), description: 'TV +3')
@@ -87,14 +104,7 @@ final UnitModification darkCoyotePsi = UnitModification(name: 'Psi Upgrade')
   ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'SatUp')),
       description: '+SatUp')
   ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'ECCM')),
-      description: '+ECCM')
-  ..addMod(
-      UnitAttribute.traits,
-      createReplaceTraitInList(
-        oldValue: Trait(name: 'ECM'),
-        newValue: Trait(name: 'ECM+'),
-      ),
-      description: '-ECM, +ECM+');
+      description: '+ECCM');
 
 final UnitModification iota = UnitModification(name: 'Iota Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(0), description: 'TV +0')
@@ -104,10 +114,7 @@ final UnitModification iota = UnitModification(name: 'Iota Upgrade')
       description: '-MRP')
   ..addMod(UnitAttribute.mounted_weapons,
       createAddWeaponToList(buildWeapon('LAPR')!),
-      description: '+LAPR')
-  ..addMod(UnitAttribute.mounted_weapons,
-      createAddWeaponToList(buildWeapon('LAPGL')!),
-      description: '+LAPGL');
+      description: '+LAPR');
 
 final UnitModification theta = UnitModification(name: 'Theta Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
@@ -118,7 +125,18 @@ final UnitModification theta = UnitModification(name: 'Theta Upgrade')
           oldValue: buildWeapon('MGM')!, newValue: buildWeapon('MATM')!),
       description: '-MGM, +MATM');
 
-final UnitModification darkHoplitePsi = UnitModification(name: 'Psi Upgrade')
+final UnitModification spectre = UnitModification(name: 'Spectra Upgrade')
+  ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
+  ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Spectre'))
+  ..addMod(UnitAttribute.ew, createSetIntMod(3), description: 'EW 3+')
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'ECM+')),
+      description: '+ECM+');
+
+final UnitModification darkHoplitePsi = UnitModification(
+    name: 'Psi Upgrade',
+    requirementCheck: (Unit u) {
+      return !u.name.toLowerCase().contains('kappa');
+    })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Psi'))
   ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')

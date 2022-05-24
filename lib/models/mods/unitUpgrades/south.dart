@@ -2,6 +2,7 @@ import 'package:gearforce/models/mods/unitUpgrades/unit_modification.dart';
 import 'package:gearforce/models/mods/modification_option.dart';
 import 'package:gearforce/models/mods/mods.dart';
 import 'package:gearforce/models/traits/trait.dart';
+import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
 import 'package:gearforce/models/weapons/weapon.dart';
@@ -52,6 +53,40 @@ final UnitModification razorFang = UnitModification(name: 'Razor Fang Upgrade')
     createAddTraitToList(Trait(name: 'SatUp')),
     description: '+SatUp',
   );
+
+final UnitModification SRUpgrade = UnitModification(name: 'SR Upgrade Upgrade')
+  ..addMod(UnitAttribute.tv, createSimpleIntMod(3), description: 'TV +3')
+  ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'SR'))
+  ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
+  ..addMod(UnitAttribute.roles, createAddRoleToList(Role(name: RoleType.SO)),
+      description: '+SO')
+  ..addMod(
+    UnitAttribute.traits,
+    createAddTraitToList(Trait(name: 'ECM')),
+    description: '+ECM',
+  )
+  ..addMod(
+    UnitAttribute.traits,
+    createAddTraitToList(Trait(name: 'ECCM')),
+    description: '+ECCM',
+  )
+  ..addMod(
+    UnitAttribute.traits,
+    createAddTraitToList(Trait(name: 'Smoke')),
+    description: '+Smoke',
+  )
+  ..addMod(
+    UnitAttribute.traits,
+    createAddTraitToList(Trait(name: 'Stealth', isAux: true)),
+    description: '+Stealth (Aux)',
+  )
+  ..addMod(
+      UnitAttribute.react_weapons,
+      createReplaceWeaponInList(
+        oldValue: buildWeapon('LVB')!,
+        newValue: buildWeapon('LSG')!,
+      ),
+      description: '-LVB, +LSG');
 
 final UnitModification ruggedTerrain = UnitModification(
     name: 'Rugged Terrain Upgrade')
@@ -151,7 +186,7 @@ final UnitModification cobraRazorFang =
 final UnitModification boasLongFang = UnitModification(
     name: 'Long Fang Upgrade',
     requirementCheck: (Unit u) {
-      return u.mountedWeapons.contains('LGM');
+      return u.mountedWeapons.any((w) => w.abbreviation == 'LGM');
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Long Fang'))
@@ -164,7 +199,8 @@ final UnitModification boasLongFang = UnitModification(
 final UnitModification meleeSwap = UnitModification(
     name: 'Melee Swap',
     requirementCheck: (Unit u) {
-      return u.mountedWeapons.contains('MVB (Reach:1)');
+      return u.reactWeapons
+          .any((w) => w.abbreviation == 'MVB' && w.bonusString == '(Reach:1)');
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(0), description: 'TV: +0')
   ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'with melee swap'))
@@ -172,7 +208,7 @@ final UnitModification meleeSwap = UnitModification(
       UnitAttribute.react_weapons,
       createReplaceWeaponInList(
           oldValue: buildWeapon('MVB (Reach:1)', hasReact: true)!,
-          newValue: buildWeapon('MCW (Reach:1, Demo:4)', hasReact: true)!),
+          newValue: buildWeapon('MCW (Reach:1 Demo:4)', hasReact: true)!),
       description: '-MVB (Reach:1), +MCW (Reach:1, Demo:4)');
 
 final UnitModification boasArenaPilot = UnitModification(name: 'Arena Pilot')
@@ -185,7 +221,7 @@ final UnitModification boasArenaPilot = UnitModification(name: 'Arena Pilot')
 final UnitModification barbed = UnitModification(
     name: 'Barbed Upgrade',
     requirementCheck: (Unit u) {
-      return u.mountedWeapons.contains('LRP');
+      return u.mountedWeapons.any((w) => w.abbreviation == 'LRP');
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Barbed'))
@@ -205,61 +241,80 @@ final UnitModification mpCommand = UnitModification(name: 'Command Upgrade')
       createAddTraitToList(Trait(name: 'ECCM', isAux: true)),
       description: '+ECCM (Aux)');
 
-final UnitModification antiGear = UnitModification(
-    name: 'Anti-Gear Upgrade',
+final UnitModification fang = UnitModification(
+    name: 'Fang Upgrade',
     requirementCheck: (Unit u) {
-      return u.mountedWeapons.contains('MABM');
+      return u.mountedWeapons.any((w) => w.abbreviation == 'MABM');
     })
-  ..addMod(UnitAttribute.tv, createSimpleIntMod(0), description: 'TV: +0')
-  ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Anti-Gear'))
+  ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
+  ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Fang'))
   ..addMod(
       UnitAttribute.mounted_weapons,
       createReplaceWeaponInList(
-          oldValue: buildWeapon('MABM')!, newValue: buildWeapon('MRP (Link)')!),
-      description: '-MABM, +MRP (Link)');
+          oldValue: buildWeapon('MABM')!, newValue: buildWeapon('HRP (Link)')!),
+      description: '-MABM, +HRP (Link)');
+
+final UnitModification drakeCommand = UnitModification(name: 'Command Upgrade')
+  ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
+  ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Command'))
+  ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'Comms')),
+      description: '+Comms')
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'SatUp')),
+      description: '+SatUp')
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'ECCM')),
+      description: '+ECCM');
+
+final UnitModification hooded = UnitModification(
+    name: 'Hooded Upgrade',
+    requirementCheck: (Unit u) {
+      return u.reactWeapons
+          .any((w) => w.abbreviation == 'HMG' && w.bonusString == '(Apex)');
+    })
+  ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
+  ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Hooded'))
+  ..addMod(
+      UnitAttribute.react_weapons,
+      createReplaceWeaponInList(
+          oldValue: buildWeapon('HMG (Apex)', hasReact: true)!,
+          newValue: buildWeapon('LLC', hasReact: true)!),
+      description: '-HMG (Apex), +LLC');
 
 final UnitModification spark = UnitModification(
     name: 'Spark Upgrade',
     requirementCheck: (Unit u) {
-      return u.mountedWeapons.contains('MRC');
+      return u.reactWeapons
+          .any((w) => w.abbreviation == 'HMG' && w.bonusString == '(Apex)');
     })
-  ..addMod(UnitAttribute.tv, createSimpleIntMod(0), description: 'TV: +0')
+  ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Spark'))
   ..addMod(
       UnitAttribute.react_weapons,
       createReplaceWeaponInList(
-          oldValue: buildWeapon('MRC', hasReact: true)!,
+          oldValue: buildWeapon('HMG (Apex)', hasReact: true)!,
           newValue: buildWeapon('LPA', hasReact: true)!),
-      description: '-MRC, +LPA');
+      description: '-HMG (Apex), +LPA');
 
 final UnitModification flame = UnitModification(
     name: 'Flame Upgrade',
     requirementCheck: (Unit u) {
-      return u.mountedWeapons.contains('MRC');
+      return u.reactWeapons
+          .any((w) => w.abbreviation == 'HMG' && w.bonusString == '(Apex)');
     })
-  ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
+  ..addMod(UnitAttribute.tv, createSimpleIntMod(0), description: 'TV: 0')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Flame'))
   ..addMod(
       UnitAttribute.react_weapons,
       createReplaceWeaponInList(
-          oldValue: buildWeapon('MRC', hasReact: true)!,
+          oldValue: buildWeapon('HMG (Apex)', hasReact: true)!,
           newValue: buildWeapon('MFL', hasReact: true)!),
-      description: '-MRC, +MFL');
+      description: '-HMG (Apex), +MFL');
 
-final UnitModification hetairoiCommand =
-    UnitModification(name: 'Command Upgrade')
-      ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
-      ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Command'))
-      ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
-      ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'Comms')),
-          description: '+Comms')
-      ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'SatUp')),
-          description: '+SatUp')
-      ..addMod(UnitAttribute.traits,
-          createAddTraitToList(Trait(name: 'ECCM', isAux: true)),
-          description: '+ECCM (Aux)');
-
-final UnitModification caimanCommand = UnitModification(name: 'Command Upgrade')
+final UnitModification caimanCommand = UnitModification(
+    name: 'Command Upgrade',
+    requirementCheck: (Unit u) {
+      return !u.name.toLowerCase().contains('medical');
+    })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Command'))
   ..addMod(UnitAttribute.ew, createSetIntMod(5), description: 'EW 5+')
@@ -273,9 +328,8 @@ final UnitModification caimanCommand = UnitModification(name: 'Command Upgrade')
       createAddTraitToList(Trait(name: 'ECCM', isAux: true)),
       description: '+ECCM (Aux)');
 
-final UnitModification single = UnitModification(name: 'Single')
-  ..addMod(UnitAttribute.tv, createSimpleIntMod(-1), description: 'TV -1')
-  ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Single'))
-  ..addMod(UnitAttribute.hull, createSetIntMod(2), description: 'Hull 2')
-  ..addMod(UnitAttribute.structure, createSetIntMod(1),
-      description: 'Structure 1');
+final UnitModification team = UnitModification(name: 'Team')
+  ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
+  ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'Team'))
+  ..addMod(UnitAttribute.hull, createSetIntMod(3), description: 'H/S 3/3')
+  ..addMod(UnitAttribute.structure, createSetIntMod(3));
