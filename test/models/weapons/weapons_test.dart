@@ -40,83 +40,14 @@ void main() {
     TestTable(
       code: 'ABM',
       name: 'Air Burst Missile',
-      modes: [weaponModes.Direct, weaponModes.Indirect],
-      range: Range(18, 48, 96),
-      damage: {'L': 5, 'M': 6, 'H': 7},
-      traits: [
-        Trait(name: 'AI'),
-        Trait(name: 'AE', level: 3),
-        Trait(name: 'Blast'),
-        Trait(name: 'Guided'),
-      ],
-    ),
-    TestTable(
-      code: 'AC',
-      name: 'Autocannon',
-      modes: [weaponModes.Direct],
-      range: Range(6, 18, 36),
-      damage: {'L': 6, 'M': 7, 'H': 8},
-      traits: [
-        Trait(name: 'Burst', level: 1),
-        Trait(name: 'Split', level: 2),
-      ],
-    ),
-    TestTable(
-      code: 'AG',
-      name: 'Artillery Gun',
       modes: [weaponModes.Indirect],
       range: Range(24, 48, 96),
-      damage: {'L': 9, 'M': 10, 'H': 11},
-      traits: [
-        Trait(name: 'AE', level: 4),
-        Trait(name: 'Blast'),
-        Trait(name: 'AP', level: 1),
-        Trait(name: 'Demo', level: 2)
-      ],
-    ),
-    TestTable(
-      code: 'AM',
-      name: 'Artillery Missile',
-      modes: [weaponModes.Indirect],
-      range: Range(18, 48, 96),
-      damage: {'L': 9, 'M': 10, 'H': 11},
-      traits: [
-        Trait(name: 'AE', level: 4),
-        Trait(name: 'Blast'),
-        Trait(name: 'Demo', level: 2),
-        Trait(name: 'Guided')
-      ],
-    ),
-    TestTable(
-      code: 'APGL',
-      name: 'Anti-Per Grenade Launchers',
-      modes: [weaponModes.Proximity],
-      range: Range(3, null, null),
-      damage: {'L': 4, 'M': 5, 'H': 6},
+      damage: {'L': 6, 'M': 7, 'H': 8},
       traits: [
         Trait(name: 'AI'),
-        Trait(name: 'Frag'),
-      ],
-    ),
-    TestTable(
-      code: 'APR',
-      name: 'Anti-Personnel Rockets',
-      modes: [weaponModes.Direct, weaponModes.Indirect],
-      range: Range(6, 18, 36),
-      damage: {'L': 4, 'M': 5, 'H': 6},
-      traits: [
-        Trait(name: 'AI'),
-        Trait(name: 'AE', level: 5),
-      ],
-    ),
-    TestTable(
-      code: 'AR',
-      name: 'Artillery Rockets',
-      modes: [weaponModes.Indirect],
-      range: Range(18, 36, 72),
-      damage: {'L': 7, 'M': 8, 'H': 9},
-      traits: [
-        Trait(name: 'AE', level: 5),
+        Trait(name: 'AOE', level: 3),
+        Trait(name: 'Blast'),
+        Trait(name: 'Guided'),
       ],
     ),
     TestTable(
@@ -136,21 +67,7 @@ void main() {
       modes: [weaponModes.Melee],
       range: Range(0, null, null, hasReach: true, increasableReach: true),
       damage: {'L': 7, 'M': 8, 'H': 9},
-      traits: [],
-    ),
-    TestTable(
-      code: 'FC',
-      name: 'Frag Cannon',
-      modes: [weaponModes.Direct],
-      range: Range(3, 9, 18),
-      damage: {'L': 5, 'M': 6, 'H': 7},
-      traits: [
-        Trait(name: 'AP', level: 1),
-      ],
-      optionalTraits: [
-        Trait(name: 'Frag'),
-        Trait(name: 'AI'),
-      ],
+      traits: [Trait(name: 'Demo', level: 2)],
     ),
     TestTable(
       code: 'FM',
@@ -159,20 +76,8 @@ void main() {
       range: Range(18, 36, 72),
       damage: {'L': 8, 'M': 9, 'H': 10},
       traits: [
-        Trait(name: 'AE', level: 4),
+        Trait(name: 'AOE', level: 4),
         Trait(name: 'Blast'),
-      ],
-    ),
-    TestTable(
-      code: 'GL',
-      name: 'Grenade Launcher',
-      modes: [weaponModes.Direct, weaponModes.Indirect],
-      range: Range(6, 12, 24),
-      damage: {'L': 7, 'M': 8, 'H': 9},
-      traits: [
-        Trait(name: 'AE', level: 3),
-        Trait(name: 'Blast'),
-        Trait(name: 'AP', level: 1),
       ],
     ),
     TestTable(
@@ -182,7 +87,7 @@ void main() {
       range: Range(18, 36, 72),
       damage: {'L': 7, 'M': 8, 'H': 9},
       traits: [
-        Trait(name: 'AE', level: 3),
+        Trait(name: 'AOE', level: 3),
         Trait(name: 'Blast'),
         Trait(name: 'Guided'),
       ],
@@ -194,7 +99,7 @@ void main() {
       range: Range(3, 6, 9),
       damage: {'L': 8, 'M': 9, 'H': 10},
       traits: [
-        Trait(name: 'AE', level: 3),
+        Trait(name: 'AOE', level: 3),
         Trait(name: 'Blast'),
         Trait(name: 'AP', level: 1),
       ],
@@ -214,9 +119,9 @@ void main() {
       name: 'Infantry Grenade Launcher',
       modes: [weaponModes.Direct, weaponModes.Indirect],
       range: Range(3, 9, 18),
-      damage: {'L': 6, 'M': 7, 'H': 8},
+      damage: {'L': 5, 'M': 6, 'H': 7},
       traits: [
-        Trait(name: 'AE', level: 2),
+        Trait(name: 'AOE', level: 2),
         Trait(name: 'Blast'),
       ],
       optionalTraits: [
@@ -242,7 +147,7 @@ void main() {
       range: Range(12, 24, 48),
       damage: {'L': 4, 'M': 5, 'H': 6},
       traits: [
-        Trait(name: 'AE', level: 2),
+        Trait(name: 'AOE', level: 2),
         Trait(name: 'Blast'),
         Trait(name: 'AI'),
       ],
@@ -297,13 +202,14 @@ void main() {
       traits: [
         Trait(name: 'AI'),
         Trait(name: 'Burst', level: 2),
+        Trait(name: 'Split'),
       ],
     ),
     TestTable(
       code: 'P',
       name: 'Pistol',
       modes: [weaponModes.Direct],
-      range: Range(0, 9, 18),
+      range: Range(0, 12, 24),
       damage: {'L': 6, 'M': 7, 'H': 8},
       traits: [
         Trait(name: 'Precise'),
@@ -313,7 +219,7 @@ void main() {
       code: 'PA',
       name: 'Particle Accelerator',
       modes: [weaponModes.Direct],
-      range: Range(6, 18, 36),
+      range: Range(6, 24, 48),
       damage: {'L': 7, 'M': 8, 'H': 9},
       traits: [
         Trait(name: 'Haywire'),
@@ -325,10 +231,10 @@ void main() {
       name: 'Rotary Cannon',
       modes: [weaponModes.Direct],
       range: Range(6, 18, 36),
-      damage: {'L': 6, 'M': 7, 'H': 8},
+      damage: {'L': 5, 'M': 6, 'H': 7},
       traits: [
         Trait(name: 'Burst', level: 2),
-        Trait(name: 'Split', level: 2),
+        Trait(name: 'Split'),
       ],
     ),
     TestTable(
@@ -342,36 +248,14 @@ void main() {
       ],
     ),
     TestTable(
-      code: 'RL',
-      name: 'Rotary Laser',
-      modes: [weaponModes.Direct],
-      range: Range(6, 18, 36),
-      damage: {'L': 6, 'M': 7, 'H': 8},
-      traits: [
-        Trait(name: 'Burst', level: 1),
-        Trait(name: 'Split', level: 2),
-        Trait(name: 'Advanced'),
-      ],
-    ),
-    TestTable(
       code: 'RP',
       name: 'Rocket Pack',
       modes: [weaponModes.Direct, weaponModes.Indirect],
       range: Range(6, 18, 36),
       damage: {'L': 7, 'M': 8, 'H': 9},
       traits: [
-        Trait(name: 'AE', level: 3),
+        Trait(name: 'AOE', level: 3),
         Trait(name: 'AP', level: 1),
-      ],
-    ),
-    TestTable(
-      code: 'SMG',
-      name: 'Submachine Gun',
-      modes: [weaponModes.Direct],
-      range: Range(0, 9, 18),
-      damage: {'L': 6, 'M': 7, 'H': 8},
-      traits: [
-        Trait(name: 'Burst', level: 2),
       ],
     ),
   ];
@@ -390,7 +274,8 @@ void main() {
               reason: 'check range');
           expect(l?.traits.toString(), equals(tt.traits.toString()),
               reason: 'check traits');
-          expect(l?.optionalTraits.length, equals(tt.optionalTraits.length),
+          expect(
+              l?.baseAlternativeTraits.length, equals(tt.optionalTraits.length),
               reason: 'check traits');
           expect(l?.toString(), equals('$size${tt.code}'),
               reason: 'check toString');
@@ -399,7 +284,7 @@ void main() {
     });
   }
 
-  // Weapons to test that have traits with variable valeus
+  // Weapons to test that have traits with variable values
   // ATM
   group('test building ATM', () {
     const code = 'ATM';
@@ -407,7 +292,7 @@ void main() {
     const modes = [weaponModes.Direct, weaponModes.Indirect];
     const range = Range(12, 36, 72);
     const damage = {'L': 8, 'M': 9, 'H': 10};
-    const ap = {'L': 3, 'M': 4, 'H': 5};
+    const ap = {'L': 2, 'M': 3, 'H': 4};
     for (var size in _sizes) {
       final traits = [
         Trait(name: 'AP', level: ap[size]),
@@ -424,7 +309,8 @@ void main() {
             reason: 'check range');
         expect(l?.traits.toString(), equals(traits.toString()),
             reason: 'check traits');
-        expect(l?.optionalTraits, isEmpty, reason: 'check optional traits');
+        expect(l?.baseAlternativeTraits, isEmpty,
+            reason: 'check optional traits');
       });
     }
   });
@@ -451,7 +337,8 @@ void main() {
             reason: 'check range');
         expect(l?.traits.toString(), equals(traits.toString()),
             reason: 'check traits');
-        expect(l?.optionalTraits, isEmpty, reason: 'check optional traits');
+        expect(l?.baseAlternativeTraits, isEmpty,
+            reason: 'check optional traits');
       });
     }
   });
@@ -462,13 +349,13 @@ void main() {
     const modes = [weaponModes.Direct, weaponModes.Indirect];
     const range = Range(12, 24, 48);
     const damage = {'L': 9, 'M': 10, 'H': 11};
-    const ap = {'L': 1, 'M': 2, 'H': 3};
+    const ap = {'L': 3, 'M': 4, 'H': 5};
     for (var size in _sizes) {
       final traits = [
         Trait(name: 'AP', level: ap[size]),
       ];
       final optionalTraits = [
-        Trait(name: 'AE', level: 3),
+        Trait(name: 'AOE', level: 3),
         Trait(name: 'Blast'),
       ];
       test('test building $size$code', () {
@@ -482,69 +369,13 @@ void main() {
             reason: 'check range');
         expect(l?.traits.toString(), equals(traits.toString()),
             reason: 'check traits');
-        expect(l?.optionalTraits.toString(), equals(optionalTraits.toString()),
+        expect(l?.baseAlternativeTraits.toString(),
+            equals(optionalTraits.toString()),
             reason: 'check optional traits');
       });
     }
   });
-  // FL
-  group('test building FL', () {
-    const code = 'FL';
-    const name = 'Flamer';
-    const modes = [weaponModes.Direct];
-    const range = Range(0, 6, 9);
-    const damage = {'L': 3, 'M': 4, 'H': 5};
-    const fire = {'L': 2, 'M': 3, 'H': 4};
-    for (var size in _sizes) {
-      final traits = [
-        Trait(name: 'AE', level: 3),
-        Trait(name: 'AI'),
-        Trait(name: 'Fire', level: fire[size]),
-        Trait(name: 'Spray'),
-      ];
-      test('test building $size$code', () {
-        final l = buildWeapon('$size$code');
-        expect(l, isNotNull, reason: 'weapon should not be null');
-        expect(l?.abbreviation, '$size$code', reason: 'check weapon code');
-        expect(l?.name, equals(name), reason: 'check name');
-        expect(l?.modes, equals(modes), reason: 'check modes');
-        expect(l?.damage, equals(damage[size]), reason: 'check damage');
-        expect(l?.range.toString(), equals(range.toString()),
-            reason: 'check range');
-        expect(l?.traits.toString(), equals(traits.toString()),
-            reason: 'check traits');
-        expect(l?.optionalTraits, isEmpty, reason: 'check optional traits');
-      });
-    }
-  });
-  // PL
-  group('test building PL', () {
-    const code = 'PL';
-    const name = 'Pulse Laser';
-    const modes = [weaponModes.Direct];
-    const range = Range(12, 24, 48);
-    const damage = {'L': 7, 'M': 8, 'H': 9};
-    const ap = {'L': 2, 'M': 4, 'H': 6};
-    for (var size in _sizes) {
-      final traits = [
-        Trait(name: 'AP', level: ap[size]),
-        Trait(name: 'Advanced'),
-      ];
-      test('test building $size$code', () {
-        final l = buildWeapon('$size$code');
-        expect(l, isNotNull, reason: 'weapon should not be null');
-        expect(l?.abbreviation, '$size$code', reason: 'check weapon code');
-        expect(l?.name, equals(name), reason: 'check name');
-        expect(l?.modes, equals(modes), reason: 'check modes');
-        expect(l?.damage, equals(damage[size]), reason: 'check damage');
-        expect(l?.range.toString(), equals(range.toString()),
-            reason: 'check range');
-        expect(l?.traits.toString(), equals(traits.toString()),
-            reason: 'check traits');
-        expect(l?.optionalTraits, isEmpty, reason: 'check optional traits');
-      });
-    }
-  });
+
   // PZ
   group('test building PZ', () {
     const code = 'PZ';
@@ -568,7 +399,8 @@ void main() {
             reason: 'check range');
         expect(l?.traits.toString(), equals(traits.toString()),
             reason: 'check traits');
-        expect(l?.optionalTraits, isEmpty, reason: 'check optional traits');
+        expect(l?.baseAlternativeTraits, isEmpty,
+            reason: 'check optional traits');
       });
     }
   });
@@ -577,13 +409,14 @@ void main() {
     const code = 'RG';
     const name = 'Railgun';
     const modes = [weaponModes.Direct];
-    const range = Range(12, 36, 72);
-    const damage = {'L': 7, 'M': 8, 'H': 9};
-    const ap = {'L': 2, 'M': 4, 'H': 6};
+    const range = Range(12, 48, 96);
+    const damage = {'L': 4, 'M': 5, 'H': 6};
+    const ap = {'L': 4, 'M': 5, 'H': 6};
     for (var size in _sizes) {
       final traits = [
+        Trait(name: 'Precise'),
+        Trait(name: 'Advanced'),
         Trait(name: 'AP', level: ap[size]),
-        Trait(name: 'Advanced')
       ];
       test('test building $size$code', () {
         final l = buildWeapon('$size$code');
@@ -596,7 +429,8 @@ void main() {
             reason: 'check range');
         expect(l?.traits.toString(), equals(traits.toString()),
             reason: 'check traits');
-        expect(l?.optionalTraits, isEmpty, reason: 'check optional traits');
+        expect(l?.baseAlternativeTraits, isEmpty,
+            reason: 'check optional traits');
       });
     }
   });
@@ -624,7 +458,8 @@ void main() {
             reason: 'check range');
         expect(l?.traits.toString(), equals(traits.toString()),
             reason: 'check traits');
-        expect(l?.optionalTraits, isEmpty, reason: 'check optional traits');
+        expect(l?.baseAlternativeTraits, isEmpty,
+            reason: 'check optional traits');
       });
     }
   });
@@ -653,7 +488,8 @@ void main() {
             reason: 'check range');
         expect(l?.traits.toString(), equals(traits.toString()),
             reason: 'check traits');
-        expect(l?.optionalTraits, isEmpty, reason: 'check optional traits');
+        expect(l?.baseAlternativeTraits, isEmpty,
+            reason: 'check optional traits');
       });
     }
   });
@@ -664,7 +500,7 @@ void main() {
     const modes = [weaponModes.Melee];
     const range = Range(0, null, null, hasReach: true, increasableReach: true);
     const damage = {'L': 6, 'M': 7, 'H': 8};
-    const ap = {'L': 2, 'M': 4, 'H': 6};
+    const ap = {'L': 3, 'M': 4, 'H': 5};
     for (var size in _sizes) {
       final traits = [
         Trait(name: 'AP', level: ap[size]),
@@ -680,7 +516,8 @@ void main() {
             reason: 'check range');
         expect(l?.traits.toString(), equals(traits.toString()),
             reason: 'check traits');
-        expect(l?.optionalTraits, isEmpty, reason: 'check optional traits');
+        expect(l?.baseAlternativeTraits, isEmpty,
+            reason: 'check optional traits');
       });
     }
   });
@@ -689,9 +526,9 @@ void main() {
     const code = 'TG';
     const name = 'Tank Gun';
     const modes = [weaponModes.Direct];
-    const range = Range(18, 36, 72);
+    const range = Range(12, 36, 72);
     const damage = {'L': 9, 'M': 10, 'H': 11};
-    const ap = {'L': 2, 'M': 3, 'H': 4};
+    const ap = {'L': 3, 'M': 4, 'H': 5};
     for (var size in _sizes) {
       final traits = [
         Trait(name: 'AP', level: ap[size]),
@@ -708,7 +545,8 @@ void main() {
             reason: 'check range');
         expect(l?.traits.toString(), equals(traits.toString()),
             reason: 'check traits');
-        expect(l?.optionalTraits, isEmpty, reason: 'check optional traits');
+        expect(l?.baseAlternativeTraits, isEmpty,
+            reason: 'check optional traits');
       });
     }
   });
@@ -719,7 +557,7 @@ void main() {
     const modes = [weaponModes.Melee];
     const range = Range(0, null, null, hasReach: true, increasableReach: true);
     const damage = {'L': 7, 'M': 8, 'H': 9};
-    const ap = {'L': 1, 'M': 3, 'H': 5};
+    const ap = {'L': 2, 'M': 3, 'H': 4};
     for (var size in _sizes) {
       final traits = [
         Trait(name: 'AP', level: ap[size]),
@@ -735,7 +573,8 @@ void main() {
             reason: 'check range');
         expect(l?.traits.toString(), equals(traits.toString()),
             reason: 'check traits');
-        expect(l?.optionalTraits, isEmpty, reason: 'check optional traits');
+        expect(l?.baseAlternativeTraits, isEmpty,
+            reason: 'check optional traits');
       });
     }
   });
@@ -746,7 +585,7 @@ void main() {
     const modes = [weaponModes.Melee];
     const range = Range(0, null, null, hasReach: true, increasableReach: true);
     const damage = {'L': 7, 'M': 8, 'H': 9};
-    const ap = {'L': 1, 'M': 3, 'H': 5};
+    const ap = {'L': 2, 'M': 3, 'H': 4};
     for (var size in _sizes) {
       final traits = [
         Trait(name: 'AP', level: ap[size]),
@@ -762,7 +601,8 @@ void main() {
             reason: 'check range');
         expect(l?.traits.toString(), equals(traits.toString()),
             reason: 'check traits');
-        expect(l?.optionalTraits, isEmpty, reason: 'check optional traits');
+        expect(l?.baseAlternativeTraits, isEmpty,
+            reason: 'check optional traits');
         expect(l?.toString(), equals('2 X $size$code'),
             reason: 'toString check');
       });
@@ -777,7 +617,8 @@ void main() {
             reason: 'check range');
         expect(l?.traits.toString(), equals(traits.toString()),
             reason: 'check traits');
-        expect(l?.optionalTraits, isEmpty, reason: 'check optional traits');
+        expect(l?.baseAlternativeTraits, isEmpty,
+            reason: 'check optional traits');
         expect(l?.toString(), equals('2 X $size$code'),
             reason: 'toString check');
       });
@@ -815,46 +656,9 @@ void main() {
               reason: 'check range');
           expect(l?.traits.toString(), equals(tt.traits.toString()),
               reason: 'check traits');
-          expect(l?.optionalTraits.length, equals(tt.optionalTraits.length),
+          expect(
+              l?.baseAlternativeTraits.length, equals(tt.optionalTraits.length),
               reason: 'check traits');
-          expect(l?.toString(), equals('$size${tt.code} ${tt.bonusTraits}'),
-              reason: 'check toString');
-        },
-      );
-    }
-  });
-
-  group('test building weapons with non-unique bonus traits', () {
-    final tt = TestTable(
-      code: 'AC',
-      name: 'Autocannon',
-      modes: [weaponModes.Direct],
-      range: Range(6, 18, 36),
-      damage: {'L': 6, 'M': 7, 'H': 8},
-      traits: [
-        Trait(name: 'Burst', level: 2),
-        Trait(name: 'Split', level: 2),
-      ],
-      bonusTraits: '(Burst:2)',
-    );
-
-    for (var size in _sizes) {
-      test(
-        'test building $size${tt.code}',
-        () {
-          final l = buildWeapon('$size${tt.code} ${tt.bonusTraits}');
-          expect(l, isNotNull, reason: 'weapon should not be null');
-          expect(l?.abbreviation, '$size${tt.code}',
-              reason: 'check weapon code');
-          expect(l?.name, equals(tt.name), reason: 'check name');
-          expect(l?.modes, equals(tt.modes), reason: 'check modes');
-          expect(l?.damage, equals(tt.damage[size]), reason: 'check damage');
-          expect(l?.range.toString(), equals(tt.range.toString()),
-              reason: 'check range');
-          expect(l?.traits.toString(), equals(tt.traits.toString()),
-              reason: 'check traits');
-          expect(l?.optionalTraits.length, equals(tt.optionalTraits.length),
-              reason: 'check optional traits');
           expect(l?.toString(), equals('$size${tt.code} ${tt.bonusTraits}'),
               reason: 'check toString');
         },
@@ -892,7 +696,7 @@ void main() {
     final modes = [weaponModes.Direct];
     final range = Range(0, null, null);
     const damage = 8;
-    final traits = [Trait(name: 'AE', level: 4)];
+    final traits = [Trait(name: 'AOE', level: 4)];
     const name = 'Bomb';
 
     final l = buildWeapon('BB');

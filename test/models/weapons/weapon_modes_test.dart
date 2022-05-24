@@ -13,8 +13,4 @@ void main() {
   test('test converting weaponMode to string for Melee', () {
     expect(getWeaponModeName(weaponModes.Melee), equals('Melee'));
   });
-
-  test('test converting weaponMode to string for Proximity', () {
-    expect(getWeaponModeName(weaponModes.Proximity), equals('Proximity'));
-  });
 }

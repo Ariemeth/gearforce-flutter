@@ -73,7 +73,7 @@ Weapon? _buildWeapon({
   int damage = -1;
   Range range = Range(0, 1, 2);
   List<Trait> traits = [];
-  List<Trait> optionalTraits = [];
+  List<Trait> alternativeTraits = [];
 
   switch (type.toUpperCase()) {
     case 'AAM':
@@ -88,14 +88,14 @@ Weapon? _buildWeapon({
       ];
       break;
     case 'ABM':
-      const damageMap = {'L': 5, 'M': 6, 'H': 7};
+      const damageMap = {'L': 6, 'M': 7, 'H': 8};
       name = 'Air Burst Missile';
-      modes = [weaponModes.Direct, weaponModes.Indirect];
+      modes = [weaponModes.Indirect];
       damage = damageMap[size]!;
-      range = Range(18, 48, 96);
+      range = Range(24, 48, 96);
       traits = [
         Trait(name: 'AI'),
-        Trait(name: 'AE', level: 3),
+        Trait(name: 'AOE', level: 3),
         Trait(name: 'Blast'),
         Trait(name: 'Guided'),
       ];
@@ -108,8 +108,9 @@ Weapon? _buildWeapon({
       range = Range(6, 18, 36);
       traits = [
         Trait(name: 'Burst', level: 1),
-        Trait(name: 'Split', level: 2),
+        Trait(name: 'Split'),
       ];
+      alternativeTraits = [Trait(name: 'Precise')];
       break;
     case 'AG':
       const damageMap = {'L': 9, 'M': 10, 'H': 11};
@@ -118,60 +119,62 @@ Weapon? _buildWeapon({
       damage = damageMap[size]!;
       range = Range(24, 48, 96);
       traits = [
-        Trait(name: 'AE', level: 4),
+        Trait(name: 'AOE', level: 3),
         Trait(name: 'Blast'),
         Trait(name: 'AP', level: 1),
         Trait(name: 'Demo', level: 2),
       ];
       break;
     case 'AM':
-      const damageMap = {'L': 9, 'M': 10, 'H': 11};
+      const damageMap = {'L': 7, 'M': 8, 'H': 9};
       name = 'Artillery Missile';
       modes = [weaponModes.Indirect];
       damage = damageMap[size]!;
-      range = Range(18, 48, 96);
+      range = Range(24, 48, 96);
       traits = [
-        Trait(name: 'AE', level: 4),
+        Trait(name: 'AOE', level: 4),
         Trait(name: 'Blast'),
-        Trait(name: 'Demo', level: 2),
+        Trait(name: 'AP', level: 1),
         Trait(name: 'Guided'),
       ];
       break;
     case 'APGL':
-      const damageMap = {'L': 4, 'M': 5, 'H': 6};
+      const damageMap = {'L': 5, 'M': 6, 'H': 7};
       name = 'Anti-Per Grenade Launchers';
-      modes = [weaponModes.Proximity];
+      modes = [weaponModes.Direct];
       damage = damageMap[size]!;
-      range = Range(3, null, null);
+      range = Range(0, 3, null);
       traits = [
         Trait(name: 'AI'),
         Trait(name: 'Frag'),
+        Trait(name: 'Prox'),
       ];
       break;
     case 'APR':
-      const damageMap = {'L': 4, 'M': 5, 'H': 6};
+      const damageMap = {'L': 6, 'M': 7, 'H': 8};
       name = 'Anti-Personnel Rockets';
       modes = [weaponModes.Direct, weaponModes.Indirect];
       damage = damageMap[size]!;
       range = Range(6, 18, 36);
       traits = [
         Trait(name: 'AI'),
-        Trait(name: 'AE', level: 5),
+        Trait(name: 'AOE', level: 3),
       ];
       break;
     case 'AR':
       const damageMap = {'L': 7, 'M': 8, 'H': 9};
       name = 'Artillery Rockets';
-      modes = [weaponModes.Indirect];
+      modes = [weaponModes.Direct, weaponModes.Indirect];
       damage = damageMap[size]!;
-      range = Range(18, 36, 72);
+      range = Range(12, 36, 72);
       traits = [
-        Trait(name: 'AE', level: 5),
+        Trait(name: 'AOE', level: 3),
+        Trait(name: 'Demo', level: 2),
       ];
       break;
     case 'ATM':
       const damageMap = {'L': 8, 'M': 9, 'H': 10};
-      const apMap = {'L': 3, 'M': 4, 'H': 5};
+      const apMap = {'L': 2, 'M': 3, 'H': 4};
       name = 'Anti-Tank Missile';
       modes = [weaponModes.Direct, weaponModes.Indirect];
       damage = damageMap[size]!;
@@ -197,7 +200,7 @@ Weapon? _buildWeapon({
       modes = [weaponModes.Direct];
       damage = 8;
       range = Range(0, null, null);
-      traits = [Trait(name: 'AE', level: 4)];
+      traits = [Trait(name: 'AOE', level: 4)];
       break;
     case 'BZ':
       const damageMap = {'L': 7, 'M': 8, 'H': 9};
@@ -216,25 +219,29 @@ Weapon? _buildWeapon({
       modes = [weaponModes.Melee];
       damage = damageMap[size]!;
       range = Range(0, null, null, hasReach: true, increasableReach: true);
-      traits = [];
+      traits = [
+        Trait(name: 'Demo', level: 2),
+      ];
       break;
     case 'FC':
       const damageMap = {'L': 5, 'M': 6, 'H': 7};
+      const apMap = {'L': 1, 'M': 2, 'H': 3};
       name = 'Frag Cannon';
       modes = [weaponModes.Direct];
       damage = damageMap[size]!;
       range = Range(3, 9, 18);
       traits = [
-        Trait(name: 'AP', level: 1),
+        Trait(name: 'Precise'),
+        Trait(name: 'AP', level: apMap[size]),
       ];
-      optionalTraits = [
+      alternativeTraits = [
         Trait(name: 'Frag'),
         Trait(name: 'AI'),
       ];
       break;
     case 'FG':
       const damageMap = {'L': 9, 'M': 10, 'H': 11};
-      const apMap = {'L': 1, 'M': 2, 'H': 3};
+      const apMap = {'L': 3, 'M': 4, 'H': 5};
       name = 'Field Gun';
       modes = [weaponModes.Direct, weaponModes.Indirect];
       damage = damageMap[size]!;
@@ -242,8 +249,8 @@ Weapon? _buildWeapon({
       traits = [
         Trait(name: 'AP', level: apMap[size]),
       ];
-      optionalTraits = [
-        Trait(name: 'AE', level: 3),
+      alternativeTraits = [
+        Trait(name: 'AOE', level: 3),
         Trait(name: 'Blast'),
       ];
       break;
@@ -253,11 +260,11 @@ Weapon? _buildWeapon({
       name = 'Flamer';
       modes = [weaponModes.Direct];
       damage = damageMap[size]!;
-      range = Range(0, 6, 9);
+      range = Range(0, 9, 18);
       traits = [
-        Trait(name: 'AE', level: 3),
         Trait(name: 'AI'),
         Trait(name: 'Fire', level: fireMap[size]),
+        Trait(name: 'Burst', level: 1),
         Trait(name: 'Spray'),
       ];
       break;
@@ -268,20 +275,21 @@ Weapon? _buildWeapon({
       damage = damageMap[size]!;
       range = Range(18, 36, 72);
       traits = [
-        Trait(name: 'AE', level: 4),
+        Trait(name: 'AOE', level: 4),
         Trait(name: 'Blast'),
       ];
       break;
     case 'GL':
-      const damageMap = {'L': 7, 'M': 8, 'H': 9};
+      const damageMap = {'L': 6, 'M': 7, 'H': 8};
       name = 'Grenade Launcher';
       modes = [weaponModes.Direct, weaponModes.Indirect];
       damage = damageMap[size]!;
       range = Range(6, 12, 24);
       traits = [
-        Trait(name: 'AE', level: 3),
+        Trait(name: 'AOE', level: 3),
         Trait(name: 'Blast'),
         Trait(name: 'AP', level: 1),
+        Trait(name: 'Burst', level: 1),
       ];
       break;
     case 'GM':
@@ -291,7 +299,7 @@ Weapon? _buildWeapon({
       damage = damageMap[size]!;
       range = Range(18, 36, 72);
       traits = [
-        Trait(name: 'AE', level: 3),
+        Trait(name: 'AOE', level: 3),
         Trait(name: 'Blast'),
         Trait(name: 'Guided'),
       ];
@@ -303,7 +311,7 @@ Weapon? _buildWeapon({
       damage = damageMap[size]!;
       range = Range(3, 6, 9);
       traits = [
-        Trait(name: 'AE', level: 3),
+        Trait(name: 'AOE', level: 3),
         Trait(name: 'Blast'),
         Trait(name: 'AP', level: 1),
       ];
@@ -317,16 +325,16 @@ Weapon? _buildWeapon({
       traits = [Trait(name: 'AI')];
       break;
     case 'IGL':
-      const damageMap = {'L': 6, 'M': 7, 'H': 8};
+      const damageMap = {'L': 5, 'M': 6, 'H': 7};
       name = 'Infantry Grenade Launcher';
       modes = [weaponModes.Direct, weaponModes.Indirect];
       damage = damageMap[size]!;
       range = Range(3, 9, 18);
       traits = [
-        Trait(name: 'AE', level: 2),
+        Trait(name: 'AOE', level: 2),
         Trait(name: 'Blast'),
       ];
-      optionalTraits = [
+      alternativeTraits = [
         Trait(name: 'AP', level: 1),
       ];
       break;
@@ -349,7 +357,7 @@ Weapon? _buildWeapon({
       damage = damageMap[size]!;
       range = Range(12, 24, 48);
       traits = [
-        Trait(name: 'AE', level: 2),
+        Trait(name: 'AOE', level: 2),
         Trait(name: 'Blast'),
         Trait(name: 'AI'),
       ];
@@ -404,6 +412,7 @@ Weapon? _buildWeapon({
       traits = [
         Trait(name: 'AI'),
         Trait(name: 'Burst', level: 2),
+        Trait(name: 'Split'),
       ];
       break;
     case 'P':
@@ -411,7 +420,7 @@ Weapon? _buildWeapon({
       name = 'Pistol';
       modes = [weaponModes.Direct];
       damage = damageMap[size]!;
-      range = Range(0, 9, 18);
+      range = Range(0, 12, 24);
       traits = [
         Trait(name: 'Precise'),
       ];
@@ -421,21 +430,26 @@ Weapon? _buildWeapon({
       name = 'Particle Accelerator';
       modes = [weaponModes.Direct];
       damage = damageMap[size]!;
-      range = Range(6, 18, 36);
+      range = Range(6, 24, 48);
       traits = [
         Trait(name: 'Haywire'),
         Trait(name: 'Advanced'),
       ];
       break;
     case 'PL':
-      const damageMap = {'L': 7, 'M': 8, 'H': 9};
-      const apMap = {'L': 2, 'M': 4, 'H': 6};
+      const damageMap = {'L': 6, 'M': 7, 'H': 8};
+      const apMap = {'L': 2, 'M': 3, 'H': 4};
       name = 'Pulse Laser';
       modes = [weaponModes.Direct];
       damage = damageMap[size]!;
-      range = Range(12, 24, 48);
+      range = Range(6, 24, 48);
       traits = [
+        Trait(name: 'Burst', level: 1),
+        Trait(name: 'Advanced'),
+      ];
+      alternativeTraits = [
         Trait(name: 'AP', level: apMap[size]),
+        Trait(name: 'Apex'),
         Trait(name: 'Advanced'),
       ];
       break;
@@ -451,14 +465,14 @@ Weapon? _buildWeapon({
       ];
       break;
     case 'RC':
-      const damageMap = {'L': 6, 'M': 7, 'H': 8};
+      const damageMap = {'L': 5, 'M': 6, 'H': 7};
       name = 'Rotary Cannon';
       modes = [weaponModes.Direct];
       damage = damageMap[size]!;
       range = Range(6, 18, 36);
       traits = [
         Trait(name: 'Burst', level: 2),
-        Trait(name: 'Split', level: 2),
+        Trait(name: 'Split'),
       ];
       break;
     case 'RF':
@@ -472,27 +486,28 @@ Weapon? _buildWeapon({
       ];
       break;
     case 'RG':
-      const damageMap = {'L': 7, 'M': 8, 'H': 9};
-      const apMap = {'L': 2, 'M': 4, 'H': 6};
+      const damageMap = {'L': 4, 'M': 5, 'H': 6};
+      const apMap = {'L': 4, 'M': 5, 'H': 6};
       name = 'Railgun';
       modes = [weaponModes.Direct];
       damage = damageMap[size]!;
-      range = Range(12, 36, 72);
+      range = Range(12, 48, 96);
       traits = [
-        Trait(name: 'AP', level: apMap[size]),
+        Trait(name: 'Precise'),
         Trait(name: 'Advanced'),
+        Trait(name: 'AP', level: apMap[size]),
       ];
       break;
     case 'RL':
-      const damageMap = {'L': 6, 'M': 7, 'H': 8};
+      const damageMap = {'L': 5, 'M': 6, 'H': 7};
       name = 'Rotary Laser';
       modes = [weaponModes.Direct];
       damage = damageMap[size]!;
       range = Range(6, 18, 36);
       traits = [
-        Trait(name: 'Burst', level: 1),
-        Trait(name: 'Split', level: 2),
         Trait(name: 'Advanced'),
+        Trait(name: 'Burst', level: 2),
+        Trait(name: 'Split'),
       ];
       break;
     case 'RP':
@@ -502,7 +517,7 @@ Weapon? _buildWeapon({
       damage = damageMap[size]!;
       range = Range(6, 18, 36);
       traits = [
-        Trait(name: 'AE', level: 3),
+        Trait(name: 'AOE', level: 3),
         Trait(name: 'AP', level: 1),
       ];
       break;
@@ -533,7 +548,7 @@ Weapon? _buildWeapon({
       break;
     case 'SG':
       const damageMap = {'L': 6, 'M': 7, 'H': 8};
-      const apMap = {'L': 2, 'M': 4, 'H': 6};
+      const apMap = {'L': 3, 'M': 4, 'H': 5};
       name = 'Spike Gun';
       modes = [weaponModes.Melee];
       damage = damageMap[size]!;
@@ -543,7 +558,7 @@ Weapon? _buildWeapon({
       ];
       break;
     case 'SMG':
-      const damageMap = {'L': 6, 'M': 7, 'H': 8};
+      const damageMap = {'L': 5, 'M': 6, 'H': 7};
       name = 'Submachine Gun';
       modes = [weaponModes.Direct];
       damage = damageMap[size]!;
@@ -554,11 +569,11 @@ Weapon? _buildWeapon({
       break;
     case 'TG':
       const damageMap = {'L': 9, 'M': 10, 'H': 11};
-      const apMap = {'L': 2, 'M': 3, 'H': 4};
+      const apMap = {'L': 3, 'M': 4, 'H': 5};
       name = 'Tank Gun';
       modes = [weaponModes.Direct];
       damage = damageMap[size]!;
-      range = Range(18, 36, 72);
+      range = Range(12, 36, 72);
       traits = [
         Trait(name: 'AP', level: apMap[size]),
         Trait(name: 'Demo', level: 2),
@@ -566,7 +581,7 @@ Weapon? _buildWeapon({
       break;
     case 'VB':
       const damageMap = {'L': 7, 'M': 8, 'H': 9};
-      const apMap = {'L': 1, 'M': 3, 'H': 5};
+      const apMap = {'L': 2, 'M': 3, 'H': 4};
       name = 'Vibroblade';
       modes = [weaponModes.Melee];
       damage = damageMap[size]!;
@@ -613,7 +628,7 @@ Weapon? _buildWeapon({
     damage: damage,
     hasReact: hasReact,
     baseTraits: traits,
-    optionalTraits: optionalTraits,
+    baseAlternativeTraits: alternativeTraits,
     combo: comboWeapon,
     bonusTraits: bonusTraits,
   );
