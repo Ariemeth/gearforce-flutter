@@ -13,7 +13,8 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 const double _leftPanelWidth = 670.0;
-const double _menuTitleHeight = 60.0;
+const double _titleHeight = 40.0;
+const double _menuTitleHeight = 50.0;
 const String _version = '0.33.2';
 const String _bugEmailAddress = 'gearforce@metadiversions.com';
 const String _dp9URL = 'https://www.dp9.com/';
@@ -48,6 +49,7 @@ class _RosterWidgetState extends State<RosterWidget> {
         // Here we take the value from the Roster object that was created by
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title!),
+        toolbarHeight: _titleHeight,
       ),
       body: ChangeNotifierProvider(
         create: (_) => roster,
@@ -89,6 +91,7 @@ class _RosterWidgetState extends State<RosterWidget> {
                         color: Colors.white),
                   ),
                 ),
+                padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
               ),
             ),
             ListTile(

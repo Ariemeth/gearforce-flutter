@@ -43,19 +43,16 @@ class StandardModification extends BaseModification {
   static bool _defaultRequirementsFunction() => true;
 
   /*
-  ANTI-AIR 1–2 TV
-  Up to 2 models may select one of the options below:
-  > Add the Anti-Air trait to one autocannon, rotary
-  cannon, or laser cannon for 1 TV each.
-  > Upgrade any one Anti-Tank Missile (ATM) to an
-  Anti-Air Missile (AAM) of the same class for 1 TV
-  each.
+  > Add the AA trait to an autocannon, rotary cannon,
+    laser cannon or rotary laser cannon for 1 TV.
+  > Swap any Anti-Tank Missile (ATM) to an Anti-Air
+    Missile (AAM) of the same class for 0 TV.
   */
   factory StandardModification.antiAir(Unit u, CombatGroup cg) {
     final react = u.reactWeapons;
     final mounted = u.mountedWeapons;
     final List<ModificationOption> _options = [];
-    final RegExp weaponMatch = RegExp(r'^(AC|RC|LC|ATM)');
+    final RegExp weaponMatch = RegExp(r'^(AC|RC|LC|RLC|ATM)');
     final traitToAdd = Trait(name: 'AA');
 
     final allWeapons = react.toList()..addAll(mounted);
@@ -75,20 +72,12 @@ class StandardModification extends BaseModification {
         id: antiAirId,
         options: modOptions,
         requirementCheck: () {
-          if (u.hasMod(antiAirId)) {
-            return false;
-          }
-
           // check to ensure the unit has an appropriate weapon that can be upgraded
           final hasMatchingWeapon = u.mountedWeapons
                   .any((weapon) => weaponMatch.hasMatch(weapon.code)) ||
               u.reactWeapons.any((weapon) => weaponMatch.hasMatch(weapon.code));
-          if (!hasMatchingWeapon) {
-            return false;
-          }
 
-          // check to ensure this upgrade has not already been given to 2 or more units
-          return cg.modCount(antiAirId) < 2;
+          return hasMatchingWeapon;
         },
         refreshData: () {
           return StandardModification.antiAir(u, cg);
@@ -158,34 +147,6 @@ class StandardModification extends BaseModification {
         }
         return newList;
       });
-  }
-
-  /*
-  DRONES 1–2 TV
-  All Drones cost 1 TV each. Up to 2 Drones may be
-  attached to models. A model with a Drone gains the
-  trait Transport: 1 Drone if it doesn’t already have the
-  Transport Trait. A Drone’s Action is not counted when
-  constructing a force.
-  */
-  factory StandardModification.drones(Unit u, CombatGroup cg) {
-    return StandardModification(
-      name: 'Drones',
-      id: droneId,
-      requirementCheck: () {
-        if (u.hasMod(droneId)) {
-          return false;
-        }
-
-        return cg.modCount(droneId) < 2;
-      },
-    )
-      ..addMod(UnitAttribute.tv, createSimpleIntMod(0),
-          description: 'TV +1 per drone, Max 2 drones')
-      ..addMod(
-          UnitAttribute.traits,
-          createAddTraitToList(
-              Trait(name: 'Transport', level: 1, type: 'Drone')));
   }
 
   /*
@@ -580,11 +541,11 @@ class StandardModification extends BaseModification {
   }
 
   /*
-  SIDEARMS 1 TV
-  Only models with the Hands trait can purchase
-  sidearms. Up to 2 models may purchase Light Pistols
-  (LP) or Light Submachine Guns (LSMGs) for 1 TV total.
-  These weapons have the React trait.
+  Sidearms TODO
+  Only models with the Hands trait can purchase sidearms.
+  These weapons come with the React trait.
+  > Add a Light Pistol (LP) or a Light Submachine Gun
+    (LSMG) to two models for 1 TV (total).
   */
   factory StandardModification.sidearmSMG(Unit u, CombatGroup cg) {
     final traits = u.traits.toList();
@@ -717,7 +678,7 @@ class StandardModification extends BaseModification {
   Choose one option:
   > Up to 2 models may purchase Light Shaped
   Explosives (LSE) for 1 TV total.
-  > Or up to 2 models may purchase Medium Shaped
+  > Or up to 1 models may purchase Medium Shaped
   Explosives (MSE) for 1 TV each
   */
   factory StandardModification.shapedExplosivesM(Unit u, CombatGroup cg) {
@@ -736,7 +697,7 @@ class StandardModification extends BaseModification {
           }
 
           // check to ensure this upgrade has not already been given to 2 or more units
-          return cg.modCount(shapedExplosivesMId) < 2 &&
+          return cg.modCount(shapedExplosivesMId) < 1 &&
               cg.modCount(shapedExplosivesLId) == 0;
         })
       ..addMod(
@@ -752,10 +713,9 @@ class StandardModification extends BaseModification {
   }
 
   /*
-  SMOKE 1–2 TV
-  Up to 2 models may purchase the smoke trait for 1
-  TV each. Models with the VTOL Trait cannot purchase
-  Smoke Upgrades
+  Smoke
+  Models may purchase the Smoke trait for 1 TV. Models
+  with the VTOL trait cannot purchase smoke upgrades.
   */
   factory StandardModification.smoke(Unit u, CombatGroup cg) {
     final traits = u.traits.toList();
@@ -767,12 +727,7 @@ class StandardModification extends BaseModification {
             return false;
           }
 
-          if (u.hasMod(smokeId)) {
-            return false;
-          }
-
-          // check to ensure this upgrade has not already been given to 2 or more units
-          return cg.modCount(smokeId) < 2;
+          return u.hasMod(smokeId);
         })
       ..addMod(
         UnitAttribute.tv,
