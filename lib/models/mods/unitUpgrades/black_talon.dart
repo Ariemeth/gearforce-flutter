@@ -50,7 +50,8 @@ final UnitModification xi = UnitModification(name: 'Xi Upgrade')
 final UnitModification omi = UnitModification(
     name: 'Omi Upgrade',
     requirementCheck: (Unit u) {
-      return u.reactWeapons.any((element) => element.name == 'HMG (Apex)');
+      return u.reactWeapons
+          .any((w) => w.abbreviation == 'HMG' && w.bonusString == '(Apex)');
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Omi'))
@@ -64,7 +65,8 @@ final UnitModification omi = UnitModification(
 final UnitModification zeta = UnitModification(
     name: 'Zeta Upgrade',
     requirementCheck: (Unit u) {
-      return u.reactWeapons.any((element) => element.name == 'HMG (Apex)');
+      return u.reactWeapons
+          .any((w) => w.abbreviation == 'HMG' && w.bonusString == '(Apex)');
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Zeta'))
@@ -78,7 +80,8 @@ final UnitModification zeta = UnitModification(
 final UnitModification pur = UnitModification(
     name: 'Pur Upgrade',
     requirementCheck: (Unit u) {
-      return u.reactWeapons.any((element) => element.name == 'HMG (Apex)');
+      return u.reactWeapons
+          .any((w) => w.abbreviation == 'HMG' && w.bonusString == '(Apex)');
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(0), description: 'TV 0')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Pur'))
@@ -129,7 +132,11 @@ final UnitModification spectre = UnitModification(name: 'Spectra Upgrade')
   ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'ECM+')),
       description: '+ECM+');
 
-final UnitModification darkHoplitePsi = UnitModification(name: 'Psi Upgrade')
+final UnitModification darkHoplitePsi = UnitModification(
+    name: 'Psi Upgrade',
+    requirementCheck: (Unit u) {
+      return !u.name.toLowerCase().contains('kappa');
+    })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Psi'))
   ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')

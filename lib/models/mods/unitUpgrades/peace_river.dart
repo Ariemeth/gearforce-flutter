@@ -2,6 +2,7 @@ import 'package:gearforce/models/mods/unitUpgrades/unit_modification.dart';
 import 'package:gearforce/models/mods/mods.dart';
 import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/role.dart';
+import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
 import 'package:gearforce/models/weapons/weapons.dart';
 
@@ -96,7 +97,7 @@ final UnitModification meleeSpecialist1 = UnitModification(
 
 final UnitModification shield = UnitModification(name: 'Shield Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
-  ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'Shield'))
+  ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'with Shield'))
   ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'Shield')),
       description: '+Shield');
 
@@ -167,9 +168,12 @@ final UnitModification shinobiMeleeSpecialist = UnitModification(
   ..addMod(UnitAttribute.traits,
       createAddTraitToList(Trait(name: 'Brawl', level: 2)),
       description: '+Brawl:2')
-  ..addMod(UnitAttribute.react_weapons,
-      createAddWeaponToList(buildWeapon('LVB (Precise)', hasReact: true)!),
-      description: '+LVB (Precise)');
+  ..addMod(
+      UnitAttribute.react_weapons,
+      createReplaceWeaponInList(
+          oldValue: buildWeapon('LVB', hasReact: true)!,
+          newValue: buildWeapon('LVB (Precise)', hasReact: true)!),
+      description: '-LVB, +LVB (Precise)');
 
 final UnitModification shinobiChieftain =
     UnitModification(name: 'Chieftain Upgrade')
@@ -300,12 +304,16 @@ final UnitModification arbalest = UnitModification(name: 'Arbalest Upgrade')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Arbalest'))
   ..addMod(UnitAttribute.react_weapons,
       createRemoveWeaponFromList(buildWeapon('MRC (T AA)', hasReact: true)!),
-      description: '-MRC (T, AA)')
+      description: '-MRC (T AA)')
   ..addMod(UnitAttribute.mounted_weapons,
       createAddWeaponToList(buildWeapon('2 X HAR (T)', hasReact: false)!),
       description: '+2 x HARs (T)');
 
-final UnitModification herdLord = UnitModification(name: 'Herd Lord Upgrade')
+final UnitModification herdLord = UnitModification(
+    name: 'Herd Lord Upgrade',
+    requirementCheck: (Unit u) {
+      return !u.name.toLowerCase().contains('xyston');
+    })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Herd Lord'))
   ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')

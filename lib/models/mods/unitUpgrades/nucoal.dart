@@ -30,7 +30,7 @@ final UnitModification cuirassierCv = UnitModification(name: 'CV Upgrade')
 final UnitModification fragCannon = UnitModification(
     name: 'Frag Cannon Upgrade',
     requirementCheck: (Unit u) {
-      return u.reactWeapons.contains('MRF');
+      return u.reactWeapons.any((w) => w.abbreviation == 'MRF');
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(-1), description: 'TV -1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'with Frag Cannon'))
@@ -44,10 +44,11 @@ final UnitModification fragCannon = UnitModification(
 final UnitModification rapidFireBazooka = UnitModification(
     name: 'Rapid Fire Bazooka Upgrade',
     requirementCheck: (Unit u) {
-      return u.reactWeapons.contains('MRF');
+      return u.reactWeapons.any((w) => w.abbreviation == 'MRF');
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(-1), description: 'TV -1')
-  ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'with Frag Cannon'))
+  ..addMod(UnitAttribute.name,
+      createSimpleStringMod(false, 'with Rapid Fire Bazooka'))
   ..addMod(
       UnitAttribute.react_weapons,
       createReplaceWeaponInList(
@@ -67,7 +68,7 @@ final UnitModification espionCv = UnitModification(name: 'CV Upgrade')
 final UnitModification mfmBoa = UnitModification(
     name: 'MFM Upgrade',
     requirementCheck: (Unit u) {
-      return u.mountedWeapons.contains('LGM');
+      return u.mountedWeapons.any((w) => w.abbreviation == 'LGM');
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'MFM'))
@@ -92,7 +93,8 @@ final UnitModification cv2 = UnitModification(name: 'CV Upgrade')
 final UnitModification voltigeurABM = UnitModification(
     name: 'ABM Upgrade',
     requirementCheck: (Unit u) {
-      return u.mountedWeapons.contains('2 X MATM');
+      return u.mountedWeapons
+          .any((w) => w.abbreviation == 'MATM' && w.numberOf == 2);
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(-1), description: 'TV: -1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'ABM'))
@@ -106,7 +108,8 @@ final UnitModification voltigeurABM = UnitModification(
 final UnitModification voltigeurAM = UnitModification(
     name: 'AM Upgrade',
     requirementCheck: (Unit u) {
-      return u.mountedWeapons.contains('2 X MATM');
+      return u.mountedWeapons
+          .any((w) => w.abbreviation == 'MATM' && w.numberOf == 2);
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(0), description: 'TV: 0')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'AM'))
@@ -128,9 +131,25 @@ final UnitModification voltigeurCv = UnitModification(name: 'CV Upgrade')
   ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'ECCM')),
       description: '+ECCM');
 
+final UnitModification sampsonCv = UnitModification(
+    name: 'CV Upgrade',
+    requirementCheck: (Unit u) {
+      return !u.name.toLowerCase().contains('medical');
+    })
+  ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
+  ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'CV'))
+  ..addMod(UnitAttribute.ew, createSetIntMod(5), description: 'EW 5+')
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'Comms')),
+      description: '+Comms')
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'SatUp')),
+      description: '+SatUp')
+  ..addMod(UnitAttribute.traits,
+      createAddTraitToList(Trait(name: 'ECCM', isAux: true)),
+      description: '+ECCM (Aux)');
+
 final UnitModification squad = UnitModification(name: 'Squad')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
-  ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'Team'))
+  ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'Squad'))
   ..addMod(UnitAttribute.hull, createSetIntMod(3), description: 'H/S: 3/3')
   ..addMod(UnitAttribute.structure, createSetIntMod(3));
 

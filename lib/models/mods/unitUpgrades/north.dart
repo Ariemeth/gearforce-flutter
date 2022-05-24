@@ -27,7 +27,7 @@ final UnitModification meleeSpecialist1 = UnitModification(
       createReplaceTraitInList(
           oldValue: Trait(name: 'Brawl', level: 1),
           newValue: Trait(name: 'Brawl', level: 2)),
-      description: '-Brawl:1, Brawl:2');
+      description: '-Brawl:1, +Brawl:2');
 
 final UnitModification thunderJaguar =
     UnitModification(name: 'Thunder Jaguar Upgrade')

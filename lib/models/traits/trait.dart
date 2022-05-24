@@ -32,6 +32,17 @@ class Trait {
     return levelStr != null ? '${this.name}$levelStr' : '${this.name}';
   }
 
+  @override
+  bool operator ==(Object other) {
+    return other is Trait &&
+        name == other.name &&
+        level == other.level &&
+        isAux == other.isAux;
+  }
+
+  @override
+  int get hashCode => name.hashCode ^ level.hashCode ^ isAux.hashCode;
+
   factory Trait.fromTrait(Trait original) {
     return Trait(
       name: original.name,

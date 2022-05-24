@@ -594,6 +594,62 @@
           "height": 2
         }
       ]
+    },
+    {
+      "name": "Universal Drones",
+      "variants": [
+        {
+          "model": "Recon Drone",
+          "tv": 2,
+          "role": "RC+, SK, FS",
+          "mr": "H:7",
+          "arm": 2,
+          "h/s": "1/0",
+          "a": 1,
+          "gu": "6+",
+          "pi": "4+",
+          "ew": "5+",
+          "react-weapons": "-",
+          "mounted-weapons": "-",
+          "traits": "Comms, TD, Conscript, Vuln:H",
+          "type": "Drone",
+          "height": 0.5
+        },
+        {
+          "model": "Hunter Killer",
+          "tv": 2,
+          "role": "GP+, SK, FS",
+          "mr": "H:6",
+          "arm": 2,
+          "h/s": "1/0",
+          "a": 1,
+          "gu": "4+",
+          "pi": "4+",
+          "ew": "6+",
+          "react-weapons": "MMG",
+          "mounted-weapons": "-",
+          "traits": "Jump Jets:2, Conscript, Vuln:H",
+          "type": "Drone",
+          "height": 0.5
+        },
+        {
+          "model": "Demo Drone*",
+          "tv": 2,
+          "role": "GP+, SK, FS",
+          "mr": "G:5",
+          "arm": 2,
+          "h/s": "1/0",
+          "a": 1,
+          "gu": "4+",
+          "pi": "4+",
+          "ew": "6+",
+          "react-weapons": "-",
+          "mounted-weapons": "BB (AP:2 Demo:4)",
+          "traits": "Offroad, Conscript, Vuln:H",
+          "type": "Drone",
+          "height": 0.5
+        }
+      ]
     }
   ]
 }

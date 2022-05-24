@@ -1,6 +1,7 @@
 import 'package:gearforce/models/mods/unitUpgrades/unit_modification.dart';
 import 'package:gearforce/models/mods/mods.dart';
 import 'package:gearforce/models/traits/trait.dart';
+import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
 import 'package:gearforce/models/weapons/weapons.dart';
 
@@ -20,8 +21,8 @@ final UnitModification utopianSpecialOperations = UnitModification(
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name,
       createSimpleStringMod(false, 'Utopian Special Operations'))
-  ..addMod(UnitAttribute.roles, createSetStringListMod(['SO']),
-      description: 'SO')
+  ..addMod(UnitAttribute.roles, createAddRoleToList(Role(name: RoleType.SO)),
+      description: '+SO')
   ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'Airdrop')),
       description: '+Airdrop')
   ..addMod(UnitAttribute.traits,
@@ -31,7 +32,7 @@ final UnitModification utopianSpecialOperations = UnitModification(
 final UnitModification dominus = UnitModification(name: 'Dominus Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Dominus'))
-  ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 5+')
+  ..addMod(UnitAttribute.ew, createSetIntMod(5), description: 'EW 5+')
   ..addMod(UnitAttribute.traits,
       createAddTraitToList(Trait(name: 'Comms', isAux: false)),
       description: '+Comms');

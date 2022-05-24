@@ -2,6 +2,7 @@ import 'package:gearforce/models/mods/unitUpgrades/unit_modification.dart';
 import 'package:gearforce/models/mods/mods.dart';
 import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/movement.dart';
+import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
 import 'package:gearforce/models/weapons/weapons.dart';
 
@@ -51,7 +52,7 @@ final UnitModification rocket2 = UnitModification(name: 'Rocket Upgrade')
       description: '+LRP');
 
 final UnitModification sniper = UnitModification(name: 'Sniper Upgrade')
-  ..addMod(UnitAttribute.tv, createSimpleIntMod(0), description: 'TV +0')
+  ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Sniper'))
   ..addMod(
       UnitAttribute.mounted_weapons,
@@ -64,8 +65,8 @@ final UnitModification specialOperations = UnitModification(
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(
       UnitAttribute.name, createSimpleStringMod(false, 'Special Operations'))
-  ..addMod(UnitAttribute.roles, createSetStringListMod(['SO']),
-      description: 'SO')
+  ..addMod(UnitAttribute.roles, createAddRoleToList(Role(name: RoleType.SO)),
+      description: '+SO')
   ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'Airdrop')),
       description: '+Airdrop')
   ..addMod(UnitAttribute.traits,
@@ -89,8 +90,8 @@ final UnitModification gilgameshEngineering = UnitModification(
       UnitAttribute.react_weapons,
       createReplaceWeaponInList(
           oldValue: buildWeapon('2 x MRC (B)')!,
-          newValue: buildWeapon('HCW (B Link Reach:3')!),
-      description: '-2 x MRC (B), +HCW (B Link Reach:3')
+          newValue: buildWeapon('HCW (B Link Reach:3)')!),
+      description: '-2 x MRC (B), +HCW (B Link Reach:3)')
   ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'Repair')),
       description: '+Repair')
   ..addMod(

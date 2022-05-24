@@ -62,7 +62,7 @@ class Weapon {
     }
     return bonusTraits
         .toString()
-        .replaceAll(RegExp(r','), ' ')
+        .replaceAll(RegExp(r','), '')
         .replaceAll(RegExp(r'\['), '(')
         .replaceAll(RegExp(r'\]'), ')');
   }

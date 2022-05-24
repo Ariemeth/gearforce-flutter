@@ -31,7 +31,7 @@ final UnitModification mobilityPack6 = UnitModification(
 
 final UnitModification stealth = UnitModification(name: 'Stealth Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
-  ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'Special Forces'))
+  ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Stealth'))
   ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
   ..addMod(UnitAttribute.roles, createAddRoleToList(Role(name: RoleType.SO)),
       description: '+SO')
@@ -77,13 +77,20 @@ final UnitModification grelCrew2 = UnitModification(name: 'GREL Crew Upgrade')
       description: '+React+');
 
 final UnitModification grelCrew3 = UnitModification(name: 'GREL Crew Upgrade')
-  ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
+  ..addMod(UnitAttribute.tv, createSimpleIntMod(3), description: 'TV +3')
   ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'with GREL Crew'))
   ..addMod(UnitAttribute.gunnery, createSetIntMod(3), description: 'GU 3+')
   ..addMod(UnitAttribute.piloting, createSetIntMod(3), description: 'PI 3+')
   ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
   ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'React+')),
       description: '+React+');
+
+final UnitModification grelCrew4 = UnitModification(name: 'GREL Crew Upgrade')
+  ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
+  ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'with GREL Crew'))
+  ..addMod(UnitAttribute.gunnery, createSetIntMod(3), description: 'GU 3+')
+  ..addMod(UnitAttribute.piloting, createSetIntMod(4), description: 'PI 4+')
+  ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+');
 
 final UnitModification hpc64Command = UnitModification(
     name: 'Command Upgrade',

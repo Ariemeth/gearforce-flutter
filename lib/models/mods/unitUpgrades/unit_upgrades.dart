@@ -95,11 +95,7 @@ List<UnitModification> getUnitMods(String frameName, Unit unit) {
 
     // Peace River
     case 'warrior':
-      return [
-        peaceRiver.spectre,
-        peaceRiver.warriorIVSpectre,
-        peaceRiver.chieftain
-      ];
+      return [peaceRiver.spectre, peaceRiver.chieftain];
     case 'warrior iv':
       return [
         peaceRiver.jetpack,
@@ -170,7 +166,7 @@ List<UnitModification> getUnitMods(String frameName, Unit unit) {
     case 'voltigeur':
       return [nucoal.voltigeurABM, nucoal.voltigeurAM, nucoal.voltigeurCv];
     case 'sampson':
-      return [nucoal.cv2];
+      return [nucoal.sampsonCv];
     case 'sandrider':
       return [nucoal.koreshi, nucoal.squad];
     case 'lizard sandrider':
@@ -192,9 +188,9 @@ List<UnitModification> getUnitMods(String frameName, Unit unit) {
     case 'mht-95':
       return [cef.grelCrew];
     case 'mht-68':
-      return [cef.grelCrew];
+      return [cef.grelCrew4];
     case 'mht-72':
-      return [cef.grelCrew];
+      return [cef.grelCrew4];
     case 'hc-3a':
       return [cef.grelCrew2];
     case 'hpc-64':
@@ -292,7 +288,7 @@ List<UnitModification> getUnitMods(String frameName, Unit unit) {
     case 'druid':
       return [eden.hydor];
     case 'valence':
-      return [universal.maulerFistSwap, universal.clawSwap];
+      return [universal.maulerFistSwap, universal.valenceClawSwap];
     case 'bricklayer':
       return [universal.sawBladeSwap, universal.vibroswordSwap];
     case 'engineering grizzly':
@@ -302,7 +298,7 @@ List<UnitModification> getUnitMods(String frameName, Unit unit) {
         universal.heavyChainswordSwap
       ];
     case 'stonemason':
-      return [universal.maulerFistSwap, universal.chainswordSwap];
+      return [universal.maulerFistSwap, universal.stonemasonChainswordSwap];
     case 'engineering cobra':
       return [
         universal.strike,
@@ -311,7 +307,7 @@ List<UnitModification> getUnitMods(String frameName, Unit unit) {
       ];
     case 'saker':
       return [eden.dominus];
-    case 'infantryman':
+    case 'infantry':
       return [
         universal.paratrooper,
         universal.mountaineering,
