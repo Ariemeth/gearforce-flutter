@@ -24,10 +24,10 @@ jobs:
     if: github.event_name == 'push'
 
     steps:
-      - name: 'Checkout'
-        uses: actions/checkout@v2
-        
-      - name: 'Gather variables'
+      - name: "Checkout"
+        uses: actions/checkout@v3
+
+      - name: "Gather variables"
         id: gather-variables
         run: |
           # Strip git ref prefix from version
@@ -38,21 +38,21 @@ jobs:
 
           # Use Docker `latest` tag convention
           [ "$VERSION" == "main" ] && VERSION=latest
-          
+
           IMAGE_TAGS="$IMAGE_NAME:$VERSION,$IMAGE_NAME:${{ github.sha }}"
 
-          echo "::set-output name=IMAGE_TAGS::$IMAGE_TAGS"            
+          echo "::set-output name=IMAGE_TAGS::$IMAGE_TAGS"
 
       # Set up Flutter.
       - name: Clone Flutter repository with stable channel
-        uses: subosito/flutter-action@v1.5.3
+        uses: subosito/flutter-action@v2.4.0
         with:
           channel: stable
       - run: flutter doctor -v
 
       # Checkout code and get packages.
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - run: flutter pub get
 
       # Analyze, check formatting, and run unit tests.
@@ -65,26 +65,26 @@ jobs:
       - name: Build Flutter web
         run: flutter build web --release
 
-      - name: 'Set up QEMU'
+      - name: "Set up QEMU"
         uses: docker/setup-qemu-action@v1
-        
-      - name: 'Set up Docker Buildx'
+
+      - name: "Set up Docker Buildx"
         uses: docker/setup-buildx-action@v1
 
-      - name: 'Log into DockerHub'
+      - name: "Log into DockerHub"
         uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: 'Build and push'
+      - name: "Build and push"
         uses: docker/build-push-action@v2
         with:
           context: .
           push: true
           target: release
           tags: ${{ steps.gather-variables.outputs.IMAGE_TAGS }}
-      
+
       - name: Kubernetes set context
         uses: Azure/k8s-set-context@v1
         with:
