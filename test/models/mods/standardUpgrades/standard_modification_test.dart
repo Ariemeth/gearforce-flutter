@@ -13,7 +13,7 @@ void main() {
       ..primary.addUnit(UnitCore.test(reactWeapons: [w1, w2]));
     var u = cg.primary.allUnits()[0];
 
-    final mod = StandardModification.antiAir(u, cg);
+    final mod = StandardModification.antiAirTrait(u, cg);
     expect(mod.requirementCheck(), equals(true));
   });
 
@@ -24,7 +24,7 @@ void main() {
       ..primary.addUnit(UnitCore.test(reactWeapons: [w1, w2]));
     var u = cg.primary.allUnits()[0];
 
-    final mod = StandardModification.antiAir(u, cg);
+    final mod = StandardModification.antiAirTrait(u, cg);
     expect(mod.requirementCheck(), equals(false));
   });
 
@@ -38,7 +38,7 @@ void main() {
       ..primary.addUnit(UnitCore.test(reactWeapons: [w3]));
 
     var u = cg.primary.allUnits().last;
-    final mod = StandardModification.antiAir(u, cg);
+    final mod = StandardModification.antiAirTrait(u, cg);
     cg.primary.allUnits()[0].addUnitMod(mod);
     expect(mod.requirementCheck(), equals(true));
   });
@@ -53,7 +53,7 @@ void main() {
       ..primary.addUnit(UnitCore.test(reactWeapons: [w3]));
 
     var u = cg.primary.allUnits().last;
-    final mod = StandardModification.antiAir(u, cg);
+    final mod = StandardModification.antiAirTrait(u, cg);
     cg.primary.allUnits()[0].addUnitMod(mod);
     cg.primary.allUnits()[1].addUnitMod(mod);
     expect(mod.requirementCheck(), equals(false));

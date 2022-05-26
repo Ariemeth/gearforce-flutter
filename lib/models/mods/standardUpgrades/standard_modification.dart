@@ -8,8 +8,9 @@ import 'package:gearforce/models/unit/unit_attribute.dart';
 import 'package:gearforce/models/weapons/weapon.dart';
 import 'package:gearforce/models/weapons/weapons.dart';
 
-const antiAirId = 'standard: anti-air';
-const droneId = 'standard: drone';
+const antiAirTraitId = 'standard: anti-air trait';
+const antiAirSwapId = 'standard: anti-air swap';
+const meleeSwapId = 'standard: melee swap';
 const grenadeSwapId = 'standard: grenade swap';
 const handGrenadeLId = 'standard: grenade l';
 const handGrenadeMId = 'standard: grenade m';
@@ -45,14 +46,12 @@ class StandardModification extends BaseModification {
   /*
   > Add the AA trait to an autocannon, rotary cannon,
     laser cannon or rotary laser cannon for 1 TV.
-  > Swap any Anti-Tank Missile (ATM) to an Anti-Air
-    Missile (AAM) of the same class for 0 TV.
   */
-  factory StandardModification.antiAir(Unit u, CombatGroup cg) {
+  factory StandardModification.antiAirTrait(Unit u, CombatGroup cg) {
     final react = u.reactWeapons;
     final mounted = u.mountedWeapons;
     final List<ModificationOption> _options = [];
-    final RegExp weaponMatch = RegExp(r'^(AC|RC|LC|RLC|ATM)');
+    final RegExp weaponMatch = RegExp(r'^(AC|RC|LC|RLC)');
     final traitToAdd = Trait(name: 'AA');
 
     final allWeapons = react.toList()..addAll(mounted);
@@ -64,23 +63,23 @@ class StandardModification extends BaseModification {
 
     var modOptions = ModificationOption('Anti-Air',
         subOptions: _options,
-        description: 'Choose a weapon to gain the AA trait or an ATM to be ' +
-            'converted to an AAM.');
+        description: 'Choose a weapon to gain the AA trait.');
 
     return StandardModification(
-        name: 'Anti-Air',
-        id: antiAirId,
+        name: 'Anti-Air Trait',
+        id: antiAirTraitId,
         options: modOptions,
         requirementCheck: () {
-          // check to ensure the unit has an appropriate weapon that can be upgraded
-          final hasMatchingWeapon = u.mountedWeapons
-                  .any((weapon) => weaponMatch.hasMatch(weapon.code)) ||
-              u.reactWeapons.any((weapon) => weaponMatch.hasMatch(weapon.code));
+          // can only have one of this mod or the anti air swap mod
+          if (u.hasMod(antiAirTraitId) || u.hasMod(antiAirSwapId)) {
+            return false;
+          }
 
-          return hasMatchingWeapon;
+          // check to ensure the unit has an appropriate weapon that can be upgraded
+          return u.weapons.any((weapon) => weaponMatch.hasMatch(weapon.code));
         },
         refreshData: () {
-          return StandardModification.antiAir(u, cg);
+          return StandardModification.antiAirTrait(u, cg);
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
       ..addMod(UnitAttribute.react_weapons, (value) {
@@ -96,27 +95,11 @@ class StandardModification extends BaseModification {
           var existingWeapon = newList.firstWhere((weapon) =>
               weapon.toString() == modOptions.selectedOption?.text &&
               weapon.hasReact);
-          if (existingWeapon.code == 'ATM') {
-            final index = newList.indexWhere((weapon) =>
-                weapon.toString() == modOptions.selectedOption?.text);
-            if (index >= 0) {
-              newList.removeAt(index);
-              final aam = buildWeapon(
-                  '${existingWeapon.size}AAM ${existingWeapon.bonusString}',
-                  hasReact: true);
-              if (aam != null) {
-                newList.insert(index, aam);
-              }
-            }
-          } else {
-            existingWeapon.bonusTraits.add(traitToAdd);
-          }
+
+          existingWeapon.bonusTraits.add(traitToAdd);
         }
         return newList;
-      },
-          description:
-              'Add the Anti-Air trait to one AC, RC, or LC or upgrade any ' +
-                  'one ATM to AAM of the same class')
+      }, description: 'Add the Anti-Air trait to one AC, RC, LC or RLC')
       ..addMod(UnitAttribute.mounted_weapons, (value) {
         if (!(value is List<Weapon>)) {
           return value;
@@ -130,19 +113,102 @@ class StandardModification extends BaseModification {
           var existingWeapon = newList.firstWhere((weapon) =>
               weapon.toString() == modOptions.selectedOption?.text &&
               !weapon.hasReact);
-          if (existingWeapon.code == 'ATM') {
-            final index = newList.indexWhere((weapon) =>
-                weapon.toString() == modOptions.selectedOption?.text);
-            if (index >= 0) {
-              newList.removeAt(index);
-              final aam = buildWeapon(
-                  '${existingWeapon.size}AAM ${existingWeapon.bonusString}');
-              if (aam != null) {
-                newList.insert(index, aam);
-              }
+
+          existingWeapon.bonusTraits.add(traitToAdd);
+        }
+        return newList;
+      });
+  }
+
+  /*
+  > Swap any Anti-Tank Missile (ATM) to an Anti-Air
+    Missile (AAM) of the same class for 0 TV.
+  */
+  factory StandardModification.antiAirSwap(Unit u, CombatGroup cg) {
+    final react = u.reactWeapons;
+    final mounted = u.mountedWeapons;
+    final List<ModificationOption> _options = [];
+    final RegExp weaponMatch = RegExp(r'^(ATM)');
+
+    final allWeapons = react.toList()..addAll(mounted);
+    allWeapons
+        .where((weapon) => weaponMatch.hasMatch(weapon.code))
+        .forEach((weapon) {
+      _options.add(ModificationOption('${weapon.toString()}'));
+    });
+
+    var modOptions = ModificationOption('Anti-Air',
+        subOptions: _options,
+        description: 'Choose an ATM to be converted to an AAM.');
+
+    return StandardModification(
+        name: 'Anti-Air Swap',
+        id: antiAirSwapId,
+        options: modOptions,
+        requirementCheck: () {
+          // can only have one of this mod or the anti air swap mod
+          if (u.hasMod(antiAirTraitId) || u.hasMod(antiAirSwapId)) {
+            return false;
+          }
+
+          // check to ensure the unit has an appropriate weapon that can be upgraded
+          return u.weapons.any((weapon) => weaponMatch.hasMatch(weapon.code));
+        },
+        refreshData: () {
+          return StandardModification.antiAirSwap(u, cg);
+        })
+      ..addMod(UnitAttribute.tv, createSimpleIntMod(0), description: 'TV 0')
+      ..addMod(UnitAttribute.react_weapons, (value) {
+        if (!(value is List<Weapon>)) {
+          return value;
+        }
+        final newList =
+            value.map((weapon) => Weapon.fromWeapon(weapon)).toList();
+        if (modOptions.selectedOption != null &&
+            newList.any((weapon) =>
+                weapon.toString() == modOptions.selectedOption?.text &&
+                weapon.hasReact)) {
+          var existingWeapon = newList.firstWhere((weapon) =>
+              weapon.toString() == modOptions.selectedOption?.text &&
+              weapon.hasReact);
+
+          final index = newList.indexWhere(
+              (weapon) => weapon.toString() == modOptions.selectedOption?.text);
+          if (index >= 0) {
+            newList.removeAt(index);
+            final aam = buildWeapon(
+                '${existingWeapon.size}AAM ${existingWeapon.bonusString}',
+                hasReact: true);
+            if (aam != null) {
+              newList.insert(index, aam);
             }
-          } else {
-            existingWeapon.bonusTraits.add(traitToAdd);
+          }
+        }
+        return newList;
+      }, description: 'Upgrade any one ATM to an AAM of the same class')
+      ..addMod(UnitAttribute.mounted_weapons, (value) {
+        if (!(value is List<Weapon>)) {
+          return value;
+        }
+        final newList =
+            value.map((weapon) => Weapon.fromWeapon(weapon)).toList();
+        if (modOptions.selectedOption != null &&
+            newList.any((weapon) =>
+                weapon.toString() == modOptions.selectedOption?.text &&
+                !weapon.hasReact)) {
+          var existingWeapon = newList.firstWhere((weapon) =>
+              weapon.toString() == modOptions.selectedOption?.text &&
+              !weapon.hasReact);
+
+          final index = newList.indexWhere(
+              (weapon) => weapon.toString() == modOptions.selectedOption?.text);
+          if (index >= 0) {
+            newList.removeAt(index);
+            final aam = buildWeapon(
+                '${existingWeapon.size}AAM ${existingWeapon.bonusString}');
+            if (aam != null) {
+              newList.insert(index, aam);
+            }
           }
         }
         return newList;
@@ -275,8 +341,6 @@ class StandardModification extends BaseModification {
   Grenades. Choose one option:
   > Up to 2 models may purchase Light Hand Grenades
   (LHG) for 1 TV total.
-  > Up to 2 models may purchase Medium Hand
-  Grenades (MHG) for 1 TV each.
   */
   factory StandardModification.handGrenadeLHG(Unit u, CombatGroup cg) {
     final traits = u.traits.toList();
@@ -337,8 +401,6 @@ class StandardModification extends BaseModification {
   HAND GRENADES 1–2 TV
   Only models with the Hands trait can purchase Hand
   Grenades. Choose one option:
-  > Up to 2 models may purchase Light Hand Grenades
-  (LHG) for 1 TV total.
   > Up to 2 models may purchase Medium Hand
   Grenades (MHG) for 1 TV each.
   */

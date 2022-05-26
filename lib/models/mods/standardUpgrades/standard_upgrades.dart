@@ -4,7 +4,8 @@ import 'package:gearforce/models/unit/unit.dart';
 
 List<StandardModification> getStandardMods(Unit u, CombatGroup cg) {
   return [
-    StandardModification.antiAir(u, cg),
+    StandardModification.antiAirTrait(u, cg),
+    StandardModification.antiAirSwap(u, cg),
     StandardModification.grenadeSwap(u, cg),
     StandardModification.handGrenadeLHG(u, cg),
     StandardModification.handGrenadeMHG(u, cg),
@@ -20,8 +21,10 @@ List<StandardModification> getStandardMods(Unit u, CombatGroup cg) {
 
 StandardModification? buildStandardUpgrade(String id, Unit u, CombatGroup cg) {
   switch (id) {
-    case antiAirId:
-      return StandardModification.antiAir(u, cg);
+    case antiAirTraitId:
+      return StandardModification.antiAirTrait(u, cg);
+    case antiAirSwapId:
+      return StandardModification.antiAirSwap(u, cg);
     case grenadeSwapId:
       return StandardModification.grenadeSwap(u, cg);
     case handGrenadeLId:
