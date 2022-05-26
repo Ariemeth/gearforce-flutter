@@ -6,14 +6,14 @@ import 'package:gearforce/models/weapons/weapons.dart';
 import 'package:test/test.dart';
 
 void main() {
-  test('test Anti-Air requirement check for weapon type', () {
+  test('test Anti-Air Swap requirement check for weapon type', () {
     final w1 = buildWeapon('LATM', hasReact: true)!;
     final w2 = buildWeapon('MRP', hasReact: true)!;
     var cg = CombatGroup('test1')
       ..primary.addUnit(UnitCore.test(reactWeapons: [w1, w2]));
     var u = cg.primary.allUnits()[0];
 
-    final mod = StandardModification.antiAirTrait(u, cg);
+    final mod = StandardModification.antiAirSwap(u, cg);
     expect(mod.requirementCheck(), equals(true));
   });
 
@@ -56,7 +56,7 @@ void main() {
     final mod = StandardModification.antiAirTrait(u, cg);
     cg.primary.allUnits()[0].addUnitMod(mod);
     cg.primary.allUnits()[1].addUnitMod(mod);
-    expect(mod.requirementCheck(), equals(false));
+    expect(mod.requirementCheck(), equals(true));
   });
 
   test('test handGrenade (LHG) requirement check with 2 in group already', () {
