@@ -2,6 +2,7 @@ import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/mods/base_modification.dart';
 import 'package:gearforce/models/mods/modification_option.dart';
 import 'package:gearforce/models/mods/mods.dart';
+import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
@@ -31,6 +32,7 @@ class StandardModification extends BaseModification {
     this.requirementCheck = _defaultRequirementsFunction,
     this.unit,
     this.group,
+    this.roster,
     String? id,
     ModificationOption? options,
     final BaseModification Function()? refreshData,
@@ -40,6 +42,7 @@ class StandardModification extends BaseModification {
   final bool Function() requirementCheck;
   final Unit? unit;
   final CombatGroup? group;
+  final UnitRoster? roster;
 
   static bool _defaultRequirementsFunction() => true;
 

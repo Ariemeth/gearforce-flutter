@@ -1,5 +1,6 @@
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/mods/standardUpgrades/standard_modification.dart';
+import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/unit/unit.dart';
 
 List<StandardModification> getStandardMods(Unit u, CombatGroup cg) {
@@ -19,7 +20,12 @@ List<StandardModification> getStandardMods(Unit u, CombatGroup cg) {
   ];
 }
 
-StandardModification? buildStandardUpgrade(String id, Unit u, CombatGroup cg) {
+StandardModification? buildStandardUpgrade(
+  String id,
+  Unit u,
+  CombatGroup cg,
+  UnitRoster roster,
+) {
   switch (id) {
     case antiAirTraitId:
       return StandardModification.antiAirTrait(u, cg);

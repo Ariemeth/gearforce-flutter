@@ -100,7 +100,7 @@ class Unit extends ChangeNotifier {
       mods.forEach((loadedMod) {
         try {
           final modId = loadedMod['id'];
-          var mod = buildStandardUpgrade(modId, u, cg);
+          var mod = buildStandardUpgrade(modId, u, cg, roster);
           if (mod != null) {
             u.addUnitMod(mod);
             final selected = loadedMod['selected'];
