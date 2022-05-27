@@ -397,7 +397,7 @@ class DuelistModification extends BaseModification {
   one in each hand).
   */
   factory DuelistModification.dualWield(Unit u) {
-    final RegExp meleeCheck = RegExp(r'(VB|CW)');
+    final RegExp meleeCheck = RegExp(r'(VB|CW|SG)');
     final react = u.reactWeapons;
     final mounted = u.mountedWeapons;
     final List<ModificationOption> _options = [];

@@ -23,25 +23,32 @@ VeteranModification? buildVetUpgrade(String id, Unit u, CombatGroup cg) {
     case veteranId:
       return VeteranModification.makeVet(u, cg);
     case ewSpecId:
-      return VeteranModification.ewSpecialist(u);
+      return VeteranModification.ewSpecialist(u); // ECCM
     case fieldArmorId:
-      return VeteranModification.fieldArmor(u);
+      return VeteranModification.fieldArmor(u); // Field armor
     case inYourFaceId1:
-      return VeteranModification.inYourFace1(u);
+      return VeteranModification.inYourFace1(u); // Brawler
     case inYourFaceId2:
-      return VeteranModification.inYourFace2(u);
+      return VeteranModification.inYourFace2(u); // Brawler
     case insulatedId:
-      return VeteranModification.insulated(u);
+      return VeteranModification.insulated(u); // resist:H
     case fireproofId:
-      return VeteranModification.fireproof(u);
+      return VeteranModification.fireproof(u); // resist:F
     case stainlessSteelId:
-      return VeteranModification.stainlessSteel(u);
+      return VeteranModification.stainlessSteel(u); // resist:C
     case sharpshooterId:
-      return VeteranModification.sharpShooter(u);
+      return VeteranModification.sharpShooter(u); // DNE
     case trickShotId:
-      return VeteranModification.trickShot(u);
+      return VeteranModification.trickShot(
+          u); // DNE thi is now duelist ace gunner
     case meleeUpgrade:
-      return VeteranModification.meleeWeaponUpgrade(u);
+      return VeteranModification.meleeWeaponUpgrade(
+          u); // Veteran melee upgrade, slight tweak
+
+    // TODO add improve gunnery
+    // TODO add dual guns
+    // TODO add Reach
+    // TODO add AMS
   }
   return null;
 }
