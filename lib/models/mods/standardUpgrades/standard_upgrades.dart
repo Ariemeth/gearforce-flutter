@@ -7,6 +7,7 @@ List<StandardModification> getStandardMods(Unit u, CombatGroup cg) {
   return [
     StandardModification.antiAirTrait(u, cg),
     StandardModification.antiAirSwap(u, cg),
+    StandardModification.meleeSwap(u),
     StandardModification.grenadeSwap(u, cg),
     StandardModification.handGrenadeLHG(u, cg),
     StandardModification.handGrenadeMHG(u, cg),
@@ -31,6 +32,8 @@ StandardModification? buildStandardUpgrade(
       return StandardModification.antiAirTrait(u, cg);
     case antiAirSwapId:
       return StandardModification.antiAirSwap(u, cg);
+    case meleeSwapId:
+      return StandardModification.meleeSwap(u);
     case grenadeSwapId:
       return StandardModification.grenadeSwap(u, cg);
     case handGrenadeLId:

@@ -11,7 +11,6 @@ List<VeteranModification> getVeteranMods(Unit u, CombatGroup cg) {
     VeteranModification.inYourFace2(u),
     VeteranModification.insulated(u),
     VeteranModification.fireproof(u),
-    VeteranModification.oldReliable(u),
     VeteranModification.stainlessSteel(u),
     VeteranModification.sharpShooter(u),
     VeteranModification.trickShot(u),
@@ -35,8 +34,6 @@ VeteranModification? buildVetUpgrade(String id, Unit u, CombatGroup cg) {
       return VeteranModification.insulated(u);
     case fireproofId:
       return VeteranModification.fireproof(u);
-    case oldReliableId:
-      return VeteranModification.oldReliable(u);
     case stainlessSteelId:
       return VeteranModification.stainlessSteel(u);
     case sharpshooterId:

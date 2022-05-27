@@ -219,6 +219,126 @@ class StandardModification extends BaseModification {
   }
 
   /*
+  Melee Swap 0 TV
+  One Light (L) or Medium (M) melee weapon with the
+  React trait can be swapped for an equal class melee
+  weapon for 0 TV, i.e. a LCW can be swapped for a
+  LVB or a LSG. This upgrade does not include Shaped
+  Explosives. It also does not include traits belonging to
+  the previous weapons unless it was the React trait. I.e.
+  A LCW (React, Brawl:1) will become LVB (React). The
+  Brawl:X trait does not swap with it.
+  */
+
+  factory StandardModification.meleeSwap(Unit u) {
+    final RegExp meleeCheck = RegExp(r'\b([LM])(VB|SG|CW)');
+    final react = u.reactWeapons.toList();
+    final traits = u.traits.toList();
+
+    final matchingWeapons =
+        react.where((weapon) => meleeCheck.hasMatch(weapon.abbreviation));
+
+    List<ModificationOption>? _options;
+    if (matchingWeapons.isNotEmpty) {
+      _options = [];
+      matchingWeapons.forEach((item) {
+        switch (item.code) {
+          case 'VB':
+            _options!.add(
+              ModificationOption(
+                '${item.toString()}',
+                subOptions: [
+                  ModificationOption('${item.size}SG'),
+                  ModificationOption('${item.size}CW'),
+                ],
+              ),
+            );
+            break;
+          case 'SG':
+            _options!.add(
+              ModificationOption(
+                '${item.toString()}',
+                subOptions: [
+                  ModificationOption('${item.size}VB'),
+                  ModificationOption('${item.size}CW'),
+                ],
+              ),
+            );
+            break;
+          case 'CW':
+            _options!.add(
+              ModificationOption(
+                '${item.toString()}',
+                subOptions: [
+                  ModificationOption('${item.size}SG'),
+                  ModificationOption('${item.size}VB'),
+                ],
+              ),
+            );
+            break;
+        }
+      });
+    }
+    var modOptions = ModificationOption('Melee Swap',
+        subOptions: _options,
+        description:
+            'One Light (L) or Medium (M) melee weapon with the React trait ' +
+                'can be swapped for an equal class melee weapon for 0 TV,');
+
+    return StandardModification(
+        name: 'Melee Swap',
+        id: meleeSwapId,
+        options: modOptions,
+        requirementCheck: () {
+          if (u.hasMod(meleeSwapId)) {
+            return false;
+          }
+
+          if (!traits.any((element) => _handsMatch.hasMatch(element.name))) {
+            return false;
+          }
+
+          if (u.core.type != 'Gear' && u.core.type != 'Strider') {
+            return false;
+          }
+
+          // check to ensure the unit has an appropriate weapon that can be upgraded
+          return matchingWeapons.isNotEmpty;
+        },
+        refreshData: () {
+          return StandardModification.meleeSwap(u);
+        })
+      ..addMod(UnitAttribute.tv, createSimpleIntMod(0),
+          description:
+              'TV +0, One Light (L) or Medium (M) melee weapon with the React trait ' +
+                  'can be swapped for an equal class melee weapon for 0 TV,' +
+                  'i.e. a LCW can be swapped for a LVB or a LSG')
+      ..addMod(UnitAttribute.react_weapons, (value) {
+        if (!(value is List<Weapon>)) {
+          return value;
+        }
+
+        // Grab the substring starting at position 1 to exclude the - or +
+        if (modOptions.selectedOption == null ||
+            modOptions.selectedOption!.selectedOption == null) {
+          return value;
+        }
+        var remove = value.firstWhere(
+            (weapon) => weapon.toString() == modOptions.selectedOption!.text);
+
+        value = value.toList()..remove(remove);
+
+        var add = buildWeapon(modOptions.selectedOption!.selectedOption!.text,
+            hasReact: true);
+        if (add != null) {
+          value.add(add);
+        }
+
+        return value;
+      });
+  }
+
+  /*
   GRENADE SWAP 0 TV
   Any number of models may swap their hand grenades
   for panzerfausts or vice versa. The swapped item must
