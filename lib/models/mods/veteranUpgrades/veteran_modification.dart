@@ -18,7 +18,7 @@ const insulatedId = 'vet: insulated';
 const fireproofId = 'vet: fire proof';
 const oldReliableId = 'vet: old reliable';
 const stainlessSteelId = 'vet: stainless steel';
-const sharpshooterId = 'vet: sharp shooter';
+const improvedGunneryId = 'vet: sharp shooter';
 const trickShotId = 'vet: trick shot';
 const meleeUpgrade = 'vet: melee upgrade';
 
@@ -341,34 +341,42 @@ class VeteranModification extends BaseModification {
   }
 
   /*
-  SHARPSHOOTER 2 TV
-  Gunnery rolls made by this model have -1 TN
-  (minimum 2+). This costs 2 TV for each action point
-  that the models has. This cost increases by 2TV per
-  additional action purchased via other upgrades.
+  Improved Gunnery
+  Improve this model’s gunnery skill by one for 2 TV, for
+  each action point that this model has. This cost also
+  increases by 2 TV per additional action purchased via any
+  other upgrades.
   */
-  factory VeteranModification.sharpShooter(Unit u) {
-    final actions = u.actions;
+  factory VeteranModification.improvedGunnery(Unit u) {
     final gunnery = u.gunnery;
 
+    print('Improved Gunnery: ${u.actions}\n');
+
     return VeteranModification(
-        name: 'Sharpshooter',
-        id: sharpshooterId,
-        requirementCheck: () {
-          if (u.hasMod(sharpshooterId)) {
-            return false;
-          }
+      name: 'Improved Gunnery',
+      id: improvedGunneryId,
+      requirementCheck: () {
+        if (u.hasMod(improvedGunneryId)) {
+          return false;
+        }
 
-          if (u.actions == null) {
-            return false;
-          }
+        if (u.actions == null || u.gunnery == null || u.gunnery == '-') {
+          return false;
+        }
 
-          return u.traits.any((trait) => trait.name == 'Vet');
-        })
+        return u.traits.any((trait) => trait.name == 'Vet');
+      },
+      //   refreshData: () {
+      //     return VeteranModification.improvedGunnery(u);
+      //   },
+    )
       ..addMod(
         UnitAttribute.tv,
-        createSimpleIntMod(actions != null ? actions * 2 : 0),
-        description: 'TV +${actions != null ? actions * 2 : 0}',
+        (value) {
+          return value + (u.actions != null ? u.actions! * 2 : 0);
+        },
+        dynamicDescription: () =>
+            'TV +${u.actions != null ? u.actions! * 2 : 0}',
       )
       ..addMod(
         UnitAttribute.gunnery,
@@ -376,13 +384,11 @@ class VeteranModification extends BaseModification {
           if (value is! int) {
             return value;
           }
-          if (value <= 2) {
-            return value;
-          }
+
           return value - 1;
         },
         description:
-            'Gunnery -1 TN to (${gunnery == null ? '-' : '${gunnery <= 2 ? 2 : gunnery - 1}+'}), min 2+',
+            'Improve this model’s gunnery skill by one for 2 TV to (${gunnery == null ? '-' : '${gunnery - 1}+'})',
       );
   }
 

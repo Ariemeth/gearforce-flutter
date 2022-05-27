@@ -12,7 +12,7 @@ List<VeteranModification> getVeteranMods(Unit u, CombatGroup cg) {
     VeteranModification.insulated(u),
     VeteranModification.fireproof(u),
     VeteranModification.stainlessSteel(u),
-    VeteranModification.sharpShooter(u),
+    VeteranModification.improvedGunnery(u),
     VeteranModification.trickShot(u),
     VeteranModification.meleeWeaponUpgrade(u),
   ];
@@ -22,6 +22,8 @@ VeteranModification? buildVetUpgrade(String id, Unit u, CombatGroup cg) {
   switch (id) {
     case veteranId:
       return VeteranModification.makeVet(u, cg);
+    case improvedGunneryId:
+      return VeteranModification.improvedGunnery(u);
     case ewSpecId:
       return VeteranModification.ewSpecialist(u); // ECCM
     case fieldArmorId:
@@ -36,8 +38,6 @@ VeteranModification? buildVetUpgrade(String id, Unit u, CombatGroup cg) {
       return VeteranModification.fireproof(u); // resist:F
     case stainlessSteelId:
       return VeteranModification.stainlessSteel(u); // resist:C
-    case sharpshooterId:
-      return VeteranModification.sharpShooter(u); // DNE
     case trickShotId:
       return VeteranModification.trickShot(
           u); // DNE thi is now duelist ace gunner
