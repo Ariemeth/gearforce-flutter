@@ -1,5 +1,6 @@
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/mods/standardUpgrades/standard_modification.dart';
+import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
 import 'package:gearforce/models/weapons/weapons.dart';
@@ -64,12 +65,13 @@ void main() {
       ..primary.addUnit(UnitCore.test(traits: const [Trait(name: 'Hands')]))
       ..primary.addUnit(UnitCore.test(traits: const [Trait(name: 'Hands')]))
       ..primary.addUnit(UnitCore.test(traits: const [Trait(name: 'Hands')]));
+    final roster = UnitRoster()..addCG(cg);
 
     var u = cg.primary.allUnits().last;
-    final mod = StandardModification.handGrenadeLHG(u, cg);
+    final mod = StandardModification.handGrenadeLHG(u, cg, roster);
     cg.primary.allUnits()[0].addUnitMod(mod);
     cg.primary.allUnits()[1].addUnitMod(mod);
-    expect(mod.requirementCheck(), equals(false));
+    expect(mod.requirementCheck(), equals(true));
   });
 
   test('test handGrenade (LHG) requirement check with 1 in group already', () {
@@ -77,9 +79,10 @@ void main() {
       ..primary.addUnit(UnitCore.test(traits: const [Trait(name: 'Hands')]))
       ..primary.addUnit(UnitCore.test(traits: const [Trait(name: 'Hands')]))
       ..primary.addUnit(UnitCore.test(traits: const [Trait(name: 'Hands')]));
+    final roster = UnitRoster()..addCG(cg);
 
     var u = cg.primary.allUnits().last;
-    final mod = StandardModification.handGrenadeLHG(u, cg);
+    final mod = StandardModification.handGrenadeLHG(u, cg, roster);
     cg.primary.allUnits()[0].addUnitMod(mod);
     expect(mod.requirementCheck(), equals(true));
   });
@@ -89,14 +92,15 @@ void main() {
       ..primary.addUnit(UnitCore.test(traits: const [Trait(name: 'Hands')]))
       ..primary.addUnit(UnitCore.test(traits: const [Trait(name: 'Hands')]))
       ..primary.addUnit(UnitCore.test(traits: const [Trait(name: 'Hands')]));
+    final roster = UnitRoster()..addCG(cg);
 
     final u = cg.primary.allUnits().last;
     u.addUnitMod(StandardModification.handGrenadeMHG(u, cg));
 
     final u2 = cg.primary.allUnits().first;
-    final mod = StandardModification.handGrenadeLHG(u2, cg);
+    final mod = StandardModification.handGrenadeLHG(u2, cg, roster);
 
-    expect(mod.requirementCheck(), equals(false));
+    expect(mod.requirementCheck(), equals(true));
   });
   test(
       'test handGrenade (LHG) requirement check with 1 MHG already added to other group',
@@ -105,13 +109,14 @@ void main() {
       ..primary.addUnit(UnitCore.test(traits: const [Trait(name: 'Hands')]))
       ..secondary.addUnit(UnitCore.test(traits: const [Trait(name: 'Hands')]))
       ..secondary.addUnit(UnitCore.test(traits: const [Trait(name: 'Hands')]));
+    final roster = UnitRoster()..addCG(cg);
 
     var u = cg.primary.allUnits().last;
 
     cg.secondary.allUnits()[0].addUnitMod(
         StandardModification.handGrenadeMHG(cg.secondary.allUnits()[0], cg));
-    final mod = StandardModification.handGrenadeLHG(u, cg);
-    expect(mod.requirementCheck(), equals(false));
+    final mod = StandardModification.handGrenadeLHG(u, cg, roster);
+    expect(mod.requirementCheck(), equals(true));
   });
 
   test('test handGrenade (LHG) cost with 2 mods', () {
@@ -119,11 +124,12 @@ void main() {
       ..primary.addUnit(UnitCore.test(traits: const [Trait(name: 'Hands')]))
       ..primary.addUnit(UnitCore.test(traits: const [Trait(name: 'Hands')]))
       ..primary.addUnit(UnitCore.test(traits: const [Trait(name: 'Hands')]));
+    final roster = UnitRoster()..addCG(cg);
 
     var u = cg.primary.allUnits().first;
-    u.addUnitMod(StandardModification.handGrenadeLHG(u, cg));
+    u.addUnitMod(StandardModification.handGrenadeLHG(u, cg, roster));
     var u2 = cg.primary.allUnits().last;
-    u2.addUnitMod(StandardModification.handGrenadeLHG(u2, cg));
+    u2.addUnitMod(StandardModification.handGrenadeLHG(u2, cg, roster));
     expect(cg.totalTV(), equals(UnitCore.test().tv * 3 + 1));
   });
 
@@ -132,14 +138,15 @@ void main() {
       ..primary.addUnit(UnitCore.test(traits: const [Trait(name: 'Hands')]))
       ..primary.addUnit(UnitCore.test(traits: const [Trait(name: 'Hands')]))
       ..primary.addUnit(UnitCore.test(traits: const [Trait(name: 'Hands')]));
+    final roster = UnitRoster()..addCG(cg);
 
     cg.primary.allUnits()[0].addUnitMod(
         StandardModification.handGrenadeMHG(cg.primary.allUnits()[0], cg));
     cg.primary.allUnits()[1].addUnitMod(
         StandardModification.handGrenadeMHG(cg.primary.allUnits()[1], cg));
     final u = cg.primary.allUnits().last;
-    final mod = StandardModification.handGrenadeLHG(u, cg);
-    expect(mod.requirementCheck(), equals(false));
+    final mod = StandardModification.handGrenadeLHG(u, cg, roster);
+    expect(mod.requirementCheck(), equals(true));
   });
 
   test('test handGrenade (MHG) requirement check with 1 in group already', () {
@@ -159,12 +166,13 @@ void main() {
       ..primary.addUnit(UnitCore.test(traits: const [Trait(name: 'Hands')]))
       ..primary.addUnit(UnitCore.test(traits: const [Trait(name: 'Hands')]))
       ..primary.addUnit(UnitCore.test(traits: const [Trait(name: 'Hands')]));
+    final roster = UnitRoster()..addCG(cg);
 
-    cg.primary.allUnits().first.addUnitMod(
-        StandardModification.handGrenadeLHG(cg.primary.allUnits().first, cg));
+    cg.primary.allUnits().first.addUnitMod(StandardModification.handGrenadeLHG(
+        cg.primary.allUnits().first, cg, roster));
     var u = cg.primary.allUnits().last;
     final mod = StandardModification.handGrenadeMHG(u, cg);
-    expect(mod.requirementCheck(), equals(false));
+    expect(mod.requirementCheck(), equals(true));
   });
   test(
       'test handGrenade (MHG) requirement check with 1 MHG already added to other group',

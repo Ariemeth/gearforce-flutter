@@ -163,4 +163,12 @@ class UnitRoster extends ChangeNotifier {
     }
     return null;
   }
+
+  // Retrieve a list of units that have the specified mod attached.
+  List<Unit> unitsWithMod(String id) {
+    List<Unit> listOfUnits = [];
+    _combatGroups
+        .forEach((name, cg) => {listOfUnits.addAll(cg.unitsWithMod(id))});
+    return listOfUnits;
+  }
 }

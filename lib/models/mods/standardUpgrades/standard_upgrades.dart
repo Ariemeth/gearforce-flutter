@@ -3,20 +3,21 @@ import 'package:gearforce/models/mods/standardUpgrades/standard_modification.dar
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/unit/unit.dart';
 
-List<StandardModification> getStandardMods(Unit u, CombatGroup cg) {
+List<StandardModification> getStandardMods(
+    Unit u, CombatGroup cg, UnitRoster roster) {
   return [
     StandardModification.antiAirTrait(u, cg),
     StandardModification.antiAirSwap(u, cg),
     StandardModification.meleeSwap(u),
     StandardModification.grenadeSwap(u, cg),
-    StandardModification.handGrenadeLHG(u, cg),
+    StandardModification.handGrenadeLHG(u, cg, roster),
     StandardModification.handGrenadeMHG(u, cg),
-    StandardModification.panzerfaustsL(u, cg),
+    StandardModification.panzerfaustsL(u, cg, roster),
     StandardModification.panzerfaustsM(u, cg),
-    StandardModification.shapedExplosivesL(u, cg),
+    StandardModification.shapedExplosivesL(u, cg, roster),
     StandardModification.shapedExplosivesM(u, cg),
-    StandardModification.sidearmLP(u, cg),
-    StandardModification.sidearmSMG(u, cg),
+    StandardModification.sidearmLP(u, cg, roster),
+    StandardModification.sidearmSMG(u, cg, roster),
     StandardModification.smoke(u, cg),
   ];
 }
@@ -37,19 +38,19 @@ StandardModification? buildStandardUpgrade(
     case grenadeSwapId:
       return StandardModification.grenadeSwap(u, cg);
     case handGrenadeLId:
-      return StandardModification.handGrenadeLHG(u, cg);
+      return StandardModification.handGrenadeLHG(u, cg, roster);
     case handGrenadeMId:
       return StandardModification.handGrenadeMHG(u, cg);
     case panzerfaustsLId:
-      return StandardModification.panzerfaustsL(u, cg);
+      return StandardModification.panzerfaustsL(u, cg, roster);
     case panzerfaustsMId:
       return StandardModification.panzerfaustsM(u, cg);
     case pistolsId:
-      return StandardModification.sidearmLP(u, cg);
+      return StandardModification.sidearmLP(u, cg, roster);
     case subMachineGunId:
-      return StandardModification.sidearmSMG(u, cg);
+      return StandardModification.sidearmSMG(u, cg, roster);
     case shapedExplosivesLId:
-      return StandardModification.shapedExplosivesL(u, cg);
+      return StandardModification.shapedExplosivesL(u, cg, roster);
     case shapedExplosivesMId:
       return StandardModification.shapedExplosivesM(u, cg);
     case smokeId:

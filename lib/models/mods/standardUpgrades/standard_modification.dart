@@ -465,7 +465,8 @@ class StandardModification extends BaseModification {
   > Up to 2 models may purchase Light Hand Grenades
   (LHG) for 1 TV total.
   */
-  factory StandardModification.handGrenadeLHG(Unit u, CombatGroup cg) {
+  factory StandardModification.handGrenadeLHG(
+      Unit u, CombatGroup cg, UnitRoster roster) {
     final traits = u.traits.toList();
     return StandardModification(
         name: 'Hand Grenades (LHG)',
@@ -477,39 +478,12 @@ class StandardModification extends BaseModification {
             return false;
           }
 
-          if (u.hasMod(handGrenadeLId) || u.hasMod(handGrenadeMId)) {
-            return false;
-          }
-
-          // check to ensure this upgrade has not already been given to 2 or more units
-          return cg.modCount(handGrenadeLId) < 2 &&
-              cg.modCount(handGrenadeMId) == 0;
+          return !u.hasMod(handGrenadeLId) && !u.hasMod(handGrenadeMId);
         })
       ..addMod(
         UnitAttribute.tv,
         (value) {
-          var numMods = cg.modCount(handGrenadeLId);
-          var change = 0;
-          switch (numMods) {
-            case 0:
-              change = 1;
-              break;
-            case 1:
-              if (u.hasMod(handGrenadeLId)) {
-                change = 1;
-              } else {
-                change = 0;
-              }
-              break;
-            case 2:
-              var other = cg
-                  .unitsWithMod(handGrenadeLId)
-                  .firstWhere((unit) => unit != u);
-              change = other.hashCode > u.hashCode ? 0 : 1;
-
-              break;
-          }
-          return value + change;
+          return value + twoForOneCost(handGrenadeLId, u, roster);
         },
         description: 'TV +1 per 2',
       )
@@ -537,13 +511,7 @@ class StandardModification extends BaseModification {
             return false;
           }
 
-          if (u.hasMod(handGrenadeLId) || u.hasMod(handGrenadeMId)) {
-            return false;
-          }
-
-          // check to ensure this upgrade has not already been given to 2 or more units
-          return cg.modCount(handGrenadeMId) < 2 &&
-              cg.modCount(handGrenadeLId) == 0;
+          return !u.hasMod(handGrenadeLId) && !u.hasMod(handGrenadeMId);
         })
       ..addMod(
         UnitAttribute.tv,
@@ -566,7 +534,8 @@ class StandardModification extends BaseModification {
   > Or, up to 2 models may purchase Medium
   Panzerfausts (MPZ) for 1 TV each.
   */
-  factory StandardModification.panzerfaustsL(Unit u, CombatGroup cg) {
+  factory StandardModification.panzerfaustsL(
+      Unit u, CombatGroup cg, UnitRoster roster) {
     final traits = u.traits.toList();
     return StandardModification(
         name: 'Panzerfausts (LPZ)',
@@ -582,35 +551,12 @@ class StandardModification extends BaseModification {
             return false;
           }
 
-          // check to ensure this upgrade has not already been given to 2 or more units
-          return cg.modCount(panzerfaustsLId) < 2 &&
-              cg.modCount(panzerfaustsMId) == 0;
+          return true;
         })
       ..addMod(
         UnitAttribute.tv,
         (value) {
-          var numMods = cg.modCount(panzerfaustsLId);
-          var change = 0;
-          switch (numMods) {
-            case 0:
-              change = 1;
-              break;
-            case 1:
-              if (u.hasMod(panzerfaustsLId)) {
-                change = 1;
-              } else {
-                change = 0;
-              }
-              break;
-            case 2:
-              var other = cg
-                  .unitsWithMod(panzerfaustsLId)
-                  .firstWhere((unit) => unit != u);
-              change = other.hashCode > u.hashCode ? 0 : 1;
-
-              break;
-          }
-          return value + change;
+          return value + twoForOneCost(panzerfaustsLId, u, roster);
         },
         description: 'TV +1 per 2',
       )
@@ -644,9 +590,7 @@ class StandardModification extends BaseModification {
             return false;
           }
 
-          // check to ensure this upgrade has not already been given to 2 or more units
-          return cg.modCount(panzerfaustsMId) < 2 &&
-              cg.modCount(panzerfaustsLId) == 0;
+          return true;
         })
       ..addMod(
         UnitAttribute.tv,
@@ -667,7 +611,8 @@ class StandardModification extends BaseModification {
   (LP) or Light Submachine Guns (LSMGs) for 1 TV total.
   These weapons have the React trait.
   */
-  factory StandardModification.sidearmLP(Unit u, CombatGroup cg) {
+  factory StandardModification.sidearmLP(
+      Unit u, CombatGroup cg, UnitRoster roster) {
     final traits = u.traits.toList();
     return StandardModification(
         name: 'Sidearm (LP)',
@@ -684,37 +629,18 @@ class StandardModification extends BaseModification {
             return false;
           }
 
-          // check to ensure this upgrade has not already been given to 2 or more units
-          return cg.modCount(pistolsId) + cg.modCount(subMachineGunId) < 2;
+          return true;
         })
       ..addMod(
         UnitAttribute.tv,
         (value) {
-          var numMods = cg.modCount(pistolsId) + cg.modCount(subMachineGunId);
-          var change = 0;
-          switch (numMods) {
-            case 0:
-              change = 1;
-              break;
-            case 1:
-              if (u.hasMod(pistolsId)) {
-                change = 1;
-              } else {
-                change = 0;
-              }
-              break;
-            case 2:
-              var other = cg.unitsWithMod(pistolsId).firstWhere(
-                    (unit) => unit != u,
-                    orElse: () => cg
-                        .unitsWithMod(subMachineGunId)
-                        .firstWhere((unit) => unit != u),
-                  );
-              change = other.hashCode > u.hashCode ? 0 : 1;
-
-              break;
-          }
-          return value + change;
+          return value +
+              twoForOneCost(
+                pistolsId,
+                u,
+                roster,
+                modId2: subMachineGunId,
+              );
         },
         description: 'TV +1 per 2 Sidearms',
       )
@@ -726,13 +652,14 @@ class StandardModification extends BaseModification {
   }
 
   /*
-  Sidearms TODO
+  Sidearms
   Only models with the Hands trait can purchase sidearms.
   These weapons come with the React trait.
   > Add a Light Pistol (LP) or a Light Submachine Gun
     (LSMG) to two models for 1 TV (total).
   */
-  factory StandardModification.sidearmSMG(Unit u, CombatGroup cg) {
+  factory StandardModification.sidearmSMG(
+      Unit u, CombatGroup cg, UnitRoster roster) {
     final traits = u.traits.toList();
     return StandardModification(
         name: 'Sidearm (LSMG)',
@@ -749,37 +676,18 @@ class StandardModification extends BaseModification {
             return false;
           }
 
-          // check to ensure this upgrade has not already been given to 2 or more units
-          return cg.modCount(pistolsId) + cg.modCount(subMachineGunId) < 2;
+          return true;
         })
       ..addMod(
         UnitAttribute.tv,
         (value) {
-          var numMods = cg.modCount(pistolsId) + cg.modCount(subMachineGunId);
-          var change = 0;
-          switch (numMods) {
-            case 0:
-              change = 1;
-              break;
-            case 1:
-              if (u.hasMod(subMachineGunId)) {
-                change = 1;
-              } else {
-                change = 0;
-              }
-              break;
-            case 2:
-              var other = cg.unitsWithMod(subMachineGunId).firstWhere(
-                    (unit) => unit != u,
-                    orElse: () => cg
-                        .unitsWithMod(pistolsId)
-                        .firstWhere((unit) => unit != u),
-                  );
-              change = other.hashCode > u.hashCode ? 0 : 1;
-
-              break;
-          }
-          return value + change;
+          return value +
+              twoForOneCost(
+                pistolsId,
+                u,
+                roster,
+                modId2: subMachineGunId,
+              );
         },
         description: 'TV +1 per 2 Sidearms',
       )
@@ -800,7 +708,8 @@ class StandardModification extends BaseModification {
   > Or up to 2 models may purchase Medium Shaped
   Explosives (MSE) for 1 TV each
   */
-  factory StandardModification.shapedExplosivesL(Unit u, CombatGroup cg) {
+  factory StandardModification.shapedExplosivesL(
+      Unit u, CombatGroup cg, UnitRoster roster) {
     final traits = u.traits.toList();
     return StandardModification(
         name: 'Shaped Explosives (LSE)',
@@ -812,40 +721,18 @@ class StandardModification extends BaseModification {
             return false;
           }
 
-          if (!(traits.any((element) => _handsMatch.hasMatch(element.name))) ||
-              u.type == 'Infantry') {
+          // Must have the hands trait or be infantry
+          if (!(traits.any((element) => _handsMatch.hasMatch(element.name))) &&
+              u.movement?.type != 'Infantry') {
             return false;
           }
 
-          // check to ensure this upgrade has not already been given to 2 or more units
-          return cg.modCount(shapedExplosivesLId) < 2 &&
-              cg.modCount(shapedExplosivesMId) == 0;
+          return true;
         })
       ..addMod(
         UnitAttribute.tv,
         (value) {
-          var numMods = cg.modCount(shapedExplosivesLId);
-          var change = 0;
-          switch (numMods) {
-            case 0:
-              change = 1;
-              break;
-            case 1:
-              if (u.hasMod(shapedExplosivesLId)) {
-                change = 1;
-              } else {
-                change = 0;
-              }
-              break;
-            case 2:
-              var other = cg
-                  .unitsWithMod(shapedExplosivesLId)
-                  .firstWhere((unit) => unit != u);
-              change = other.hashCode > u.hashCode ? 0 : 1;
-
-              break;
-          }
-          return value + change;
+          return value + twoForOneCost(shapedExplosivesLId, u, roster);
         },
         description: 'TV +1 per 2',
       )
@@ -872,18 +759,17 @@ class StandardModification extends BaseModification {
         name: 'Shaped Explosives (MSE)',
         id: shapedExplosivesMId,
         requirementCheck: () {
-          if (!(traits.any((element) => _handsMatch.hasMatch(element.name)) ||
-              u.type == 'Infantry')) {
-            return false;
-          }
-
           if (u.hasMod(shapedExplosivesMId) || u.hasMod(shapedExplosivesLId)) {
             return false;
           }
 
-          // check to ensure this upgrade has not already been given to 2 or more units
-          return cg.modCount(shapedExplosivesMId) < 1 &&
-              cg.modCount(shapedExplosivesLId) == 0;
+          // Must have the hands trait or be infantry
+          if (!(traits.any((element) => _handsMatch.hasMatch(element.name))) &&
+              u.movement?.type != 'Infantry') {
+            return false;
+          }
+
+          return true;
         })
       ..addMod(
         UnitAttribute.tv,
@@ -912,7 +798,7 @@ class StandardModification extends BaseModification {
             return false;
           }
 
-          return u.hasMod(smokeId);
+          return !u.hasMod(smokeId);
         })
       ..addMod(
         UnitAttribute.tv,
@@ -925,4 +811,31 @@ class StandardModification extends BaseModification {
         description: '+Smoke',
       );
   }
+}
+
+int twoForOneCost(
+  String modId,
+  Unit u,
+  UnitRoster roster, {
+  String? modId2,
+}) {
+  final unitsWithMod = roster.unitsWithMod(modId);
+  if (modId2 != null) {
+    unitsWithMod.addAll(roster.unitsWithMod(modId2));
+  }
+  // if no units currently have this mod, the cost will be 1 since this
+  // is the first
+  if (unitsWithMod.isEmpty) {
+    return 1;
+  }
+
+  // if this mod is attached to a unit already use the index within the
+  // list to determine the cost
+  if (unitsWithMod.any((unit) => unit == u)) {
+    final index = unitsWithMod.indexOf(u);
+    return index % 2 == 0 ? 1 : 0;
+  }
+
+  // this unit does not already have the mod
+  return unitsWithMod.length % 2;
 }
