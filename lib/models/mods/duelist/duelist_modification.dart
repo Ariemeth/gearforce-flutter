@@ -455,11 +455,9 @@ class DuelistModification extends BaseModification {
             return false;
           }
 
-          final matchingWeapons = u.weapons.where((weapon) {
-            print(weapon.code);
-            return allowedWeaponMatch.hasMatch(weapon.code);
-          });
-          print(matchingWeapons);
+          final matchingWeapons = u.weapons
+              .where((weapon) => allowedWeaponMatch.hasMatch(weapon.code));
+
           if (matchingWeapons.isEmpty) {
             return false;
           }
@@ -478,12 +476,9 @@ class DuelistModification extends BaseModification {
   }
 
   /*
-  DUAL WIELD 1 TV
-  Add the Link trait to any melee weapon other than
-  Shaped Explosives. This adds a second weapon of the
-  same type to the model. For example, a linked medium
-  vibroblade becomes two medium vibroblades (ideally
-  one in each hand).
+  Dual Melee Weapons
+  Add the Link trait to a vibro-blade, combat weapon, or
+  spike gun for 1 TV.
   */
   factory DuelistModification.dualMeleeWeapons(Unit u) {
     final RegExp meleeCheck = RegExp(r'(VB|CW|SG)');
@@ -619,41 +614,25 @@ class DuelistModification extends BaseModification {
   }
 
   /*
-  SMASHFEST 1 TV
-  Upgrade one melee weapon with the React trait to one
-  of the following:
-  * M Vibroblade +React
-  * M Combat Weapon +React, Demo:4
+  Duelist Melee Upgrade
+  A duelist with the Hands trait may receive one of the
+  following for 1 TV:
+  > MVB (React)
+  > MCW (React, Demo:4)
   */
   factory DuelistModification.meleeUpgrade(Unit u) {
-    final react = u.reactWeapons;
-    final List<ModificationOption> _options = [];
-    final weaponOption1 = buildWeapon('MVB');
-    final weaponOption2 = buildWeapon('MCW (Demo:4)');
+    final weaponOption1 = buildWeapon('MVB', hasReact: true);
+    final weaponOption2 = buildWeapon('MCW (Demo:4)', hasReact: true);
 
-    react
-        .where((weapon) =>
-            weapon.hasReact &&
-            weapon.modes.any((mode) => mode == weaponModes.Melee))
-        .toList()
-        .forEach((weapon) {
-      final baseOption = ModificationOption(
-        weapon.toString(),
+    var modOptions = ModificationOption('Duelist Melee Upgrade',
         subOptions: [
           ModificationOption(weaponOption1.toString()),
           ModificationOption(weaponOption2.toString()),
         ],
-      );
-
-      _options.add(baseOption);
-    });
-
-    var modOptions = ModificationOption('Smashfest',
-        subOptions: _options,
-        description: 'Choose an available weapon to upgrade');
+        description: 'Choose a weapon to add');
 
     return DuelistModification(
-        name: 'Smashfest',
+        name: 'Melee Upgrade',
         id: meleeUpgradeId,
         options: modOptions,
         requirementCheck: () {
@@ -672,23 +651,14 @@ class DuelistModification extends BaseModification {
         }
 
         // check if an option has been selected
-        if (modOptions.selectedOption == null ||
-            modOptions.selectedOption!.selectedOption == null) {
+        if (modOptions.selectedOption == null) {
           return value;
         }
 
-        var indexToRemove = value.indexWhere(
-            (weapon) => weapon.toString() == modOptions.selectedOption!.text);
-
-        final weaponToAdd = buildWeapon(
-            modOptions.selectedOption!.selectedOption!.text,
-            hasReact: true);
+        final weaponToAdd =
+            buildWeapon(modOptions.selectedOption!.text, hasReact: true);
         if (weaponToAdd != null) {
-          value = value
-              .where((weapon) =>
-                  weapon.toString() != modOptions.selectedOption!.text)
-              .toList();
-          value.insert(indexToRemove, weaponToAdd);
+          value.add(weaponToAdd);
         }
 
         return value;

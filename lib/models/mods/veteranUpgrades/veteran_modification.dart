@@ -524,21 +524,11 @@ class VeteranModification extends BaseModification {
   > LCW (React, Brawl:1)
   */
   factory VeteranModification.meleeWeaponUpgrade(Unit u) {
-    final react = u.reactWeapons;
-    final List<ModificationOption> _options = [];
-
-    final availableWeapons = react.where(
-        (weapon) => weapon.modes.any((mode) => mode == weaponModes.Melee));
-
-    availableWeapons.forEach((weapon) {
-      _options.add(ModificationOption(weapon.toString(), subOptions: [
-        ModificationOption('LVB (React Precise)'),
-        ModificationOption('LCW (React Brawl:1)')
-      ]));
-    });
-
-    var modOptions = ModificationOption('Melee Weapon Upgrade',
-        subOptions: _options,
+    final modOptions = ModificationOption('Melee Weapon Upgrade',
+        subOptions: [
+          ModificationOption('LVB (React Precise)'),
+          ModificationOption('LCW (React Brawl:1)')
+        ],
         description: 'A gear with the hands trait may add either  ' +
             'a LVB (React, Precise) or LCW (React, Brawl:1)');
 
@@ -561,12 +551,6 @@ class VeteranModification extends BaseModification {
             return false;
           }
 
-          // check to ensure the unit has an appropriate weapon that can be upgraded
-          if (!u.reactWeapons.any((weapon) =>
-              weapon.modes.any((mode) => mode == weaponModes.Melee))) {
-            return false;
-          }
-
           return u.traits.any((trait) => trait.name == 'Vet');
         },
         refreshData: () {
@@ -586,14 +570,12 @@ class VeteranModification extends BaseModification {
             value.map((weapon) => Weapon.fromWeapon(weapon)).toList();
 
         // check if an option has been selected
-        if (modOptions.selectedOption == null ||
-            modOptions.selectedOption!.selectedOption == null) {
+        if (modOptions.selectedOption == null) {
           return newList;
         }
 
-        final weaponToAdd = buildWeapon(
-            modOptions.selectedOption!.selectedOption!.text,
-            hasReact: true);
+        final weaponToAdd =
+            buildWeapon(modOptions.selectedOption!.text, hasReact: true);
         if (weaponToAdd != null) {
           newList.add(weaponToAdd);
         }

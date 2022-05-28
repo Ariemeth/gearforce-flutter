@@ -35,12 +35,11 @@ DuelistModification? buildDuelistUpgrade(
     case advancedControlSystemId:
       return DuelistModification.advancedControlSystem(u);
     case stableId:
-      return DuelistModification.stable(u); // Stable
-    // requires tweaks for cost
+      return DuelistModification.stable(u);
     case preciseId:
-      return DuelistModification.precise(u); // Precise
+      return DuelistModification.precise(u);
     case autoId:
-      return DuelistModification.auto(u); // Auto
+      return DuelistModification.auto(u);
     case aceGunnerId:
       // TODO add ace gunner
       break;
