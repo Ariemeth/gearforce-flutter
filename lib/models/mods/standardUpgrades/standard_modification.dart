@@ -483,7 +483,7 @@ class StandardModification extends BaseModification {
       ..addMod(
         UnitAttribute.tv,
         (value) {
-          return value + twoForOneCost(handGrenadeLId, u, roster);
+          return value + _twoForOneCost(handGrenadeLId, u, roster);
         },
         description: 'TV +1 per 2',
       )
@@ -556,7 +556,7 @@ class StandardModification extends BaseModification {
       ..addMod(
         UnitAttribute.tv,
         (value) {
-          return value + twoForOneCost(panzerfaustsLId, u, roster);
+          return value + _twoForOneCost(panzerfaustsLId, u, roster);
         },
         description: 'TV +1 per 2',
       )
@@ -635,7 +635,7 @@ class StandardModification extends BaseModification {
         UnitAttribute.tv,
         (value) {
           return value +
-              twoForOneCost(
+              _twoForOneCost(
                 pistolsId,
                 u,
                 roster,
@@ -682,7 +682,7 @@ class StandardModification extends BaseModification {
         UnitAttribute.tv,
         (value) {
           return value +
-              twoForOneCost(
+              _twoForOneCost(
                 pistolsId,
                 u,
                 roster,
@@ -732,7 +732,7 @@ class StandardModification extends BaseModification {
       ..addMod(
         UnitAttribute.tv,
         (value) {
-          return value + twoForOneCost(shapedExplosivesLId, u, roster);
+          return value + _twoForOneCost(shapedExplosivesLId, u, roster);
         },
         description: 'TV +1 per 2',
       )
@@ -813,7 +813,7 @@ class StandardModification extends BaseModification {
   }
 }
 
-int twoForOneCost(
+int _twoForOneCost(
   String modId,
   Unit u,
   UnitRoster roster, {

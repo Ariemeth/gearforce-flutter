@@ -625,8 +625,8 @@ class VeteranModification extends BaseModification {
           }
 
           final matchingWeapons = u.weapons.where((weapon) {
-            print(weapon.abbreviation);
-            return allowedWeaponMatch.hasMatch(weapon.abbreviation);
+            print(weapon.code);
+            return allowedWeaponMatch.hasMatch(weapon.code);
           });
           print(matchingWeapons);
           if (matchingWeapons.isEmpty) {
