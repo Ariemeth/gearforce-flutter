@@ -182,7 +182,19 @@ class DuelistModification extends BaseModification {
           }
           return u.isDuelist;
         })
-      ..addMod(UnitAttribute.tv, createSimpleIntMod(3), description: 'TV +3')
+      ..addMod(UnitAttribute.tv, (value) {
+        if (!(value is int)) {
+          return value;
+        }
+
+        if (u.armor == null) {
+          return value;
+        }
+
+        return value + (u.armor! >= 8 ? 3 : 2);
+      }, dynamicDescription: () {
+        return 'TV +${u.armor! >= 8 ? 3 : 2}';
+      })
       ..addMod(UnitAttribute.actions, (value) {
         if (!(value is int)) {
           return value;
