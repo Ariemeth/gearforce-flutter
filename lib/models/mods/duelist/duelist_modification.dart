@@ -7,6 +7,7 @@ import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
+import 'package:gearforce/models/weapons/range.dart';
 import 'package:gearforce/models/weapons/weapon.dart';
 import 'package:gearforce/models/weapons/weapon_modes.dart';
 import 'package:gearforce/models/weapons/weapons.dart';
@@ -25,6 +26,8 @@ const dualMeleeWeaponsId = 'duelist: dual melee weapons';
 const shieldId = 'duelist: shield';
 const agileId = 'duelist: agile';
 const ecmId = 'duelist: ecm';
+
+final RegExp _handsMatch = RegExp(r'^Hands', caseSensitive: false);
 
 class DuelistModification extends BaseModification {
   DuelistModification({
@@ -215,13 +218,10 @@ class DuelistModification extends BaseModification {
   > Or, add the Stable trait to a combo weapon for 3 TV.
   */
   factory DuelistModification.stable(Unit u) {
-    final react = u.reactWeapons;
-    final mounted = u.mountedWeapons;
     final List<ModificationOption> _options = [];
     const traitToAdd = Trait(name: 'Stable');
 
-    final allWeapons = react.toList()..addAll(mounted);
-    allWeapons.forEach((weapon) {
+    u.weapons.forEach((weapon) {
       _options.add(ModificationOption('${weapon.toString()}'));
     });
 
@@ -297,13 +297,10 @@ class DuelistModification extends BaseModification {
   > Or, add the Precise trait to a combo weapon for 2 TV.
   */
   factory DuelistModification.precise(Unit u) {
-    final react = u.reactWeapons;
-    final mounted = u.mountedWeapons;
     final List<ModificationOption> _options = [];
     const traitToAdd = Trait(name: 'Precise');
 
-    final allWeapons = react.toList()..addAll(mounted);
-    allWeapons.forEach((weapon) {
+    u.weapons.forEach((weapon) {
       _options.add(ModificationOption('${weapon.toString()}'));
     });
 
@@ -476,6 +473,51 @@ class DuelistModification extends BaseModification {
   }
 
   /*
+  Trick Shot
+  Gears with the Hands trait may add LP (Link, Split) for 1
+  TV. This model does not suffer the -1D6 modifier when
+  using the Split trait for attacks made with this weapon.
+  The range for this weapon is doubled (0-24/48).
+  For modeling purposes, this adds two light pistols to the
+  model. Linked weapons on a gear is normally represented
+  as having two of the same weapon, one in each hand.
+  */
+  factory DuelistModification.trickShot(Unit u) {
+    final range = Range(0, 24, 48);
+    final trickPistol = Weapon.fromWeapon(
+      buildWeapon('LP (Link Split)')!,
+      range: range,
+    );
+
+    return DuelistModification(
+        name: 'Trick Shot',
+        id: trickShotId,
+        unit: u,
+        requirementCheck: () {
+          if (!u.traits.any((element) => _handsMatch.hasMatch(element.name))) {
+            return false;
+          }
+
+          // can only have eithe 1 pistol or 1 submachinegun
+          if (u.hasMod(trickShotId)) {
+            return false;
+          }
+
+          return true;
+        })
+      ..addMod(
+        UnitAttribute.tv,
+        createSimpleIntMod(1),
+        description: 'TV +1',
+      )
+      ..addMod(
+        UnitAttribute.mounted_weapons,
+        createAddWeaponToList(trickPistol),
+        description: '+LP (Link, Split)',
+      );
+  }
+
+  /*
   Dual Melee Weapons
   Add the Link trait to a vibro-blade, combat weapon, or
   spike gun for 1 TV.
@@ -494,12 +536,12 @@ class DuelistModification extends BaseModification {
       _options.add(ModificationOption('${weapon.toString()}'));
     });
 
-    var modOptions = ModificationOption('Dual Wield',
+    var modOptions = ModificationOption('Dual Melee Weapons',
         subOptions: _options,
         description: 'Choose a melee weapon to have the Link trait added');
 
     return DuelistModification(
-        name: 'Dual Wield',
+        name: 'Dual Melee Weapons',
         id: dualMeleeWeaponsId,
         options: modOptions,
         requirementCheck: () {
@@ -553,15 +595,15 @@ class DuelistModification extends BaseModification {
   }
 
   /*
-  PUSH THE ENVELOPE 1 TV
-  Add the Agile trait. Models with the Lumbering Trait
-  cannot receive Agile.
+  Agile
+  Add the Agile trait for 1 TV. Models with the Lumbering
+  trait cannot receive the Agile trait.
   */
   factory DuelistModification.agile(Unit u) {
     final RegExp traitCheck = RegExp(r'(Agile|Lumbering)');
     final Trait newTrait = Trait(name: 'Agile');
     return DuelistModification(
-        name: 'Push the Envelope',
+        name: 'Agile',
         id: agileId,
         requirementCheck: () {
           if (u.hasMod(agileId)) {
@@ -580,16 +622,16 @@ class DuelistModification extends BaseModification {
   }
 
   /*
-  SHIELD-BEARER 1–2 TV
+  Shield
   Add the Shield trait to a model. This upgrade costs 1
-  TV for models with an Armor of 7 or lower and 2 TV for
-  models with an Armor of 8 or higher.
+  TV for models with an armor of 7 or lower and 2 TV for
+  models with an armor of 8 or higher.
   */
   factory DuelistModification.shield(Unit u) {
     final Trait newTrait = Trait(name: 'Shield');
-    final armor = u.armor;
+
     return DuelistModification(
-        name: 'Shield-Bearer',
+        name: 'Shield',
         id: shieldId,
         requirementCheck: () {
           if (u.hasMod(shieldId)) {
@@ -599,12 +641,21 @@ class DuelistModification extends BaseModification {
         })
       ..addMod(
         UnitAttribute.tv,
-        createSimpleIntMod(armor != null
-            ? armor <= 7
-                ? 1
-                : 2
-            : 0),
-        description: 'TV +${armor != null ? armor <= 7 ? 1 : 2 : 0}',
+        ((value) {
+          if (value is! int) return value;
+
+          final armor = u.armor;
+
+          if (armor == null) {
+            return value;
+          }
+
+          return value + armor <= 7 ? 1 : 2;
+        }),
+        dynamicDescription: () {
+          final armor = u.armor;
+          return 'TV +${armor != null ? armor <= 7 ? 1 : 2 : 0}';
+        },
       )
       ..addMod(UnitAttribute.traits, createAddTraitToList(newTrait),
           description:
@@ -632,7 +683,7 @@ class DuelistModification extends BaseModification {
         description: 'Choose a weapon to add');
 
     return DuelistModification(
-        name: 'Melee Upgrade',
+        name: 'Duelist Melee Upgrade',
         id: meleeUpgradeId,
         options: modOptions,
         requirementCheck: () {
@@ -665,6 +716,56 @@ class DuelistModification extends BaseModification {
       },
           description: 'Upgrade one melee weapon with the React trait to one ' +
               'of the following with react: MVB, MCW (Demo:4)');
+  }
+
+  /*
+  ECM Upgrade
+  A model with an ECM trait may upgrade their ECM to an
+  ECM+ for 1 TV.
+  */
+  factory DuelistModification.ecm(Unit u) {
+    final RegExp traitCheck = RegExp(r'(ECM+)');
+    final Trait newTrait = Trait(name: 'ECM');
+    return DuelistModification(
+        name: 'ECM',
+        id: ecmId,
+        requirementCheck: () {
+          if (u.hasMod(ecmId)) {
+            return false;
+          }
+
+          if (u.traits.any((trait) => traitCheck.hasMatch(trait.name))) {
+            return false;
+          }
+          return u.isDuelist;
+        })
+      ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
+      ..addMod(UnitAttribute.traits, ((value) {
+        return (value) {
+          if (value is! List<Trait>) {
+            return value;
+          }
+
+          var newList = new List<Trait>.from(value);
+
+          Trait newTrait;
+
+          if (newList.any((element) => element.name.toLowerCase() == 'ecm')) {
+            newList
+                .removeWhere((element) => element.name.toLowerCase() == 'ecm');
+            newTrait = Trait(name: 'ECM+');
+          } else {
+            newTrait = Trait(name: 'ECM');
+          }
+
+          newList.add(newTrait);
+
+          return newList;
+        };
+      }))
+      ..addMod(UnitAttribute.traits, createAddTraitToList(newTrait),
+          description: 'Add the Agile trait. Models with the Lumbering Trait ' +
+              'cannot receive Agile.');
   }
 }
 

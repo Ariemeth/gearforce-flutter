@@ -113,13 +113,16 @@ class Weapon {
     return result;
   }
 
-  factory Weapon.fromWeapon(Weapon original) {
+  factory Weapon.fromWeapon(
+    Weapon original, {
+    Range? range,
+  }) {
     return Weapon(
       abbreviation: original.abbreviation,
       name: original.name,
       numberOf: original.numberOf,
       modes: original.modes,
-      range: original.range,
+      range: range != null ? range : original.range,
       damage: original.damage,
       hasReact: original.hasReact,
       baseTraits:
