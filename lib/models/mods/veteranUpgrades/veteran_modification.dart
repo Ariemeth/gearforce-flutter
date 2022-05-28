@@ -145,13 +145,15 @@ class VeteranModification extends BaseModification {
   }
 
   /*
-  FIELD ARMOR 1–4 TV
+  Field Armor
   Add the Field Armor trait to any model. The cost is
-  determined by its listed Armor:
-  Z Armor 6 or lower for 1 TV
-  Z Armor 7–8 for 2 TV
-  Z Armor 9–10 for 3 TV
-  Z Armor 11–12 for 4 TV
+  determined by its Armor:
+  > Armor 6 or lower for 1 TV
+  > Armor 7–8 for 2 TV
+  > Armor 9–10 for 3 TV
+  > Armor 11–12 for 4 TV
+  Terrain, area terrain, buildings, infantry, cavalry and
+  airstrike counters cannot purchase field armor.
   */
   factory VeteranModification.fieldArmor(Unit u) {
     return VeteranModification(
@@ -603,16 +605,10 @@ class VeteranModification extends BaseModification {
   }
 
   /*
-  DEFENDER 1 TV
-  Add the Anti-Missile System (AMS) trait to any weapon
-  with the Frag or Burst trait.
-
   AMS
   Add the AMS trait to a model that has a frag cannon,
   autocannon, submachine gun, machine gun or rotary
   cannon for 1 TV.
-
-
   */
   factory VeteranModification.ams(Unit u) {
     final allowedWeaponMatch = RegExp(r'^(FC|AC|SMG|MG|RC)$');
