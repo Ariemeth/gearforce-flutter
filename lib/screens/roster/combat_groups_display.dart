@@ -54,7 +54,7 @@ class _CombatGroupsDisplayState extends State<CombatGroupsDisplay>
             builder: (BuildContext context) {
               final TabController tabController =
                   DefaultTabController.of(context)!;
-              print('index: ${tabController.index}, length: ${tabs.length}');
+
               if (tabController.index != 0 &&
                   tabController.index == tabs.length - 1) {
                 tabController.animateTo(tabs.length > 1 ? tabs.length - 2 : 0);

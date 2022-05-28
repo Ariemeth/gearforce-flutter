@@ -17,12 +17,11 @@ const advancedControlSystemId = 'duelist: advanced control system';
 const crackShotId = 'duelist: crack shot';
 const defenderId = 'duelist: defender';
 const dualWieldId = 'duelist: dual wield';
-const gunslingerId = 'duelist: gunslinger';
-const lungeId = 'duelist: lunge';
 const pushTheEnvelopeId = 'duelist: push the envelope';
 const quickDrawId = 'duelist: quickdraw';
 const shieldBearerId = 'duelist: shield bearer';
 const smashFestId = 'duelist: smash fest';
+const trickShotId = 'vet: trick shot';
 
 class DuelistModification extends BaseModification {
   DuelistModification({
@@ -311,84 +310,6 @@ class DuelistModification extends BaseModification {
   }
 
   /*
-  DEFENDER 1 TV
-  Add the Anti-Missile System (AMS) trait to any weapon
-  with the Frag or Burst trait.
-  */
-  factory DuelistModification.defender(Unit u) {
-    final react = u.reactWeapons;
-    final mounted = u.mountedWeapons;
-    final List<ModificationOption> _options = [];
-    const traitToAdd = Trait(name: 'AMS');
-
-    final allWeapons = react.toList()..addAll(mounted);
-    allWeapons
-        .where((weapon) =>
-            weapon.traits.any((trait) => trait.name == 'Frag') ||
-            weapon.traits.any((trait) => trait.name == 'Burst'))
-        .forEach((weapon) {
-      _options.add(ModificationOption('${weapon.toString()}'));
-    });
-
-    var modOptions = ModificationOption('Defender',
-        subOptions: _options,
-        description:
-            'Choose an available weapon to gain the Anti-Missile System (AMS)' +
-                ' trait');
-    return DuelistModification(
-        name: 'Defender',
-        id: defenderId,
-        options: modOptions,
-        requirementCheck: () {
-          if (u.hasMod(defenderId)) {
-            return false;
-          }
-          return u.isDuelist;
-        },
-        refreshData: () {
-          return DuelistModification.defender(u);
-        })
-      ..addMod(UnitAttribute.tv, createSimpleIntMod(1),
-          description:
-              'TV +1, Add the Anti-Missile System (AMS) trait to any weapon ' +
-                  'with the Frag or Burst trait.')
-      ..addMod(UnitAttribute.react_weapons, (value) {
-        if (!(value is List<Weapon>)) {
-          return value;
-        }
-        final newList = value;
-
-        if (modOptions.selectedOption != null &&
-            newList.any((weapon) =>
-                weapon.toString() == modOptions.selectedOption?.text &&
-                weapon.hasReact)) {
-          var existingWeapon = newList.firstWhere((weapon) =>
-              weapon.toString() == modOptions.selectedOption?.text &&
-              weapon.hasReact);
-          existingWeapon.bonusTraits.add(traitToAdd);
-        }
-        return newList;
-      })
-      ..addMod(UnitAttribute.mounted_weapons, (value) {
-        if (!(value is List<Weapon>)) {
-          return value;
-        }
-        final newList = value;
-
-        if (modOptions.selectedOption != null &&
-            newList.any((weapon) =>
-                weapon.toString() == modOptions.selectedOption?.text &&
-                !weapon.hasReact)) {
-          var existingWeapon = newList.firstWhere((weapon) =>
-              weapon.toString() == modOptions.selectedOption?.text &&
-              !weapon.hasReact);
-          existingWeapon.bonusTraits.add(traitToAdd);
-        }
-        return newList;
-      });
-  }
-
-  /*
   DUAL WIELD 1 TV
   Add the Link trait to any melee weapon other than
   Shaped Explosives. This adds a second weapon of the
@@ -466,147 +387,6 @@ class DuelistModification extends BaseModification {
         }
         return newList;
       });
-  }
-
-  /*
-  GUNSLINGER 1–2 TV
-  Add the Link trait to one Pistol, Submachine Gun,
-  Autocannon, Frag Cannon, Flamer or Grenade
-  Launcher with the React trait for 1 TV. Or add the Link
-  trait to a combo weapon with the React trait for 2 TV.
-  For modeling purposes, this adds a second weapon of
-  the same type to the model. For example, a LAC with
-  the Link trait is represented on the miniature as 2 X
-  LACs (ideally one in each hand).
-  */
-  factory DuelistModification.gunslinger(Unit u) {
-    final RegExp weaponCheck = RegExp(r'^(P|SMG|AC|FC|FL|GL)');
-    final react = u.reactWeapons;
-    final List<ModificationOption> _options = [];
-    const traitToAdd = Trait(name: 'Link');
-
-    final allWeapons = react.toList();
-    allWeapons
-        .where((weapon) => weaponCheck.hasMatch(weapon.code) || weapon.isCombo)
-        .forEach((weapon) {
-      _options.add(ModificationOption('${weapon.toString()}'));
-    });
-
-    var modOptions = ModificationOption('Gunslinger',
-        subOptions: _options,
-        description: 'Add the Link trait to one Pistol, Submachine Gun, ' +
-            'Autocannon, Frag Cannon, Flamer or Grenade ' +
-            'Launcher with the React trait for 1 TV. Or add the Link' +
-            'trait to a combo weapon with the React trait for 2 TV.');
-
-    return DuelistModification(
-        name: 'Gunslinger',
-        id: gunslingerId,
-        options: modOptions,
-        requirementCheck: () {
-          if (u.hasMod(gunslingerId)) {
-            return false;
-          }
-
-          if (!u.reactWeapons.any((weapon) =>
-              weaponCheck.hasMatch(weapon.code) || weapon.isCombo)) {
-            return false;
-          }
-          return u.isDuelist;
-        },
-        refreshData: () {
-          return DuelistModification.gunslinger(u);
-        })
-      ..addMod(UnitAttribute.tv, (value) {
-        if (!(value is int)) {
-          return value;
-        }
-
-        return value +
-            _comboNotComboCost(modOptions.selectedOption,
-                comboCost: 2, nonComboCost: 1);
-      }, description: 'TV +1/2')
-      ..addMod(UnitAttribute.react_weapons, (value) {
-        if (!(value is List<Weapon>)) {
-          return value;
-        }
-        final newList = value;
-
-        if (modOptions.selectedOption != null &&
-            newList.any((weapon) =>
-                weapon.toString() == modOptions.selectedOption?.text &&
-                weapon.hasReact)) {
-          var existingWeapon = newList.firstWhere((weapon) =>
-              weapon.toString() == modOptions.selectedOption?.text &&
-              weapon.hasReact);
-          existingWeapon.bonusTraits.add(traitToAdd);
-        }
-        return newList;
-      },
-          description: 'Add the Link trait to one Pistol, Submachine Gun, ' +
-              'Autocannon, Frag Cannon, Flamer or Grenade ' +
-              'Launcher with the React trait for 1 TV. Or add the Link' +
-              'trait to a combo weapon with the React trait for 2 TV.');
-  }
-
-  /*
-  LUNGE 0 TV
-  Add the Reach:1 trait to any Vibro Blade, Spike Gun
-  or Combat Weapon with the React trait. If the weapon
-  already has the Reach:X trait then this upgrade cannot
-  be used.
-  */
-  factory DuelistModification.lunge(Unit u) {
-    final react = u.reactWeapons;
-    final List<ModificationOption> _options = [];
-    const traitToAdd = Trait(name: 'Brawl', level: 1);
-    final allowedWeaponMatch = RegExp(r'^(VB|SG|CW)$');
-    react.where((weapon) {
-      return allowedWeaponMatch.hasMatch(weapon.code) &&
-          !weapon.traits.any((trait) => trait.name == 'Reach');
-    }).forEach((weapon) {
-      _options.add(ModificationOption(weapon.toString()));
-    });
-
-    final modOptions = ModificationOption('Lunge',
-        subOptions: _options,
-        description: 'Choose one of the available weapons to add Reach:1');
-
-    return DuelistModification(
-        name: 'Lunge',
-        id: lungeId,
-        options: modOptions,
-        requirementCheck: () {
-          if (u.hasMod(lungeId)) {
-            return false;
-          }
-
-          if (!u.reactWeapons.any((weapon) =>
-              allowedWeaponMatch.hasMatch(weapon.code) &&
-              !weapon.traits.any((trait) => trait.name == 'Reach'))) {
-            return false;
-          }
-          return u.isDuelist;
-        },
-        refreshData: () {
-          return DuelistModification.lunge(u);
-        })
-      ..addMod(UnitAttribute.tv, createSimpleIntMod(0), description: 'TV +0')
-      ..addMod(UnitAttribute.react_weapons, (value) {
-        if (!(value is List<Weapon>)) {
-          return value;
-        }
-        final newList = value;
-
-        if (modOptions.selectedOption != null) {
-          var existingWeapon = newList.firstWhere(
-              (weapon) => weapon.toString() == modOptions.selectedOption?.text);
-          existingWeapon.bonusTraits.add(traitToAdd);
-        }
-        return newList;
-      },
-          description: 'Add the Reach:1 trait to any Vibro Blade, Spike Gun ' +
-              'or Combat Weapon with the React trait.');
   }
 
   /*
@@ -813,6 +593,31 @@ class DuelistModification extends BaseModification {
       },
           description: 'Upgrade one melee weapon with the React trait to one ' +
               'of the following with react: MVB, MCW (Demo:4)');
+  }
+
+/*
+  TRICK SHOT 1 TV
+  This model does not suffer the -1D6 modifier when
+  using the Split weapon trait.
+  */
+  factory DuelistModification.trickShot(Unit u) {
+    return DuelistModification(
+        name: 'Trick Shot',
+        id: trickShotId,
+        requirementCheck: () {
+          if (u.hasMod(trickShotId)) {
+            return false;
+          }
+
+          return u.traits.any((trait) => trait.name == 'Vet');
+        })
+      ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
+      ..addMod(
+          UnitAttribute.special,
+          createAddStringToList(
+              'This model does not suffer the -1D6 modifier when using the Split weapon trait'),
+          description:
+              'This model does not suffer the -1D6 modifier when using the Split weapon trait');
   }
 }
 

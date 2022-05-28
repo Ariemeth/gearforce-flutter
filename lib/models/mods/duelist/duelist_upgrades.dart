@@ -9,10 +9,7 @@ List<DuelistModification> getDuelistMods(Unit u, UnitRoster roster) {
     DuelistModification.aceGunner(u),
     DuelistModification.advancedControlSystem(u),
     DuelistModification.crackShot(u),
-    DuelistModification.defender(u),
     DuelistModification.dualWield(u),
-    DuelistModification.gunslinger(u),
-    DuelistModification.lunge(u),
     DuelistModification.pushTheEnvelope(u),
     DuelistModification.quickDraw(u),
     DuelistModification.shieldBearer(u),
@@ -34,15 +31,9 @@ DuelistModification? buildDuelistUpgrade(String id, Unit u, UnitRoster roster) {
           u); // requires tweaks for cost
     case crackShotId:
       return DuelistModification.crackShot(u); // Precise
-    case defenderId:
-      return DuelistModification.defender(u); // This is now the vet trait AMS
     case dualWieldId:
       return DuelistModification.dualWield(u); // dual melee weapons
-    case gunslingerId:
-      return DuelistModification.gunslinger(
-          u); // This is now vet trait Dual Guns
-    case lungeId:
-      return DuelistModification.lunge(u); // this is now vet upgrade Reach
+
     case pushTheEnvelopeId:
       return DuelistModification.pushTheEnvelope(u); // agile
     case quickDrawId:

@@ -5,16 +5,18 @@ import 'package:gearforce/models/unit/unit.dart';
 List<VeteranModification> getVeteranMods(Unit u, CombatGroup cg) {
   return [
     VeteranModification.makeVet(u, cg),
-    VeteranModification.ewSpecialist(u),
-    VeteranModification.fieldArmor(u),
-    VeteranModification.inYourFace1(u),
-    VeteranModification.inYourFace2(u),
-    VeteranModification.insulated(u),
-    VeteranModification.fireproof(u),
-    VeteranModification.stainlessSteel(u),
     VeteranModification.improvedGunnery(u),
-    VeteranModification.trickShot(u),
+    VeteranModification.dualGuns(u),
+    VeteranModification.eccm(u),
+    VeteranModification.brawler1(u),
+    VeteranModification.brawler2(u),
+    VeteranModification.reach(u),
     VeteranModification.meleeWeaponUpgrade(u),
+    VeteranModification.resistHaywire(u),
+    VeteranModification.resistFire(u),
+    VeteranModification.resistCorrosion(u),
+    VeteranModification.fieldArmor(u),
+    VeteranModification.ams(u),
   ];
 }
 
@@ -24,31 +26,28 @@ VeteranModification? buildVetUpgrade(String id, Unit u, CombatGroup cg) {
       return VeteranModification.makeVet(u, cg);
     case improvedGunneryId:
       return VeteranModification.improvedGunnery(u);
-    case ewSpecId:
-      return VeteranModification.ewSpecialist(u); // ECCM
+    case dualGunsId:
+      return VeteranModification.dualGuns(u);
+    case eccmId:
+      return VeteranModification.eccm(u);
+    case brawl1Id:
+      return VeteranModification.brawler1(u);
+    case brawler2Id:
+      return VeteranModification.brawler2(u);
+    case reachId:
+      return VeteranModification.reach(u);
+    case meleeUpgradeId:
+      return VeteranModification.meleeWeaponUpgrade(u);
+    case resistHId:
+      return VeteranModification.resistHaywire(u);
+    case resistFId:
+      return VeteranModification.resistFire(u);
+    case resistCId:
+      return VeteranModification.resistCorrosion(u);
     case fieldArmorId:
-      return VeteranModification.fieldArmor(u); // Field armor
-    case inYourFaceId1:
-      return VeteranModification.inYourFace1(u); // Brawler
-    case inYourFaceId2:
-      return VeteranModification.inYourFace2(u); // Brawler
-    case insulatedId:
-      return VeteranModification.insulated(u); // resist:H
-    case fireproofId:
-      return VeteranModification.fireproof(u); // resist:F
-    case stainlessSteelId:
-      return VeteranModification.stainlessSteel(u); // resist:C
-    case trickShotId:
-      return VeteranModification.trickShot(
-          u); // DNE thi is now duelist ace gunner
-    case meleeUpgrade:
-      return VeteranModification.meleeWeaponUpgrade(
-          u); // Veteran melee upgrade, slight tweak
-
-    // TODO add improve gunnery
-    // TODO add dual guns
-    // TODO add Reach
-    // TODO add AMS
+      return VeteranModification.fieldArmor(u);
+    case amsId:
+      return VeteranModification.ams(u);
   }
   return null;
 }
