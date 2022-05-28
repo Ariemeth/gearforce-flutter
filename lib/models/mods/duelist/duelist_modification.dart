@@ -209,9 +209,10 @@ class DuelistModification extends BaseModification {
   }
 
   /*
-  ACE GUNNER 2–3 TV
-  Add the Stable trait to any one weapon for 2 TV. Or, add
-  the Stable trait to a combo weapon for 3 TV.
+  Stable
+  For ranged weapons:
+  > Add the Stable trait to any one weapon for 2 TV.
+  > Or, add the Stable trait to a combo weapon for 3 TV.
   */
   factory DuelistModification.stable(Unit u) {
     final react = u.reactWeapons;
@@ -224,12 +225,12 @@ class DuelistModification extends BaseModification {
       _options.add(ModificationOption('${weapon.toString()}'));
     });
 
-    var modOptions = ModificationOption('Ace Gunner',
+    var modOptions = ModificationOption('Stable',
         subOptions: _options,
         description: 'Choose a weapon to gain the Stable trait.');
 
     final mod = DuelistModification(
-        name: 'Ace Gunner',
+        name: 'Stable',
         id: stableId,
         options: modOptions,
         refreshData: () {
@@ -291,9 +292,9 @@ class DuelistModification extends BaseModification {
   }
 
   /*
-  CRACK SHOT 2–3 TV
-  Add the Precise trait to any one weapon for 2 TV. Or,
-  add the Precise trait to a combo weapon for 3 TV.
+  Precise
+  > Add the Precise trait to one weapon for 1 TV.
+  > Or, add the Precise trait to a combo weapon for 2 TV.
   */
   factory DuelistModification.precise(Unit u) {
     final react = u.reactWeapons;
@@ -306,12 +307,12 @@ class DuelistModification extends BaseModification {
       _options.add(ModificationOption('${weapon.toString()}'));
     });
 
-    var modOptions = ModificationOption('Crack Shot',
+    var modOptions = ModificationOption('Precise',
         subOptions: _options,
         description: 'Choose a weapon to gain the Precise trait.');
 
     final mod = DuelistModification(
-        name: 'Crack Shot',
+        name: 'Precise',
         id: preciseId,
         options: modOptions,
         requirementCheck: () {
@@ -330,10 +331,10 @@ class DuelistModification extends BaseModification {
 
         return value +
             _comboNotComboCost(modOptions.selectedOption,
-                comboCost: 3, nonComboCost: 2);
+                comboCost: 2, nonComboCost: 1);
       },
           description:
-              'TV +2/3, Add Precise to a weapon for TV +3 for combo weapons or +2 for regular weapons')
+              'TV +1/2, Add Precise to a weapon for TV +2 for combo weapons or +1 for regular weapons')
       ..addMod(UnitAttribute.react_weapons, (value) {
         if (!(value is List<Weapon>)) {
           return value;
@@ -370,6 +371,110 @@ class DuelistModification extends BaseModification {
       });
 
     return mod;
+  }
+
+  /*
+  Auto
+  Add the Auto trait to one ranged weapon, or ranged
+  combo weapon, that has the React trait for 1 TV.
+  */
+  factory DuelistModification.auto(Unit u) {
+    final react = u.reactWeapons;
+    final List<ModificationOption> _options = [];
+    const traitToAdd = Trait(name: 'Auto');
+
+    final availableWeapons = react.where((weapon) =>
+        weapon.modes.any((mode) => mode != weaponModes.Melee) ||
+        weapon.isCombo);
+
+    availableWeapons.forEach((weapon) {
+      _options.add(ModificationOption('${weapon.toString()}'));
+    });
+
+    var modOptions = ModificationOption('Auto',
+        subOptions: _options,
+        description: 'Choose an available weapon to have the Auto trait added');
+
+    return DuelistModification(
+        name: 'Auto',
+        id: autoId,
+        options: modOptions,
+        requirementCheck: () {
+          if (u.hasMod(autoId)) {
+            return false;
+          }
+
+          if (u.reactWeapons
+              .where((weapon) =>
+                  weapon.modes.any((mode) => mode != weaponModes.Melee) ||
+                  weapon.isCombo)
+              .isEmpty) {
+            return false;
+          }
+          return u.isDuelist;
+        },
+        refreshData: () {
+          return DuelistModification.auto(u);
+        })
+      ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
+      ..addMod(
+        UnitAttribute.react_weapons,
+        (value) {
+          if (!(value is List<Weapon>)) {
+            return value;
+          }
+          final newList = value;
+
+          if (modOptions.selectedOption != null &&
+              newList.any((weapon) =>
+                  weapon.toString() == modOptions.selectedOption?.text)) {
+            var existingWeapon = newList.firstWhere((weapon) =>
+                weapon.toString() == modOptions.selectedOption?.text);
+            existingWeapon.bonusTraits.add(traitToAdd);
+          }
+          return newList;
+        },
+        description: 'Add the Auto trait to one ranged weapon or ' +
+            'combination weapon that has the React trait',
+      );
+  }
+
+  /*
+  Ace Gunner
+  For 1 TV, when using an autocannon, this model does
+  not suffer the -1D6 modifier when using the Split trait for
+  attacks against multiple models.
+  */
+  factory DuelistModification.aceGunner(Unit u) {
+    final RegExp allowedWeaponMatch = RegExp(r'(AC)');
+    return DuelistModification(
+        name: 'Ace Gunner',
+        id: aceGunnerId,
+        requirementCheck: () {
+          if (u.hasMod(aceGunnerId)) {
+            return false;
+          }
+
+          final matchingWeapons = u.weapons.where((weapon) {
+            print(weapon.code);
+            return allowedWeaponMatch.hasMatch(weapon.code);
+          });
+          print(matchingWeapons);
+          if (matchingWeapons.isEmpty) {
+            return false;
+          }
+
+          return u.isDuelist;
+        })
+      ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
+      ..addMod(
+          UnitAttribute.traits, createAddTraitToList(Trait(name: 'Ace Gunner')))
+      ..addMod(
+          UnitAttribute.special,
+          createAddStringToList(
+              'This model does not suffer the -1D6 modifier when using the Split weapon trait'),
+          description:
+              'This model does not suffer the -1D6 modifier when using the Split weapon trait');
   }
 
   /*
@@ -477,72 +582,6 @@ class DuelistModification extends BaseModification {
       ..addMod(UnitAttribute.traits, createAddTraitToList(newTrait),
           description: 'Add the Agile trait. Models with the Lumbering Trait ' +
               'cannot receive Agile.');
-  }
-
-  /*
-  QUICK DRAW 1 TV
-  Add the Auto trait to one ranged weapon or combination
-  weapon that has the React trait.
-  */
-  factory DuelistModification.auto(Unit u) {
-    final react = u.reactWeapons;
-    final List<ModificationOption> _options = [];
-    const traitToAdd = Trait(name: 'Auto');
-
-    final availableWeapons = react.where((weapon) =>
-        weapon.modes.any((mode) => mode != weaponModes.Melee) ||
-        weapon.isCombo);
-
-    availableWeapons.forEach((weapon) {
-      _options.add(ModificationOption('${weapon.toString()}'));
-    });
-
-    var modOptions = ModificationOption('Quick Draw',
-        subOptions: _options,
-        description: 'Choose an available weapon to have the Auto trait added');
-
-    return DuelistModification(
-        name: 'Quick Draw',
-        id: autoId,
-        options: modOptions,
-        requirementCheck: () {
-          if (u.hasMod(autoId)) {
-            return false;
-          }
-
-          if (u.reactWeapons
-              .where((weapon) =>
-                  weapon.modes.any((mode) => mode != weaponModes.Melee) ||
-                  weapon.isCombo)
-              .isEmpty) {
-            return false;
-          }
-          return u.isDuelist;
-        },
-        refreshData: () {
-          return DuelistModification.auto(u);
-        })
-      ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
-      ..addMod(
-        UnitAttribute.react_weapons,
-        (value) {
-          if (!(value is List<Weapon>)) {
-            return value;
-          }
-          final newList = value;
-
-          if (modOptions.selectedOption != null &&
-              newList.any((weapon) =>
-                  weapon.toString() == modOptions.selectedOption?.text)) {
-            var existingWeapon = newList.firstWhere((weapon) =>
-                weapon.toString() == modOptions.selectedOption?.text);
-            existingWeapon.bonusTraits.add(traitToAdd);
-          }
-          return newList;
-        },
-        description: 'Add the Auto trait to one ranged weapon or ' +
-            'combination weapon that has the React trait',
-      );
   }
 
   /*
@@ -656,31 +695,6 @@ class DuelistModification extends BaseModification {
       },
           description: 'Upgrade one melee weapon with the React trait to one ' +
               'of the following with react: MVB, MCW (Demo:4)');
-  }
-
-/*
-  TRICK SHOT 1 TV
-  This model does not suffer the -1D6 modifier when
-  using the Split weapon trait.
-  */
-  factory DuelistModification.aceGunner(Unit u) {
-    return DuelistModification(
-        name: 'Ace Gunner',
-        id: aceGunnerId, //TODO change
-        requirementCheck: () {
-          if (u.hasMod(aceGunnerId)) {
-            return false;
-          }
-
-          return u.isDuelist;
-        })
-      ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
-      ..addMod(
-          UnitAttribute.special,
-          createAddStringToList(
-              'This model does not suffer the -1D6 modifier when using the Split weapon trait'),
-          description:
-              'This model does not suffer the -1D6 modifier when using the Split weapon trait');
   }
 }
 
