@@ -502,9 +502,11 @@ pw.Widget _buildWeaponDamage(pw.Font font, Weapon w) {
 }
 
 pw.Widget _buildWeaponTraits(pw.Font font, Weapon w) {
+  final traits1 = w.traits.join(', ');
+  final traits2 = w.alternativeTraits.join(', ');
   final traitField = _buildWeaponField(
     font,
-    w.traits.join(', '),
+    traits2.isEmpty ? traits1 : "$traits1 or $traits2",
   );
   if (!w.isCombo) {
     return traitField;

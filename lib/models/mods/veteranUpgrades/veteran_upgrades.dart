@@ -5,17 +5,18 @@ import 'package:gearforce/models/unit/unit.dart';
 List<VeteranModification> getVeteranMods(Unit u, CombatGroup cg) {
   return [
     VeteranModification.makeVet(u, cg),
-    VeteranModification.ewSpecialist(u),
-    VeteranModification.fieldArmor(u),
-    VeteranModification.inYourFace1(u),
-    VeteranModification.inYourFace2(u),
-    VeteranModification.insulated(u),
-    VeteranModification.fireproof(u),
-    VeteranModification.oldReliable(u),
-    VeteranModification.stainlessSteel(u),
-    VeteranModification.sharpShooter(u),
-    VeteranModification.trickShot(u),
+    VeteranModification.improvedGunnery(u),
+    VeteranModification.dualGuns(u),
+    VeteranModification.eccm(u),
+    VeteranModification.brawler1(u),
+    VeteranModification.brawler2(u),
+    VeteranModification.reach(u),
     VeteranModification.meleeWeaponUpgrade(u),
+    VeteranModification.resistHaywire(u),
+    VeteranModification.resistFire(u),
+    VeteranModification.resistCorrosion(u),
+    VeteranModification.fieldArmor(u),
+    VeteranModification.ams(u),
   ];
 }
 
@@ -23,28 +24,30 @@ VeteranModification? buildVetUpgrade(String id, Unit u, CombatGroup cg) {
   switch (id) {
     case veteranId:
       return VeteranModification.makeVet(u, cg);
-    case ewSpecId:
-      return VeteranModification.ewSpecialist(u);
+    case improvedGunneryId:
+      return VeteranModification.improvedGunnery(u);
+    case dualGunsId:
+      return VeteranModification.dualGuns(u);
+    case eccmId:
+      return VeteranModification.eccm(u);
+    case brawl1Id:
+      return VeteranModification.brawler1(u);
+    case brawler2Id:
+      return VeteranModification.brawler2(u);
+    case reachId:
+      return VeteranModification.reach(u);
+    case meleeUpgradeId:
+      return VeteranModification.meleeWeaponUpgrade(u);
+    case resistHId:
+      return VeteranModification.resistHaywire(u);
+    case resistFId:
+      return VeteranModification.resistFire(u);
+    case resistCId:
+      return VeteranModification.resistCorrosion(u);
     case fieldArmorId:
       return VeteranModification.fieldArmor(u);
-    case inYourFaceId1:
-      return VeteranModification.inYourFace1(u);
-    case inYourFaceId2:
-      return VeteranModification.inYourFace2(u);
-    case insulatedId:
-      return VeteranModification.insulated(u);
-    case fireproofId:
-      return VeteranModification.fireproof(u);
-    case oldReliableId:
-      return VeteranModification.oldReliable(u);
-    case stainlessSteelId:
-      return VeteranModification.stainlessSteel(u);
-    case sharpshooterId:
-      return VeteranModification.sharpShooter(u);
-    case trickShotId:
-      return VeteranModification.trickShot(u);
-    case meleeUpgrade:
-      return VeteranModification.meleeWeaponUpgrade(u);
+    case amsId:
+      return VeteranModification.ams(u);
   }
   return null;
 }

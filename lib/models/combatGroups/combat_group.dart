@@ -141,6 +141,11 @@ class CombatGroup extends ChangeNotifier {
       ..addAll(_secondary.unitsWithMod(id).toList());
   }
 
+  // Retrieve the total number of units in the combat group
+  int numberOfUnits() {
+    return _primary.numberOfUnits() + _secondary.numberOfUnits();
+  }
+
   void clear() {
     this._primary.reset();
     this._secondary.reset();

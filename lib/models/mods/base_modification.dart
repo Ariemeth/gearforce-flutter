@@ -15,7 +15,8 @@ abstract class BaseModification {
   }
 
   final String name;
-  final List<String> _description = [];
+  final List<String> _descriptions = [];
+  final List<String Function()> _dynamicDescriptions = [];
   late final BaseModification Function()? _refreshData;
   BaseModification refreshData() =>
       _refreshData == null ? this : _refreshData!();
@@ -25,18 +26,29 @@ abstract class BaseModification {
   ModificationOption? options;
   bool get hasOptions => this.options != null && this.options!.hasOptions();
 
-  List<String> get description => this._description.toList();
+  List<String> get description {
+    List<String> results = _descriptions.toList();
+
+    _dynamicDescriptions.forEach((element) {
+      results.add(element());
+    });
+
+    return results;
+  }
 
   final Map<UnitAttribute, List<dynamic Function(dynamic)>> _mods = Map();
 
   void addMod(UnitAttribute att, dynamic Function(dynamic) mod,
-      {String? description}) {
+      {String? description, String Function()? dynamicDescription}) {
     if (this._mods[att] == null) {
       this._mods[att] = [];
     }
     this._mods[att]!.add(mod);
     if (description != null) {
-      this._description.add(description);
+      this._descriptions.add(description);
+    }
+    if (dynamicDescription != null) {
+      this._dynamicDescriptions.add(dynamicDescription);
     }
   }
 

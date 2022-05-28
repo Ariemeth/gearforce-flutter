@@ -6,21 +6,27 @@ import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
 import 'package:gearforce/models/weapons/weapon.dart';
-import 'package:gearforce/models/weapons/weapon_modes.dart';
 import 'package:gearforce/models/weapons/weapons.dart';
 
 const veteranId = 'veteran';
-const ewSpecId = 'vet: ew specialist';
+const improvedGunneryId = 'vet: improved gunnery';
+const dualGunsId = 'vet: dual guns';
+const eccmId = 'vet: eccm';
+const brawl1Id = 'vet: brawler1';
+const brawler2Id = 'vet: brawler2';
+const reachId = 'vet: reach';
+const meleeUpgradeId = 'vet: melee upgrade';
+const resistHId = 'vet: resist:h';
+const resistFId = 'vet: resist:f';
+const resistCId = 'vet: resist:c';
 const fieldArmorId = 'vet: field armor';
-const inYourFaceId1 = 'vet: in your face 1';
-const inYourFaceId2 = 'vet: in your face 2';
-const insulatedId = 'vet: insulated';
-const fireproofId = 'vet: fire proof';
-const oldReliableId = 'vet: old reliable';
-const stainlessSteelId = 'vet: stainless steel';
-const sharpshooterId = 'vet: sharp shooter';
-const trickShotId = 'vet: trick shot';
-const meleeUpgrade = 'vet: melee upgrade';
+const amsId = 'vet: ams';
+
+final RegExp _gearVehicleStriderMatch = RegExp(
+  r'^Gear|Vehicle|Strider',
+  caseSensitive: false,
+);
+final RegExp _handsMatch = RegExp(r'^Hands', caseSensitive: false);
 
 class VeteranModification extends BaseModification {
   VeteranModification({
@@ -57,34 +63,96 @@ class VeteranModification extends BaseModification {
   }
 
   /*
-  EW SPECIALIST 1 TV
-  Add +1D6 to any EW rolls made by this model
+  ECCM
+  Add ECCM trait to a gear, vehicle, or strider for 1 TV.
   */
-  factory VeteranModification.ewSpecialist(Unit u) {
+  factory VeteranModification.eccm(Unit u) {
     return VeteranModification(
-        name: 'EW Specialist',
-        id: ewSpecId,
+        name: 'ECCM',
+        id: eccmId,
         requirementCheck: () {
-          if (u.hasMod(ewSpecId)) {
+          if (u.hasMod(eccmId)) {
+            return false;
+          }
+
+          if (!_gearVehicleStriderMatch.hasMatch(u.type)) {
             return false;
           }
 
           return u.traits.any((trait) => trait.name == 'Vet');
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
-      ..addMod(UnitAttribute.special,
-          createAddStringToList('Add +1d6 to any EW rolls made by this model'),
-          description: 'Add +1d6 to any EW rolls made by this model');
+      ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'ECCM')),
+          description: '+ECCM');
   }
 
   /*
-  FIELD ARMOR 1–4 TV
+  Reach
+  Add the Reach:1 trait to one vibro-blade, spike gun,
+  combat weapon or infantry combat weapon with the
+  React trait for 1 TV. If the weapon already has the Reach
+  trait, then increase it by +1.
+  */
+  factory VeteranModification.reach(Unit u) {
+    final react = u.reactWeapons;
+    final List<ModificationOption> _options = [];
+    const traitToAdd = Trait(name: 'Brawl', level: 1);
+    final allowedWeaponMatch = RegExp(r'^(VB|SG|CW|ICW)$');
+    react.where((weapon) {
+      return allowedWeaponMatch.hasMatch(weapon.code) &&
+          !weapon.traits.any((trait) => trait.name == 'Reach');
+    }).forEach((weapon) {
+      _options.add(ModificationOption(weapon.toString()));
+    });
+
+    final modOptions = ModificationOption('Reach',
+        subOptions: _options,
+        description: 'Choose one of the available weapons to add Reach:1');
+
+    return VeteranModification(
+        name: 'Reach',
+        id: reachId,
+        options: modOptions,
+        requirementCheck: () {
+          if (u.hasMod(reachId)) {
+            return false;
+          }
+
+          if (!u.reactWeapons.any((weapon) =>
+              allowedWeaponMatch.hasMatch(weapon.code) &&
+              !weapon.traits.any((trait) => trait.name == 'Reach'))) {
+            return false;
+          }
+          return u.traits.any((trait) => trait.name == 'Vet');
+        })
+      ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
+      ..addMod(UnitAttribute.react_weapons, (value) {
+        if (!(value is List<Weapon>)) {
+          return value;
+        }
+        final newList = value;
+
+        if (modOptions.selectedOption != null) {
+          var existingWeapon = newList.firstWhere(
+              (weapon) => weapon.toString() == modOptions.selectedOption?.text);
+          existingWeapon.bonusTraits.add(traitToAdd);
+        }
+        return newList;
+      },
+          description: 'Add the Reach:1 trait to any Vibro Blade, Spike Gun ' +
+              'or Combat Weapon with the React trait.');
+  }
+
+  /*
+  Field Armor
   Add the Field Armor trait to any model. The cost is
-  determined by its listed Armor:
-  Z Armor 6 or lower for 1 TV
-  Z Armor 7–8 for 2 TV
-  Z Armor 9–10 for 3 TV
-  Z Armor 11–12 for 4 TV
+  determined by its Armor:
+  > Armor 6 or lower for 1 TV
+  > Armor 7–8 for 2 TV
+  > Armor 9–10 for 3 TV
+  > Armor 11–12 for 4 TV
+  Terrain, area terrain, buildings, infantry, cavalry and
+  airstrike counters cannot purchase field armor.
   */
   factory VeteranModification.fieldArmor(Unit u) {
     return VeteranModification(
@@ -125,25 +193,22 @@ class VeteranModification extends BaseModification {
   }
 
   /*
-  IN YOUR FACE 1–2 TV
-  Add the Brawl:1 trait or increase an existing Brawl trait
-  by +1 for 1 TV. Or this model may add the Brawl:2 trait
-  or increase the Brawl trait by 2 for 2 TV.
+  Brawler
+  For infantry, cavalry, gears and striders:
+  > Add the Brawl:1 trait or increase an existing Brawl
+  trait by +1 for 1 TV.
   */
-  factory VeteranModification.inYourFace1(Unit u) {
+  factory VeteranModification.brawler1(Unit u) {
     final traits = u.traits.toList();
     return VeteranModification(
-        name: 'In Your Face',
-        id: inYourFaceId1,
+        name: 'Brawler 1',
+        id: brawl1Id,
         requirementCheck: () {
-          if (u.hasMod(inYourFaceId1) || u.hasMod(inYourFaceId2)) {
+          if (u.hasMod(brawl1Id) || u.hasMod(brawler2Id)) {
             return false;
           }
 
           return u.traits.any((trait) => trait.name == 'Vet');
-        },
-        refreshData: () {
-          return VeteranModification.inYourFace1(u);
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
       ..addMod(UnitAttribute.traits, (value) {
@@ -165,25 +230,25 @@ class VeteranModification extends BaseModification {
   }
 
   /*
-  IN YOUR FACE 1–2 TV
-  Add the Brawl:1 trait or increase an existing Brawl trait
-  by +1 for 1 TV. Or this model may add the Brawl:2 trait
-  or increase the Brawl trait by 2 for 2 TV.
+  Brawler
+  For infantry, cavalry, gears and striders:
+  > Or add the Brawl:2 trait or increase the Brawl trait by
+  +2 for 2 TV.
   */
-  factory VeteranModification.inYourFace2(Unit u) {
+  factory VeteranModification.brawler2(Unit u) {
     final traits = u.traits.toList();
     return VeteranModification(
-        name: 'In Your Face',
-        id: inYourFaceId2,
+        name: 'Brawler 2',
+        id: brawler2Id,
         requirementCheck: () {
-          if (u.hasMod(inYourFaceId2) || u.hasMod(inYourFaceId1)) {
+          if (u.hasMod(brawler2Id) || u.hasMod(brawl1Id)) {
             return false;
           }
 
           return u.traits.any((trait) => trait.name == 'Vet');
         },
         refreshData: () {
-          return VeteranModification.inYourFace2(u);
+          return VeteranModification.brawler2(u);
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
       ..addMod(UnitAttribute.traits, (value) {
@@ -205,19 +270,18 @@ class VeteranModification extends BaseModification {
   }
 
   /*
-  INSULATED 1 TV
-  Add the Resist:Haywire trait or remove the Vuln:Haywire
-  trait.
+  Resist:H
+  Add the Resist:H trait or remove the Vuln:H trait for 1 TV.
   */
-  factory VeteranModification.insulated(Unit u) {
+  factory VeteranModification.resistHaywire(Unit u) {
     final traits = u.traits.toList();
     final isVulnerable = traits
         .any((element) => element.name == 'Vuln' && element.type == 'Haywire');
     return VeteranModification(
-        name: 'Insulated',
-        id: insulatedId,
+        name: 'Resist Haywire',
+        id: resistHId,
         requirementCheck: () {
-          if (u.hasMod(insulatedId)) {
+          if (u.hasMod(resistHId)) {
             return false;
           }
 
@@ -251,18 +315,18 @@ class VeteranModification extends BaseModification {
   }
 
   /*
-  FIREPROOF 1 TV
-  Add the Resist:Fire trait or remove the Vuln:Fire trait.
+  Resist:F
+  Add the Resist:F trait or remove the Vuln:F trait for 1 TV.
   */
-  factory VeteranModification.fireproof(Unit u) {
+  factory VeteranModification.resistFire(Unit u) {
     final traits = u.traits.toList();
     final isVulnerable = traits
         .any((element) => element.name == 'Vuln' && element.type == 'Fire');
     return VeteranModification(
-        name: 'Fireproof',
-        id: fireproofId,
+        name: 'Resist Fire',
+        id: resistFId,
         requirementCheck: () {
-          if (u.hasMod(fireproofId)) {
+          if (u.hasMod(resistFId)) {
             return false;
           }
 
@@ -295,138 +359,18 @@ class VeteranModification extends BaseModification {
   }
 
   /*
-  OLD RELIABLE 0 TV
-  One Light (L) or Medium (M) melee weapon with the
-  React trait can be swapped for an equal class melee
-  weapon for 0 TV, i.e. a LCW can be swapped for a
-  LVB or a LSG. This upgrade does not include Shaped
-  Explosives. It also does not include traits belonging to
-  the previous weapons unless it was the React trait. I.e.
-  A LCW (React, Brawl:1) will become LVB (React). The
-  Brawl:X trait does not swap with it.
+  Resist:C
+  Add the Resist:C trait or remove the Vuln:C trait for 1 TV.
   */
-
-  factory VeteranModification.oldReliable(Unit u) {
-    final RegExp meleeCheck = RegExp(r'\b([LM])(VB|SG|CW)');
-    final react = u.reactWeapons.toList();
-
-    final matchingWeapons =
-        react.where((weapon) => meleeCheck.hasMatch(weapon.abbreviation));
-
-    List<ModificationOption>? _options;
-    if (matchingWeapons.isNotEmpty) {
-      _options = [];
-      matchingWeapons.forEach((item) {
-        switch (item.code) {
-          case 'VB':
-            _options!.add(
-              ModificationOption(
-                '${item.toString()}',
-                subOptions: [
-                  ModificationOption('${item.size}SG'),
-                  ModificationOption('${item.size}CW'),
-                ],
-              ),
-            );
-            break;
-          case 'SG':
-            _options!.add(
-              ModificationOption(
-                '${item.toString()}',
-                subOptions: [
-                  ModificationOption('${item.size}VB'),
-                  ModificationOption('${item.size}CW'),
-                ],
-              ),
-            );
-            break;
-          case 'CW':
-            _options!.add(
-              ModificationOption(
-                '${item.toString()}',
-                subOptions: [
-                  ModificationOption('${item.size}SG'),
-                  ModificationOption('${item.size}VB'),
-                ],
-              ),
-            );
-            break;
-        }
-      });
-    }
-    var modOptions = ModificationOption('Old Reliable',
-        subOptions: _options,
-        description:
-            'One Light (L) or Medium (M) melee weapon with the React trait ' +
-                'can be swapped for an equal class melee weapon for 0 TV,');
-
-    return VeteranModification(
-        name: 'Old Reliable',
-        id: oldReliableId,
-        options: modOptions,
-        requirementCheck: () {
-          if (u.hasMod(oldReliableId)) {
-            return false;
-          }
-
-          if (u.core.type != 'Gear' && u.core.type != 'Strider') {
-            return false;
-          }
-
-          // check to ensure the unit has an appropriate weapon that can be upgraded
-          if (matchingWeapons.isEmpty) {
-            return false;
-          }
-
-          return u.traits.any((trait) => trait.name == 'Vet');
-        },
-        refreshData: () {
-          return VeteranModification.oldReliable(u);
-        })
-      ..addMod(UnitAttribute.tv, createSimpleIntMod(0),
-          description:
-              'TV +0, One Light (L) or Medium (M) melee weapon with the React trait ' +
-                  'can be swapped for an equal class melee weapon for 0 TV,' +
-                  'i.e. a LCW can be swapped for a LVB or a LSG')
-      ..addMod(UnitAttribute.react_weapons, (value) {
-        if (!(value is List<Weapon>)) {
-          return value;
-        }
-
-        // Grab the substring starting at position 1 to exclude the - or +
-        if (modOptions.selectedOption == null ||
-            modOptions.selectedOption!.selectedOption == null) {
-          return value;
-        }
-        var remove = value.firstWhere(
-            (weapon) => weapon.toString() == modOptions.selectedOption!.text);
-
-        value = value.toList()..remove(remove);
-
-        var add = buildWeapon(modOptions.selectedOption!.selectedOption!.text,
-            hasReact: true);
-        if (add != null) {
-          value.add(add);
-        }
-
-        return value;
-      });
-  }
-
-  /*
-  STAINLESS STEEL 1 TV
-  Add the Resist:Corrosion trait or remove the
-  Vuln:Corrosion trait.
-  */
-  factory VeteranModification.stainlessSteel(Unit u) {
+  factory VeteranModification.resistCorrosion(Unit u) {
     final traits = u.traits.toList();
     final isVulnerable = traits.any(
         (element) => element.name == 'Vuln' && element.type == 'Corrosion');
     return VeteranModification(
-        name: 'Stainless Steel',
-        id: stainlessSteelId,
+        name: 'Resist Corrosion',
+        id: resistCId,
         requirementCheck: () {
-          if (u.hasMod(stainlessSteelId)) {
+          if (u.hasMod(resistCId)) {
             return false;
           }
 
@@ -460,25 +404,24 @@ class VeteranModification extends BaseModification {
   }
 
   /*
-  SHARPSHOOTER 2 TV
-  Gunnery rolls made by this model have -1 TN
-  (minimum 2+). This costs 2 TV for each action point
-  that the models has. This cost increases by 2TV per
-  additional action purchased via other upgrades.
+  Improved Gunnery
+  Improve this model’s gunnery skill by one for 2 TV, for
+  each action point that this model has. This cost also
+  increases by 2 TV per additional action purchased via any
+  other upgrades.
   */
-  factory VeteranModification.sharpShooter(Unit u) {
-    final actions = u.actions;
+  factory VeteranModification.improvedGunnery(Unit u) {
     final gunnery = u.gunnery;
 
     return VeteranModification(
-        name: 'Sharpshooter',
-        id: sharpshooterId,
+        name: 'Improved Gunnery',
+        id: improvedGunneryId,
         requirementCheck: () {
-          if (u.hasMod(sharpshooterId)) {
+          if (u.hasMod(improvedGunneryId)) {
             return false;
           }
 
-          if (u.actions == null) {
+          if (u.actions == null || u.gunnery == null || u.gunnery == '-') {
             return false;
           }
 
@@ -486,8 +429,11 @@ class VeteranModification extends BaseModification {
         })
       ..addMod(
         UnitAttribute.tv,
-        createSimpleIntMod(actions != null ? actions * 2 : 0),
-        description: 'TV +${actions != null ? actions * 2 : 0}',
+        (value) {
+          return value + (u.actions != null ? u.actions! * 2 : 0);
+        },
+        dynamicDescription: () =>
+            'TV +${u.actions != null ? u.actions! * 2 : 0}',
       )
       ..addMod(
         UnitAttribute.gunnery,
@@ -495,74 +441,102 @@ class VeteranModification extends BaseModification {
           if (value is! int) {
             return value;
           }
-          if (value <= 2) {
-            return value;
-          }
+
           return value - 1;
         },
         description:
-            'Gunnery -1 TN to (${gunnery == null ? '-' : '${gunnery <= 2 ? 2 : gunnery - 1}+'}), min 2+',
+            'Improve this model’s gunnery skill by one for 2 TV to (${gunnery == null ? '-' : '${gunnery - 1}+'})',
       );
   }
 
   /*
-  TRICK SHOT 1 TV
-  This model does not suffer the -1D6 modifier when
-  using the Split weapon trait.
+  Dual Guns
+  > Add the Link trait to one light or medium; pistol,
+  submachine gun, autocannon, frag cannon, flamer or
+  grenade launcher with the React trait for 1 TV.
+  > This upgrade cannot be added to combo weapons
+  such as a LAC/LGL.
   */
-  factory VeteranModification.trickShot(Unit u) {
+  factory VeteranModification.dualGuns(Unit u) {
+    final RegExp weaponCheck = RegExp(r'^(P|SMG|AC|FC|FL|GL)');
+    final react = u.reactWeapons;
+    final List<ModificationOption> _options = [];
+    const traitToAdd = Trait(name: 'Link');
+
+    final allWeapons = react.toList();
+    allWeapons
+        .where((weapon) => weaponCheck.hasMatch(weapon.code) && !weapon.isCombo)
+        .forEach((weapon) {
+      _options.add(ModificationOption('${weapon.toString()}'));
+    });
+
+    var modOptions = ModificationOption('Dual Guns',
+        subOptions: _options,
+        description: 'Add the Link trait to one Pistol, Submachine Gun, ' +
+            'Autocannon, Frag Cannon, Flamer or Grenade ' +
+            'Launcher with the React trait for 1 TV.');
+
     return VeteranModification(
-        name: 'Trick Shot',
-        id: trickShotId,
+        name: 'Dual Guns',
+        id: dualGunsId,
+        options: modOptions,
         requirementCheck: () {
-          if (u.hasMod(trickShotId)) {
+          if (u.hasMod(dualGunsId)) {
+            return false;
+          }
+
+          if (!u.reactWeapons.any((weapon) =>
+              weaponCheck.hasMatch(weapon.code) && !weapon.isCombo)) {
             return false;
           }
 
           return u.traits.any((trait) => trait.name == 'Vet');
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
-      ..addMod(
-          UnitAttribute.special,
-          createAddStringToList(
-              'This model does not suffer the -1D6 modifier when using the Split weapon trait'),
-          description:
-              'This model does not suffer the -1D6 modifier when using the Split weapon trait');
+      ..addMod(UnitAttribute.react_weapons, (value) {
+        if (!(value is List<Weapon>)) {
+          return value;
+        }
+        final newList = value;
+
+        if (modOptions.selectedOption != null &&
+            newList.any((weapon) =>
+                weapon.toString() == modOptions.selectedOption?.text &&
+                weapon.hasReact)) {
+          var existingWeapon = newList.firstWhere((weapon) =>
+              weapon.toString() == modOptions.selectedOption?.text &&
+              weapon.hasReact);
+          existingWeapon.bonusTraits.add(traitToAdd);
+        }
+        return newList;
+      },
+          description: 'Add the Link trait to one Pistol, Submachine Gun, ' +
+              'Autocannon, Frag Cannon, Flamer or Grenade ' +
+              'Launcher with the React trait for 1 TV.');
   }
 
   /*
-  MELEE WEAPON UPGRADE 1TV
-  One gear with a melee weapon, that has the React trait,
-  can upgrade it to one of the following:
+  Veteran Melee Upgrade
+  A gear with the Hands trait may receive one of the
+  following for 1 TV:
   > LVB (React, Precise)
   > LCW (React, Brawl:1)
   */
   factory VeteranModification.meleeWeaponUpgrade(Unit u) {
-    final react = u.reactWeapons;
-    final List<ModificationOption> _options = [];
-
-    final availableWeapons = react.where(
-        (weapon) => weapon.modes.any((mode) => mode == weaponModes.Melee));
-
-    availableWeapons.forEach((weapon) {
-      _options.add(ModificationOption(weapon.toString(), subOptions: [
-        ModificationOption('LVB (React Precise)'),
-        ModificationOption('LCW (React Brawl:1)')
-      ]));
-    });
-
-    var modOptions = ModificationOption('Melee Weapon Upgrade',
-        subOptions: _options,
-        description: 'One gear with a melee weapon, that has the React ' +
-            'trait, can upgrade it to either a LVB (React, ' +
-            'Precise) or LCW (React, Brawl:1)');
+    final modOptions = ModificationOption('Melee Weapon Upgrade',
+        subOptions: [
+          ModificationOption('LVB (React Precise)'),
+          ModificationOption('LCW (React Brawl:1)')
+        ],
+        description: 'A gear with the hands trait may add either  ' +
+            'a LVB (React, Precise) or LCW (React, Brawl:1)');
 
     return VeteranModification(
         name: 'Melee Weapon Upgrade',
-        id: meleeUpgrade,
+        id: meleeUpgradeId,
         options: modOptions,
         requirementCheck: () {
-          if (u.hasMod(meleeUpgrade)) {
+          if (u.hasMod(meleeUpgradeId)) {
             return false;
           }
 
@@ -570,9 +544,9 @@ class VeteranModification extends BaseModification {
             return false;
           }
 
-          // check to ensure the unit has an appropriate weapon that can be upgraded
-          if (!u.reactWeapons.any((weapon) =>
-              weapon.modes.any((mode) => mode == weaponModes.Melee))) {
+          if (!u.traits
+              .toList()
+              .any((element) => _handsMatch.hasMatch(element.name))) {
             return false;
           }
 
@@ -595,27 +569,52 @@ class VeteranModification extends BaseModification {
             value.map((weapon) => Weapon.fromWeapon(weapon)).toList();
 
         // check if an option has been selected
-        if (modOptions.selectedOption == null ||
-            modOptions.selectedOption!.selectedOption == null) {
+        if (modOptions.selectedOption == null) {
           return newList;
         }
 
-        var indexToRemove = newList.indexWhere(
-            (weapon) => weapon.toString() == modOptions.selectedOption!.text);
-
-        final weaponToAdd = buildWeapon(
-            modOptions.selectedOption!.selectedOption!.text,
-            hasReact: true);
+        final weaponToAdd =
+            buildWeapon(modOptions.selectedOption!.text, hasReact: true);
         if (weaponToAdd != null) {
-          newList.removeAt(indexToRemove);
-          newList.insert(indexToRemove, weaponToAdd);
+          newList.add(weaponToAdd);
         }
 
         return newList;
       },
-          description: 'One gear with a melee weapon, that has the React ' +
-              'trait, can upgrade it to either a LVB (React, ' +
-              'Precise) or LCW (React, Brawl:1)');
+          description: 'A gear with the hands trait may add either  ' +
+              'a LVB (React, Precise) or LCW (React, Brawl:1)');
+  }
+
+  /*
+  AMS
+  Add the AMS trait to a model that has a frag cannon,
+  autocannon, submachine gun, machine gun or rotary
+  cannon for 1 TV.
+  */
+  factory VeteranModification.ams(Unit u) {
+    final allowedWeaponMatch = RegExp(r'^(FC|AC|SMG|MG|RC)$');
+    return VeteranModification(
+        name: 'AMS',
+        id: amsId,
+        requirementCheck: () {
+          if (u.hasMod(amsId)) {
+            return false;
+          }
+
+          final matchingWeapons = u.weapons.where((weapon) {
+            print(weapon.code);
+            return allowedWeaponMatch.hasMatch(weapon.code);
+          });
+          print(matchingWeapons);
+          if (matchingWeapons.isEmpty) {
+            return false;
+          }
+
+          return u.traits.any((trait) => trait.name == 'Vet');
+        })
+      ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
+      ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'AMS')),
+          description: '+AMS');
   }
 }
 

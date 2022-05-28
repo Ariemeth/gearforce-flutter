@@ -3,9 +3,9 @@ import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/mods/base_modification.dart';
 import 'package:gearforce/models/mods/duelist/duelist_modification.dart';
 import 'package:gearforce/models/mods/duelist/duelist_upgrades.dart';
-import 'package:gearforce/models/mods/unitUpgrades/unit_modification.dart';
 import 'package:gearforce/models/mods/standardUpgrades/standard_modification.dart';
 import 'package:gearforce/models/mods/standardUpgrades/standard_upgrades.dart';
+import 'package:gearforce/models/mods/unitUpgrades/unit_modification.dart';
 import 'package:gearforce/models/mods/unitUpgrades/unit_upgrades.dart';
 import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart';
 import 'package:gearforce/models/mods/veteranUpgrades/veteran_upgrades.dart';
@@ -24,24 +24,41 @@ class UpgradesDialog extends StatelessWidget {
     required this.roster,
     required this.cg,
     required this.unit,
-  }) : super(key: key) {
-    unitMods = getUnitMods(unit.core.frame, unit);
-    standardMods = getStandardMods(unit, cg);
-    veteranMods = getVeteranMods(unit, cg);
-    duelistMods = getDuelistMods(unit, roster);
-  }
+  }) : super(key: key) {}
 
   final UnitRoster roster;
   final CombatGroup cg;
   final Unit unit;
-  late final List<UnitModification> unitMods;
-  late final List<StandardModification> standardMods;
-  late final List<VeteranModification> veteranMods;
-  late final List<DuelistModification> duelistMods;
 
   @override
   Widget build(BuildContext context) {
     context.watch<Unit>();
+
+    final unitMods = getUnitMods(unit.core.frame, unit);
+    final standardMods = getStandardMods(unit, cg, roster);
+    final veteranMods = getVeteranMods(unit, cg);
+    final duelistMods = getDuelistMods(unit, cg, roster);
+
+    unit.getMods().forEach((mod) {
+      switch (mod.runtimeType) {
+        case UnitModification:
+          unitMods[unitMods.indexWhere((m) => m.id == mod.id)] =
+              mod as UnitModification;
+          break;
+        case StandardModification:
+          standardMods[standardMods.indexWhere((m) => m.id == mod.id)] =
+              mod as StandardModification;
+          break;
+        case VeteranModification:
+          veteranMods[veteranMods.indexWhere((m) => m.id == mod.id)] =
+              mod as VeteranModification;
+          break;
+        case DuelistModification:
+          duelistMods[duelistMods.indexWhere((m) => m.id == mod.id)] =
+              mod as DuelistModification;
+          break;
+      }
+    });
 
     var dialog = SimpleDialog(
       clipBehavior: Clip.antiAlias,
@@ -130,6 +147,7 @@ Widget unitUpgrades(List<BaseModification> mods, Unit unit) {
             : mods.length.toDouble()),
     child: Scrollbar(
       thumbVisibility: true,
+      trackVisibility: true,
       controller: _scrollController,
       interactive: true,
       child: ListView.builder(
@@ -137,11 +155,9 @@ Widget unitUpgrades(List<BaseModification> mods, Unit unit) {
         controller: _scrollController,
         shrinkWrap: true,
         itemBuilder: (BuildContext context, int index) {
+          context.watch<Unit>();
           return UpgradeDisplayLine(
-            // if the unit already has the mod, use that instance instead of a new one
-            mod: unit.hasMod(mods[index].id)
-                ? unit.getMod(mods[index].id)!
-                : mods[index],
+            mod: mods[index],
             unit: unit,
           );
         },

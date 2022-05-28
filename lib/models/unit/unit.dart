@@ -100,7 +100,7 @@ class Unit extends ChangeNotifier {
       mods.forEach((loadedMod) {
         try {
           final modId = loadedMod['id'];
-          var mod = buildStandardUpgrade(modId, u, cg);
+          var mod = buildStandardUpgrade(modId, u, cg, roster);
           if (mod != null) {
             u.addUnitMod(mod);
             final selected = loadedMod['selected'];
@@ -142,7 +142,7 @@ class Unit extends ChangeNotifier {
       mods.forEach((loadedMod) {
         try {
           final modId = loadedMod['id'];
-          var mod = buildDuelistUpgrade(modId, u, roster);
+          var mod = buildDuelistUpgrade(modId, u, cg, roster);
           if (mod != null) {
             u.addUnitMod(mod);
             final selected = loadedMod['selected'];
@@ -361,6 +361,13 @@ class Unit extends ChangeNotifier {
 
   void addUnitMod(BaseModification mod) {
     _mods.add(mod);
+    _mods.forEach((m) {
+      final updatedMod = m.refreshData();
+      updatedMod.options?.validate();
+      if (updatedMod != m) {
+        _mods[_mods.indexWhere((element) => element.id == updatedMod.id)];
+      }
+    });
     notifyListeners();
   }
 
@@ -378,15 +385,22 @@ class Unit extends ChangeNotifier {
         _mods.removeWhere((mod) => mod is VeteranModification);
       }
     }
-    _mods.forEach((element) {
-      element.refreshData();
-      element.options?.validate();
+    _mods.forEach((m) {
+      final updatedMod = m.refreshData();
+      updatedMod.options?.validate();
+      if (updatedMod != m) {
+        _mods[_mods.indexWhere((element) => element.id == updatedMod.id)];
+      }
     });
     notifyListeners();
   }
 
   void forceNotify() {
     notifyListeners();
+  }
+
+  List<BaseModification> getMods() {
+    return _mods.toList();
   }
 
   bool hasMod(String id) => this

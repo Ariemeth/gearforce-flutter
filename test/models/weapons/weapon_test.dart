@@ -26,7 +26,7 @@ void main() {
     expect(w.damage, equals(weaponDamage), reason: 'check weapon damage');
     expect(w.hasReact, isFalse, reason: 'check hasReact');
     expect(w.traits, isEmpty, reason: 'check traits');
-    expect(w.optionalTraits, isEmpty, reason: 'check optional traits');
+    expect(w.baseAlternativeTraits, isEmpty, reason: 'check optional traits');
   });
 
   test('test creating a weapon with react', () {
@@ -51,7 +51,7 @@ void main() {
     expect(w.damage, equals(weaponDamage), reason: 'check weapon damage');
     expect(w.hasReact, isTrue, reason: 'check hasReact');
     expect(w.traits, isEmpty, reason: 'check traits');
-    expect(w.optionalTraits, isEmpty, reason: 'check optional traits');
+    expect(w.baseAlternativeTraits, isEmpty, reason: 'check optional traits');
   });
 
   test('test creating a weapon with 1 trait', () {
@@ -79,7 +79,7 @@ void main() {
     expect(w.traits, hasLength(1), reason: 'check traits size');
     expect(w.traits.first.name, equals(trait.name),
         reason: 'ensure trait was added');
-    expect(w.optionalTraits, isEmpty, reason: 'check optional traits');
+    expect(w.baseAlternativeTraits, isEmpty, reason: 'check optional traits');
   });
 
   test('test creating a weapon with 1 trait and react', () {
@@ -108,7 +108,7 @@ void main() {
     expect(w.traits, hasLength(1), reason: 'check traits size');
     expect(w.traits.first.name, equals(trait.name),
         reason: 'ensure trait was added');
-    expect(w.optionalTraits, isEmpty, reason: 'check optional traits');
+    expect(w.baseAlternativeTraits, isEmpty, reason: 'check optional traits');
   });
 
   test('test getting size', () {
