@@ -32,7 +32,6 @@ DuelistModification? buildDuelistUpgrade(
       return DuelistModification.independentOperator(u, cg);
     case leadByExampleId:
       return DuelistModification.leadByExample(u, roster);
-      break;
     case advancedControlSystemId:
       return DuelistModification.advancedControlSystem(u);
     case stableId:

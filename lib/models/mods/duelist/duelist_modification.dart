@@ -162,6 +162,41 @@ class DuelistModification extends BaseModification {
   }
 
   /*
+  Advanced Control System
+  Gain +1 action point. This upgrade costs 2 TV for models
+  with an armor of 7 or lower and 3 TV for models with an
+  armor of 8 or higher. Models may not upgrade to having
+  more than 3 action points.
+  */
+  factory DuelistModification.advancedControlSystem(Unit u) {
+    return DuelistModification(
+        name: 'Advanced Control System',
+        id: advancedControlSystemId,
+        requirementCheck: () {
+          if (u.hasMod(advancedControlSystemId)) {
+            return false;
+          }
+
+          if (u.actions != null && u.actions! >= 3) {
+            return false;
+          }
+          return u.isDuelist;
+        })
+      ..addMod(UnitAttribute.tv, createSimpleIntMod(3), description: 'TV +3')
+      ..addMod(UnitAttribute.actions, (value) {
+        if (!(value is int)) {
+          return value;
+        }
+        if (value >= 3) {
+          return value;
+        }
+        return value + 1;
+      },
+          description:
+              'Gain +1 action point. All models have a maximum of 3 actions');
+  }
+
+  /*
   ACE GUNNER 2–3 TV
   Add the Stable trait to any one weapon for 2 TV. Or, add
   the Stable trait to a combo weapon for 3 TV.
@@ -241,39 +276,6 @@ class DuelistModification extends BaseModification {
       });
 
     return mod;
-  }
-
-  /*
-  ADVANCED CONTROL SYSTEM 3 TV
-  Gain +1 action point. All models have a maximum of
-  3 actions.
-  */
-  factory DuelistModification.advancedControlSystem(Unit u) {
-    return DuelistModification(
-        name: 'Advanced Control System',
-        id: advancedControlSystemId,
-        requirementCheck: () {
-          if (u.hasMod(advancedControlSystemId)) {
-            return false;
-          }
-
-          if (u.actions != null && u.actions! >= 3) {
-            return false;
-          }
-          return u.isDuelist;
-        })
-      ..addMod(UnitAttribute.tv, createSimpleIntMod(3), description: 'TV +3')
-      ..addMod(UnitAttribute.actions, (value) {
-        if (!(value is int)) {
-          return value;
-        }
-        if (value >= 3) {
-          return value;
-        }
-        return value + 1;
-      },
-          description:
-              'Gain +1 action point. All models have a maximum of 3 actions');
   }
 
   /*
