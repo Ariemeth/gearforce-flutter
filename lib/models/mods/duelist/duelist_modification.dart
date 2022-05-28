@@ -1,3 +1,4 @@
+import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/mods/base_modification.dart';
 import 'package:gearforce/models/mods/modification_option.dart';
 import 'package:gearforce/models/mods/mods.dart';
@@ -12,16 +13,18 @@ import 'package:gearforce/models/weapons/weapons.dart';
 
 const duelistId = 'duelist';
 const independentOperatorId = 'duelist: independent';
-const aceGunnerId = 'duelist: ace gunner';
+const leadByExampleId = 'duelist: lead by example';
 const advancedControlSystemId = 'duelist: advanced control system';
-const crackShotId = 'duelist: crack shot';
-const defenderId = 'duelist: defender';
-const dualWieldId = 'duelist: dual wield';
-const pushTheEnvelopeId = 'duelist: push the envelope';
-const quickDrawId = 'duelist: quickdraw';
-const shieldBearerId = 'duelist: shield bearer';
-const smashFestId = 'duelist: smash fest';
-const trickShotId = 'vet: trick shot';
+const stableId = 'duelist: stable';
+const preciseId = 'duelist: precise';
+const autoId = 'duelist: auto';
+const aceGunnerId = 'duelist: ace gunner';
+const trickShotId = 'duelist: trick shot';
+const meleeUpgradeId = 'duelist: melee upgrade';
+const dualMeleeWeaponsId = 'duelist: dual melee weapons';
+const shieldId = 'duelist: shield';
+const agileId = 'duelist: agile';
+const ecmId = 'duelist: ecm';
 
 class DuelistModification extends BaseModification {
   DuelistModification({
@@ -92,12 +95,27 @@ class DuelistModification extends BaseModification {
     return mod;
   }
 
-  factory DuelistModification.independentOperator(Unit u, UnitRoster roster) {
+/*
+  Independent Operator
+  If you select the Independent Operator option, the duelist
+  will be in a combat group all by itself.
+  > Select a role to be used as you would normally do for
+  a primary unit of a combat group. This role may be
+  used to select objectives.
+  > The independent operator may not be a CGL or 2iC.
+  However, they may be upgraded to a XO, CO, or TFC.
+*/
+  factory DuelistModification.independentOperator(Unit u, CombatGroup cg) {
     return DuelistModification(
         name: 'Independent Operator',
         id: independentOperatorId,
         requirementCheck: () {
-          if (u.hasMod(independentOperatorId)) {
+          if (u.hasMod(independentOperatorId) || u.hasMod(leadByExampleId)) {
+            return false;
+          }
+
+          // The independent operator must be in a CG alone
+          if (cg.numberOfUnits() > 1) {
             return false;
           }
 
@@ -112,12 +130,43 @@ class DuelistModification extends BaseModification {
       );
   }
 
+/*
+  Lead by Example
+  If you select the Lead by Example option, your duelist will
+  gain the following ability during the game.
+  > Once per round, for each duelist, whenever a duelist
+  damages an enemy model, give one SP to one model
+  in formation with the duelist.
+  > This SP does not convert to a CP. If not used, this SP
+  is removed during cleanup.
+*/
+  factory DuelistModification.leadByExample(Unit u, UnitRoster roster) {
+    return DuelistModification(
+        name: 'Lead by Example',
+        id: leadByExampleId,
+        requirementCheck: () {
+          if (u.hasMod(independentOperatorId) || u.hasMod(leadByExampleId)) {
+            return false;
+          }
+
+          return u.isDuelist;
+        })
+      ..addMod(
+        UnitAttribute.traits,
+        createAddTraitToList(Trait(name: 'Lead by Example')),
+        description:
+            'duelist will gain the following ability during the game. Once ' +
+                'per round, for each duelist, whenever a duelist damages an enemy ' +
+                ' model, give one SP to one model in formation with the duelist.',
+      );
+  }
+
   /*
   ACE GUNNER 2–3 TV
   Add the Stable trait to any one weapon for 2 TV. Or, add
   the Stable trait to a combo weapon for 3 TV.
   */
-  factory DuelistModification.aceGunner(Unit u) {
+  factory DuelistModification.stable(Unit u) {
     final react = u.reactWeapons;
     final mounted = u.mountedWeapons;
     final List<ModificationOption> _options = [];
@@ -134,13 +183,13 @@ class DuelistModification extends BaseModification {
 
     final mod = DuelistModification(
         name: 'Ace Gunner',
-        id: aceGunnerId,
+        id: stableId,
         options: modOptions,
         refreshData: () {
-          return DuelistModification.aceGunner(u);
+          return DuelistModification.stable(u);
         },
         requirementCheck: () {
-          if (u.hasMod(aceGunnerId)) {
+          if (u.hasMod(stableId)) {
             return false;
           }
           return u.isDuelist;
@@ -232,7 +281,7 @@ class DuelistModification extends BaseModification {
   Add the Precise trait to any one weapon for 2 TV. Or,
   add the Precise trait to a combo weapon for 3 TV.
   */
-  factory DuelistModification.crackShot(Unit u) {
+  factory DuelistModification.precise(Unit u) {
     final react = u.reactWeapons;
     final mounted = u.mountedWeapons;
     final List<ModificationOption> _options = [];
@@ -249,16 +298,16 @@ class DuelistModification extends BaseModification {
 
     final mod = DuelistModification(
         name: 'Crack Shot',
-        id: crackShotId,
+        id: preciseId,
         options: modOptions,
         requirementCheck: () {
-          if (u.hasMod(crackShotId)) {
+          if (u.hasMod(preciseId)) {
             return false;
           }
           return u.isDuelist;
         },
         refreshData: () {
-          return DuelistModification.crackShot(u);
+          return DuelistModification.precise(u);
         })
       ..addMod(UnitAttribute.tv, (value) {
         if (!(value is int)) {
@@ -317,7 +366,7 @@ class DuelistModification extends BaseModification {
   vibroblade becomes two medium vibroblades (ideally
   one in each hand).
   */
-  factory DuelistModification.dualWield(Unit u) {
+  factory DuelistModification.dualMeleeWeapons(Unit u) {
     final RegExp meleeCheck = RegExp(r'(VB|CW|SG)');
     final react = u.reactWeapons;
     final mounted = u.mountedWeapons;
@@ -337,16 +386,16 @@ class DuelistModification extends BaseModification {
 
     return DuelistModification(
         name: 'Dual Wield',
-        id: dualWieldId,
+        id: dualMeleeWeaponsId,
         options: modOptions,
         requirementCheck: () {
-          if (u.hasMod(dualWieldId)) {
+          if (u.hasMod(dualMeleeWeaponsId)) {
             return false;
           }
           return u.isDuelist;
         },
         refreshData: () {
-          return DuelistModification.dualWield(u);
+          return DuelistModification.dualMeleeWeapons(u);
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1),
           description:
@@ -394,14 +443,14 @@ class DuelistModification extends BaseModification {
   Add the Agile trait. Models with the Lumbering Trait
   cannot receive Agile.
   */
-  factory DuelistModification.pushTheEnvelope(Unit u) {
+  factory DuelistModification.agile(Unit u) {
     final RegExp traitCheck = RegExp(r'(Agile|Lumbering)');
     final Trait newTrait = Trait(name: 'Agile');
     return DuelistModification(
         name: 'Push the Envelope',
-        id: pushTheEnvelopeId,
+        id: agileId,
         requirementCheck: () {
-          if (u.hasMod(pushTheEnvelopeId)) {
+          if (u.hasMod(agileId)) {
             return false;
           }
 
@@ -421,7 +470,7 @@ class DuelistModification extends BaseModification {
   Add the Auto trait to one ranged weapon or combination
   weapon that has the React trait.
   */
-  factory DuelistModification.quickDraw(Unit u) {
+  factory DuelistModification.auto(Unit u) {
     final react = u.reactWeapons;
     final List<ModificationOption> _options = [];
     const traitToAdd = Trait(name: 'Auto');
@@ -440,10 +489,10 @@ class DuelistModification extends BaseModification {
 
     return DuelistModification(
         name: 'Quick Draw',
-        id: quickDrawId,
+        id: autoId,
         options: modOptions,
         requirementCheck: () {
-          if (u.hasMod(quickDrawId)) {
+          if (u.hasMod(autoId)) {
             return false;
           }
 
@@ -457,7 +506,7 @@ class DuelistModification extends BaseModification {
           return u.isDuelist;
         },
         refreshData: () {
-          return DuelistModification.quickDraw(u);
+          return DuelistModification.auto(u);
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
       ..addMod(
@@ -488,14 +537,14 @@ class DuelistModification extends BaseModification {
   TV for models with an Armor of 7 or lower and 2 TV for
   models with an Armor of 8 or higher.
   */
-  factory DuelistModification.shieldBearer(Unit u) {
+  factory DuelistModification.shield(Unit u) {
     final Trait newTrait = Trait(name: 'Shield');
     final armor = u.armor;
     return DuelistModification(
         name: 'Shield-Bearer',
-        id: shieldBearerId,
+        id: shieldId,
         requirementCheck: () {
-          if (u.hasMod(shieldBearerId)) {
+          if (u.hasMod(shieldId)) {
             return false;
           }
           return u.isDuelist;
@@ -523,7 +572,7 @@ class DuelistModification extends BaseModification {
   * M Vibroblade +React
   * M Combat Weapon +React, Demo:4
   */
-  factory DuelistModification.smashfest(Unit u) {
+  factory DuelistModification.meleeUpgrade(Unit u) {
     final react = u.reactWeapons;
     final List<ModificationOption> _options = [];
     final weaponOption1 = buildWeapon('MVB');
@@ -552,16 +601,16 @@ class DuelistModification extends BaseModification {
 
     return DuelistModification(
         name: 'Smashfest',
-        id: smashFestId,
+        id: meleeUpgradeId,
         options: modOptions,
         requirementCheck: () {
-          if (u.hasMod(smashFestId)) {
+          if (u.hasMod(meleeUpgradeId)) {
             return false;
           }
           return u.isDuelist;
         },
         refreshData: () {
-          return DuelistModification.smashfest(u);
+          return DuelistModification.meleeUpgrade(u);
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
       ..addMod(UnitAttribute.react_weapons, (value) {
@@ -600,16 +649,16 @@ class DuelistModification extends BaseModification {
   This model does not suffer the -1D6 modifier when
   using the Split weapon trait.
   */
-  factory DuelistModification.trickShot(Unit u) {
+  factory DuelistModification.aceGunner(Unit u) {
     return DuelistModification(
-        name: 'Trick Shot',
-        id: trickShotId,
+        name: 'Ace Gunner',
+        id: aceGunnerId, //TODO change
         requirementCheck: () {
-          if (u.hasMod(trickShotId)) {
+          if (u.hasMod(aceGunnerId)) {
             return false;
           }
 
-          return u.traits.any((trait) => trait.name == 'Vet');
+          return u.isDuelist;
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
       ..addMod(

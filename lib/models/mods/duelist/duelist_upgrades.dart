@@ -1,49 +1,64 @@
+import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/mods/duelist/duelist_modification.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/unit/unit.dart';
 
-List<DuelistModification> getDuelistMods(Unit u, UnitRoster roster) {
+List<DuelistModification> getDuelistMods(
+  Unit u,
+  CombatGroup cg,
+  UnitRoster roster,
+) {
   return [
     DuelistModification.makeDuelist(u, roster),
-    DuelistModification.independentOperator(u, roster),
-    DuelistModification.aceGunner(u),
+    DuelistModification.independentOperator(u, cg),
+    DuelistModification.leadByExample(u, roster),
     DuelistModification.advancedControlSystem(u),
-    DuelistModification.crackShot(u),
-    DuelistModification.dualWield(u),
-    DuelistModification.pushTheEnvelope(u),
-    DuelistModification.quickDraw(u),
-    DuelistModification.shieldBearer(u),
-    DuelistModification.smashfest(u),
+    DuelistModification.stable(u),
+    DuelistModification.precise(u),
+    DuelistModification.auto(u),
+    DuelistModification.dualMeleeWeapons(u),
+    DuelistModification.agile(u),
+    DuelistModification.shield(u),
+    DuelistModification.meleeUpgrade(u),
   ];
 }
 
-DuelistModification? buildDuelistUpgrade(String id, Unit u, UnitRoster roster) {
+DuelistModification? buildDuelistUpgrade(
+    String id, Unit u, CombatGroup cg, UnitRoster roster) {
   switch (id) {
     case duelistId:
       return DuelistModification.makeDuelist(u, roster);
     case independentOperatorId:
-      return DuelistModification.independentOperator(u, roster);
-    // TODO add lead by example
-    case aceGunnerId:
-      return DuelistModification.aceGunner(u); // Stable
+      return DuelistModification.independentOperator(u, cg);
+    case leadByExampleId:
+      return DuelistModification.leadByExample(u, roster);
+      break;
     case advancedControlSystemId:
-      return DuelistModification.advancedControlSystem(
-          u); // requires tweaks for cost
-    case crackShotId:
-      return DuelistModification.crackShot(u); // Precise
-    case dualWieldId:
-      return DuelistModification.dualWield(u); // dual melee weapons
-
-    case pushTheEnvelopeId:
-      return DuelistModification.pushTheEnvelope(u); // agile
-    case quickDrawId:
-      return DuelistModification.quickDraw(u); // Auto
-    case shieldBearerId:
-      return DuelistModification.shieldBearer(u); // shield
-    case smashFestId:
-      return DuelistModification.smashfest(u); // duelist melee upgrade
-    // TODO add trick shot
-    // TODO add ecm upgrade
+      return DuelistModification.advancedControlSystem(u);
+    case stableId:
+      return DuelistModification.stable(u); // Stable
+    // requires tweaks for cost
+    case preciseId:
+      return DuelistModification.precise(u); // Precise
+    case autoId:
+      return DuelistModification.auto(u); // Auto
+    case aceGunnerId:
+      // TODO add ace gunner
+      break;
+    case trickShotId:
+      // TODO add trick shot
+      break;
+    case dualMeleeWeaponsId:
+      return DuelistModification.dualMeleeWeapons(u); // dual melee weapons
+    case agileId:
+      return DuelistModification.agile(u); // agile
+    case shieldId:
+      return DuelistModification.shield(u); // shield
+    case meleeUpgradeId:
+      return DuelistModification.meleeUpgrade(u); // duelist melee upgrade
+    case ecmId:
+      // TODO add ecm upgrade
+      break;
   }
 
   return null;

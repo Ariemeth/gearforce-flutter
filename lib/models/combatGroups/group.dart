@@ -87,6 +87,11 @@ class Group extends ChangeNotifier {
     return _units.toList();
   }
 
+  // Retrieve the number of units in the group.
+  int numberOfUnits() {
+    return _units.length;
+  }
+
   Unit? getUnitWithCommand(CommandLevel cl) {
     return _units.any((u) => u.commandLevel == cl)
         ? _units.firstWhere((u) => u.commandLevel == cl)

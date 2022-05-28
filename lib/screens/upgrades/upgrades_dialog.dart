@@ -37,7 +37,7 @@ class UpgradesDialog extends StatelessWidget {
     final unitMods = getUnitMods(unit.core.frame, unit);
     final standardMods = getStandardMods(unit, cg, roster);
     final veteranMods = getVeteranMods(unit, cg);
-    final duelistMods = getDuelistMods(unit, roster);
+    final duelistMods = getDuelistMods(unit, cg, roster);
 
     unit.getMods().forEach((mod) {
       switch (mod.runtimeType) {
