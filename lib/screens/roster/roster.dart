@@ -4,6 +4,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/roster/roster.dart';
+import 'package:gearforce/screens/roster/air_strike.dart';
 import 'package:gearforce/screens/roster/combat_groups_display.dart';
 import 'package:gearforce/screens/roster/download/download.dart';
 import 'package:gearforce/screens/roster/pdf/pdf.dart';
@@ -15,7 +16,7 @@ import 'package:url_launcher/url_launcher.dart';
 const double _leftPanelWidth = 670.0;
 const double _titleHeight = 40.0;
 const double _menuTitleHeight = 50.0;
-const String _version = '0.33.2';
+const String _version = '0.34.0';
 const String _bugEmailAddress = 'gearforce@metadiversions.com';
 const String _dp9URL = 'https://www.dp9.com/';
 const String _sourceCodeURL = 'https://github.com/Ariemeth/gearforce-flutter';
@@ -171,6 +172,24 @@ class _RosterWidgetState extends State<RosterWidget> {
                       });
                     })
               ]),
+            ),
+            ListTile(
+              title: Row(children: [
+                Text(
+                  'Airstrike Tokens',
+                  style: TextStyle(fontSize: 16),
+                ),
+              ]),
+              onTap: () {
+                var result = showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AirStrikeSelectorDialog(
+                        roster: roster,
+                      );
+                    });
+                result.whenComplete(() {});
+              },
             ),
             AboutListTile(
               applicationName: 'Gearforce',

@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
+import 'package:gearforce/models/combatGroups/group.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/unit.dart';
@@ -14,6 +15,8 @@ class UnitRoster extends ChangeNotifier {
   final faction = ValueNotifier<FactionType?>(null);
   final subFaction = ValueNotifier<String?>(null);
   final Map<String, CombatGroup> _combatGroups = new Map<String, CombatGroup>();
+  final airStrikes = new Group();
+
   int _totalCreated = 0;
   String _activeCG = '';
   String get rulesVersion => _currentRulesVersion;
@@ -55,6 +58,7 @@ class UnitRoster extends ChangeNotifier {
         'version': _currentRosterVersion,
         'rulesVersion': rulesVersion,
         'isEliteForce': isEliteForce,
+        // TODO add saving of airstrikes to json
         'whenCreated': DateTime.now().toString(),
       };
 
@@ -84,6 +88,7 @@ class UnitRoster extends ChangeNotifier {
     ur._totalCreated = json['totalCreated'] as int;
     ur._isEliteForce =
         json['isEliteForce'] != null ? json['isEliteForce'] as bool : false;
+    //TODO add loading airstrikes from json
     return ur;
   }
 

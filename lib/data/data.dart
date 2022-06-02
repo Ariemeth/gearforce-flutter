@@ -7,6 +7,7 @@ import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
 
 const Map<FactionType, String> _factionUnitFiles = {
+  FactionType.Airstrike: 'assets/data/units/air_strike.json',
   FactionType.BlackTalon: 'assets/data/units/black_talon.json',
   FactionType.CEF: 'assets/data/units/cef.json',
   FactionType.Caprice: 'assets/data/units/caprice.json',
@@ -81,6 +82,9 @@ class Data {
       case FactionType.Universal_TerraNova:
         break;
       case FactionType.Terrain:
+        break;
+      case FactionType.Airstrike:
+        factionUnit.addAll(_factionFrames[FactionType.Airstrike]!.toList());
         break;
     }
 

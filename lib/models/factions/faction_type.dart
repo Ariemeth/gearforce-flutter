@@ -11,7 +11,8 @@ enum FactionType {
   Universal_TerraNova,
   Universal_Non_TerraNova,
   Terrain,
-  BlackTalon
+  BlackTalon,
+  Airstrike,
 }
 
 String factionTypeToString(FactionType f) {
@@ -42,6 +43,8 @@ String factionTypeToString(FactionType f) {
       return 'Terrain';
     case FactionType.BlackTalon:
       return 'Black Talon';
+    case FactionType.Airstrike:
+      return 'Air Strike';
   }
 }
 
