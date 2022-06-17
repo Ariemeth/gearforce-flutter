@@ -184,9 +184,7 @@ class _RosterWidgetState extends State<RosterWidget> {
                 var result = showDialog(
                     context: context,
                     builder: (BuildContext context) {
-                      return AirStrikeSelectorDialog(
-                        roster: roster,
-                      );
+                      return AirStrikeSelectorDialog();
                     });
                 result.whenComplete(() {});
               },
