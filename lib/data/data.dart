@@ -44,8 +44,9 @@ class Data {
     FactionType faction, {
     List<RoleType?>? role,
     List<String>? filters,
+    bool includeTerrain = true,
   }) {
-    List<Frame>? factionUnit = _factionFrames[faction]!.toList();
+    List<Frame>? factionUnits = _factionFrames[faction]!.toList();
 
     switch (faction) {
       case FactionType.North:
@@ -55,11 +56,11 @@ class Data {
       case FactionType.BlackTalon:
         var uniList = _factionFrames[FactionType.Universal_TerraNova];
         if (uniList != null) {
-          factionUnit.addAll(uniList.toList());
+          factionUnits.addAll(uniList.toList());
         }
         var fullUniList = _factionFrames[FactionType.Universal];
         if (fullUniList != null) {
-          factionUnit.addAll(fullUniList.toList());
+          factionUnits.addAll(fullUniList.toList());
         }
         break;
       case FactionType.CEF:
@@ -68,11 +69,11 @@ class Data {
       case FactionType.Eden:
         var uniList = _factionFrames[FactionType.Universal_Non_TerraNova];
         if (uniList != null) {
-          factionUnit.addAll(uniList.toList());
+          factionUnits.addAll(uniList.toList());
         }
         var fullUniList = _factionFrames[FactionType.Universal];
         if (fullUniList != null) {
-          factionUnit.addAll(fullUniList.toList());
+          factionUnits.addAll(fullUniList.toList());
         }
         break;
       case FactionType.Universal:
@@ -84,17 +85,18 @@ class Data {
       case FactionType.Terrain:
         break;
       case FactionType.Airstrike:
-        factionUnit.addAll(_factionFrames[FactionType.Airstrike]!.toList());
         break;
     }
 
-    var terrainList = _factionFrames[FactionType.Terrain];
-    if (terrainList != null) {
-      factionUnit.addAll(terrainList.toList());
+    if (includeTerrain) {
+      var terrainList = _factionFrames[FactionType.Terrain];
+      if (terrainList != null) {
+        factionUnits.addAll(terrainList.toList());
+      }
     }
     List<UnitCore> ulist = [];
 
-    factionUnit.forEach((f) {
+    factionUnits.forEach((f) {
       ulist.addAll(f.variants);
     });
 
