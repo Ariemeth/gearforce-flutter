@@ -11,7 +11,7 @@ import 'package:gearforce/screens/roster/pdf/pdf.dart';
 import 'package:gearforce/screens/roster/roster_header_info.dart';
 import 'package:gearforce/screens/unitSelector/unit_selection.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 const double _leftPanelWidth = 670.0;
 const double _titleHeight = 40.0;
@@ -207,7 +207,7 @@ class _RosterWidgetState extends State<RosterWidget> {
                         style: TextStyle(color: Colors.blue),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            launch(
+                            launchUrlString(
                               'mailto:$_bugEmailAddress?subject=Gearforce%20bug',
                             );
                           }),
@@ -227,7 +227,7 @@ class _RosterWidgetState extends State<RosterWidget> {
                         style: TextStyle(color: Colors.blue),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            launch('$_dp9URL');
+                            launchUrlString('$_dp9URL');
                           }),
                     TextSpan(
                       text: ' for more information about',
@@ -248,7 +248,7 @@ class _RosterWidgetState extends State<RosterWidget> {
                         style: TextStyle(color: Colors.blue),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            launch('$_sourceCodeURL');
+                            launchUrlString('$_sourceCodeURL');
                           }),
                     TextSpan(
                       text: '\nunder the MIT license',
