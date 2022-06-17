@@ -101,14 +101,14 @@ class _RosterWidgetState extends State<RosterWidget> {
                 style: TextStyle(fontSize: 16),
               ),
               onTap: () async {
-                FilePickerCross myFile =
-                    await FilePickerCross.importFromStorage(
-                        type: FileTypeCross
-                            .custom, // Available: `any`, `audio`, `image`, `video`, `custom`. Note: not available using FDE
-                        fileExtension:
-                            'gf' // Only if FileTypeCross.custom . May be any file extension like `dot`, `ppt,pptx,odp`
-                        );
+                final filePicker = FilePickerCross.importFromStorage(
+                    type: FileTypeCross
+                        .custom, // Available: `any`, `audio`, `image`, `video`, `custom`. Note: not available using FDE
+                    fileExtension:
+                        'gf' // Only if FileTypeCross.custom . May be any file extension like `dot`, `ppt,pptx,odp`
+                    );
                 try {
+                  final myFile = await filePicker;
                   var decodedFile = json.decode(myFile.toString());
                   var r = UnitRoster.fromJson(decodedFile, data);
                   setState(() {
@@ -119,7 +119,7 @@ class _RosterWidgetState extends State<RosterWidget> {
                   print('Format exception caught : $e');
                 } on Exception catch (e) {
                   // TODO add notification toast that the file could not be loaded and why
-                  print('exception caught loading ${myFile.fileName} : $e');
+                  print('exception caught loading file : $e');
                 } catch (e) {
                   print('error occured decoding safe file : $e');
                 }
