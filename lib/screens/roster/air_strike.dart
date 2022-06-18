@@ -37,6 +37,10 @@ class _AirStrikeSelectorDialogState extends State<AirStrikeSelectorDialog> {
         Padding(
           padding: const EdgeInsets.only(left: 10.0, right: 10.0),
           child: Table(
+            columnWidths: const <int, TableColumnWidth>{
+              1: IntrinsicColumnWidth(),
+              2: IntrinsicColumnWidth(),
+            },
             defaultVerticalAlignment: TableCellVerticalAlignment.middle,
             children: airstrikes
                 .map((uc) => _buildTableRow(uc, widget.roster,
@@ -63,42 +67,52 @@ class _AirStrikeSelectorDialogState extends State<AirStrikeSelectorDialog> {
         '${unit.name}',
         style: const TextStyle(fontSize: 16),
       ),
-      Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          TextButton(
-            onPressed: (() {
-              setState(() {
-                roster.removeAirStrike(unit.name);
-              });
-            }),
-            child: Align(
+      Text('TV: ${unit.tv}'),
+      Padding(
+        padding: const EdgeInsets.only(
+          left: 10.0,
+          right: 5.0,
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextButton(
+              onPressed: (() {
+                setState(() {
+                  roster.removeAirStrike(unit.name);
+                });
+              }),
               child: Text(
                 '-',
-                style: const TextStyle(fontSize: 28),
+                style: const TextStyle(fontSize: 20),
+              ),
+              style: TextButton.styleFrom(
+                minimumSize: Size.zero,
+                padding: EdgeInsets.only(left: 5.0, right: 5.0),
               ),
             ),
-          ),
-          Align(
-            child: Text(
+            Text(
               '$count',
-              style: const TextStyle(fontSize: 28),
+              style: const TextStyle(fontSize: 20),
             ),
-          ),
-          TextButton(
-            onPressed: (() {
-              setState(() {
-                roster.addAirStrike(Unit(core: unit));
-              });
-            }),
-            child: Align(
+            TextButton(
+              onPressed: (() {
+                setState(() {
+                  roster.addAirStrike(Unit(core: unit));
+                });
+              }),
               child: Text(
                 '+',
-                style: const TextStyle(fontSize: 28),
+                style: const TextStyle(fontSize: 20),
+              ),
+              style: TextButton.styleFrom(
+                minimumSize: Size.zero,
+                padding: EdgeInsets.only(left: 5.0, right: 5.0),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       )
     ]);
   }

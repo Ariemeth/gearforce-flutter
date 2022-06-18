@@ -146,6 +146,10 @@ class UnitRoster extends ChangeNotifier {
     _combatGroups.forEach((key, value) {
       result += value.totalTV();
     });
+
+    _airStrikes.forEach((key, value) {
+      result = result + (key.tv * value);
+    });
     return result;
   }
 
