@@ -90,7 +90,9 @@ pw.Widget buildRosterHeader(pw.Font font, UnitRoster roster) {
             pw.Container(
               //   alignment: pw.Alignment.topRight,
               child: pw.Text(
-                '${factionTypeToString(roster.faction.value!)} / ${roster.subFaction.value}',
+                roster.faction.value != null
+                    ? '${factionTypeToString(roster.faction.value!)} / ${roster.subFaction.value}'
+                    : '',
                 style: standardTextStyle,
                 maxLines: 2,
                 overflow: pw.TextOverflow.clip,
