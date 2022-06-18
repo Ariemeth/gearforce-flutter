@@ -7,7 +7,6 @@ import 'package:gearforce/models/unit/unit.dart';
 
 const _currentRosterVersion = 1;
 const _currentRulesVersion = '3.1';
-const _maxAirstrikes = 4;
 
 class UnitRoster extends ChangeNotifier {
   String? player;
@@ -213,5 +212,15 @@ class UnitRoster extends ChangeNotifier {
       }
       notifyListeners();
     }
+  }
+
+  int get airStrikeTV {
+    int result = 0;
+
+    airStrikes.forEach((airstrike, count) {
+      result += (airstrike.tv * count);
+    });
+
+    return result;
   }
 }

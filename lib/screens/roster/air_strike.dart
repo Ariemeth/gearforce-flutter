@@ -34,13 +34,12 @@ class _AirStrikeSelectorDialogState extends State<AirStrikeSelectorDialog> {
       shape: ContinuousRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(10.0))),
       children: [
+        Center(child: Text('Total TV: ${widget.roster.airStrikeTV}')),
         Padding(
           padding: const EdgeInsets.only(left: 10.0, right: 10.0),
           child: Table(
-            columnWidths: const <int, TableColumnWidth>{
-              1: IntrinsicColumnWidth(),
-              2: IntrinsicColumnWidth(),
-            },
+            columnWidths: const <int, TableColumnWidth>{},
+            defaultColumnWidth: const IntrinsicColumnWidth(),
             defaultVerticalAlignment: TableCellVerticalAlignment.middle,
             children: airstrikes
                 .map((uc) => _buildTableRow(uc, widget.roster,
@@ -67,7 +66,7 @@ class _AirStrikeSelectorDialogState extends State<AirStrikeSelectorDialog> {
         '${unit.name}',
         style: const TextStyle(fontSize: 16),
       ),
-      Text('TV: ${unit.tv}'),
+      Text('TV: ${unit.tv} each'),
       Padding(
         padding: const EdgeInsets.only(
           left: 10.0,
