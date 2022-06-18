@@ -5,7 +5,7 @@ import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/unit.dart';
 
-const _currentRosterVersion = 1;
+const _currentRosterVersion = 2;
 const _currentRulesVersion = '3.1';
 
 class UnitRoster extends ChangeNotifier {
@@ -19,7 +19,7 @@ class UnitRoster extends ChangeNotifier {
   String _activeCG = '';
   String get rulesVersion => _currentRulesVersion;
   bool _isEliteForce = false;
-  final Map<Unit, int> _airStrikes = {};
+  Map<Unit, int> _airStrikes = {};
 
   UnitRoster() {
     faction.addListener(() {
@@ -57,7 +57,9 @@ class UnitRoster extends ChangeNotifier {
         'version': _currentRosterVersion,
         'rulesVersion': rulesVersion,
         'isEliteForce': isEliteForce,
-        // TODO add saving of airstrikes to json
+        'airStrikes': airStrikes.entries
+            .map((e) => {'count': e.value, 'airstrike': e.key.toJson()})
+            .toList(),
         'whenCreated': DateTime.now().toString(),
       };
 
@@ -87,7 +89,20 @@ class UnitRoster extends ChangeNotifier {
     ur._totalCreated = json['totalCreated'] as int;
     ur._isEliteForce =
         json['isEliteForce'] != null ? json['isEliteForce'] as bool : false;
-    //TODO add loading airstrikes from json
+
+    final decodedAirStrikes = json['airStrikes'] as List;
+    decodedAirStrikes.forEach((e) {
+      final count = e['count'] as int;
+      final airstrike = Unit.fromJson(
+        e['airstrike'],
+        data,
+        FactionType.Airstrike,
+        null,
+        null,
+        ur,
+      );
+      ur._airStrikes[airstrike] = count;
+    });
     return ur;
   }
 
@@ -96,6 +111,7 @@ class UnitRoster extends ChangeNotifier {
     this.player = ur.player;
     this.faction.value = ur.faction.value;
     this.subFaction.value = ur.subFaction.value;
+    this._airStrikes = ur._airStrikes;
     this._activeCG = ur._activeCG;
     ur._combatGroups.forEach((key, value) {
       this.addCG(value);
