@@ -146,9 +146,7 @@ class UnitRoster extends ChangeNotifier {
       result += value.totalTV();
     });
 
-    _airStrikes.forEach((key, value) {
-      result = result + (key.tv * value);
-    });
+    result += airStrikeTV;
     return result;
   }
 
@@ -222,5 +220,12 @@ class UnitRoster extends ChangeNotifier {
     });
 
     return result;
+  }
+
+  void clearAirstrikes() {
+    if (airStrikes.isNotEmpty) {
+      airStrikes.clear();
+      notifyListeners();
+    }
   }
 }

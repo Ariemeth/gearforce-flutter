@@ -176,9 +176,22 @@ class _RosterWidgetState extends State<RosterWidget> {
             ListTile(
               title: Row(children: [
                 Text(
-                  'Airstrike Tokens',
+                  'Airstrike Tokens (TV:${roster.airStrikeTV})',
                   style: TextStyle(fontSize: 16),
                 ),
+                Tooltip(
+                  message: 'Remove all airstrike counters',
+                  child: IconButton(
+                    onPressed: () {
+                      setState(() {
+                        roster.clearAirstrikes();
+                      });
+                    },
+                    icon: const Icon(Icons.clear),
+                    splashRadius: 20.0,
+                    highlightColor: Colors.red,
+                  ),
+                )
               ]),
               onTap: () {
                 var result = showDialog(
@@ -186,7 +199,9 @@ class _RosterWidgetState extends State<RosterWidget> {
                     builder: (BuildContext context) {
                       return AirStrikeSelectorDialog(roster);
                     });
-                result.whenComplete(() {});
+                result.whenComplete(() {
+                  setState(() {});
+                });
               },
             ),
             AboutListTile(

@@ -30,9 +30,9 @@ class _AirStrikeSelectorDialogState extends State<AirStrikeSelectorDialog> {
     );
 
     SimpleDialog optionsDialog = SimpleDialog(
-      title: Center(child: Text('Airstrikes')),
+      title: Center(child: const Text('Airstrikes')),
       shape: ContinuousRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(10.0))),
+          borderRadius: const BorderRadius.all(Radius.circular(10.0))),
       children: [
         Center(child: Text('Total TV: ${widget.roster.airStrikeTV}')),
         Padding(
@@ -62,9 +62,19 @@ class _AirStrikeSelectorDialogState extends State<AirStrikeSelectorDialog> {
     required int count,
   }) {
     return TableRow(children: [
-      Text(
-        '${unit.name}',
-        style: const TextStyle(fontSize: 16),
+      Tooltip(
+        message: 'gu: ${unit.gunnery}\n' +
+            'pi: ${unit.piloting}\n' +
+            'weapons: ${unit.mountedWeapons.toString()}',
+        child: Text(
+          '${unit.name}',
+          style: const TextStyle(fontSize: 16),
+        ),
+        textStyle: TextStyle(fontSize: 18),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: Colors.blueGrey,
+        ),
       ),
       Text('TV: ${unit.tv} each'),
       Padding(
@@ -88,7 +98,7 @@ class _AirStrikeSelectorDialogState extends State<AirStrikeSelectorDialog> {
               ),
               style: TextButton.styleFrom(
                 minimumSize: Size.zero,
-                padding: EdgeInsets.only(left: 5.0, right: 5.0),
+                padding: const EdgeInsets.only(left: 5.0, right: 5.0),
               ),
             ),
             Text(
@@ -107,7 +117,7 @@ class _AirStrikeSelectorDialogState extends State<AirStrikeSelectorDialog> {
               ),
               style: TextButton.styleFrom(
                 minimumSize: Size.zero,
-                padding: EdgeInsets.only(left: 5.0, right: 5.0),
+                padding: const EdgeInsets.only(left: 5.0, right: 5.0),
               ),
             ),
           ],
