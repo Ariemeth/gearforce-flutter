@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/roster/roster.dart';
+import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
 import 'package:provider/provider.dart';
 
@@ -24,19 +25,22 @@ class AirStrikeSelectorDialog extends StatelessWidget {
 
     SimpleDialog optionsDialog = SimpleDialog(
       title: Center(child: Text('Airstrikes')),
+      shape: ContinuousRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10.0))),
       children: [
-        Column(
-          children: [
-            ...airstrikes
-                .map(
-                  (airStrike) => AirStrikeRow(
-                    airStrike,
-                    roster,
-                    numberOf: 1,
-                  ),
-                )
+        Padding(
+          padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+          child: Table(
+            defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+            children: airstrikes
+                .map((uc) => _buildTableRow(uc, roster,
+                    count: roster.airStrikes.keys
+                            .any((element) => element.name == uc.name)
+                        ? roster.airStrikes[roster.airStrikes.keys
+                            .firstWhere((element) => element.name == uc.name)]!
+                        : 0))
                 .toList(),
-          ],
+          ),
         )
       ],
     );
@@ -44,26 +48,44 @@ class AirStrikeSelectorDialog extends StatelessWidget {
   }
 }
 
-class AirStrikeRow extends StatelessWidget {
-  const AirStrikeRow(
-    this.unit,
-    this.roster, {
-    Key? key,
-    required this.numberOf,
-  }) : super(key: key);
-
-  final UnitCore unit;
-  final int numberOf;
-  final UnitRoster roster;
-  @override
-  Widget build(BuildContext context) {
-    return Row(
+TableRow _buildTableRow(
+  UnitCore unit,
+  UnitRoster roster, {
+  required int count,
+}) {
+  return TableRow(children: [
+    Text(
+      '${unit.name}',
+      style: const TextStyle(fontSize: 16),
+    ),
+    Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Text('${unit.name}: '),
-        IconButton(onPressed: () {}, icon: Icon(Icons.exposure_minus_1)),
-        Text(' $numberOf '),
-        IconButton(onPressed: () {}, icon: Icon(Icons.exposure_plus_1)),
+        TextButton(
+          onPressed: (() => roster.removeAirStrike(unit.name)),
+          child: Align(
+            child: Text(
+              '-',
+              style: const TextStyle(fontSize: 28),
+            ),
+          ),
+        ),
+        Align(
+          child: Text(
+            '$count',
+            style: const TextStyle(fontSize: 28),
+          ),
+        ),
+        TextButton(
+          onPressed: (() => roster.addAirStrike(Unit(core: unit))),
+          child: Align(
+            child: Text(
+              '+',
+              style: const TextStyle(fontSize: 28),
+            ),
+          ),
+        ),
       ],
-    );
-  }
+    )
+  ]);
 }

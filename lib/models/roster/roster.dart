@@ -1,7 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
-import 'package:gearforce/models/combatGroups/group.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/unit.dart';
@@ -15,12 +14,12 @@ class UnitRoster extends ChangeNotifier {
   final faction = ValueNotifier<FactionType?>(null);
   final subFaction = ValueNotifier<String?>(null);
   final Map<String, CombatGroup> _combatGroups = new Map<String, CombatGroup>();
-  final airStrikes = new Group();
 
   int _totalCreated = 0;
   String _activeCG = '';
   String get rulesVersion => _currentRulesVersion;
   bool _isEliteForce = false;
+  final Map<Unit, int> _airStrikes = {};
 
   UnitRoster() {
     faction.addListener(() {
@@ -175,5 +174,37 @@ class UnitRoster extends ChangeNotifier {
     _combatGroups
         .forEach((name, cg) => {listOfUnits.addAll(cg.unitsWithMod(id))});
     return listOfUnits;
+  }
+
+  Map<Unit, int> get airStrikes => _airStrikes;
+  bool addAirStrike(Unit airStrike) {
+    if (airStrike.type != 'Airstrike Counter') {
+      return false;
+    }
+
+    if (_airStrikes.keys.any((element) => element.name == airStrike.name)) {
+      _airStrikes[_airStrikes.keys
+              .firstWhere((element) => element.name == airStrike.name)] =
+          1 +
+              _airStrikes[_airStrikes.keys
+                  .firstWhere((element) => element.name == airStrike.name)]!;
+    } else {
+      _airStrikes[airStrike] = 1;
+    }
+    notifyListeners();
+    return true;
+  }
+
+  removeAirStrike(String name) {
+    if (_airStrikes.keys.any((element) => element.name == name)) {
+      final as = _airStrikes.keys.firstWhere((element) => element.name == name);
+      final count = _airStrikes[as]!;
+      if (count <= 1) {
+        _airStrikes.remove(as);
+      } else {
+        _airStrikes[as] = count - 1;
+      }
+      notifyListeners();
+    }
   }
 }
