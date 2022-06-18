@@ -6,7 +6,7 @@ import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
 import 'package:provider/provider.dart';
 
-class AirStrikeSelectorDialog extends StatelessWidget {
+class AirStrikeSelectorDialog extends StatefulWidget {
   const AirStrikeSelectorDialog(
     this.roster, {
     Key? key,
@@ -14,6 +14,12 @@ class AirStrikeSelectorDialog extends StatelessWidget {
 
   final UnitRoster roster;
 
+  @override
+  State<AirStrikeSelectorDialog> createState() =>
+      _AirStrikeSelectorDialogState();
+}
+
+class _AirStrikeSelectorDialogState extends State<AirStrikeSelectorDialog> {
   @override
   Widget build(BuildContext context) {
     final data = context.watch<Data>();
@@ -33,10 +39,10 @@ class AirStrikeSelectorDialog extends StatelessWidget {
           child: Table(
             defaultVerticalAlignment: TableCellVerticalAlignment.middle,
             children: airstrikes
-                .map((uc) => _buildTableRow(uc, roster,
-                    count: roster.airStrikes.keys
+                .map((uc) => _buildTableRow(uc, widget.roster,
+                    count: widget.roster.airStrikes.keys
                             .any((element) => element.name == uc.name)
-                        ? roster.airStrikes[roster.airStrikes.keys
+                        ? widget.roster.airStrikes[widget.roster.airStrikes.keys
                             .firstWhere((element) => element.name == uc.name)]!
                         : 0))
                 .toList(),
@@ -46,46 +52,54 @@ class AirStrikeSelectorDialog extends StatelessWidget {
     );
     return optionsDialog;
   }
-}
 
-TableRow _buildTableRow(
-  UnitCore unit,
-  UnitRoster roster, {
-  required int count,
-}) {
-  return TableRow(children: [
-    Text(
-      '${unit.name}',
-      style: const TextStyle(fontSize: 16),
-    ),
-    Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        TextButton(
-          onPressed: (() => roster.removeAirStrike(unit.name)),
-          child: Align(
+  TableRow _buildTableRow(
+    UnitCore unit,
+    UnitRoster roster, {
+    required int count,
+  }) {
+    return TableRow(children: [
+      Text(
+        '${unit.name}',
+        style: const TextStyle(fontSize: 16),
+      ),
+      Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          TextButton(
+            onPressed: (() {
+              setState(() {
+                roster.removeAirStrike(unit.name);
+              });
+            }),
+            child: Align(
+              child: Text(
+                '-',
+                style: const TextStyle(fontSize: 28),
+              ),
+            ),
+          ),
+          Align(
             child: Text(
-              '-',
+              '$count',
               style: const TextStyle(fontSize: 28),
             ),
           ),
-        ),
-        Align(
-          child: Text(
-            '$count',
-            style: const TextStyle(fontSize: 28),
-          ),
-        ),
-        TextButton(
-          onPressed: (() => roster.addAirStrike(Unit(core: unit))),
-          child: Align(
-            child: Text(
-              '+',
-              style: const TextStyle(fontSize: 28),
+          TextButton(
+            onPressed: (() {
+              setState(() {
+                roster.addAirStrike(Unit(core: unit));
+              });
+            }),
+            child: Align(
+              child: Text(
+                '+',
+                style: const TextStyle(fontSize: 28),
+              ),
             ),
           ),
-        ),
-      ],
-    )
-  ]);
+        ],
+      )
+    ]);
+  }
 }
