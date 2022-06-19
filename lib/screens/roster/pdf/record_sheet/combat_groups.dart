@@ -29,17 +29,6 @@ List<pw.Widget> buildCombatGroups(pw.Font font, UnitRoster roster) {
     combatGroups.add(_buildCombatGroup(font, cg));
   });
 
-  combatGroups.add(pw.Column(children: [
-    _buildCombatGroupHeader(font, GroupName: 'Airstrikes'),
-    _buildUnitsContent(
-      font,
-      units: roster.airStrikes.keys.toList(),
-      actions: 0,
-      tv: roster.airStrikeTV,
-      groupType: 'Primary',
-    ),
-  ]));
-
   return combatGroups;
 }
 
