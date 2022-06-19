@@ -1,0 +1,43 @@
+{
+  "frames": [
+    {
+      "name": "Airstrike Counters",
+      "variants": [
+        {
+          "model": "High Explosives",
+          "tv": 4,
+          "role": "N/A",
+          "mr": "-",
+          "arm": "-",
+          "h/s": "-",
+          "a": "-",
+          "gu": "4+",
+          "pi": "4+",
+          "ew": "-",
+          "react-weapons": "-",
+          "mounted-weapons": "BB (AP:2 Guided)",
+          "traits": "-",
+          "type": "Airstrike Counter",
+          "height": "-"
+        },
+        {
+          "model": "Napalm",
+          "tv": 4,
+          "role": "N/A",
+          "mr": "-",
+          "arm": "-",
+          "h/s": "-",
+          "a": "-",
+          "gu": "4+",
+          "pi": "4+",
+          "ew": "-",
+          "react-weapons": "-",
+          "mounted-weapons": "BB (AI Fire:2 Guided)",
+          "traits": "-",
+          "type": "Airstrike Counter",
+          "height": "-"
+        }
+      ]
+    }
+  ]
+}

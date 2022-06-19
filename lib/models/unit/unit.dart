@@ -64,7 +64,7 @@ class Unit extends ChangeNotifier {
     Data data,
     FactionType faction,
     String? subfaction,
-    CombatGroup cg,
+    CombatGroup? cg,
     UnitRoster roster,
   ) {
     var core = data
@@ -94,7 +94,7 @@ class Unit extends ChangeNotifier {
         }
       });
     }
-    if (modMap['standard'] != null) {
+    if (modMap['standard'] != null && cg != null) {
       final mods = modMap['standard'] as List;
 
       mods.forEach((loadedMod) {
@@ -115,7 +115,7 @@ class Unit extends ChangeNotifier {
         }
       });
     }
-    if (modMap['vet'] != null) {
+    if (modMap['vet'] != null && cg != null) {
       final mods = modMap['vet'] as List;
 
       mods.forEach((loadedMod) {
@@ -136,7 +136,7 @@ class Unit extends ChangeNotifier {
         }
       });
     }
-    if (modMap['duelist'] != null) {
+    if (modMap['duelist'] != null && cg != null) {
       final mods = modMap['duelist'] as List;
 
       mods.forEach((loadedMod) {

@@ -4,18 +4,19 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/roster/roster.dart';
+import 'package:gearforce/screens/roster/air_strike.dart';
 import 'package:gearforce/screens/roster/combat_groups_display.dart';
 import 'package:gearforce/screens/roster/download/download.dart';
 import 'package:gearforce/screens/roster/pdf/pdf.dart';
 import 'package:gearforce/screens/roster/roster_header_info.dart';
 import 'package:gearforce/screens/unitSelector/unit_selection.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 const double _leftPanelWidth = 670.0;
 const double _titleHeight = 40.0;
 const double _menuTitleHeight = 50.0;
-const String _version = '0.33.2';
+const String _version = '0.34.0';
 const String _bugEmailAddress = 'gearforce@metadiversions.com';
 const String _dp9URL = 'https://www.dp9.com/';
 const String _sourceCodeURL = 'https://github.com/Ariemeth/gearforce-flutter';
@@ -100,14 +101,14 @@ class _RosterWidgetState extends State<RosterWidget> {
                 style: TextStyle(fontSize: 16),
               ),
               onTap: () async {
-                FilePickerCross myFile =
-                    await FilePickerCross.importFromStorage(
-                        type: FileTypeCross
-                            .custom, // Available: `any`, `audio`, `image`, `video`, `custom`. Note: not available using FDE
-                        fileExtension:
-                            'gf' // Only if FileTypeCross.custom . May be any file extension like `dot`, `ppt,pptx,odp`
-                        );
+                final filePicker = FilePickerCross.importFromStorage(
+                    type: FileTypeCross
+                        .custom, // Available: `any`, `audio`, `image`, `video`, `custom`. Note: not available using FDE
+                    fileExtension:
+                        'gf' // Only if FileTypeCross.custom . May be any file extension like `dot`, `ppt,pptx,odp`
+                    );
                 try {
+                  final myFile = await filePicker;
                   var decodedFile = json.decode(myFile.toString());
                   var r = UnitRoster.fromJson(decodedFile, data);
                   setState(() {
@@ -118,7 +119,7 @@ class _RosterWidgetState extends State<RosterWidget> {
                   print('Format exception caught : $e');
                 } on Exception catch (e) {
                   // TODO add notification toast that the file could not be loaded and why
-                  print('exception caught loading ${myFile.fileName} : $e');
+                  print('exception caught loading file : $e');
                 } catch (e) {
                   print('error occured decoding safe file : $e');
                 }
@@ -172,6 +173,37 @@ class _RosterWidgetState extends State<RosterWidget> {
                     })
               ]),
             ),
+            ListTile(
+              title: Row(children: [
+                Text(
+                  'Airstrike Tokens (TV:${roster.airStrikeTV})',
+                  style: TextStyle(fontSize: 16),
+                ),
+                Tooltip(
+                  message: 'Remove all airstrike counters',
+                  child: IconButton(
+                    onPressed: () {
+                      setState(() {
+                        roster.clearAirstrikes();
+                      });
+                    },
+                    icon: const Icon(Icons.clear),
+                    splashRadius: 20.0,
+                    highlightColor: Colors.red,
+                  ),
+                )
+              ]),
+              onTap: () {
+                var result = showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AirStrikeSelectorDialog(roster);
+                    });
+                result.whenComplete(() {
+                  setState(() {});
+                });
+              },
+            ),
             AboutListTile(
               applicationName: 'Gearforce',
               applicationVersion: _version,
@@ -188,7 +220,7 @@ class _RosterWidgetState extends State<RosterWidget> {
                         style: TextStyle(color: Colors.blue),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            launch(
+                            launchUrlString(
                               'mailto:$_bugEmailAddress?subject=Gearforce%20bug',
                             );
                           }),
@@ -208,7 +240,7 @@ class _RosterWidgetState extends State<RosterWidget> {
                         style: TextStyle(color: Colors.blue),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            launch('$_dp9URL');
+                            launchUrlString('$_dp9URL');
                           }),
                     TextSpan(
                       text: ' for more information about',
@@ -229,7 +261,7 @@ class _RosterWidgetState extends State<RosterWidget> {
                         style: TextStyle(color: Colors.blue),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            launch('$_sourceCodeURL');
+                            launchUrlString('$_sourceCodeURL');
                           }),
                     TextSpan(
                       text: '\nunder the MIT license',

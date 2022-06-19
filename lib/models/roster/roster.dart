@@ -5,7 +5,7 @@ import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/unit.dart';
 
-const _currentRosterVersion = 1;
+const _currentRosterVersion = 2;
 const _currentRulesVersion = '3.1';
 
 class UnitRoster extends ChangeNotifier {
@@ -14,10 +14,12 @@ class UnitRoster extends ChangeNotifier {
   final faction = ValueNotifier<FactionType?>(null);
   final subFaction = ValueNotifier<String?>(null);
   final Map<String, CombatGroup> _combatGroups = new Map<String, CombatGroup>();
+
   int _totalCreated = 0;
   String _activeCG = '';
   String get rulesVersion => _currentRulesVersion;
   bool _isEliteForce = false;
+  Map<Unit, int> _airStrikes = {};
 
   UnitRoster() {
     faction.addListener(() {
@@ -55,6 +57,9 @@ class UnitRoster extends ChangeNotifier {
         'version': _currentRosterVersion,
         'rulesVersion': rulesVersion,
         'isEliteForce': isEliteForce,
+        'airStrikes': airStrikes.entries
+            .map((e) => {'count': e.value, 'airstrike': e.key.toJson()})
+            .toList(),
         'whenCreated': DateTime.now().toString(),
       };
 
@@ -84,6 +89,20 @@ class UnitRoster extends ChangeNotifier {
     ur._totalCreated = json['totalCreated'] as int;
     ur._isEliteForce =
         json['isEliteForce'] != null ? json['isEliteForce'] as bool : false;
+
+    final decodedAirStrikes = json['airStrikes'] as List;
+    decodedAirStrikes.forEach((e) {
+      final count = e['count'] as int;
+      final airstrike = Unit.fromJson(
+        e['airstrike'],
+        data,
+        FactionType.Airstrike,
+        null,
+        null,
+        ur,
+      );
+      ur._airStrikes[airstrike] = count;
+    });
     return ur;
   }
 
@@ -92,6 +111,7 @@ class UnitRoster extends ChangeNotifier {
     this.player = ur.player;
     this.faction.value = ur.faction.value;
     this.subFaction.value = ur.subFaction.value;
+    this._airStrikes = ur._airStrikes;
     this._activeCG = ur._activeCG;
     ur._combatGroups.forEach((key, value) {
       this.addCG(value);
@@ -141,6 +161,8 @@ class UnitRoster extends ChangeNotifier {
     _combatGroups.forEach((key, value) {
       result += value.totalTV();
     });
+
+    result += airStrikeTV;
     return result;
   }
 
@@ -170,5 +192,56 @@ class UnitRoster extends ChangeNotifier {
     _combatGroups
         .forEach((name, cg) => {listOfUnits.addAll(cg.unitsWithMod(id))});
     return listOfUnits;
+  }
+
+  Map<Unit, int> get airStrikes => _airStrikes;
+  bool addAirStrike(Unit airStrike) {
+    if (airStrike.type != 'Airstrike Counter') {
+      return false;
+    }
+
+    airStrikes.values.forEach((element) {});
+
+    if (_airStrikes.keys.any((element) => element.name == airStrike.name)) {
+      _airStrikes[_airStrikes.keys
+              .firstWhere((element) => element.name == airStrike.name)] =
+          1 +
+              _airStrikes[_airStrikes.keys
+                  .firstWhere((element) => element.name == airStrike.name)]!;
+    } else {
+      _airStrikes[airStrike] = 1;
+    }
+    notifyListeners();
+    return true;
+  }
+
+  removeAirStrike(String name) {
+    if (_airStrikes.keys.any((element) => element.name == name)) {
+      final as = _airStrikes.keys.firstWhere((element) => element.name == name);
+      final count = _airStrikes[as]!;
+      if (count <= 1) {
+        _airStrikes.remove(as);
+      } else {
+        _airStrikes[as] = count - 1;
+      }
+      notifyListeners();
+    }
+  }
+
+  int get airStrikeTV {
+    int result = 0;
+
+    airStrikes.forEach((airstrike, count) {
+      result += (airstrike.tv * count);
+    });
+
+    return result;
+  }
+
+  void clearAirstrikes() {
+    if (airStrikes.isNotEmpty) {
+      airStrikes.clear();
+      notifyListeners();
+    }
   }
 }

@@ -1,4 +1,3 @@
-import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/unit.dart';
@@ -43,22 +42,30 @@ List<pw.Widget> buildUnitCards(
 }) {
   final List<pw.Widget> units = [];
   roster.getCGs().forEach((cg) {
-    units.addAll(_buildCombatGroupUnits(font, cg, version: version));
+    units.addAll(_buildGroupUnits(
+      font,
+      primaryUnits: cg.primary.allUnits(),
+      secondaryUnits: cg.secondary.allUnits(),
+      version: version,
+    ));
   });
+  units.addAll(_buildGroupUnits(font,
+      primaryUnits: roster.airStrikes.keys.toList(),
+      secondaryUnits: [],
+      version: version));
   return units;
 }
 
-List<pw.Widget> _buildCombatGroupUnits(
-  pw.Font font,
-  CombatGroup cg, {
+List<pw.Widget> _buildGroupUnits(
+  pw.Font font, {
+  required List<Unit> primaryUnits,
+  required List<Unit> secondaryUnits,
   required String version,
 }) {
   final List<pw.Widget> groupCards = [];
 
-  groupCards
-      .addAll(_buildUnitCards(font, cg.primary.allUnits(), version: version));
-  groupCards
-      .addAll(_buildUnitCards(font, cg.secondary.allUnits(), version: version));
+  groupCards.addAll(_buildUnitCards(font, primaryUnits, version: version));
+  groupCards.addAll(_buildUnitCards(font, secondaryUnits, version: version));
 
   return groupCards;
 }
@@ -143,7 +150,7 @@ pw.Widget _buildSecondSection(pw.Font font, Unit u) {
       children: [
         pw.Container(
           child: pw.Text(
-            'Roles: ${u.role()!.roles.join(', ')}',
+            'Roles: ${u.role() != null ? u.role()!.roles.join(', ') : '-'}',
             style: pw.TextStyle(fontSize: _standardFontSize),
             textAlign: pw.TextAlign.center,
           ),
@@ -157,7 +164,7 @@ pw.Widget _buildSecondSection(pw.Font font, Unit u) {
         ),
         pw.Container(
           child: pw.Text(
-            'Type: ${u.type} ${u.core.height}',
+            'Type: ${u.type} ${u.core.height == '-' ? '' : u.core.height}',
             style: pw.TextStyle(fontSize: _standardFontSize),
             textAlign: pw.TextAlign.center,
           ),

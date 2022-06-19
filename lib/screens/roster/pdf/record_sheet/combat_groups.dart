@@ -2,8 +2,8 @@ import 'dart:math';
 
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/roster/roster.dart';
-import 'package:gearforce/models/combatGroups/group.dart';
 import 'package:gearforce/models/unit/command.dart';
+import 'package:gearforce/models/unit/unit.dart';
 import 'package:pdf/widgets.dart' as pw;
 
 const double _headerTextSize = 12;
@@ -28,6 +28,7 @@ List<pw.Widget> buildCombatGroups(pw.Font font, UnitRoster roster) {
   roster.getCGs().forEach((cg) {
     combatGroups.add(_buildCombatGroup(font, cg));
   });
+
   return combatGroups;
 }
 
@@ -37,15 +38,27 @@ pw.Widget _buildCombatGroup(pw.Font font, CombatGroup cg) {
   }
 
   final result = pw.Column(children: [
-    _buildCombatGroupHeader(font, cg),
-    _buildGroupContent(font, cg.primary, 'Primary'),
+    _buildCombatGroupHeader(font, GroupName: cg.name),
+    _buildUnitsContent(
+      font,
+      units: cg.primary.allUnits(),
+      actions: cg.primary.totalActions(),
+      tv: cg.primary.totalTV(),
+      groupType: 'Primary',
+    ),
   ]);
 
   if (cg.secondary.allUnits().length > 0) {
     result.children.add(
       pw.Padding(
         padding: pw.EdgeInsets.only(top: _primarySecondarySpacing),
-        child: _buildGroupContent(font, cg.secondary, 'Secondary'),
+        child: _buildUnitsContent(
+          font,
+          units: cg.primary.allUnits(),
+          actions: cg.primary.totalActions(),
+          tv: cg.primary.totalTV(),
+          groupType: 'Secondary',
+        ),
       ),
     );
   }
@@ -56,7 +69,7 @@ pw.Widget _buildCombatGroup(pw.Font font, CombatGroup cg) {
   );
 }
 
-pw.Widget _buildCombatGroupHeader(pw.Font font, CombatGroup cg) {
+pw.Widget _buildCombatGroupHeader(pw.Font font, {required String GroupName}) {
   final headerTextStyle = pw.TextStyle(
     font: font,
     fontSize: _headerTextSize,
@@ -69,7 +82,7 @@ pw.Widget _buildCombatGroupHeader(pw.Font font, CombatGroup cg) {
       children: [
         pw.Expanded(
           child: pw.Text(
-            'Combat Group: ${cg.name}',
+            'Combat Group: $GroupName',
             style: headerTextStyle,
           ),
         ),
@@ -78,7 +91,13 @@ pw.Widget _buildCombatGroupHeader(pw.Font font, CombatGroup cg) {
   );
 }
 
-pw.Widget _buildGroupContent(pw.Font font, Group g, String groupType) {
+pw.Widget _buildUnitsContent(
+  pw.Font font, {
+  required List<Unit> units,
+  required int actions,
+  required int tv,
+  required String groupType,
+}) {
   final smallTextStyle = pw.TextStyle(
     font: font,
     fontSize: _smallTextSize,
@@ -99,7 +118,7 @@ pw.Widget _buildGroupContent(pw.Font font, Group g, String groupType) {
               ),
             ),
           ),
-          pw.Expanded(child: _buildGroupContentTable(font, g)),
+          pw.Expanded(child: _buildUnitsContentTable(font, units)),
         ]),
         decoration: pw.BoxDecoration(
           border: pw.Border.all(),
@@ -110,12 +129,12 @@ pw.Widget _buildGroupContent(pw.Font font, Group g, String groupType) {
           ),
         ),
       ),
-      _buildGroupFooter(font, g),
+      _buildUnitsFooter(font, actions: actions, tv: tv),
     ],
   );
 }
 
-pw.Widget _buildGroupContentTable(pw.Font font, Group cg) {
+pw.Widget _buildUnitsContentTable(pw.Font font, List<Unit> units) {
   const tableHeaders = [
     'Model',
     'Upgrades',
@@ -171,9 +190,9 @@ pw.Widget _buildGroupContentTable(pw.Font font, Group cg) {
       4: const pw.FixedColumnWidth(_tvColumnWidth),
     },
     data: List<List<String>>.generate(
-      cg.allUnits().length,
+      units.length,
       (row) => List<String>.generate(tableHeaders.length, (col) {
-        final unit = cg.allUnits()[row];
+        final unit = units[row];
         switch (col) {
           case 0:
             return unit.name;
@@ -194,7 +213,11 @@ pw.Widget _buildGroupContentTable(pw.Font font, Group cg) {
   );
 }
 
-pw.Widget _buildGroupFooter(pw.Font font, Group g) {
+pw.Widget _buildUnitsFooter(
+  pw.Font font, {
+  required int actions,
+  required int tv,
+}) {
   final footerTextStyle = pw.TextStyle(
     //  color: _darkColor,
     font: font,
@@ -220,7 +243,7 @@ pw.Widget _buildGroupFooter(pw.Font font, Group g) {
               pw.Container(
                 width: _actionsColumnWidth,
                 child: pw.Text(
-                  '${g.totalActions()}',
+                  '${actions}',
                   textAlign: pw.TextAlign.center,
                   style: footerTextStyle,
                 ),
@@ -228,7 +251,7 @@ pw.Widget _buildGroupFooter(pw.Font font, Group g) {
               pw.Container(
                 width: _tvColumnWidth,
                 child: pw.Text(
-                  '${g.totalTV()}',
+                  '${tv}',
                   textAlign: pw.TextAlign.center,
                   style: footerTextStyle,
                 ),
