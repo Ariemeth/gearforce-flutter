@@ -164,7 +164,7 @@ pw.Widget _buildSecondSection(pw.Font font, Unit u) {
         ),
         pw.Container(
           child: pw.Text(
-            'Type: ${u.type} ${u.core.height}',
+            'Type: ${u.type} ${u.core.height == '-' ? '' : u.core.height}',
             style: pw.TextStyle(fontSize: _standardFontSize),
             textAlign: pw.TextAlign.center,
           ),
