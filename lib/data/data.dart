@@ -31,7 +31,7 @@ class Data {
 
   /// Retrieves a list of factions.
   List<Faction> factions() {
-    return _factions;
+    return _factions.toList();
   }
 
   /// Returns a list of UnitCore's for the specified [faction] and [role] if
@@ -133,64 +133,17 @@ class Data {
   }
 
   List<Faction> _loadFactions() {
-    List<Faction> factions = [];
-
-    factions.add(Faction(factionType: FactionType.BlackTalon, subFactions: [
-      'None',
-    ]));
-    factions.add(Faction(factionType: FactionType.CEF, subFactions: [
-      'None',
-      'CEF Line Formation',
-      'GREL/FLAIL Infantry Battalion',
-      'Tank Battalion',
-    ]));
-    factions.add(Faction(factionType: FactionType.Caprice, subFactions: [
-      'None',
-      'Caprice Corporate Security Detachment',
-      'Caprice Invasion Detachment',
-      'Caprice Liberati Resistance Cell',
-    ]));
-    factions.add(Faction(factionType: FactionType.Eden, subFactions: [
-      'None',
-      'Eden Invasion Militia',
-      'Eden Noble House',
-    ]));
-    factions.add(Faction(factionType: FactionType.North, subFactions: [
-      'None',
-      'Northern Guard',
-      'Northern Lights Confederacy',
-      'United Mercantile Federation',
-      'Western Frontier Protectorate',
-    ]));
-    factions.add(Faction(factionType: FactionType.NuCoal, subFactions: [
-      'None',
-      'Humanist Alliance Protection Force',
-      'Hard Scrabbled City State Armies',
-      'Khayr Ad-Din',
-      'NuCoal Self Defense Force',
-      'Port Arthur Korps',
-      'Temple Heights',
-    ]));
-    factions.add(Faction(factionType: FactionType.PeaceRiver, subFactions: [
-      'None',
-      'Combined Task Force',
-      'Home Guard Security Forces',
-      'Peace River Defense Force',
-      'Peace Officer Corps',
-    ]));
-    factions.add(Faction(factionType: FactionType.South, subFactions: [
-      'None',
-      'Eastern Sun Emirates',
-      'MILitary Intervention and Counter Insurgency Army',
-      'Mekong Dominion',
-      'Southern Republic Army',
-    ]));
-    factions.add(Faction(factionType: FactionType.Utopia, subFactions: [
-      'None',
-      'Other Utopian Forces',
-      'Utopian Combined Armiger Force',
-    ]));
-    return factions;
+    return [
+      Faction.blackTalons(),
+      Faction.caprice(),
+      Faction.cef(),
+      Faction.eden(),
+      Faction.north(),
+      Faction.nucoal(),
+      Faction.peaceRiver(),
+      Faction.south(),
+      Faction.utopia(),
+    ];
   }
 
   Future<List<Frame>> _loadFrames(String filename) async {
