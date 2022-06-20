@@ -54,7 +54,7 @@ void main() {
   test('test fromString with aux trait', () {
     const traitName = 'ECM';
     const isAux = true;
-    const toString = '$traitName${isAux ? ' (Aux)' : ''}';
+    const toString = '$traitName (Aux)';
 
     final w = Trait.fromString(toString);
     expect(w.name, equals(traitName), reason: 'check name');
@@ -67,7 +67,7 @@ void main() {
     const traitName = 'AE';
     const level = 2;
     const isAux = false;
-    const toString = '$traitName:$level${isAux ? ' (Aux)' : ''}';
+    const toString = '$traitName:$level';
 
     final w = Trait.fromString(toString);
     expect(w.name, equals(traitName), reason: 'check name');

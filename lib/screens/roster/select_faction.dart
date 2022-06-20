@@ -16,16 +16,16 @@ class SelectFaction extends StatefulWidget {
 
 /// This is the private State class that goes with MyStatefulWidget.
 class _SelectFactionState extends State<SelectFaction> {
-  String? dropdownValue;
+  FactionType? dropdownValue;
 
   _SelectFactionState();
 
   @override
   Widget build(BuildContext context) {
-    return DropdownButton<String>(
+    return DropdownButton<FactionType?>(
       value: widget.selectedFaction.value == null
           ? null
-          : factionTypeToString(widget.selectedFaction.value!),
+          : widget.selectedFaction.value,
       hint: Text('Select faction'),
       icon: const Icon(Icons.arrow_downward),
       iconSize: 16,
@@ -34,17 +34,18 @@ class _SelectFactionState extends State<SelectFaction> {
       isDense: true,
       style: const TextStyle(color: Colors.blue),
       underline: SizedBox(),
-      onChanged: (String? newValue) {
+      onChanged: (FactionType? newValue) {
         setState(() {
-          dropdownValue = newValue!;
-          widget.selectedFaction.value = convertToFactionType(newValue);
+          dropdownValue = newValue;
+          widget.selectedFaction.value = newValue;
         });
       },
-      items: widget.factions.map<DropdownMenuItem<String>>((Faction value) {
-        return DropdownMenuItem<String>(
-          value: factionTypeToString(value.factionType),
+      items:
+          widget.factions.map<DropdownMenuItem<FactionType>>((Faction value) {
+        return DropdownMenuItem<FactionType>(
+          value: value.factionType,
           child: Text(
-            factionTypeToString(value.factionType),
+            value.factionType.name,
             style: TextStyle(fontSize: 16),
           ),
         );
