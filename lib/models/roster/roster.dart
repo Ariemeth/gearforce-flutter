@@ -49,8 +49,7 @@ class UnitRoster extends ChangeNotifier {
   Map<String, dynamic> toJson() => {
         'player': player,
         'name': name,
-        'faction':
-            faction.value == null ? null : factionTypeToString(faction.value!),
+        'faction': faction.value == null ? null : faction.value!.name,
         'subfaction': subFaction.value,
         'totalCreated': _totalCreated,
         'cgs': _combatGroups.entries.map((e) => e.value.toJson()).toList(),
@@ -69,7 +68,7 @@ class UnitRoster extends ChangeNotifier {
     ur.player = json['player'] as String?;
     ur.faction.value = (json['faction'] as String?) == null
         ? null
-        : convertToFactionType(json['faction'] as String);
+        : FactionType.fromName(json['faction'] as String);
     ur.subFaction.value = json['subfaction'] as String?;
 
     ur._combatGroups.clear();

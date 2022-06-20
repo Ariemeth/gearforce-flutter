@@ -1,4 +1,3 @@
-import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:pdf/widgets.dart' as pw;
 
@@ -91,7 +90,7 @@ pw.Widget buildRosterHeader(pw.Font font, UnitRoster roster) {
               //   alignment: pw.Alignment.topRight,
               child: pw.Text(
                 roster.faction.value != null
-                    ? '${factionTypeToString(roster.faction.value!)} / ${roster.subFaction.value}'
+                    ? '${roster.faction.value!.name} / ${roster.subFaction.value}'
                     : '',
                 style: standardTextStyle,
                 maxLines: 2,

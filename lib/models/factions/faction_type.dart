@@ -1,80 +1,29 @@
 enum FactionType {
-  North,
-  South,
-  PeaceRiver,
-  NuCoal,
-  CEF,
-  Caprice,
-  Utopia,
-  Eden,
-  Universal,
-  Universal_TerraNova,
-  Universal_Non_TerraNova,
-  Terrain,
-  BlackTalon,
-  Airstrike,
-}
+  North('North'),
+  South('South'),
+  PeaceRiver('Peace River'),
+  NuCoal('NuCoal'),
+  CEF('CEF'),
+  Caprice('Caprice'),
+  Utopia('Utopia'),
+  Eden('Eden'),
+  Universal('Universal'),
+  Universal_TerraNova('Terra Nova Universal'),
+  Universal_Non_TerraNova('Non Terra Nova Universal'),
+  Terrain('Terrain'),
+  BlackTalon('Black Talons'),
+  Airstrike('Airstrike Counter');
 
-String factionTypeToString(FactionType f) {
-  switch (f) {
-    case FactionType.North:
-      return 'North';
-    case FactionType.South:
-      return 'South';
-    case FactionType.PeaceRiver:
-      return 'Peace River';
-    case FactionType.NuCoal:
-      return 'NuCoal';
-    case FactionType.CEF:
-      return 'CEF';
-    case FactionType.Caprice:
-      return 'Caprice';
-    case FactionType.Utopia:
-      return 'Utopia';
-    case FactionType.Eden:
-      return 'Eden';
-    case FactionType.Universal:
-      return 'Universal';
-    case FactionType.Universal_TerraNova:
-      return 'Universal TerraNova';
-    case FactionType.Universal_Non_TerraNova:
-      return 'Universal Non TerraNova';
-    case FactionType.Terrain:
-      return 'Terrain';
-    case FactionType.BlackTalon:
-      return 'Black Talon';
-    case FactionType.Airstrike:
-      return 'Air Strike';
+  const FactionType(this.name);
+  final String name;
+
+  @override
+  String toString() => name;
+
+  factory FactionType.fromName(String name) {
+    return FactionType.values.firstWhere(
+      (element) => element.name == name,
+      orElse: () => throw new FormatException("Unknown role type", name),
+    );
   }
-}
-
-FactionType convertToFactionType(String faction) {
-  switch (faction.toUpperCase()) {
-    case "NORTH":
-      return FactionType.North;
-    case 'SOUTH':
-      return FactionType.South;
-    case 'PEACE RIVER':
-    case 'PEACERIVER':
-      return FactionType.PeaceRiver;
-    case 'NUCOAL':
-      return FactionType.NuCoal;
-    case 'CEF':
-      return FactionType.CEF;
-    case 'CAPRICE':
-      return FactionType.Caprice;
-    case 'UTOPIA':
-      return FactionType.Utopia;
-    case 'EDEN':
-      return FactionType.Eden;
-    case 'UNIVERSAL':
-      return FactionType.Universal;
-    case 'TERRAIN':
-      return FactionType.Terrain;
-    case 'BLACK TALON':
-    case 'BLACKTALON':
-      return FactionType.BlackTalon;
-  }
-
-  throw new FormatException("Unknown role type", faction);
 }
