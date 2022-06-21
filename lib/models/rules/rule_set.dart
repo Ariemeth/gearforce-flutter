@@ -1,1 +1,3 @@
-class RuleSet {}
+abstract class RuleSet {
+  const RuleSet();
+}

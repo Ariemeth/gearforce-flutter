@@ -7,11 +7,7 @@ class Faction {
 
   const Faction(this.factionType, this.subFactions);
   factory Faction.blackTalons() {
-    return Faction(FactionType.BlackTalon, [
-      'PRDF - Peace River Defense Force',
-      'POC - Peace Officer Corps',
-      'PPS - Paxton Private Securities',
-    ]);
+    return Faction(FactionType.BlackTalon, []);
   }
   factory Faction.caprice() {
     return Faction(FactionType.Caprice, []);
@@ -29,7 +25,11 @@ class Faction {
     return Faction(FactionType.NuCoal, []);
   }
   factory Faction.peaceRiver() {
-    return Faction(FactionType.PeaceRiver, []);
+    return Faction(FactionType.PeaceRiver, [
+      'PRDF - Peace River Defense Force',
+      'POC - Peace Officer Corps',
+      'PPS - Paxton Private Securities',
+    ]);
   }
   factory Faction.south() {
     return Faction(FactionType.South, []);
