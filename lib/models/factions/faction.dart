@@ -1,14 +1,5 @@
 import 'package:gearforce/models/factions/faction_type.dart';
-import 'package:gearforce/models/factions/sub_factions.dart/black_talons.dart';
-import 'package:gearforce/models/factions/sub_factions.dart/caprice.dart';
-import 'package:gearforce/models/factions/sub_factions.dart/cef.dart';
-import 'package:gearforce/models/factions/sub_factions.dart/eden.dart';
-import 'package:gearforce/models/factions/sub_factions.dart/north.dart';
-import 'package:gearforce/models/factions/sub_factions.dart/nucoal.dart';
-import 'package:gearforce/models/factions/sub_factions.dart/peace_river.dart';
-import 'package:gearforce/models/factions/sub_factions.dart/south.dart';
 import 'package:gearforce/models/factions/sub_factions.dart/sub_faction.dart';
-import 'package:gearforce/models/factions/sub_factions.dart/utopia.dart';
 
 class Faction {
   String get name => this.factionType.name;
@@ -18,70 +9,74 @@ class Faction {
   const Faction(this.factionType, this.subFactions);
   factory Faction.blackTalons() {
     return Faction(FactionType.BlackTalon, [
-      blackTalon_BTRT(),
-      blackTalon_BTIT(),
-      blackTalon_BTST(),
-      blackTalon_BTAT(),
+      SubFaction('Black Talon Recon Team'),
+      SubFaction('Black Talon Insertion Team'),
+      SubFaction('Black Talon Strike Team'),
+      SubFaction('Black Talon Assault Team'),
     ]);
   }
   factory Faction.caprice() {
     return Faction(FactionType.Caprice, [
-      caprice_CID(),
-      caprice_CSE(),
-      caprice_LRC(),
+      SubFaction('Caprice Invasion Detachment'),
+      SubFaction('Corporate Security Element'),
+      SubFaction('Liberati Resistance Cell'),
     ]);
   }
   factory Faction.cef() {
     return Faction(FactionType.CEF, [
-      cef_CEFFF(),
-      cef_CEFTF(),
-      cef_CEFIF(),
+      SubFaction('CEF Frame Formation'),
+      SubFaction('CEF Tank Formation'),
+      SubFaction('CEF Infantry Formation'),
     ]);
   }
   factory Faction.eden() {
     return Faction(FactionType.Eden, [
-      eden_EIF(),
-      eden_ENH(),
-      eden_AEF(),
+      SubFaction('Edenite Invasion Force'),
+      SubFaction('Edenite Noble Houses'),
+      SubFaction('Ad-Hoc Edenite Force'),
     ]);
   }
   factory Faction.north() {
     return Faction(FactionType.North, [
-      north_NG(),
-      north_WFP(),
-      north_UMF(),
-      north_NLC(),
+      SubFaction('Norguard'),
+      SubFaction('Western Frontier Protectorate'),
+      SubFaction('United Mercantile Federation'),
+      SubFaction('Northern Lights Confederacy'),
     ]);
   }
   factory Faction.nucoal() {
     return Faction(FactionType.NuCoal, [
-      nucoal_NSDF(),
-      nucoal_PAK(),
-      nucoal_HAPF(),
-      nucoal_KADA(),
-      nucoal_TH(),
-      nucoal_HCSA(),
+      SubFaction('NuCoal Self Defense Force'),
+      SubFaction('Port Arthur Korps'),
+      SubFaction('Humanist Alliance Protection Force'),
+      SubFaction('Khayr ad-Dine'),
+      SubFaction('Temple Heights'),
+      SubFaction('Hardscrabble City-State Armies'),
     ]);
   }
   factory Faction.peaceRiver() {
     return Faction(FactionType.PeaceRiver, [
-      peaceRiver_PRDF(),
-      peaceRiver_POC(),
-      peaceRiver_PRDF(),
+      SubFaction('Peace River Defense Force'),
+      SubFaction('Peace Officer Corps'),
+      SubFaction('Paxton Private Securities'),
     ]);
   }
   factory Faction.south() {
     return Faction(FactionType.South, [
-      south_MILICIA(),
-      south_MD(),
-      south_ESE(),
-      south_FHA(),
+      SubFaction('Military Intervention and Counter Insurgency Army'),
+      SubFaction('Mekong Dominion'),
+      SubFaction('Eastern Sun Emirates'),
+      SubFaction('Free Humanist Alliance'),
     ]);
   }
   factory Faction.utopia() {
     return Faction(FactionType.Utopia, [
-      utopia_CAF(),
-      utopia_OUF(),
+      SubFaction('Combined Armiger Force'),
+      SubFaction('Other Utopian Forces'),
     ]);
+  }
+
+  bool hasSubFaction(String name) {
+    return this.subFactions.any((element) => element.name == name);
   }
 }
