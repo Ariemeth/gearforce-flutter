@@ -9,70 +9,71 @@ class Faction {
   const Faction(this.factionType, this.subFactions);
   factory Faction.blackTalons() {
     return Faction(FactionType.BlackTalon, [
-      SubFaction('Black Talon Recon Team'),
-      SubFaction('Black Talon Insertion Team'),
-      SubFaction('Black Talon Strike Team'),
-      SubFaction('Black Talon Assault Team'),
+      SubFaction('Black Talon Recon Team', ruleSet: null),
+      SubFaction('Black Talon Insertion Team', ruleSet: null),
+      SubFaction('Black Talon Strike Team', ruleSet: null),
+      SubFaction('Black Talon Assault Team', ruleSet: null),
     ]);
   }
   factory Faction.caprice() {
     return Faction(FactionType.Caprice, [
-      SubFaction('Caprice Invasion Detachment'),
-      SubFaction('Corporate Security Element'),
-      SubFaction('Liberati Resistance Cell'),
+      SubFaction('Caprice Invasion Detachment', ruleSet: null),
+      SubFaction('Corporate Security Element', ruleSet: null),
+      SubFaction('Liberati Resistance Cell', ruleSet: null),
     ]);
   }
   factory Faction.cef() {
     return Faction(FactionType.CEF, [
-      SubFaction('CEF Frame Formation'),
-      SubFaction('CEF Tank Formation'),
-      SubFaction('CEF Infantry Formation'),
+      SubFaction('CEF Frame Formation', ruleSet: null),
+      SubFaction('CEF Tank Formation', ruleSet: null),
+      SubFaction('CEF Infantry Formation', ruleSet: null),
     ]);
   }
   factory Faction.eden() {
     return Faction(FactionType.Eden, [
-      SubFaction('Edenite Invasion Force'),
-      SubFaction('Edenite Noble Houses'),
-      SubFaction('Ad-Hoc Edenite Force'),
+      SubFaction('Edenite Invasion Force', ruleSet: null),
+      SubFaction('Edenite Noble Houses', ruleSet: null),
+      SubFaction('Ad-Hoc Edenite Force', ruleSet: null),
     ]);
   }
   factory Faction.north() {
     return Faction(FactionType.North, [
-      SubFaction('Norguard'),
-      SubFaction('Western Frontier Protectorate'),
-      SubFaction('United Mercantile Federation'),
-      SubFaction('Northern Lights Confederacy'),
+      SubFaction('Norguard', ruleSet: null),
+      SubFaction('Western Frontier Protectorate', ruleSet: null),
+      SubFaction('United Mercantile Federation', ruleSet: null),
+      SubFaction('Northern Lights Confederacy', ruleSet: null),
     ]);
   }
   factory Faction.nucoal() {
     return Faction(FactionType.NuCoal, [
-      SubFaction('NuCoal Self Defense Force'),
-      SubFaction('Port Arthur Korps'),
-      SubFaction('Humanist Alliance Protection Force'),
-      SubFaction('Khayr ad-Dine'),
-      SubFaction('Temple Heights'),
-      SubFaction('Hardscrabble City-State Armies'),
+      SubFaction('NuCoal Self Defense Force', ruleSet: null),
+      SubFaction('Port Arthur Korps', ruleSet: null),
+      SubFaction('Humanist Alliance Protection Force', ruleSet: null),
+      SubFaction('Khayr ad-Dine', ruleSet: null),
+      SubFaction('Temple Heights', ruleSet: null),
+      SubFaction('Hardscrabble City-State Armies', ruleSet: null),
     ]);
   }
   factory Faction.peaceRiver() {
     return Faction(FactionType.PeaceRiver, [
-      SubFaction('Peace River Defense Force'),
-      SubFaction('Peace Officer Corps'),
-      SubFaction('Paxton Private Securities'),
+      SubFaction('Peace River Defense Force', ruleSet: null),
+      SubFaction('Peace Officer Corps', ruleSet: null),
+      SubFaction('Paxton Private Securities', ruleSet: null),
     ]);
   }
   factory Faction.south() {
     return Faction(FactionType.South, [
-      SubFaction('Military Intervention and Counter Insurgency Army'),
-      SubFaction('Mekong Dominion'),
-      SubFaction('Eastern Sun Emirates'),
-      SubFaction('Free Humanist Alliance'),
+      SubFaction('Military Intervention and Counter Insurgency Army',
+          ruleSet: null),
+      SubFaction('Mekong Dominion', ruleSet: null),
+      SubFaction('Eastern Sun Emirates', ruleSet: null),
+      SubFaction('Free Humanist Alliance', ruleSet: null),
     ]);
   }
   factory Faction.utopia() {
     return Faction(FactionType.Utopia, [
-      SubFaction('Combined Armiger Force'),
-      SubFaction('Other Utopian Forces'),
+      SubFaction('Combined Armiger Force', ruleSet: null),
+      SubFaction('Other Utopian Forces', ruleSet: null),
     ]);
   }
 

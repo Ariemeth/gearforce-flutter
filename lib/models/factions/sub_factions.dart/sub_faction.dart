@@ -5,7 +5,7 @@ class SubFaction {
   final RuleSet? ruleSet;
   const SubFaction(
     this.name, {
-    this.ruleSet,
+    required this.ruleSet,
   });
 
   @override
