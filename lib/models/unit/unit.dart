@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
+import 'package:gearforce/models/factions/sub_factions.dart/sub_faction.dart';
 import 'package:gearforce/models/mods/base_modification.dart';
 import 'package:gearforce/models/mods/duelist/duelist_modification.dart';
 import 'package:gearforce/models/mods/duelist/duelist_upgrades.dart';
@@ -63,7 +64,7 @@ class Unit extends ChangeNotifier {
     dynamic json,
     Data data,
     FactionType faction,
-    String? subfaction,
+    SubFaction? subfaction,
     CombatGroup? cg,
     UnitRoster roster,
   ) {

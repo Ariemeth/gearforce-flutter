@@ -7,4 +7,7 @@ abstract class SubFaction {
     this.name, {
     this.ruleSet,
   });
+
+  @override
+  String toString() => this.name;
 }

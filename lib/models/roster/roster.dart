@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
+import 'package:gearforce/models/factions/sub_factions.dart/sub_faction.dart';
 import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/unit.dart';
 
@@ -12,7 +13,7 @@ class UnitRoster extends ChangeNotifier {
   String? player;
   String? name;
   final faction = ValueNotifier<FactionType?>(null);
-  final subFaction = ValueNotifier<String?>(null);
+  final subFaction = ValueNotifier<SubFaction?>(null);
   final Map<String, CombatGroup> _combatGroups = new Map<String, CombatGroup>();
 
   int _totalCreated = 0;
@@ -66,10 +67,16 @@ class UnitRoster extends ChangeNotifier {
     UnitRoster ur = UnitRoster();
     ur.name = json['name'] as String?;
     ur.player = json['player'] as String?;
+    //TODO have to change faction from FactionType to Faction
     ur.faction.value = (json['faction'] as String?) == null
         ? null
         : FactionType.fromName(json['faction'] as String);
-    ur.subFaction.value = json['subfaction'] as String?;
+    // ur.subFaction.value = json['subfaction'] as String?;
+    final subFaction = json['subfaction'] as String?;
+    if (subFaction != null && ur.faction.value != null) {
+      //final bl = ur.faction.value
+      //TODO handle loading subfactions
+    }
 
     ur._combatGroups.clear();
     var decodedCG = json['cgs'] as List;

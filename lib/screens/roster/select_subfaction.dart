@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gearforce/models/factions/faction.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
+import 'package:gearforce/models/factions/sub_factions.dart/sub_faction.dart';
 
 class SelectSubFaction extends StatefulWidget {
   const SelectSubFaction(
@@ -12,7 +13,7 @@ class SelectSubFaction extends StatefulWidget {
       : super(key: key);
   final List<Faction> factions;
   final ValueListenable<FactionType?> selectedFaction;
-  final ValueNotifier<String?> selectedSubFaction;
+  final ValueNotifier<SubFaction?> selectedSubFaction;
 
   @override
   _SelectSubFactionState createState() => _SelectSubFactionState();
@@ -25,7 +26,7 @@ class _SelectSubFactionState extends State<SelectSubFaction> {
     return ValueListenableBuilder<FactionType?>(
       valueListenable: widget.selectedFaction,
       builder: (context, value, child) {
-        return DropdownButton<String>(
+        return DropdownButton<SubFaction>(
           value: widget.selectedSubFaction.value,
           hint: Text('Select sub-faction'),
           icon: const Icon(Icons.arrow_downward),
@@ -35,7 +36,7 @@ class _SelectSubFactionState extends State<SelectSubFaction> {
           isDense: true,
           style: const TextStyle(color: Colors.blue),
           underline: SizedBox(),
-          onChanged: (String? newValue) {
+          onChanged: (SubFaction? newValue) {
             setState(() {
               widget.selectedSubFaction.value = newValue;
             });
@@ -46,7 +47,7 @@ class _SelectSubFactionState extends State<SelectSubFaction> {
     );
   }
 
-  List<DropdownMenuItem<String>>? _subFactions() {
+  List<DropdownMenuItem<SubFaction>>? _subFactions() {
     if (widget.selectedFaction.value == null) {
       return null;
     }
@@ -55,11 +56,11 @@ class _SelectSubFactionState extends State<SelectSubFaction> {
         .firstWhere((f) => f.factionType == widget.selectedFaction.value)
         .subFactions;
 
-    var menuItems = subfactions.map<DropdownMenuItem<String>>((name) {
-      return DropdownMenuItem<String>(
+    var menuItems = subfactions.map<DropdownMenuItem<SubFaction>>((name) {
+      return DropdownMenuItem<SubFaction>(
         value: name,
         child: Text(
-          name,
+          name.name,
           style: TextStyle(fontSize: 16),
         ),
       );

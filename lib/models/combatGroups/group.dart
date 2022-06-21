@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
+import 'package:gearforce/models/factions/sub_factions.dart/sub_faction.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/role.dart';
@@ -28,7 +29,7 @@ class Group extends ChangeNotifier {
     dynamic json,
     Data data,
     FactionType? faction,
-    String? subfaction,
+    SubFaction? subfaction,
     CombatGroup cg,
     UnitRoster roster,
   ) {
