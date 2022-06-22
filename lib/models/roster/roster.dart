@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
+import 'package:gearforce/models/factions/faction.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/factions/sub_factions.dart/sub_faction.dart';
 import 'package:gearforce/models/unit/command.dart';
@@ -12,7 +13,7 @@ const _currentRulesVersion = '3.1';
 class UnitRoster extends ChangeNotifier {
   String? player;
   String? name;
-  final faction = ValueNotifier<FactionType?>(null);
+  final faction = ValueNotifier<Faction?>(null);
   final subFaction = ValueNotifier<SubFaction?>(null);
   final Map<String, CombatGroup> _combatGroups = new Map<String, CombatGroup>();
 
@@ -50,8 +51,8 @@ class UnitRoster extends ChangeNotifier {
   Map<String, dynamic> toJson() => {
         'player': player,
         'name': name,
-        'faction': faction.value == null ? null : faction.value!.name,
-        'subfaction': subFaction.value,
+        'faction': faction.value?.factionType.name,
+        'subfaction': subFaction.value?.name,
         'totalCreated': _totalCreated,
         'cgs': _combatGroups.entries.map((e) => e.value.toJson()).toList(),
         'version': _currentRosterVersion,
@@ -67,15 +68,22 @@ class UnitRoster extends ChangeNotifier {
     UnitRoster ur = UnitRoster();
     ur.name = json['name'] as String?;
     ur.player = json['player'] as String?;
-    //TODO have to change faction from FactionType to Faction
-    ur.faction.value = (json['faction'] as String?) == null
-        ? null
-        : FactionType.fromName(json['faction'] as String);
-    // ur.subFaction.value = json['subfaction'] as String?;
-    final subFaction = json['subfaction'] as String?;
-    if (subFaction != null && ur.faction.value != null) {
-      //final bl = ur.faction.value
-      //TODO handle loading subfactions
+    final faction = json['faction'] as String?;
+    if (faction != null) {
+      try {
+        final f = Faction.fromType(FactionType.fromName(faction));
+        ur.faction.value = f;
+      } on Exception catch (e) {
+        print(e);
+      }
+    }
+    final subFactionName = json['subfaction'] as String?;
+    if (subFactionName != null && ur.faction.value != null) {
+      if (ur.faction.value!.subFactions
+          .any((sub) => sub.name == subFactionName)) {
+        ur.subFaction.value = ur.faction.value!.subFactions
+            .firstWhere((sub) => sub.name == subFactionName);
+      }
     }
 
     ur._combatGroups.clear();
@@ -84,7 +92,7 @@ class UnitRoster extends ChangeNotifier {
         .map((e) => CombatGroup.fromJson(
               e,
               data,
-              ur.faction.value,
+              ur.faction.value?.factionType,
               ur.subFaction.value,
               ur,
             ))

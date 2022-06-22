@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gearforce/data/data.dart';
-import 'package:gearforce/models/factions/faction_type.dart';
+import 'package:gearforce/models/factions/faction.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
@@ -85,7 +85,7 @@ class SelectionList extends StatelessWidget {
     );
   }
 
-  Widget _buildTable(Data data, FactionType? faction) {
+  Widget _buildTable(Data data, Faction? faction) {
     if (faction == null) {
       return DataTable(
         columns: _createTableColumns(),
@@ -100,7 +100,7 @@ class SelectionList extends StatelessWidget {
     }
 
     var d = data.unitList(
-      faction,
+      faction.factionType,
       role: this
           .roleFilters
           .entries

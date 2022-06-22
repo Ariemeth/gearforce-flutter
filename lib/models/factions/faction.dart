@@ -77,6 +77,40 @@ class Faction {
     ]);
   }
 
+  factory Faction.fromType(FactionType faction) {
+    switch (faction) {
+      case FactionType.North:
+        return Faction.north();
+      case FactionType.South:
+        return Faction.south();
+      case FactionType.PeaceRiver:
+        return Faction.peaceRiver();
+      case FactionType.NuCoal:
+        return Faction.nucoal();
+      case FactionType.CEF:
+        return Faction.cef();
+      case FactionType.Caprice:
+        return Faction.caprice();
+      case FactionType.Utopia:
+        return Faction.utopia();
+      case FactionType.Eden:
+        return Faction.eden();
+      case FactionType.Universal:
+        break;
+      case FactionType.Universal_TerraNova:
+        break;
+      case FactionType.Universal_Non_TerraNova:
+        break;
+      case FactionType.Terrain:
+        break;
+      case FactionType.BlackTalon:
+        return Faction.blackTalons();
+      case FactionType.Airstrike:
+        break;
+    }
+    throw FormatException('Cannot create a faction from ${faction.name}');
+  }
+
   bool hasSubFaction(String name) {
     return this.subFactions.any((element) => element.name == name);
   }
