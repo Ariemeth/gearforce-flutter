@@ -13,7 +13,7 @@ const _currentRulesVersion = '3.1';
 class UnitRoster extends ChangeNotifier {
   String? player;
   String? name;
-  final faction = ValueNotifier<Faction?>(null);
+  final faction = ValueNotifier<Faction>(Faction.blackTalons());
   final subFaction = ValueNotifier<SubFaction?>(null);
   final Map<String, CombatGroup> _combatGroups = new Map<String, CombatGroup>();
 
@@ -51,7 +51,7 @@ class UnitRoster extends ChangeNotifier {
   Map<String, dynamic> toJson() => {
         'player': player,
         'name': name,
-        'faction': faction.value?.factionType.name,
+        'faction': faction.value.factionType.name,
         'subfaction': subFaction.value?.name,
         'totalCreated': _totalCreated,
         'cgs': _combatGroups.entries.map((e) => e.value.toJson()).toList(),
@@ -78,10 +78,10 @@ class UnitRoster extends ChangeNotifier {
       }
     }
     final subFactionName = json['subfaction'] as String?;
-    if (subFactionName != null && ur.faction.value != null) {
-      if (ur.faction.value!.subFactions
+    if (subFactionName != null && faction != null) {
+      if (ur.faction.value.subFactions
           .any((sub) => sub.name == subFactionName)) {
-        ur.subFaction.value = ur.faction.value!.subFactions
+        ur.subFaction.value = ur.faction.value.subFactions
             .firstWhere((sub) => sub.name == subFactionName);
       }
     }
@@ -92,7 +92,7 @@ class UnitRoster extends ChangeNotifier {
         .map((e) => CombatGroup.fromJson(
               e,
               data,
-              ur.faction.value?.factionType,
+              ur.faction.value.factionType,
               ur.subFaction.value,
               ur,
             ))

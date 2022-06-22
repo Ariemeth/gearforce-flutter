@@ -7,8 +7,10 @@ class Faction {
   final List<SubFaction> subFactions;
 
   const Faction(this.factionType, this.subFactions);
+
   factory Faction.blackTalons() {
     return Faction(FactionType.BlackTalon, [
+      SubFaction('', ruleSet: null),
       SubFaction('Black Talon Recon Team', ruleSet: null),
       SubFaction('Black Talon Insertion Team', ruleSet: null),
       SubFaction('Black Talon Strike Team', ruleSet: null),
@@ -17,6 +19,7 @@ class Faction {
   }
   factory Faction.caprice() {
     return Faction(FactionType.Caprice, [
+      SubFaction('', ruleSet: null),
       SubFaction('Caprice Invasion Detachment', ruleSet: null),
       SubFaction('Corporate Security Element', ruleSet: null),
       SubFaction('Liberati Resistance Cell', ruleSet: null),
@@ -24,6 +27,7 @@ class Faction {
   }
   factory Faction.cef() {
     return Faction(FactionType.CEF, [
+      SubFaction('', ruleSet: null),
       SubFaction('CEF Frame Formation', ruleSet: null),
       SubFaction('CEF Tank Formation', ruleSet: null),
       SubFaction('CEF Infantry Formation', ruleSet: null),
@@ -31,6 +35,7 @@ class Faction {
   }
   factory Faction.eden() {
     return Faction(FactionType.Eden, [
+      SubFaction('', ruleSet: null),
       SubFaction('Edenite Invasion Force', ruleSet: null),
       SubFaction('Edenite Noble Houses', ruleSet: null),
       SubFaction('Ad-Hoc Edenite Force', ruleSet: null),
@@ -38,6 +43,7 @@ class Faction {
   }
   factory Faction.north() {
     return Faction(FactionType.North, [
+      SubFaction('', ruleSet: null),
       SubFaction('Norguard', ruleSet: null),
       SubFaction('Western Frontier Protectorate', ruleSet: null),
       SubFaction('United Mercantile Federation', ruleSet: null),
@@ -46,6 +52,7 @@ class Faction {
   }
   factory Faction.nucoal() {
     return Faction(FactionType.NuCoal, [
+      SubFaction('', ruleSet: null),
       SubFaction('NuCoal Self Defense Force', ruleSet: null),
       SubFaction('Port Arthur Korps', ruleSet: null),
       SubFaction('Humanist Alliance Protection Force', ruleSet: null),
@@ -56,6 +63,7 @@ class Faction {
   }
   factory Faction.peaceRiver() {
     return Faction(FactionType.PeaceRiver, [
+      SubFaction('', ruleSet: null),
       SubFaction('Peace River Defense Force', ruleSet: null),
       SubFaction('Peace Officer Corps', ruleSet: null),
       SubFaction('Paxton Private Securities', ruleSet: null),
@@ -63,6 +71,7 @@ class Faction {
   }
   factory Faction.south() {
     return Faction(FactionType.South, [
+      SubFaction('', ruleSet: null),
       SubFaction('Military Intervention and Counter Insurgency Army',
           ruleSet: null),
       SubFaction('Mekong Dominion', ruleSet: null),
@@ -72,6 +81,7 @@ class Faction {
   }
   factory Faction.utopia() {
     return Faction(FactionType.Utopia, [
+      SubFaction('', ruleSet: null),
       SubFaction('Combined Armiger Force', ruleSet: null),
       SubFaction('Other Utopian Forces', ruleSet: null),
     ]);
