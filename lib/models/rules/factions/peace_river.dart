@@ -28,6 +28,7 @@ class PeaceRiver extends RuleSet {
 
   @override
   bool duelistCheck(UnitRoster roster, Unit u) {
+    // Peace river duelist can be in a strider Rule: Architects
     if (!(u.type == 'Gear' || u.type == 'Strider')) {
       return false;
     }

@@ -84,11 +84,6 @@ class FactionModification extends BaseModification {
     Advanced trait.
   */
 
-  /*
-    Architects: The duelist for this force may use a Peace River strider.
-    This isn't a mod, but change to the duelist upgrade
-  */
-
   factory FactionModification.fromId(String id) {
     switch (id) {
       case e_pexID:
