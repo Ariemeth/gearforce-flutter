@@ -3,15 +3,14 @@ name: Docker
 on:
   push:
     # Publish `main` as Docker `latest` image.
-    branches:
-      - main
+    branches: [main]
 
     # Publish `v1.2.3` tags as releases.
-    tags:
-      - v*
+    tags: [v*]
 
   # Run tests for any PRs.
   pull_request:
+    branches: [main]
 
 env:
   IMAGE_NAME: edwardcarmack/gearforce-web
@@ -19,7 +18,7 @@ env:
 jobs:
   # Push image to GitHub Packages.
   # See also https://docs.docker.com/docker-hub/builds/
-  push:
+  build:
     runs-on: ubuntu-latest
     if: github.event_name == 'push'
 
@@ -85,6 +84,12 @@ jobs:
           target: release
           tags: ${{ steps.gather-variables.outputs.IMAGE_TAGS }}
 
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/head/main' }}
+
+    steps:
       - name: Kubernetes set context
         uses: Azure/k8s-set-context@v1
         with:
