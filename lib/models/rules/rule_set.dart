@@ -20,7 +20,7 @@ abstract class RuleSet {
     return data.unitList(FactionType.Airstrike, includeTerrain: false);
   }
 
-  List<FactionModification> availableFactionMods(CombatGroup cg);
+  List<FactionModification> availableFactionMods(CombatGroup cg, Unit u);
 
   bool duelistCheck(UnitRoster roster, Unit u) {
     if (u.type != 'Gear') {
@@ -36,7 +36,7 @@ class DefaultRuleSet extends RuleSet {
   DefaultRuleSet(super.data);
 
   @override
-  List<FactionModification> availableFactionMods(CombatGroup cg) {
+  List<FactionModification> availableFactionMods(CombatGroup cg, Unit u) {
     return [];
   }
 

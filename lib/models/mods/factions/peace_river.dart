@@ -8,7 +8,7 @@ import 'package:gearforce/models/unit/unit_attribute.dart';
 
 const e_pexID = 'faction: peace river - 10';
 const warriorEliteID = 'faction: peace river - 20';
-const crisisCrusaderID = 'faction: peace river - 30';
+const crisisRespondersID = 'faction: peace river - 30';
 const laserTechID = 'faction: peace river - 40';
 const architectsID = 'faction: peace river - 50';
 
@@ -77,19 +77,45 @@ class FactionModification extends BaseModification {
     may swap their HAC, MSC, MBZ or LFG for a MPA (React) and a Shield for 1 TV.
     This Crisis Responder variant is unlimited for this force.
   */
+  // TODO finish implementing
+  factory FactionModification.crisisResponders(Unit u) {
+    final bool Function(CombatGroup, Unit) reqCheck = (CombatGroup cg, Unit u) {
+      return u.core.frame == 'Crusader IV' && u.hasMod('Crusader V Upgrade');
+    };
+    return FactionModification(
+      name: 'Crisis Responders',
+      requirementCheck: reqCheck,
+      id: crisisRespondersID,
+    )..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1');
+  }
 
   /*
     Laser Tech: Veteran universal infantry and veteran Spitz Monowheels may 
     upgrade their IW, IR or IS for 1 TV each. These weapons receive the 
     Advanced trait.
   */
+  // TODO finish implementing
+  factory FactionModification.laserTech(Unit u) {
+    final bool Function(CombatGroup, Unit) reqCheck = (CombatGroup cg, Unit u) {
+      return u.core.frame == 'Crusader IV' && u.hasMod('Crusader V Upgrade');
+    };
+    return FactionModification(
+      name: 'Laser Tech',
+      requirementCheck: reqCheck,
+      id: laserTechID,
+    )..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1');
+  }
 
-  factory FactionModification.fromId(String id) {
+  factory FactionModification.fromId(String id, Unit u) {
     switch (id) {
       case e_pexID:
         return FactionModification.e_pex();
       case warriorEliteID:
         return FactionModification.warriorElite();
+      case crisisRespondersID:
+        return FactionModification.crisisResponders(u);
+      case laserTechID:
+        return FactionModification.laserTech(u);
     }
     throw Exception('Unable to create mod with id $id');
   }

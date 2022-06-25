@@ -19,10 +19,12 @@ class PeaceRiver extends RuleSet {
   }
 
   @override
-  List<FactionModification> availableFactionMods(CombatGroup cg) {
+  List<FactionModification> availableFactionMods(CombatGroup cg, Unit u) {
     return [
       FactionModification.e_pex(),
       FactionModification.warriorElite(),
+      FactionModification.crisisResponders(u),
+      FactionModification.laserTech(u),
     ];
   }
 

@@ -173,7 +173,7 @@ class Unit extends ChangeNotifier {
           final modId = loadedMod['id'];
 
           try {
-            var mod = FactionModification.fromId(modId);
+            var mod = FactionModification.fromId(modId, u);
             u.addUnitMod(mod);
             final selected = loadedMod['selected'];
             if (selected != null) {

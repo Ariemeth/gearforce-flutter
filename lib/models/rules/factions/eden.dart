@@ -3,6 +3,7 @@ import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/mods/factions/peace_river.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/unit/role.dart';
+import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
 
 class Eden extends RuleSet {
@@ -17,7 +18,7 @@ class Eden extends RuleSet {
   }
 
   @override
-  List<FactionModification> availableFactionMods(CombatGroup cg) {
+  List<FactionModification> availableFactionMods(CombatGroup cg, Unit u) {
     return [];
   }
 }
