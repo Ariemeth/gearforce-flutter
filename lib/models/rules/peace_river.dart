@@ -1,5 +1,6 @@
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
+import 'package:gearforce/models/mods/factionUpgrades/faction_mod.dart';
 import 'package:gearforce/models/mods/factionUpgrades/peace_river.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
@@ -19,7 +20,7 @@ class PeaceRiver extends RuleSet {
   }
 
   @override
-  List<PeaceRiverFactionMods> availableFactionMods(CombatGroup cg, Unit u) {
+  List<FactionModification> availableFactionMods(CombatGroup cg, Unit u) {
     return [
       PeaceRiverFactionMods.e_pex(),
       PeaceRiverFactionMods.warriorElite(),
