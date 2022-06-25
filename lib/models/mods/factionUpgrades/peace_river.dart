@@ -1,6 +1,6 @@
 import 'package:gearforce/models/combatGroups/combat_group.dart';
+import 'package:gearforce/models/mods/factionUpgrades/faction_mod.dart';
 import 'package:gearforce/models/mods/modification_option.dart';
-import 'package:gearforce/models/mods/factions/faction_mod.dart';
 import 'package:gearforce/models/mods/mods.dart';
 import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/unit.dart';

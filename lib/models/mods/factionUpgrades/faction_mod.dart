@@ -1,6 +1,6 @@
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/mods/base_modification.dart';
-import 'package:gearforce/models/mods/factions/peace_river.dart';
+import 'package:gearforce/models/mods/factionUpgrades/peace_river.dart';
 import 'package:gearforce/models/mods/modification_option.dart';
 import 'package:gearforce/models/unit/unit.dart';
 
