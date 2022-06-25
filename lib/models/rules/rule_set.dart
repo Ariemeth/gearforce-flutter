@@ -13,5 +13,7 @@ abstract class RuleSet {
     List<String>? filters,
   });
 
+  List<UnitCore> airstrikeCounters();
+
   List<FactionModification> availableFactionMods(CombatGroup cg);
 }

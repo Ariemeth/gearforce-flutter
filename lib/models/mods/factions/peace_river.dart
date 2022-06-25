@@ -11,7 +11,6 @@ const laserTech = 'faction: peace river - 40';
 const architects = 'faction: peace river - 50';
 
 /*
-E-pex: One Peace River model within each combat group may increase its EW skill by one for 1 TV each.
 Z Warrior Elite: Any Warrior IV may be upgraded to a Warrior Elite for 1 TV each. This upgrade gives the Warrior IV a
 H/S of 4/2, an EW skill of 4+, and the Agile trait.
 Z Crisis Responders: Any Crusader IV that has been upgraded to a Crusader V may swap their HAC, MSC, MBZ or LFG
@@ -45,7 +44,10 @@ class FactionModification extends BaseModification {
     return FactionModification(
         name: 'E-pex', requirementCheck: reqCheck, id: e_pexID)
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
-      ..addMod(UnitAttribute.ew, createSimpleIntMod(-1), description: 'EW -1');
+      ..addMod(UnitAttribute.ew, createSimpleIntMod(-1),
+          description: 'One ' +
+              'Peace River model within each combat group may ' +
+              'increase its EW skill by one for 1 TV each');
   }
 
   factory FactionModification.fromId(String id, CombatGroup cg) {
@@ -56,21 +58,3 @@ class FactionModification extends BaseModification {
     throw Exception('Unable to create mod with id $id');
   }
 }
-
-/*
-E-pex: One Peace River model within each combat group may increase its EW skill by one for 1 TV each.
-*/
-/*final FactionModification boasLongFang = FactionModification(
-    name: 'Long Fang Upgrade',
-    requirementCheck: (Unit u) {
-      return u.mountedWeapons.any((w) => w.abbreviation == 'LGM');
-    },
-    cg: null)
-  ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
-  ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Long Fang'))
-  ..addMod(
-      UnitAttribute.mounted_weapons,
-      createReplaceWeaponInList(
-          oldValue: buildWeapon('LGM')!, newValue: buildWeapon('MFM')!),
-      description: '-LGM, +MFM');
-*/

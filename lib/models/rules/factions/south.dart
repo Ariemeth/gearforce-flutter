@@ -5,23 +5,21 @@ import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
 
-class PeaceRiver extends RuleSet {
-  const PeaceRiver(super.data);
+class South extends RuleSet {
+  const South(super.data);
 
   @override
   List<UnitCore> availableUnits({
     List<RoleType?>? role,
     List<String>? filters,
   }) {
-    return data.unitList(FactionType.PeaceRiver)
+    return data.unitList(FactionType.South)
       ..addAll(data.unitList(FactionType.Airstrike, includeTerrain: false));
   }
 
   @override
   List<FactionModification> availableFactionMods(CombatGroup cg) {
-    return [
-      FactionModification.e_pex(cg),
-    ];
+    return [];
   }
 
   @override

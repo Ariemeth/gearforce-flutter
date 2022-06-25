@@ -11,8 +11,8 @@ class SelectSubFaction extends StatefulWidget {
       required this.selectedSubFaction})
       : super(key: key);
   final List<Faction> factions;
-  final ValueListenable<Faction?> selectedFaction;
-  final ValueNotifier<SubFaction?> selectedSubFaction;
+  final ValueListenable<Faction> selectedFaction;
+  final ValueNotifier<SubFaction> selectedSubFaction;
 
   @override
   _SelectSubFactionState createState() => _SelectSubFactionState();
@@ -22,7 +22,7 @@ class SelectSubFaction extends StatefulWidget {
 class _SelectSubFactionState extends State<SelectSubFaction> {
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder<Faction?>(
+    return ValueListenableBuilder<Faction>(
       valueListenable: widget.selectedFaction,
       builder: (context, value, child) {
         return DropdownButton<SubFaction>(
@@ -37,7 +37,7 @@ class _SelectSubFactionState extends State<SelectSubFaction> {
           underline: SizedBox(),
           onChanged: (SubFaction? newValue) {
             setState(() {
-              widget.selectedSubFaction.value = newValue;
+              widget.selectedSubFaction.value = newValue!;
             });
           },
           items: _subFactions(),
@@ -46,12 +46,8 @@ class _SelectSubFactionState extends State<SelectSubFaction> {
     );
   }
 
-  List<DropdownMenuItem<SubFaction>>? _subFactions() {
-    if (widget.selectedFaction.value == null) {
-      return null;
-    }
-
-    final subfactions = widget.selectedFaction.value!.subFactions;
+  List<DropdownMenuItem<SubFaction>> _subFactions() {
+    final subfactions = widget.selectedFaction.value.subFactions;
 
     var menuItems = subfactions.map<DropdownMenuItem<SubFaction>>((name) {
       return DropdownMenuItem<SubFaction>(

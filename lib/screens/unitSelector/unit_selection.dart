@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gearforce/data/data.dart';
-import 'package:gearforce/models/factions/faction.dart';
 import 'package:gearforce/models/roster/roster.dart';
+import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
 import 'package:gearforce/screens/unitSelector/selected_unit_feedback.dart';
@@ -70,13 +69,12 @@ class SelectionList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final roster = context.watch<UnitRoster>();
-    final data = context.watch<Data>();
 
     return SingleChildScrollView(
       child: Column(
         children: [
           SingleChildScrollView(
-            child: _buildTable(data, roster.faction.value),
+            child: _buildTable(roster.subFaction.value.ruleSet),
             scrollDirection: Axis.horizontal,
           ),
         ],
@@ -85,22 +83,11 @@ class SelectionList extends StatelessWidget {
     );
   }
 
-  Widget _buildTable(Data data, Faction? faction) {
-    if (faction == null) {
-      return DataTable(
-        columns: _createTableColumns(),
-        rows: [],
-        columnSpacing: 2.0,
-        horizontalMargin: 0.0,
-        headingRowHeight: 30.0,
-        headingRowColor: MaterialStateColor.resolveWith(
-          (states) => Color.fromARGB(255, 187, 222, 251),
-        ),
-      );
+  Widget _buildTable(RuleSet? ruleSet) {
+    if (ruleSet == null) {
+      return Container();
     }
-
-    var d = data.unitList(
-      faction.factionType,
+    var d = ruleSet.availableUnits(
       role: this
           .roleFilters
           .entries

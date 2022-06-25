@@ -25,16 +25,24 @@ class RosterWidget extends StatefulWidget {
   RosterWidget({
     Key? key,
     required this.title,
+    required this.data,
   }) : super(key: key);
 
   final String? title;
+  final Data data;
 
   @override
   _RosterWidgetState createState() => _RosterWidgetState();
 }
 
 class _RosterWidgetState extends State<RosterWidget> {
-  final UnitRoster roster = UnitRoster();
+  late UnitRoster roster;
+
+  @override
+  void initState() {
+    roster = UnitRoster(widget.data);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

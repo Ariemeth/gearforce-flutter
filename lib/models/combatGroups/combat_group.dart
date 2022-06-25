@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/combatGroups/group.dart';
-import 'package:gearforce/models/factions/faction_type.dart';
+import 'package:gearforce/models/factions/faction.dart';
 import 'package:gearforce/models/factions/sub_factions.dart/sub_faction.dart';
 import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart';
 import 'package:gearforce/models/roster/roster.dart';
@@ -90,8 +90,8 @@ class CombatGroup extends ChangeNotifier {
   factory CombatGroup.fromJson(
     dynamic json,
     Data data,
-    FactionType? faction,
-    SubFaction? subfaction,
+    Faction faction,
+    SubFaction subfaction,
     UnitRoster roster,
   ) {
     final cg = CombatGroup(
@@ -101,7 +101,6 @@ class CombatGroup extends ChangeNotifier {
 
     final p = Group.fromJson(
       json['primary'],
-      data,
       faction,
       subfaction,
       cg,
@@ -109,7 +108,6 @@ class CombatGroup extends ChangeNotifier {
     );
     final s = Group.fromJson(
       json['secondary'],
-      data,
       faction,
       subfaction,
       cg,
