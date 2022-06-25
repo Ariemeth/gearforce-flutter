@@ -20,6 +20,12 @@
       "request": "launch",
       "type": "dart",
       "flutterMode": "release"
+    },
+    {
+      "name": "gearforce (debug mode)",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "debug"
     }
   ]
 }
