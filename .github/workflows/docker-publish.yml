@@ -20,7 +20,7 @@ jobs:
   # See also https://docs.docker.com/docker-hub/builds/
   build:
     runs-on: ubuntu-latest
-    #   if: github.event_name == 'push'
+    if: github.event_name == 'push'
 
     steps:
       - name: "Checkout"
@@ -38,9 +38,7 @@ jobs:
           # Use Docker `latest` tag convention
           [ "$VERSION" == "main" ] && VERSION=latest
 
-          [[ "$VERSION" == "main" ]] && IMAGE_TAGS="$IMAGE_NAME:$VERSION,$IMAGE_NAME:${{ github.sha }}"
-
-          [[ "$VERSION" != "main" ]] && IMAGE_TAGS="$IMAGE_NAME:${GITHUB_REF#refs/heads/})"
+          IMAGE_TAGS="$IMAGE_NAME:$VERSION,$IMAGE_NAME:${{ github.sha }}"
 
           echo "::set-output name=IMAGE_TAGS::$IMAGE_TAGS"
 
