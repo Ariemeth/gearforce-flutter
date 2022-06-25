@@ -307,7 +307,7 @@ List<UnitModification> getUnitMods(String frameName, Unit unit) {
       ];
     case 'saker':
       return [eden.dominus];
-    case 'infantry':
+    case 'universal infantry':
       return [
         universal.paratrooper,
         universal.mountaineering,

@@ -192,6 +192,16 @@ void main() {
       hasReact: true,
       baseTraits: [trait],
     );
+    const w2 = Weapon(
+      abbreviation: weaponAbbreviation,
+      name: weaponName,
+      range: range,
+      modes: [mode],
+      damage: weaponDamage,
+      hasReact: true,
+      baseTraits: [trait],
+    );
+    expect(w == w2, true, reason: 'the same');
     expect(w.isCombo, isFalse);
   });
 }

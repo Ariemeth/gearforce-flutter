@@ -130,7 +130,7 @@ class VeteranModification extends BaseModification {
         if (!(value is List<Weapon>)) {
           return value;
         }
-        final newList = value;
+        final newList = value.toList();
 
         if (modOptions.selectedOption != null) {
           var existingWeapon = newList.firstWhere(

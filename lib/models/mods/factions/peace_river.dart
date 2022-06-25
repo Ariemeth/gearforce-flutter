@@ -5,18 +5,14 @@ import 'package:gearforce/models/mods/mods.dart';
 import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
+import 'package:gearforce/models/weapons/weapon.dart';
+import 'package:gearforce/models/weapons/weapons.dart';
 
 const e_pexID = 'faction: peace river - 10';
 const warriorEliteID = 'faction: peace river - 20';
 const crisisRespondersID = 'faction: peace river - 30';
 const laserTechID = 'faction: peace river - 40';
 const architectsID = 'faction: peace river - 50';
-
-/*
-
-
-
-*/
 
 class FactionModification extends BaseModification {
   FactionModification({
@@ -77,8 +73,20 @@ class FactionModification extends BaseModification {
     may swap their HAC, MSC, MBZ or LFG for a MPA (React) and a Shield for 1 TV.
     This Crisis Responder variant is unlimited for this force.
   */
-  // TODO finish implementing
+  // TODO support the unlimited variant this upgrade adds
   factory FactionModification.crisisResponders(Unit u) {
+    final allowedWeaponMatch = RegExp(r'^(HAC|MSC|MBZ|LFG)$');
+    final List<ModificationOption> _options = [];
+    u.weapons
+        .where((w) => allowedWeaponMatch.hasMatch(w.abbreviation))
+        .forEach((w) {
+      _options.add(ModificationOption(w.toString()));
+    });
+    final modOptions = ModificationOption('Crisis Responders',
+        subOptions: _options,
+        description: 'Choose one of the available weapons be replaced with' +
+            'a MPA (React) and a Shield');
+
     final bool Function(CombatGroup, Unit) reqCheck = (CombatGroup cg, Unit u) {
       return u.core.frame == 'Crusader IV' && u.hasMod('Crusader V Upgrade');
     };
@@ -86,7 +94,31 @@ class FactionModification extends BaseModification {
       name: 'Crisis Responders',
       requirementCheck: reqCheck,
       id: crisisRespondersID,
-    )..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1');
+      options: modOptions,
+    )
+      ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
+      ..addMod(
+          UnitAttribute.traits, createAddTraitToList(Trait(name: 'Shield')),
+          description: '+Shield')
+      ..addMod(UnitAttribute.react_weapons, (value) {
+        if (!(value is List<Weapon>)) {
+          return value;
+        }
+        final newList = value.toList();
+
+        if (modOptions.selectedOption == null ||
+            !newList
+                .any((w) => w.toString() != modOptions.selectedOption?.text)) {
+          return newList;
+        }
+        final selectedWeaponToRemove = newList
+            .firstWhere((w) => w.toString() == modOptions.selectedOption?.text);
+
+        newList.remove(selectedWeaponToRemove);
+        newList.add(buildWeapon('MPA', hasReact: true)!);
+
+        return newList;
+      });
   }
 
   /*
@@ -94,16 +126,82 @@ class FactionModification extends BaseModification {
     upgrade their IW, IR or IS for 1 TV each. These weapons receive the 
     Advanced trait.
   */
-  // TODO finish implementing
   factory FactionModification.laserTech(Unit u) {
+    final allowedWeaponMatch = RegExp(r'^(IW|IR|IS)$');
+    final List<ModificationOption> _options = [];
+    u.weapons.where((w) => allowedWeaponMatch.hasMatch(w.code)).forEach((w) {
+      _options.add(ModificationOption(w.toString()));
+    });
+    final modOptions = ModificationOption('Laser Tech',
+        subOptions: _options,
+        description: 'Choose one of the available weapons be gain the ' +
+            'Advanced trait');
+
     final bool Function(CombatGroup, Unit) reqCheck = (CombatGroup cg, Unit u) {
-      return u.core.frame == 'Crusader IV' && u.hasMod('Crusader V Upgrade');
+      return u.isVeteran() &&
+          (u.core.frame == 'Universal Infantry' || u.name == 'Spitz Monowheel');
     };
+
     return FactionModification(
       name: 'Laser Tech',
       requirementCheck: reqCheck,
       id: laserTechID,
-    )..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1');
+      options: modOptions,
+    )
+      ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
+      ..addMod(UnitAttribute.react_weapons, (value) {
+        if (!(value is List<Weapon>)) {
+          return value;
+        }
+
+        if (value.isEmpty) {
+          return value;
+        }
+        final newList = value.toList();
+
+        if (modOptions.selectedOption == null ||
+            !newList
+                .any((w) => w.toString() == modOptions.selectedOption?.text)) {
+          return newList;
+        }
+        final selectedWeaponToRemove = newList
+            .firstWhere((w) => w.toString() == modOptions.selectedOption?.text);
+
+        newList.remove(selectedWeaponToRemove);
+        newList.add(Weapon.fromWeapon(
+          selectedWeaponToRemove,
+          addTraits: [Trait(name: 'Advanced')],
+        ));
+
+        return newList;
+      })
+      ..addMod(UnitAttribute.mounted_weapons, (value) {
+        if (!(value is List<Weapon>)) {
+          return value;
+        }
+
+        if (value.isEmpty) {
+          return value;
+        }
+        final newList = value.toList();
+
+        if (modOptions.selectedOption == null ||
+            !newList
+                .any((w) => w.toString() == modOptions.selectedOption?.text)) {
+          return newList;
+        }
+
+        final selectedWeaponToRemove = newList
+            .firstWhere((w) => w.toString() == modOptions.selectedOption?.text);
+
+        newList.remove(selectedWeaponToRemove);
+        newList.add(Weapon.fromWeapon(
+          selectedWeaponToRemove,
+          addTraits: [Trait(name: 'Advanced')],
+        ));
+
+        return newList;
+      });
   }
 
   factory FactionModification.fromId(String id, Unit u) {
