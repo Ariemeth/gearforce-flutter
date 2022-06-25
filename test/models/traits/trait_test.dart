@@ -6,7 +6,7 @@ void main() {
     const traitName = 'Advanced';
     const toString = 'Advanced';
 
-    const w = Trait(name: traitName);
+    const w = const Trait(name: traitName);
     expect(w.name, equals(traitName), reason: 'check name');
     expect(w.level, isNull, reason: 'check level');
     expect(w.isAux, isFalse, reason: 'check aux');
@@ -19,7 +19,7 @@ void main() {
     const traitLevel = 2;
     const toString = '$traitName:$traitLevel';
 
-    const w = Trait(name: traitName, level: traitLevel);
+    const w = const Trait(name: traitName, level: traitLevel);
     expect(w.name, equals(traitName), reason: 'check name');
     expect(w.level, equals(traitLevel), reason: 'check level');
     expect(w.isAux, isFalse, reason: 'check aux');
@@ -32,7 +32,7 @@ void main() {
     const toString = '$traitName (Aux)';
     const isAux = true;
 
-    const w = Trait(name: traitName, isAux: isAux);
+    const w = const Trait(name: traitName, isAux: isAux);
     expect(w.name, equals(traitName), reason: 'check name');
     expect(w.isAux, equals(isAux), reason: 'check aux');
     expect(w.type, isNull, reason: 'check type');

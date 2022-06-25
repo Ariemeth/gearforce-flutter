@@ -83,8 +83,8 @@ Weapon? _buildWeapon({
       damage = damageMap[size]!;
       range = Range(12, 36, 72);
       traits = [
-        Trait(name: 'Flak'),
-        Trait(name: 'Guided'),
+        const Trait(name: 'Flak'),
+        const Trait(name: 'Guided'),
       ];
       break;
     case 'ABM':
@@ -94,10 +94,10 @@ Weapon? _buildWeapon({
       damage = damageMap[size]!;
       range = Range(24, 48, 96);
       traits = [
-        Trait(name: 'AI'),
-        Trait(name: 'AOE', level: 3),
-        Trait(name: 'Blast'),
-        Trait(name: 'Guided'),
+        const Trait(name: 'AI'),
+        const Trait(name: 'AOE', level: 3),
+        const Trait(name: 'Blast'),
+        const Trait(name: 'Guided'),
       ];
       break;
     case 'AC':
@@ -107,10 +107,10 @@ Weapon? _buildWeapon({
       damage = damageMap[size]!;
       range = Range(6, 18, 36);
       traits = [
-        Trait(name: 'Burst', level: 1),
-        Trait(name: 'Split'),
+        const Trait(name: 'Burst', level: 1),
+        const Trait(name: 'Split'),
       ];
-      alternativeTraits = [Trait(name: 'Precise')];
+      alternativeTraits = [const Trait(name: 'Precise')];
       break;
     case 'AG':
       const damageMap = {'L': 9, 'M': 10, 'H': 11};
@@ -119,10 +119,10 @@ Weapon? _buildWeapon({
       damage = damageMap[size]!;
       range = Range(24, 48, 96);
       traits = [
-        Trait(name: 'AOE', level: 3),
-        Trait(name: 'Blast'),
-        Trait(name: 'AP', level: 1),
-        Trait(name: 'Demo', level: 2),
+        const Trait(name: 'AOE', level: 3),
+        const Trait(name: 'Blast'),
+        const Trait(name: 'AP', level: 1),
+        const Trait(name: 'Demo', level: 2),
       ];
       break;
     case 'AM':
@@ -132,10 +132,10 @@ Weapon? _buildWeapon({
       damage = damageMap[size]!;
       range = Range(24, 48, 96);
       traits = [
-        Trait(name: 'AOE', level: 4),
-        Trait(name: 'Blast'),
-        Trait(name: 'AP', level: 1),
-        Trait(name: 'Guided'),
+        const Trait(name: 'AOE', level: 4),
+        const Trait(name: 'Blast'),
+        const Trait(name: 'AP', level: 1),
+        const Trait(name: 'Guided'),
       ];
       break;
     case 'APGL':
@@ -145,9 +145,9 @@ Weapon? _buildWeapon({
       damage = damageMap[size]!;
       range = Range(0, 3, null);
       traits = [
-        Trait(name: 'AI'),
-        Trait(name: 'Frag'),
-        Trait(name: 'Prox'),
+        const Trait(name: 'AI'),
+        const Trait(name: 'Frag'),
+        const Trait(name: 'Prox'),
       ];
       break;
     case 'APR':
@@ -157,8 +157,8 @@ Weapon? _buildWeapon({
       damage = damageMap[size]!;
       range = Range(6, 18, 36);
       traits = [
-        Trait(name: 'AI'),
-        Trait(name: 'AOE', level: 3),
+        const Trait(name: 'AI'),
+        const Trait(name: 'AOE', level: 3),
       ];
       break;
     case 'AR':
@@ -168,8 +168,8 @@ Weapon? _buildWeapon({
       damage = damageMap[size]!;
       range = Range(12, 36, 72);
       traits = [
-        Trait(name: 'AOE', level: 3),
-        Trait(name: 'Demo', level: 2),
+        const Trait(name: 'AOE', level: 3),
+        const Trait(name: 'Demo', level: 2),
       ];
       break;
     case 'ATM':
@@ -181,7 +181,7 @@ Weapon? _buildWeapon({
       range = Range(12, 36, 72);
       traits = [
         Trait(name: 'AP', level: apMap[size]),
-        Trait(name: 'Guided'),
+        const Trait(name: 'Guided'),
       ];
       break;
     case 'AVM':
@@ -191,8 +191,8 @@ Weapon? _buildWeapon({
       damage = damageMap[size]!;
       range = Range(6, 18, 36);
       traits = [
-        Trait(name: 'AP', level: 1),
-        Trait(name: 'Guided'),
+        const Trait(name: 'AP', level: 1),
+        const Trait(name: 'Guided'),
       ];
       break;
     case 'B':
@@ -200,7 +200,7 @@ Weapon? _buildWeapon({
       modes = [weaponModes.Direct];
       damage = 8;
       range = Range(0, null, null);
-      traits = [Trait(name: 'AOE', level: 4)];
+      traits = [const Trait(name: 'AOE', level: 4)];
       break;
     case 'BZ':
       const damageMap = {'L': 7, 'M': 8, 'H': 9};
@@ -220,7 +220,7 @@ Weapon? _buildWeapon({
       damage = damageMap[size]!;
       range = Range(0, null, null, hasReach: true, increasableReach: true);
       traits = [
-        Trait(name: 'Demo', level: 2),
+        const Trait(name: 'Demo', level: 2),
       ];
       break;
     case 'FC':
@@ -231,12 +231,12 @@ Weapon? _buildWeapon({
       damage = damageMap[size]!;
       range = Range(3, 9, 18);
       traits = [
-        Trait(name: 'Precise'),
+        const Trait(name: 'Precise'),
         Trait(name: 'AP', level: apMap[size]),
       ];
       alternativeTraits = [
-        Trait(name: 'Frag'),
-        Trait(name: 'AI'),
+        const Trait(name: 'Frag'),
+        const Trait(name: 'AI'),
       ];
       break;
     case 'FG':
@@ -250,8 +250,8 @@ Weapon? _buildWeapon({
         Trait(name: 'AP', level: apMap[size]),
       ];
       alternativeTraits = [
-        Trait(name: 'AOE', level: 3),
-        Trait(name: 'Blast'),
+        const Trait(name: 'AOE', level: 3),
+        const Trait(name: 'Blast'),
       ];
       break;
     case 'FL':
@@ -262,10 +262,10 @@ Weapon? _buildWeapon({
       damage = damageMap[size]!;
       range = Range(0, 9, 18);
       traits = [
-        Trait(name: 'AI'),
+        const Trait(name: 'AI'),
         Trait(name: 'Fire', level: fireMap[size]),
-        Trait(name: 'Burst', level: 1),
-        Trait(name: 'Spray'),
+        const Trait(name: 'Burst', level: 1),
+        const Trait(name: 'Spray'),
       ];
       break;
     case 'FM':
@@ -275,8 +275,8 @@ Weapon? _buildWeapon({
       damage = damageMap[size]!;
       range = Range(18, 36, 72);
       traits = [
-        Trait(name: 'AOE', level: 4),
-        Trait(name: 'Blast'),
+        const Trait(name: 'AOE', level: 4),
+        const Trait(name: 'Blast'),
       ];
       break;
     case 'GL':
@@ -286,10 +286,10 @@ Weapon? _buildWeapon({
       damage = damageMap[size]!;
       range = Range(6, 12, 24);
       traits = [
-        Trait(name: 'AOE', level: 3),
-        Trait(name: 'Blast'),
-        Trait(name: 'AP', level: 1),
-        Trait(name: 'Burst', level: 1),
+        const Trait(name: 'AOE', level: 3),
+        const Trait(name: 'Blast'),
+        const Trait(name: 'AP', level: 1),
+        const Trait(name: 'Burst', level: 1),
       ];
       break;
     case 'GM':
@@ -299,9 +299,9 @@ Weapon? _buildWeapon({
       damage = damageMap[size]!;
       range = Range(18, 36, 72);
       traits = [
-        Trait(name: 'AOE', level: 3),
-        Trait(name: 'Blast'),
-        Trait(name: 'Guided'),
+        const Trait(name: 'AOE', level: 3),
+        const Trait(name: 'Blast'),
+        const Trait(name: 'Guided'),
       ];
       break;
     case 'HG':
@@ -311,9 +311,9 @@ Weapon? _buildWeapon({
       damage = damageMap[size]!;
       range = Range(3, 6, 9);
       traits = [
-        Trait(name: 'AOE', level: 3),
-        Trait(name: 'Blast'),
-        Trait(name: 'AP', level: 1),
+        const Trait(name: 'AOE', level: 3),
+        const Trait(name: 'Blast'),
+        const Trait(name: 'AP', level: 1),
       ];
       break;
     case 'ICW':
@@ -322,7 +322,7 @@ Weapon? _buildWeapon({
       modes = [weaponModes.Melee];
       damage = damageMap[size]!;
       range = Range(0, null, null, hasReach: true, increasableReach: true);
-      traits = [Trait(name: 'AI')];
+      traits = [const Trait(name: 'AI')];
       break;
     case 'IGL':
       const damageMap = {'L': 5, 'M': 6, 'H': 7};
@@ -331,11 +331,11 @@ Weapon? _buildWeapon({
       damage = damageMap[size]!;
       range = Range(3, 9, 18);
       traits = [
-        Trait(name: 'AOE', level: 2),
-        Trait(name: 'Blast'),
+        const Trait(name: 'AOE', level: 2),
+        const Trait(name: 'Blast'),
       ];
       alternativeTraits = [
-        Trait(name: 'AP', level: 1),
+        const Trait(name: 'AP', level: 1),
       ];
       break;
     case 'IL':
@@ -345,9 +345,9 @@ Weapon? _buildWeapon({
       damage = damageMap[size]!;
       range = Range(6, 18, 36);
       traits = [
-        Trait(name: 'AI'),
-        Trait(name: 'Advanced'),
-        Trait(name: 'Burst', level: 1),
+        const Trait(name: 'AI'),
+        const Trait(name: 'Advanced'),
+        const Trait(name: 'Burst', level: 1),
       ];
       break;
     case 'IM':
@@ -357,9 +357,9 @@ Weapon? _buildWeapon({
       damage = damageMap[size]!;
       range = Range(12, 24, 48);
       traits = [
-        Trait(name: 'AOE', level: 2),
-        Trait(name: 'Blast'),
-        Trait(name: 'AI'),
+        const Trait(name: 'AOE', level: 2),
+        const Trait(name: 'Blast'),
+        const Trait(name: 'AI'),
       ];
       break;
     case 'IR':
@@ -369,8 +369,8 @@ Weapon? _buildWeapon({
       damage = damageMap[size]!;
       range = Range(6, 24, 48);
       traits = [
-        Trait(name: 'Precise'),
-        Trait(name: 'AI'),
+        const Trait(name: 'Precise'),
+        const Trait(name: 'AI'),
       ];
       break;
     case 'IS':
@@ -388,8 +388,8 @@ Weapon? _buildWeapon({
       damage = damageMap[size]!;
       range = Range(0, 9, 18);
       traits = [
-        Trait(name: 'AI'),
-        Trait(name: 'Burst', level: 1),
+        const Trait(name: 'AI'),
+        const Trait(name: 'Burst', level: 1),
       ];
       break;
     case 'LC':
@@ -399,8 +399,8 @@ Weapon? _buildWeapon({
       damage = damageMap[size]!;
       range = Range(12, 36, 72);
       traits = [
-        Trait(name: 'Precise'),
-        Trait(name: 'Advanced'),
+        const Trait(name: 'Precise'),
+        const Trait(name: 'Advanced'),
       ];
       break;
     case 'MG':
@@ -410,9 +410,9 @@ Weapon? _buildWeapon({
       damage = damageMap[size]!;
       range = Range(3, 9, 18);
       traits = [
-        Trait(name: 'AI'),
-        Trait(name: 'Burst', level: 2),
-        Trait(name: 'Split'),
+        const Trait(name: 'AI'),
+        const Trait(name: 'Burst', level: 2),
+        const Trait(name: 'Split'),
       ];
       break;
     case 'P':
@@ -422,7 +422,7 @@ Weapon? _buildWeapon({
       damage = damageMap[size]!;
       range = Range(0, 12, 24);
       traits = [
-        Trait(name: 'Precise'),
+        const Trait(name: 'Precise'),
       ];
       break;
     case 'PA':
@@ -432,8 +432,8 @@ Weapon? _buildWeapon({
       damage = damageMap[size]!;
       range = Range(6, 24, 48);
       traits = [
-        Trait(name: 'Haywire'),
-        Trait(name: 'Advanced'),
+        const Trait(name: 'Haywire'),
+        const Trait(name: 'Advanced'),
       ];
       break;
     case 'PL':
@@ -444,13 +444,13 @@ Weapon? _buildWeapon({
       damage = damageMap[size]!;
       range = Range(6, 24, 48);
       traits = [
-        Trait(name: 'Burst', level: 1),
-        Trait(name: 'Advanced'),
+        const Trait(name: 'Burst', level: 1),
+        const Trait(name: 'Advanced'),
       ];
       alternativeTraits = [
         Trait(name: 'AP', level: apMap[size]),
-        Trait(name: 'Apex'),
-        Trait(name: 'Advanced'),
+        const Trait(name: 'Apex'),
+        const Trait(name: 'Advanced'),
       ];
       break;
     case 'PZ':
@@ -471,8 +471,8 @@ Weapon? _buildWeapon({
       damage = damageMap[size]!;
       range = Range(6, 18, 36);
       traits = [
-        Trait(name: 'Burst', level: 2),
-        Trait(name: 'Split'),
+        const Trait(name: 'Burst', level: 2),
+        const Trait(name: 'Split'),
       ];
       break;
     case 'RF':
@@ -482,7 +482,7 @@ Weapon? _buildWeapon({
       damage = damageMap[size]!;
       range = Range(12, 36, 72);
       traits = [
-        Trait(name: 'Precise'),
+        const Trait(name: 'Precise'),
       ];
       break;
     case 'RG':
@@ -493,8 +493,8 @@ Weapon? _buildWeapon({
       damage = damageMap[size]!;
       range = Range(12, 48, 96);
       traits = [
-        Trait(name: 'Precise'),
-        Trait(name: 'Advanced'),
+        const Trait(name: 'Precise'),
+        const Trait(name: 'Advanced'),
         Trait(name: 'AP', level: apMap[size]),
       ];
       break;
@@ -505,9 +505,9 @@ Weapon? _buildWeapon({
       damage = damageMap[size]!;
       range = Range(6, 18, 36);
       traits = [
-        Trait(name: 'Advanced'),
-        Trait(name: 'Burst', level: 2),
-        Trait(name: 'Split'),
+        const Trait(name: 'Advanced'),
+        const Trait(name: 'Burst', level: 2),
+        const Trait(name: 'Split'),
       ];
       break;
     case 'RP':
@@ -517,8 +517,8 @@ Weapon? _buildWeapon({
       damage = damageMap[size]!;
       range = Range(6, 18, 36);
       traits = [
-        Trait(name: 'AOE', level: 3),
-        Trait(name: 'AP', level: 1),
+        const Trait(name: 'AOE', level: 3),
+        const Trait(name: 'AP', level: 1),
       ];
       break;
     case 'SC':
@@ -530,7 +530,7 @@ Weapon? _buildWeapon({
       range = Range(3, 9, 18);
       traits = [
         Trait(name: 'AP', level: apMap[size]),
-        Trait(name: 'Demo', level: 3),
+        const Trait(name: 'Demo', level: 3),
       ];
       break;
     case 'SE':
@@ -542,8 +542,8 @@ Weapon? _buildWeapon({
       range = Range(0, null, null, hasReach: true);
       traits = [
         Trait(name: 'AP', level: apMap[size]),
-        Trait(name: 'Demo', level: 4),
-        Trait(name: 'Brawl', level: -1),
+        const Trait(name: 'Demo', level: 4),
+        const Trait(name: 'Brawl', level: -1),
       ];
       break;
     case 'SG':
@@ -564,7 +564,7 @@ Weapon? _buildWeapon({
       damage = damageMap[size]!;
       range = Range(0, 9, 18);
       traits = [
-        Trait(name: 'Burst', level: 2),
+        const Trait(name: 'Burst', level: 2),
       ];
       break;
     case 'TG':
@@ -576,7 +576,7 @@ Weapon? _buildWeapon({
       range = Range(12, 36, 72);
       traits = [
         Trait(name: 'AP', level: apMap[size]),
-        Trait(name: 'Demo', level: 2),
+        const Trait(name: 'Demo', level: 2),
       ];
       break;
     case 'VB':

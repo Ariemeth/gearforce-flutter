@@ -40,9 +40,9 @@ void main() {
   });
 
   test('test createAddToList mod adds Comms to list', () {
-    const trait = Trait(name: 'Comms');
+    const trait = const Trait(name: 'Comms');
     final mod = createAddTraitToList(trait);
-    final List<Trait> traits = [Trait(name: 'something')];
+    final List<Trait> traits = [const Trait(name: 'something')];
     expect(mod(traits), contains(trait));
     expect(traits, hasLength(1),
         reason: 'original list should not have changed in length');
@@ -50,9 +50,9 @@ void main() {
   });
 
   test('test createAddToList mod adds Comms to list with existing +', () {
-    const trait = Trait(name: 'Comms');
+    const trait = const Trait(name: 'Comms');
     final mod = createAddTraitToList(trait);
-    final List<Trait> traits = [Trait(name: 'Comms+')];
+    final List<Trait> traits = [const Trait(name: 'Comms+')];
     expect(mod(traits), contains(trait));
     expect(traits, hasLength(1),
         reason: 'original list should not have changed in length');
@@ -61,7 +61,7 @@ void main() {
   });
 
   test('test createAddToList mod does not duplicate Comms', () {
-    const trait = Trait(name: 'Comms');
+    const trait = const Trait(name: 'Comms');
     final mod = createAddTraitToList(trait);
     final List<Trait> traits = [trait];
     expect(mod(traits), contains(trait));
@@ -71,8 +71,8 @@ void main() {
   });
 
   test('test createReplaceInList mod adds Brawl:2 to list removes Brawl:1', () {
-    const traitOld = Trait(name: 'Brawl', level: 1);
-    const traitNew = Trait(name: 'Brawl', level: 2);
+    const traitOld = const Trait(name: 'Brawl', level: 1);
+    const traitNew = const Trait(name: 'Brawl', level: 2);
     final mod =
         createReplaceTraitInList(oldValue: traitOld, newValue: traitNew);
     final List<Trait> traits = [traitOld];
@@ -86,8 +86,8 @@ void main() {
   test(
       'test createReplaceInList mod adds Brawl:2 to list removes Brawl:1 when Brawl:1 dne',
       () {
-    const traitOld = Trait(name: 'Brawl', level: 1);
-    const traitNew = Trait(name: 'Brawl', level: 2);
+    const traitOld = const Trait(name: 'Brawl', level: 1);
+    const traitNew = const Trait(name: 'Brawl', level: 2);
     final mod =
         createReplaceTraitInList(oldValue: traitOld, newValue: traitNew);
     final List<Trait> traits = [];

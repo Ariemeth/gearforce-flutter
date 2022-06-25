@@ -64,7 +64,7 @@ class FactionModification extends BaseModification {
       ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW: 4')
       ..addMod(
         UnitAttribute.traits,
-        createAddTraitToList(Trait(name: 'Agile')),
+        createAddTraitToList(const Trait(name: 'Agile')),
       );
   }
 
@@ -97,8 +97,8 @@ class FactionModification extends BaseModification {
       options: modOptions,
     )
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
-      ..addMod(
-          UnitAttribute.traits, createAddTraitToList(Trait(name: 'Shield')),
+      ..addMod(UnitAttribute.traits,
+          createAddTraitToList(const Trait(name: 'Shield')),
           description: '+Shield')
       ..addMod(UnitAttribute.react_weapons, (value) {
         if (!(value is List<Weapon>)) {
@@ -170,7 +170,7 @@ class FactionModification extends BaseModification {
         newList.remove(selectedWeaponToRemove);
         newList.add(Weapon.fromWeapon(
           selectedWeaponToRemove,
-          addTraits: [Trait(name: 'Advanced')],
+          addTraits: [const Trait(name: 'Advanced')],
         ));
 
         return newList;
@@ -197,7 +197,7 @@ class FactionModification extends BaseModification {
         newList.remove(selectedWeaponToRemove);
         newList.add(Weapon.fromWeapon(
           selectedWeaponToRemove,
-          addTraits: [Trait(name: 'Advanced')],
+          addTraits: [const Trait(name: 'Advanced')],
         ));
 
         return newList;

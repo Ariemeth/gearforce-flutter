@@ -35,7 +35,7 @@ void main() {
       modes: [weaponModes.Direct, weaponModes.Indirect],
       range: Range(12, 36, 72),
       damage: {'L': 7, 'M': 8, 'H': 9},
-      traits: [Trait(name: 'Flak'), Trait(name: 'Guided')],
+      traits: [const Trait(name: 'Flak'), const Trait(name: 'Guided')],
     ),
     TestTable(
       code: 'ABM',
@@ -44,10 +44,10 @@ void main() {
       range: Range(24, 48, 96),
       damage: {'L': 6, 'M': 7, 'H': 8},
       traits: [
-        Trait(name: 'AI'),
-        Trait(name: 'AOE', level: 3),
-        Trait(name: 'Blast'),
-        Trait(name: 'Guided'),
+        const Trait(name: 'AI'),
+        const Trait(name: 'AOE', level: 3),
+        const Trait(name: 'Blast'),
+        const Trait(name: 'Guided'),
       ],
     ),
     TestTable(
@@ -57,8 +57,8 @@ void main() {
       range: Range(6, 18, 36),
       damage: {'L': 5, 'M': 6, 'H': 7},
       traits: [
-        Trait(name: 'AP', level: 1),
-        Trait(name: 'Guided'),
+        const Trait(name: 'AP', level: 1),
+        const Trait(name: 'Guided'),
       ],
     ),
     TestTable(
@@ -67,7 +67,7 @@ void main() {
       modes: [weaponModes.Melee],
       range: Range(0, null, null, hasReach: true, increasableReach: true),
       damage: {'L': 7, 'M': 8, 'H': 9},
-      traits: [Trait(name: 'Demo', level: 2)],
+      traits: [const Trait(name: 'Demo', level: 2)],
     ),
     TestTable(
       code: 'FM',
@@ -76,8 +76,8 @@ void main() {
       range: Range(18, 36, 72),
       damage: {'L': 8, 'M': 9, 'H': 10},
       traits: [
-        Trait(name: 'AOE', level: 4),
-        Trait(name: 'Blast'),
+        const Trait(name: 'AOE', level: 4),
+        const Trait(name: 'Blast'),
       ],
     ),
     TestTable(
@@ -87,9 +87,9 @@ void main() {
       range: Range(18, 36, 72),
       damage: {'L': 7, 'M': 8, 'H': 9},
       traits: [
-        Trait(name: 'AOE', level: 3),
-        Trait(name: 'Blast'),
-        Trait(name: 'Guided'),
+        const Trait(name: 'AOE', level: 3),
+        const Trait(name: 'Blast'),
+        const Trait(name: 'Guided'),
       ],
     ),
     TestTable(
@@ -99,9 +99,9 @@ void main() {
       range: Range(3, 6, 9),
       damage: {'L': 8, 'M': 9, 'H': 10},
       traits: [
-        Trait(name: 'AOE', level: 3),
-        Trait(name: 'Blast'),
-        Trait(name: 'AP', level: 1),
+        const Trait(name: 'AOE', level: 3),
+        const Trait(name: 'Blast'),
+        const Trait(name: 'AP', level: 1),
       ],
     ),
     TestTable(
@@ -111,7 +111,7 @@ void main() {
       range: Range(0, null, null, hasReach: true, increasableReach: true),
       damage: {'L': 4, 'M': 5, 'H': 6},
       traits: [
-        Trait(name: 'AI'),
+        const Trait(name: 'AI'),
       ],
     ),
     TestTable(
@@ -121,11 +121,11 @@ void main() {
       range: Range(3, 9, 18),
       damage: {'L': 5, 'M': 6, 'H': 7},
       traits: [
-        Trait(name: 'AOE', level: 2),
-        Trait(name: 'Blast'),
+        const Trait(name: 'AOE', level: 2),
+        const Trait(name: 'Blast'),
       ],
       optionalTraits: [
-        Trait(name: 'AP', level: 1),
+        const Trait(name: 'AP', level: 1),
       ],
     ),
     TestTable(
@@ -135,9 +135,9 @@ void main() {
       range: Range(6, 18, 36),
       damage: {'L': 3, 'M': 4, 'H': 5},
       traits: [
-        Trait(name: 'AI'),
-        Trait(name: 'Advanced'),
-        Trait(name: 'Burst', level: 1),
+        const Trait(name: 'AI'),
+        const Trait(name: 'Advanced'),
+        const Trait(name: 'Burst', level: 1),
       ],
     ),
     TestTable(
@@ -147,9 +147,9 @@ void main() {
       range: Range(12, 24, 48),
       damage: {'L': 4, 'M': 5, 'H': 6},
       traits: [
-        Trait(name: 'AOE', level: 2),
-        Trait(name: 'Blast'),
-        Trait(name: 'AI'),
+        const Trait(name: 'AOE', level: 2),
+        const Trait(name: 'Blast'),
+        const Trait(name: 'AI'),
       ],
     ),
     TestTable(
@@ -159,8 +159,8 @@ void main() {
       range: Range(6, 24, 48),
       damage: {'L': 4, 'M': 5, 'H': 6},
       traits: [
-        Trait(name: 'Precise'),
-        Trait(name: 'AI'),
+        const Trait(name: 'Precise'),
+        const Trait(name: 'AI'),
       ],
     ),
     TestTable(
@@ -178,8 +178,8 @@ void main() {
       range: Range(0, 9, 18),
       damage: {'L': 3, 'M': 4, 'H': 5},
       traits: [
-        Trait(name: 'AI'),
-        Trait(name: 'Burst', level: 1),
+        const Trait(name: 'AI'),
+        const Trait(name: 'Burst', level: 1),
       ],
     ),
     TestTable(
@@ -189,8 +189,8 @@ void main() {
       range: Range(12, 36, 72),
       damage: {'L': 6, 'M': 7, 'H': 8},
       traits: [
-        Trait(name: 'Precise'),
-        Trait(name: 'Advanced'),
+        const Trait(name: 'Precise'),
+        const Trait(name: 'Advanced'),
       ],
     ),
     TestTable(
@@ -200,9 +200,9 @@ void main() {
       range: Range(3, 9, 18),
       damage: {'L': 3, 'M': 4, 'H': 5},
       traits: [
-        Trait(name: 'AI'),
-        Trait(name: 'Burst', level: 2),
-        Trait(name: 'Split'),
+        const Trait(name: 'AI'),
+        const Trait(name: 'Burst', level: 2),
+        const Trait(name: 'Split'),
       ],
     ),
     TestTable(
@@ -212,7 +212,7 @@ void main() {
       range: Range(0, 12, 24),
       damage: {'L': 6, 'M': 7, 'H': 8},
       traits: [
-        Trait(name: 'Precise'),
+        const Trait(name: 'Precise'),
       ],
     ),
     TestTable(
@@ -222,8 +222,8 @@ void main() {
       range: Range(6, 24, 48),
       damage: {'L': 7, 'M': 8, 'H': 9},
       traits: [
-        Trait(name: 'Haywire'),
-        Trait(name: 'Advanced'),
+        const Trait(name: 'Haywire'),
+        const Trait(name: 'Advanced'),
       ],
     ),
     TestTable(
@@ -233,8 +233,8 @@ void main() {
       range: Range(6, 18, 36),
       damage: {'L': 5, 'M': 6, 'H': 7},
       traits: [
-        Trait(name: 'Burst', level: 2),
-        Trait(name: 'Split'),
+        const Trait(name: 'Burst', level: 2),
+        const Trait(name: 'Split'),
       ],
     ),
     TestTable(
@@ -244,7 +244,7 @@ void main() {
       range: Range(12, 36, 72),
       damage: {'L': 6, 'M': 7, 'H': 8},
       traits: [
-        Trait(name: 'Precise'),
+        const Trait(name: 'Precise'),
       ],
     ),
     TestTable(
@@ -254,8 +254,8 @@ void main() {
       range: Range(6, 18, 36),
       damage: {'L': 7, 'M': 8, 'H': 9},
       traits: [
-        Trait(name: 'AOE', level: 3),
-        Trait(name: 'AP', level: 1),
+        const Trait(name: 'AOE', level: 3),
+        const Trait(name: 'AP', level: 1),
       ],
     ),
   ];
@@ -296,7 +296,7 @@ void main() {
     for (var size in _sizes) {
       final traits = [
         Trait(name: 'AP', level: ap[size]),
-        Trait(name: 'Guided'),
+        const Trait(name: 'Guided'),
       ];
       test('test building $size$code', () {
         final l = buildWeapon('$size$code');
@@ -355,8 +355,8 @@ void main() {
         Trait(name: 'AP', level: ap[size]),
       ];
       final optionalTraits = [
-        Trait(name: 'AOE', level: 3),
-        Trait(name: 'Blast'),
+        const Trait(name: 'AOE', level: 3),
+        const Trait(name: 'Blast'),
       ];
       test('test building $size$code', () {
         final l = buildWeapon('$size$code');
@@ -414,8 +414,8 @@ void main() {
     const ap = {'L': 4, 'M': 5, 'H': 6};
     for (var size in _sizes) {
       final traits = [
-        Trait(name: 'Precise'),
-        Trait(name: 'Advanced'),
+        const Trait(name: 'Precise'),
+        const Trait(name: 'Advanced'),
         Trait(name: 'AP', level: ap[size]),
       ];
       test('test building $size$code', () {
@@ -445,7 +445,7 @@ void main() {
     for (var size in _sizes) {
       final traits = [
         Trait(name: 'AP', level: ap[size]),
-        Trait(name: 'Demo', level: 3),
+        const Trait(name: 'Demo', level: 3),
       ];
       test('test building $size$code', () {
         final l = buildWeapon('$size$code');
@@ -474,8 +474,8 @@ void main() {
     for (var size in _sizes) {
       final traits = [
         Trait(name: 'AP', level: ap[size]),
-        Trait(name: 'Demo', level: 4),
-        Trait(name: 'Brawl', level: -1),
+        const Trait(name: 'Demo', level: 4),
+        const Trait(name: 'Brawl', level: -1),
       ];
       test('test building $size$code', () {
         final l = buildWeapon('$size$code');
@@ -532,7 +532,7 @@ void main() {
     for (var size in _sizes) {
       final traits = [
         Trait(name: 'AP', level: ap[size]),
-        Trait(name: 'Demo', level: 2),
+        const Trait(name: 'Demo', level: 2),
       ];
       test('test building $size$code', () {
         final l = buildWeapon('$size$code');
@@ -633,10 +633,10 @@ void main() {
       range: Range(12, 36, 72),
       damage: {'L': 7, 'M': 8, 'H': 9},
       traits: [
-        Trait(name: 'Flak'),
-        Trait(name: 'Guided'),
-        Trait(name: 'T'),
-        Trait(name: 'Auto'),
+        const Trait(name: 'Flak'),
+        const Trait(name: 'Guided'),
+        const Trait(name: 'T'),
+        const Trait(name: 'Auto'),
       ],
       bonusTraits: '(T Auto)',
     );
@@ -696,7 +696,7 @@ void main() {
     final modes = [weaponModes.Direct];
     final range = Range(0, null, null);
     const damage = 8;
-    final traits = [Trait(name: 'AOE', level: 4)];
+    final traits = [const Trait(name: 'AOE', level: 4)];
     const name = 'Bomb';
 
     final l = buildWeapon('BB');
