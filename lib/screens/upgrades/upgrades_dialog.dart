@@ -3,6 +3,7 @@ import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/mods/base_modification.dart';
 import 'package:gearforce/models/mods/duelist/duelist_modification.dart';
 import 'package:gearforce/models/mods/duelist/duelist_upgrades.dart';
+import 'package:gearforce/models/mods/factionUpgrades/faction_mod.dart';
 import 'package:gearforce/models/mods/standardUpgrades/standard_modification.dart';
 import 'package:gearforce/models/mods/standardUpgrades/standard_upgrades.dart';
 import 'package:gearforce/models/mods/unitUpgrades/unit_modification.dart';
@@ -38,6 +39,8 @@ class UpgradesDialog extends StatelessWidget {
     final standardMods = getStandardMods(unit, cg, roster);
     final veteranMods = getVeteranMods(unit, cg);
     final duelistMods = getDuelistMods(unit, cg, roster);
+    final factionMods =
+        roster.subFaction.value.ruleSet.availableFactionMods(cg, unit);
 
     unit.getMods().forEach((mod) {
       switch (mod.runtimeType) {
@@ -56,6 +59,11 @@ class UpgradesDialog extends StatelessWidget {
         case DuelistModification:
           duelistMods[duelistMods.indexWhere((m) => m.id == mod.id)] =
               mod as DuelistModification;
+          break;
+        case FactionModification:
+          factionMods[factionMods.indexWhere((m) => m.id == mod.id)] =
+              mod as FactionModification;
+
           break;
       }
     });
@@ -85,13 +93,15 @@ class UpgradesDialog extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             upgradeTitle('Unit Upgrades'),
-            unitUpgrades(unitMods, unit),
+            unitUpgrades(unitMods, unit, cg),
             upgradeTitle('Standard Upgrades'),
-            unitUpgrades(standardMods, unit),
+            unitUpgrades(standardMods, unit, cg),
+            upgradeTitle('Faction upgrades'),
+            unitUpgrades(factionMods, unit, cg),
             upgradeTitle('Veteran Upgrades'),
-            unitUpgrades(veteranMods, unit),
+            unitUpgrades(veteranMods, unit, cg),
             upgradeTitle('Duelist Upgrades'),
-            unitUpgrades(duelistMods, unit),
+            unitUpgrades(duelistMods, unit, cg),
           ],
         ),
         SimpleDialogOption(
@@ -123,7 +133,7 @@ Container upgradeTitle(String title) {
   );
 }
 
-Widget unitUpgrades(List<BaseModification> mods, Unit unit) {
+Widget unitUpgrades(List<BaseModification> mods, Unit unit, CombatGroup cg) {
   if (mods.isEmpty) {
     return const Center(
       child: Text(
@@ -159,6 +169,7 @@ Widget unitUpgrades(List<BaseModification> mods, Unit unit) {
           return UpgradeDisplayLine(
             mod: mods[index],
             unit: unit,
+            cg: cg,
           );
         },
       ),

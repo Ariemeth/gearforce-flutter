@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
-import 'package:gearforce/models/factions/faction_type.dart';
-import 'package:gearforce/models/factions/sub_factions.dart/sub_faction.dart';
+import 'package:gearforce/models/factions/faction.dart';
+import 'package:gearforce/models/factions/sub_faction.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/role.dart';
@@ -27,22 +26,21 @@ class Group extends ChangeNotifier {
 
   factory Group.fromJson(
     dynamic json,
-    Data data,
-    FactionType? faction,
-    SubFaction? subfaction,
+    Faction faction,
+    SubFaction subfaction,
     CombatGroup cg,
     UnitRoster roster,
   ) {
     Group g = Group(role: convertRoleType(json['role'] as String));
-    if (faction != null) {
-      var decodedUnits = json['units'] as List;
-      decodedUnits
-          .map((e) => Unit.fromJson(e, data, faction, subfaction, cg, roster))
-          .toList()
-        ..forEach((element) {
-          g._addUnit(element);
-        });
-    }
+
+    var decodedUnits = json['units'] as List;
+    decodedUnits
+        .map((e) => Unit.fromJson(e, faction, subfaction, cg, roster))
+        .toList()
+      ..forEach((element) {
+        g._addUnit(element);
+      });
+
     return g;
   }
 

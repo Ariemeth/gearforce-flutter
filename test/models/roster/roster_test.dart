@@ -1,3 +1,4 @@
+import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
@@ -5,13 +6,15 @@ import 'package:test/test.dart';
 
 void main() {
   test('create default CombatGroup', () {
-    final roster = UnitRoster();
+    final data = Data()..load();
+    final roster = UnitRoster(data);
     expect(roster.getCGs().length, equals(1),
         reason: 'check cg length to ensure proper construction');
   });
 
   test('get default cg', () {
-    final roster = UnitRoster();
+    final data = Data()..load();
+    final roster = UnitRoster(data);
     final cg = roster.getCG('CG 1');
     expect(cg!.name, equals('CG 1'), reason: 'check cg default name');
     expect(cg.primary.allUnits().length, equals(0),
@@ -21,7 +24,8 @@ void main() {
   });
 
   test('add new cg', () {
-    final roster = UnitRoster();
+    final data = Data()..load();
+    final roster = UnitRoster(data);
     final cg = CombatGroup('test1');
     cg.primary.addUnit(UnitCore.test());
     cg.secondary.addUnit(UnitCore.test());
@@ -33,7 +37,8 @@ void main() {
   });
 
   test('check default active cg', () {
-    final roster = UnitRoster();
+    final data = Data()..load();
+    final roster = UnitRoster(data);
     expect(roster.activeCG(), isNotNull,
         reason: 'active cg should not be null');
     expect(roster.activeCG()!.name, equals('CG 1'),

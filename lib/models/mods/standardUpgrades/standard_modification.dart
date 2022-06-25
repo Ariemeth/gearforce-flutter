@@ -55,7 +55,7 @@ class StandardModification extends BaseModification {
     final mounted = u.mountedWeapons;
     final List<ModificationOption> _options = [];
     final RegExp weaponMatch = RegExp(r'^(AC|RC|LC|RLC)');
-    final traitToAdd = Trait(name: 'AA');
+    final traitToAdd = const Trait(name: 'AA');
 
     final allWeapons = react.toList()..addAll(mounted);
     allWeapons
@@ -807,7 +807,7 @@ class StandardModification extends BaseModification {
       )
       ..addMod(
         UnitAttribute.traits,
-        createAddTraitToList(Trait(name: 'Smoke')),
+        createAddTraitToList(const Trait(name: 'Smoke')),
         description: '+Smoke',
       );
   }

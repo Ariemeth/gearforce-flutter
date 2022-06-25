@@ -1,11 +1,11 @@
 import 'package:flutter/widgets.dart';
-import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
-import 'package:gearforce/models/factions/faction_type.dart';
-import 'package:gearforce/models/factions/sub_factions.dart/sub_faction.dart';
+import 'package:gearforce/models/factions/faction.dart';
+import 'package:gearforce/models/factions/sub_faction.dart';
 import 'package:gearforce/models/mods/base_modification.dart';
 import 'package:gearforce/models/mods/duelist/duelist_modification.dart';
 import 'package:gearforce/models/mods/duelist/duelist_upgrades.dart';
+import 'package:gearforce/models/mods/factionUpgrades/faction_mod.dart';
 import 'package:gearforce/models/mods/standardUpgrades/standard_modification.dart';
 import 'package:gearforce/models/mods/standardUpgrades/standard_upgrades.dart';
 import 'package:gearforce/models/mods/unitUpgrades/unit_modification.dart';
@@ -49,6 +49,11 @@ class Unit extends ChangeNotifier {
           mods['duelist'] = [];
         }
         mods['duelist']!.add(mod.toJson());
+      } else if (mod is FactionModification) {
+        if (mods['faction'] == null) {
+          mods['faction'] = [];
+        }
+        mods['faction']!.add(mod.toJson());
       }
     });
 
@@ -62,16 +67,17 @@ class Unit extends ChangeNotifier {
 
   factory Unit.fromJson(
     dynamic json,
-    Data data,
-    FactionType faction,
-    SubFaction? subfaction,
+    //  Data data,
+    Faction faction,
+    SubFaction subfaction,
     CombatGroup? cg,
     UnitRoster roster,
   ) {
-    var core = data
-        .unitList(faction)
-        .firstWhere((element) => element.name == json['variant']);
-    Unit u = Unit(core: core);
+    final core = subfaction.ruleSet.availableUnits()
+      ..addAll(subfaction.ruleSet.airstrikeCounters());
+
+    Unit u = Unit(
+        core: core.firstWhere((element) => element.name == json['variant']));
 
     u._commandLevel = convertToCommand(json['command']);
 
@@ -155,6 +161,25 @@ class Unit extends ChangeNotifier {
           }
         } catch (e) {
           print('duelist mod $loadedMod not found in available mods, $e');
+        }
+      });
+    }
+
+    if (modMap['faction'] != null && cg != null) {
+      final mods = modMap['faction'] as List;
+
+      mods.forEach((loadedMod) {
+        final modId = loadedMod['id'];
+
+        var mod = factionModFromId(modId, u);
+        if (mod == null) {
+          print('faction mod $modId could not be loaded');
+          return;
+        }
+        u.addUnitMod(mod);
+        final selected = loadedMod['selected'];
+        if (selected != null) {
+          modsWithOptions[mod] = selected;
         }
       });
     }

@@ -10,15 +10,16 @@ void main() {
     runApp(
       Provider(
         create: (_) => data,
-        child: GearForce(),
+        child: GearForce(data: data),
       ),
     );
   });
 }
 
 class GearForce extends StatefulWidget {
-  const GearForce({Key? key}) : super(key: key);
+  const GearForce({Key? key, required this.data}) : super(key: key);
 
+  final Data data;
   @override
   _GearForceState createState() => _GearForceState();
 }
@@ -35,6 +36,7 @@ class _GearForceState extends State<GearForce> {
       ),
       home: RosterWidget(
         title: 'Gearforce',
+        data: widget.data,
       ),
     );
   }

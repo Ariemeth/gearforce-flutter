@@ -25,7 +25,7 @@ void main() {
 
   test('test headhunter mod adds Comms to list', () {
     final mod = headHunter;
-    final List<Trait> traits = [Trait(name: 'Comms+')];
+    final List<Trait> traits = [const Trait(name: 'Comms+')];
     final List<Trait> result = mod.applyMods(UnitAttribute.traits, traits);
     expect(result.any((element) => element.name == 'Comms+'), isTrue,
         reason: 'check Comms+ exists');

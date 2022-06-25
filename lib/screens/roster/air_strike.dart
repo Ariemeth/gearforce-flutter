@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:gearforce/data/data.dart';
-import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
-import 'package:provider/provider.dart';
 
 class AirStrikeSelectorDialog extends StatefulWidget {
   const AirStrikeSelectorDialog(
@@ -22,12 +19,10 @@ class AirStrikeSelectorDialog extends StatefulWidget {
 class _AirStrikeSelectorDialogState extends State<AirStrikeSelectorDialog> {
   @override
   Widget build(BuildContext context) {
-    final data = context.watch<Data>();
+    //  final data = context.watch<Data>();
 
-    final airstrikes = data.unitList(
-      FactionType.Airstrike,
-      includeTerrain: false,
-    );
+    final airstrikes =
+        widget.roster.subFaction.value.ruleSet.airstrikeCounters();
 
     SimpleDialog optionsDialog = SimpleDialog(
       title: Center(child: const Text('Airstrikes')),
@@ -38,18 +33,18 @@ class _AirStrikeSelectorDialogState extends State<AirStrikeSelectorDialog> {
         Padding(
           padding: const EdgeInsets.only(left: 10.0, right: 10.0),
           child: Table(
-            columnWidths: const <int, TableColumnWidth>{},
-            defaultColumnWidth: const IntrinsicColumnWidth(),
-            defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-            children: airstrikes
-                .map((uc) => _buildTableRow(uc, widget.roster,
-                    count: widget.roster.airStrikes.keys
-                            .any((element) => element.name == uc.name)
-                        ? widget.roster.airStrikes[widget.roster.airStrikes.keys
-                            .firstWhere((element) => element.name == uc.name)]!
-                        : 0))
-                .toList(),
-          ),
+              columnWidths: const <int, TableColumnWidth>{},
+              defaultColumnWidth: const IntrinsicColumnWidth(),
+              defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+              children: airstrikes
+                  .map((uc) => _buildTableRow(uc, widget.roster,
+                      count: widget.roster.airStrikes.keys
+                              .any((element) => element.name == uc.name)
+                          ? widget.roster.airStrikes[
+                              widget.roster.airStrikes.keys.firstWhere(
+                                  (element) => element.name == uc.name)]!
+                          : 0))
+                  .toList()),
         )
       ],
     );

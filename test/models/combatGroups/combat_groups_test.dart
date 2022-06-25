@@ -64,7 +64,7 @@ UnitCore createDefaultUnit() {
       ew: 2,
       reactWeapons: [],
       mountedWeapons: [],
-      traits: [Trait(name: 'hands')],
+      traits: [const Trait(name: 'hands')],
       type: 'test',
       height: '1.5');
 }

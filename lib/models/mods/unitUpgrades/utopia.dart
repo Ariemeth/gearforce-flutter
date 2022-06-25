@@ -21,7 +21,8 @@ final UnitModification vtol = UnitModification(name: 'VTOL Upgrade')
   ..addMod(UnitAttribute.movement,
       createSetMovementMod(Movement(type: 'W/H', rate: 10)),
       description: 'MR: W/H:10')
-  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'VTOL')),
+  ..addMod(
+      UnitAttribute.traits, createAddTraitToList(const Trait(name: 'VTOL')),
       description: '+VTOL');
 
 final UnitModification rocket = UnitModification(name: 'Rocket Upgrade')
@@ -41,7 +42,8 @@ final UnitModification nlil = UnitModification(name: 'N-LIL Upgrade')
       description: 'MR: H:10')
   ..addMod(UnitAttribute.hull, createSetIntMod(4), description: 'H/S: 4/2')
   ..addMod(UnitAttribute.structure, createSetIntMod(2))
-  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'VTOL')),
+  ..addMod(
+      UnitAttribute.traits, createAddTraitToList(const Trait(name: 'VTOL')),
       description: '+VTOL');
 
 final UnitModification rocket2 = UnitModification(name: 'Rocket Upgrade')
@@ -67,19 +69,22 @@ final UnitModification specialOperations = UnitModification(
       UnitAttribute.name, createSimpleStringMod(false, 'Special Operations'))
   ..addMod(UnitAttribute.roles, createAddRoleToList(Role(name: RoleType.SO)),
       description: '+SO')
-  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'Airdrop')),
+  ..addMod(
+      UnitAttribute.traits, createAddTraitToList(const Trait(name: 'Airdrop')),
       description: '+Airdrop')
   ..addMod(UnitAttribute.traits,
-      createAddTraitToList(Trait(name: 'Stealth', isAux: true)),
+      createAddTraitToList(const Trait(name: 'Stealth', isAux: true)),
       description: '+Stealth (Aux)');
 
 final UnitModification pazu = UnitModification(name: 'Pazu Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Node'))
   ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
-  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'Comms')),
+  ..addMod(
+      UnitAttribute.traits, createAddTraitToList(const Trait(name: 'Comms')),
       description: '+Comms')
-  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'SatUp')),
+  ..addMod(
+      UnitAttribute.traits, createAddTraitToList(const Trait(name: 'SatUp')),
       description: '+SatUp');
 
 final UnitModification gilgameshEngineering = UnitModification(
@@ -92,10 +97,11 @@ final UnitModification gilgameshEngineering = UnitModification(
           oldValue: buildWeapon('2 x MRC (B)')!,
           newValue: buildWeapon('HCW (B Link Reach:3)')!),
       description: '-2 x MRC (B), +HCW (B Link Reach:3)')
-  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'Repair')),
+  ..addMod(
+      UnitAttribute.traits, createAddTraitToList(const Trait(name: 'Repair')),
       description: '+Repair')
   ..addMod(
       UnitAttribute.traits,
-      createAddTraitToList(
-          Trait(name: 'Transport', level: 4, type: 'N-KIDU or 1 Armiger')),
+      createAddTraitToList(const Trait(
+          name: 'Transport', level: 4, type: 'N-KIDU or 1 Armiger')),
       description: '+Transport: 4 N-KIDU or 1 Armiger');

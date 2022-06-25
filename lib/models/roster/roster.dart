@@ -3,7 +3,7 @@ import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/factions/faction.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
-import 'package:gearforce/models/factions/sub_factions.dart/sub_faction.dart';
+import 'package:gearforce/models/factions/sub_faction.dart';
 import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/unit.dart';
 
@@ -13,8 +13,8 @@ const _currentRulesVersion = '3.1';
 class UnitRoster extends ChangeNotifier {
   String? player;
   String? name;
-  final faction = ValueNotifier<Faction>(Faction.blackTalons());
-  final subFaction = ValueNotifier<SubFaction?>(null);
+  late final ValueNotifier<Faction> faction;
+  late final ValueNotifier<SubFaction> subFaction;
   final Map<String, CombatGroup> _combatGroups = new Map<String, CombatGroup>();
 
   int _totalCreated = 0;
@@ -23,11 +23,16 @@ class UnitRoster extends ChangeNotifier {
   bool _isEliteForce = false;
   Map<Unit, int> _airStrikes = {};
 
-  UnitRoster() {
+  UnitRoster(Data data) {
+    faction = ValueNotifier<Faction>(Faction.blackTalons(data));
+    subFaction = ValueNotifier<SubFaction>(faction.value.defaultSubFaction);
     faction.addListener(() {
-      subFaction.value = null;
+      subFaction.value = faction.value.defaultSubFaction;
       _combatGroups.forEach((key, value) {
         value.clear();
+      });
+      subFaction.addListener(() {
+        notifyListeners();
       });
     });
     createCG();
@@ -52,7 +57,7 @@ class UnitRoster extends ChangeNotifier {
         'player': player,
         'name': name,
         'faction': faction.value.factionType.name,
-        'subfaction': subFaction.value?.name,
+        'subfaction': subFaction.value.name,
         'totalCreated': _totalCreated,
         'cgs': _combatGroups.entries.map((e) => e.value.toJson()).toList(),
         'version': _currentRosterVersion,
@@ -65,13 +70,13 @@ class UnitRoster extends ChangeNotifier {
       };
 
   factory UnitRoster.fromJson(dynamic json, Data data) {
-    UnitRoster ur = UnitRoster();
+    UnitRoster ur = UnitRoster(data);
     ur.name = json['name'] as String?;
     ur.player = json['player'] as String?;
     final faction = json['faction'] as String?;
     if (faction != null) {
       try {
-        final f = Faction.fromType(FactionType.fromName(faction));
+        final f = Faction.fromType(FactionType.fromName(faction), data);
         ur.faction.value = f;
       } on Exception catch (e) {
         print(e);
@@ -92,7 +97,7 @@ class UnitRoster extends ChangeNotifier {
         .map((e) => CombatGroup.fromJson(
               e,
               data,
-              ur.faction.value.factionType,
+              ur.faction.value,
               ur.subFaction.value,
               ur,
             ))
@@ -109,9 +114,8 @@ class UnitRoster extends ChangeNotifier {
       final count = e['count'] as int;
       final airstrike = Unit.fromJson(
         e['airstrike'],
-        data,
-        FactionType.Airstrike,
-        null,
+        ur.faction.value,
+        ur.subFaction.value,
         null,
         ur,
       );
@@ -257,5 +261,15 @@ class UnitRoster extends ChangeNotifier {
       airStrikes.clear();
       notifyListeners();
     }
+  }
+
+  // Returns true if the Roster currently has a duelist.
+  bool hasDuelist() {
+    for (final cg in getCGs()) {
+      if (cg.hasDuelist()) {
+        return true;
+      }
+    }
+    return false;
   }
 }

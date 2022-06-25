@@ -10,12 +10,14 @@ final UnitModification command = UnitModification(name: 'Command Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Command'))
   ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
-  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'Comms')),
+  ..addMod(
+      UnitAttribute.traits, createAddTraitToList(const Trait(name: 'Comms')),
       description: '+Comms')
-  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'SatUp')),
+  ..addMod(
+      UnitAttribute.traits, createAddTraitToList(const Trait(name: 'SatUp')),
       description: '+SatUp')
   ..addMod(UnitAttribute.traits,
-      createAddTraitToList(Trait(name: 'ECCM', isAux: true)),
+      createAddTraitToList(const Trait(name: 'ECCM', isAux: true)),
       description: '+ECCM (Aux)');
 
 final UnitModification mobilityPack6 = UnitModification(
@@ -23,10 +25,11 @@ final UnitModification mobilityPack6 = UnitModification(
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(
       UnitAttribute.name, createSimpleStringMod(false, 'with Mobility Pack'))
-  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'Airdrop')),
+  ..addMod(
+      UnitAttribute.traits, createAddTraitToList(const Trait(name: 'Airdrop')),
       description: '+Airdrop')
   ..addMod(UnitAttribute.traits,
-      createAddTraitToList(Trait(name: 'Jetpack', level: 6, isAux: true)),
+      createAddTraitToList(const Trait(name: 'Jetpack', level: 6, isAux: true)),
       description: '+Jetpack:6 (Aux)');
 
 final UnitModification stealth = UnitModification(name: 'Stealth Upgrade')
@@ -36,7 +39,7 @@ final UnitModification stealth = UnitModification(name: 'Stealth Upgrade')
   ..addMod(UnitAttribute.roles, createAddRoleToList(Role(name: RoleType.SO)),
       description: '+SO')
   ..addMod(UnitAttribute.traits,
-      createAddTraitToList(Trait(name: 'Stealth', isAux: true)),
+      createAddTraitToList(const Trait(name: 'Stealth', isAux: true)),
       description: '+Stealth (Aux)');
 
 final UnitModification mobilityPack5 = UnitModification(
@@ -44,10 +47,11 @@ final UnitModification mobilityPack5 = UnitModification(
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(
       UnitAttribute.name, createSimpleStringMod(false, 'with Mobility Pack'))
-  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'Airdrop')),
+  ..addMod(
+      UnitAttribute.traits, createAddTraitToList(const Trait(name: 'Airdrop')),
       description: '+Airdrop')
   ..addMod(UnitAttribute.traits,
-      createAddTraitToList(Trait(name: 'Jetpack', level: 5, isAux: true)),
+      createAddTraitToList(const Trait(name: 'Jetpack', level: 5, isAux: true)),
       description: '+Jetpack:5 (Aux)');
 
 final UnitModification mrl = UnitModification(name: 'MRL Upgrade')
@@ -73,7 +77,8 @@ final UnitModification grelCrew2 = UnitModification(name: 'GREL Crew Upgrade')
   ..addMod(UnitAttribute.gunnery, createSetIntMod(3), description: 'GU 3+')
   ..addMod(UnitAttribute.piloting, createSetIntMod(3), description: 'PI 3+')
   ..addMod(UnitAttribute.ew, createSetIntMod(3), description: 'EW 3+')
-  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'React+')),
+  ..addMod(
+      UnitAttribute.traits, createAddTraitToList(const Trait(name: 'React+')),
       description: '+React+');
 
 final UnitModification grelCrew3 = UnitModification(name: 'GREL Crew Upgrade')
@@ -82,7 +87,8 @@ final UnitModification grelCrew3 = UnitModification(name: 'GREL Crew Upgrade')
   ..addMod(UnitAttribute.gunnery, createSetIntMod(3), description: 'GU 3+')
   ..addMod(UnitAttribute.piloting, createSetIntMod(3), description: 'PI 3+')
   ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
-  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'React+')),
+  ..addMod(
+      UnitAttribute.traits, createAddTraitToList(const Trait(name: 'React+')),
       description: '+React+');
 
 final UnitModification grelCrew4 = UnitModification(name: 'GREL Crew Upgrade')
@@ -100,18 +106,21 @@ final UnitModification hpc64Command = UnitModification(
   ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Command'))
   ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
-  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'Comms')),
+  ..addMod(
+      UnitAttribute.traits, createAddTraitToList(const Trait(name: 'Comms')),
       description: '+Comms')
-  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'SatUp')),
+  ..addMod(
+      UnitAttribute.traits, createAddTraitToList(const Trait(name: 'SatUp')),
       description: '+SatUp')
-  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'ECM')),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(const Trait(name: 'ECM')),
       description: '+ECM');
 
 final UnitModification jan = UnitModification(name: 'Jan Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Jan'))
   ..addMod(UnitAttribute.ew, createSetIntMod(5), description: 'EW 5+')
-  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'Comms')),
+  ..addMod(
+      UnitAttribute.traits, createAddTraitToList(const Trait(name: 'Comms')),
       description: '+Comms');
 
 final UnitModification squad = UnitModification(name: 'Squad')

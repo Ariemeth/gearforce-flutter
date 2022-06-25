@@ -16,7 +16,7 @@ import 'package:url_launcher/url_launcher_string.dart';
 const double _leftPanelWidth = 670.0;
 const double _titleHeight = 40.0;
 const double _menuTitleHeight = 50.0;
-const String _version = '0.36.0';
+const String _version = '0.37.0';
 const String _bugEmailAddress = 'gearforce@metadiversions.com';
 const String _dp9URL = 'https://www.dp9.com/';
 const String _sourceCodeURL = 'https://github.com/Ariemeth/gearforce-flutter';
@@ -25,16 +25,24 @@ class RosterWidget extends StatefulWidget {
   RosterWidget({
     Key? key,
     required this.title,
+    required this.data,
   }) : super(key: key);
 
   final String? title;
+  final Data data;
 
   @override
   _RosterWidgetState createState() => _RosterWidgetState();
 }
 
 class _RosterWidgetState extends State<RosterWidget> {
-  final UnitRoster roster = UnitRoster();
+  late UnitRoster roster;
+
+  @override
+  void initState() {
+    roster = UnitRoster(widget.data);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

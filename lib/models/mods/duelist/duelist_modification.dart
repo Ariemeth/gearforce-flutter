@@ -59,14 +59,8 @@ class DuelistModification extends BaseModification {
             return false;
           }
 
-          if (u.type != 'Gear') {
+          if (!roster.subFaction.value.ruleSet.duelistCheck(roster, u)) {
             return false;
-          }
-
-          for (final cg in roster.getCGs()) {
-            if (cg.hasDuelist()) {
-              return false;
-            }
           }
 
           return !traits.any((trait) => trait.name == 'Duelist');
@@ -85,13 +79,13 @@ class DuelistModification extends BaseModification {
     );
     mod.addMod(
       UnitAttribute.traits,
-      createAddTraitToList(Trait(name: 'Duelist')),
+      createAddTraitToList(const Trait(name: 'Duelist')),
       description: '+Duelist',
     );
 
     mod.addMod(
       UnitAttribute.traits,
-      createAddTraitToList(Trait(name: 'Vet')),
+      createAddTraitToList(const Trait(name: 'Vet')),
       description: '+Vet',
     );
 
@@ -126,7 +120,7 @@ class DuelistModification extends BaseModification {
         })
       ..addMod(
         UnitAttribute.traits,
-        createAddTraitToList(Trait(name: 'Independent Operator')),
+        createAddTraitToList(const Trait(name: 'Independent Operator')),
         description:
             'Duelist is an Independent Operator and will be the sole ' +
                 'model in a combat group',
@@ -156,7 +150,7 @@ class DuelistModification extends BaseModification {
         })
       ..addMod(
         UnitAttribute.traits,
-        createAddTraitToList(Trait(name: 'Lead by Example')),
+        createAddTraitToList(const Trait(name: 'Lead by Example')),
         description:
             'duelist will gain the following ability during the game. Once ' +
                 'per round, for each duelist, whenever a duelist damages an enemy ' +
@@ -219,7 +213,7 @@ class DuelistModification extends BaseModification {
   */
   factory DuelistModification.stable(Unit u) {
     final List<ModificationOption> _options = [];
-    const traitToAdd = Trait(name: 'Stable');
+    const traitToAdd = const Trait(name: 'Stable');
 
     u.weapons.forEach((weapon) {
       _options.add(ModificationOption('${weapon.toString()}'));
@@ -298,7 +292,7 @@ class DuelistModification extends BaseModification {
   */
   factory DuelistModification.precise(Unit u) {
     final List<ModificationOption> _options = [];
-    const traitToAdd = Trait(name: 'Precise');
+    const traitToAdd = const Trait(name: 'Precise');
 
     u.weapons.forEach((weapon) {
       _options.add(ModificationOption('${weapon.toString()}'));
@@ -378,7 +372,7 @@ class DuelistModification extends BaseModification {
   factory DuelistModification.auto(Unit u) {
     final react = u.reactWeapons;
     final List<ModificationOption> _options = [];
-    const traitToAdd = Trait(name: 'Auto');
+    const traitToAdd = const Trait(name: 'Auto');
 
     final availableWeapons = react.where((weapon) =>
         weapon.modes.any((mode) => mode != weaponModes.Melee) ||
@@ -462,8 +456,8 @@ class DuelistModification extends BaseModification {
           return u.isDuelist;
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
-      ..addMod(
-          UnitAttribute.traits, createAddTraitToList(Trait(name: 'Ace Gunner')))
+      ..addMod(UnitAttribute.traits,
+          createAddTraitToList(const Trait(name: 'Ace Gunner')))
       ..addMod(
           UnitAttribute.special,
           createAddStringToList(
@@ -527,7 +521,7 @@ class DuelistModification extends BaseModification {
     final react = u.reactWeapons;
     final mounted = u.mountedWeapons;
     final List<ModificationOption> _options = [];
-    const traitToAdd = Trait(name: 'Link');
+    const traitToAdd = const Trait(name: 'Link');
 
     final allWeapons = react.toList()..addAll(mounted);
     allWeapons
@@ -601,7 +595,7 @@ class DuelistModification extends BaseModification {
   */
   factory DuelistModification.agile(Unit u) {
     final RegExp traitCheck = RegExp(r'(Agile|Lumbering)');
-    final Trait newTrait = Trait(name: 'Agile');
+    final Trait newTrait = const Trait(name: 'Agile');
     return DuelistModification(
         name: 'Agile',
         id: agileId,
@@ -628,7 +622,7 @@ class DuelistModification extends BaseModification {
   models with an armor of 8 or higher.
   */
   factory DuelistModification.shield(Unit u) {
-    final Trait newTrait = Trait(name: 'Shield');
+    final Trait newTrait = const Trait(name: 'Shield');
 
     return DuelistModification(
         name: 'Shield',
@@ -725,7 +719,7 @@ class DuelistModification extends BaseModification {
   */
   factory DuelistModification.ecm(Unit u) {
     final RegExp traitCheck = RegExp(r'(ECM+)');
-    final Trait newTrait = Trait(name: 'ECM');
+    final Trait newTrait = const Trait(name: 'ECM');
     return DuelistModification(
         name: 'ECM',
         id: ecmId,
@@ -753,9 +747,9 @@ class DuelistModification extends BaseModification {
           if (newList.any((element) => element.name.toLowerCase() == 'ecm')) {
             newList
                 .removeWhere((element) => element.name.toLowerCase() == 'ecm');
-            newTrait = Trait(name: 'ECM+');
+            newTrait = const Trait(name: 'ECM+');
           } else {
-            newTrait = Trait(name: 'ECM');
+            newTrait = const Trait(name: 'ECM');
           }
 
           newList.add(newTrait);

@@ -58,7 +58,8 @@ class VeteranModification extends BaseModification {
           return cg.isVeteran && !u.traits.any((trait) => trait.name == 'Vet');
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
-      ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'Vet')),
+      ..addMod(
+          UnitAttribute.traits, createAddTraitToList(const Trait(name: 'Vet')),
           description: '+Vet');
   }
 
@@ -82,7 +83,8 @@ class VeteranModification extends BaseModification {
           return u.traits.any((trait) => trait.name == 'Vet');
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
-      ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'ECCM')),
+      ..addMod(
+          UnitAttribute.traits, createAddTraitToList(const Trait(name: 'ECCM')),
           description: '+ECCM');
   }
 
@@ -96,7 +98,7 @@ class VeteranModification extends BaseModification {
   factory VeteranModification.reach(Unit u) {
     final react = u.reactWeapons;
     final List<ModificationOption> _options = [];
-    const traitToAdd = Trait(name: 'Brawl', level: 1);
+    const traitToAdd = const Trait(name: 'Brawl', level: 1);
     final allowedWeaponMatch = RegExp(r'^(VB|SG|CW|ICW)$');
     react.where((weapon) {
       return allowedWeaponMatch.hasMatch(weapon.code) &&
@@ -130,7 +132,7 @@ class VeteranModification extends BaseModification {
         if (!(value is List<Weapon>)) {
           return value;
         }
-        final newList = value;
+        final newList = value.toList();
 
         if (modOptions.selectedOption != null) {
           var existingWeapon = newList.firstWhere(
@@ -187,7 +189,7 @@ class VeteranModification extends BaseModification {
       )
       ..addMod(
         UnitAttribute.traits,
-        createAddTraitToList(Trait(name: 'Field Armor')),
+        createAddTraitToList(const Trait(name: 'Field Armor')),
         description: '+Field Armor',
       );
   }
@@ -306,7 +308,7 @@ class VeteranModification extends BaseModification {
             return createRemoveFromList(oldTrait)(value);
           } else {
             return createAddTraitToList(
-              Trait(name: 'Resist', type: 'Haywire'),
+              const Trait(name: 'Resist', type: 'Haywire'),
             )(value);
           }
         },
@@ -350,8 +352,8 @@ class VeteranModification extends BaseModification {
                 (element) => element.name == 'Vuln' && element.type == 'Fire');
             return createRemoveFromList(oldTrait)(value);
           } else {
-            return createAddTraitToList(Trait(name: 'Resist', type: 'Fire'))(
-                value);
+            return createAddTraitToList(
+                const Trait(name: 'Resist', type: 'Fire'))(value);
           }
         },
         description: '${isVulnerable ? '-Vuln:Fire' : ' +Resist:Fire'}',
@@ -395,7 +397,7 @@ class VeteranModification extends BaseModification {
             return createRemoveFromList(oldTrait)(value);
           } else {
             return createAddTraitToList(
-                Trait(name: 'Resist', type: 'Corrosion'))(value);
+                const Trait(name: 'Resist', type: 'Corrosion'))(value);
           }
         },
         description:
@@ -461,7 +463,7 @@ class VeteranModification extends BaseModification {
     final RegExp weaponCheck = RegExp(r'^(P|SMG|AC|FC|FL|GL)');
     final react = u.reactWeapons;
     final List<ModificationOption> _options = [];
-    const traitToAdd = Trait(name: 'Link');
+    const traitToAdd = const Trait(name: 'Link');
 
     final allWeapons = react.toList();
     allWeapons
@@ -613,7 +615,8 @@ class VeteranModification extends BaseModification {
           return u.traits.any((trait) => trait.name == 'Vet');
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
-      ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'AMS')),
+      ..addMod(
+          UnitAttribute.traits, createAddTraitToList(const Trait(name: 'AMS')),
           description: '+AMS');
   }
 }

@@ -10,10 +10,10 @@ final UnitModification wizard = UnitModification(name: 'Wizard Upgrade')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Wizard'))
   ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
   ..addMod(UnitAttribute.traits,
-      createAddTraitToList(Trait(name: 'ECM', isAux: true)),
+      createAddTraitToList(const Trait(name: 'ECM', isAux: true)),
       description: '+ECM (Aux)')
   ..addMod(UnitAttribute.traits,
-      createAddTraitToList(Trait(name: 'ECCM', isAux: true)),
+      createAddTraitToList(const Trait(name: 'ECCM', isAux: true)),
       description: '+ECCM (Aux)');
 
 final UnitModification utopianSpecialOperations = UnitModification(
@@ -23,10 +23,11 @@ final UnitModification utopianSpecialOperations = UnitModification(
       createSimpleStringMod(false, 'Utopian Special Operations'))
   ..addMod(UnitAttribute.roles, createAddRoleToList(Role(name: RoleType.SO)),
       description: '+SO')
-  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'Airdrop')),
+  ..addMod(
+      UnitAttribute.traits, createAddTraitToList(const Trait(name: 'Airdrop')),
       description: '+Airdrop')
   ..addMod(UnitAttribute.traits,
-      createAddTraitToList(Trait(name: 'Stealth', isAux: true)),
+      createAddTraitToList(const Trait(name: 'Stealth', isAux: true)),
       description: '+Stealth (Aux)');
 
 final UnitModification dominus = UnitModification(name: 'Dominus Upgrade')
@@ -34,7 +35,7 @@ final UnitModification dominus = UnitModification(name: 'Dominus Upgrade')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Dominus'))
   ..addMod(UnitAttribute.ew, createSetIntMod(5), description: 'EW 5+')
   ..addMod(UnitAttribute.traits,
-      createAddTraitToList(Trait(name: 'Comms', isAux: false)),
+      createAddTraitToList(const Trait(name: 'Comms', isAux: false)),
       description: '+Comms');
 
 final UnitModification halberd = UnitModification(name: 'Halberd Upgrade')
@@ -51,8 +52,8 @@ final UnitModification halberd = UnitModification(name: 'Halberd Upgrade')
   ..addMod(
       UnitAttribute.traits,
       createReplaceTraitInList(
-          oldValue: Trait(name: 'Brawl', level: 1),
-          newValue: Trait(name: 'Brawl', level: 2)),
+          oldValue: const Trait(name: 'Brawl', level: 1),
+          newValue: const Trait(name: 'Brawl', level: 2)),
       description: '-Brawl:1, +Brawl:2');
 
 final UnitModification doppelDominus = UnitModification(name: 'Dominus Upgrade')
@@ -60,19 +61,19 @@ final UnitModification doppelDominus = UnitModification(name: 'Dominus Upgrade')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Dominus'))
   ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
   ..addMod(UnitAttribute.traits,
-      createAddTraitToList(Trait(name: 'Comms', isAux: true)),
+      createAddTraitToList(const Trait(name: 'Comms', isAux: true)),
       description: '+Comms (Aux)')
   ..addMod(UnitAttribute.traits,
-      createAddTraitToList(Trait(name: 'ECCM', isAux: true)),
+      createAddTraitToList(const Trait(name: 'ECCM', isAux: true)),
       description: '+ECCM (Aux)');
 
 final UnitModification hydor = UnitModification(name: 'Hydor Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(-1), description: 'TV -1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Hydor'))
   ..addMod(UnitAttribute.traits,
-      createRemoveFromList(Trait(name: 'Jetpack', level: 8, isAux: true)),
+      createRemoveFromList(const Trait(name: 'Jetpack', level: 8, isAux: true)),
       description: '-Jetpack:8 (Aux)')
-  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait(name: 'Sub')),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(const Trait(name: 'Sub')),
       description: '+Sub');
 
 final UnitModification saker = UnitModification(name: 'Saker Upgrade')
@@ -105,10 +106,10 @@ final UnitModification serpentinaDominus =
       ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Dominus'))
       ..addMod(UnitAttribute.ew, createSetIntMod(5), description: 'EW 5+')
       ..addMod(UnitAttribute.traits,
-          createAddTraitToList(Trait(name: 'Comms', isAux: false)),
+          createAddTraitToList(const Trait(name: 'Comms', isAux: false)),
           description: '+Comms')
       ..addMod(UnitAttribute.traits,
-          createAddTraitToList(Trait(name: 'ECCM', isAux: true)),
+          createAddTraitToList(const Trait(name: 'ECCM', isAux: true)),
           description: '+ECCM (Aux)');
 
 final UnitModification team = UnitModification(name: 'Team')

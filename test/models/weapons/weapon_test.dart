@@ -59,7 +59,7 @@ void main() {
     const weaponName = 'Autocannon';
     const mode = weaponModes.Direct;
     const weaponDamage = 1;
-    const trait = Trait(name: 'AE', level: 1);
+    const trait = const Trait(name: 'AE', level: 1);
     const range = Range(12, 36, 72);
 
     const w = Weapon(
@@ -87,7 +87,7 @@ void main() {
     const weaponName = 'Autocannon';
     const mode = weaponModes.Direct;
     const weaponDamage = 1;
-    const trait = Trait(name: 'AE', level: 1);
+    const trait = const Trait(name: 'AE', level: 1);
     const range = Range(12, 36, 72);
 
     const w = Weapon(
@@ -116,7 +116,7 @@ void main() {
     const weaponName = 'Autocannon';
     const mode = weaponModes.Direct;
     const weaponDamage = 1;
-    const trait = Trait(name: 'AE', level: 1);
+    const trait = const Trait(name: 'AE', level: 1);
     const range = Range(12, 36, 72);
 
     const w = Weapon(
@@ -136,7 +136,7 @@ void main() {
     const weaponName = 'Autocannon';
     const mode = weaponModes.Direct;
     const weaponDamage = 1;
-    const trait = Trait(name: 'AE', level: 1);
+    const trait = const Trait(name: 'AE', level: 1);
     const range = Range(12, 36, 72);
 
     const w = Weapon(
@@ -156,7 +156,7 @@ void main() {
     const weaponName = 'Autocannon';
     const mode = weaponModes.Direct;
     const weaponDamage = 1;
-    const trait = Trait(name: 'AE', level: 1);
+    const trait = const Trait(name: 'AE', level: 1);
     const range = Range(12, 36, 72);
 
     const w = Weapon(
@@ -180,7 +180,7 @@ void main() {
     const weaponName = 'Autocannon';
     const mode = weaponModes.Direct;
     const weaponDamage = 1;
-    const trait = Trait(name: 'AE', level: 1);
+    const trait = const Trait(name: 'AE', level: 1);
     const range = Range(12, 36, 72);
 
     const w = Weapon(
@@ -192,6 +192,16 @@ void main() {
       hasReact: true,
       baseTraits: [trait],
     );
+    const w2 = Weapon(
+      abbreviation: weaponAbbreviation,
+      name: weaponName,
+      range: range,
+      modes: [mode],
+      damage: weaponDamage,
+      hasReact: true,
+      baseTraits: [trait],
+    );
+    expect(w == w2, true, reason: 'the same');
     expect(w.isCombo, isFalse);
   });
 }

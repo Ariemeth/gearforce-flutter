@@ -15,7 +15,12 @@ class Weapon {
     this.baseAlternativeTraits = const [],
     this.bonusTraits = const [],
     this.combo,
-  });
+  })  : assert(
+          abbreviation.length >= 2,
+          'abbreviation is to short, must be >=2: $abbreviation',
+        ),
+        assert(name != '', 'name cannot be empty'),
+        assert(numberOf > 0);
   final String abbreviation;
   final String name;
   final int numberOf;
@@ -116,7 +121,15 @@ class Weapon {
   factory Weapon.fromWeapon(
     Weapon original, {
     Range? range,
+    List<Trait>? addTraits,
   }) {
+    final bonusTraits =
+        original.bonusTraits.map((trait) => Trait.fromTrait(trait)).toList();
+    if (addTraits != null) {
+      addTraits.forEach((t) {
+        bonusTraits.add(t);
+      });
+    }
     return Weapon(
       abbreviation: original.abbreviation,
       name: original.name,
@@ -130,27 +143,8 @@ class Weapon {
       baseAlternativeTraits: original.baseAlternativeTraits
           .map((trait) => Trait.fromTrait(trait))
           .toList(),
-      bonusTraits:
-          original.bonusTraits.map((trait) => Trait.fromTrait(trait)).toList(),
+      bonusTraits: bonusTraits,
       combo: original.combo != null ? Weapon.fromWeapon(original.combo!) : null,
-    );
-  }
-
-  factory Weapon.fromString(String str) {
-    /*
-    Examples:
-    BB (AP:2 Guided)
-    LATM (LA:2)
-    LBZ (AP:1 Burst:1)
-    LAC (Precise Silent)
-    LAC(Precise Silent)
-    */
-    return Weapon(
-      abbreviation: '',
-      name: '',
-      modes: [],
-      range: Range(0, null, null),
-      damage: -1,
     );
   }
 }

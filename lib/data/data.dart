@@ -134,15 +134,15 @@ class Data {
 
   List<Faction> _loadFactions() {
     return [
-      Faction.blackTalons(),
-      Faction.caprice(),
-      Faction.cef(),
-      Faction.eden(),
-      Faction.north(),
-      Faction.nucoal(),
-      Faction.peaceRiver(),
-      Faction.south(),
-      Faction.utopia(),
+      Faction.blackTalons(this),
+      Faction.caprice(this),
+      Faction.cef(this),
+      Faction.eden(this),
+      Faction.north(this),
+      Faction.nucoal(this),
+      Faction.peaceRiver(this),
+      Faction.south(this),
+      Faction.utopia(this),
     ];
   }
 
