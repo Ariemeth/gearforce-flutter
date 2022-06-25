@@ -22,7 +22,7 @@ class _AirStrikeSelectorDialogState extends State<AirStrikeSelectorDialog> {
     //  final data = context.watch<Data>();
 
     final airstrikes =
-        widget.roster.subFaction.value.ruleSet?.airstrikeCounters();
+        widget.roster.subFaction.value.ruleSet.airstrikeCounters();
 
     SimpleDialog optionsDialog = SimpleDialog(
       title: Center(child: const Text('Airstrikes')),
@@ -33,21 +33,18 @@ class _AirStrikeSelectorDialogState extends State<AirStrikeSelectorDialog> {
         Padding(
           padding: const EdgeInsets.only(left: 10.0, right: 10.0),
           child: Table(
-            columnWidths: const <int, TableColumnWidth>{},
-            defaultColumnWidth: const IntrinsicColumnWidth(),
-            defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-            children: airstrikes != null
-                ? airstrikes
-                    .map((uc) => _buildTableRow(uc, widget.roster,
-                        count: widget.roster.airStrikes.keys
-                                .any((element) => element.name == uc.name)
-                            ? widget.roster.airStrikes[
-                                widget.roster.airStrikes.keys.firstWhere(
-                                    (element) => element.name == uc.name)]!
-                            : 0))
-                    .toList()
-                : [],
-          ),
+              columnWidths: const <int, TableColumnWidth>{},
+              defaultColumnWidth: const IntrinsicColumnWidth(),
+              defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+              children: airstrikes
+                  .map((uc) => _buildTableRow(uc, widget.roster,
+                      count: widget.roster.airStrikes.keys
+                              .any((element) => element.name == uc.name)
+                          ? widget.roster.airStrikes[
+                              widget.roster.airStrikes.keys.firstWhere(
+                                  (element) => element.name == uc.name)]!
+                          : 0))
+                  .toList()),
         )
       ],
     );

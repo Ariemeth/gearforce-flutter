@@ -73,17 +73,11 @@ class Unit extends ChangeNotifier {
     CombatGroup? cg,
     UnitRoster roster,
   ) {
-    /*  var core = data
-        .unitList(faction.factionType)
-        .firstWhere((element) => element.name == json['variant']);
-*/
-    final core = subfaction.ruleSet
-        ?.availableUnits()
-        .firstWhere((element) => element.name == json['variant']);
-    if (core == null) {
-      throw FormatException('Unable to build unit for $json');
-    }
-    Unit u = Unit(core: core);
+    final core = subfaction.ruleSet.availableUnits()
+      ..addAll(subfaction.ruleSet.airstrikeCounters());
+
+    Unit u = Unit(
+        core: core.firstWhere((element) => element.name == json['variant']));
 
     u._commandLevel = convertToCommand(json['command']);
 
@@ -179,7 +173,7 @@ class Unit extends ChangeNotifier {
           final modId = loadedMod['id'];
 
           try {
-            var mod = FactionModification.fromId(modId, cg);
+            var mod = FactionModification.fromId(modId);
             u.addUnitMod(mod);
             final selected = loadedMod['selected'];
             if (selected != null) {

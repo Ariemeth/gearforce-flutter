@@ -10,6 +10,7 @@ import 'package:gearforce/models/rules/factions/nucoal.dart';
 import 'package:gearforce/models/rules/factions/peace_river.dart';
 import 'package:gearforce/models/rules/factions/south.dart';
 import 'package:gearforce/models/rules/factions/utopia.dart';
+import 'package:gearforce/models/rules/rule_set.dart';
 
 class Faction {
   String get name => this.factionType.name;
@@ -25,10 +26,11 @@ class Faction {
         FactionType.BlackTalon,
         [
           defaultSub,
-          SubFaction('Black Talon Recon Team', ruleSet: null),
-          SubFaction('Black Talon Insertion Team', ruleSet: null),
-          SubFaction('Black Talon Strike Team', ruleSet: null),
-          SubFaction('Black Talon Assault Team', ruleSet: null),
+          SubFaction('Black Talon Recon Team', ruleSet: DefaultRuleSet(data)),
+          SubFaction('Black Talon Insertion Team',
+              ruleSet: DefaultRuleSet(data)),
+          SubFaction('Black Talon Strike Team', ruleSet: DefaultRuleSet(data)),
+          SubFaction('Black Talon Assault Team', ruleSet: DefaultRuleSet(data)),
         ],
         defaultSub);
   }
@@ -38,9 +40,10 @@ class Faction {
       FactionType.Caprice,
       [
         defaultSub,
-        SubFaction('Caprice Invasion Detachment', ruleSet: null),
-        SubFaction('Corporate Security Element', ruleSet: null),
-        SubFaction('Liberati Resistance Cell', ruleSet: null),
+        SubFaction('Caprice Invasion Detachment',
+            ruleSet: DefaultRuleSet(data)),
+        SubFaction('Corporate Security Element', ruleSet: DefaultRuleSet(data)),
+        SubFaction('Liberati Resistance Cell', ruleSet: DefaultRuleSet(data)),
       ],
       defaultSub,
     );
@@ -51,9 +54,9 @@ class Faction {
       FactionType.CEF,
       [
         defaultSub,
-        SubFaction('CEF Frame Formation', ruleSet: null),
-        SubFaction('CEF Tank Formation', ruleSet: null),
-        SubFaction('CEF Infantry Formation', ruleSet: null),
+        SubFaction('CEF Frame Formation', ruleSet: DefaultRuleSet(data)),
+        SubFaction('CEF Tank Formation', ruleSet: DefaultRuleSet(data)),
+        SubFaction('CEF Infantry Formation', ruleSet: DefaultRuleSet(data)),
       ],
       defaultSub,
     );
@@ -64,9 +67,9 @@ class Faction {
       FactionType.Eden,
       [
         defaultSub,
-        SubFaction('Edenite Invasion Force', ruleSet: null),
-        SubFaction('Edenite Noble Houses', ruleSet: null),
-        SubFaction('Ad-Hoc Edenite Force', ruleSet: null),
+        SubFaction('Edenite Invasion Force', ruleSet: DefaultRuleSet(data)),
+        SubFaction('Edenite Noble Houses', ruleSet: DefaultRuleSet(data)),
+        SubFaction('Ad-Hoc Edenite Force', ruleSet: DefaultRuleSet(data)),
       ],
       defaultSub,
     );
@@ -77,10 +80,13 @@ class Faction {
       FactionType.North,
       [
         defaultSub,
-        SubFaction('Norguard', ruleSet: null),
-        SubFaction('Western Frontier Protectorate', ruleSet: null),
-        SubFaction('United Mercantile Federation', ruleSet: null),
-        SubFaction('Northern Lights Confederacy', ruleSet: null),
+        SubFaction('Norguard', ruleSet: DefaultRuleSet(data)),
+        SubFaction('Western Frontier Protectorate',
+            ruleSet: DefaultRuleSet(data)),
+        SubFaction('United Mercantile Federation',
+            ruleSet: DefaultRuleSet(data)),
+        SubFaction('Northern Lights Confederacy',
+            ruleSet: DefaultRuleSet(data)),
       ],
       defaultSub,
     );
@@ -91,12 +97,14 @@ class Faction {
       FactionType.NuCoal,
       [
         defaultSub,
-        SubFaction('NuCoal Self Defense Force', ruleSet: null),
-        SubFaction('Port Arthur Korps', ruleSet: null),
-        SubFaction('Humanist Alliance Protection Force', ruleSet: null),
-        SubFaction('Khayr ad-Dine', ruleSet: null),
-        SubFaction('Temple Heights', ruleSet: null),
-        SubFaction('Hardscrabble City-State Armies', ruleSet: null),
+        SubFaction('NuCoal Self Defense Force', ruleSet: DefaultRuleSet(data)),
+        SubFaction('Port Arthur Korps', ruleSet: DefaultRuleSet(data)),
+        SubFaction('Humanist Alliance Protection Force',
+            ruleSet: DefaultRuleSet(data)),
+        SubFaction('Khayr ad-Dine', ruleSet: DefaultRuleSet(data)),
+        SubFaction('Temple Heights', ruleSet: DefaultRuleSet(data)),
+        SubFaction('Hardscrabble City-State Armies',
+            ruleSet: DefaultRuleSet(data)),
       ],
       defaultSub,
     );
@@ -107,9 +115,9 @@ class Faction {
       FactionType.PeaceRiver,
       [
         defaultSub,
-        SubFaction('Peace River Defense Force', ruleSet: null),
-        SubFaction('Peace Officer Corps', ruleSet: null),
-        SubFaction('Paxton Private Securities', ruleSet: null),
+        SubFaction('Peace River Defense Force', ruleSet: DefaultRuleSet(data)),
+        SubFaction('Peace Officer Corps', ruleSet: DefaultRuleSet(data)),
+        SubFaction('Paxton Private Securities', ruleSet: DefaultRuleSet(data)),
       ],
       defaultSub,
     );
@@ -121,10 +129,10 @@ class Faction {
       [
         defaultSub,
         SubFaction('Military Intervention and Counter Insurgency Army',
-            ruleSet: null),
-        SubFaction('Mekong Dominion', ruleSet: null),
-        SubFaction('Eastern Sun Emirates', ruleSet: null),
-        SubFaction('Free Humanist Alliance', ruleSet: null),
+            ruleSet: DefaultRuleSet(data)),
+        SubFaction('Mekong Dominion', ruleSet: DefaultRuleSet(data)),
+        SubFaction('Eastern Sun Emirates', ruleSet: DefaultRuleSet(data)),
+        SubFaction('Free Humanist Alliance', ruleSet: DefaultRuleSet(data)),
       ],
       defaultSub,
     );
@@ -135,8 +143,8 @@ class Faction {
       FactionType.Utopia,
       [
         defaultSub,
-        SubFaction('Combined Armiger Force', ruleSet: null),
-        SubFaction('Other Utopian Forces', ruleSet: null),
+        SubFaction('Combined Armiger Force', ruleSet: DefaultRuleSet(data)),
+        SubFaction('Other Utopian Forces', ruleSet: DefaultRuleSet(data)),
       ],
       defaultSub,
     );

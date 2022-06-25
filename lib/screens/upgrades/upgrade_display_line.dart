@@ -37,8 +37,9 @@ class UpgradeDisplayLine extends StatelessWidget {
       isModSelectable = (mod as DuelistModification).requirementCheck() ||
           unit.hasMod(mod.id);
     } else if (mod is FactionModification) {
-      isModSelectable = (mod as FactionModification).requirementCheck(cg) ||
-          unit.hasMod(mod.id);
+      isModSelectable =
+          (mod as FactionModification).requirementCheck(cg, unit) ||
+              unit.hasMod(mod.id);
     }
     return UnitModLine(
       unit: unit,

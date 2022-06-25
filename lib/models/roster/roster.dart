@@ -262,4 +262,14 @@ class UnitRoster extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  // Returns true if the Roster currently has a duelist.
+  bool hasDuelist() {
+    for (final cg in getCGs()) {
+      if (cg.hasDuelist()) {
+        return true;
+      }
+    }
+    return false;
+  }
 }

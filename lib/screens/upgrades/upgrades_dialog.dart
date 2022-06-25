@@ -40,7 +40,7 @@ class UpgradesDialog extends StatelessWidget {
     final veteranMods = getVeteranMods(unit, cg);
     final duelistMods = getDuelistMods(unit, cg, roster);
     final factionMods =
-        roster.subFaction.value.ruleSet?.availableFactionMods(cg);
+        roster.subFaction.value.ruleSet.availableFactionMods(cg);
 
     unit.getMods().forEach((mod) {
       switch (mod.runtimeType) {
@@ -61,10 +61,9 @@ class UpgradesDialog extends StatelessWidget {
               mod as DuelistModification;
           break;
         case FactionModification:
-          if (factionMods != null) {
-            factionMods[factionMods.indexWhere((m) => m.id == mod.id)] =
-                mod as FactionModification;
-          }
+          factionMods[factionMods.indexWhere((m) => m.id == mod.id)] =
+              mod as FactionModification;
+
           break;
       }
     });
@@ -97,12 +96,8 @@ class UpgradesDialog extends StatelessWidget {
             unitUpgrades(unitMods, unit, cg),
             upgradeTitle('Standard Upgrades'),
             unitUpgrades(standardMods, unit, cg),
-            ...factionMods != null
-                ? [
-                    upgradeTitle('Faction upgrades'),
-                    unitUpgrades(factionMods, unit, cg),
-                  ]
-                : [],
+            upgradeTitle('Faction upgrades'),
+            unitUpgrades(factionMods, unit, cg),
             upgradeTitle('Veteran Upgrades'),
             unitUpgrades(veteranMods, unit, cg),
             upgradeTitle('Duelist Upgrades'),

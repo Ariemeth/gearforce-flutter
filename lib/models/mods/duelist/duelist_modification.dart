@@ -59,14 +59,8 @@ class DuelistModification extends BaseModification {
             return false;
           }
 
-          if (u.type != 'Gear') {
+          if (!roster.subFaction.value.ruleSet.duelistCheck(roster, u)) {
             return false;
-          }
-
-          for (final cg in roster.getCGs()) {
-            if (cg.hasDuelist()) {
-              return false;
-            }
           }
 
           return !traits.any((trait) => trait.name == 'Duelist');

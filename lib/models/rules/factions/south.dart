@@ -13,17 +13,11 @@ class South extends RuleSet {
     List<RoleType?>? role,
     List<String>? filters,
   }) {
-    return data.unitList(FactionType.South)
-      ..addAll(data.unitList(FactionType.Airstrike, includeTerrain: false));
+    return data.unitList(FactionType.South, role: role, filters: filters);
   }
 
   @override
   List<FactionModification> availableFactionMods(CombatGroup cg) {
     return [];
-  }
-
-  @override
-  List<UnitCore> airstrikeCounters() {
-    return data.unitList(FactionType.Airstrike, includeTerrain: false);
   }
 }
