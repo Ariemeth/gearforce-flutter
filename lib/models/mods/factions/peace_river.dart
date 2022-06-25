@@ -1,6 +1,6 @@
 import 'package:gearforce/models/combatGroups/combat_group.dart';
-import 'package:gearforce/models/mods/base_modification.dart';
 import 'package:gearforce/models/mods/modification_option.dart';
+import 'package:gearforce/models/mods/factions/faction_mod.dart';
 import 'package:gearforce/models/mods/mods.dart';
 import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/unit.dart';
@@ -14,28 +14,27 @@ const crisisRespondersID = 'faction: peace river - 30';
 const laserTechID = 'faction: peace river - 40';
 const architectsID = 'faction: peace river - 50';
 
-class FactionModification extends BaseModification {
-  FactionModification({
+class PeaceRiverFactionMods extends FactionModification {
+  PeaceRiverFactionMods({
     required String name,
-    this.requirementCheck = _defaultRequirementsFunction,
+    required bool Function(CombatGroup, Unit) requirementCheck,
     ModificationOption? options,
     required String id,
-  }) : super(name: name, options: options, id: id);
-
-  // function to ensure the modification can be applied to the unit
-  final bool Function(CombatGroup, Unit) requirementCheck;
-
-  static bool _defaultRequirementsFunction(CombatGroup cg, Unit u) => true;
-
+  }) : super(
+          name: name,
+          requirementCheck: requirementCheck,
+          options: options,
+          id: id,
+        );
   /*
     E-pex: One Peace River model within each combat group may increase its EW 
     skill by one for 1 TV each.
   */
-  factory FactionModification.e_pex() {
+  factory PeaceRiverFactionMods.e_pex() {
     final bool Function(CombatGroup, Unit) reqCheck = (CombatGroup cg, Unit u) {
       return cg.modCount(e_pexID) == 0;
     };
-    return FactionModification(
+    return PeaceRiverFactionMods(
         name: 'E-pex', requirementCheck: reqCheck, id: e_pexID)
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
       // TODO figure a way to handle both this mod and hunter elite at the same
@@ -52,11 +51,11 @@ class FactionModification extends BaseModification {
     TV each. This upgrade gives the Warrior IV a H/S of 4/2, an EW skill of 4+,
     and the Agile trait.
   */
-  factory FactionModification.warriorElite() {
+  factory PeaceRiverFactionMods.warriorElite() {
     final bool Function(CombatGroup, Unit) reqCheck = (CombatGroup cg, Unit u) {
       return u.core.frame == 'Warrior IV';
     };
-    return FactionModification(
+    return PeaceRiverFactionMods(
         name: 'Warrior Elite', requirementCheck: reqCheck, id: warriorEliteID)
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
       ..addMod(UnitAttribute.hull, createSetIntMod(4), description: 'H/S: 4/2')
@@ -74,7 +73,7 @@ class FactionModification extends BaseModification {
     This Crisis Responder variant is unlimited for this force.
   */
   // TODO support the unlimited variant this upgrade adds
-  factory FactionModification.crisisResponders(Unit u) {
+  factory PeaceRiverFactionMods.crisisResponders(Unit u) {
     final allowedWeaponMatch = RegExp(r'^(HAC|MSC|MBZ|LFG)$');
     final List<ModificationOption> _options = [];
     u.weapons
@@ -90,7 +89,7 @@ class FactionModification extends BaseModification {
     final bool Function(CombatGroup, Unit) reqCheck = (CombatGroup cg, Unit u) {
       return u.core.frame == 'Crusader IV' && u.hasMod('Crusader V Upgrade');
     };
-    return FactionModification(
+    return PeaceRiverFactionMods(
       name: 'Crisis Responders',
       requirementCheck: reqCheck,
       id: crisisRespondersID,
@@ -126,7 +125,7 @@ class FactionModification extends BaseModification {
     upgrade their IW, IR or IS for 1 TV each. These weapons receive the 
     Advanced trait.
   */
-  factory FactionModification.laserTech(Unit u) {
+  factory PeaceRiverFactionMods.laserTech(Unit u) {
     final allowedWeaponMatch = RegExp(r'^(IW|IR|IS)$');
     final List<ModificationOption> _options = [];
     u.weapons.where((w) => allowedWeaponMatch.hasMatch(w.code)).forEach((w) {
@@ -142,7 +141,7 @@ class FactionModification extends BaseModification {
           (u.core.frame == 'Universal Infantry' || u.name == 'Spitz Monowheel');
     };
 
-    return FactionModification(
+    return PeaceRiverFactionMods(
       name: 'Laser Tech',
       requirementCheck: reqCheck,
       id: laserTechID,
@@ -202,19 +201,5 @@ class FactionModification extends BaseModification {
 
         return newList;
       });
-  }
-
-  factory FactionModification.fromId(String id, Unit u) {
-    switch (id) {
-      case e_pexID:
-        return FactionModification.e_pex();
-      case warriorEliteID:
-        return FactionModification.warriorElite();
-      case crisisRespondersID:
-        return FactionModification.crisisResponders(u);
-      case laserTechID:
-        return FactionModification.laserTech(u);
-    }
-    throw Exception('Unable to create mod with id $id');
   }
 }

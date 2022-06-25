@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/mods/base_modification.dart';
 import 'package:gearforce/models/mods/duelist/duelist_modification.dart';
-import 'package:gearforce/models/mods/factions/peace_river.dart';
+import 'package:gearforce/models/mods/factions/faction_mod.dart';
 import 'package:gearforce/models/mods/unitUpgrades/unit_modification.dart';
 import 'package:gearforce/models/mods/standardUpgrades/standard_modification.dart';
 import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart';

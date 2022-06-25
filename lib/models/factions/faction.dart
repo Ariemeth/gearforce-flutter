@@ -1,15 +1,15 @@
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
-import 'package:gearforce/models/factions/sub_factions.dart/sub_faction.dart';
-import 'package:gearforce/models/rules/factions/black_talons.dart';
-import 'package:gearforce/models/rules/factions/caprice.dart';
-import 'package:gearforce/models/rules/factions/cef.dart';
-import 'package:gearforce/models/rules/factions/eden.dart';
-import 'package:gearforce/models/rules/factions/north.dart';
-import 'package:gearforce/models/rules/factions/nucoal.dart';
-import 'package:gearforce/models/rules/factions/peace_river.dart';
-import 'package:gearforce/models/rules/factions/south.dart';
-import 'package:gearforce/models/rules/factions/utopia.dart';
+import 'package:gearforce/models/factions/sub_faction.dart';
+import 'package:gearforce/models/rules/black_talons.dart';
+import 'package:gearforce/models/rules/caprice.dart';
+import 'package:gearforce/models/rules/cef.dart';
+import 'package:gearforce/models/rules/eden.dart';
+import 'package:gearforce/models/rules/north.dart';
+import 'package:gearforce/models/rules/nucoal.dart';
+import 'package:gearforce/models/rules/peace_river.dart';
+import 'package:gearforce/models/rules/south.dart';
+import 'package:gearforce/models/rules/utopia.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
 
 class Faction {

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/combatGroups/group.dart';
 import 'package:gearforce/models/factions/faction.dart';
-import 'package:gearforce/models/factions/sub_factions.dart/sub_faction.dart';
+import 'package:gearforce/models/factions/sub_faction.dart';
 import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/unit/command.dart';

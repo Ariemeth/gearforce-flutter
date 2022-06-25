@@ -1,11 +1,11 @@
 import 'package:flutter/widgets.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/factions/faction.dart';
-import 'package:gearforce/models/factions/sub_factions.dart/sub_faction.dart';
+import 'package:gearforce/models/factions/sub_faction.dart';
 import 'package:gearforce/models/mods/base_modification.dart';
 import 'package:gearforce/models/mods/duelist/duelist_modification.dart';
 import 'package:gearforce/models/mods/duelist/duelist_upgrades.dart';
-import 'package:gearforce/models/mods/factions/peace_river.dart';
+import 'package:gearforce/models/mods/factions/faction_mod.dart';
 import 'package:gearforce/models/mods/standardUpgrades/standard_modification.dart';
 import 'package:gearforce/models/mods/standardUpgrades/standard_upgrades.dart';
 import 'package:gearforce/models/mods/unitUpgrades/unit_modification.dart';
@@ -169,21 +169,17 @@ class Unit extends ChangeNotifier {
       final mods = modMap['faction'] as List;
 
       mods.forEach((loadedMod) {
-        try {
-          final modId = loadedMod['id'];
+        final modId = loadedMod['id'];
 
-          try {
-            var mod = FactionModification.fromId(modId, u);
-            u.addUnitMod(mod);
-            final selected = loadedMod['selected'];
-            if (selected != null) {
-              modsWithOptions[mod] = selected;
-            }
-          } on Exception catch (_) {
-            print('Faction mod $modId not found');
-          }
-        } catch (e) {
-          print('Faction mod $loadedMod not found in available mods, $e');
+        var mod = factionModFromId(modId, u);
+        if (mod == null) {
+          print('faction mod $modId could not be loaded');
+          return;
+        }
+        u.addUnitMod(mod);
+        final selected = loadedMod['selected'];
+        if (selected != null) {
+          modsWithOptions[mod] = selected;
         }
       });
     }
