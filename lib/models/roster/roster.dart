@@ -218,7 +218,13 @@ class UnitRoster extends ChangeNotifier {
       return false;
     }
 
-    airStrikes.values.forEach((element) {});
+    var count = 0;
+    _airStrikes.values.forEach((num) {
+      count += num;
+    });
+    if (count >= 4) {
+      return false;
+    }
 
     if (_airStrikes.keys.any((element) => element.name == airStrike.name)) {
       _airStrikes[_airStrikes.keys
