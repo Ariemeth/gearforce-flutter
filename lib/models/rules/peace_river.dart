@@ -85,7 +85,7 @@ class PRDF extends PeaceRiver {
 
   @override
   bool canBeAddedToGroup(
-    UnitCore? uc,
+    UnitCore uc,
     Group group, {
     RoleType? roleTypeOverride,
   }) {

@@ -105,6 +105,9 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
         });
       },
       onWillAccept: (UnitCore? uc) {
+        if (uc == null) {
+          return false;
+        }
         return ruleSet.canBeAddedToGroup(uc, group);
       },
     );

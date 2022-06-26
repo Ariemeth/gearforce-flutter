@@ -11,6 +11,7 @@ import 'package:gearforce/models/unit/unit_core.dart';
 abstract class RuleSet {
   final Data data;
   final List<String>? specialRules;
+
   const RuleSet(
     this.data, {
     this.specialRules = null,
@@ -46,11 +47,11 @@ abstract class RuleSet {
   }
 
   bool canBeAddedToGroup(
-    UnitCore? uc,
+    UnitCore uc,
     Group group, {
     RoleType? roleTypeOverride,
   }) {
-    var r = uc!.role;
+    var r = uc.role;
 
     // having no role or role type upgrade are always allowed
     if (r == null || r.includesRole([RoleType.Upgrade])) {
