@@ -11,11 +11,23 @@ import 'package:gearforce/models/unit/unit_core.dart';
 
 const RoleType _defaultRoleType = RoleType.GP;
 
+enum GroupType {
+  Primary('Primary'),
+  Secondary('Secondary');
+
+  const GroupType(this.name);
+  final String name;
+}
+
 class Group extends ChangeNotifier {
   RoleType _role = _defaultRoleType;
   final List<Unit> _units = [];
+  final GroupType groupType;
 
-  Group({RoleType role = _defaultRoleType}) {
+  Group(
+    this.groupType, {
+    RoleType role = _defaultRoleType,
+  }) {
     this._role = role;
   }
 
@@ -30,8 +42,9 @@ class Group extends ChangeNotifier {
     SubFaction subfaction,
     CombatGroup cg,
     UnitRoster roster,
+    GroupType groupType,
   ) {
-    Group g = Group(role: convertRoleType(json['role'] as String));
+    Group g = Group(groupType, role: convertRoleType(json['role'] as String));
 
     var decodedUnits = json['units'] as List;
     decodedUnits

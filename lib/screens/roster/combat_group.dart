@@ -37,33 +37,32 @@ class CombatGroupWidget extends StatefulWidget {
 class _CombatGroupWidgetState extends State<CombatGroupWidget> {
   @override
   Widget build(BuildContext context) {
+    final cg = widget.getOwnCG();
     widget.roster.setActiveCG(widget.name);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         GroupHeader(
-          cg: widget.getOwnCG(),
-          isPrimary: true,
+          cg: cg,
+          group: cg.primary,
           roster: widget.roster,
         ),
         Expanded(
           child: _generateTable(
             context: context,
-            group: widget.getOwnCG().primary,
+            group: cg.primary,
             ruleSet: widget.roster.subFaction.value.ruleSet,
-            isPrimary: true,
           ),
         ),
         GroupHeader(
-          cg: widget.getOwnCG(),
-          isPrimary: false,
+          cg: cg,
+          group: cg.secondary,
         ),
         Expanded(
           child: _generateTable(
             context: context,
-            group: widget.getOwnCG().secondary,
+            group: cg.secondary,
             ruleSet: widget.roster.subFaction.value.ruleSet,
-            isPrimary: false,
           ),
         ),
       ],
@@ -74,7 +73,6 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
     required BuildContext context,
     required Group group,
     required RuleSet ruleSet,
-    required bool isPrimary,
   }) {
     var table = DataTable(
       columns: _generateTableHeading(),

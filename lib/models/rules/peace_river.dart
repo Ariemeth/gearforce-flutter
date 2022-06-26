@@ -84,17 +84,20 @@ class PRDF extends PeaceRiver {
   }
 
   @override
-  bool canBeAddedToGroup(
-    UnitCore uc,
-    Group group, {
-    RoleType? roleTypeOverride,
-  }) {
+  bool isRoleTypeUnlimited(UnitCore uc, RoleType target, Group group) {
+    if (super.isRoleTypeUnlimited(uc, target, group)) {
+      return true;
+    }
+
     /*
       High Tech: Models with weapons that have the Advanced or Guided traits
       have unlimited availability for all primary units.
     */
-
-    return super.canBeAddedToGroup(uc, group);
+    return group.groupType == GroupType.Primary &&
+        (uc.reactWeapons.any((w) => w.traits
+                .any((t) => t.name == 'Advanced' || t.name == 'Guided')) ||
+            uc.mountedWeapons.any((w) => w.traits
+                .any((t) => t.name == 'Advanced' || t.name == 'Guided')));
   }
 }
 

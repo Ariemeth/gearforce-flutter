@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
+import 'package:gearforce/models/combatGroups/group.dart';
 import 'package:gearforce/models/mods/duelist/duelist_modification.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/screens/roster/select_role.dart';
@@ -13,17 +14,16 @@ class GroupHeader extends StatelessWidget {
   const GroupHeader({
     Key? key,
     required this.cg,
-    required this.isPrimary,
+    required this.group,
     this.roster,
   }) : super(key: key);
 
   final CombatGroup cg;
-  final bool isPrimary;
+  final Group group;
   final UnitRoster? roster;
 
   @override
   Widget build(BuildContext context) {
-    final group = isPrimary ? cg.primary : cg.secondary;
     final actions = group.totalActions();
     return Padding(
       padding: const EdgeInsets.all(4.0),
@@ -33,7 +33,7 @@ class GroupHeader extends StatelessWidget {
           SizedBox(
             width: 100,
             child: Text(
-              isPrimary ? 'Primary' : 'Secondary',
+              group.groupType.name,
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
           ),
@@ -52,7 +52,7 @@ class GroupHeader extends StatelessWidget {
           ),
           DisplayValue(text: 'TV:', value: group.totalTV()),
           Tooltip(
-            message: isPrimary
+            message: group.groupType == GroupType.Primary
                 // a cg is only valid if the number of actions is greater then 4 and
                 // less then or equal to 6
                 ? actions > _maxPrimaryActions || actions < _minPrimaryActions
@@ -66,7 +66,7 @@ class GroupHeader extends StatelessWidget {
               value: actions,
               textColor: cg.modCount(independentOperatorId) != 0
                   ? Colors.green
-                  : isPrimary
+                  : group.groupType == GroupType.Primary
                       // a cg is only valid if the number of actions is greater then 4 and
                       // less then or equal to 6
                       ? actions > _maxPrimaryActions ||
@@ -78,7 +78,7 @@ class GroupHeader extends StatelessWidget {
                           : Colors.green,
             ),
           ),
-          isPrimary
+          group.groupType == GroupType.Primary
               ? SizedBox(
                   height: _groupHeaderHeight,
                   child: Align(
@@ -117,7 +117,7 @@ class GroupHeader extends StatelessWidget {
                   ),
                 )
               : Container(),
-          isPrimary
+          group.groupType == GroupType.Primary
               ? Expanded(
                   child: SizedBox(
                     height: _groupHeaderHeight,
