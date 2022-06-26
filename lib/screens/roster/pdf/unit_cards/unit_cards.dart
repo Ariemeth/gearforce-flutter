@@ -49,10 +49,7 @@ List<pw.Widget> buildUnitCards(
       version: version,
     ));
   });
-  units.addAll(_buildGroupUnits(font,
-      primaryUnits: roster.airStrikes.keys.toList(),
-      secondaryUnits: [],
-      version: version));
+
   return units;
 }
 

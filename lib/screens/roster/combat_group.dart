@@ -5,8 +5,8 @@ import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/combatGroups/group.dart';
 import 'package:gearforce/models/mods/duelist/duelist_modification.dart';
 import 'package:gearforce/models/roster/roster.dart';
+import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/unit/command.dart';
-import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
@@ -50,6 +50,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
           child: _generateTable(
             context: context,
             group: widget.getOwnCG().primary,
+            ruleSet: widget.roster.subFaction.value.ruleSet,
             isPrimary: true,
           ),
         ),
@@ -61,6 +62,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
           child: _generateTable(
             context: context,
             group: widget.getOwnCG().secondary,
+            ruleSet: widget.roster.subFaction.value.ruleSet,
             isPrimary: false,
           ),
         ),
@@ -71,11 +73,16 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
   Widget _generateTable({
     required BuildContext context,
     required Group group,
+    required RuleSet ruleSet,
     required bool isPrimary,
   }) {
     var table = DataTable(
       columns: _generateTableHeading(),
-      rows: _generateTableRows(context: context, group: group),
+      rows: _generateTableRows(
+        context: context,
+        group: group,
+        ruleSet: widget.roster.subFaction.value.ruleSet,
+      ),
       columnSpacing: 1.0,
       horizontalMargin: 0.0,
       headingRowHeight: 30.0,
@@ -98,28 +105,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
         });
       },
       onWillAccept: (UnitCore? uc) {
-        var r = uc!.role;
-
-        // having no role or role type upgrade are always allowed
-        if (r == null || r.includesRole([RoleType.Upgrade])) {
-          return true;
-        }
-
-        if (!r.includesRole([group.role()])) {
-          return false;
-        }
-
-        var count = group
-            .allUnits()
-            .where((element) => element.core.name == uc.name)
-            .length;
-
-        var maxCountAllowed = r.roles
-                .firstWhere(((element) => element.name == group.role()))
-                .unlimited
-            ? 20
-            : 2;
-        return count < maxCountAllowed;
+        return ruleSet.canBeAddedToGroup(uc, group);
       },
     );
 
@@ -201,15 +187,13 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
   List<DataRow> _generateTableRows({
     required BuildContext context,
     required Group group,
+    required RuleSet ruleSet,
   }) {
     List<DataRow> dataRows = [];
     var units = group.allUnits();
     for (var i = 0; i < units.length; i++) {
       var unit = units[i];
-      var canNotBeCommand = unit.core.type == 'Airstrike Counter' ||
-          unit.core.type == 'Drone' ||
-          unit.core.type == 'Building' ||
-          unit.traits.any((element) => element.name == 'Conscript');
+      final canBeCommand = ruleSet.canBeCommand(unit);
       var nameCell = DataCell(UnitTextCell.content(
         unit.attribute(UnitAttribute.name),
         alignment: Alignment.centerLeft,
@@ -232,9 +216,9 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
                 padding: const EdgeInsets.fromLTRB(15, 5, 15, 5),
                 child: Center(
                   child: DropdownButton<String>(
-                    value: canNotBeCommand
-                        ? null
-                        : commandLevelString(unit.commandLevel),
+                    value: canBeCommand
+                        ? commandLevelString(unit.commandLevel)
+                        : null,
                     hint: Text('Select Command Level'),
                     icon: const Icon(Icons.arrow_downward),
                     iconSize: 16,
@@ -328,9 +312,8 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
                         unit.commandLevel = newCommandLevel;
                       });
                     },
-                    items: canNotBeCommand
-                        ? null
-                        : CommandLevel.values.where((element) {
+                    items: canBeCommand
+                        ? CommandLevel.values.where((element) {
                             if (unit.hasMod(independentOperatorId) &&
                                 (element == CommandLevel.cgl ||
                                     element == CommandLevel.secic)) {
@@ -348,7 +331,8 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
                                 ),
                               ),
                             );
-                          }).toList(),
+                          }).toList()
+                        : null,
                   ),
                 ),
               ),

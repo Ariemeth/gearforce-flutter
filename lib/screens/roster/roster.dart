@@ -4,7 +4,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/roster/roster.dart';
-import 'package:gearforce/screens/roster/air_strike.dart';
 import 'package:gearforce/screens/roster/combat_groups_display.dart';
 import 'package:gearforce/screens/roster/download/download.dart';
 import 'package:gearforce/screens/roster/pdf/pdf.dart';
@@ -180,37 +179,6 @@ class _RosterWidgetState extends State<RosterWidget> {
                       });
                     })
               ]),
-            ),
-            ListTile(
-              title: Row(children: [
-                Text(
-                  'Airstrike Tokens (TV:${roster.airStrikeTV})',
-                  style: TextStyle(fontSize: 16),
-                ),
-                Tooltip(
-                  message: 'Remove all airstrike counters',
-                  child: IconButton(
-                    onPressed: () {
-                      setState(() {
-                        roster.clearAirstrikes();
-                      });
-                    },
-                    icon: const Icon(Icons.clear),
-                    splashRadius: 20.0,
-                    highlightColor: Colors.red,
-                  ),
-                )
-              ]),
-              onTap: () {
-                var result = showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AirStrikeSelectorDialog(roster);
-                    });
-                result.whenComplete(() {
-                  setState(() {});
-                });
-              },
             ),
             AboutListTile(
               applicationName: 'Gearforce',

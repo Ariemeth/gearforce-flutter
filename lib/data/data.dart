@@ -45,6 +45,7 @@ class Data {
     List<RoleType?>? role,
     List<String>? filters,
     bool includeTerrain = true,
+    bool includeAirstrikeTokens = true,
   }) {
     List<Frame>? factionUnits = _factionFrames[faction]!.toList();
 
@@ -88,12 +89,20 @@ class Data {
         break;
     }
 
-    if (includeTerrain) {
-      var terrainList = _factionFrames[FactionType.Terrain];
+    if (includeTerrain && faction != FactionType.Terrain) {
+      final terrainList = _factionFrames[FactionType.Terrain];
       if (terrainList != null) {
-        factionUnits.addAll(terrainList.toList());
+        factionUnits.addAll(terrainList);
       }
     }
+
+    if (includeAirstrikeTokens && faction != FactionType.Airstrike) {
+      final airstrikeTokens = _factionFrames[FactionType.Airstrike];
+      if (airstrikeTokens != null) {
+        factionUnits.addAll(airstrikeTokens);
+      }
+    }
+
     List<UnitCore> ulist = [];
 
     factionUnits.forEach((f) {
