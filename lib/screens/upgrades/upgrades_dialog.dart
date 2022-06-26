@@ -40,7 +40,7 @@ class UpgradesDialog extends StatelessWidget {
     final veteranMods = getVeteranMods(unit, cg);
     final duelistMods = getDuelistMods(unit, cg, roster);
     final factionMods =
-        roster.subFaction.value.ruleSet.availableFactionMods(cg, unit);
+        roster.subFaction.value.ruleSet.availableFactionMods(roster, cg, unit);
 
     unit.getMods().forEach((mod) {
       switch (mod.runtimeType) {

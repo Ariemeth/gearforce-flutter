@@ -18,7 +18,8 @@ class BlackTalons extends RuleSet {
   }
 
   @override
-  List<FactionModification> availableFactionMods(CombatGroup cg, Unit u) {
+  List<FactionModification> availableFactionMods(
+      UnitRoster, CombatGroup cg, Unit u) {
     return [];
   }
 }

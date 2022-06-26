@@ -171,7 +171,7 @@ class Unit extends ChangeNotifier {
       mods.forEach((loadedMod) {
         final modId = loadedMod['id'];
 
-        var mod = factionModFromId(modId, u);
+        var mod = factionModFromId(modId, roster, u);
         if (mod == null) {
           print('faction mod $modId could not be loaded');
           return;

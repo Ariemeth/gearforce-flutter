@@ -1,4 +1,5 @@
 import 'package:gearforce/models/combatGroups/combat_group.dart';
+import 'package:gearforce/models/combatGroups/group.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/mods/factionUpgrades/faction_mod.dart';
 import 'package:gearforce/models/mods/factionUpgrades/peace_river.dart';
@@ -20,7 +21,8 @@ class PeaceRiver extends RuleSet {
   }
 
   @override
-  List<FactionModification> availableFactionMods(CombatGroup cg, Unit u) {
+  List<FactionModification> availableFactionMods(
+      UnitRoster, CombatGroup cg, Unit u) {
     return [
       PeaceRiverFactionMods.e_pex(),
       PeaceRiverFactionMods.warriorElite(),
@@ -71,14 +73,28 @@ class PRDF extends PeaceRiver {
   PRDF(super.data) : super(specialRules: const [PRDFSpecialRule1]);
 
   @override
-  List<FactionModification> availableFactionMods(CombatGroup cg, Unit u) {
-    return super.availableFactionMods(cg, u)
+  List<FactionModification> availableFactionMods(
+      UnitRoster ur, CombatGroup cg, Unit u) {
+    return super.availableFactionMods(ur, cg, u)
       ..addAll([
         PeaceRiverFactionMods.olTrusty(),
         PeaceRiverFactionMods.thunderFromTheSky(),
-        PeaceRiverFactionMods.eliteElements(),
-        PeaceRiverFactionMods.highTech(),
+        PeaceRiverFactionMods.eliteElements(ur),
       ]);
+  }
+
+  @override
+  bool canBeAddedToGroup(
+    UnitCore? uc,
+    Group group, {
+    RoleType? roleTypeOverride,
+  }) {
+    /*
+      High Tech: Models with weapons that have the Advanced or Guided traits
+      have unlimited availability for all primary units.
+    */
+
+    return super.canBeAddedToGroup(uc, group);
   }
 }
 
@@ -107,8 +123,9 @@ class POC extends PeaceRiver {
   POC(super.data);
 
   @override
-  List<FactionModification> availableFactionMods(CombatGroup cg, Unit u) {
-    return super.availableFactionMods(cg, u);
+  List<FactionModification> availableFactionMods(
+      UnitRoster ur, CombatGroup cg, Unit u) {
+    return super.availableFactionMods(ur, cg, u);
   }
 }
 
@@ -131,7 +148,8 @@ class PPS extends PeaceRiver {
   PPS(super.data);
 
   @override
-  List<FactionModification> availableFactionMods(CombatGroup cg, Unit u) {
-    return super.availableFactionMods(cg, u);
+  List<FactionModification> availableFactionMods(
+      UnitRoster ur, CombatGroup cg, Unit u) {
+    return super.availableFactionMods(ur, cg, u);
   }
 }

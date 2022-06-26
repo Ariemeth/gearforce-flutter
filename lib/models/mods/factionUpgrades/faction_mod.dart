@@ -2,6 +2,7 @@ import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/mods/base_modification.dart';
 import 'package:gearforce/models/mods/factionUpgrades/peace_river.dart';
 import 'package:gearforce/models/mods/modification_option.dart';
+import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/unit/unit.dart';
 
 class FactionModification extends BaseModification {
@@ -18,7 +19,7 @@ class FactionModification extends BaseModification {
   static bool _defaultRequirementsFunction(CombatGroup cg, Unit u) => true;
 }
 
-FactionModification? factionModFromId(String id, Unit u) {
+FactionModification? factionModFromId(String id, UnitRoster ur, Unit u) {
   switch (id) {
     case e_pexID:
       return PeaceRiverFactionMods.e_pex();
@@ -33,9 +34,7 @@ FactionModification? factionModFromId(String id, Unit u) {
     case thunderFromTheSkyID:
       return PeaceRiverFactionMods.thunderFromTheSky();
     case eliteElmentsID:
-      return PeaceRiverFactionMods.eliteElements();
-    case highTechID:
-      return PeaceRiverFactionMods.highTech();
+      return PeaceRiverFactionMods.eliteElements(ur);
   }
   return null;
 }

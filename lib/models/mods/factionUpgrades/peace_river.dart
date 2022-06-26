@@ -2,7 +2,9 @@ import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/mods/factionUpgrades/faction_mod.dart';
 import 'package:gearforce/models/mods/modification_option.dart';
 import 'package:gearforce/models/mods/mods.dart';
+import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/traits/trait.dart';
+import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
 import 'package:gearforce/models/weapons/weapon.dart';
@@ -17,7 +19,6 @@ const laserTechID = '$peaceRiverIDBase - 40';
 const olTrustyID = '$peaceRiverIDBase - 50';
 const thunderFromTheSkyID = '$peaceRiverIDBase - 60';
 const eliteElmentsID = '$peaceRiverIDBase - 70';
-const highTechID = '$peaceRiverIDBase - 80';
 
 class PeaceRiverFactionMods extends FactionModification {
   PeaceRiverFactionMods({
@@ -63,12 +64,15 @@ class PeaceRiverFactionMods extends FactionModification {
     return PeaceRiverFactionMods(
         name: 'Warrior Elite', requirementCheck: reqCheck, id: warriorEliteID)
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
+      ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Elite'),
+          description: 'Any Warrior IV may be upgraded to a Warrior Elite')
       ..addMod(UnitAttribute.hull, createSetIntMod(4), description: 'H/S: 4/2')
       ..addMod(UnitAttribute.structure, createSetIntMod(2))
       ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW: 4')
       ..addMod(
         UnitAttribute.traits,
         createAddTraitToList(const Trait(name: 'Agile')),
+        description: '+Agile',
       );
   }
 
@@ -122,7 +126,10 @@ class PeaceRiverFactionMods extends FactionModification {
         newList.add(buildWeapon('MPA', hasReact: true)!);
 
         return newList;
-      });
+      },
+          description: 'Any Crusader IV that has been upgraded to a ' +
+              'Crusader V may swap their HAC, MSC, MBZ or LFG for a ' +
+              'MPA (React) and a Shield');
   }
 
   /*
@@ -178,7 +185,10 @@ class PeaceRiverFactionMods extends FactionModification {
         ));
 
         return newList;
-      })
+      },
+          description: 'Veteran universal infantry and veteran Spitz ' +
+              'Monowheels may upgrade their IW, IR or IS with the Advanced ' +
+              'trait.')
       ..addMod(UnitAttribute.mounted_weapons, (value) {
         if (!(value is List<Weapon>)) {
           return value;
@@ -220,8 +230,13 @@ class PeaceRiverFactionMods extends FactionModification {
     return PeaceRiverFactionMods(
         name: 'Ol’ Trusty', requirementCheck: reqCheck, id: olTrustyID)
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
-      ..addMod(UnitAttribute.gunnery, createSimpleIntMod(-1),
-          description: 'Gu: -1');
+      ..addMod(
+        UnitAttribute.gunnery,
+        createSimpleIntMod(-1),
+        description:
+            'Warriors, Jackals and Spartans may increase their GU skill by ' +
+                'one for 1',
+      );
   }
 
 /*
@@ -230,58 +245,34 @@ class PeaceRiverFactionMods extends FactionModification {
 */
   factory PeaceRiverFactionMods.thunderFromTheSky() {
     final bool Function(CombatGroup, Unit) reqCheck = (CombatGroup cg, Unit u) {
-      return u.core.frame == 'Warrior IV';
+      return u.core.type == 'Airstrike Counters';
     };
     return PeaceRiverFactionMods(
         name: 'Thunder from the Sky',
         requirementCheck: reqCheck,
         id: thunderFromTheSkyID)
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
-      ..addMod(UnitAttribute.hull, createSetIntMod(4), description: 'H/S: 4/2')
-      ..addMod(UnitAttribute.structure, createSetIntMod(2))
-      ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW: 4')
-      ..addMod(
-        UnitAttribute.traits,
-        createAddTraitToList(const Trait(name: 'Agile')),
-      );
-  }
-
-/*
-  High Tech: Models with weapons that have the Advanced or Guided traits have
-  unlimited availability for all primary units.
-*/
-  factory PeaceRiverFactionMods.highTech() {
-    final bool Function(CombatGroup, Unit) reqCheck = (CombatGroup cg, Unit u) {
-      return u.core.frame == 'Warrior IV';
-    };
-    return PeaceRiverFactionMods(
-        name: 'High Tech', requirementCheck: reqCheck, id: highTechID)
-      ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
-      ..addMod(UnitAttribute.hull, createSetIntMod(4), description: 'H/S: 4/2')
-      ..addMod(UnitAttribute.structure, createSetIntMod(2))
-      ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW: 4')
-      ..addMod(
-        UnitAttribute.traits,
-        createAddTraitToList(const Trait(name: 'Agile')),
-      );
+      ..addMod(UnitAttribute.gunnery, createSetIntMod(3),
+          description: 'Airstrike counters may increase their GU skill to 3+');
   }
 
   /*
     Elite Elements: One SK unit may change their role to SO.
   */
-  factory PeaceRiverFactionMods.eliteElements() {
+  factory PeaceRiverFactionMods.eliteElements(UnitRoster roster) {
     final bool Function(CombatGroup, Unit) reqCheck = (CombatGroup cg, Unit u) {
-      return u.core.frame == 'Warrior IV';
+      if (u.role() == null) {
+        return false;
+      }
+      // unit must be of the SK role type and only 1 unit may have this mod.
+      return u.role()!.roles.any((r) => r.name == RoleType.SK) &&
+          roster.unitsWithMod(eliteElmentsID) == 0;
     };
     return PeaceRiverFactionMods(
         name: 'Elite Elements', requirementCheck: reqCheck, id: eliteElmentsID)
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
-      ..addMod(UnitAttribute.hull, createSetIntMod(4), description: 'H/S: 4/2')
-      ..addMod(UnitAttribute.structure, createSetIntMod(2))
-      ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW: 4')
       ..addMod(
-        UnitAttribute.traits,
-        createAddTraitToList(const Trait(name: 'Agile')),
-      );
+          UnitAttribute.roles, createAddRoleToList(Role(name: RoleType.SO)),
+          description: '+SO, One SK unit may change their role to SO');
   }
 }
