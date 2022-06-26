@@ -54,9 +54,9 @@ pw.Widget _buildCombatGroup(pw.Font font, CombatGroup cg) {
         padding: pw.EdgeInsets.only(top: _primarySecondarySpacing),
         child: _buildUnitsContent(
           font,
-          units: cg.primary.allUnits(),
-          actions: cg.primary.totalActions(),
-          tv: cg.primary.totalTV(),
+          units: cg.secondary.allUnits(),
+          actions: cg.secondary.totalActions(),
+          tv: cg.secondary.totalTV(),
           groupType: 'Secondary',
         ),
       ),

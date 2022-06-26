@@ -1,4 +1,5 @@
 import 'package:gearforce/models/combatGroups/combat_group.dart';
+import 'package:gearforce/models/combatGroups/group.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/mods/factionUpgrades/faction_mod.dart';
 import 'package:gearforce/models/mods/factionUpgrades/peace_river.dart';
@@ -9,7 +10,7 @@ import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
 
 class PeaceRiver extends RuleSet {
-  const PeaceRiver(super.data);
+  const PeaceRiver(super.data, {super.specialRules});
 
   @override
   List<UnitCore> availableUnits({
@@ -20,7 +21,8 @@ class PeaceRiver extends RuleSet {
   }
 
   @override
-  List<FactionModification> availableFactionMods(CombatGroup cg, Unit u) {
+  List<FactionModification> availableFactionMods(
+      UnitRoster, CombatGroup cg, Unit u) {
     return [
       PeaceRiverFactionMods.e_pex(),
       PeaceRiverFactionMods.warriorElite(),
@@ -48,19 +50,56 @@ were responsible for the destruction of Peace River City and countless lives. Wh
 information came to light, a sleeping beast awoke. PRDF recruitment has never been
 better. With the full might of the manufacturing giant of Paxton Arms behind them, the
 PRDF is a powerful force to face on the battlefield.
-Z Ol’ Trusty: Warriors, Jackals and Spartans may increase their GU skill by one for 1
+* Ol’ Trusty: Warriors, Jackals and Spartans may increase their GU skill by one for 1
 TV each. This does not include Warrior IVs.
-Z Thunder from the Sky: Airstrike counters may increase their GU skill to 3+ instead
+* Thunder from the Sky: Airstrike counters may increase their GU skill to 3+ instead
 of 4+ for 1 TV each.
-Z High Tech: Models with weapons that have the Advanced or Guided traits have
+* High Tech: Models with weapons that have the Advanced or Guided traits have
 unlimited availability for all primary units.
 Z The Best Men and Women for the Job: One model in each combat group may be
 selected from the Black Talon model list.
-Z Elite Elements: One SK unit may change their role to SO.
-Z Ghost Strike: Models in one combat group using special operations deployment
+* Elite Elements: One SK unit may change their role to SO.
+* Ghost Strike: Models in one combat group using special operations deployment
 may start the game with hidden tokens if all the models within the combat group
 are placed in cover relative to at least one enemy model.
 */
+const PRDFSpecialRule1 =
+    'Ghost Strike: Models in one combat group using special operations ' +
+        'deployment may start the game with hidden tokens if all the models ' +
+        'within the combat group are placed in cover relative to at least ' +
+        'one enemy model.';
+
+class PRDF extends PeaceRiver {
+  PRDF(super.data) : super(specialRules: const [PRDFSpecialRule1]);
+
+  @override
+  List<FactionModification> availableFactionMods(
+      UnitRoster ur, CombatGroup cg, Unit u) {
+    return super.availableFactionMods(ur, cg, u)
+      ..addAll([
+        PeaceRiverFactionMods.olTrusty(),
+        PeaceRiverFactionMods.thunderFromTheSky(),
+        PeaceRiverFactionMods.eliteElements(ur),
+      ]);
+  }
+
+  @override
+  bool isRoleTypeUnlimited(UnitCore uc, RoleType target, Group group) {
+    if (super.isRoleTypeUnlimited(uc, target, group)) {
+      return true;
+    }
+
+    /*
+      High Tech: Models with weapons that have the Advanced or Guided traits
+      have unlimited availability for all primary units.
+    */
+    return group.groupType == GroupType.Primary &&
+        (uc.reactWeapons.any((w) => w.traits
+                .any((t) => t.name == 'Advanced' || t.name == 'Guided')) ||
+            uc.mountedWeapons.any((w) => w.traits
+                .any((t) => t.name == 'Advanced' || t.name == 'Guided')));
+  }
+}
 
 /*
 POC - Peace Officer Corps
@@ -83,6 +122,15 @@ Z Mercenary Contract: One combat group may be made with models from North,
 South, Peace River, and NuCoal (may include a mix from all four factions) that have
 an armor of 8 or lower.
 */
+class POC extends PeaceRiver {
+  POC(super.data);
+
+  @override
+  List<FactionModification> availableFactionMods(
+      UnitRoster ur, CombatGroup cg, Unit u) {
+    return super.availableFactionMods(ur, cg, u);
+  }
+}
 
 /*
 PPS - Paxton Private Securities
@@ -99,3 +147,12 @@ Z Sub-Contractors: One combat group may be made with models from North,
 South, Peace River, and NuCoal (may include a mix from all four factions) that
 have an armor of 8 or lower.
 */
+class PPS extends PeaceRiver {
+  PPS(super.data);
+
+  @override
+  List<FactionModification> availableFactionMods(
+      UnitRoster ur, CombatGroup cg, Unit u) {
+    return super.availableFactionMods(ur, cg, u);
+  }
+}

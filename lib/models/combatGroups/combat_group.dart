@@ -9,8 +9,8 @@ import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/unit.dart';
 
 class CombatGroup extends ChangeNotifier {
-  Group _primary = Group();
-  Group _secondary = Group();
+  Group _primary = Group(GroupType.Primary);
+  Group _secondary = Group(GroupType.Secondary);
   final String name;
   bool _isVeteran = false;
   final UnitRoster? roster;
@@ -76,8 +76,8 @@ class CombatGroup extends ChangeNotifier {
   }
 
   CombatGroup(this.name, {Group? primary, Group? secondary, this.roster}) {
-    this.primary = primary == null ? Group() : primary;
-    this.secondary = secondary == null ? Group() : secondary;
+    this.primary = primary == null ? Group(GroupType.Primary) : primary;
+    this.secondary = secondary == null ? Group(GroupType.Secondary) : secondary;
   }
 
   Map<String, dynamic> toJson() => {
@@ -100,19 +100,9 @@ class CombatGroup extends ChangeNotifier {
     ).._isVeteran = json['isVet'] != null ? json['isVet'] as bool : false;
 
     final p = Group.fromJson(
-      json['primary'],
-      faction,
-      subfaction,
-      cg,
-      roster,
-    );
-    final s = Group.fromJson(
-      json['secondary'],
-      faction,
-      subfaction,
-      cg,
-      roster,
-    );
+        json['primary'], faction, subfaction, cg, roster, GroupType.Primary);
+    final s = Group.fromJson(json['secondary'], faction, subfaction, cg, roster,
+        GroupType.Secondary);
     cg.primary = p;
     cg.secondary = s;
 

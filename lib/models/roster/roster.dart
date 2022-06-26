@@ -21,7 +21,6 @@ class UnitRoster extends ChangeNotifier {
   String _activeCG = '';
   String get rulesVersion => _currentRulesVersion;
   bool _isEliteForce = false;
-  Map<Unit, int> _airStrikes = {};
 
   UnitRoster(Data data) {
     faction = ValueNotifier<Faction>(Faction.blackTalons(data));
@@ -63,9 +62,6 @@ class UnitRoster extends ChangeNotifier {
         'version': _currentRosterVersion,
         'rulesVersion': rulesVersion,
         'isEliteForce': isEliteForce,
-        'airStrikes': airStrikes.entries
-            .map((e) => {'count': e.value, 'airstrike': e.key.toJson()})
-            .toList(),
         'whenCreated': DateTime.now().toString(),
       };
 
@@ -109,18 +105,6 @@ class UnitRoster extends ChangeNotifier {
     ur._isEliteForce =
         json['isEliteForce'] != null ? json['isEliteForce'] as bool : false;
 
-    final decodedAirStrikes = json['airStrikes'] as List;
-    decodedAirStrikes.forEach((e) {
-      final count = e['count'] as int;
-      final airstrike = Unit.fromJson(
-        e['airstrike'],
-        ur.faction.value,
-        ur.subFaction.value,
-        null,
-        ur,
-      );
-      ur._airStrikes[airstrike] = count;
-    });
     return ur;
   }
 
@@ -129,7 +113,6 @@ class UnitRoster extends ChangeNotifier {
     this.player = ur.player;
     this.faction.value = ur.faction.value;
     this.subFaction.value = ur.subFaction.value;
-    this._airStrikes = ur._airStrikes;
     this._activeCG = ur._activeCG;
     ur._combatGroups.forEach((key, value) {
       this.addCG(value);
@@ -180,7 +163,6 @@ class UnitRoster extends ChangeNotifier {
       result += value.totalTV();
     });
 
-    result += airStrikeTV;
     return result;
   }
 
@@ -210,63 +192,6 @@ class UnitRoster extends ChangeNotifier {
     _combatGroups
         .forEach((name, cg) => {listOfUnits.addAll(cg.unitsWithMod(id))});
     return listOfUnits;
-  }
-
-  Map<Unit, int> get airStrikes => _airStrikes;
-  bool addAirStrike(Unit airStrike) {
-    if (airStrike.type != 'Airstrike Counter') {
-      return false;
-    }
-
-    var count = 0;
-    _airStrikes.values.forEach((num) {
-      count += num;
-    });
-    if (count >= 4) {
-      return false;
-    }
-
-    if (_airStrikes.keys.any((element) => element.name == airStrike.name)) {
-      _airStrikes[_airStrikes.keys
-              .firstWhere((element) => element.name == airStrike.name)] =
-          1 +
-              _airStrikes[_airStrikes.keys
-                  .firstWhere((element) => element.name == airStrike.name)]!;
-    } else {
-      _airStrikes[airStrike] = 1;
-    }
-    notifyListeners();
-    return true;
-  }
-
-  removeAirStrike(String name) {
-    if (_airStrikes.keys.any((element) => element.name == name)) {
-      final as = _airStrikes.keys.firstWhere((element) => element.name == name);
-      final count = _airStrikes[as]!;
-      if (count <= 1) {
-        _airStrikes.remove(as);
-      } else {
-        _airStrikes[as] = count - 1;
-      }
-      notifyListeners();
-    }
-  }
-
-  int get airStrikeTV {
-    int result = 0;
-
-    airStrikes.forEach((airstrike, count) {
-      result += (airstrike.tv * count);
-    });
-
-    return result;
-  }
-
-  void clearAirstrikes() {
-    if (airStrikes.isNotEmpty) {
-      airStrikes.clear();
-      notifyListeners();
-    }
   }
 
   // Returns true if the Roster currently has a duelist.
