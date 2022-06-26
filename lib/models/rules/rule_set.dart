@@ -48,21 +48,22 @@ abstract class RuleSet {
       return true;
     }
 
+    // Unit must have the role of the group it is being added.
     if (!r.includesRole([group.role()])) {
       return false;
     }
 
-    var count = group
+    // get the number other instances of this unitcore in the group
+    final count = group
         .allUnits()
         .where((element) => element.core.name == uc.name)
         .length;
 
-    var maxCountAllowed = r.roles
-            .firstWhere(((element) => element.name == group.role()))
-            .unlimited
-        ? 20
-        : 2;
-    return count < maxCountAllowed;
+    // If the unit's role for this group is unlimited, there is not limit,
+    // otherwise restrict the count to a max of 2
+    return r.roles.firstWhere(((role) => role.name == group.role())).unlimited
+        ? true
+        : count < 2;
   }
 }
 
