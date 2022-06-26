@@ -10,7 +10,11 @@ import 'package:gearforce/models/unit/unit_core.dart';
 
 abstract class RuleSet {
   final Data data;
-  const RuleSet(this.data);
+  final List<String>? specialRules;
+  const RuleSet(
+    this.data, {
+    this.specialRules = null,
+  });
 
   List<UnitCore> availableUnits({
     List<RoleType?>? role,

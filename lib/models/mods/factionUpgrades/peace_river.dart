@@ -8,11 +8,16 @@ import 'package:gearforce/models/unit/unit_attribute.dart';
 import 'package:gearforce/models/weapons/weapon.dart';
 import 'package:gearforce/models/weapons/weapons.dart';
 
-const e_pexID = 'faction: peace river - 10';
-const warriorEliteID = 'faction: peace river - 20';
-const crisisRespondersID = 'faction: peace river - 30';
-const laserTechID = 'faction: peace river - 40';
-const architectsID = 'faction: peace river - 50';
+const peaceRiverIDBase = 'faction: peace river';
+
+const e_pexID = '$peaceRiverIDBase - 10';
+const warriorEliteID = '$peaceRiverIDBase - 20';
+const crisisRespondersID = '$peaceRiverIDBase - 30';
+const laserTechID = '$peaceRiverIDBase - 40';
+const architectsID = '$peaceRiverIDBase - 50';
+const olTrusty = '$peaceRiverIDBase - 60';
+const thunderFromTheSky = '$peaceRiverIDBase - 70';
+const eliteElments = '$peaceRiverIDBase - 80';
 
 class PeaceRiverFactionMods extends FactionModification {
   PeaceRiverFactionMods({

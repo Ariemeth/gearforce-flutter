@@ -115,9 +115,13 @@ class Faction {
       FactionType.PeaceRiver,
       [
         defaultSub,
-        SubFaction('Peace River Defense Force', ruleSet: DefaultRuleSet(data)),
-        SubFaction('Peace Officer Corps', ruleSet: DefaultRuleSet(data)),
-        SubFaction('Paxton Private Securities', ruleSet: DefaultRuleSet(data)),
+        SubFaction(
+          'Peace River Defense Force',
+          description: PRDFDescription,
+          ruleSet: PRDF(data),
+        ),
+        SubFaction('Peace Officer Corps', ruleSet: POC(data)),
+        SubFaction('Paxton Private Securities', ruleSet: PPS(data)),
       ],
       defaultSub,
     );
@@ -188,3 +192,12 @@ class Faction {
     return this.subFactions.any((element) => element.name == name);
   }
 }
+
+const PRDFDescription =
+    'To be a soldier in the PRDF is to know a deep and abiding' +
+        'hatred of Earth. CEF agents were responsible for the destruction of' +
+        'Peace River City and countless lives. When this information came to ' +
+        'light, a sleeping beast awoke. PRDF recruitment has never been ' +
+        'better. With the full might of the manufacturing giant of Paxton ' +
+        'Arms behind them, the PRDF is a powerful force to face on the ' +
+        'battlefield.';

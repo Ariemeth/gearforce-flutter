@@ -9,7 +9,7 @@ import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
 
 class PeaceRiver extends RuleSet {
-  const PeaceRiver(super.data);
+  const PeaceRiver(super.data, {super.specialRules});
 
   @override
   List<UnitCore> availableUnits({
@@ -61,6 +61,15 @@ Z Ghost Strike: Models in one combat group using special operations deployment
 may start the game with hidden tokens if all the models within the combat group
 are placed in cover relative to at least one enemy model.
 */
+const PRDFSpecialRule1 =
+    'Ghost Strike: Models in one combat group using special operations ' +
+        'deployment may start the game with hidden tokens if all the models ' +
+        'within the combat group are placed in cover relative to at least ' +
+        'one enemy model.';
+
+class PRDF extends PeaceRiver {
+  PRDF(super.data) : super(specialRules: const [PRDFSpecialRule1]);
+}
 
 /*
 POC - Peace Officer Corps
@@ -83,6 +92,9 @@ Z Mercenary Contract: One combat group may be made with models from North,
 South, Peace River, and NuCoal (may include a mix from all four factions) that have
 an armor of 8 or lower.
 */
+class POC extends PeaceRiver {
+  POC(super.data);
+}
 
 /*
 PPS - Paxton Private Securities
@@ -99,3 +111,6 @@ Z Sub-Contractors: One combat group may be made with models from North,
 South, Peace River, and NuCoal (may include a mix from all four factions) that
 have an armor of 8 or lower.
 */
+class PPS extends PeaceRiver {
+  PPS(super.data);
+}
