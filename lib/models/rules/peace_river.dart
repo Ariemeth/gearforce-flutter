@@ -69,6 +69,11 @@ const PRDFSpecialRule1 =
 
 class PRDF extends PeaceRiver {
   PRDF(super.data) : super(specialRules: const [PRDFSpecialRule1]);
+
+  @override
+  List<FactionModification> availableFactionMods(CombatGroup cg, Unit u) {
+    return super.availableFactionMods(cg, u);
+  }
 }
 
 /*
@@ -94,6 +99,11 @@ an armor of 8 or lower.
 */
 class POC extends PeaceRiver {
   POC(super.data);
+
+  @override
+  List<FactionModification> availableFactionMods(CombatGroup cg, Unit u) {
+    return super.availableFactionMods(cg, u);
+  }
 }
 
 /*
@@ -113,4 +123,9 @@ have an armor of 8 or lower.
 */
 class PPS extends PeaceRiver {
   PPS(super.data);
+
+  @override
+  List<FactionModification> availableFactionMods(CombatGroup cg, Unit u) {
+    return super.availableFactionMods(cg, u);
+  }
 }
