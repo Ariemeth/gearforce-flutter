@@ -270,7 +270,6 @@ class PeaceRiverFactionMods extends FactionModification {
     };
     return PeaceRiverFactionMods(
         name: 'Elite Elements', requirementCheck: reqCheck, id: eliteElmentsID)
-      ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
       ..addMod(
           UnitAttribute.roles, createAddRoleToList(Role(name: RoleType.SO)),
           description: '+SO, One SK unit may change their role to SO');
