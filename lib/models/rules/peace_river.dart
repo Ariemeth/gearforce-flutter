@@ -62,7 +62,6 @@ may start the game with hidden tokens if all the models within the combat group
 are placed in cover relative to at least one enemy model.
 */
 
-
 /*
 POC - Peace Officer Corps
 The POC maintains order and security across the vast Peace River Protectorate. Many
@@ -84,7 +83,6 @@ Z Mercenary Contract: One combat group may be made with models from North,
 South, Peace River, and NuCoal (may include a mix from all four factions) that have
 an armor of 8 or lower.
 */
-
 
 /*
 PPS - Paxton Private Securities
