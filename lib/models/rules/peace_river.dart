@@ -72,7 +72,13 @@ class PRDF extends PeaceRiver {
 
   @override
   List<FactionModification> availableFactionMods(CombatGroup cg, Unit u) {
-    return super.availableFactionMods(cg, u);
+    return super.availableFactionMods(cg, u)
+      ..addAll([
+        PeaceRiverFactionMods.olTrusty(),
+        PeaceRiverFactionMods.thunderFromTheSky(),
+        PeaceRiverFactionMods.eliteElements(),
+        PeaceRiverFactionMods.highTech(),
+      ]);
   }
 }
 

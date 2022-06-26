@@ -28,6 +28,14 @@ FactionModification? factionModFromId(String id, Unit u) {
       return PeaceRiverFactionMods.crisisResponders(u);
     case laserTechID:
       return PeaceRiverFactionMods.laserTech(u);
+    case olTrustyID:
+      return PeaceRiverFactionMods.olTrusty();
+    case thunderFromTheSkyID:
+      return PeaceRiverFactionMods.thunderFromTheSky();
+    case eliteElmentsID:
+      return PeaceRiverFactionMods.eliteElements();
+    case highTechID:
+      return PeaceRiverFactionMods.highTech();
   }
   return null;
 }
