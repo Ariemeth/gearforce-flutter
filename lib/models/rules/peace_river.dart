@@ -50,16 +50,16 @@ were responsible for the destruction of Peace River City and countless lives. Wh
 information came to light, a sleeping beast awoke. PRDF recruitment has never been
 better. With the full might of the manufacturing giant of Paxton Arms behind them, the
 PRDF is a powerful force to face on the battlefield.
-Z Ol’ Trusty: Warriors, Jackals and Spartans may increase their GU skill by one for 1
+* Ol’ Trusty: Warriors, Jackals and Spartans may increase their GU skill by one for 1
 TV each. This does not include Warrior IVs.
-Z Thunder from the Sky: Airstrike counters may increase their GU skill to 3+ instead
+* Thunder from the Sky: Airstrike counters may increase their GU skill to 3+ instead
 of 4+ for 1 TV each.
-Z High Tech: Models with weapons that have the Advanced or Guided traits have
+* High Tech: Models with weapons that have the Advanced or Guided traits have
 unlimited availability for all primary units.
 Z The Best Men and Women for the Job: One model in each combat group may be
 selected from the Black Talon model list.
-Z Elite Elements: One SK unit may change their role to SO.
-Z Ghost Strike: Models in one combat group using special operations deployment
+* Elite Elements: One SK unit may change their role to SO.
+* Ghost Strike: Models in one combat group using special operations deployment
 may start the game with hidden tokens if all the models within the combat group
 are placed in cover relative to at least one enemy model.
 */

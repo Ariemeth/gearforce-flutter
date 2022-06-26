@@ -245,7 +245,7 @@ class PeaceRiverFactionMods extends FactionModification {
 */
   factory PeaceRiverFactionMods.thunderFromTheSky() {
     final bool Function(CombatGroup, Unit) reqCheck = (CombatGroup cg, Unit u) {
-      return u.core.type == 'Airstrike Counters';
+      return u.core.type == 'Airstrike Counter';
     };
     return PeaceRiverFactionMods(
         name: 'Thunder from the Sky',
