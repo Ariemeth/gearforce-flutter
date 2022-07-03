@@ -479,7 +479,7 @@ class DuelistModification extends BaseModification {
   factory DuelistModification.trickShot(Unit u) {
     final range = Range(0, 24, 48);
     final trickPistol = Weapon.fromWeapon(
-      buildWeapon('LP (Link Split)')!,
+      buildWeapon('LP (Link Split)', hasReact: true)!,
       range: range,
     );
 
@@ -505,7 +505,7 @@ class DuelistModification extends BaseModification {
         description: 'TV +1',
       )
       ..addMod(
-        UnitAttribute.mounted_weapons,
+        UnitAttribute.react_weapons,
         createAddWeaponToList(trickPistol),
         description: '+LP (Link, Split)',
       );
@@ -644,7 +644,7 @@ class DuelistModification extends BaseModification {
             return value;
           }
 
-          return value + armor <= 7 ? 1 : 2;
+          return value + (armor <= 7 ? 1 : 2);
         }),
         dynamicDescription: () {
           final armor = u.armor;
