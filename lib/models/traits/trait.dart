@@ -43,9 +43,12 @@ class Trait {
   @override
   int get hashCode => name.hashCode ^ level.hashCode ^ isAux.hashCode;
 
-  factory Trait.fromTrait(Trait original) {
+  factory Trait.fromTrait(
+    Trait original, {
+    String? name,
+  }) {
     return Trait(
-      name: original.name,
+      name: name == null ? original.name : name,
       type: original.type,
       level: original.level,
       isAux: original.isAux,

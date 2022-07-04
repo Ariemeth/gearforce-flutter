@@ -718,8 +718,7 @@ class DuelistModification extends BaseModification {
   ECM+ for 1 TV.
   */
   factory DuelistModification.ecm(Unit u) {
-    final RegExp traitCheck = RegExp(r'(ECM+)');
-    final Trait newTrait = const Trait(name: 'ECM');
+    final RegExp traitCheck = RegExp(r'^ECM$', caseSensitive: false);
     return DuelistModification(
         name: 'ECM',
         id: ecmId,
@@ -728,38 +727,29 @@ class DuelistModification extends BaseModification {
             return false;
           }
 
-          if (u.traits.any((trait) => traitCheck.hasMatch(trait.name))) {
+          if (!u.traits.any((trait) => traitCheck.hasMatch(trait.name))) {
             return false;
           }
           return u.isDuelist;
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
-      ..addMod(UnitAttribute.traits, ((value) {
-        return (value) {
-          if (value is! List<Trait>) {
-            return value;
-          }
+      ..addMod(UnitAttribute.traits, (value) {
+        if (value is! List<Trait>) {
+          return value;
+        }
 
-          var newList = new List<Trait>.from(value);
+        var newList = new List<Trait>.from(value);
 
-          Trait newTrait;
+        final oldTrait =
+            newList.firstWhere((t) => t.name.toLowerCase() == 'ecm');
+        newList.remove(oldTrait);
 
-          if (newList.any((element) => element.name.toLowerCase() == 'ecm')) {
-            newList
-                .removeWhere((element) => element.name.toLowerCase() == 'ecm');
-            newTrait = const Trait(name: 'ECM+');
-          } else {
-            newTrait = const Trait(name: 'ECM');
-          }
+        if (!newList.any((t) => t.name.toLowerCase() == 'ecm+')) {
+          newList.add(Trait.fromTrait(oldTrait, name: 'ECM+'));
+        }
 
-          newList.add(newTrait);
-
-          return newList;
-        };
-      }))
-      ..addMod(UnitAttribute.traits, createAddTraitToList(newTrait),
-          description: 'Add the Agile trait. Models with the Lumbering Trait ' +
-              'cannot receive Agile.');
+        return newList;
+      }, description: '-ECM, +ECM+');
   }
 }
 
