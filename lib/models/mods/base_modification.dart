@@ -36,7 +36,6 @@ abstract class BaseModification {
     return results;
   }
 
-  //final Map<UnitAttribute, List<dynamic Function(dynamic)>> _mods = Map();
   final _mods = Map();
 
   void addMod<T>(UnitAttribute att, T Function(T) mod,
