@@ -223,7 +223,7 @@ class VeteranModification extends BaseModification {
           var oldTrait =
               traits.firstWhere((element) => element.name == 'Brawl');
           newLevel = oldTrait.level == null ? 1 : oldTrait.level!;
-          value = createRemoveFromList(oldTrait)(value);
+          value = createRemoveTraitFromList(oldTrait)(value);
         }
 
         return createAddTraitToList(Trait(name: 'Brawl', level: newLevel + 1))(
@@ -263,7 +263,7 @@ class VeteranModification extends BaseModification {
           var oldTrait =
               traits.firstWhere((element) => element.name == 'Brawl');
           newLevel = oldTrait.level == null ? 0 : oldTrait.level!;
-          value = createRemoveFromList(oldTrait)(value);
+          value = createRemoveTraitFromList(oldTrait)(value);
         }
 
         return createAddTraitToList(Trait(name: 'Brawl', level: newLevel + 2))(
@@ -305,7 +305,7 @@ class VeteranModification extends BaseModification {
           if (isVulnerable) {
             var oldTrait = traits.firstWhere((element) =>
                 element.name == 'Vuln' && element.type == 'Haywire');
-            return createRemoveFromList(oldTrait)(value);
+            return createRemoveTraitFromList(oldTrait)(value);
           } else {
             return createAddTraitToList(
               const Trait(name: 'Resist', type: 'Haywire'),
@@ -350,7 +350,7 @@ class VeteranModification extends BaseModification {
           if (isVulnerable) {
             var oldTrait = traits.firstWhere(
                 (element) => element.name == 'Vuln' && element.type == 'Fire');
-            return createRemoveFromList(oldTrait)(value);
+            return createRemoveTraitFromList(oldTrait)(value);
           } else {
             return createAddTraitToList(
                 const Trait(name: 'Resist', type: 'Fire'))(value);
@@ -394,7 +394,7 @@ class VeteranModification extends BaseModification {
           if (isVulnerable) {
             var oldTrait = traits.firstWhere((element) =>
                 element.name == 'Vuln' && element.type == 'Corrosion');
-            return createRemoveFromList(oldTrait)(value);
+            return createRemoveTraitFromList(oldTrait)(value);
           } else {
             return createAddTraitToList(
                 const Trait(name: 'Resist', type: 'Corrosion'))(value);

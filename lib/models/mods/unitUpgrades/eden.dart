@@ -70,8 +70,10 @@ final UnitModification doppelDominus = UnitModification(name: 'Dominus Upgrade')
 final UnitModification hydor = UnitModification(name: 'Hydor Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(-1), description: 'TV -1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Hydor'))
-  ..addMod(UnitAttribute.traits,
-      createRemoveFromList(const Trait(name: 'Jetpack', level: 8, isAux: true)),
+  ..addMod(
+      UnitAttribute.traits,
+      createRemoveTraitFromList(
+          const Trait(name: 'Jetpack', level: 8, isAux: true)),
       description: '-Jetpack:8 (Aux)')
   ..addMod(UnitAttribute.traits, createAddTraitToList(const Trait(name: 'Sub')),
       description: '+Sub');

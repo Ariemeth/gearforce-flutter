@@ -238,7 +238,7 @@ final UnitModification crusaderV = UnitModification(name: 'Crusader V Upgrade')
       ),
       description: '-MRP (Link), -LFM, +MRP, +MFM')
   ..addMod(UnitAttribute.traits,
-      createRemoveFromList(const Trait(name: 'Vuln', type: 'Haywire')),
+      createRemoveTraitFromList(const Trait(name: 'Vuln', type: 'Haywire')),
       description: '-Vuln:Haywire');
 
 final UnitModification cataphractSarisa =

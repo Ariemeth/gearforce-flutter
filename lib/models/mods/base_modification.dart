@@ -38,11 +38,19 @@ abstract class BaseModification {
 
   final Map<UnitAttribute, List<dynamic Function(dynamic)>> _mods = Map();
 
-  void addMod(UnitAttribute att, dynamic Function(dynamic) mod,
+  void addMod<T>(UnitAttribute att, T Function(dynamic) mod,
       {String? description, String Function()? dynamicDescription}) {
     if (this._mods[att] == null) {
       this._mods[att] = [];
     }
+
+// TODO Convert to an assert after convertng eisting mods
+    if (att.expected_type != T) {
+      print(
+          'Mod ${name} type: [$T] does not match expected attribute type: [${att.expected_type}]');
+      return;
+    }
+
     this._mods[att]!.add(mod);
     if (description != null) {
       this._descriptions.add(description);
@@ -85,12 +93,12 @@ Example json format for mods
     return result;
   }
 
-  dynamic applyMods(UnitAttribute att, dynamic startingValue) {
+  T applyMods<T>(UnitAttribute att, T startingValue) {
     var mods = this._mods[att];
     if (mods == null) {
       return startingValue;
     }
-    dynamic result = startingValue;
+    T result = startingValue;
     mods.forEach((element) {
       result = element(result);
     });

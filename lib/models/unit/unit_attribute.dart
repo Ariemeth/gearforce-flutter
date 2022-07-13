@@ -1,19 +1,27 @@
+import 'package:gearforce/models/traits/trait.dart';
+import 'package:gearforce/models/unit/movement.dart';
+import 'package:gearforce/models/unit/role.dart';
+import 'package:gearforce/models/weapons/weapon.dart';
+
 enum UnitAttribute {
-  name,
-  tv,
-  roles,
-  movement,
-  armor,
-  hull,
-  structure,
-  actions,
-  gunnery,
-  piloting,
-  ew,
-  react_weapons,
-  mounted_weapons,
-  traits,
-  type,
-  height,
-  special,
+  name(String),
+  tv(int),
+  roles(Roles),
+  movement(Movement),
+  armor(int),
+  hull(int),
+  structure(int),
+  actions(int),
+  gunnery(int),
+  piloting(int),
+  ew(int),
+  react_weapons(List<Weapon>),
+  mounted_weapons(List<Weapon>),
+  traits(List<Trait>),
+  type(String),
+  height(String),
+  special(List<String>);
+
+  final Type expected_type;
+  const UnitAttribute(this.expected_type);
 }
