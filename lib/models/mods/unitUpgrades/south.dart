@@ -133,12 +133,7 @@ UnitModification diamondbackArenaPilot(Unit u) {
       name: 'Arena Pilot', options: modOptions, id: 'diamondbackArenaPilot')
     ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
     ..addMod(UnitAttribute.name, createSimpleStringMod(false, ' Arena Pilot'))
-    ..addMod(UnitAttribute.react_weapons, (value) {
-      if (!(value is List<Weapon>)) {
-        print('value is not a List<Weapon>, $value');
-        return value;
-      }
-
+    ..addMod<List<Weapon>>(UnitAttribute.react_weapons, (value) {
       // check if a option has been chosen
       if (modOptions.selectedOption == null) {
         return value;

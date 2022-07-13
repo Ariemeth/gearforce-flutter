@@ -113,9 +113,6 @@ class PeaceRiverFactionMods extends FactionModification {
           createAddTraitToList(const Trait(name: 'Shield')),
           description: '+Shield')
       ..addMod<List<Weapon>>(UnitAttribute.react_weapons, (value) {
-        if (!(value is List<Weapon>)) {
-          return value;
-        }
         final newList = value.toList();
 
         if (modOptions.selectedOption == null ||
@@ -166,10 +163,6 @@ class PeaceRiverFactionMods extends FactionModification {
       ..addMod<int>(UnitAttribute.tv, createSimpleIntMod(1),
           description: 'TV: +1')
       ..addMod<List<Weapon>>(UnitAttribute.react_weapons, (value) {
-        if (!(value is List<Weapon>)) {
-          return value;
-        }
-
         if (value.isEmpty) {
           return value;
         }
@@ -195,10 +188,6 @@ class PeaceRiverFactionMods extends FactionModification {
               'Monowheels may upgrade their IW, IR or IS with the Advanced ' +
               'trait.')
       ..addMod<List<Weapon>>(UnitAttribute.mounted_weapons, (value) {
-        if (!(value is List<Weapon>)) {
-          return value;
-        }
-
         if (value.isEmpty) {
           return value;
         }

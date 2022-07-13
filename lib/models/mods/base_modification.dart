@@ -36,20 +36,17 @@ abstract class BaseModification {
     return results;
   }
 
-  final Map<UnitAttribute, List<dynamic Function(dynamic)>> _mods = Map();
+  //final Map<UnitAttribute, List<dynamic Function(dynamic)>> _mods = Map();
+  final _mods = Map();
 
-  void addMod<T>(UnitAttribute att, T Function(dynamic) mod,
+  void addMod<T>(UnitAttribute att, T Function(T) mod,
       {String? description, String Function()? dynamicDescription}) {
     if (this._mods[att] == null) {
       this._mods[att] = [];
     }
 
-// TODO Convert to an assert after convertng eisting mods
-    if (att.expected_type != T) {
-      print(
-          'Mod ${name} type: [$T] does not match expected attribute type: [${att.expected_type}]');
-      return;
-    }
+    assert(att.expected_type == T,
+        'Mod ${name} type: [$T] does not match expected attribute type: [${att.expected_type}]');
 
     this._mods[att]!.add(mod);
     if (description != null) {

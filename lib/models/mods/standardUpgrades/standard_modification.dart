@@ -85,10 +85,7 @@ class StandardModification extends BaseModification {
           return StandardModification.antiAirTrait(u, cg);
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
-      ..addMod(UnitAttribute.react_weapons, (value) {
-        if (!(value is List<Weapon>)) {
-          return value;
-        }
+      ..addMod<List<Weapon>>(UnitAttribute.react_weapons, (value) {
         final newList =
             value.map((weapon) => Weapon.fromWeapon(weapon)).toList();
         if (modOptions.selectedOption != null &&
@@ -103,10 +100,7 @@ class StandardModification extends BaseModification {
         }
         return newList;
       }, description: 'Add the Anti-Air trait to one AC, RC, LC or RLC')
-      ..addMod(UnitAttribute.mounted_weapons, (value) {
-        if (!(value is List<Weapon>)) {
-          return value;
-        }
+      ..addMod<List<Weapon>>(UnitAttribute.mounted_weapons, (value) {
         final newList =
             value.map((weapon) => Weapon.fromWeapon(weapon)).toList();
         if (modOptions.selectedOption != null &&
@@ -161,10 +155,7 @@ class StandardModification extends BaseModification {
           return StandardModification.antiAirSwap(u, cg);
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(0), description: 'TV 0')
-      ..addMod(UnitAttribute.react_weapons, (value) {
-        if (!(value is List<Weapon>)) {
-          return value;
-        }
+      ..addMod<List<Weapon>>(UnitAttribute.react_weapons, (value) {
         final newList =
             value.map((weapon) => Weapon.fromWeapon(weapon)).toList();
         if (modOptions.selectedOption != null &&
@@ -189,10 +180,7 @@ class StandardModification extends BaseModification {
         }
         return newList;
       }, description: 'Upgrade any one ATM to an AAM of the same class')
-      ..addMod(UnitAttribute.mounted_weapons, (value) {
-        if (!(value is List<Weapon>)) {
-          return value;
-        }
+      ..addMod<List<Weapon>>(UnitAttribute.mounted_weapons, (value) {
         final newList =
             value.map((weapon) => Weapon.fromWeapon(weapon)).toList();
         if (modOptions.selectedOption != null &&
@@ -313,11 +301,7 @@ class StandardModification extends BaseModification {
               'TV +0, One Light (L) or Medium (M) melee weapon with the React trait ' +
                   'can be swapped for an equal class melee weapon for 0 TV,' +
                   'i.e. a LCW can be swapped for a LVB or a LSG')
-      ..addMod(UnitAttribute.react_weapons, (value) {
-        if (!(value is List<Weapon>)) {
-          return value;
-        }
-
+      ..addMod<List<Weapon>>(UnitAttribute.react_weapons, (value) {
         // Grab the substring starting at position 1 to exclude the - or +
         if (modOptions.selectedOption == null ||
             modOptions.selectedOption!.selectedOption == null) {
@@ -382,10 +366,7 @@ class StandardModification extends BaseModification {
           description:
               'swap their hand grenades for panzerfausts or vice versa. The ' +
                   'swapped item must be of the same class, such as L, M, or H')
-      ..addMod(UnitAttribute.react_weapons, (value) {
-        if (!(value is List<Weapon>)) {
-          return value;
-        }
+      ..addMod<List<Weapon>>(UnitAttribute.react_weapons, (value) {
         final newList =
             value.map((weapon) => Weapon.fromWeapon(weapon)).toList();
         if (modOptions.selectedOption != null &&
@@ -419,10 +400,7 @@ class StandardModification extends BaseModification {
         }
         return newList;
       })
-      ..addMod(UnitAttribute.mounted_weapons, (value) {
-        if (!(value is List<Weapon>)) {
-          return value;
-        }
+      ..addMod<List<Weapon>>(UnitAttribute.mounted_weapons, (value) {
         final newList =
             value.map((weapon) => Weapon.fromWeapon(weapon)).toList();
         if (modOptions.selectedOption != null &&
@@ -480,7 +458,7 @@ class StandardModification extends BaseModification {
 
           return !u.hasMod(handGrenadeLId) && !u.hasMod(handGrenadeMId);
         })
-      ..addMod(
+      ..addMod<int>(
         UnitAttribute.tv,
         (value) {
           return value + _twoForOneCost(handGrenadeLId, u, roster);
@@ -553,7 +531,7 @@ class StandardModification extends BaseModification {
 
           return true;
         })
-      ..addMod(
+      ..addMod<int>(
         UnitAttribute.tv,
         (value) {
           return value + _twoForOneCost(panzerfaustsLId, u, roster);
@@ -631,7 +609,7 @@ class StandardModification extends BaseModification {
 
           return true;
         })
-      ..addMod(
+      ..addMod<int>(
         UnitAttribute.tv,
         (value) {
           return value +
@@ -678,7 +656,7 @@ class StandardModification extends BaseModification {
 
           return true;
         })
-      ..addMod(
+      ..addMod<int>(
         UnitAttribute.tv,
         (value) {
           return value +
@@ -729,7 +707,7 @@ class StandardModification extends BaseModification {
 
           return true;
         })
-      ..addMod(
+      ..addMod<int>(
         UnitAttribute.tv,
         (value) {
           return value + _twoForOneCost(shapedExplosivesLId, u, roster);
