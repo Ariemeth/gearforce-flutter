@@ -65,7 +65,7 @@ class DuelistModification extends BaseModification {
 
           return !traits.any((trait) => trait.name == 'Duelist');
         });
-    mod.addMod(
+    mod.addMod<int>(
       UnitAttribute.tv,
       (value) {
         return createSimpleIntMod(
@@ -77,7 +77,7 @@ class DuelistModification extends BaseModification {
       },
       description: 'TV +${isVet ? 0 : 2}',
     );
-    mod.addMod(
+    mod.addMod<List<Trait>>(
       UnitAttribute.traits,
       createAddTraitToList(const Trait(name: 'Duelist')),
       description: '+Duelist',
@@ -179,11 +179,7 @@ class DuelistModification extends BaseModification {
           }
           return u.isDuelist;
         })
-      ..addMod(UnitAttribute.tv, (value) {
-        if (!(value is int)) {
-          return value;
-        }
-
+      ..addMod<int>(UnitAttribute.tv, (value) {
         if (u.armor == null) {
           return value;
         }
@@ -192,10 +188,7 @@ class DuelistModification extends BaseModification {
       }, dynamicDescription: () {
         return 'TV +${u.armor != null ? u.armor! >= 8 ? 3 : 2 : 0}';
       })
-      ..addMod(UnitAttribute.actions, (value) {
-        if (!(value is int)) {
-          return value;
-        }
+      ..addMod<int>(UnitAttribute.actions, (value) {
         if (value >= 3) {
           return value;
         }
@@ -236,22 +229,15 @@ class DuelistModification extends BaseModification {
           }
           return u.isDuelist;
         })
-      ..addMod(UnitAttribute.tv, (value) {
-        if (!(value is int)) {
-          return value;
-        }
-
+      ..addMod<int>(UnitAttribute.tv, (value) {
         return value +
             _comboNotComboCost(modOptions.selectedOption,
                 comboCost: 3, nonComboCost: 2);
       },
           description:
               'TV +2/3, Add Stable to a weapon for TV +3 for combo weapons or +2 for regular weapons')
-      ..addMod(UnitAttribute.react_weapons, (value) {
-        if (!(value is List<Weapon>)) {
-          return value;
-        }
-        final newList = value;
+      ..addMod<List<Weapon>>(UnitAttribute.react_weapons, (value) {
+        final newList = value.toList();
 
         if (modOptions.selectedOption != null &&
             newList.any((weapon) =>
@@ -264,11 +250,8 @@ class DuelistModification extends BaseModification {
         }
         return newList;
       })
-      ..addMod(UnitAttribute.mounted_weapons, (value) {
-        if (!(value is List<Weapon>)) {
-          return value;
-        }
-        final newList = value;
+      ..addMod<List<Weapon>>(UnitAttribute.mounted_weapons, (value) {
+        final newList = value.toList();
 
         if (modOptions.selectedOption != null &&
             newList.any((weapon) =>
@@ -315,22 +298,15 @@ class DuelistModification extends BaseModification {
         refreshData: () {
           return DuelistModification.precise(u);
         })
-      ..addMod(UnitAttribute.tv, (value) {
-        if (!(value is int)) {
-          return value;
-        }
-
+      ..addMod<int>(UnitAttribute.tv, (value) {
         return value +
             _comboNotComboCost(modOptions.selectedOption,
                 comboCost: 2, nonComboCost: 1);
       },
           description:
               'TV +1/2, Add Precise to a weapon for TV +2 for combo weapons or +1 for regular weapons')
-      ..addMod(UnitAttribute.react_weapons, (value) {
-        if (!(value is List<Weapon>)) {
-          return value;
-        }
-        final newList = value;
+      ..addMod<List<Weapon>>(UnitAttribute.react_weapons, (value) {
+        final newList = value.toList();
 
         if (modOptions.selectedOption != null &&
             newList.any((weapon) =>
@@ -343,10 +319,7 @@ class DuelistModification extends BaseModification {
         }
         return newList;
       })
-      ..addMod(UnitAttribute.mounted_weapons, (value) {
-        if (!(value is List<Weapon>)) {
-          return value;
-        }
+      ..addMod<List<Weapon>>(UnitAttribute.mounted_weapons, (value) {
         final newList = value;
 
         if (modOptions.selectedOption != null &&
@@ -407,14 +380,12 @@ class DuelistModification extends BaseModification {
         refreshData: () {
           return DuelistModification.auto(u);
         })
-      ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
-      ..addMod(
+      ..addMod<int>(UnitAttribute.tv, createSimpleIntMod(1),
+          description: 'TV +1')
+      ..addMod<List<Weapon>>(
         UnitAttribute.react_weapons,
         (value) {
-          if (!(value is List<Weapon>)) {
-            return value;
-          }
-          final newList = value;
+          final newList = value.toList();
 
           if (modOptions.selectedOption != null &&
               newList.any((weapon) =>
@@ -552,10 +523,7 @@ class DuelistModification extends BaseModification {
               'TV +1, Add the Link trait to any melee weapon other than ' +
                   'Shaped Explosives. This adds a second weapon of the ' +
                   'same type to the model.')
-      ..addMod(UnitAttribute.react_weapons, (value) {
-        if (!(value is List<Weapon>)) {
-          return value;
-        }
+      ..addMod<List<Weapon>>(UnitAttribute.react_weapons, (value) {
         final newList =
             value.map((weapon) => Weapon.fromWeapon(weapon)).toList();
         if (modOptions.selectedOption != null &&
@@ -569,10 +537,7 @@ class DuelistModification extends BaseModification {
         }
         return newList;
       })
-      ..addMod(UnitAttribute.mounted_weapons, (value) {
-        if (!(value is List<Weapon>)) {
-          return value;
-        }
+      ..addMod<List<Weapon>>(UnitAttribute.mounted_weapons, (value) {
         final newList = value;
 
         if (modOptions.selectedOption != null &&
@@ -633,11 +598,9 @@ class DuelistModification extends BaseModification {
           }
           return u.isDuelist;
         })
-      ..addMod(
+      ..addMod<int>(
         UnitAttribute.tv,
         ((value) {
-          if (value is! int) return value;
-
           final armor = u.armor;
 
           if (armor == null) {
@@ -690,11 +653,7 @@ class DuelistModification extends BaseModification {
           return DuelistModification.meleeUpgrade(u);
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
-      ..addMod(UnitAttribute.react_weapons, (value) {
-        if (!(value is List<Weapon>)) {
-          return value;
-        }
-
+      ..addMod<List<Weapon>>(UnitAttribute.react_weapons, (value) {
         // check if an option has been selected
         if (modOptions.selectedOption == null) {
           return value;
@@ -733,11 +692,7 @@ class DuelistModification extends BaseModification {
           return u.isDuelist;
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
-      ..addMod(UnitAttribute.traits, (value) {
-        if (value is! List<Trait>) {
-          return value;
-        }
-
+      ..addMod<List<Trait>>(UnitAttribute.traits, (value) {
         var newList = new List<Trait>.from(value);
 
         final oldTrait =

@@ -42,11 +42,12 @@ class PeaceRiverFactionMods extends FactionModification {
     };
     return PeaceRiverFactionMods(
         name: 'E-pex', requirementCheck: reqCheck, id: e_pexID)
-      ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
+      ..addMod<int>(UnitAttribute.tv, createSimpleIntMod(1),
+          description: 'TV: +1')
       // TODO figure a way to handle both this mod and hunter elite at the same
       // time.  currently there is an ordering issue which could affect the
       // final value.
-      ..addMod(UnitAttribute.ew, createSimpleIntMod(-1),
+      ..addMod<int>(UnitAttribute.ew, createSimpleIntMod(-1),
           description: 'One ' +
               'Peace River model within each combat group may ' +
               'increase its EW skill by one for 1 TV each');
@@ -63,13 +64,15 @@ class PeaceRiverFactionMods extends FactionModification {
     };
     return PeaceRiverFactionMods(
         name: 'Warrior Elite', requirementCheck: reqCheck, id: warriorEliteID)
-      ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
-      ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Elite'),
+      ..addMod<int>(UnitAttribute.tv, createSimpleIntMod(1),
+          description: 'TV: +1')
+      ..addMod<String>(UnitAttribute.name, createSimpleStringMod(true, 'Elite'),
           description: 'Any Warrior IV may be upgraded to a Warrior Elite')
-      ..addMod(UnitAttribute.hull, createSetIntMod(4), description: 'H/S: 4/2')
-      ..addMod(UnitAttribute.structure, createSetIntMod(2))
-      ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW: 4')
-      ..addMod(
+      ..addMod<int>(UnitAttribute.hull, createSetIntMod(4),
+          description: 'H/S: 4/2')
+      ..addMod<int>(UnitAttribute.structure, createSetIntMod(2))
+      ..addMod<int>(UnitAttribute.ew, createSetIntMod(4), description: 'EW: 4')
+      ..addMod<List<Trait>>(
         UnitAttribute.traits,
         createAddTraitToList(const Trait(name: 'Agile')),
         description: '+Agile',
@@ -104,14 +107,12 @@ class PeaceRiverFactionMods extends FactionModification {
       id: crisisRespondersID,
       options: modOptions,
     )
-      ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
-      ..addMod(UnitAttribute.traits,
+      ..addMod<int>(UnitAttribute.tv, createSimpleIntMod(1),
+          description: 'TV: +1')
+      ..addMod<List<Trait>>(UnitAttribute.traits,
           createAddTraitToList(const Trait(name: 'Shield')),
           description: '+Shield')
-      ..addMod(UnitAttribute.react_weapons, (value) {
-        if (!(value is List<Weapon>)) {
-          return value;
-        }
+      ..addMod<List<Weapon>>(UnitAttribute.react_weapons, (value) {
         final newList = value.toList();
 
         if (modOptions.selectedOption == null ||
@@ -159,12 +160,9 @@ class PeaceRiverFactionMods extends FactionModification {
       id: laserTechID,
       options: modOptions,
     )
-      ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
-      ..addMod(UnitAttribute.react_weapons, (value) {
-        if (!(value is List<Weapon>)) {
-          return value;
-        }
-
+      ..addMod<int>(UnitAttribute.tv, createSimpleIntMod(1),
+          description: 'TV: +1')
+      ..addMod<List<Weapon>>(UnitAttribute.react_weapons, (value) {
         if (value.isEmpty) {
           return value;
         }
@@ -189,11 +187,7 @@ class PeaceRiverFactionMods extends FactionModification {
           description: 'Veteran universal infantry and veteran Spitz ' +
               'Monowheels may upgrade their IW, IR or IS with the Advanced ' +
               'trait.')
-      ..addMod(UnitAttribute.mounted_weapons, (value) {
-        if (!(value is List<Weapon>)) {
-          return value;
-        }
-
+      ..addMod<List<Weapon>>(UnitAttribute.mounted_weapons, (value) {
         if (value.isEmpty) {
           return value;
         }
@@ -229,8 +223,9 @@ class PeaceRiverFactionMods extends FactionModification {
     };
     return PeaceRiverFactionMods(
         name: 'Ol’ Trusty', requirementCheck: reqCheck, id: olTrustyID)
-      ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
-      ..addMod(
+      ..addMod<int>(UnitAttribute.tv, createSimpleIntMod(1),
+          description: 'TV: +1')
+      ..addMod<int>(
         UnitAttribute.gunnery,
         createSimpleIntMod(-1),
         description:
@@ -251,8 +246,9 @@ class PeaceRiverFactionMods extends FactionModification {
         name: 'Thunder from the Sky',
         requirementCheck: reqCheck,
         id: thunderFromTheSkyID)
-      ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
-      ..addMod(UnitAttribute.gunnery, createSetIntMod(3),
+      ..addMod<int>(UnitAttribute.tv, createSimpleIntMod(1),
+          description: 'TV: +1')
+      ..addMod<int>(UnitAttribute.gunnery, createSetIntMod(3),
           description: 'Airstrike counters may increase their GU skill to 3+');
   }
 
@@ -270,7 +266,7 @@ class PeaceRiverFactionMods extends FactionModification {
     };
     return PeaceRiverFactionMods(
         name: 'Elite Elements', requirementCheck: reqCheck, id: eliteElmentsID)
-      ..addMod(
+      ..addMod<Roles>(
           UnitAttribute.roles, createAddRoleToList(Role(name: RoleType.SO)),
           description: '+SO, One SK unit may change their role to SO');
   }

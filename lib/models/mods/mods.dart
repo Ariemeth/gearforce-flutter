@@ -3,46 +3,38 @@ import 'package:gearforce/models/unit/movement.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/weapons/weapon.dart';
 
-dynamic Function(dynamic) createSimpleIntMod(int change) {
+int Function(int) createSimpleIntMod(int change) {
   return (value) {
-    if (value is! int) return value;
-
     return value + change;
   };
 }
 
-dynamic Function(dynamic) createSimpleStringMod(bool isPrefix, String change) {
+String Function(String) createSimpleStringMod(bool isPrefix, String change) {
   return (value) {
-    if (value is! String) return value;
-
     return isPrefix ? '$change $value' : '$value $change';
   };
 }
 
-dynamic Function(dynamic) createSetIntMod(int newValue) {
+int Function(int) createSetIntMod(int newValue) {
   return (value) {
     return newValue;
   };
 }
 
-dynamic Function(dynamic) createSetStringListMod(List<String> newValue) {
+List<String> Function(String) createSetStringListMod(List<String> newValue) {
   return (value) {
     return newValue;
   };
 }
 
-dynamic Function(dynamic) createSetMovementMod(Movement newValue) {
+Movement Function(Movement) createSetMovementMod(Movement newValue) {
   return (value) {
     return newValue;
   };
 }
 
-dynamic Function(dynamic) createAddStringToList(String newValue) {
+List<String> Function(List<String>) createAddStringToList(String newValue) {
   return (value) {
-    if (value is! List<String>) {
-      return value;
-    }
-
     var newList = new List<String>.from(value);
 
     if (!newList.contains(newValue)) {
@@ -53,12 +45,8 @@ dynamic Function(dynamic) createAddStringToList(String newValue) {
   };
 }
 
-dynamic Function(dynamic) createAddTraitToList(Trait newValue) {
+List<Trait> Function(List<Trait>) createAddTraitToList(Trait newValue) {
   return (value) {
-    if (value is! List<Trait>) {
-      return value;
-    }
-
     var newList = new List<Trait>.from(value);
 
     if (!newList.any((element) => element.name == newValue.name)) {
@@ -69,12 +57,8 @@ dynamic Function(dynamic) createAddTraitToList(Trait newValue) {
   };
 }
 
-dynamic Function(dynamic) createAddWeaponToList(Weapon newValue) {
+List<Weapon> Function(List<Weapon>) createAddWeaponToList(Weapon newValue) {
   return (value) {
-    if (value is! List<Weapon>) {
-      return value;
-    }
-
     var newList = new List<Weapon>.from(value);
 
     if (!newList.any((existingWeapon) =>
@@ -86,12 +70,8 @@ dynamic Function(dynamic) createAddWeaponToList(Weapon newValue) {
   };
 }
 
-dynamic Function(dynamic) createAddRoleToList(Role newValue) {
+Roles Function(Roles) createAddRoleToList(Role newValue) {
   return (value) {
-    if (value is! Roles) {
-      return value;
-    }
-
     var newRoles = value.roles.toList();
 
     if (newRoles.any((element) => element.name == newValue.name)) {
@@ -109,12 +89,8 @@ dynamic Function(dynamic) createAddRoleToList(Role newValue) {
   };
 }
 
-dynamic Function(dynamic) createRemoveFromList(Trait newValue) {
+List<Trait> Function(List<Trait>) createRemoveTraitFromList(Trait newValue) {
   return (value) {
-    if (value is! List<Trait>) {
-      return value;
-    }
-
     var newList = new List<Trait>.from(value);
     newList.remove(newValue);
 
@@ -122,12 +98,9 @@ dynamic Function(dynamic) createRemoveFromList(Trait newValue) {
   };
 }
 
-dynamic Function(dynamic) createRemoveWeaponFromList(Weapon newValue) {
+List<Weapon> Function(List<Weapon>) createRemoveWeaponFromList(
+    Weapon newValue) {
   return (value) {
-    if (value is! List<Weapon>) {
-      return value;
-    }
-
     if (!value.any((w) =>
         w.abbreviation == newValue.abbreviation &&
         w.bonusString == newValue.bonusString)) {
@@ -144,13 +117,9 @@ dynamic Function(dynamic) createRemoveWeaponFromList(Weapon newValue) {
   };
 }
 
-dynamic Function(dynamic) createReplaceTraitInList(
+List<Trait> Function(List<Trait>) createReplaceTraitInList(
     {required Trait oldValue, required Trait newValue}) {
   return (value) {
-    if (value is! List<Trait>) {
-      return value;
-    }
-
     var newList = new List<Trait>.from(value);
 
     newList.remove(oldValue);
@@ -163,13 +132,9 @@ dynamic Function(dynamic) createReplaceTraitInList(
   };
 }
 
-dynamic Function(dynamic) createReplaceWeaponInList(
+List<Weapon> Function(List<Weapon>) createReplaceWeaponInList(
     {required Weapon oldValue, required Weapon newValue}) {
   return (value) {
-    if (value is! List<Weapon>) {
-      return value;
-    }
-
     var newList = new List<Weapon>.from(value);
 
     var index = newList
@@ -191,13 +156,9 @@ dynamic Function(dynamic) createReplaceWeaponInList(
   };
 }
 
-dynamic Function(dynamic) createMultiReplaceWeaponsInList(
+List<Weapon> Function(List<Weapon>) createMultiReplaceWeaponsInList(
     {required List<Weapon> oldItems, required List<Weapon> newItems}) {
   return (value) {
-    if (value is! List<Weapon>) {
-      return value;
-    }
-
     var newList = new List<Weapon>.from(value);
 
     oldItems.forEach((oldWeapon) {
