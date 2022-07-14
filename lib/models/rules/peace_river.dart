@@ -9,6 +9,19 @@ import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
 
+/*
+  All the models in the Peace River Model List can be used in any of the sub-lists below. There are also models in the
+  Universal Model List that may be selected as well.
+  All Peace River forces have the following rule:
+  * E-pex: One Peace River model within each combat group may increase its EW skill by one for 1 TV each.
+  * Warrior Elite: Any Warrior IV may be upgraded to a Warrior Elite for 1 TV each. This upgrade gives the Warrior IV a
+  H/S of 4/2, an EW skill of 4+, and the Agile trait.
+  * Crisis Responders: Any Crusader IV that has been upgraded to a Crusader V may swap their HAC, MSC, MBZ or LFG
+  for a MPA (React) and a Shield for 1 TV. This Crisis Responder variant is unlimited for this force.
+  * Laser Tech: Veteran universal infantry and veteran Spitz Monowheels may upgrade their IW, IR or IS for 1 TV each.
+  These weapons receive the Advanced trait.
+  * Architects: The duelist for this force may use a Peace River strider.
+*/
 class PeaceRiver extends RuleSet {
   const PeaceRiver(super.data, {super.specialRules});
 
@@ -33,7 +46,9 @@ class PeaceRiver extends RuleSet {
 
   @override
   bool duelistCheck(UnitRoster roster, Unit u) {
-    // Peace river duelist can be in a strider Rule: Architects
+    /*
+    Architects: The duelist for this force may use a Peace River strider.
+    */
     if (!(u.type == 'Gear' || u.type == 'Strider')) {
       return false;
     }
@@ -109,7 +124,7 @@ honor. Stories of being deputized by a POC officer are usually told with pride. 
 Badlands, the POC represents freedom from chaos and horror. POC officers are often
 treated with great respect and dignity. Their meals, lodging fees and many other things
 are frequently, on the house.
-Z Special Issue: Greyhounds may be placed in GP, SK, FS, RC or SO units.
+* Special Issue: Greyhounds may be placed in GP, SK, FS, RC or SO units.
 Z ECM Specialist: One gear or strider per combat group may improve its ECM to
 ECM+ for 1 TV each.
 Z Ol’ Trusty: Pit Bulls and Mustangs may increase their GU skill by one for 1 TV each.
@@ -129,6 +144,26 @@ class POC extends PeaceRiver {
   List<FactionModification> availableFactionMods(
       UnitRoster ur, CombatGroup cg, Unit u) {
     return super.availableFactionMods(ur, cg, u);
+  }
+
+  @override
+  bool hasGroupRole(UnitCore uc, RoleType target) {
+    if (super.hasGroupRole(uc, target)) {
+      return true;
+    }
+
+    /*
+    Special Issue: Greyhounds may be placed in GP, SK, FS, RC or SO units.
+    */
+    if (uc.frame == 'Greyhound' &&
+        (target == RoleType.GP ||
+            target == RoleType.SK ||
+            target == RoleType.FS ||
+            target == RoleType.RC ||
+            target == RoleType.SO)) {
+      return true;
+    }
+    return false;
   }
 }
 

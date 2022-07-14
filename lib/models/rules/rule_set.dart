@@ -62,7 +62,7 @@ abstract class RuleSet {
     }
 
     // Unit must have the role of the group it is being added.
-    if (!_hasGroupRole(r, targetRole)) {
+    if (!hasGroupRole(uc, targetRole)) {
       return false;
     }
 
@@ -80,12 +80,15 @@ abstract class RuleSet {
   }
 
   // Ensure the target Roletype is within the Roles
-  bool _hasGroupRole(Roles r, RoleType target) {
-    return r.includesRole([target]);
+  bool hasGroupRole(UnitCore uc, RoleType target) {
+    return uc.role == null ? false : uc.role!.includesRole([target]);
   }
 
   // Check if the role is unlimited
   bool isRoleTypeUnlimited(UnitCore uc, RoleType target, Group group) {
+    if (uc.role == null || uc.role!.roles.any((r) => r.name == target)) {
+      return false;
+    }
     return uc.role!.roles.firstWhere(((role) => role.name == target)).unlimited;
   }
 
