@@ -34,8 +34,9 @@ void main() {
 
   test('test headhunter mod does not duplicate Comms', () {
     final mod = headHunter;
-    final List<String> traits = ["Comms"];
-    expect(mod.applyMods(UnitAttribute.traits, traits), contains('Comms'));
+    final List<Trait> traits = [const Trait(name: "Comms")];
+    expect(mod.applyMods(UnitAttribute.traits, traits),
+        contains(const Trait(name: "Comms")));
     expect(traits, hasLength(1),
         reason: 'original list should not have changed in length');
     expect(mod.applyMods(UnitAttribute.traits, traits), hasLength(1));
