@@ -4,6 +4,7 @@ import 'package:gearforce/models/mods/modification_option.dart';
 import 'package:gearforce/models/mods/mods.dart';
 import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart';
 import 'package:gearforce/models/roster/roster.dart';
+import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
@@ -33,19 +34,17 @@ class DuelistModification extends BaseModification {
   DuelistModification({
     required String name,
     required String id,
-    this.requirementCheck = _defaultRequirementsFunction,
-    this.unit,
-    this.roster,
+    required RequirementCheck requirementCheck,
     final ModificationOption? options,
     final BaseModification Function()? refreshData,
-  }) : super(name: name, id: id, options: options, refreshData: refreshData);
+  }) : super(
+            name: name,
+            id: id,
+            requirementCheck: requirementCheck,
+            options: options,
+            refreshData: refreshData);
 
   // function to ensure the modification can be applied to the unit
-  final bool Function() requirementCheck;
-  final Unit? unit;
-  final UnitRoster? roster;
-
-  static bool _defaultRequirementsFunction() => true;
 
   factory DuelistModification.makeDuelist(Unit u, UnitRoster roster) {
     final traits = u.traits.toList();
@@ -54,7 +53,7 @@ class DuelistModification extends BaseModification {
     var mod = DuelistModification(
         name: 'Duelist Upgrade',
         id: duelistId,
-        requirementCheck: () {
+        requirementCheck: (RuleSet rs, CombatGroup cg, Unit u) {
           if (u.hasMod(duelistId)) {
             return false;
           }
@@ -106,7 +105,7 @@ class DuelistModification extends BaseModification {
     return DuelistModification(
         name: 'Independent Operator',
         id: independentOperatorId,
-        requirementCheck: () {
+        requirementCheck: (RuleSet rs, CombatGroup cg, Unit u) {
           if (u.hasMod(independentOperatorId) || u.hasMod(leadByExampleId)) {
             return false;
           }
@@ -141,7 +140,7 @@ class DuelistModification extends BaseModification {
     return DuelistModification(
         name: 'Lead by Example',
         id: leadByExampleId,
-        requirementCheck: () {
+        requirementCheck: (RuleSet rs, CombatGroup cg, Unit u) {
           if (u.hasMod(independentOperatorId) || u.hasMod(leadByExampleId)) {
             return false;
           }
@@ -169,7 +168,7 @@ class DuelistModification extends BaseModification {
     return DuelistModification(
         name: 'Advanced Control System',
         id: advancedControlSystemId,
-        requirementCheck: () {
+        requirementCheck: (RuleSet rs, CombatGroup cg, Unit u) {
           if (u.hasMod(advancedControlSystemId)) {
             return false;
           }
@@ -223,7 +222,7 @@ class DuelistModification extends BaseModification {
         refreshData: () {
           return DuelistModification.stable(u);
         },
-        requirementCheck: () {
+        requirementCheck: (RuleSet rs, CombatGroup cg, Unit u) {
           if (u.hasMod(stableId)) {
             return false;
           }
@@ -289,7 +288,7 @@ class DuelistModification extends BaseModification {
         name: 'Precise',
         id: preciseId,
         options: modOptions,
-        requirementCheck: () {
+        requirementCheck: (RuleSet rs, CombatGroup cg, Unit u) {
           if (u.hasMod(preciseId)) {
             return false;
           }
@@ -363,7 +362,7 @@ class DuelistModification extends BaseModification {
         name: 'Auto',
         id: autoId,
         options: modOptions,
-        requirementCheck: () {
+        requirementCheck: (RuleSet rs, CombatGroup cg, Unit u) {
           if (u.hasMod(autoId)) {
             return false;
           }
@@ -412,7 +411,7 @@ class DuelistModification extends BaseModification {
     return DuelistModification(
         name: 'Ace Gunner',
         id: aceGunnerId,
-        requirementCheck: () {
+        requirementCheck: (RuleSet rs, CombatGroup cg, Unit u) {
           if (u.hasMod(aceGunnerId)) {
             return false;
           }
@@ -457,8 +456,7 @@ class DuelistModification extends BaseModification {
     return DuelistModification(
         name: 'Trick Shot',
         id: trickShotId,
-        unit: u,
-        requirementCheck: () {
+        requirementCheck: (RuleSet rs, CombatGroup cg, Unit u) {
           if (!u.traits.any((element) => _handsMatch.hasMatch(element.name))) {
             return false;
           }
@@ -509,7 +507,7 @@ class DuelistModification extends BaseModification {
         name: 'Dual Melee Weapons',
         id: dualMeleeWeaponsId,
         options: modOptions,
-        requirementCheck: () {
+        requirementCheck: (RuleSet rs, CombatGroup cg, Unit u) {
           if (u.hasMod(dualMeleeWeaponsId)) {
             return false;
           }
@@ -558,13 +556,13 @@ class DuelistModification extends BaseModification {
   Add the Agile trait for 1 TV. Models with the Lumbering
   trait cannot receive the Agile trait.
   */
-  factory DuelistModification.agile(Unit u) {
+  factory DuelistModification.agile() {
     final RegExp traitCheck = RegExp(r'(Agile|Lumbering)');
     final Trait newTrait = const Trait(name: 'Agile');
     return DuelistModification(
         name: 'Agile',
         id: agileId,
-        requirementCheck: () {
+        requirementCheck: (RuleSet rs, CombatGroup cg, Unit u) {
           if (u.hasMod(agileId)) {
             return false;
           }
@@ -592,7 +590,7 @@ class DuelistModification extends BaseModification {
     return DuelistModification(
         name: 'Shield',
         id: shieldId,
-        requirementCheck: () {
+        requirementCheck: (RuleSet rs, CombatGroup cg, Unit u) {
           if (u.hasMod(shieldId)) {
             return false;
           }
@@ -643,7 +641,7 @@ class DuelistModification extends BaseModification {
         name: 'Duelist Melee Upgrade',
         id: meleeUpgradeId,
         options: modOptions,
-        requirementCheck: () {
+        requirementCheck: (RuleSet rs, CombatGroup cg, Unit u) {
           if (u.hasMod(meleeUpgradeId)) {
             return false;
           }
@@ -676,12 +674,12 @@ class DuelistModification extends BaseModification {
   A model with an ECM trait may upgrade their ECM to an
   ECM+ for 1 TV.
   */
-  factory DuelistModification.ecm(Unit u) {
+  factory DuelistModification.ecm() {
     final RegExp traitCheck = RegExp(r'^ECM$', caseSensitive: false);
     return DuelistModification(
         name: 'ECM',
         id: ecmId,
-        requirementCheck: () {
+        requirementCheck: (RuleSet rs, CombatGroup cg, Unit u) {
           if (u.hasMod(ecmId)) {
             return false;
           }

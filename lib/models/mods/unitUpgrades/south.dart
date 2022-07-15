@@ -1,6 +1,8 @@
+import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/mods/unitUpgrades/unit_modification.dart';
 import 'package:gearforce/models/mods/modification_option.dart';
 import 'package:gearforce/models/mods/mods.dart';
+import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
@@ -184,7 +186,7 @@ final UnitModification cobraRazorFang =
 
 final UnitModification boasLongFang = UnitModification(
     name: 'Long Fang Upgrade',
-    requirementCheck: (Unit u) {
+    requirementCheck: (RuleSet rs, CombatGroup cg, Unit u) {
       return u.mountedWeapons.any((w) => w.abbreviation == 'LGM');
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
@@ -197,7 +199,7 @@ final UnitModification boasLongFang = UnitModification(
 
 final UnitModification meleeSwap = UnitModification(
     name: 'Melee Swap',
-    requirementCheck: (Unit u) {
+    requirementCheck: (RuleSet rs, CombatGroup cg, Unit u) {
       return u.reactWeapons
           .any((w) => w.abbreviation == 'MVB' && w.bonusString == '(Reach:1)');
     })
@@ -219,7 +221,7 @@ final UnitModification boasArenaPilot = UnitModification(name: 'Arena Pilot')
 
 final UnitModification barbed = UnitModification(
     name: 'Barbed Upgrade',
-    requirementCheck: (Unit u) {
+    requirementCheck: (RuleSet rs, CombatGroup cg, Unit u) {
       return u.mountedWeapons.any((w) => w.abbreviation == 'LRP');
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
@@ -243,7 +245,7 @@ final UnitModification mpCommand = UnitModification(name: 'Command Upgrade')
 
 final UnitModification fang = UnitModification(
     name: 'Fang Upgrade',
-    requirementCheck: (Unit u) {
+    requirementCheck: (RuleSet rs, CombatGroup cg, Unit u) {
       return u.mountedWeapons.any((w) => w.abbreviation == 'MABM');
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
@@ -270,7 +272,7 @@ final UnitModification drakeCommand = UnitModification(name: 'Command Upgrade')
 
 final UnitModification hooded = UnitModification(
     name: 'Hooded Upgrade',
-    requirementCheck: (Unit u) {
+    requirementCheck: (RuleSet rs, CombatGroup cg, Unit u) {
       return u.reactWeapons
           .any((w) => w.abbreviation == 'HMG' && w.bonusString == '(Apex)');
     })
@@ -285,7 +287,7 @@ final UnitModification hooded = UnitModification(
 
 final UnitModification spark = UnitModification(
     name: 'Spark Upgrade',
-    requirementCheck: (Unit u) {
+    requirementCheck: (RuleSet rs, CombatGroup cg, Unit u) {
       return u.reactWeapons
           .any((w) => w.abbreviation == 'HMG' && w.bonusString == '(Apex)');
     })
@@ -300,7 +302,7 @@ final UnitModification spark = UnitModification(
 
 final UnitModification flame = UnitModification(
     name: 'Flame Upgrade',
-    requirementCheck: (Unit u) {
+    requirementCheck: (RuleSet rs, CombatGroup cg, Unit u) {
       return u.reactWeapons
           .any((w) => w.abbreviation == 'HMG' && w.bonusString == '(Apex)');
     })
@@ -315,7 +317,7 @@ final UnitModification flame = UnitModification(
 
 final UnitModification caimanCommand = UnitModification(
     name: 'Command Upgrade',
-    requirementCheck: (Unit u) {
+    requirementCheck: (RuleSet rs, CombatGroup cg, Unit u) {
       return !u.name.toLowerCase().contains('medical');
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')

@@ -1,8 +1,10 @@
 import 'package:gearforce/models/combatGroups/combat_group.dart';
+import 'package:gearforce/models/mods/base_modification.dart';
 import 'package:gearforce/models/mods/factionUpgrades/faction_mod.dart';
 import 'package:gearforce/models/mods/modification_option.dart';
 import 'package:gearforce/models/mods/mods.dart';
 import 'package:gearforce/models/roster/roster.dart';
+import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
@@ -18,12 +20,12 @@ const crisisRespondersID = '$peaceRiverIDBase - 30';
 const laserTechID = '$peaceRiverIDBase - 40';
 const olTrustyID = '$peaceRiverIDBase - 50';
 const thunderFromTheSkyID = '$peaceRiverIDBase - 60';
-const eliteElmentsID = '$peaceRiverIDBase - 70';
+const eliteElementsID = '$peaceRiverIDBase - 70';
 
 class PeaceRiverFactionMods extends FactionModification {
   PeaceRiverFactionMods({
     required String name,
-    required bool Function(CombatGroup, Unit) requirementCheck,
+    required RequirementCheck requirementCheck,
     ModificationOption? options,
     required String id,
   }) : super(
@@ -37,7 +39,7 @@ class PeaceRiverFactionMods extends FactionModification {
     skill by one for 1 TV each.
   */
   factory PeaceRiverFactionMods.e_pex() {
-    final bool Function(CombatGroup, Unit) reqCheck = (CombatGroup cg, Unit u) {
+    final RequirementCheck reqCheck = (RuleSet rs, CombatGroup cg, Unit u) {
       return cg.modCount(e_pexID) == 0;
     };
     return PeaceRiverFactionMods(
@@ -59,7 +61,7 @@ class PeaceRiverFactionMods extends FactionModification {
     and the Agile trait.
   */
   factory PeaceRiverFactionMods.warriorElite() {
-    final bool Function(CombatGroup, Unit) reqCheck = (CombatGroup cg, Unit u) {
+    final RequirementCheck reqCheck = (RuleSet rs, CombatGroup cg, Unit u) {
       return u.core.frame == 'Warrior IV';
     };
     return PeaceRiverFactionMods(
@@ -98,7 +100,7 @@ class PeaceRiverFactionMods extends FactionModification {
         description: 'Choose one of the available weapons be replaced with' +
             'a MPA (React) and a Shield');
 
-    final bool Function(CombatGroup, Unit) reqCheck = (CombatGroup cg, Unit u) {
+    final RequirementCheck reqCheck = (RuleSet rs, CombatGroup cg, Unit u) {
       return u.core.frame == 'Crusader IV' && u.hasMod('Crusader V Upgrade');
     };
     return PeaceRiverFactionMods(
@@ -149,7 +151,7 @@ class PeaceRiverFactionMods extends FactionModification {
         description: 'Choose one of the available weapons be gain the ' +
             'Advanced trait');
 
-    final bool Function(CombatGroup, Unit) reqCheck = (CombatGroup cg, Unit u) {
+    final RequirementCheck reqCheck = (RuleSet rs, CombatGroup cg, Unit u) {
       return u.isVeteran() &&
           (u.core.frame == 'Universal Infantry' || u.name == 'Spitz Monowheel');
     };
@@ -216,7 +218,7 @@ class PeaceRiverFactionMods extends FactionModification {
   TV each. This does not include Warrior IVs.
 */
   factory PeaceRiverFactionMods.olTrusty() {
-    final bool Function(CombatGroup, Unit) reqCheck = (CombatGroup cg, Unit u) {
+    final RequirementCheck reqCheck = (RuleSet rs, CombatGroup cg, Unit u) {
       return u.core.frame == 'Warrior' ||
           u.core.frame == 'Jackal' ||
           u.core.frame == 'Spartan';
@@ -239,7 +241,7 @@ class PeaceRiverFactionMods extends FactionModification {
   of 4+ for 1 TV each.
 */
   factory PeaceRiverFactionMods.thunderFromTheSky() {
-    final bool Function(CombatGroup, Unit) reqCheck = (CombatGroup cg, Unit u) {
+    final RequirementCheck reqCheck = (RuleSet rs, CombatGroup cg, Unit u) {
       return u.core.type == 'Airstrike Counter';
     };
     return PeaceRiverFactionMods(
@@ -256,16 +258,16 @@ class PeaceRiverFactionMods extends FactionModification {
     Elite Elements: One SK unit may change their role to SO.
   */
   factory PeaceRiverFactionMods.eliteElements(UnitRoster roster) {
-    final bool Function(CombatGroup, Unit) reqCheck = (CombatGroup cg, Unit u) {
+    final RequirementCheck reqCheck = (RuleSet rs, CombatGroup cg, Unit u) {
       if (u.role() == null) {
         return false;
       }
       // unit must be of the SK role type and only 1 unit may have this mod.
       return u.role()!.roles.any((r) => r.name == RoleType.SK) &&
-          roster.unitsWithMod(eliteElmentsID) == 0;
+          roster.unitsWithMod(eliteElementsID) == 0;
     };
     return PeaceRiverFactionMods(
-        name: 'Elite Elements', requirementCheck: reqCheck, id: eliteElmentsID)
+        name: 'Elite Elements', requirementCheck: reqCheck, id: eliteElementsID)
       ..addMod<Roles>(
           UnitAttribute.roles, createAddRoleToList(Role(name: RoleType.SO)),
           description: '+SO, One SK unit may change their role to SO');

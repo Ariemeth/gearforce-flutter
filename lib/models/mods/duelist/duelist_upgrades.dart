@@ -19,10 +19,10 @@ List<DuelistModification> getDuelistMods(
     DuelistModification.aceGunner(u),
     DuelistModification.trickShot(u),
     DuelistModification.dualMeleeWeapons(u),
-    DuelistModification.agile(u),
+    DuelistModification.agile(),
     DuelistModification.shield(u),
     DuelistModification.meleeUpgrade(u),
-    DuelistModification.ecm(u),
+    DuelistModification.ecm(),
   ];
 }
 
@@ -50,13 +50,13 @@ DuelistModification? buildDuelistUpgrade(
     case dualMeleeWeaponsId:
       return DuelistModification.dualMeleeWeapons(u);
     case agileId:
-      return DuelistModification.agile(u);
+      return DuelistModification.agile();
     case shieldId:
       return DuelistModification.shield(u);
     case meleeUpgradeId:
       return DuelistModification.meleeUpgrade(u);
     case ecmId:
-      return DuelistModification.ecm(u);
+      return DuelistModification.ecm();
   }
 
   return null;

@@ -2,12 +2,15 @@ import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/mods/standardUpgrades/standard_modification.dart';
 import 'package:gearforce/models/roster/roster.dart';
+import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
 import 'package:gearforce/models/weapons/weapons.dart';
 import 'package:test/test.dart';
 
 void main() {
+  final data = Data()..load();
+  final RuleSet rs = DefaultRuleSet(data);
   test('test Anti-Air Swap requirement check for weapon type', () {
     final w1 = buildWeapon('LATM', hasReact: true)!;
     final w2 = buildWeapon('MRP', hasReact: true)!;
@@ -16,7 +19,7 @@ void main() {
     var u = cg.primary.allUnits()[0];
 
     final mod = StandardModification.antiAirSwap(u, cg);
-    expect(mod.requirementCheck(), equals(true));
+    expect(mod.requirementCheck(rs, cg, u), equals(true));
   });
 
   test('test Anti-Air requirement check for weapon type, weapon not found', () {
@@ -27,7 +30,7 @@ void main() {
     var u = cg.primary.allUnits()[0];
 
     final mod = StandardModification.antiAirTrait(u, cg);
-    expect(mod.requirementCheck(), equals(false));
+    expect(mod.requirementCheck(rs, cg, u), equals(false));
   });
 
   test('test Anti-Air requirement check with 1 in group already', () {
@@ -42,7 +45,7 @@ void main() {
     var u = cg.primary.allUnits().last;
     final mod = StandardModification.antiAirTrait(u, cg);
     cg.primary.allUnits()[0].addUnitMod(mod);
-    expect(mod.requirementCheck(), equals(true));
+    expect(mod.requirementCheck(rs, cg, u), equals(true));
   });
 
   test('test Anti-Air requirement check with 2 in group already', () {
@@ -58,11 +61,10 @@ void main() {
     final mod = StandardModification.antiAirTrait(u, cg);
     cg.primary.allUnits()[0].addUnitMod(mod);
     cg.primary.allUnits()[1].addUnitMod(mod);
-    expect(mod.requirementCheck(), equals(true));
+    expect(mod.requirementCheck(rs, cg, u), equals(true));
   });
 
   test('test handGrenade (LHG) requirement check with 2 in group already', () {
-    final data = Data()..load();
     var cg = CombatGroup('test1')
       ..primary
           .addUnit(UnitCore.test(traits: const [const Trait(name: 'Hands')]))
@@ -76,11 +78,10 @@ void main() {
     final mod = StandardModification.handGrenadeLHG(u, cg, roster);
     cg.primary.allUnits()[0].addUnitMod(mod);
     cg.primary.allUnits()[1].addUnitMod(mod);
-    expect(mod.requirementCheck(), equals(true));
+    expect(mod.requirementCheck(rs, cg, u), equals(true));
   });
 
   test('test handGrenade (LHG) requirement check with 1 in group already', () {
-    final data = Data()..load();
     var cg = CombatGroup('test1')
       ..primary
           .addUnit(UnitCore.test(traits: const [const Trait(name: 'Hands')]))
@@ -93,11 +94,10 @@ void main() {
     var u = cg.primary.allUnits().last;
     final mod = StandardModification.handGrenadeLHG(u, cg, roster);
     cg.primary.allUnits()[0].addUnitMod(mod);
-    expect(mod.requirementCheck(), equals(true));
+    expect(mod.requirementCheck(rs, cg, u), equals(true));
   });
 
   test('test handGrenade (LHG) requirement check with 1 MHG already added', () {
-    final data = Data()..load();
     var cg = CombatGroup('test1')
       ..primary
           .addUnit(UnitCore.test(traits: const [const Trait(name: 'Hands')]))
@@ -113,12 +113,11 @@ void main() {
     final u2 = cg.primary.allUnits().first;
     final mod = StandardModification.handGrenadeLHG(u2, cg, roster);
 
-    expect(mod.requirementCheck(), equals(true));
+    expect(mod.requirementCheck(rs, cg, u2), equals(true));
   });
   test(
       'test handGrenade (LHG) requirement check with 1 MHG already added to other group',
       () {
-    final data = Data()..load();
     var cg = CombatGroup('test1')
       ..primary
           .addUnit(UnitCore.test(traits: const [const Trait(name: 'Hands')]))
@@ -133,11 +132,10 @@ void main() {
     cg.secondary.allUnits()[0].addUnitMod(
         StandardModification.handGrenadeMHG(cg.secondary.allUnits()[0], cg));
     final mod = StandardModification.handGrenadeLHG(u, cg, roster);
-    expect(mod.requirementCheck(), equals(true));
+    expect(mod.requirementCheck(rs, cg, u), equals(true));
   });
 
   test('test handGrenade (LHG) cost with 2 mods', () {
-    final data = Data()..load();
     var cg = CombatGroup('test1')
       ..primary
           .addUnit(UnitCore.test(traits: const [const Trait(name: 'Hands')]))
@@ -155,7 +153,6 @@ void main() {
   });
 
   test('test handGrenade (MHG) requirement check with 2 in group already', () {
-    final data = Data()..load();
     var cg = CombatGroup('test1')
       ..primary
           .addUnit(UnitCore.test(traits: const [const Trait(name: 'Hands')]))
@@ -171,7 +168,7 @@ void main() {
         StandardModification.handGrenadeMHG(cg.primary.allUnits()[1], cg));
     final u = cg.primary.allUnits().last;
     final mod = StandardModification.handGrenadeLHG(u, cg, roster);
-    expect(mod.requirementCheck(), equals(true));
+    expect(mod.requirementCheck(rs, cg, u), equals(true));
   });
 
   test('test handGrenade (MHG) requirement check with 1 in group already', () {
@@ -186,11 +183,10 @@ void main() {
     var u = cg.primary.allUnits().last;
     final mod = StandardModification.handGrenadeMHG(u, cg);
     cg.primary.allUnits()[0].addUnitMod(mod);
-    expect(mod.requirementCheck(), equals(true));
+    expect(mod.requirementCheck(rs, cg, u), equals(true));
   });
 
   test('test handGrenade (MHG) requirement check with 1 LHG already added', () {
-    final data = Data()..load();
     var cg = CombatGroup('test1')
       ..primary
           .addUnit(UnitCore.test(traits: const [const Trait(name: 'Hands')]))
@@ -204,7 +200,7 @@ void main() {
         cg.primary.allUnits().first, cg, roster));
     var u = cg.primary.allUnits().last;
     final mod = StandardModification.handGrenadeMHG(u, cg);
-    expect(mod.requirementCheck(), equals(true));
+    expect(mod.requirementCheck(rs, cg, u), equals(true));
   });
   test(
       'test handGrenade (MHG) requirement check with 1 MHG already added to other group',
@@ -221,7 +217,7 @@ void main() {
     first.addUnitMod(StandardModification.handGrenadeMHG(first, cg));
     final last = cg.secondary.allUnits().last;
     final mod = StandardModification.handGrenadeMHG(last, cg);
-    expect(mod.requirementCheck(), equals(true));
+    expect(mod.requirementCheck(rs, cg, last), equals(true));
   });
   test('test handGrenade (MHG) cost with only 1 mod', () {
     var cg = CombatGroup('test1')

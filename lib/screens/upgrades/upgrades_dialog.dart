@@ -11,6 +11,7 @@ import 'package:gearforce/models/mods/unitUpgrades/unit_upgrades.dart';
 import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart';
 import 'package:gearforce/models/mods/veteranUpgrades/veteran_upgrades.dart';
 import 'package:gearforce/models/roster/roster.dart';
+import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/screens/upgrades/upgrade_display_line.dart';
 import 'package:provider/provider.dart';
@@ -41,6 +42,7 @@ class UpgradesDialog extends StatelessWidget {
     final duelistMods = getDuelistMods(unit, cg, roster);
     final factionMods =
         roster.subFaction.value.ruleSet.availableFactionMods(roster, cg, unit);
+    final rs = roster.subFaction.value.ruleSet;
 
     unit.getMods().forEach((mod) {
       switch (mod.runtimeType) {
@@ -93,15 +95,20 @@ class UpgradesDialog extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             upgradeTitle('Unit Upgrades'),
-            unitUpgrades(unitMods, unit, cg),
+            unitUpgrades(
+              unitMods,
+              unit,
+              cg,
+              rs,
+            ),
             upgradeTitle('Standard Upgrades'),
-            unitUpgrades(standardMods, unit, cg),
+            unitUpgrades(standardMods, unit, cg, rs),
             upgradeTitle('Faction upgrades'),
-            unitUpgrades(factionMods, unit, cg),
+            unitUpgrades(factionMods, unit, cg, rs),
             upgradeTitle('Veteran Upgrades'),
-            unitUpgrades(veteranMods, unit, cg),
+            unitUpgrades(veteranMods, unit, cg, rs),
             upgradeTitle('Duelist Upgrades'),
-            unitUpgrades(duelistMods, unit, cg),
+            unitUpgrades(duelistMods, unit, cg, rs),
           ],
         ),
         SimpleDialogOption(
@@ -133,7 +140,8 @@ Container upgradeTitle(String title) {
   );
 }
 
-Widget unitUpgrades(List<BaseModification> mods, Unit unit, CombatGroup cg) {
+Widget unitUpgrades(
+    List<BaseModification> mods, Unit unit, CombatGroup cg, RuleSet rs) {
   if (mods.isEmpty) {
     return const Center(
       child: Text(
@@ -170,6 +178,7 @@ Widget unitUpgrades(List<BaseModification> mods, Unit unit, CombatGroup cg) {
             mod: mods[index],
             unit: unit,
             cg: cg,
+            rs: rs,
           );
         },
       ),

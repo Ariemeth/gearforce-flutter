@@ -2,6 +2,7 @@ import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/mods/base_modification.dart';
 import 'package:gearforce/models/mods/modification_option.dart';
 import 'package:gearforce/models/mods/mods.dart';
+import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
@@ -32,25 +33,22 @@ class VeteranModification extends BaseModification {
   VeteranModification({
     required String name,
     required String id,
-    this.requirementCheck = _defaultRequirementsFunction,
-    this.unit,
-    this.group,
+    required RequirementCheck requirementCheck,
     ModificationOption? options,
     final BaseModification Function()? refreshData,
-  }) : super(name: name, id: id, options: options, refreshData: refreshData);
-
-  // function to ensure the modification can be applied to the unit
-  final bool Function() requirementCheck;
-  final Unit? unit;
-  final CombatGroup? group;
-
-  static bool _defaultRequirementsFunction() => true;
+  }) : super(
+          name: name,
+          id: id,
+          requirementCheck: requirementCheck,
+          options: options,
+          refreshData: refreshData,
+        );
 
   factory VeteranModification.makeVet(Unit u, CombatGroup cg) {
     return VeteranModification(
         name: 'Veteran Upgrade',
         id: veteranId,
-        requirementCheck: () {
+        requirementCheck: (RuleSet rs, CombatGroup cg, Unit u) {
           if (u.hasMod(veteranId)) {
             return false;
           }
@@ -71,7 +69,7 @@ class VeteranModification extends BaseModification {
     return VeteranModification(
         name: 'ECCM',
         id: eccmId,
-        requirementCheck: () {
+        requirementCheck: (RuleSet rs, CombatGroup cg, Unit u) {
           if (u.hasMod(eccmId)) {
             return false;
           }
@@ -115,7 +113,7 @@ class VeteranModification extends BaseModification {
         name: 'Reach',
         id: reachId,
         options: modOptions,
-        requirementCheck: () {
+        requirementCheck: (RuleSet rs, CombatGroup cg, Unit u) {
           if (u.hasMod(reachId)) {
             return false;
           }
@@ -157,7 +155,7 @@ class VeteranModification extends BaseModification {
     return VeteranModification(
         name: 'Field Armor',
         id: fieldArmorId,
-        requirementCheck: () {
+        requirementCheck: (RuleSet rs, CombatGroup cg, Unit u) {
           if (u.hasMod(fieldArmorId)) {
             return false;
           }
@@ -202,7 +200,7 @@ class VeteranModification extends BaseModification {
     return VeteranModification(
         name: 'Brawler 1',
         id: brawl1Id,
-        requirementCheck: () {
+        requirementCheck: (RuleSet rs, CombatGroup cg, Unit u) {
           if (u.hasMod(brawl1Id) || u.hasMod(brawler2Id)) {
             return false;
           }
@@ -235,7 +233,7 @@ class VeteranModification extends BaseModification {
     return VeteranModification(
         name: 'Brawler 2',
         id: brawler2Id,
-        requirementCheck: () {
+        requirementCheck: (RuleSet rs, CombatGroup cg, Unit u) {
           if (u.hasMod(brawler2Id) || u.hasMod(brawl1Id)) {
             return false;
           }
@@ -271,7 +269,7 @@ class VeteranModification extends BaseModification {
     return VeteranModification(
         name: 'Resist Haywire',
         id: resistHId,
-        requirementCheck: () {
+        requirementCheck: (RuleSet rs, CombatGroup cg, Unit u) {
           if (u.hasMod(resistHId)) {
             return false;
           }
@@ -312,7 +310,7 @@ class VeteranModification extends BaseModification {
     return VeteranModification(
         name: 'Resist Fire',
         id: resistFId,
-        requirementCheck: () {
+        requirementCheck: (RuleSet rs, CombatGroup cg, Unit u) {
           if (u.hasMod(resistFId)) {
             return false;
           }
@@ -352,7 +350,7 @@ class VeteranModification extends BaseModification {
     return VeteranModification(
         name: 'Resist Corrosion',
         id: resistCId,
-        requirementCheck: () {
+        requirementCheck: (RuleSet rs, CombatGroup cg, Unit u) {
           if (u.hasMod(resistCId)) {
             return false;
           }
@@ -395,7 +393,7 @@ class VeteranModification extends BaseModification {
     return VeteranModification(
         name: 'Improved Gunnery',
         id: improvedGunneryId,
-        requirementCheck: () {
+        requirementCheck: (RuleSet rs, CombatGroup cg, Unit u) {
           if (u.hasMod(improvedGunneryId)) {
             return false;
           }
@@ -455,7 +453,7 @@ class VeteranModification extends BaseModification {
         name: 'Dual Guns',
         id: dualGunsId,
         options: modOptions,
-        requirementCheck: () {
+        requirementCheck: (RuleSet rs, CombatGroup cg, Unit u) {
           if (u.hasMod(dualGunsId)) {
             return false;
           }
@@ -507,7 +505,7 @@ class VeteranModification extends BaseModification {
         name: 'Melee Weapon Upgrade',
         id: meleeUpgradeId,
         options: modOptions,
-        requirementCheck: () {
+        requirementCheck: (RuleSet rs, CombatGroup cg, Unit u) {
           if (u.hasMod(meleeUpgradeId)) {
             return false;
           }
@@ -564,7 +562,7 @@ class VeteranModification extends BaseModification {
     return VeteranModification(
         name: 'AMS',
         id: amsId,
-        requirementCheck: () {
+        requirementCheck: (RuleSet rs, CombatGroup cg, Unit u) {
           if (u.hasMod(amsId)) {
             return false;
           }

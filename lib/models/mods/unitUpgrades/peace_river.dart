@@ -1,5 +1,7 @@
+import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/mods/unitUpgrades/unit_modification.dart';
 import 'package:gearforce/models/mods/mods.dart';
+import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
@@ -330,7 +332,7 @@ final UnitModification arbalest = UnitModification(name: 'Arbalest Upgrade')
 
 final UnitModification herdLord = UnitModification(
     name: 'Herd Lord Upgrade',
-    requirementCheck: (Unit u) {
+    requirementCheck: (RuleSet rs, CombatGroup cg, Unit u) {
       return !u.name.toLowerCase().contains('xyston');
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
