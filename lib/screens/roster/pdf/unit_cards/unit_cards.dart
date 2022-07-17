@@ -147,7 +147,7 @@ pw.Widget _buildSecondSection(pw.Font font, Unit u) {
       children: [
         pw.Container(
           child: pw.Text(
-            'Roles: ${u.role() != null ? u.role()!.roles.join(', ') : '-'}',
+            'Roles: ${u.role != null ? u.role!.roles.join(', ') : '-'}',
             style: pw.TextStyle(fontSize: _standardFontSize),
             textAlign: pw.TextAlign.center,
           ),

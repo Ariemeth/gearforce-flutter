@@ -270,11 +270,11 @@ class PeaceRiverFactionMods extends FactionModification {
   factory PeaceRiverFactionMods.eliteElements(UnitRoster roster) {
     final RequirementCheck reqCheck =
         (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
-      if (u.role() == null) {
+      if (u.role == null) {
         return false;
       }
       // unit must be of the SK role type and only 1 unit may have this mod.
-      return u.role()!.roles.any((r) => r.name == RoleType.SK) &&
+      return u.role!.roles.any((r) => r.name == RoleType.SK) &&
           roster.unitsWithMod(eliteElementsID) == 0;
     };
     return PeaceRiverFactionMods(
@@ -358,17 +358,19 @@ class PeaceRiverFactionMods extends FactionModification {
   */
   factory PeaceRiverFactionMods.peaceOfficers(Unit unit) {
     const weaponCodeToRemove = 'RP';
-    var unitRP = unit.mountedWeapons.any((w) => w.code == weaponCodeToRemove)
-        ? unit.mountedWeapons
+    final unitRPToRemove = unit
+            .attribute<List<Weapon>>(UnitAttribute.mounted_weapons,
+                modIDToSkip: peaceOfficersID)
+            .any((w) => w.code == weaponCodeToRemove)
+        ? unit
+            .attribute<List<Weapon>>(
+              UnitAttribute.mounted_weapons,
+              modIDToSkip: peaceOfficersID,
+            )
             .firstWhere((w) => w.code == weaponCodeToRemove)
             .abbreviation
         : '';
-    if (unitRP.isEmpty &&
-        unit.core.mountedWeapons.any((w) => w.code == weaponCodeToRemove)) {
-      unitRP = unit.core.mountedWeapons
-          .firstWhere((w) => w.code == weaponCodeToRemove)
-          .abbreviation;
-    }
+
     final RequirementCheck reqCheck = (rs, ur, cg, u) {
       assert(cg != null);
       assert(ur != null);
@@ -396,7 +398,7 @@ class PeaceRiverFactionMods extends FactionModification {
                 (existingWeapon) => existingWeapon.code != weaponCodeToRemove)
             .toList();
       }, dynamicDescription: () {
-        return '${unitRP.isNotEmpty ? '-$unitRP' : ''}';
+        return '${unitRPToRemove.isNotEmpty ? '-$unitRPToRemove' : ''}';
       })
       ..addMod(UnitAttribute.traits,
           createAddTraitToList(const Trait(name: 'Shield')),

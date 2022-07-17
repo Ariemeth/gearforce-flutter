@@ -238,7 +238,7 @@ class Unit extends ChangeNotifier {
     return value;
   }
 
-  Roles? role() {
+  Roles? get role {
     var value = this.core.role;
 
     for (var mod in this._mods) {
@@ -367,6 +367,10 @@ class Unit extends ChangeNotifier {
     return value;
   }
 
+  String get height {
+    return this.core.height;
+  }
+
   List<String> get special {
     var value = this._special.toList();
     for (var mod in this._mods) {
@@ -375,10 +379,17 @@ class Unit extends ChangeNotifier {
     return value;
   }
 
-  dynamic attribute(UnitAttribute att) {
-    var value = this.core.attribute(att);
+  T attribute<T>(
+    UnitAttribute att, {
+    String? modIDToSkip,
+  }) {
+    assert(T == att.expected_type, 'Expected [${att.expected_type}], got [$T]');
 
-    for (var mod in this._mods) {
+    var value = this.core.attribute(att) as T;
+
+    for (var mod in this
+        ._mods
+        .where((m) => modIDToSkip == null ? true : m.id != modIDToSkip)) {
       value = mod.applyMods(att, value);
     }
 
