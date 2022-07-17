@@ -1,6 +1,7 @@
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/mods/unitUpgrades/unit_modification.dart';
 import 'package:gearforce/models/mods/mods.dart';
+import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/role.dart';
@@ -102,7 +103,7 @@ final UnitModification grelCrew4 = UnitModification(name: 'GREL Crew Upgrade')
 
 final UnitModification hpc64Command = UnitModification(
     name: 'Command Upgrade',
-    requirementCheck: (RuleSet rs, CombatGroup cg, Unit u) {
+    requirementCheck: (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       return !u.name.toLowerCase().contains('medic');
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')

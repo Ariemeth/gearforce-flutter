@@ -67,7 +67,8 @@ class StandardModification extends BaseModification {
         name: 'Anti-Air Trait',
         id: antiAirTraitId,
         options: modOptions,
-        requirementCheck: (RuleSet rs, CombatGroup cg, Unit u) {
+        requirementCheck:
+            (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
           // can only have one of this mod or the anti air swap mod
           if (u.hasMod(antiAirTraitId) || u.hasMod(antiAirSwapId)) {
             return false;
@@ -137,7 +138,8 @@ class StandardModification extends BaseModification {
         name: 'Anti-Air Swap',
         id: antiAirSwapId,
         options: modOptions,
-        requirementCheck: (RuleSet rs, CombatGroup cg, Unit u) {
+        requirementCheck:
+            (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
           // can only have one of this mod or the anti air swap mod
           if (u.hasMod(antiAirTraitId) || u.hasMod(antiAirSwapId)) {
             return false;
@@ -272,7 +274,8 @@ class StandardModification extends BaseModification {
         name: 'Melee Swap',
         id: meleeSwapId,
         options: modOptions,
-        requirementCheck: (RuleSet rs, CombatGroup cg, Unit u) {
+        requirementCheck:
+            (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
           if (u.hasMod(meleeSwapId)) {
             return false;
           }
@@ -348,7 +351,8 @@ class StandardModification extends BaseModification {
         name: 'Grenade Swap',
         id: grenadeSwapId,
         options: modOptions,
-        requirementCheck: (RuleSet rs, CombatGroup cg, Unit u) {
+        requirementCheck:
+            (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
           if (u.hasMod(grenadeSwapId)) {
             return false;
           }
@@ -444,7 +448,8 @@ class StandardModification extends BaseModification {
     return StandardModification(
         name: 'Hand Grenades (LHG)',
         id: handGrenadeLId,
-        requirementCheck: (RuleSet rs, CombatGroup cg, Unit u) {
+        requirementCheck:
+            (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
           if (!traits.any((element) => _handsMatch.hasMatch(element.name))) {
             return false;
           }
@@ -477,7 +482,8 @@ class StandardModification extends BaseModification {
     return StandardModification(
         name: 'Hand Grenades (MHG)',
         id: handGrenadeMId,
-        requirementCheck: (RuleSet rs, CombatGroup cg, Unit u) {
+        requirementCheck:
+            (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
           if (!traits.any((element) => _handsMatch.hasMatch(element.name))) {
             return false;
           }
@@ -509,7 +515,8 @@ class StandardModification extends BaseModification {
     return StandardModification(
         name: 'Panzerfausts (LPZ)',
         id: panzerfaustsLId,
-        requirementCheck: (RuleSet rs, CombatGroup cg, Unit u) {
+        requirementCheck:
+            (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
           if (!u.traits.any((element) => _handsMatch.hasMatch(element.name))) {
             return false;
           }
@@ -547,7 +554,8 @@ class StandardModification extends BaseModification {
     return StandardModification(
         name: 'Panzerfausts (MPZ)',
         id: panzerfaustsMId,
-        requirementCheck: (RuleSet rs, CombatGroup cg, Unit u) {
+        requirementCheck:
+            (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
           if (!u.traits.any((element) => _handsMatch.hasMatch(element.name))) {
             return false;
           }
@@ -583,7 +591,8 @@ class StandardModification extends BaseModification {
     return StandardModification(
         name: 'Sidearm (LP)',
         id: pistolsId,
-        requirementCheck: (RuleSet rs, CombatGroup cg, Unit u) {
+        requirementCheck:
+            (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
           if (!traits.any((element) => _handsMatch.hasMatch(element.name))) {
             return false;
           }
@@ -628,7 +637,8 @@ class StandardModification extends BaseModification {
     return StandardModification(
         name: 'Sidearm (LSMG)',
         id: subMachineGunId,
-        requirementCheck: (RuleSet rs, CombatGroup cg, Unit u) {
+        requirementCheck:
+            (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
           if (!traits.any((element) => _handsMatch.hasMatch(element.name))) {
             return false;
           }
@@ -676,7 +686,8 @@ class StandardModification extends BaseModification {
     return StandardModification(
         name: 'Shaped Explosives (LSE)',
         id: shapedExplosivesLId,
-        requirementCheck: (RuleSet rs, CombatGroup cg, Unit u) {
+        requirementCheck:
+            (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
           if (u.hasMod(shapedExplosivesMId) || u.hasMod(shapedExplosivesLId)) {
             return false;
           }
@@ -718,7 +729,8 @@ class StandardModification extends BaseModification {
     return StandardModification(
         name: 'Shaped Explosives (MSE)',
         id: shapedExplosivesMId,
-        requirementCheck: (RuleSet rs, CombatGroup cg, Unit u) {
+        requirementCheck:
+            (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
           if (u.hasMod(shapedExplosivesMId) || u.hasMod(shapedExplosivesLId)) {
             return false;
           }
@@ -753,7 +765,8 @@ class StandardModification extends BaseModification {
     return StandardModification(
         name: 'Smoke',
         id: smokeId,
-        requirementCheck: (RuleSet rs, CombatGroup cg, Unit u) {
+        requirementCheck:
+            (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
           if (traits.any((element) => _vtolMatch.hasMatch(element.name))) {
             return false;
           }

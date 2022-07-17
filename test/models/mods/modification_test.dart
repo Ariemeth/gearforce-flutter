@@ -18,7 +18,8 @@ void main() {
     final cg = CombatGroup('test');
 
     expect(m.name, equals('test'), reason: 'check name');
-    expect(m.requirementCheck(rs, cg, Unit(core: testCDore)), equals(true),
+    expect(
+        m.requirementCheck(rs, null, cg, Unit(core: testCDore)), equals(true),
         reason: 'default requirement check');
   });
 
@@ -26,11 +27,12 @@ void main() {
     final cg = CombatGroup('test');
     final m = UnitModification(
       name: 'test',
-      requirementCheck: (RuleSet, CombatGroup, Unit) => false,
+      requirementCheck: ((rs, roster, cg, u) => false),
     );
     const testCDore = UnitCore.test();
 
-    expect(m.requirementCheck(rs, cg, Unit(core: testCDore)), equals(false),
+    expect(
+        m.requirementCheck(rs, null, cg, Unit(core: testCDore)), equals(false),
         reason: 'requirement check should report false');
   });
 

@@ -1,6 +1,7 @@
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/mods/unitUpgrades/unit_modification.dart';
 import 'package:gearforce/models/mods/mods.dart';
+import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/unit.dart';
@@ -34,7 +35,7 @@ final UnitModification cuirassierCv = UnitModification(name: 'CV Upgrade')
 
 final UnitModification fragCannon = UnitModification(
     name: 'Frag Cannon Upgrade',
-    requirementCheck: (RuleSet rs, CombatGroup cg, Unit u) {
+    requirementCheck: (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       return u.reactWeapons.any((w) => w.abbreviation == 'MRF');
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(-1), description: 'TV -1')
@@ -48,7 +49,7 @@ final UnitModification fragCannon = UnitModification(
 
 final UnitModification rapidFireBazooka = UnitModification(
     name: 'Rapid Fire Bazooka Upgrade',
-    requirementCheck: (RuleSet rs, CombatGroup cg, Unit u) {
+    requirementCheck: (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       return u.reactWeapons.any((w) => w.abbreviation == 'MRF');
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(-1), description: 'TV -1')
@@ -74,7 +75,7 @@ final UnitModification espionCv = UnitModification(name: 'CV Upgrade')
 
 final UnitModification mfmBoa = UnitModification(
     name: 'MFM Upgrade',
-    requirementCheck: (RuleSet rs, CombatGroup cg, Unit u) {
+    requirementCheck: (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       return u.mountedWeapons.any((w) => w.abbreviation == 'LGM');
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
@@ -101,7 +102,7 @@ final UnitModification cv2 = UnitModification(name: 'CV Upgrade')
 
 final UnitModification voltigeurABM = UnitModification(
     name: 'ABM Upgrade',
-    requirementCheck: (RuleSet rs, CombatGroup cg, Unit u) {
+    requirementCheck: (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       return u.mountedWeapons
           .any((w) => w.abbreviation == 'MATM' && w.numberOf == 2);
     })
@@ -116,7 +117,7 @@ final UnitModification voltigeurABM = UnitModification(
 
 final UnitModification voltigeurAM = UnitModification(
     name: 'AM Upgrade',
-    requirementCheck: (RuleSet rs, CombatGroup cg, Unit u) {
+    requirementCheck: (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       return u.mountedWeapons
           .any((w) => w.abbreviation == 'MATM' && w.numberOf == 2);
     })
@@ -145,7 +146,7 @@ final UnitModification voltigeurCv = UnitModification(name: 'CV Upgrade')
 
 final UnitModification sampsonCv = UnitModification(
     name: 'CV Upgrade',
-    requirementCheck: (RuleSet rs, CombatGroup cg, Unit u) {
+    requirementCheck: (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       return !u.name.toLowerCase().contains('medical');
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')

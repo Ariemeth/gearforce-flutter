@@ -1,6 +1,7 @@
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/mods/unitUpgrades/unit_modification.dart';
 import 'package:gearforce/models/mods/mods.dart';
+import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/unit.dart';
@@ -56,7 +57,7 @@ final UnitModification xi = UnitModification(name: 'Xi Upgrade')
 
 final UnitModification omi = UnitModification(
     name: 'Omi Upgrade',
-    requirementCheck: (RuleSet rs, CombatGroup cg, Unit u) {
+    requirementCheck: (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       return u.reactWeapons
           .any((w) => w.abbreviation == 'HMG' && w.bonusString == '(Apex)');
     })
@@ -71,7 +72,7 @@ final UnitModification omi = UnitModification(
 
 final UnitModification zeta = UnitModification(
     name: 'Zeta Upgrade',
-    requirementCheck: (RuleSet rs, CombatGroup cg, Unit u) {
+    requirementCheck: (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       return u.reactWeapons
           .any((w) => w.abbreviation == 'HMG' && w.bonusString == '(Apex)');
     })
@@ -86,7 +87,7 @@ final UnitModification zeta = UnitModification(
 
 final UnitModification pur = UnitModification(
     name: 'Pur Upgrade',
-    requirementCheck: (RuleSet rs, CombatGroup cg, Unit u) {
+    requirementCheck: (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       return u.reactWeapons
           .any((w) => w.abbreviation == 'HMG' && w.bonusString == '(Apex)');
     })
@@ -145,7 +146,7 @@ final UnitModification spectre = UnitModification(name: 'Spectra Upgrade')
 
 final UnitModification darkHoplitePsi = UnitModification(
     name: 'Psi Upgrade',
-    requirementCheck: (RuleSet rs, CombatGroup cg, Unit u) {
+    requirementCheck: (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       return !u.name.toLowerCase().contains('kappa');
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')

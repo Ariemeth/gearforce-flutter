@@ -1,10 +1,12 @@
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/mods/modification_option.dart';
+import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
 
-typedef RequirementCheck = bool Function(RuleSet, CombatGroup, Unit);
+typedef RequirementCheck = bool Function(
+    RuleSet?, UnitRoster?, CombatGroup?, Unit);
 
 abstract class BaseModification {
   BaseModification({

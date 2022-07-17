@@ -99,16 +99,17 @@ class UpgradesDialog extends StatelessWidget {
               unitMods,
               unit,
               cg,
+              roster,
               rs,
             ),
             upgradeTitle('Standard Upgrades'),
-            unitUpgrades(standardMods, unit, cg, rs),
+            unitUpgrades(standardMods, unit, cg, roster, rs),
             upgradeTitle('Faction upgrades'),
-            unitUpgrades(factionMods, unit, cg, rs),
+            unitUpgrades(factionMods, unit, cg, roster, rs),
             upgradeTitle('Veteran Upgrades'),
-            unitUpgrades(veteranMods, unit, cg, rs),
+            unitUpgrades(veteranMods, unit, cg, roster, rs),
             upgradeTitle('Duelist Upgrades'),
-            unitUpgrades(duelistMods, unit, cg, rs),
+            unitUpgrades(duelistMods, unit, cg, roster, rs),
           ],
         ),
         SimpleDialogOption(
@@ -140,8 +141,8 @@ Container upgradeTitle(String title) {
   );
 }
 
-Widget unitUpgrades(
-    List<BaseModification> mods, Unit unit, CombatGroup cg, RuleSet rs) {
+Widget unitUpgrades(List<BaseModification> mods, Unit unit, CombatGroup cg,
+    UnitRoster ur, RuleSet rs) {
   if (mods.isEmpty) {
     return const Center(
       child: Text(
@@ -178,6 +179,7 @@ Widget unitUpgrades(
             mod: mods[index],
             unit: unit,
             cg: cg,
+            ur: ur,
             rs: rs,
           );
         },

@@ -1,6 +1,7 @@
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/mods/unitUpgrades/unit_modification.dart';
 import 'package:gearforce/models/mods/mods.dart';
+import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/role.dart';
@@ -10,7 +11,7 @@ import 'package:gearforce/models/weapons/weapons.dart';
 
 final UnitModification sawBladeSwap = UnitModification(
     name: 'Saw Blade Swap',
-    requirementCheck: (RuleSet rs, CombatGroup cg, Unit u) {
+    requirementCheck: (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       return u.reactWeapons.any((w) =>
           w.abbreviation == 'MCW' && w.bonusString == '(Reach:1 Demo:4)');
     })
@@ -26,7 +27,7 @@ final UnitModification sawBladeSwap = UnitModification(
 
 final UnitModification vibroswordSwap = UnitModification(
     name: 'Vibrosword Swap',
-    requirementCheck: (RuleSet rs, CombatGroup cg, Unit u) {
+    requirementCheck: (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       return u.reactWeapons.any((w) =>
           w.abbreviation == 'MCW' && w.bonusString == '(Reach:1 Demo:4)');
     })
@@ -42,7 +43,7 @@ final UnitModification vibroswordSwap = UnitModification(
 
 final UnitModification destroyer = UnitModification(
     name: 'Destroyer Upgrade',
-    requirementCheck: (RuleSet rs, CombatGroup cg, Unit u) {
+    requirementCheck: (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       return u.reactWeapons.any((w) => w.abbreviation == 'HAC');
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(-1), description: 'TV -1')
@@ -56,7 +57,7 @@ final UnitModification destroyer = UnitModification(
 
 final UnitModification demolisher = UnitModification(
     name: 'Demolisher Hand Swap',
-    requirementCheck: (RuleSet rs, CombatGroup cg, Unit u) {
+    requirementCheck: (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       return u.reactWeapons.any((w) => w.abbreviation == 'HAC');
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(-1), description: 'TV -1')
@@ -77,7 +78,7 @@ final UnitModification demolisher = UnitModification(
 
 final UnitModification heavyChainswordSwap = UnitModification(
     name: 'Heavy Chainsword Swap',
-    requirementCheck: (RuleSet rs, CombatGroup cg, Unit u) {
+    requirementCheck: (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       return u.reactWeapons.any((w) => w.abbreviation == 'LVB');
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(0), description: 'TV +0')
@@ -92,7 +93,7 @@ final UnitModification heavyChainswordSwap = UnitModification(
 
 final UnitModification maulerFistSwap = UnitModification(
     name: 'Mauler Fist Swap',
-    requirementCheck: (RuleSet rs, CombatGroup cg, Unit u) {
+    requirementCheck: (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       return u.reactWeapons.any((w) =>
           w.abbreviation == 'MCW' && w.bonusString == '(Reach:1 Demo:4)');
     })
@@ -108,7 +109,7 @@ final UnitModification maulerFistSwap = UnitModification(
 
 final UnitModification chainswordSwap = UnitModification(
     name: 'Chainsword Swap',
-    requirementCheck: (RuleSet rs, CombatGroup cg, Unit u) {
+    requirementCheck: (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       return u.reactWeapons.any((w) =>
           w.abbreviation == 'MCW' && w.bonusString == '(Brawl:1 Demo:4)');
     })
@@ -124,7 +125,7 @@ final UnitModification chainswordSwap = UnitModification(
 
 final UnitModification stonemasonChainswordSwap = UnitModification(
     name: 'Chainsword Swap',
-    requirementCheck: (RuleSet rs, CombatGroup cg, Unit u) {
+    requirementCheck: (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       return u.reactWeapons.any((w) =>
           w.abbreviation == 'MCW' && w.bonusString == '(Reach:1 Demo:4)');
     })
@@ -140,7 +141,7 @@ final UnitModification stonemasonChainswordSwap = UnitModification(
 
 final UnitModification strike = UnitModification(
     name: 'Strike Upgrade',
-    requirementCheck: (RuleSet rs, CombatGroup cg, Unit u) {
+    requirementCheck: (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       return u.reactWeapons.any((w) => w.abbreviation == 'HAC');
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(-1), description: 'TV -1')
@@ -154,7 +155,7 @@ final UnitModification strike = UnitModification(
 
 final UnitModification clawSwap = UnitModification(
     name: 'Claw Swap',
-    requirementCheck: (RuleSet rs, CombatGroup cg, Unit u) {
+    requirementCheck: (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       return u.reactWeapons.any((w) =>
           w.abbreviation == 'MCW' && w.bonusString == '(Brawl:1 Demo:4)');
     })
@@ -169,7 +170,7 @@ final UnitModification clawSwap = UnitModification(
 
 final UnitModification valenceClawSwap = UnitModification(
     name: 'Claw Swap',
-    requirementCheck: (RuleSet rs, CombatGroup cg, Unit u) {
+    requirementCheck: (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       return u.reactWeapons.any((w) =>
           w.abbreviation == 'MCW' && w.bonusString == '(Reach:1 Demo:4)');
     })
@@ -184,7 +185,7 @@ final UnitModification valenceClawSwap = UnitModification(
 
 final UnitModification hammerSwap = UnitModification(
     name: 'Hammer Swap',
-    requirementCheck: (RuleSet rs, CombatGroup cg, Unit u) {
+    requirementCheck: (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       return u.reactWeapons.any((w) =>
           w.abbreviation == 'MCW' && w.bonusString == '(Brawl:1 Reach:1)');
     })

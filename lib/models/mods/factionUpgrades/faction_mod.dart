@@ -33,6 +33,10 @@ FactionModification? factionModFromId(String id, UnitRoster ur, Unit u) {
       return PeaceRiverFactionMods.thunderFromTheSky();
     case eliteElementsID:
       return PeaceRiverFactionMods.eliteElements(ur);
+    case ecmSpecialistID:
+      return PeaceRiverFactionMods.ecmSpecialist();
+    case olTrustyPOCID:
+      return PeaceRiverFactionMods.olTrustyPOC();
   }
   return null;
 }

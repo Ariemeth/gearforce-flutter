@@ -125,9 +125,9 @@ Badlands, the POC represents freedom from chaos and horror. POC officers are oft
 treated with great respect and dignity. Their meals, lodging fees and many other things
 are frequently, on the house.
 * Special Issue: Greyhounds may be placed in GP, SK, FS, RC or SO units.
-Z ECM Specialist: One gear or strider per combat group may improve its ECM to
+* ECM Specialist: One gear or strider per combat group may improve its ECM to
 ECM+ for 1 TV each.
-Z Ol’ Trusty: Pit Bulls and Mustangs may increase their GU skill by one for 1 TV each.
+* Ol’ Trusty: Pit Bulls and Mustangs may increase their GU skill by one for 1 TV each.
 Z Peace Officers: Gears from one combat group may swap their rocket packs for
 the Shield trait. If a gear does not have a rocket pack, then it may instead gain the
 Shield trait for 1 TV.
@@ -143,7 +143,11 @@ class POC extends PeaceRiver {
   @override
   List<FactionModification> availableFactionMods(
       UnitRoster ur, CombatGroup cg, Unit u) {
-    return super.availableFactionMods(ur, cg, u);
+    return super.availableFactionMods(ur, cg, u)
+      ..addAll([
+        PeaceRiverFactionMods.ecmSpecialist(),
+        PeaceRiverFactionMods.olTrustyPOC(),
+      ]);
   }
 
   @override
