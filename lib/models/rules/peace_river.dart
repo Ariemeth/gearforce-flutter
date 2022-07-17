@@ -147,6 +147,7 @@ class POC extends PeaceRiver {
       ..addAll([
         PeaceRiverFactionMods.ecmSpecialist(),
         PeaceRiverFactionMods.olTrustyPOC(),
+        PeaceRiverFactionMods.peaceOfficers(u),
       ]);
   }
 

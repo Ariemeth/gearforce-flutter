@@ -37,6 +37,8 @@ FactionModification? factionModFromId(String id, UnitRoster ur, Unit u) {
       return PeaceRiverFactionMods.ecmSpecialist();
     case olTrustyPOCID:
       return PeaceRiverFactionMods.olTrustyPOC();
+    case peaceOfficersID:
+      return PeaceRiverFactionMods.peaceOfficers(u);
   }
   return null;
 }

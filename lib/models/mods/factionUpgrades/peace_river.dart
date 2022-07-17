@@ -356,16 +356,50 @@ class PeaceRiverFactionMods extends FactionModification {
     the Shield trait. If a gear does not have a rocket pack, then it may instead gain the
     Shield trait for 1 TV.
   */
-  factory PeaceRiverFactionMods.peaceOfficers() {
-    final RequirementCheck reqCheck =
-        (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
-      return true;
+  factory PeaceRiverFactionMods.peaceOfficers(Unit unit) {
+    const weaponCodeToRemove = 'RP';
+    var unitRP = unit.mountedWeapons.any((w) => w.code == weaponCodeToRemove)
+        ? unit.mountedWeapons
+            .firstWhere((w) => w.code == weaponCodeToRemove)
+            .abbreviation
+        : '';
+    if (unitRP.isEmpty &&
+        unit.core.mountedWeapons.any((w) => w.code == weaponCodeToRemove)) {
+      unitRP = unit.core.mountedWeapons
+          .firstWhere((w) => w.code == weaponCodeToRemove)
+          .abbreviation;
+    }
+    final RequirementCheck reqCheck = (rs, ur, cg, u) {
+      assert(cg != null);
+      assert(ur != null);
+
+      if (u.type != 'Gear') {
+        return false;
+      }
+
+      final cgWithMod = ur!.combatGroupsWithMod(peaceOfficersID);
+      if (cgWithMod.length > 1) {
+        return false;
+      }
+      return (cgWithMod.isEmpty || cgWithMod.any((c) => c!.name == cg!.name));
     };
     return PeaceRiverFactionMods(
       name: 'Peace Officers',
       requirementCheck: reqCheck,
       id: peaceOfficersID,
-    )..addMod<int>(UnitAttribute.tv, createSimpleIntMod(1),
-        description: 'TV: +1');
+    )
+      ..addMod<int>(UnitAttribute.tv, createSimpleIntMod(1),
+          description: 'TV: +1')
+      ..addMod<List<Weapon>>(UnitAttribute.mounted_weapons, (value) {
+        return new List<Weapon>.from(value)
+            .where(
+                (existingWeapon) => existingWeapon.code != weaponCodeToRemove)
+            .toList();
+      }, dynamicDescription: () {
+        return '${unitRP.isNotEmpty ? '-$unitRP' : ''}';
+      })
+      ..addMod(UnitAttribute.traits,
+          createAddTraitToList(const Trait(name: 'Shield')),
+          description: '+Shield');
   }
 }
