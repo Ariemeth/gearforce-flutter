@@ -39,6 +39,14 @@ abstract class RuleSet {
     return !roster.hasDuelist();
   }
 
+  bool veteranModCheck(Unit u, {String? modID}) {
+    return (u.traits.any((trait) => trait.name == 'Vet'));
+  }
+
+  int modCostOverride(int baseCost, String modID, Unit u) {
+    return baseCost;
+  }
+
   bool canBeCommand(Unit unit) {
     return unit.core.type != ModelType.AirstrikeCounter &&
         unit.core.type != ModelType.Drone &&

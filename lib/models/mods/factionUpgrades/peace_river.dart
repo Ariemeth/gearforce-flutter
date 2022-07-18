@@ -25,6 +25,7 @@ const eliteElementsID = '$peaceRiverIDBase - 70';
 const ecmSpecialistID = '$peaceRiverIDBase - 80';
 const olTrustyPOCID = '$peaceRiverIDBase - 90';
 const peaceOfficersID = '$peaceRiverIDBase - 100';
+const gSWATSniperID = '$peaceRiverIDBase - 110';
 
 class PeaceRiverFactionMods extends FactionModification {
   PeaceRiverFactionMods({
@@ -404,5 +405,26 @@ class PeaceRiverFactionMods extends FactionModification {
       ..addMod(UnitAttribute.traits,
           createAddTraitToList(const Trait(name: 'Shield')),
           description: '+Shield');
+  }
+  /*
+    G-SWAT Sniper: One gear with a rifle, per combat group, may purchase the
+    Improved Gunnery upgrade for 1 TV each, without being a veteran.
+  */
+  factory PeaceRiverFactionMods.gSWATSniper() {
+    final RequirementCheck reqCheck =
+        (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+      assert(rs != null);
+      assert(cg != null);
+      return cg!.modCount(gSWATSniperID) == 0 &&
+          u.weapons.any((w) => w.code == 'RF');
+    };
+    return PeaceRiverFactionMods(
+      name: 'G-SWAT Sniper',
+      requirementCheck: reqCheck,
+      id: gSWATSniperID,
+    )..addMod<int>(UnitAttribute.tv, createSimpleIntMod(0),
+        description: 'TV: +0, One gear with a rifle, per combat group,' +
+            ' may purchase the Improved Gunnery upgrade for 1 TV each,' +
+            ' without being a veteran');
   }
 }

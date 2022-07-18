@@ -3,6 +3,7 @@ import 'package:gearforce/models/combatGroups/group.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/mods/factionUpgrades/faction_mod.dart';
 import 'package:gearforce/models/mods/factionUpgrades/peace_river.dart';
+import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/unit/model_type.dart';
@@ -132,7 +133,7 @@ ECM+ for 1 TV each.
 * Peace Officers: Gears from one combat group may swap their rocket packs for
 the Shield trait. If a gear does not have a rocket pack, then it may instead gain the
 Shield trait for 1 TV.
-Z G-SWAT Sniper: One gear with a rifle, per combat group, may purchase the
+* G-SWAT Sniper: One gear with a rifle, per combat group, may purchase the
 Improved Gunnery upgrade for 1 TV each, without being a veteran.
 Z Mercenary Contract: One combat group may be made with models from North,
 South, Peace River, and NuCoal (may include a mix from all four factions) that have
@@ -149,6 +150,7 @@ class POC extends PeaceRiver {
         PeaceRiverFactionMods.ecmSpecialist(),
         PeaceRiverFactionMods.olTrustyPOC(),
         PeaceRiverFactionMods.peaceOfficers(u),
+        PeaceRiverFactionMods.gSWATSniper(),
       ]);
   }
 
@@ -170,6 +172,36 @@ class POC extends PeaceRiver {
       return true;
     }
     return false;
+  }
+
+  @override
+  bool veteranModCheck(
+    Unit u, {
+    String? modID,
+  }) {
+    /*
+      G-SWAT Sniper: One gear with a rifle, per combat group, may purchase the
+      Improved Gunnery upgrade for 1 TV each, without being a veteran.
+    */
+    if (modID != null &&
+        modID == improvedGunneryID &&
+        u.hasMod(gSWATSniperID)) {
+      return true;
+    }
+
+    return super.veteranModCheck(u);
+  }
+
+  @override
+  int modCostOverride(int baseCost, String modID, Unit u) {
+    /*
+      G-SWAT Sniper: One gear with a rifle, per combat group, may purchase the
+      Improved Gunnery upgrade for 1 TV each, without being a veteran.
+    */
+    if (modID == improvedGunneryID && u.hasMod(gSWATSniperID)) {
+      return 1;
+    }
+    return baseCost;
   }
 }
 

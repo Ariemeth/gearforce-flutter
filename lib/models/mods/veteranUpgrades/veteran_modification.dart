@@ -12,7 +12,7 @@ import 'package:gearforce/models/weapons/weapon.dart';
 import 'package:gearforce/models/weapons/weapons.dart';
 
 const veteranId = 'veteran';
-const improvedGunneryId = 'vet: improved gunnery';
+const improvedGunneryID = 'vet: improved gunnery';
 const dualGunsId = 'vet: dual guns';
 const eccmId = 'vet: eccm';
 const brawl1Id = 'vet: brawler1';
@@ -70,6 +70,7 @@ class VeteranModification extends BaseModification {
         id: eccmId,
         requirementCheck:
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+          assert(rs != null);
           if (u.hasMod(eccmId)) {
             return false;
           }
@@ -80,7 +81,7 @@ class VeteranModification extends BaseModification {
             return false;
           }
 
-          return u.traits.any((trait) => trait.name == 'Vet');
+          return rs!.veteranModCheck(u);
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
       ..addMod(
@@ -117,6 +118,7 @@ class VeteranModification extends BaseModification {
         options: modOptions,
         requirementCheck:
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+          assert(rs != null);
           if (u.hasMod(reachId)) {
             return false;
           }
@@ -126,7 +128,7 @@ class VeteranModification extends BaseModification {
               !weapon.traits.any((trait) => trait.name == 'Reach'))) {
             return false;
           }
-          return u.traits.any((trait) => trait.name == 'Vet');
+          return rs!.veteranModCheck(u);
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
       ..addMod<List<Weapon>>(UnitAttribute.react_weapons, (value) {
@@ -160,6 +162,7 @@ class VeteranModification extends BaseModification {
         id: fieldArmorId,
         requirementCheck:
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+          assert(rs != null);
           if (u.type == ModelType.Terrain ||
               u.type == ModelType.AreaTerrain ||
               u.type == ModelType.Building ||
@@ -180,7 +183,7 @@ class VeteranModification extends BaseModification {
             return false;
           }
 
-          return u.traits.any((trait) => trait.name == 'Vet');
+          return rs!.veteranModCheck(u);
         })
       ..addMod<int>(
         UnitAttribute.tv,
@@ -214,6 +217,7 @@ class VeteranModification extends BaseModification {
         id: brawl1Id,
         requirementCheck:
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+          assert(rs != null);
           if (!(u.type == ModelType.Infantry ||
               u.type == ModelType.Cavalry ||
               u.type == ModelType.Gear ||
@@ -224,7 +228,7 @@ class VeteranModification extends BaseModification {
             return false;
           }
 
-          return u.traits.any((trait) => trait.name == 'Vet');
+          return rs!.veteranModCheck(u);
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
       ..addMod<List<Trait>>(UnitAttribute.traits, (value) {
@@ -254,11 +258,12 @@ class VeteranModification extends BaseModification {
         id: brawler2Id,
         requirementCheck:
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+          assert(rs != null);
           if (u.hasMod(brawler2Id) || u.hasMod(brawl1Id)) {
             return false;
           }
 
-          return u.traits.any((trait) => trait.name == 'Vet');
+          return rs!.veteranModCheck(u);
         },
         refreshData: () {
           return VeteranModification.brawler2(u);
@@ -291,6 +296,7 @@ class VeteranModification extends BaseModification {
         id: resistHId,
         requirementCheck:
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+          assert(rs != null);
           if (u.hasMod(resistHId)) {
             return false;
           }
@@ -300,7 +306,7 @@ class VeteranModification extends BaseModification {
             return false;
           }
 
-          return u.traits.any((trait) => trait.name == 'Vet');
+          return rs!.veteranModCheck(u);
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
       ..addMod<List<Trait>>(
@@ -333,6 +339,7 @@ class VeteranModification extends BaseModification {
         id: resistFId,
         requirementCheck:
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+          assert(rs != null);
           if (u.hasMod(resistFId)) {
             return false;
           }
@@ -342,7 +349,7 @@ class VeteranModification extends BaseModification {
             return false;
           }
 
-          return u.traits.any((trait) => trait.name == 'Vet');
+          return rs!.veteranModCheck(u);
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
       ..addMod<List<Trait>>(
@@ -374,6 +381,7 @@ class VeteranModification extends BaseModification {
         id: resistCId,
         requirementCheck:
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+          assert(rs != null);
           if (u.hasMod(resistCId)) {
             return false;
           }
@@ -383,7 +391,7 @@ class VeteranModification extends BaseModification {
             return false;
           }
 
-          return u.traits.any((trait) => trait.name == 'Vet');
+          return rs!.veteranModCheck(u);
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
       ..addMod<List<Trait>>(
@@ -412,13 +420,16 @@ class VeteranModification extends BaseModification {
   */
   factory VeteranModification.improvedGunnery(Unit u) {
     final gunnery = u.gunnery;
+    var modCost = u.actions! * 2;
 
     return VeteranModification(
         name: 'Improved Gunnery',
-        id: improvedGunneryId,
+        id: improvedGunneryID,
         requirementCheck:
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
-          if (u.hasMod(improvedGunneryId)) {
+          assert(rs != null);
+          assert(cg != null);
+          if (u.hasMod(improvedGunneryID)) {
             return false;
           }
 
@@ -426,15 +437,15 @@ class VeteranModification extends BaseModification {
             return false;
           }
 
-          return u.traits.any((trait) => trait.name == 'Vet');
+          modCost = rs!.modCostOverride(modCost, improvedGunneryID, u);
+          return rs.veteranModCheck(u, modID: improvedGunneryID);
         })
       ..addMod<int>(
         UnitAttribute.tv,
         (value) {
-          return value + (u.actions != null ? u.actions! * 2 : 0);
+          return value + (u.actions != null ? modCost : 0);
         },
-        dynamicDescription: () =>
-            'TV +${u.actions != null ? u.actions! * 2 : 0}',
+        dynamicDescription: () => 'TV +${u.actions != null ? modCost : 0}',
       )
       ..addMod<int>(
         UnitAttribute.gunnery,
@@ -479,6 +490,7 @@ class VeteranModification extends BaseModification {
         options: modOptions,
         requirementCheck:
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+          assert(rs != null);
           if (u.hasMod(dualGunsId)) {
             return false;
           }
@@ -488,7 +500,7 @@ class VeteranModification extends BaseModification {
             return false;
           }
 
-          return u.traits.any((trait) => trait.name == 'Vet');
+          return rs!.veteranModCheck(u);
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
       ..addMod<List<Weapon>>(UnitAttribute.react_weapons, (value) {
@@ -532,6 +544,7 @@ class VeteranModification extends BaseModification {
         options: modOptions,
         requirementCheck:
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+          assert(rs != null);
           if (u.hasMod(meleeUpgradeId)) {
             return false;
           }
@@ -546,7 +559,7 @@ class VeteranModification extends BaseModification {
             return false;
           }
 
-          return u.traits.any((trait) => trait.name == 'Vet');
+          return rs!.veteranModCheck(u);
         },
         refreshData: () {
           return VeteranModification.meleeWeaponUpgrade(u);
@@ -590,6 +603,7 @@ class VeteranModification extends BaseModification {
         id: amsId,
         requirementCheck:
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+          assert(rs != null);
           if (u.hasMod(amsId)) {
             return false;
           }
@@ -603,7 +617,7 @@ class VeteranModification extends BaseModification {
             return false;
           }
 
-          return u.traits.any((trait) => trait.name == 'Vet');
+          return rs!.veteranModCheck(u);
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
       ..addMod(
