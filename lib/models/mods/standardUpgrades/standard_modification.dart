@@ -5,6 +5,7 @@ import 'package:gearforce/models/mods/mods.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/traits/trait.dart';
+import 'package:gearforce/models/unit/model_type.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
 import 'package:gearforce/models/weapons/weapon.dart';
@@ -284,7 +285,8 @@ class StandardModification extends BaseModification {
             return false;
           }
 
-          if (u.core.type != 'Gear' && u.core.type != 'Strider') {
+          if (!(u.core.type == ModelType.Gear ||
+              u.core.type == ModelType.Strider)) {
             return false;
           }
 

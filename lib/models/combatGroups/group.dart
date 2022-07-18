@@ -4,6 +4,7 @@ import 'package:gearforce/models/factions/faction.dart';
 import 'package:gearforce/models/factions/sub_faction.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/unit/command.dart';
+import 'package:gearforce/models/unit/model_type.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
@@ -135,7 +136,7 @@ class Group extends ChangeNotifier {
   int totalActions() {
     var total = 0;
     this._units.forEach((u) {
-      if (u.core.type.toLowerCase() != 'drone') {
+      if (u.core.type != ModelType.Drone) {
         total += u.actions ?? 0;
       }
     });

@@ -5,6 +5,7 @@ import 'package:gearforce/models/mods/mods.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/traits/trait.dart';
+import 'package:gearforce/models/unit/model_type.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
 import 'package:gearforce/models/weapons/weapon.dart';
@@ -24,10 +25,6 @@ const resistCId = 'vet: resist:c';
 const fieldArmorId = 'vet: field armor';
 const amsId = 'vet: ams';
 
-final RegExp _gearVehicleStriderMatch = RegExp(
-  r'^Gear|Vehicle|Strider',
-  caseSensitive: false,
-);
 final RegExp _handsMatch = RegExp(r'^Hands', caseSensitive: false);
 
 class VeteranModification extends BaseModification {
@@ -77,7 +74,9 @@ class VeteranModification extends BaseModification {
             return false;
           }
 
-          if (!_gearVehicleStriderMatch.hasMatch(u.type)) {
+          if (!(u.type == ModelType.Gear ||
+              u.type == ModelType.Strider ||
+              u.type == ModelType.Vehicle)) {
             return false;
           }
 
@@ -161,6 +160,14 @@ class VeteranModification extends BaseModification {
         id: fieldArmorId,
         requirementCheck:
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+          if (u.type == ModelType.Terrain ||
+              u.type == ModelType.AreaTerrain ||
+              u.type == ModelType.Building ||
+              u.type == ModelType.Infantry ||
+              u.type == ModelType.Cavalry ||
+              u.type == ModelType.AirstrikeCounter) {
+            return false;
+          }
           if (u.hasMod(fieldArmorId)) {
             return false;
           }
@@ -207,6 +214,12 @@ class VeteranModification extends BaseModification {
         id: brawl1Id,
         requirementCheck:
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+          if (!(u.type == ModelType.Infantry ||
+              u.type == ModelType.Cavalry ||
+              u.type == ModelType.Gear ||
+              u.type == ModelType.Strider)) {
+            return false;
+          }
           if (u.hasMod(brawl1Id) || u.hasMod(brawler2Id)) {
             return false;
           }
@@ -523,7 +536,7 @@ class VeteranModification extends BaseModification {
             return false;
           }
 
-          if (u.type != 'Gear') {
+          if (u.type != ModelType.Gear) {
             return false;
           }
 

@@ -4,6 +4,7 @@ import 'package:gearforce/models/combatGroups/group.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/mods/factionUpgrades/faction_mod.dart';
 import 'package:gearforce/models/roster/roster.dart';
+import 'package:gearforce/models/unit/model_type.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
@@ -30,7 +31,7 @@ abstract class RuleSet {
       UnitRoster ur, CombatGroup cg, Unit u);
 
   bool duelistCheck(UnitRoster roster, Unit u) {
-    if (u.type != 'Gear') {
+    if (u.type != ModelType.Gear) {
       return false;
     }
 
@@ -39,10 +40,10 @@ abstract class RuleSet {
   }
 
   bool canBeCommand(Unit unit) {
-    return unit.core.type != 'Airstrike Counter' &&
-        unit.core.type != 'Drone' &&
-        unit.core.type != 'Building' &&
-        unit.core.type != 'Terrain' &&
+    return unit.core.type != ModelType.AirstrikeCounter &&
+        unit.core.type != ModelType.Drone &&
+        unit.core.type != ModelType.Building &&
+        unit.core.type != ModelType.Terrain &&
         !unit.traits.any((t) => t.name == 'Conscript');
   }
 

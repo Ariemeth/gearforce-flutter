@@ -6,6 +6,7 @@ import 'package:gearforce/models/mods/mods.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/traits/trait.dart';
+import 'package:gearforce/models/unit/model_type.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
@@ -252,7 +253,7 @@ class PeaceRiverFactionMods extends FactionModification {
   factory PeaceRiverFactionMods.thunderFromTheSky() {
     final RequirementCheck reqCheck =
         (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
-      return u.core.type == 'Airstrike Counter';
+      return u.core.type == ModelType.AirstrikeCounter;
     };
     return PeaceRiverFactionMods(
         name: 'Thunder from the Sky',
@@ -300,7 +301,7 @@ class PeaceRiverFactionMods extends FactionModification {
             return false;
           }
 
-          if (!(u.type == 'Gear' || u.type == 'Strider')) {
+          if (!(u.type == ModelType.Gear || u.type == ModelType.Strider)) {
             return false;
           }
 
@@ -375,7 +376,7 @@ class PeaceRiverFactionMods extends FactionModification {
       assert(cg != null);
       assert(ur != null);
 
-      if (u.type != 'Gear') {
+      if (u.type != ModelType.Gear) {
         return false;
       }
 

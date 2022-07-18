@@ -1,5 +1,6 @@
 import 'package:gearforce/models/combatGroups/group.dart';
 import 'package:gearforce/models/mods/unitUpgrades/north.dart';
+import 'package:gearforce/models/unit/model_type.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
 import 'package:test/test.dart';
@@ -70,7 +71,7 @@ void main() {
     var g = Group(GroupType.Primary)
       ..addUnit(UnitCore.test())
       ..addUnit(UnitCore.test())
-      ..addUnit(UnitCore.test(type: 'Drone'));
+      ..addUnit(UnitCore.test(type: ModelType.Drone));
     expect(g.totalActions(), equals(2), reason: 'check total actions');
   });
 

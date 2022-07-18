@@ -1,4 +1,5 @@
 import 'package:gearforce/models/traits/trait.dart';
+import 'package:gearforce/models/unit/model_type.dart';
 import 'package:gearforce/models/unit/movement.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
@@ -39,7 +40,7 @@ class UnitCore {
   final List<Weapon> reactWeapons;
   final List<Weapon> mountedWeapons;
   final List<Trait> traits;
-  final String type;
+  final ModelType type;
   final String height;
   final String frame;
 
@@ -58,7 +59,7 @@ class UnitCore {
     this.reactWeapons = const [],
     this.mountedWeapons = const [],
     this.traits = const [],
-    this.type = 'gear',
+    this.type = ModelType.Gear,
     this.height = '1.5',
     this.frame = 'none',
   });
@@ -169,7 +170,7 @@ class UnitCore {
         return true;
       }
 
-      if (this.type.toLowerCase().contains(c)) {
+      if (this.type.name.toLowerCase().contains(c)) {
         return true;
       }
       if (this.height.toLowerCase().contains(c)) {
@@ -234,9 +235,10 @@ class UnitCore {
       reactWeapons: reactWeapons,
       mountedWeapons: mountedWeapons,
       traits: traits,
-      type: json['type'],
+      type: ModelType.fromName(json['type']),
       height: json['height'].toString(),
     );
+
     return uc;
   }
   @override

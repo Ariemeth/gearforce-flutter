@@ -1,5 +1,6 @@
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/traits/trait.dart';
+import 'package:gearforce/models/unit/model_type.dart';
 import 'package:gearforce/models/unit/movement.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
@@ -65,6 +66,6 @@ UnitCore createDefaultUnit() {
       reactWeapons: [],
       mountedWeapons: [],
       traits: [const Trait(name: 'hands')],
-      type: 'test',
+      type: ModelType.Gear,
       height: '1.5');
 }

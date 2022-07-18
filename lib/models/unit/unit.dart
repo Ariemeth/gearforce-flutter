@@ -15,6 +15,7 @@ import 'package:gearforce/models/mods/veteranUpgrades/veteran_upgrades.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/command.dart';
+import 'package:gearforce/models/unit/model_type.dart';
 import 'package:gearforce/models/unit/movement.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
@@ -357,7 +358,7 @@ class Unit extends ChangeNotifier {
     return newList;
   }
 
-  String get type {
+  ModelType get type {
     var value = this.core.type;
 
     for (var mod in this._mods) {

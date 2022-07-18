@@ -5,6 +5,7 @@ import 'package:gearforce/models/mods/factionUpgrades/faction_mod.dart';
 import 'package:gearforce/models/mods/factionUpgrades/peace_river.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
+import 'package:gearforce/models/unit/model_type.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
@@ -49,7 +50,7 @@ class PeaceRiver extends RuleSet {
     /*
     Architects: The duelist for this force may use a Peace River strider.
     */
-    if (!(u.type == 'Gear' || u.type == 'Strider')) {
+    if (!(u.type == ModelType.Gear || u.type == ModelType.Strider)) {
       return false;
     }
 
@@ -128,7 +129,7 @@ are frequently, on the house.
 * ECM Specialist: One gear or strider per combat group may improve its ECM to
 ECM+ for 1 TV each.
 * Ol’ Trusty: Pit Bulls and Mustangs may increase their GU skill by one for 1 TV each.
-Z Peace Officers: Gears from one combat group may swap their rocket packs for
+* Peace Officers: Gears from one combat group may swap their rocket packs for
 the Shield trait. If a gear does not have a rocket pack, then it may instead gain the
 Shield trait for 1 TV.
 Z G-SWAT Sniper: One gear with a rifle, per combat group, may purchase the
