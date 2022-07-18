@@ -1,4 +1,5 @@
 import 'package:gearforce/models/traits/trait.dart';
+import 'package:gearforce/models/unit/model_type.dart';
 import 'package:gearforce/models/unit/movement.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/weapons/weapon.dart';
@@ -18,7 +19,7 @@ enum UnitAttribute {
   react_weapons(List<Weapon>),
   mounted_weapons(List<Weapon>),
   traits(List<Trait>),
-  type(String),
+  type(ModelType),
   height(String),
   special(List<String>);
 

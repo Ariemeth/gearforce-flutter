@@ -3,12 +3,27 @@ import 'package:gearforce/models/combatGroups/group.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/mods/factionUpgrades/faction_mod.dart';
 import 'package:gearforce/models/mods/factionUpgrades/peace_river.dart';
+import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
+import 'package:gearforce/models/unit/model_type.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
 
+/*
+  All the models in the Peace River Model List can be used in any of the sub-lists below. There are also models in the
+  Universal Model List that may be selected as well.
+  All Peace River forces have the following rule:
+  * E-pex: One Peace River model within each combat group may increase its EW skill by one for 1 TV each.
+  * Warrior Elite: Any Warrior IV may be upgraded to a Warrior Elite for 1 TV each. This upgrade gives the Warrior IV a
+  H/S of 4/2, an EW skill of 4+, and the Agile trait.
+  * Crisis Responders: Any Crusader IV that has been upgraded to a Crusader V may swap their HAC, MSC, MBZ or LFG
+  for a MPA (React) and a Shield for 1 TV. This Crisis Responder variant is unlimited for this force.
+  * Laser Tech: Veteran universal infantry and veteran Spitz Monowheels may upgrade their IW, IR or IS for 1 TV each.
+  These weapons receive the Advanced trait.
+  * Architects: The duelist for this force may use a Peace River strider.
+*/
 class PeaceRiver extends RuleSet {
   const PeaceRiver(super.data, {super.specialRules});
 
@@ -33,8 +48,10 @@ class PeaceRiver extends RuleSet {
 
   @override
   bool duelistCheck(UnitRoster roster, Unit u) {
-    // Peace river duelist can be in a strider Rule: Architects
-    if (!(u.type == 'Gear' || u.type == 'Strider')) {
+    /*
+    Architects: The duelist for this force may use a Peace River strider.
+    */
+    if (!(u.type == ModelType.Gear || u.type == ModelType.Strider)) {
       return false;
     }
 
@@ -109,14 +126,14 @@ honor. Stories of being deputized by a POC officer are usually told with pride. 
 Badlands, the POC represents freedom from chaos and horror. POC officers are often
 treated with great respect and dignity. Their meals, lodging fees and many other things
 are frequently, on the house.
-Z Special Issue: Greyhounds may be placed in GP, SK, FS, RC or SO units.
-Z ECM Specialist: One gear or strider per combat group may improve its ECM to
+* Special Issue: Greyhounds may be placed in GP, SK, FS, RC or SO units.
+* ECM Specialist: One gear or strider per combat group may improve its ECM to
 ECM+ for 1 TV each.
-Z Ol’ Trusty: Pit Bulls and Mustangs may increase their GU skill by one for 1 TV each.
-Z Peace Officers: Gears from one combat group may swap their rocket packs for
+* Ol’ Trusty: Pit Bulls and Mustangs may increase their GU skill by one for 1 TV each.
+* Peace Officers: Gears from one combat group may swap their rocket packs for
 the Shield trait. If a gear does not have a rocket pack, then it may instead gain the
 Shield trait for 1 TV.
-Z G-SWAT Sniper: One gear with a rifle, per combat group, may purchase the
+* G-SWAT Sniper: One gear with a rifle, per combat group, may purchase the
 Improved Gunnery upgrade for 1 TV each, without being a veteran.
 Z Mercenary Contract: One combat group may be made with models from North,
 South, Peace River, and NuCoal (may include a mix from all four factions) that have
@@ -128,7 +145,63 @@ class POC extends PeaceRiver {
   @override
   List<FactionModification> availableFactionMods(
       UnitRoster ur, CombatGroup cg, Unit u) {
-    return super.availableFactionMods(ur, cg, u);
+    return super.availableFactionMods(ur, cg, u)
+      ..addAll([
+        PeaceRiverFactionMods.ecmSpecialist(),
+        PeaceRiverFactionMods.olTrustyPOC(),
+        PeaceRiverFactionMods.peaceOfficers(u),
+        PeaceRiverFactionMods.gSWATSniper(),
+      ]);
+  }
+
+  @override
+  bool hasGroupRole(UnitCore uc, RoleType target) {
+    if (super.hasGroupRole(uc, target)) {
+      return true;
+    }
+
+    /*
+    Special Issue: Greyhounds may be placed in GP, SK, FS, RC or SO units.
+    */
+    if (uc.frame == 'Greyhound' &&
+        (target == RoleType.GP ||
+            target == RoleType.SK ||
+            target == RoleType.FS ||
+            target == RoleType.RC ||
+            target == RoleType.SO)) {
+      return true;
+    }
+    return false;
+  }
+
+  @override
+  bool veteranModCheck(
+    Unit u, {
+    String? modID,
+  }) {
+    /*
+      G-SWAT Sniper: One gear with a rifle, per combat group, may purchase the
+      Improved Gunnery upgrade for 1 TV each, without being a veteran.
+    */
+    if (modID != null &&
+        modID == improvedGunneryID &&
+        u.hasMod(gSWATSniperID)) {
+      return true;
+    }
+
+    return super.veteranModCheck(u);
+  }
+
+  @override
+  int modCostOverride(int baseCost, String modID, Unit u) {
+    /*
+      G-SWAT Sniper: One gear with a rifle, per combat group, may purchase the
+      Improved Gunnery upgrade for 1 TV each, without being a veteran.
+    */
+    if (modID == improvedGunneryID && u.hasMod(gSWATSniperID)) {
+      return 1;
+    }
+    return baseCost;
   }
 }
 

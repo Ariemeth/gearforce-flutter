@@ -1,4 +1,3 @@
-import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/mods/base_modification.dart';
 import 'package:gearforce/models/mods/factionUpgrades/peace_river.dart';
 import 'package:gearforce/models/mods/modification_option.dart';
@@ -8,15 +7,14 @@ import 'package:gearforce/models/unit/unit.dart';
 class FactionModification extends BaseModification {
   FactionModification({
     required String name,
-    this.requirementCheck = _defaultRequirementsFunction,
     ModificationOption? options,
+    required RequirementCheck requirementCheck,
     required String id,
-  }) : super(name: name, options: options, id: id);
-
-  // function to ensure the modification can be applied to the unit
-  final bool Function(CombatGroup, Unit) requirementCheck;
-
-  static bool _defaultRequirementsFunction(CombatGroup cg, Unit u) => true;
+  }) : super(
+            name: name,
+            requirementCheck: requirementCheck,
+            options: options,
+            id: id);
 }
 
 FactionModification? factionModFromId(String id, UnitRoster ur, Unit u) {
@@ -33,8 +31,16 @@ FactionModification? factionModFromId(String id, UnitRoster ur, Unit u) {
       return PeaceRiverFactionMods.olTrusty();
     case thunderFromTheSkyID:
       return PeaceRiverFactionMods.thunderFromTheSky();
-    case eliteElmentsID:
+    case eliteElementsID:
       return PeaceRiverFactionMods.eliteElements(ur);
+    case ecmSpecialistID:
+      return PeaceRiverFactionMods.ecmSpecialist();
+    case olTrustyPOCID:
+      return PeaceRiverFactionMods.olTrustyPOC();
+    case peaceOfficersID:
+      return PeaceRiverFactionMods.peaceOfficers(u);
+    case gSWATSniperID:
+      return PeaceRiverFactionMods.gSWATSniper();
   }
   return null;
 }

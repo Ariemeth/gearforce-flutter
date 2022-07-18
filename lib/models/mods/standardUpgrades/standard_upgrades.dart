@@ -12,8 +12,8 @@ List<StandardModification> getStandardMods(
     StandardModification.grenadeSwap(u, cg),
     StandardModification.handGrenadeLHG(u, cg, roster),
     StandardModification.handGrenadeMHG(u, cg),
-    StandardModification.panzerfaustsL(u, cg, roster),
-    StandardModification.panzerfaustsM(u, cg),
+    StandardModification.panzerfaustsL(u, roster),
+    StandardModification.panzerfaustsM(),
     StandardModification.shapedExplosivesL(u, cg, roster),
     StandardModification.shapedExplosivesM(u, cg),
     StandardModification.sidearmLP(u, cg, roster),
@@ -42,9 +42,9 @@ StandardModification? buildStandardUpgrade(
     case handGrenadeMId:
       return StandardModification.handGrenadeMHG(u, cg);
     case panzerfaustsLId:
-      return StandardModification.panzerfaustsL(u, cg, roster);
+      return StandardModification.panzerfaustsL(u, roster);
     case panzerfaustsMId:
-      return StandardModification.panzerfaustsM(u, cg);
+      return StandardModification.panzerfaustsM();
     case pistolsId:
       return StandardModification.sidearmLP(u, cg, roster);
     case subMachineGunId:

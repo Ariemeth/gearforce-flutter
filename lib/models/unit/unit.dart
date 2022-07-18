@@ -15,6 +15,7 @@ import 'package:gearforce/models/mods/veteranUpgrades/veteran_upgrades.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/command.dart';
+import 'package:gearforce/models/unit/model_type.dart';
 import 'package:gearforce/models/unit/movement.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
@@ -238,7 +239,7 @@ class Unit extends ChangeNotifier {
     return value;
   }
 
-  Roles? role() {
+  Roles? get role {
     var value = this.core.role;
 
     for (var mod in this._mods) {
@@ -357,7 +358,7 @@ class Unit extends ChangeNotifier {
     return newList;
   }
 
-  String get type {
+  ModelType get type {
     var value = this.core.type;
 
     for (var mod in this._mods) {
@@ -365,6 +366,10 @@ class Unit extends ChangeNotifier {
     }
 
     return value;
+  }
+
+  String get height {
+    return this.core.height;
   }
 
   List<String> get special {
@@ -375,10 +380,17 @@ class Unit extends ChangeNotifier {
     return value;
   }
 
-  dynamic attribute(UnitAttribute att) {
-    var value = this.core.attribute(att);
+  T attribute<T>(
+    UnitAttribute att, {
+    String? modIDToSkip,
+  }) {
+    assert(T == att.expected_type, 'Expected [${att.expected_type}], got [$T]');
 
-    for (var mod in this._mods) {
+    var value = this.core.attribute(att) as T;
+
+    for (var mod in this
+        ._mods
+        .where((m) => modIDToSkip == null ? true : m.id != modIDToSkip)) {
       value = mod.applyMods(att, value);
     }
 

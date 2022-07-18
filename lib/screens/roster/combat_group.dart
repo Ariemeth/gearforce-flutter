@@ -8,7 +8,6 @@ import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/unit.dart';
-import 'package:gearforce/models/unit/unit_attribute.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
 import 'package:gearforce/screens/roster/group_header.dart';
 import 'package:gearforce/screens/upgrades/upgrades_dialog.dart';
@@ -196,7 +195,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
       var unit = units[i];
       final canBeCommand = ruleSet.canBeCommand(unit);
       var nameCell = DataCell(UnitTextCell.content(
-        unit.attribute(UnitAttribute.name),
+        unit.name,
         alignment: Alignment.centerLeft,
         textAlignment: TextAlign.left,
       ));
@@ -204,9 +203,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
       var tvCell = DataCell(UnitTextCell.content(unit.tv.toString()));
 
       var actionCell = DataCell(UnitTextCell.content(
-          unit.attribute(UnitAttribute.actions) == null
-              ? '-'
-              : unit.attribute(UnitAttribute.actions).toString()));
+          unit.actions == null ? '-' : unit.actions.toString()));
       var commandCell = DataCell(Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisAlignment: MainAxisAlignment.end,
@@ -478,7 +475,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
             style: TextStyle(fontSize: 24),
           ),
           Text(
-            '${unit.attribute(UnitAttribute.name)}?',
+            '${unit.name}?',
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
         ],

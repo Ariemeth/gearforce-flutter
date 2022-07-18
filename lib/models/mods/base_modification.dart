@@ -1,16 +1,21 @@
+import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/mods/modification_option.dart';
+import 'package:gearforce/models/roster/roster.dart';
+import 'package:gearforce/models/rules/rule_set.dart';
+import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
-import 'package:uuid/uuid.dart';
+
+typedef RequirementCheck = bool Function(
+    RuleSet?, UnitRoster?, CombatGroup?, Unit);
 
 abstract class BaseModification {
   BaseModification({
     required this.name,
-    String? id,
+    required this.requirementCheck,
+    required String this.id,
     this.options,
     BaseModification Function()? refreshData,
   }) {
-    _id = id ?? Uuid().v4();
-
     _refreshData = refreshData;
   }
 
@@ -20,8 +25,10 @@ abstract class BaseModification {
   late final BaseModification Function()? _refreshData;
   BaseModification refreshData() =>
       _refreshData == null ? this : _refreshData!();
-  late final String _id;
-  String get id => _id;
+  // function to ensure the modification can be applied to the unit
+  final RequirementCheck requirementCheck;
+
+  final String id;
 
   ModificationOption? options;
   bool get hasOptions => this.options != null && this.options!.hasOptions();
@@ -80,7 +87,7 @@ Example json format for mods
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> result = {
-      'id': _id,
+      'id': id,
     };
     if (options != null) {
       result['selected'] = options!.selectedOption?.toJson();

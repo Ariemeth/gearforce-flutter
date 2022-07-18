@@ -1,5 +1,8 @@
+import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/mods/unitUpgrades/unit_modification.dart';
 import 'package:gearforce/models/mods/mods.dart';
+import 'package:gearforce/models/roster/roster.dart';
+import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
@@ -125,7 +128,7 @@ final UnitModification denMother = UnitModification(name: 'Den Mother Upgrade')
 
 final UnitModification gatlingLaser = UnitModification(
     name: 'Gatling Laser Upgrade',
-    requirementCheck: (Unit u) {
+    requirementCheck: (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       return u.mountedWeapons
           .any((w) => w.abbreviation == 'LATM' && w.bonusString == '(T)');
     })
@@ -142,7 +145,7 @@ final UnitModification gatlingLaser = UnitModification(
 
 final UnitModification crossbow = UnitModification(
     name: 'Crossbow Upgrade',
-    requirementCheck: (Unit u) {
+    requirementCheck: (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       return u.mountedWeapons
           .any((w) => w.abbreviation == 'LATM' && w.bonusString == '(T)');
     })

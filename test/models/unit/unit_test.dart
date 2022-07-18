@@ -10,12 +10,12 @@ void main() {
     final testUnit = Unit(core: testCore);
 
     expect(
-      testUnit.attribute(UnitAttribute.name),
+      testUnit.name,
       equals(testCore.name),
       reason: 'compare name',
     );
     expect(
-      testUnit.attribute(UnitAttribute.ew),
+      testUnit.ew,
       equals(testCore.ew),
       reason: 'compare ew',
     );
@@ -26,82 +26,82 @@ void main() {
     final tu = Unit(core: uc);
 
     expect(
-      tu.attribute(UnitAttribute.name),
+      tu.name,
       equals(uc.name),
       reason: 'Name check',
     );
     expect(
-      tu.attribute(UnitAttribute.tv),
+      tu.tv,
       equals(uc.tv),
       reason: 'TV check',
     );
     expect(
-      tu.attribute(UnitAttribute.roles),
+      tu.role,
       equals(uc.role),
       reason: 'Role check',
     );
     expect(
-      tu.attribute(UnitAttribute.movement),
+      tu.movement,
       equals(uc.movement),
       reason: 'Movement type check',
     );
     expect(
-      tu.attribute(UnitAttribute.armor),
+      tu.armor,
       equals(uc.armor),
       reason: 'Armor check',
     );
     expect(
-      tu.attribute(UnitAttribute.hull),
+      tu.hull,
       equals(uc.hull),
       reason: 'Hull check',
     );
     expect(
-      tu.attribute(UnitAttribute.structure),
+      tu.structure,
       equals(uc.structure),
       reason: 'Structure check',
     );
     expect(
-      tu.attribute(UnitAttribute.actions),
+      tu.actions,
       equals(uc.actions),
       reason: 'Actions check',
     );
     expect(
-      tu.attribute(UnitAttribute.gunnery),
+      tu.gunnery,
       equals(uc.gunnery),
       reason: 'Gunnery check',
     );
     expect(
-      tu.attribute(UnitAttribute.piloting),
+      tu.piloting,
       equals(uc.piloting),
       reason: 'Piloting check',
     );
     expect(
-      tu.attribute(UnitAttribute.ew),
+      tu.ew,
       equals(uc.ew),
       reason: 'EW check',
     );
     expect(
-      tu.attribute(UnitAttribute.react_weapons),
+      tu.reactWeapons,
       equals(uc.reactWeapons),
       reason: 'React Weapons check',
     );
     expect(
-      tu.attribute(UnitAttribute.mounted_weapons),
+      tu.mountedWeapons,
       equals(uc.mountedWeapons),
       reason: 'Mounted Weapons check',
     );
     expect(
-      tu.attribute(UnitAttribute.traits),
+      tu.traits,
       equals(uc.traits),
       reason: 'Traits check',
     );
     expect(
-      tu.attribute(UnitAttribute.type),
+      tu.type,
       equals(uc.type),
       reason: 'Unit type check',
     );
     expect(
-      tu.attribute(UnitAttribute.height),
+      tu.height,
       equals(uc.height),
       reason: 'Height check',
     );
@@ -113,7 +113,6 @@ void main() {
       ..addUnitMod(
         UnitModification(
           name: 'add postfix to name',
-          requirementCheck: (Unit u) => false,
         )..addMod(UnitAttribute.name,
             (dynamic value) => '${(value as String)} upgrade'),
       );
@@ -125,7 +124,6 @@ void main() {
     const uc = UnitCore.test();
     final testMod = UnitModification(
       name: 'add postfix to name',
-      requirementCheck: (Unit u) => false,
     )..addMod(
         UnitAttribute.name, (dynamic value) => '${(value as String)} upgrade');
     final tu = Unit(core: uc)..addUnitMod(testMod);
@@ -141,14 +139,12 @@ void main() {
       ..addUnitMod(
         UnitModification(
           name: 'add postfix to name',
-          requirementCheck: (Unit u) => false,
         )..addMod(UnitAttribute.name,
             (dynamic value) => '${(value as String)} upgrade'),
       )
       ..addUnitMod(
         UnitModification(
           name: 'add 1 to tv',
-          requirementCheck: (Unit u) => false,
         )..addMod(UnitAttribute.tv, (dynamic value) => (value as int) + 1),
       );
 
@@ -161,7 +157,6 @@ void main() {
       ..addUnitMod(
         UnitModification(
           name: 'add postfix to name',
-          requirementCheck: (Unit u) => false,
         )..addMod(UnitAttribute.name,
             (dynamic value) => '${(value as String)} upgrade'),
       );
@@ -176,13 +171,12 @@ void main() {
       ..addUnitMod(
         UnitModification(
           name: 'add postfix to name',
-          requirementCheck: (Unit u) => false,
         )..addMod(UnitAttribute.name,
             (dynamic value) => '${(value as String)} upgrade'),
       );
 
     expect(
-      tu.attribute(UnitAttribute.name),
+      tu.name,
       equals('${uc.name} upgrade'),
       reason: 'name check',
     );
@@ -194,18 +188,16 @@ void main() {
       ..addUnitMod(
         UnitModification(
           name: 'increase tv and gunnery by 1',
-          requirementCheck: (Unit u) => false,
         )
           ..addMod(UnitAttribute.tv, (dynamic value) => (value as int) + 1)
           ..addMod(
               UnitAttribute.gunnery, (dynamic value) => (value as int) - 1),
       );
 
-    expect(tu.attribute(UnitAttribute.tv), equals(uc.tv + 1),
-        reason: 'TV check');
+    expect(tu.tv, equals(uc.tv + 1), reason: 'TV check');
 
     expect(
-      tu.attribute(UnitAttribute.gunnery),
+      tu.gunnery,
       equals(uc.gunnery! - 1),
       reason: 'Gunnery check',
     );
@@ -217,18 +209,16 @@ void main() {
       ..addUnitMod(
         UnitModification(
           name: 'add 1 to tv',
-          requirementCheck: (Unit u) => false,
         )..addMod(UnitAttribute.tv, (dynamic value) => (value as int) + 1),
       )
       ..addUnitMod(
         UnitModification(
           name: 'add 1 to tv',
-          requirementCheck: (Unit u) => false,
         )..addMod(UnitAttribute.tv, (dynamic value) => (value as int) + 1),
       );
 
     expect(
-      tu.attribute(UnitAttribute.tv),
+      tu.tv,
       equals(uc.tv + 2),
       reason: 'tv should increase by 2',
     );

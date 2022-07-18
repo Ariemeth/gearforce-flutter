@@ -24,7 +24,7 @@ VeteranModification? buildVetUpgrade(String id, Unit u, CombatGroup cg) {
   switch (id) {
     case veteranId:
       return VeteranModification.makeVet(u, cg);
-    case improvedGunneryId:
+    case improvedGunneryID:
       return VeteranModification.improvedGunnery(u);
     case dualGunsId:
       return VeteranModification.dualGuns(u);

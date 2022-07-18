@@ -4,9 +4,9 @@ import 'package:gearforce/models/factions/faction.dart';
 import 'package:gearforce/models/factions/sub_faction.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/unit/command.dart';
+import 'package:gearforce/models/unit/model_type.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
-import 'package:gearforce/models/unit/unit_attribute.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
 
 const RoleType _defaultRoleType = RoleType.GP;
@@ -50,8 +50,8 @@ class Group extends ChangeNotifier {
     decodedUnits
         .map((e) => Unit.fromJson(e, faction, subfaction, cg, roster))
         .toList()
-      ..forEach((element) {
-        g._addUnit(element);
+      ..forEach((u) {
+        g._addUnit(u);
       });
 
     return g;
@@ -67,7 +67,7 @@ class Group extends ChangeNotifier {
     this._role = role;
 
     _units.removeWhere((unit) {
-      return !unit.role()!.includesRole([this._role]);
+      return !unit.role!.includesRole([this._role]);
     });
 
     notifyListeners();
@@ -126,8 +126,8 @@ class Group extends ChangeNotifier {
 
   int totalTV() {
     var total = 0;
-    this._units.forEach((element) {
-      total += element.tv;
+    this._units.forEach((u) {
+      total += u.tv;
     });
 
     return total;
@@ -135,9 +135,9 @@ class Group extends ChangeNotifier {
 
   int totalActions() {
     var total = 0;
-    this._units.forEach((element) {
-      if (element.core.type.toLowerCase() != 'drone') {
-        total += element.attribute(UnitAttribute.actions) as int? ?? 0;
+    this._units.forEach((u) {
+      if (u.core.type != ModelType.Drone) {
+        total += u.actions ?? 0;
       }
     });
     return total;
