@@ -48,10 +48,18 @@ class VeteranModification extends BaseModification {
         id: veteranId,
         requirementCheck:
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+          assert(cg != null);
           if (u.hasMod(veteranId)) {
             return false;
           }
-          assert(cg != null);
+
+          if (u.type == ModelType.Drone ||
+              u.type == ModelType.Terrain ||
+              u.type == ModelType.AreaTerrain ||
+              u.type == ModelType.AirstrikeCounter ||
+              u.traits.any((t) => t.name == "Conscript")) {
+            return false;
+          }
           return cg!.isVeteran && !u.traits.any((trait) => trait.name == 'Vet');
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
@@ -420,7 +428,7 @@ class VeteranModification extends BaseModification {
   */
   factory VeteranModification.improvedGunnery(Unit u) {
     final gunnery = u.gunnery;
-    var modCost = u.actions! * 2;
+    var modCost = u.actions != null ? u.actions! * 2 : 0;
 
     return VeteranModification(
         name: 'Improved Gunnery',
