@@ -83,11 +83,8 @@ class SelectionList extends StatelessWidget {
     );
   }
 
-  Widget _buildTable(RuleSet? ruleSet) {
-    if (ruleSet == null) {
-      return Container();
-    }
-    var d = ruleSet.availableUnits(
+  Widget _buildTable(RuleSet ruleSet) {
+    final d = ruleSet.availableUnits(
       role: this
           .roleFilters
           .entries
@@ -98,7 +95,7 @@ class SelectionList extends StatelessWidget {
           this.filter?.split(',').where((element) => element != '').toList(),
     );
 
-    var table = DataTable(
+    final table = DataTable(
       columns: _createTableColumns(),
       rows: d.map((uc) => _createTableRow(uc)).toList(),
       columnSpacing: 2.0,
@@ -161,7 +158,7 @@ class SelectionList extends StatelessWidget {
         UnitSelectionTextCell.content(
           uc.role != null ? '${uc.role!.roles.join(', ')}' : 'N/A',
           maxLines: 2,
-          softWrap: false,
+          softWrap: true,
         ),
       ),
       DataCell(UnitSelectionTextCell.content(

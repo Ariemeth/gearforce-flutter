@@ -15,7 +15,8 @@ class Eden extends RuleSet {
     List<RoleType?>? role,
     List<String>? filters,
   }) {
-    return data.unitList(FactionType.Eden, role: role, filters: filters);
+    return data.unitList(FactionType.Eden,
+        role: role, characterFilter: filters);
   }
 
   @override

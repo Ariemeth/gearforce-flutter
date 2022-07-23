@@ -15,7 +15,7 @@ class CEF extends RuleSet {
     List<RoleType?>? role,
     List<String>? filters,
   }) {
-    return data.unitList(FactionType.CEF, role: role, filters: filters);
+    return data.unitList(FactionType.CEF, role: role, characterFilter: filters);
   }
 
   @override

@@ -18,20 +18,6 @@ void main() {
     expect(g.totalTV(), equals(0), reason: 'check default total tv');
   });
 
-  test('set role on default Group', () {
-    var g = Group(GroupType.Primary);
-    expect(g.role(), equals(RoleType.GP), reason: 'role');
-    g.changeRole(RoleType.AS);
-    expect(g.role(), equals(RoleType.AS), reason: 'check group name');
-  });
-
-  test('change Group role', () {
-    var g = Group(GroupType.Primary, role: RoleType.GP);
-    expect(g.role(), RoleType.GP, reason: 'initial role');
-    g.changeRole(RoleType.AS);
-    expect(g.role(), RoleType.AS, reason: 'updated role');
-  });
-
   test('create Group with role and units being reset', () {
     var g = Group(GroupType.Primary, role: RoleType.GP)
       ..addUnit(UnitCore.test());

@@ -43,9 +43,11 @@ class Data {
   List<UnitCore> unitList(
     FactionType faction, {
     List<RoleType?>? role,
-    List<String>? filters,
+    List<String>? characterFilter,
+    bool Function(UnitCore)? filter,
     bool includeTerrain = true,
     bool includeAirstrikeTokens = true,
+    bool includeUniversal = true,
   }) {
     List<Frame>? factionUnits = _factionFrames[faction]!.toList();
 
@@ -55,26 +57,30 @@ class Data {
       case FactionType.NuCoal:
       case FactionType.PeaceRiver:
       case FactionType.BlackTalon:
-        var uniList = _factionFrames[FactionType.Universal_TerraNova];
-        if (uniList != null) {
-          factionUnits.addAll(uniList.toList());
-        }
-        var fullUniList = _factionFrames[FactionType.Universal];
-        if (fullUniList != null) {
-          factionUnits.addAll(fullUniList.toList());
+        if (includeUniversal) {
+          var uniList = _factionFrames[FactionType.Universal_TerraNova];
+          if (uniList != null) {
+            factionUnits.addAll(uniList.toList());
+          }
+          var fullUniList = _factionFrames[FactionType.Universal];
+          if (fullUniList != null) {
+            factionUnits.addAll(fullUniList.toList());
+          }
         }
         break;
       case FactionType.CEF:
       case FactionType.Caprice:
       case FactionType.Utopia:
       case FactionType.Eden:
-        var uniList = _factionFrames[FactionType.Universal_Non_TerraNova];
-        if (uniList != null) {
-          factionUnits.addAll(uniList.toList());
-        }
-        var fullUniList = _factionFrames[FactionType.Universal];
-        if (fullUniList != null) {
-          factionUnits.addAll(fullUniList.toList());
+        if (includeUniversal) {
+          var uniList = _factionFrames[FactionType.Universal_Non_TerraNova];
+          if (uniList != null) {
+            factionUnits.addAll(uniList.toList());
+          }
+          var fullUniList = _factionFrames[FactionType.Universal];
+          if (fullUniList != null) {
+            factionUnits.addAll(fullUniList.toList());
+          }
         }
         break;
       case FactionType.Universal:
@@ -103,24 +109,25 @@ class Data {
       }
     }
 
-    List<UnitCore> ulist = [];
-
-    factionUnits.forEach((f) {
-      ulist.addAll(f.variants);
+    List<UnitCore> results = [];
+    factionUnits.forEach((frame) {
+      filter != null
+          ? results.addAll(frame.variants.where(filter))
+          : results.addAll(frame.variants);
     });
 
-    var results = (role == null || role.isEmpty)
-        ? ulist
-        : ulist.where((element) {
-            if (element.role != null) {
-              return element.role!.includesRole(role);
-            }
-            return false;
-          }).toList();
+    if (role != null && role.isNotEmpty) {
+      results = results.where((uc) {
+        if (uc.role != null) {
+          return uc.role!.includesRole(role);
+        }
+        return false;
+      }).toList();
+    }
 
-    return filters == null
+    return characterFilter == null
         ? results
-        : results.where((element) => element.contains(filters)).toList();
+        : results.where((uc) => uc.contains(characterFilter)).toList();
   }
 
   /// This function loads all needed data resources.

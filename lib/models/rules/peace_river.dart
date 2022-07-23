@@ -32,7 +32,8 @@ class PeaceRiver extends RuleSet {
     List<RoleType?>? role,
     List<String>? filters,
   }) {
-    return data.unitList(FactionType.PeaceRiver, role: role, filters: filters);
+    return data.unitList(FactionType.PeaceRiver,
+        role: role, characterFilter: filters);
   }
 
   @override
