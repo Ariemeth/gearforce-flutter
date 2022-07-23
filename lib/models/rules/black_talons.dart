@@ -14,7 +14,8 @@ class BlackTalons extends RuleSet {
     List<RoleType?>? role,
     List<String>? filters,
   }) {
-    return data.unitList(FactionType.BlackTalon, role: role, filters: filters);
+    return data.unitList(FactionType.BlackTalon,
+        role: role, characterFilter: filters);
   }
 
   @override

@@ -15,7 +15,8 @@ class Caprice extends RuleSet {
     List<RoleType?>? role,
     List<String>? filters,
   }) {
-    return data.unitList(FactionType.Caprice, role: role, filters: filters);
+    return data.unitList(FactionType.Caprice,
+        role: role, characterFilter: filters);
   }
 
   @override
