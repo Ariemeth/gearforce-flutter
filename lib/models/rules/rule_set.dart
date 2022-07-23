@@ -85,7 +85,7 @@ abstract class RuleSet {
   }
 
   bool _isAlwaysAllowedRole(Roles? r) {
-    return r == null || r.includesRole([RoleType.Upgrade]);
+    return r == null;
   }
 
   // Ensure the target Roletype is within the Roles

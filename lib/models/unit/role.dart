@@ -26,14 +26,8 @@ RoleType convertRoleType(String role) {
       return RoleType.RC;
     case "SO":
       return RoleType.SO;
-    case "EG":
-      return RoleType.EG;
-    case "AS":
-      return RoleType.AS;
     case "FT":
       return RoleType.FT;
-    case 'UPGRADE':
-      return RoleType.Upgrade;
   }
 
   throw new FormatException("Unknown role type", role);
@@ -68,4 +62,4 @@ class Roles {
   }
 }
 
-enum RoleType { GP, SK, FS, RC, SO, EG, AS, FT, Upgrade }
+enum RoleType { GP, SK, FS, RC, SO, FT }

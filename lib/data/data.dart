@@ -110,10 +110,10 @@ class Data {
     }
 
     List<UnitCore> results = [];
-    factionUnits.forEach((f) {
+    factionUnits.forEach((frame) {
       filter != null
-          ? results.addAll(f.variants.where(filter))
-          : results.addAll(f.variants);
+          ? results.addAll(frame.variants.where(filter))
+          : results.addAll(frame.variants);
     });
 
     if (role != null && role.isNotEmpty) {
