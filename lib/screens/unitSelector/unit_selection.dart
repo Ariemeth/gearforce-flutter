@@ -29,6 +29,8 @@ class _UnitSelectionState extends State<UnitSelection> {
 
   @override
   Widget build(BuildContext context) {
+    final hScrollController = ScrollController();
+    final vScrollController = ScrollController();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -46,14 +48,27 @@ class _UnitSelectionState extends State<UnitSelection> {
           },
         ),
         Expanded(
-          child: SingleChildScrollView(
-            primary: false,
+          child: Scrollbar(
+            thumbVisibility: true,
+            trackVisibility: true,
+            interactive: true,
+            controller: vScrollController,
             child: SingleChildScrollView(
+              controller: vScrollController,
               primary: false,
-              scrollDirection: Axis.horizontal,
-              child: SelectionList(
-                roleFilters: widget._roleFilter,
-                filter: _filter,
+              child: Scrollbar(
+                thumbVisibility: true,
+                interactive: true,
+                controller: hScrollController,
+                child: SingleChildScrollView(
+                  controller: hScrollController,
+                  primary: false,
+                  scrollDirection: Axis.horizontal,
+                  child: SelectionList(
+                    roleFilters: widget._roleFilter,
+                    filter: _filter,
+                  ),
+                ),
               ),
             ),
           ),

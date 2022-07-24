@@ -21,10 +21,19 @@ abstract class RuleSet {
   List<UnitCore> availableUnits({
     List<RoleType?>? role,
     List<String>? filters,
+    SpecialUnitFilter? specialUnits,
   });
 
+  List<SpecialUnitFilter> availableSpecials() {
+    return [];
+  }
+
   List<UnitCore> airstrikeCounters() {
-    return data.unitList(FactionType.Airstrike, includeTerrain: false);
+    return data.unitList(
+      FactionType.Airstrike,
+      includeTerrain: false,
+      includeUniversal: false,
+    );
   }
 
   List<FactionModification> availableFactionMods(
@@ -121,8 +130,28 @@ class DefaultRuleSet extends RuleSet {
   }
 
   @override
-  List<UnitCore> availableUnits(
-      {List<RoleType?>? role, List<String>? filters}) {
+  List<UnitCore> availableUnits({
+    List<RoleType?>? role,
+    List<String>? filters,
+    SpecialUnitFilter? specialUnits,
+  }) {
     return [];
   }
+}
+
+typedef UnitCoreFilter = bool Function(UnitCore uc);
+
+class UnitFilter {
+  final FactionType faction;
+  final UnitCoreFilter? filter;
+  const UnitFilter(this.faction, this.filter);
+}
+
+class SpecialUnitFilter {
+  final String text;
+  final List<UnitFilter> filters;
+  const SpecialUnitFilter({
+    required this.text,
+    required this.filters,
+  });
 }

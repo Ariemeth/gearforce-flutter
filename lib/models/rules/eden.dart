@@ -14,6 +14,7 @@ class Eden extends RuleSet {
   List<UnitCore> availableUnits({
     List<RoleType?>? role,
     List<String>? filters,
+    SpecialUnitFilter? specialUnits,
   }) {
     return data.unitList(FactionType.Eden,
         role: role, characterFilter: filters);

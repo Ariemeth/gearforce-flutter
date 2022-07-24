@@ -14,6 +14,7 @@ class CEF extends RuleSet {
   List<UnitCore> availableUnits({
     List<RoleType?>? role,
     List<String>? filters,
+    SpecialUnitFilter? specialUnits,
   }) {
     return data.unitList(FactionType.CEF, role: role, characterFilter: filters);
   }

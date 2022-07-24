@@ -14,6 +14,7 @@ class South extends RuleSet {
   List<UnitCore> availableUnits({
     List<RoleType?>? role,
     List<String>? filters,
+    SpecialUnitFilter? specialUnits,
   }) {
     return data.unitList(FactionType.South,
         role: role, characterFilter: filters);

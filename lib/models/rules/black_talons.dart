@@ -13,6 +13,7 @@ class BlackTalons extends RuleSet {
   List<UnitCore> availableUnits({
     List<RoleType?>? role,
     List<String>? filters,
+    SpecialUnitFilter? specialUnits,
   }) {
     return data.unitList(FactionType.BlackTalon,
         role: role, characterFilter: filters);

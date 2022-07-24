@@ -14,6 +14,7 @@ class Nucoal extends RuleSet {
   List<UnitCore> availableUnits({
     List<RoleType?>? role,
     List<String>? filters,
+    SpecialUnitFilter? specialUnits,
   }) {
     return data.unitList(FactionType.NuCoal,
         role: role, characterFilter: filters);

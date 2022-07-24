@@ -31,6 +31,7 @@ class PeaceRiver extends RuleSet {
   List<UnitCore> availableUnits({
     List<RoleType?>? role,
     List<String>? filters,
+    SpecialUnitFilter? specialUnits,
   }) {
     return data.unitList(FactionType.PeaceRiver,
         role: role, characterFilter: filters);
@@ -91,6 +92,20 @@ class PRDF extends PeaceRiver {
   PRDF(super.data) : super(specialRules: const [PRDFSpecialRule1]);
 
   @override
+  List<UnitCore> availableUnits({
+    List<RoleType?>? role,
+    List<String>? filters,
+    SpecialUnitFilter? specialUnits,
+  }) {
+    if (specialRules != null) {
+      // TODO implement
+      return [];
+    }
+
+    return super.availableUnits(role: role, filters: filters);
+  }
+
+  @override
   List<FactionModification> availableFactionMods(
       UnitRoster ur, CombatGroup cg, Unit u) {
     return super.availableFactionMods(ur, cg, u)
@@ -99,6 +114,16 @@ class PRDF extends PeaceRiver {
         PeaceRiverFactionMods.thunderFromTheSky(),
         PeaceRiverFactionMods.eliteElements(ur),
       ]);
+  }
+
+  @override
+  List<SpecialUnitFilter> availableSpecials() {
+    return [
+      const SpecialUnitFilter(
+        text: 'The Best Mean and Women for the Job',
+        filters: [const UnitFilter(FactionType.BlackTalon, null)],
+      ),
+    ];
   }
 
   @override

@@ -14,6 +14,7 @@ class Utopia extends RuleSet {
   List<UnitCore> availableUnits({
     List<RoleType?>? role,
     List<String>? filters,
+    SpecialUnitFilter? specialUnits,
   }) {
     return data.unitList(FactionType.Utopia,
         role: role, characterFilter: filters);
