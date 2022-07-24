@@ -30,28 +30,34 @@ class _UnitSelectionState extends State<UnitSelection> {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: SelectionFilters(
-            roleFilter: widget._roleFilter,
-            onChanged: (RoleType role, bool newValue) {
-              setState(() {
-                widget._roleFilter[role] = newValue;
-              });
-            },
-            onFilterChanged: (String text) {
-              setState(() {
-                _filter = text;
-              });
-            },
-          ),
+        SelectionFilters(
+          roleFilter: widget._roleFilter,
+          onChanged: (RoleType role, bool newValue) {
+            setState(() {
+              widget._roleFilter[role] = newValue;
+            });
+          },
+          onFilterChanged: (String text) {
+            setState(() {
+              _filter = text;
+            });
+          },
         ),
         Expanded(
-            child: SelectionList(
-          roleFilters: widget._roleFilter,
-          filter: _filter,
-        )),
+          child: SingleChildScrollView(
+            primary: false,
+            child: SingleChildScrollView(
+              primary: false,
+              scrollDirection: Axis.horizontal,
+              child: SelectionList(
+                roleFilters: widget._roleFilter,
+                filter: _filter,
+              ),
+            ),
+          ),
+        ),
       ],
     );
   }
@@ -70,16 +76,10 @@ class SelectionList extends StatelessWidget {
   Widget build(BuildContext context) {
     final roster = context.watch<UnitRoster>();
 
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          SingleChildScrollView(
-            child: _buildTable(roster.subFaction.value.ruleSet),
-            scrollDirection: Axis.horizontal,
-          ),
-        ],
-      ),
-      primary: false,
+    return Column(
+      children: [
+        _buildTable(roster.subFaction.value.ruleSet),
+      ],
     );
   }
 
