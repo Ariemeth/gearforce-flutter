@@ -17,56 +17,66 @@ class SelectionFilters extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var f = this
-        .roleFilter
-        .entries
+    final filterSelectors = roleFilter.entries
         .map((e) => FilterSelection(
-            isChecked: e.value, onChanged: this.onChanged, role: e.key))
+            isChecked: e.value, onChanged: onChanged, role: e.key))
         .toList();
 
-    return Column(
+    return Row(
       children: [
-        Row(
+        Column(
           children: [
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                'Filters  ',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              ),
-            ),
-            SizedBox(
-              width: 400.0,
-              child: Padding(
-                padding: const EdgeInsets.only(
-                    right: 10, left: 5, top: 5, bottom: 5),
-                child: TextField(
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    isDense: true,
-                    contentPadding: const EdgeInsets.symmetric(
-                      vertical: 10,
-                      horizontal: 5,
-                    ),
-                    hintText: _filterHint,
+            Row(
+              children: [
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Filters  ',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
-                  onChanged: (String value) async {
-                    onFilterChanged(value);
-                  },
-                  style: TextStyle(fontSize: 16),
-                  strutStyle: StrutStyle.disabled,
                 ),
-              ),
-            )
+                SizedBox(
+                  width: 400.0,
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                        right: 10, left: 5, top: 5, bottom: 5),
+                    child: TextField(
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        isDense: true,
+                        contentPadding: const EdgeInsets.symmetric(
+                          vertical: 10,
+                          horizontal: 5,
+                        ),
+                        hintText: _filterHint,
+                      ),
+                      onChanged: (String value) async {
+                        onFilterChanged(value);
+                      },
+                      style: TextStyle(fontSize: 16),
+                      strutStyle: StrutStyle.disabled,
+                    ),
+                  ),
+                )
+              ],
+            ),
+            Row(
+              children: [
+                Text(
+                  'Roles  ',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+                ...filterSelectors
+              ],
+            ),
           ],
         ),
-        Row(
+        Column(
           children: [
-            Text(
-              'Roles  ',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            Container(
+              //decoration: BoxDecoration(color: Colors.green),
+              child: SpecialFilterSelector(),
             ),
-            ...f
           ],
         ),
       ],
@@ -98,6 +108,47 @@ class FilterSelection extends StatelessWidget {
           onChanged: (bool? value) => onChanged(this.role, value!),
         )
       ],
+    );
+  }
+}
+
+class SpecialFilterSelector extends StatefulWidget {
+  const SpecialFilterSelector({Key? key}) : super(key: key);
+
+  @override
+  State<SpecialFilterSelector> createState() => _SpecialFilterSelectorState();
+}
+
+class _SpecialFilterSelectorState extends State<SpecialFilterSelector> {
+  String dropdownValue = 'One';
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButton<String>(
+      value: dropdownValue,
+      icon: const Icon(Icons.arrow_downward),
+      iconSize: 16,
+      elevation: 16,
+      isExpanded: false,
+      isDense: true,
+      style: const TextStyle(color: Colors.blue),
+      underline: SizedBox(),
+      onChanged: (String? newValue) {
+        setState(() {
+          dropdownValue = newValue!;
+        });
+      },
+      items: <String>[
+        'One',
+        'Two',
+        'Free',
+        'The best men and women in the realm'
+      ].map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        );
+      }).toList(),
     );
   }
 }

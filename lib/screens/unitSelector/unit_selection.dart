@@ -34,18 +34,22 @@ class _UnitSelectionState extends State<UnitSelection> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SelectionFilters(
-          roleFilter: widget._roleFilter,
-          onChanged: (RoleType role, bool newValue) {
-            setState(() {
-              widget._roleFilter[role] = newValue;
-            });
-          },
-          onFilterChanged: (String text) {
-            setState(() {
-              _filter = text;
-            });
-          },
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          controller: ScrollController(),
+          child: SelectionFilters(
+            roleFilter: widget._roleFilter,
+            onChanged: (RoleType role, bool newValue) {
+              setState(() {
+                widget._roleFilter[role] = newValue;
+              });
+            },
+            onFilterChanged: (String text) {
+              setState(() {
+                _filter = text;
+              });
+            },
+          ),
         ),
         Expanded(
           child: Scrollbar(
