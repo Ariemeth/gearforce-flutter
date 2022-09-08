@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/unit/role.dart';
+import 'package:provider/provider.dart';
 
 const _filterHint = 'Filter using a comma separated list';
 
@@ -121,9 +123,21 @@ class SpecialFilterSelector extends StatefulWidget {
 
 class _SpecialFilterSelectorState extends State<SpecialFilterSelector> {
   String dropdownValue = 'One';
+  String cachedFactionName = '';
+  final defaultDropdownValue = 'One';
 
   @override
   Widget build(BuildContext context) {
+    final faction = context.select((UnitRoster roster) => roster.faction.value);
+    final subFaction =
+        context.select((UnitRoster roster) => roster.subFaction.value);
+    final factionName = '${faction.name}/${subFaction.name}';
+
+    if (cachedFactionName != factionName) {
+      cachedFactionName = factionName;
+      dropdownValue = defaultDropdownValue;
+    }
+
     return DropdownButton<String>(
       value: dropdownValue,
       icon: const Icon(Icons.arrow_downward),
