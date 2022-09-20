@@ -34,17 +34,17 @@ class Data {
     return _factions.toList();
   }
 
-  /// Returns a list of UnitCore's for the specified [faction] and [role] if
+  /// Returns a list of UnitCore's for the specified [faction] and [requiredRole] if
   /// available.
   ///
-  /// If no UnitCore's are available to match the specified [faction] and [role]
-  /// the returned list will be empty.  If [role] is null or not specified all
+  /// If no UnitCore's are available to match the specified [faction] and [requiredRole]
+  /// the returned list will be empty.  If [requiredRole] is null or not specified all
   /// UnitCore's of the specified [faction] will be returned.
   List<UnitCore> unitList(
     FactionType faction, {
-    List<RoleType?>? role,
+    List<RoleType?>? requiredRole,
     List<String>? characterFilter,
-    bool Function(UnitCore)? filter,
+    bool Function(UnitCore)? unitFilter,
     bool includeTerrain = true,
     bool includeAirstrikeTokens = true,
     bool includeUniversal = true,
@@ -110,16 +110,24 @@ class Data {
     }
 
     List<UnitCore> results = [];
+
+    if (unitFilter != null) {
+      print('Not null');
+    }
+
+    // not sure unitFilter ever has been utilized, but this section is just
+    // adding each variant of the already selected frames to the results to be
+    // returned.
     factionUnits.forEach((frame) {
-      filter != null
-          ? results.addAll(frame.variants.where(filter))
+      unitFilter != null
+          ? results.addAll(frame.variants.where(unitFilter))
           : results.addAll(frame.variants);
     });
 
-    if (role != null && role.isNotEmpty) {
+    if (requiredRole != null && requiredRole.isNotEmpty) {
       results = results.where((uc) {
         if (uc.role != null) {
-          return uc.role!.includesRole(role);
+          return uc.role!.includesRole(requiredRole);
         }
         return false;
       }).toList();

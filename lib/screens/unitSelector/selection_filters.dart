@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gearforce/models/roster/roster.dart';
+import 'package:gearforce/models/rules/special_unit_filter.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:provider/provider.dart';
 
@@ -9,19 +10,21 @@ class SelectionFilters extends StatelessWidget {
   const SelectionFilters({
     Key? key,
     required this.roleFilter,
-    required this.onChanged,
+    required this.onRoleFilterChanged,
     required this.onFilterChanged,
+    required this.onSpecialUnitFilterChanged,
   }) : super(key: key);
 
   final Map<RoleType, bool> roleFilter;
-  final void Function(RoleType, bool) onChanged;
+  final void Function(RoleType, bool) onRoleFilterChanged;
   final void Function(String) onFilterChanged;
+  final void Function(SpecialUnitFilter) onSpecialUnitFilterChanged;
 
   @override
   Widget build(BuildContext context) {
     final filterSelectors = roleFilter.entries
         .map((e) => FilterSelection(
-            isChecked: e.value, onChanged: onChanged, role: e.key))
+            isChecked: e.value, onChanged: onRoleFilterChanged, role: e.key))
         .toList();
 
     return Row(
@@ -77,7 +80,9 @@ class SelectionFilters extends StatelessWidget {
           children: [
             Container(
               //decoration: BoxDecoration(color: Colors.green),
-              child: SpecialFilterSelector(),
+              child: SpecialFilterSelector(
+                onChanged: this.onSpecialUnitFilterChanged,
+              ),
             ),
           ],
         ),
@@ -115,54 +120,59 @@ class FilterSelection extends StatelessWidget {
 }
 
 class SpecialFilterSelector extends StatefulWidget {
-  const SpecialFilterSelector({Key? key}) : super(key: key);
+  const SpecialFilterSelector({
+    Key? key,
+    required this.onChanged,
+  }) : super(key: key);
+  final void Function(SpecialUnitFilter) onChanged;
 
   @override
   State<SpecialFilterSelector> createState() => _SpecialFilterSelectorState();
 }
 
 class _SpecialFilterSelectorState extends State<SpecialFilterSelector> {
-  String dropdownValue = 'One';
+  SpecialUnitFilter? dropdownValue;
   String cachedFactionName = '';
-  final defaultDropdownValue = 'One';
+  String defaultDropdownValue = 'None';
 
   @override
   Widget build(BuildContext context) {
     final faction = context.select((UnitRoster roster) => roster.faction.value);
     final subFaction =
         context.select((UnitRoster roster) => roster.subFaction.value);
-    final factionName = '${faction.name}/${subFaction.name}';
+    final factionNameToCache = '${faction.name}/${subFaction.name}';
+    final rs = subFaction.ruleSet;
+    final availableSpecialFilters = rs.availableSpecials();
 
-    if (cachedFactionName != factionName) {
-      cachedFactionName = factionName;
-      dropdownValue = defaultDropdownValue;
+    if (availableSpecialFilters.length == 0) {
+      return Container();
     }
 
-    return DropdownButton<String>(
-      value: dropdownValue,
-      icon: const Icon(Icons.arrow_downward),
-      iconSize: 16,
-      elevation: 16,
-      isExpanded: false,
-      isDense: true,
-      style: const TextStyle(color: Colors.blue),
-      underline: SizedBox(),
-      onChanged: (String? newValue) {
-        setState(() {
-          dropdownValue = newValue!;
-        });
-      },
-      items: <String>[
-        'One',
-        'Two',
-        'Free',
-        'The best men and women in the realm'
-      ].map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(value),
-        );
-      }).toList(),
-    );
+    if (cachedFactionName != factionNameToCache) {
+      cachedFactionName = factionNameToCache;
+      dropdownValue = availableSpecialFilters.first;
+    }
+
+    // TODO link up the specialUnitFilter callback to changing of this dropdown
+    return DropdownButton<SpecialUnitFilter>(
+        value: dropdownValue,
+        icon: const Icon(Icons.arrow_downward),
+        iconSize: 16,
+        elevation: 16,
+        isExpanded: false,
+        isDense: true,
+        style: const TextStyle(color: Colors.blue),
+        underline: SizedBox(),
+        onChanged: (SpecialUnitFilter? newValue) {
+          setState(() {
+            dropdownValue = newValue!;
+            widget.onChanged(newValue);
+          });
+        },
+        items: availableSpecialFilters
+            .map<DropdownMenuItem<SpecialUnitFilter>>((specialFilter) =>
+                DropdownMenuItem<SpecialUnitFilter>(
+                    value: specialFilter, child: Text(specialFilter.text)))
+            .toList());
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
+import 'package:gearforce/models/rules/special_unit_filter.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
 import 'package:gearforce/screens/unitSelector/selected_unit_feedback.dart';
@@ -26,6 +27,7 @@ class UnitSelection extends StatefulWidget {
 
 class _UnitSelectionState extends State<UnitSelection> {
   String? _filter;
+  SpecialUnitFilter? _specialUnitFilter;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +41,7 @@ class _UnitSelectionState extends State<UnitSelection> {
           controller: ScrollController(),
           child: SelectionFilters(
             roleFilter: widget._roleFilter,
-            onChanged: (RoleType role, bool newValue) {
+            onRoleFilterChanged: (RoleType role, bool newValue) {
               setState(() {
                 widget._roleFilter[role] = newValue;
               });
@@ -47,6 +49,12 @@ class _UnitSelectionState extends State<UnitSelection> {
             onFilterChanged: (String text) {
               setState(() {
                 _filter = text;
+              });
+            },
+            onSpecialUnitFilterChanged: (SpecialUnitFilter filter) {
+              setState(() {
+                print('special changed to ${filter.text}');
+                _specialUnitFilter = filter;
               });
             },
           ),
@@ -71,6 +79,7 @@ class _UnitSelectionState extends State<UnitSelection> {
                   child: SelectionList(
                     roleFilters: widget._roleFilter,
                     filter: _filter,
+                    specialUnitFilter: _specialUnitFilter,
                   ),
                 ),
               ),
@@ -87,10 +96,12 @@ class SelectionList extends StatelessWidget {
     Key? key,
     required this.roleFilters,
     required this.filter,
+    required this.specialUnitFilter,
   }) : super(key: key);
 
   final Map<RoleType, bool> roleFilters;
   final String? filter;
+  final SpecialUnitFilter? specialUnitFilter;
   @override
   Widget build(BuildContext context) {
     final roster = context.watch<UnitRoster>();
@@ -103,20 +114,20 @@ class SelectionList extends StatelessWidget {
   }
 
   Widget _buildTable(RuleSet ruleSet) {
-    final d = ruleSet.availableUnits(
-      role: this
-          .roleFilters
-          .entries
-          .where((filterMap) => filterMap.value)
-          .map((filterMap) => filterMap.key)
-          .toList(),
-      filters:
-          this.filter?.split(',').where((element) => element != '').toList(),
-    );
+    final availableUnits = ruleSet.availableUnits(
+        role: this
+            .roleFilters
+            .entries
+            .where((filterMap) => filterMap.value)
+            .map((filterMap) => filterMap.key)
+            .toList(),
+        filters:
+            this.filter?.split(',').where((element) => element != '').toList(),
+        specialUnitFilter: this.specialUnitFilter);
 
     final table = DataTable(
       columns: _createTableColumns(),
-      rows: d.map((uc) => _createTableRow(uc)).toList(),
+      rows: availableUnits.map((uc) => _createTableRow(uc)).toList(),
       columnSpacing: 2.0,
       horizontalMargin: 0.0,
       headingRowHeight: 30.0,

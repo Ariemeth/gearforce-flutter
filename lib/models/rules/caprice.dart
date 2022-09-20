@@ -3,6 +3,7 @@ import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/mods/factionUpgrades/faction_mod.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
+import 'package:gearforce/models/rules/special_unit_filter.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
@@ -14,10 +15,10 @@ class Caprice extends RuleSet {
   List<UnitCore> availableUnits({
     List<RoleType?>? role,
     List<String>? filters,
-    SpecialUnitFilter? specialUnits,
+    SpecialUnitFilter? specialUnitFilter,
   }) {
     return data.unitList(FactionType.Caprice,
-        role: role, characterFilter: filters);
+        requiredRole: role, characterFilter: filters);
   }
 
   @override

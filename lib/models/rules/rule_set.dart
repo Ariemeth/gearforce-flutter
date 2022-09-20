@@ -4,6 +4,7 @@ import 'package:gearforce/models/combatGroups/group.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/mods/factionUpgrades/faction_mod.dart';
 import 'package:gearforce/models/roster/roster.dart';
+import 'package:gearforce/models/rules/special_unit_filter.dart';
 import 'package:gearforce/models/unit/model_type.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
@@ -21,11 +22,16 @@ abstract class RuleSet {
   List<UnitCore> availableUnits({
     List<RoleType?>? role,
     List<String>? filters,
-    SpecialUnitFilter? specialUnits,
+    SpecialUnitFilter? specialUnitFilter,
   });
 
   List<SpecialUnitFilter> availableSpecials() {
-    return [];
+    return [
+      const SpecialUnitFilter(
+        text: 'None',
+        filters: [],
+      )
+    ];
   }
 
   List<UnitCore> airstrikeCounters() {
@@ -133,25 +139,14 @@ class DefaultRuleSet extends RuleSet {
   List<UnitCore> availableUnits({
     List<RoleType?>? role,
     List<String>? filters,
-    SpecialUnitFilter? specialUnits,
+    SpecialUnitFilter? specialUnitFilter,
   }) {
     return [];
   }
 }
 
-typedef UnitCoreFilter = bool Function(UnitCore uc);
-
 class UnitFilter {
   final FactionType faction;
-  final UnitCoreFilter? filter;
+  final bool Function(UnitCore uc)? filter;
   const UnitFilter(this.faction, this.filter);
-}
-
-class SpecialUnitFilter {
-  final String text;
-  final List<UnitFilter> filters;
-  const SpecialUnitFilter({
-    required this.text,
-    required this.filters,
-  });
 }

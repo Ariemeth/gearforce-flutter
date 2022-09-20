@@ -6,6 +6,7 @@ import 'package:gearforce/models/mods/factionUpgrades/peace_river.dart';
 import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
+import 'package:gearforce/models/rules/special_unit_filter.dart';
 import 'package:gearforce/models/unit/model_type.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
@@ -31,10 +32,15 @@ class PeaceRiver extends RuleSet {
   List<UnitCore> availableUnits({
     List<RoleType?>? role,
     List<String>? filters,
-    SpecialUnitFilter? specialUnits,
+    SpecialUnitFilter? specialUnitFilter,
   }) {
-    return data.unitList(FactionType.PeaceRiver,
-        role: role, characterFilter: filters);
+    return data.unitList(
+      FactionType.PeaceRiver,
+      requiredRole: role,
+      characterFilter: filters,
+      // TODO add special unit filter
+      // TODO hmm what if unitList only took unitFilters instead of faction and filters?
+    );
   }
 
   @override
@@ -95,12 +101,9 @@ class PRDF extends PeaceRiver {
   List<UnitCore> availableUnits({
     List<RoleType?>? role,
     List<String>? filters,
-    SpecialUnitFilter? specialUnits,
+    SpecialUnitFilter? specialUnitFilter,
   }) {
-    if (specialRules != null) {
-      // TODO implement
-      return [];
-    }
+    // TODO get this working with both special and non special
 
     return super.availableUnits(role: role, filters: filters);
   }
@@ -118,12 +121,17 @@ class PRDF extends PeaceRiver {
 
   @override
   List<SpecialUnitFilter> availableSpecials() {
-    return [
-      const SpecialUnitFilter(
-        text: 'The Best Mean and Women for the Job',
-        filters: [const UnitFilter(FactionType.BlackTalon, null)],
-      ),
-    ];
+    return super.availableSpecials()
+      ..addAll(
+        [
+          const SpecialUnitFilter(
+            text: 'The Best Men and Women for the Job',
+            filters: [
+              const UnitFilter(FactionType.BlackTalon, null),
+            ],
+          ),
+        ],
+      );
   }
 
   @override
