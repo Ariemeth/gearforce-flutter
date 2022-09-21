@@ -35,7 +35,8 @@ class Data {
     return _factions.toList();
   }
 
-  /// Returns a list of UnitCore's for the specified [baseFactionFilters] and [roleFilter] if
+  /// Returns a list of UnitCore's for the specified [baseFactionFilters] using
+  /// the optional [roleFilter], [characterFilters], and [unitFilters] if
   /// available.
   ///
   /// If no UnitCore's are available to match the specified [baseFactionFilters] and [roleFilter]
