@@ -1,3 +1,4 @@
+import 'package:gearforce/data/unit_filter.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/combatGroups/group.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
@@ -34,10 +35,17 @@ class PeaceRiver extends RuleSet {
     List<String>? filters,
     SpecialUnitFilter? specialUnitFilter,
   }) {
-    return data.unitList(
-      FactionType.PeaceRiver,
-      requiredRole: role,
-      characterFilter: filters,
+    return data.getUnits(
+      baseFactionFilters: [
+        FactionType.PeaceRiver,
+        FactionType.Airstrike,
+        FactionType.Universal,
+        FactionType.Universal_TerraNova,
+        FactionType.Terrain,
+      ],
+      roleFilter: role,
+      characterFilters: filters,
+      unitFilters: specialUnitFilter?.filters,
       // TODO add special unit filter
       // TODO hmm what if unitList only took unitFilters instead of faction and filters?
     );
@@ -97,6 +105,7 @@ const PRDFSpecialRule1 =
 class PRDF extends PeaceRiver {
   PRDF(super.data) : super(specialRules: const [PRDFSpecialRule1]);
 
+/*
   @override
   List<UnitCore> availableUnits({
     List<RoleType?>? role,
@@ -104,10 +113,14 @@ class PRDF extends PeaceRiver {
     SpecialUnitFilter? specialUnitFilter,
   }) {
     // TODO get this working with both special and non special
-
-    return super.availableUnits(role: role, filters: filters);
+    // TODO may not need this override if the base faction availableUnits function handles it all
+    return super.availableUnits(
+      role: role,
+      filters: filters,
+      specialUnitFilter: specialUnitFilter,
+    );
   }
-
+*/
   @override
   List<FactionModification> availableFactionMods(
       UnitRoster ur, CombatGroup cg, Unit u) {

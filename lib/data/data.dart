@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/services.dart';
+import 'package:gearforce/data/unit_filter.dart';
 import 'package:gearforce/models/factions/faction.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/unit/frame.dart';
@@ -32,6 +33,53 @@ class Data {
   /// Retrieves a list of factions.
   List<Faction> factions() {
     return _factions.toList();
+  }
+
+  /// Returns a list of UnitCore's for the specified [baseFactionFilters] and [roleFilter] if
+  /// available.
+  ///
+  /// If no UnitCore's are available to match the specified [baseFactionFilters] and [roleFilter]
+  /// the returned list will be empty.  If [roleFilter] is null or not specified all
+  /// UnitCore's of the specified [baseFactionFilters] will be returned.
+  List<UnitCore> getUnits({
+    required List<FactionType> baseFactionFilters,
+    List<UnitFilter>? unitFilters,
+    List<RoleType?>? roleFilter,
+    List<String>? characterFilters,
+  }) {
+    assert(baseFactionFilters.length > 0);
+
+    List<Frame> availableFrames = [];
+
+    baseFactionFilters.forEach((factionType) {
+      final frames = _factionFrames[factionType];
+      if (frames != null) {
+        availableFrames.addAll(frames);
+      }
+    });
+
+    List<UnitCore> results = [];
+
+    // adding each variant of the already selected frames to the results to be
+    // returned.
+    availableFrames.forEach((frame) {
+      results.addAll(frame.variants);
+    });
+
+    if (roleFilter != null && roleFilter.isNotEmpty) {
+      results = results.where((uc) {
+        if (uc.role != null) {
+          return uc.role!.includesRole(roleFilter);
+        }
+        return false;
+      }).toList();
+    }
+
+    if (characterFilters != null) {
+      results = results.where((uc) => uc.contains(characterFilters)).toList();
+    }
+
+    return results;
   }
 
   /// Returns a list of UnitCore's for the specified [faction] and [requiredRole] if

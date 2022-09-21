@@ -1,4 +1,4 @@
-import 'package:gearforce/models/rules/rule_set.dart';
+import 'package:gearforce/data/unit_filter.dart';
 
 class SpecialUnitFilter {
   final String text;

@@ -144,9 +144,3 @@ class DefaultRuleSet extends RuleSet {
     return [];
   }
 }
-
-class UnitFilter {
-  final FactionType faction;
-  final bool Function(UnitCore uc)? filter;
-  const UnitFilter(this.faction, this.filter);
-}
