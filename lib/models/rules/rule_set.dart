@@ -35,10 +35,10 @@ abstract class RuleSet {
   }
 
   List<UnitCore> airstrikeCounters() {
-    return data.unitList(
-      FactionType.Airstrike,
-      includeTerrain: false,
-      includeUniversal: false,
+    return data.getUnits(
+      baseFactionFilters: [
+        FactionType.Airstrike,
+      ],
     );
   }
 

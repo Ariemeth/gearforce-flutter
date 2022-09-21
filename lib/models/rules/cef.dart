@@ -17,8 +17,18 @@ class CEF extends RuleSet {
     List<String>? filters,
     SpecialUnitFilter? specialUnitFilter,
   }) {
-    return data.unitList(FactionType.CEF,
-        requiredRole: role, characterFilter: filters);
+    return data.getUnits(
+      baseFactionFilters: [
+        FactionType.CEF,
+        FactionType.Airstrike,
+        FactionType.Universal,
+        FactionType.Universal_Non_TerraNova,
+        FactionType.Terrain,
+      ],
+      roleFilter: role,
+      characterFilters: filters,
+      unitFilters: specialUnitFilter?.filters,
+    );
   }
 
   @override

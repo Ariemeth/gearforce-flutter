@@ -17,8 +17,18 @@ class South extends RuleSet {
     List<String>? filters,
     SpecialUnitFilter? specialUnitFilter,
   }) {
-    return data.unitList(FactionType.South,
-        requiredRole: role, characterFilter: filters);
+    return data.getUnits(
+      baseFactionFilters: [
+        FactionType.South,
+        FactionType.Airstrike,
+        FactionType.Universal,
+        FactionType.Universal_TerraNova,
+        FactionType.Terrain,
+      ],
+      roleFilter: role,
+      characterFilters: filters,
+      unitFilters: specialUnitFilter?.filters,
+    );
   }
 
   @override

@@ -49,7 +49,7 @@ class Data {
   }) {
     assert(baseFactionFilters.length > 0);
 
-    List<Frame> availableFrames = [];
+    final List<Frame> availableFrames = [];
 
     baseFactionFilters.forEach((factionType) {
       final frames = _factionFrames[factionType];
@@ -80,110 +80,6 @@ class Data {
     }
 
     return results;
-  }
-
-  /// Returns a list of UnitCore's for the specified [faction] and [requiredRole] if
-  /// available.
-  ///
-  /// If no UnitCore's are available to match the specified [faction] and [requiredRole]
-  /// the returned list will be empty.  If [requiredRole] is null or not specified all
-  /// UnitCore's of the specified [faction] will be returned.
-  List<UnitCore> unitList(
-    FactionType faction, {
-    List<RoleType?>? requiredRole,
-    List<String>? characterFilter,
-    bool Function(UnitCore)? unitFilter,
-    bool includeTerrain = true,
-    bool includeAirstrikeTokens = true,
-    bool includeUniversal = true,
-  }) {
-    List<Frame>? factionUnits = _factionFrames[faction]!.toList();
-
-    switch (faction) {
-      case FactionType.North:
-      case FactionType.South:
-      case FactionType.NuCoal:
-      case FactionType.PeaceRiver:
-      case FactionType.BlackTalon:
-        if (includeUniversal) {
-          var uniList = _factionFrames[FactionType.Universal_TerraNova];
-          if (uniList != null) {
-            factionUnits.addAll(uniList.toList());
-          }
-          var fullUniList = _factionFrames[FactionType.Universal];
-          if (fullUniList != null) {
-            factionUnits.addAll(fullUniList.toList());
-          }
-        }
-        break;
-      case FactionType.CEF:
-      case FactionType.Caprice:
-      case FactionType.Utopia:
-      case FactionType.Eden:
-        if (includeUniversal) {
-          var uniList = _factionFrames[FactionType.Universal_Non_TerraNova];
-          if (uniList != null) {
-            factionUnits.addAll(uniList.toList());
-          }
-          var fullUniList = _factionFrames[FactionType.Universal];
-          if (fullUniList != null) {
-            factionUnits.addAll(fullUniList.toList());
-          }
-        }
-        break;
-      case FactionType.Universal:
-        break;
-      case FactionType.Universal_Non_TerraNova:
-        break;
-      case FactionType.Universal_TerraNova:
-        break;
-      case FactionType.Terrain:
-        break;
-      case FactionType.Airstrike:
-        break;
-    }
-
-    if (includeTerrain && faction != FactionType.Terrain) {
-      final terrainList = _factionFrames[FactionType.Terrain];
-      if (terrainList != null) {
-        factionUnits.addAll(terrainList);
-      }
-    }
-
-    if (includeAirstrikeTokens && faction != FactionType.Airstrike) {
-      final airstrikeTokens = _factionFrames[FactionType.Airstrike];
-      if (airstrikeTokens != null) {
-        factionUnits.addAll(airstrikeTokens);
-      }
-    }
-
-    List<UnitCore> results = [];
-
-    if (unitFilter != null) {
-      print('Not null');
-    }
-
-    // not sure unitFilter ever has been utilized, but this section is just
-    // adding each variant of the already selected frames to the results to be
-    // returned.
-    factionUnits.forEach((frame) {
-      unitFilter != null
-          ? results.addAll(frame.variants.where(unitFilter))
-          : results.addAll(frame.variants);
-    });
-
-    if (requiredRole != null && requiredRole.isNotEmpty) {
-      results = results.where((uc) {
-        if (uc.role != null) {
-          return uc.role!.includesRole(requiredRole);
-        }
-        return false;
-      }).toList();
-    }
-
-    return characterFilter == null
-        ? results
-        : results.where((uc) => uc.contains(characterFilter)).toList();
   }
 
   /// This function loads all needed data resources.

@@ -17,8 +17,18 @@ class Caprice extends RuleSet {
     List<String>? filters,
     SpecialUnitFilter? specialUnitFilter,
   }) {
-    return data.unitList(FactionType.Caprice,
-        requiredRole: role, characterFilter: filters);
+    return data.getUnits(
+      baseFactionFilters: [
+        FactionType.Caprice,
+        FactionType.Airstrike,
+        FactionType.Universal,
+        FactionType.Universal_Non_TerraNova,
+        FactionType.Terrain,
+      ],
+      roleFilter: role,
+      characterFilters: filters,
+      unitFilters: specialUnitFilter?.filters,
+    );
   }
 
   @override

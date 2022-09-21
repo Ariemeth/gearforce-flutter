@@ -17,8 +17,18 @@ class Nucoal extends RuleSet {
     List<String>? filters,
     SpecialUnitFilter? specialUnitFilter,
   }) {
-    return data.unitList(FactionType.NuCoal,
-        requiredRole: role, characterFilter: filters);
+    return data.getUnits(
+      baseFactionFilters: [
+        FactionType.NuCoal,
+        FactionType.Airstrike,
+        FactionType.Universal,
+        FactionType.Universal_TerraNova,
+        FactionType.Terrain,
+      ],
+      roleFilter: role,
+      characterFilters: filters,
+      unitFilters: specialUnitFilter?.filters,
+    );
   }
 
   @override

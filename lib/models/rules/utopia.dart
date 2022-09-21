@@ -17,8 +17,18 @@ class Utopia extends RuleSet {
     List<String>? filters,
     SpecialUnitFilter? specialUnitFilter,
   }) {
-    return data.unitList(FactionType.Utopia,
-        requiredRole: role, characterFilter: filters);
+    return data.getUnits(
+      baseFactionFilters: [
+        FactionType.Utopia,
+        FactionType.Airstrike,
+        FactionType.Universal,
+        FactionType.Universal_Non_TerraNova,
+        FactionType.Terrain,
+      ],
+      roleFilter: role,
+      characterFilters: filters,
+      unitFilters: specialUnitFilter?.filters,
+    );
   }
 
   @override
