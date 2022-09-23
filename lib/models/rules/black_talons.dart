@@ -26,7 +26,6 @@ class BlackTalons extends RuleSet {
       ],
       roleFilter: role,
       characterFilters: filters,
-      unitFilters: specialUnitFilter?.filters,
     );
   }
 

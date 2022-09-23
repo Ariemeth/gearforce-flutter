@@ -44,7 +44,6 @@ class Data {
   /// UnitCore's of the specified [baseFactionFilters] will be returned.
   List<UnitCore> getUnits({
     required List<FactionType> baseFactionFilters,
-    List<UnitFilter>? unitFilters,
     List<RoleType?>? roleFilter,
     List<String>? characterFilters,
   }) {

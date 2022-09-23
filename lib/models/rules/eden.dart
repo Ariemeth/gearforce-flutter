@@ -27,7 +27,6 @@ class Eden extends RuleSet {
       ],
       roleFilter: role,
       characterFilters: filters,
-      unitFilters: specialUnitFilter?.filters,
     );
   }
 

@@ -45,7 +45,6 @@ class PeaceRiver extends RuleSet {
       ],
       roleFilter: role,
       characterFilters: filters,
-      unitFilters: specialUnitFilter?.filters,
       // TODO add special unit filter
       // TODO hmm what if unitList only took unitFilters instead of faction and filters?
     );

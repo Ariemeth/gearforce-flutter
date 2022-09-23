@@ -27,7 +27,6 @@ class Nucoal extends RuleSet {
       ],
       roleFilter: role,
       characterFilters: filters,
-      unitFilters: specialUnitFilter?.filters,
     );
   }
 
