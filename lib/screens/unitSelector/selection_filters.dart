@@ -153,7 +153,6 @@ class _SpecialFilterSelectorState extends State<SpecialFilterSelector> {
       dropdownValue = availableSpecialFilters.first;
     }
 
-    // TODO link up the specialUnitFilter callback to changing of this dropdown
     return DropdownButton<SpecialUnitFilter>(
         value: dropdownValue,
         icon: const Icon(Icons.arrow_downward),

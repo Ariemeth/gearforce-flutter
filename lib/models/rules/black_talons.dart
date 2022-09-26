@@ -13,7 +13,7 @@ class BlackTalons extends RuleSet {
   @override
   List<UnitCore> availableUnits({
     List<RoleType?>? role,
-    List<String>? filters,
+    List<String>? characterFilters,
     SpecialUnitFilter? specialUnitFilter,
   }) {
     return data.getUnits(
@@ -25,7 +25,7 @@ class BlackTalons extends RuleSet {
         FactionType.Terrain,
       ],
       roleFilter: role,
-      characterFilters: filters,
+      characterFilters: characterFilters,
     );
   }
 

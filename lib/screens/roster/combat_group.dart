@@ -50,6 +50,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
           child: _generateTable(
             context: context,
             group: cg.primary,
+            cg: cg,
             ruleSet: widget.roster.subFaction.value.ruleSet,
           ),
         ),
@@ -61,6 +62,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
           child: _generateTable(
             context: context,
             group: cg.secondary,
+            cg: cg,
             ruleSet: widget.roster.subFaction.value.ruleSet,
           ),
         ),
@@ -71,6 +73,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
   Widget _generateTable({
     required BuildContext context,
     required Group group,
+    required CombatGroup cg,
     required RuleSet ruleSet,
   }) {
     var table = DataTable(
@@ -105,7 +108,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
         if (uc == null) {
           return false;
         }
-        return ruleSet.canBeAddedToGroup(uc, group);
+        return ruleSet.canBeAddedToGroup(uc, group, cg);
       },
     );
 

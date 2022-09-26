@@ -82,6 +82,41 @@ class Data {
     return results;
   }
 
+  List<UnitCore> getUnitsByFilter({
+    required List<UnitFilter> filters,
+    List<RoleType>? roleFilter,
+    List<String>? characterFilters,
+  }) {
+    if (filters.length == 0) {
+      return [];
+    }
+
+    List<UnitCore> results = [];
+
+    filters.forEach((filter) {
+      final frames = _factionFrames[filter.faction];
+      frames?.forEach((frame) {
+        results.addAll(frame.variants.where((uc) => filter.matcher(uc)));
+      });
+    });
+
+    // filter the selection based on role
+    if (roleFilter != null && roleFilter.isNotEmpty) {
+      results = results.where((uc) {
+        if (uc.role != null) {
+          return uc.role!.includesRole(roleFilter);
+        }
+        return false;
+      }).toList();
+    }
+
+    if (characterFilters != null) {
+      results = results.where((uc) => uc.contains(characterFilters)).toList();
+    }
+
+    return results;
+  }
+
   /// This function loads all needed data resources.
   ///
   /// This function will not return/complete until all resources have been loaded.

@@ -53,7 +53,6 @@ class _UnitSelectionState extends State<UnitSelection> {
             },
             onSpecialUnitFilterChanged: (SpecialUnitFilter filter) {
               setState(() {
-                print('special changed to ${filter.text}');
                 _specialUnitFilter = filter;
               });
             },
@@ -121,7 +120,7 @@ class SelectionList extends StatelessWidget {
             .where((filterMap) => filterMap.value)
             .map((filterMap) => filterMap.key)
             .toList(),
-        filters:
+        characterFilters:
             this.filter?.split(',').where((element) => element != '').toList(),
         specialUnitFilter: this.specialUnitFilter);
 

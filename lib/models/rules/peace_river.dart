@@ -27,27 +27,41 @@ import 'package:gearforce/models/unit/unit_core.dart';
   * Architects: The duelist for this force may use a Peace River strider.
 */
 class PeaceRiver extends RuleSet {
-  const PeaceRiver(super.data, {super.specialRules});
+  PeaceRiver(super.data, {super.specialRules});
+
+  final Map<String, List<String>> _unit_cache = {};
 
   @override
   List<UnitCore> availableUnits({
-    List<RoleType?>? role,
-    List<String>? filters,
+    List<RoleType>? role,
+    List<String>? characterFilters,
     SpecialUnitFilter? specialUnitFilter,
   }) {
-    return data.getUnits(
-      baseFactionFilters: [
-        FactionType.PeaceRiver,
-        FactionType.Airstrike,
-        FactionType.Universal,
-        FactionType.Universal_TerraNova,
-        FactionType.Terrain,
-      ],
+    const unitFilters = [
+      const UnitFilter(FactionType.PeaceRiver),
+      const UnitFilter(FactionType.Airstrike),
+      const UnitFilter(FactionType.Universal),
+      const UnitFilter(FactionType.Universal_TerraNova),
+      const UnitFilter(FactionType.Terrain),
+    ];
+
+    final coreUnits = data.getUnitsByFilter(
+      filters: unitFilters,
       roleFilter: role,
-      characterFilters: filters,
-      // TODO add special unit filter
-      // TODO hmm what if unitList only took unitFilters instead of faction and filters?
+      characterFilters: characterFilters,
     );
+
+    final specialUnits = <UnitCore>[];
+
+    if (specialUnitFilter != null) {
+      final units = data.getUnitsByFilter(filters: specialUnitFilter.filters);
+      specialUnits.addAll(units);
+      // cache the unit names mapped to the specials name they are apart to
+      // allow identification of special units for the add to group checks.
+      _unit_cache[specialUnitFilter.text] = units.map((uc) => uc.name).toList();
+    }
+
+    return coreUnits..addAll(specialUnits);
   }
 
   @override
@@ -104,22 +118,6 @@ const PRDFSpecialRule1 =
 class PRDF extends PeaceRiver {
   PRDF(super.data) : super(specialRules: const [PRDFSpecialRule1]);
 
-/*
-  @override
-  List<UnitCore> availableUnits({
-    List<RoleType?>? role,
-    List<String>? filters,
-    SpecialUnitFilter? specialUnitFilter,
-  }) {
-    // TODO get this working with both special and non special
-    // TODO may not need this override if the base faction availableUnits function handles it all
-    return super.availableUnits(
-      role: role,
-      filters: filters,
-      specialUnitFilter: specialUnitFilter,
-    );
-  }
-*/
   @override
   List<FactionModification> availableFactionMods(
       UnitRoster ur, CombatGroup cg, Unit u) {
@@ -139,11 +137,17 @@ class PRDF extends PeaceRiver {
           const SpecialUnitFilter(
             text: 'The Best Men and Women for the Job',
             filters: [
-              const UnitFilter(FactionType.BlackTalon, null),
+              const UnitFilter(FactionType.BlackTalon),
             ],
           ),
         ],
       );
+  }
+
+  @override
+  bool isUnitCountWithinLimits(CombatGroup cg, Group group, UnitCore uc) {
+    // TODO handle special unit rules
+    return true;
   }
 
   @override

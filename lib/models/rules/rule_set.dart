@@ -20,8 +20,8 @@ abstract class RuleSet {
   });
 
   List<UnitCore> availableUnits({
-    List<RoleType?>? role,
-    List<String>? filters,
+    List<RoleType>? role,
+    List<String>? characterFilters,
     SpecialUnitFilter? specialUnitFilter,
   });
 
@@ -70,7 +70,7 @@ abstract class RuleSet {
         !unit.traits.any((t) => t.name == 'Conscript');
   }
 
-  bool canBeAddedToGroup(UnitCore uc, Group group) {
+  bool canBeAddedToGroup(UnitCore uc, Group group, CombatGroup cg) {
     final r = uc.role;
     final targetRole = group.role();
 
@@ -79,7 +79,7 @@ abstract class RuleSet {
       return true;
     }
 
-    // if a null roll was not accepted in _isAlwaysAllowedRole, then
+    // if a null role was not accepted in _isAlwaysAllowedRole, then
     // it cannot be added
     if (r == null) {
       return false;
@@ -96,7 +96,7 @@ abstract class RuleSet {
       return true;
     }
 
-    return _isUnitCountWithinLimits(group, uc);
+    return isUnitCountWithinLimits(cg, group, uc);
   }
 
   bool _isAlwaysAllowedRole(Roles? r) {
@@ -116,7 +116,7 @@ abstract class RuleSet {
     return uc.role!.roles.firstWhere(((role) => role.name == target)).unlimited;
   }
 
-  bool _isUnitCountWithinLimits(Group group, UnitCore uc) {
+  bool isUnitCountWithinLimits(CombatGroup cg, Group group, UnitCore uc) {
     // get the number other instances of this unitcore in the group
     final count =
         group.allUnits().where((unit) => unit.core.name == uc.name).length;
@@ -138,7 +138,7 @@ class DefaultRuleSet extends RuleSet {
   @override
   List<UnitCore> availableUnits({
     List<RoleType?>? role,
-    List<String>? filters,
+    List<String>? characterFilters,
     SpecialUnitFilter? specialUnitFilter,
   }) {
     return [];
