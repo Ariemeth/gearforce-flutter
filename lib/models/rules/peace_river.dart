@@ -37,20 +37,11 @@ class PeaceRiver extends RuleSet {
     List<String>? characterFilters,
     SpecialUnitFilter? specialUnitFilter,
   }) {
-    const unitFilters = [
-      const UnitFilter(FactionType.PeaceRiver),
-      const UnitFilter(FactionType.Airstrike),
-      const UnitFilter(FactionType.Universal),
-      const UnitFilter(FactionType.Universal_TerraNova),
-      const UnitFilter(FactionType.Terrain),
-    ];
-
-    final coreUnits = data.getUnitsByFilter(
-      filters: unitFilters,
-      roleFilter: role,
-      characterFilters: characterFilters,
+    final coreUnits = getCoreUnits(
+      role,
+      characterFilters,
+      specialUnitFilter,
     );
-
     final specialUnits = <UnitCore>[];
 
     if (specialUnitFilter != null) {
@@ -64,6 +55,26 @@ class PeaceRiver extends RuleSet {
     }
 
     return coreUnits..addAll(specialUnits);
+  }
+
+  List<UnitCore> getCoreUnits(
+    List<RoleType>? role,
+    List<String>? characterFilters,
+    SpecialUnitFilter? specialUnitFilter,
+  ) {
+    const unitFilters = [
+      const UnitFilter(FactionType.PeaceRiver),
+      const UnitFilter(FactionType.Airstrike),
+      const UnitFilter(FactionType.Universal),
+      const UnitFilter(FactionType.Universal_TerraNova),
+      const UnitFilter(FactionType.Terrain),
+    ];
+
+    return data.getUnitsByFilter(
+      filters: unitFilters,
+      roleFilter: role,
+      characterFilters: characterFilters,
+    );
   }
 
   @override
@@ -216,6 +227,30 @@ class POC extends PeaceRiver {
   }
 
   @override
+  List<UnitCore> getCoreUnits(
+    List<RoleType>? role,
+    List<String>? characterFilters,
+    SpecialUnitFilter? specialUnitFilter,
+  ) {
+    if (specialUnitFilter?.text == POCMercContractSpecialFilter.text) {
+      return [];
+    }
+    return super.getCoreUnits(role, characterFilters, specialUnitFilter);
+  }
+
+  @override
+  bool canBeAddedToGroup(UnitCore uc, Group group, CombatGroup cg) {
+    // TODO handle mercenary contract special
+    /*  switch (_unit_cache[uc]) {
+      case PRDFBestMenAndWomenSpecial:
+      
+        return cg.units.where((u) => u.core == uc).length == 0;
+    }*/
+    // return true;
+    return super.canBeAddedToGroup(uc, group, cg);
+  }
+
+  @override
   bool hasGroupRole(UnitCore uc, RoleType target) {
     if (super.hasGroupRole(uc, target)) {
       return true;
@@ -264,7 +299,32 @@ class POC extends PeaceRiver {
     }
     return baseCost;
   }
+
+  @override
+  List<SpecialUnitFilter> availableSpecials() {
+    return super.availableSpecials()
+      ..addAll(
+        [
+          POCMercContractSpecialFilter,
+        ],
+      );
+  }
 }
+
+/*
+  Mercenary Contract: One combat group may be made with models from 
+  North, South, Peace River, and NuCoal (may include a mix from all 
+  four factions) that have an armor of 8 or lower.
+*/
+const POCMercContractSpecialFilter = SpecialUnitFilter(
+  text: 'Mercenary Contract',
+  filters: [
+    const UnitFilter(FactionType.North, matcher: matchArmor8),
+    const UnitFilter(FactionType.South, matcher: matchArmor8),
+    const UnitFilter(FactionType.PeaceRiver, matcher: matchArmor8),
+    const UnitFilter(FactionType.NuCoal, matcher: matchArmor8),
+  ],
+);
 
 /*
 PPS - Paxton Private Securities
