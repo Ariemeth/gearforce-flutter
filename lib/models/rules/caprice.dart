@@ -12,7 +12,7 @@ class Caprice extends RuleSet {
   const Caprice(super.data);
 
   @override
-  List<UnitCore> availableUnits({
+  List<Unit> availableUnits({
     List<RoleType?>? role,
     List<String>? characterFilters,
     SpecialUnitFilter? specialUnitFilter,

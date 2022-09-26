@@ -12,7 +12,7 @@ class South extends RuleSet {
   const South(super.data);
 
   @override
-  List<UnitCore> availableUnits({
+  List<Unit> availableUnits({
     List<RoleType?>? role,
     List<String>? characterFilters,
     SpecialUnitFilter? specialUnitFilter,

@@ -11,22 +11,25 @@ class BlackTalons extends RuleSet {
   const BlackTalons(super.data);
 
   @override
-  List<UnitCore> availableUnits({
+  List<Unit> availableUnits({
     List<RoleType?>? role,
     List<String>? characterFilters,
     SpecialUnitFilter? specialUnitFilter,
   }) {
-    return data.getUnits(
-      baseFactionFilters: [
-        FactionType.BlackTalon,
-        FactionType.Airstrike,
-        FactionType.Universal,
-        FactionType.Universal_TerraNova,
-        FactionType.Terrain,
-      ],
-      roleFilter: role,
-      characterFilters: characterFilters,
-    );
+    return data
+        .getUnits(
+          baseFactionFilters: [
+            FactionType.BlackTalon,
+            FactionType.Airstrike,
+            FactionType.Universal,
+            FactionType.Universal_TerraNova,
+            FactionType.Terrain,
+          ],
+          roleFilter: role,
+          characterFilters: characterFilters,
+        )
+        .map((uc) => Unit(core: uc))
+        .toList();
   }
 
   @override

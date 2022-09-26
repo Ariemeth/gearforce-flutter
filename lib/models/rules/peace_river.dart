@@ -32,7 +32,7 @@ class PeaceRiver extends RuleSet {
   Map<UnitCore, String> _unit_cache = {};
 
   @override
-  List<UnitCore> availableUnits({
+  List<Unit> availableUnits({
     List<RoleType>? role,
     List<String>? characterFilters,
     SpecialUnitFilter? specialUnitFilter,

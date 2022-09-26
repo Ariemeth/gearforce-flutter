@@ -12,7 +12,7 @@ class CEF extends RuleSet {
   const CEF(super.data);
 
   @override
-  List<UnitCore> availableUnits({
+  List<Unit> availableUnits({
     List<RoleType?>? role,
     List<String>? characterFilters,
     SpecialUnitFilter? specialUnitFilter,

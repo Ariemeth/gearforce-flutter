@@ -19,7 +19,7 @@ abstract class RuleSet {
     this.specialRules = null,
   });
 
-  List<UnitCore> availableUnits({
+  List<Unit> availableUnits({
     List<RoleType>? role,
     List<String>? characterFilters,
     SpecialUnitFilter? specialUnitFilter,
@@ -136,7 +136,7 @@ class DefaultRuleSet extends RuleSet {
   }
 
   @override
-  List<UnitCore> availableUnits({
+  List<Unit> availableUnits({
     List<RoleType?>? role,
     List<String>? characterFilters,
     SpecialUnitFilter? specialUnitFilter,
