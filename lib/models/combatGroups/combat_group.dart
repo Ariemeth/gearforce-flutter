@@ -15,6 +15,9 @@ class CombatGroup extends ChangeNotifier {
   bool _isVeteran = false;
   final UnitRoster? roster;
 
+  /// Retrieve a list of all units in this [CombatGroup].
+  List<Unit> get units => _primary.allUnits()..addAll(_secondary.allUnits());
+
   Group get primary => _primary;
   set primary(Group group) {
     if (_primary.hasListeners) {

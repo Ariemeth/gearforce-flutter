@@ -29,7 +29,7 @@ import 'package:gearforce/models/unit/unit_core.dart';
 class PeaceRiver extends RuleSet {
   PeaceRiver(super.data, {super.specialRules});
 
-  final Map<String, List<String>> _unit_cache = {};
+  Map<UnitCore, String> _unit_cache = {};
 
   @override
   List<UnitCore> availableUnits({
@@ -58,7 +58,9 @@ class PeaceRiver extends RuleSet {
       specialUnits.addAll(units);
       // cache the unit names mapped to the specials name they are apart to
       // allow identification of special units for the add to group checks.
-      _unit_cache[specialUnitFilter.text] = units.map((uc) => uc.name).toList();
+      units.forEach((uc) {
+        _unit_cache[uc] = specialUnitFilter.text;
+      });
     }
 
     return coreUnits..addAll(specialUnits);
@@ -102,7 +104,7 @@ TV each. This does not include Warrior IVs.
 of 4+ for 1 TV each.
 * High Tech: Models with weapons that have the Advanced or Guided traits have
 unlimited availability for all primary units.
-Z The Best Men and Women for the Job: One model in each combat group may be
+* The Best Men and Women for the Job: One model in each combat group may be
 selected from the Black Talon model list.
 * Elite Elements: One SK unit may change their role to SO.
 * Ghost Strike: Models in one combat group using special operations deployment
@@ -114,6 +116,8 @@ const PRDFSpecialRule1 =
         'deployment may start the game with hidden tokens if all the models ' +
         'within the combat group are placed in cover relative to at least ' +
         'one enemy model.';
+
+const PRDFBestMenAndWomenSpecial = 'The Best Men and Women for the Job';
 
 class PRDF extends PeaceRiver {
   PRDF(super.data) : super(specialRules: const [PRDFSpecialRule1]);
@@ -135,7 +139,7 @@ class PRDF extends PeaceRiver {
       ..addAll(
         [
           const SpecialUnitFilter(
-            text: 'The Best Men and Women for the Job',
+            text: PRDFBestMenAndWomenSpecial,
             filters: [
               const UnitFilter(FactionType.BlackTalon),
             ],
@@ -146,8 +150,15 @@ class PRDF extends PeaceRiver {
 
   @override
   bool isUnitCountWithinLimits(CombatGroup cg, Group group, UnitCore uc) {
-    // TODO handle special unit rules
-    return true;
+    switch (_unit_cache[uc]) {
+      case PRDFBestMenAndWomenSpecial:
+        /*
+        The Best Men and Women for the Job: One model in each combat group may
+        be selected from the Black Talon model list.
+      */
+        return cg.units.where((u) => u.core == uc).length == 0;
+    }
+    return super.isUnitCountWithinLimits(cg, group, uc);
   }
 
   @override
