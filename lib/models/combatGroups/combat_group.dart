@@ -14,6 +14,10 @@ class CombatGroup extends ChangeNotifier {
   final String name;
   bool _isVeteran = false;
   final UnitRoster? roster;
+  final List<String> _tags = [];
+
+  /// Retrieve the tags associated with this [CombatGroup].
+  List<String> get tags => _tags.toList();
 
   /// Retrieve a list of all units in this [CombatGroup].
   List<Unit> get units => _primary.allUnits()..addAll(_secondary.allUnits());
@@ -138,10 +142,21 @@ class CombatGroup extends ChangeNotifier {
     return _primary.numberOfUnits() + _secondary.numberOfUnits();
   }
 
+  addTag(String tag) {
+    if (!_tags.any((s) => s == tag)) {
+      _tags.add(tag);
+    }
+  }
+
+  removeTag(String tag) {
+    _tags.remove(tag);
+  }
+
   void clear() {
     this._primary.reset();
     this._secondary.reset();
     this._isVeteran = false;
+    this._tags.clear();
   }
 
   @override

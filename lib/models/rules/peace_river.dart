@@ -45,7 +45,11 @@ class PeaceRiver extends RuleSet {
     final specialUnits = <UnitCore>[];
 
     if (specialUnitFilter != null) {
-      final units = data.getUnitsByFilter(filters: specialUnitFilter.filters);
+      final units = data.getUnitsByFilter(
+        filters: specialUnitFilter.filters,
+        roleFilter: role,
+        characterFilters: characterFilters,
+      );
       specialUnits.addAll(units);
       // cache the unit names mapped to the specials name they are apart to
       // allow identification of special units for the add to group checks.
@@ -240,13 +244,14 @@ class POC extends PeaceRiver {
 
   @override
   bool canBeAddedToGroup(UnitCore uc, Group group, CombatGroup cg) {
-    // TODO handle mercenary contract special
-    /*  switch (_unit_cache[uc]) {
-      case PRDFBestMenAndWomenSpecial:
-      
-        return cg.units.where((u) => u.core == uc).length == 0;
-    }*/
-    // return true;
+    // TODO ensure other units don't end up in a cg that is a Merc contract group
+    if (_unit_cache[uc] == POCMercContractSpecialFilter.text) {
+      if (cg.numberOfUnits() !=
+          cg.units.where((u) => _unit_cache[u.core] != null).length) {
+        return false;
+      }
+    }
+
     return super.canBeAddedToGroup(uc, group, cg);
   }
 
