@@ -3,7 +3,7 @@ import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/rules/special_unit_filter.dart';
 import 'package:gearforce/models/unit/role.dart';
-import 'package:gearforce/models/unit/unit_core.dart';
+import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/screens/unitSelector/selected_unit_feedback.dart';
 import 'package:gearforce/screens/unitSelector/selected_unit_model_cell.dart';
 import 'package:gearforce/screens/unitSelector/selection_filters.dart';
@@ -126,7 +126,7 @@ class SelectionList extends StatelessWidget {
 
     final table = DataTable(
       columns: _createTableColumns(),
-      rows: availableUnits.map((uc) => _createTableRow(uc)).toList(),
+      rows: availableUnits.map((u) => _createTableRow(u)).toList(),
       columnSpacing: 2.0,
       horizontalMargin: 0.0,
       headingRowHeight: 30.0,
@@ -158,10 +158,10 @@ class SelectionList extends StatelessWidget {
     ];
   }
 
-  DataRow _createTableRow(UnitCore uc) {
+  DataRow _createTableRow(Unit unit) {
     return DataRow(cells: [
       DataCell(
-        Draggable<UnitCore>(
+        Draggable<Unit>(
           childWhenDragging: Container(
               decoration: BoxDecoration(
                 color: null,
@@ -171,55 +171,55 @@ class SelectionList extends StatelessWidget {
                 ),
               ),
               child: SelectedUnitModelCell(
-                text: uc.name,
+                text: unit.name,
                 hasBorder: true,
                 borderSize: 2.0,
               )),
           feedback: SelectedUnitFeedback(
-            uc: uc,
+            unit: unit,
           ),
-          data: uc,
-          child: SelectedUnitModelCell(text: uc.name),
+          data: unit,
+          child: SelectedUnitModelCell(text: unit.name),
         ),
       ),
-      DataCell(UnitSelectionTextCell.content('${uc.tv}')),
+      DataCell(UnitSelectionTextCell.content('${unit.tv}')),
       DataCell(
         UnitSelectionTextCell.content(
-          uc.role != null ? '${uc.role!.roles.join(', ')}' : 'N/A',
+          unit.role != null ? '${unit.role!.roles.join(', ')}' : 'N/A',
           maxLines: 2,
           softWrap: true,
         ),
       ),
       DataCell(UnitSelectionTextCell.content(
-          '${uc.movement == null ? '-' : uc.movement}')),
+          '${unit.movement == null ? '-' : unit.movement}')),
       DataCell(UnitSelectionTextCell.content(
-          '${uc.armor == null ? '-' : uc.armor}')),
+          '${unit.armor == null ? '-' : unit.armor}')),
       DataCell(UnitSelectionTextCell.content(
-          '${uc.hull == null ? '-' : uc.hull}/${uc.structure == null ? '-' : uc.structure}')),
+          '${unit.hull == null ? '-' : unit.hull}/${unit.structure == null ? '-' : unit.structure}')),
       DataCell(UnitSelectionTextCell.content(
-          '${uc.actions == null ? '-' : uc.actions}')),
+          '${unit.actions == null ? '-' : unit.actions}')),
       DataCell(UnitSelectionTextCell.content(
-          uc.gunnery == null ? '-' : '${uc.gunnery}+')),
+          unit.gunnery == null ? '-' : '${unit.gunnery}+')),
       DataCell(UnitSelectionTextCell.content(
-          uc.piloting == null ? '-' : '${uc.piloting}+')),
+          unit.piloting == null ? '-' : '${unit.piloting}+')),
       DataCell(
-          UnitSelectionTextCell.content(uc.ew == null ? '-' : '${uc.ew}+')),
+          UnitSelectionTextCell.content(unit.ew == null ? '-' : '${unit.ew}+')),
       DataCell(
         UnitSelectionTextCell.content(
-          '${(uc.reactWeapons.toList()..addAll(uc.mountedWeapons.toList())).map((e) => e.hasReact ? '$_reactSymbol${e}' : '${e}').toList().join(', ')}',
+          '${(unit.reactWeapons.toList()..addAll(unit.mountedWeapons.toList())).map((e) => e.hasReact ? '$_reactSymbol${e}' : '${e}').toList().join(', ')}',
           maxLines: 3,
           alignment: Alignment.centerLeft,
           textAlignment: TextAlign.left,
         ),
       ),
       DataCell(UnitSelectionTextCell.content(
-        '${uc.traits.join(', ')}',
+        '${unit.traits.join(', ')}',
         maxLines: 3,
         alignment: Alignment.centerLeft,
         textAlignment: TextAlign.left,
       )),
-      DataCell(UnitSelectionTextCell.content('${uc.type}')),
-      DataCell(UnitSelectionTextCell.content('${uc.height}')),
+      DataCell(UnitSelectionTextCell.content('${unit.type}')),
+      DataCell(UnitSelectionTextCell.content('${unit.height}')),
     ]);
   }
 

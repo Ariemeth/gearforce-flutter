@@ -8,7 +8,6 @@ import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/unit.dart';
-import 'package:gearforce/models/unit/unit_core.dart';
 import 'package:gearforce/screens/roster/group_header.dart';
 import 'package:gearforce/screens/upgrades/upgrades_dialog.dart';
 import 'package:gearforce/widgets/unit_text_cell.dart';
@@ -99,16 +98,16 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
       ) {
         return SingleChildScrollView(child: table);
       },
-      onAccept: (UnitCore uc) {
+      onAccept: (Unit u) {
         setState(() {
-          group.addUnit(uc);
+          group.addUnit(u);
         });
       },
-      onWillAccept: (UnitCore? uc) {
-        if (uc == null) {
+      onWillAccept: (Unit? u) {
+        if (u == null) {
           return false;
         }
-        return ruleSet.canBeAddedToGroup(uc, group, cg);
+        return ruleSet.canBeAddedToGroup(u, group, cg);
       },
     );
 

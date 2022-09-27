@@ -70,8 +70,8 @@ abstract class RuleSet {
         !unit.traits.any((t) => t.name == 'Conscript');
   }
 
-  bool canBeAddedToGroup(UnitCore uc, Group group, CombatGroup cg) {
-    final r = uc.role;
+  bool canBeAddedToGroup(Unit unit, Group group, CombatGroup cg) {
+    final r = unit.role;
     final targetRole = group.role();
 
     // having no role or role type upgrade are always allowed
@@ -86,17 +86,17 @@ abstract class RuleSet {
     }
 
     // Unit must have the role of the group it is being added.
-    if (!hasGroupRole(uc, targetRole)) {
+    if (!hasGroupRole(unit, targetRole)) {
       return false;
     }
 
     // if the unit is unlimited for the groups roletype you can add as many
     // as you want.
-    if (isRoleTypeUnlimited(uc, targetRole, group)) {
+    if (isRoleTypeUnlimited(unit, targetRole, group)) {
       return true;
     }
 
-    return isUnitCountWithinLimits(cg, group, uc);
+    return isUnitCountWithinLimits(cg, group, unit);
   }
 
   bool _isAlwaysAllowedRole(Roles? r) {
@@ -104,22 +104,24 @@ abstract class RuleSet {
   }
 
   // Ensure the target Roletype is within the Roles
-  bool hasGroupRole(UnitCore uc, RoleType target) {
-    return uc.role == null ? false : uc.role!.includesRole([target]);
+  bool hasGroupRole(Unit unit, RoleType target) {
+    return unit.role == null ? false : unit.role!.includesRole([target]);
   }
 
   // Check if the role is unlimited
-  bool isRoleTypeUnlimited(UnitCore uc, RoleType target, Group group) {
-    if (uc.role == null || uc.role!.roles.any((r) => r.name == target)) {
+  bool isRoleTypeUnlimited(Unit unit, RoleType target, Group group) {
+    if (unit.role == null || unit.role!.roles.any((r) => r.name == target)) {
       return false;
     }
-    return uc.role!.roles.firstWhere(((role) => role.name == target)).unlimited;
+    return unit.role!.roles
+        .firstWhere(((role) => role.name == target))
+        .unlimited;
   }
 
-  bool isUnitCountWithinLimits(CombatGroup cg, Group group, UnitCore uc) {
+  bool isUnitCountWithinLimits(CombatGroup cg, Group group, Unit unit) {
     // get the number other instances of this unitcore in the group
     final count =
-        group.allUnits().where((unit) => unit.core.name == uc.name).length;
+        group.allUnits().where((u) => u.core.name == unit.name).length;
 
     // Can only have a max of 2 non-unlimted units in a group.
     return count < 2;

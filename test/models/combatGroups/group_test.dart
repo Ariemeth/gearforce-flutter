@@ -2,6 +2,7 @@ import 'package:gearforce/models/combatGroups/group.dart';
 import 'package:gearforce/models/mods/unitUpgrades/north.dart';
 import 'package:gearforce/models/unit/model_type.dart';
 import 'package:gearforce/models/unit/role.dart';
+import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
 import 'package:test/test.dart';
 
@@ -20,7 +21,7 @@ void main() {
 
   test('create Group with role and units being reset', () {
     var g = Group(GroupType.Primary, role: RoleType.GP)
-      ..addUnit(UnitCore.test());
+      ..addUnit(Unit(core: UnitCore.test()));
     expect(g.role(), isNotNull, reason: 'check role');
     expect(g.role(), equals(RoleType.GP), reason: 'check group name');
     expect(g.allUnits().length, equals(1), reason: 'should be 1 unit');
@@ -42,38 +43,38 @@ void main() {
   });
 
   test('test totalActions with added unit', () {
-    var g = Group(GroupType.Primary)..addUnit(UnitCore.test());
+    var g = Group(GroupType.Primary)..addUnit(Unit(core: UnitCore.test()));
     expect(g.totalActions(), equals(1), reason: 'check total actions');
   });
 
   test('test totalActions with 2 added units', () {
     var g = Group(GroupType.Primary)
-      ..addUnit(UnitCore.test())
-      ..addUnit(UnitCore.test());
+      ..addUnit(Unit(core: UnitCore.test()))
+      ..addUnit(Unit(core: UnitCore.test()));
     expect(g.totalActions(), equals(2), reason: 'check total actions');
   });
 
   test('test totalActions with 2 added units plus a drone', () {
     var g = Group(GroupType.Primary)
-      ..addUnit(UnitCore.test())
-      ..addUnit(UnitCore.test())
-      ..addUnit(UnitCore.test(type: ModelType.Drone));
+      ..addUnit(Unit(core: UnitCore.test()))
+      ..addUnit(Unit(core: UnitCore.test()))
+      ..addUnit(Unit(core: UnitCore.test(type: ModelType.Drone)));
     expect(g.totalActions(), equals(2), reason: 'check total actions');
   });
 
   test('test modCount with 0 mods', () {
-    var g = Group(GroupType.Primary)..addUnit(UnitCore.test());
+    var g = Group(GroupType.Primary)..addUnit(Unit(core: UnitCore.test()));
     expect(g.modCount('noid'), equals(0), reason: 'no mods');
   });
 
   test('test modCount with 1 mod but wrong id', () {
-    var g = Group(GroupType.Primary)..addUnit(UnitCore.test());
+    var g = Group(GroupType.Primary)..addUnit(Unit(core: UnitCore.test()));
     g.allUnits()[0].addUnitMod(headHunter);
     expect(g.modCount('noid'), equals(0), reason: 'no mods');
   });
 
   test('test modCount with 1 mod', () {
-    var g = Group(GroupType.Primary)..addUnit(UnitCore.test());
+    var g = Group(GroupType.Primary)..addUnit(Unit(core: UnitCore.test()));
     g.allUnits()[0].addUnitMod(headHunter);
     expect(g.modCount(headHunter.id), equals(1), reason: 'should find 1 mod');
   });

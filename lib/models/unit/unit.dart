@@ -75,10 +75,14 @@ class Unit extends ChangeNotifier {
     UnitRoster roster,
   ) {
     final core = subfaction.ruleSet.availableUnits()
-      ..addAll(subfaction.ruleSet.airstrikeCounters());
+      ..addAll(
+        subfaction.ruleSet
+            .airstrikeCounters()
+            .map((uc) => Unit(core: uc))
+            .toList(),
+      );
 
-    Unit u = Unit(
-        core: core.firstWhere((element) => element.name == json['variant']));
+    Unit u = core.firstWhere((unit) => unit.name == json['variant']);
 
     u._commandLevel = convertToCommand(json['command']);
 

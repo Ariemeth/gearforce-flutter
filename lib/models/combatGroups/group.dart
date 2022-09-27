@@ -7,7 +7,6 @@ import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/model_type.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
-import 'package:gearforce/models/unit/unit_core.dart';
 
 const RoleType _defaultRoleType = RoleType.GP;
 
@@ -80,11 +79,8 @@ class Group extends ChangeNotifier {
       }));
   }
 
-  void addUnit(UnitCore unit) {
-    _units.add(Unit(core: unit)
-      ..addListener(() {
-        notifyListeners();
-      }));
+  void addUnit(Unit unit) {
+    _addUnit(unit);
     notifyListeners();
   }
 

@@ -58,7 +58,9 @@ class PeaceRiver extends RuleSet {
       });
     }
 
-    return coreUnits..addAll(specialUnits);
+    coreUnits..addAll(specialUnits);
+
+    return coreUnits.map((uc) => Unit(core: uc)).toList();
   }
 
   List<UnitCore> getCoreUnits(
@@ -164,21 +166,21 @@ class PRDF extends PeaceRiver {
   }
 
   @override
-  bool isUnitCountWithinLimits(CombatGroup cg, Group group, UnitCore uc) {
-    switch (_unit_cache[uc]) {
+  bool isUnitCountWithinLimits(CombatGroup cg, Group group, Unit unit) {
+    switch (_unit_cache[unit]) {
       case PRDFBestMenAndWomenSpecial:
         /*
         The Best Men and Women for the Job: One model in each combat group may
         be selected from the Black Talon model list.
       */
-        return cg.units.where((u) => u.core == uc).length == 0;
+        return cg.units.where((u) => u.core == unit).length == 0;
     }
-    return super.isUnitCountWithinLimits(cg, group, uc);
+    return super.isUnitCountWithinLimits(cg, group, unit);
   }
 
   @override
-  bool isRoleTypeUnlimited(UnitCore uc, RoleType target, Group group) {
-    if (super.isRoleTypeUnlimited(uc, target, group)) {
+  bool isRoleTypeUnlimited(Unit unit, RoleType target, Group group) {
+    if (super.isRoleTypeUnlimited(unit, target, group)) {
       return true;
     }
 
@@ -187,9 +189,9 @@ class PRDF extends PeaceRiver {
       have unlimited availability for all primary units.
     */
     return group.groupType == GroupType.Primary &&
-        (uc.reactWeapons.any((w) => w.traits
+        (unit.reactWeapons.any((w) => w.traits
                 .any((t) => t.name == 'Advanced' || t.name == 'Guided')) ||
-            uc.mountedWeapons.any((w) => w.traits
+            unit.mountedWeapons.any((w) => w.traits
                 .any((t) => t.name == 'Advanced' || t.name == 'Guided')));
   }
 }
@@ -243,28 +245,28 @@ class POC extends PeaceRiver {
   }
 
   @override
-  bool canBeAddedToGroup(UnitCore uc, Group group, CombatGroup cg) {
+  bool canBeAddedToGroup(Unit unit, Group group, CombatGroup cg) {
     // TODO ensure other units don't end up in a cg that is a Merc contract group
-    if (_unit_cache[uc] == POCMercContractSpecialFilter.text) {
+    if (_unit_cache[unit] == POCMercContractSpecialFilter.text) {
       if (cg.numberOfUnits() !=
           cg.units.where((u) => _unit_cache[u.core] != null).length) {
         return false;
       }
     }
 
-    return super.canBeAddedToGroup(uc, group, cg);
+    return super.canBeAddedToGroup(unit, group, cg);
   }
 
   @override
-  bool hasGroupRole(UnitCore uc, RoleType target) {
-    if (super.hasGroupRole(uc, target)) {
+  bool hasGroupRole(Unit unit, RoleType target) {
+    if (super.hasGroupRole(unit, target)) {
       return true;
     }
 
     /*
     Special Issue: Greyhounds may be placed in GP, SK, FS, RC or SO units.
     */
-    if (uc.frame == 'Greyhound' &&
+    if (unit.core.frame == 'Greyhound' &&
         (target == RoleType.GP ||
             target == RoleType.SK ||
             target == RoleType.FS ||

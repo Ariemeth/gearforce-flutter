@@ -6,7 +6,6 @@ import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/rules/special_unit_filter.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
-import 'package:gearforce/models/unit/unit_core.dart';
 
 class South extends RuleSet {
   const South(super.data);
@@ -17,17 +16,20 @@ class South extends RuleSet {
     List<String>? characterFilters,
     SpecialUnitFilter? specialUnitFilter,
   }) {
-    return data.getUnits(
-      baseFactionFilters: [
-        FactionType.South,
-        FactionType.Airstrike,
-        FactionType.Universal,
-        FactionType.Universal_TerraNova,
-        FactionType.Terrain,
-      ],
-      roleFilter: role,
-      characterFilters: characterFilters,
-    );
+    return data
+        .getUnits(
+          baseFactionFilters: [
+            FactionType.South,
+            FactionType.Airstrike,
+            FactionType.Universal,
+            FactionType.Universal_TerraNova,
+            FactionType.Terrain,
+          ],
+          roleFilter: role,
+          characterFilters: characterFilters,
+        )
+        .map((uc) => Unit(core: uc))
+        .toList();
   }
 
   @override
