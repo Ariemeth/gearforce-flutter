@@ -11,7 +11,6 @@ import 'package:gearforce/models/rules/special_unit_filter.dart';
 import 'package:gearforce/models/unit/model_type.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
-import 'package:gearforce/models/unit/unit_core.dart';
 
 /*
   All the models in the Peace River Model List can be used in any of the sub-lists below. There are also models in the
@@ -29,7 +28,9 @@ import 'package:gearforce/models/unit/unit_core.dart';
 class PeaceRiver extends RuleSet {
   PeaceRiver(super.data, {super.specialRules});
 
-  Map<UnitCore, String> _unit_cache = {};
+  // TODO look into way to load and tag units seperate of availableUnits call
+  // to fix issue where core unis that would fall under special units filter
+  // are not tagged as such and only have the core tag.
 
   @override
   List<Unit> availableUnits({
@@ -42,28 +43,24 @@ class PeaceRiver extends RuleSet {
       characterFilters,
       specialUnitFilter,
     );
-    final specialUnits = <UnitCore>[];
+    final specialUnits = <Unit>[];
 
     if (specialUnitFilter != null) {
-      final units = data.getUnitsByFilter(
-        filters: specialUnitFilter.filters,
-        roleFilter: role,
-        characterFilters: characterFilters,
-      );
+      final units = data
+          .getUnitsByFilter(
+            filters: specialUnitFilter.filters,
+            roleFilter: role,
+            characterFilters: characterFilters,
+          )
+          .map((uc) => Unit(core: uc)..addTag(specialUnitFilter.text))
+          .toList();
       specialUnits.addAll(units);
-      // cache the unit names mapped to the specials name they are apart to
-      // allow identification of special units for the add to group checks.
-      units.forEach((uc) {
-        _unit_cache[uc] = specialUnitFilter.text;
-      });
     }
 
-    coreUnits..addAll(specialUnits);
-
-    return coreUnits.map((uc) => Unit(core: uc)).toList();
+    return coreUnits..addAll(specialUnits);
   }
 
-  List<UnitCore> getCoreUnits(
+  List<Unit> getCoreUnits(
     List<RoleType>? role,
     List<String>? characterFilters,
     SpecialUnitFilter? specialUnitFilter,
@@ -76,11 +73,14 @@ class PeaceRiver extends RuleSet {
       const UnitFilter(FactionType.Terrain),
     ];
 
-    return data.getUnitsByFilter(
-      filters: unitFilters,
-      roleFilter: role,
-      characterFilters: characterFilters,
-    );
+    return data
+        .getUnitsByFilter(
+          filters: unitFilters,
+          roleFilter: role,
+          characterFilters: characterFilters,
+        )
+        .map((uc) => Unit(core: uc)..addTag(tagCore))
+        .toList();
   }
 
   @override
@@ -167,14 +167,17 @@ class PRDF extends PeaceRiver {
 
   @override
   bool isUnitCountWithinLimits(CombatGroup cg, Group group, Unit unit) {
-    switch (_unit_cache[unit]) {
-      case PRDFBestMenAndWomenSpecial:
-        /*
-        The Best Men and Women for the Job: One model in each combat group may
-        be selected from the Black Talon model list.
-      */
-        return cg.units.where((u) => u.core == unit).length == 0;
+    /*
+       The Best Men and Women for the Job: One model in each combat group may
+       be selected from the Black Talon model list.
+    */
+    if (unit.hasTag(PRDFBestMenAndWomenSpecial)) {
+      return cg.units
+              .where((u) => u.hasTag(PRDFBestMenAndWomenSpecial))
+              .length ==
+          0;
     }
+
     return super.isUnitCountWithinLimits(cg, group, unit);
   }
 
@@ -233,7 +236,7 @@ class POC extends PeaceRiver {
   }
 
   @override
-  List<UnitCore> getCoreUnits(
+  List<Unit> getCoreUnits(
     List<RoleType>? role,
     List<String>? characterFilters,
     SpecialUnitFilter? specialUnitFilter,
@@ -247,9 +250,12 @@ class POC extends PeaceRiver {
   @override
   bool canBeAddedToGroup(Unit unit, Group group, CombatGroup cg) {
     // TODO ensure other units don't end up in a cg that is a Merc contract group
-    if (_unit_cache[unit] == POCMercContractSpecialFilter.text) {
+    // need to add function to roster to check number of units with a tag
+    if (unit.hasTag(POCMercContractSpecialFilter.text)) {
       if (cg.numberOfUnits() !=
-          cg.units.where((u) => _unit_cache[u.core] != null).length) {
+          cg.units
+              .where((u) => u.hasTag(POCMercContractSpecialFilter.text))
+              .length) {
         return false;
       }
     }

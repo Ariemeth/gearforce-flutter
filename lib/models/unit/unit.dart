@@ -75,13 +75,7 @@ class Unit extends ChangeNotifier {
     CombatGroup? cg,
     UnitRoster roster,
   ) {
-    final core = subfaction.ruleSet.availableUnits()
-      ..addAll(
-        subfaction.ruleSet
-            .airstrikeCounters()
-            .map((uc) => Unit(core: uc))
-            .toList(),
-      );
+    final core = subfaction.ruleSet.availableUnits();
 
     Unit u = core.firstWhere((unit) => unit.name == json['variant']);
 
@@ -224,6 +218,9 @@ class Unit extends ChangeNotifier {
   removeTag(String tag) {
     _tags.remove(tag);
   }
+
+  bool hasTag(String tag) => _tags.any((t) => t == tag);
+  int numTags() => _tags.length;
 
   CommandLevel _commandLevel = CommandLevel.none;
   List<String> _special = [];

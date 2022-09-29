@@ -1,14 +1,14 @@
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/combatGroups/group.dart';
-import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/mods/factionUpgrades/faction_mod.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/rules/special_unit_filter.dart';
 import 'package:gearforce/models/unit/model_type.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
-import 'package:gearforce/models/unit/unit_core.dart';
+
+const tagCore = 'core';
 
 abstract class RuleSet {
   final Data data;
@@ -32,14 +32,6 @@ abstract class RuleSet {
         filters: [],
       )
     ];
-  }
-
-  List<UnitCore> airstrikeCounters() {
-    return data.getUnits(
-      baseFactionFilters: [
-        FactionType.Airstrike,
-      ],
-    );
   }
 
   List<FactionModification> availableFactionMods(
@@ -121,7 +113,7 @@ abstract class RuleSet {
   bool isUnitCountWithinLimits(CombatGroup cg, Group group, Unit unit) {
     // get the number other instances of this unitcore in the group
     final count =
-        group.allUnits().where((u) => u.core.name == unit.name).length;
+        group.allUnits().where((u) => u.core.name == unit.core.name).length;
 
     // Can only have a max of 2 non-unlimted units in a group.
     return count < 2;
