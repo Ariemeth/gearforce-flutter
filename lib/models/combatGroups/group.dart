@@ -23,12 +23,11 @@ class Group extends ChangeNotifier {
   final List<Unit> _units = [];
   final GroupType groupType;
 
-  Group(
-    this.groupType, {
-    RoleType role = _defaultRoleType,
-  }) {
+  Group(this.groupType, {RoleType role = _defaultRoleType}) {
     this._role = role;
   }
+
+  bool unitHasTag(String tag) => _units.any((u) => u.hasTag(tag));
 
   Map<String, dynamic> toJson() => {
         'role': _role.toString().split('.').last,

@@ -249,8 +249,6 @@ class POC extends PeaceRiver {
 
   @override
   bool canBeAddedToGroup(Unit unit, Group group, CombatGroup cg) {
-    // TODO ensure other units don't end up in a cg that is a Merc contract group
-    // need to add function to roster to check number of units with a tag
     if (unit.hasTag(POCMercContractSpecialFilter.text)) {
       if (cg.numberOfUnits() !=
           cg.units
@@ -258,6 +256,8 @@ class POC extends PeaceRiver {
               .length) {
         return false;
       }
+    } else if (cg.unitHasTag(POCMercContractSpecialFilter.text)) {
+      return false;
     }
 
     return super.canBeAddedToGroup(unit, group, cg);

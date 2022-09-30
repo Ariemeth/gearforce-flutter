@@ -22,6 +22,9 @@ class CombatGroup extends ChangeNotifier {
   /// Retrieve a list of all units in this [CombatGroup].
   List<Unit> get units => _primary.allUnits()..addAll(_secondary.allUnits());
 
+  bool unitHasTag(String tag) =>
+      _primary.unitHasTag(tag) || _secondary.unitHasTag(tag);
+
   Group get primary => _primary;
   set primary(Group group) {
     if (_primary.hasListeners) {
