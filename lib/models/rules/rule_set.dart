@@ -102,7 +102,7 @@ abstract class RuleSet {
 
   // Check if the role is unlimited
   bool isRoleTypeUnlimited(Unit unit, RoleType target, Group group) {
-    if (unit.role == null || unit.role!.roles.any((r) => r.name == target)) {
+    if (unit.role == null || !unit.role!.roles.any((r) => r.name == target)) {
       return false;
     }
     return unit.role!.roles
