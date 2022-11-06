@@ -206,6 +206,17 @@ class UnitRoster extends ChangeNotifier {
     return listOfUnits;
   }
 
+  int numberUnitsWithTag(String tag) {
+    return unitsWithTag(tag).length;
+  }
+
+  List<Unit> unitsWithTag(String tag) {
+    List<Unit> listOfUnits = [];
+    _combatGroups
+        .forEach((name, cg) => listOfUnits.addAll(cg.unitsWithTag(tag)));
+    return listOfUnits;
+  }
+
   // Returns true if the Roster currently has a duelist.
   bool hasDuelist() {
     for (final cg in getCGs()) {

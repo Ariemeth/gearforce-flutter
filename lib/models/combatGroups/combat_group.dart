@@ -140,6 +140,14 @@ class CombatGroup extends ChangeNotifier {
       ..addAll(_secondary.unitsWithMod(id).toList());
   }
 
+  int numberUnitsWithTag(String tag) {
+    return unitsWithTag(tag).length;
+  }
+
+  List<Unit> unitsWithTag(String tag) {
+    return primary.unitsWithTag(tag)..addAll(secondary.unitsWithTag(tag));
+  }
+
   // Retrieve the total number of units in the combat group
   int numberOfUnits() {
     return _primary.numberOfUnits() + _secondary.numberOfUnits();

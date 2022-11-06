@@ -32,6 +32,9 @@ class PeaceRiver extends RuleSet {
   // to fix issue where core unis that would fall under special units filter
   // are not tagged as such and only have the core tag.
 
+  // Maybe add a load unit function that each extended class can override
+  // available units could then pull from a set of already loaded/tagged units
+
   @override
   List<Unit> availableUnits({
     List<RoleType>? role,
@@ -43,7 +46,6 @@ class PeaceRiver extends RuleSet {
       characterFilters,
       specialUnitFilter,
     );
-    final specialUnits = <Unit>[];
 
     if (specialUnitFilter != null) {
       final units = data
@@ -54,10 +56,10 @@ class PeaceRiver extends RuleSet {
           )
           .map((uc) => Unit(core: uc)..addTag(specialUnitFilter.text))
           .toList();
-      specialUnits.addAll(units);
+      coreUnits.addAll(units);
     }
 
-    return coreUnits..addAll(specialUnits);
+    return coreUnits;
   }
 
   List<Unit> getCoreUnits(
@@ -249,11 +251,15 @@ class POC extends PeaceRiver {
 
   @override
   bool canBeAddedToGroup(Unit unit, Group group, CombatGroup cg) {
+    // Mercenary Contract special units can only be in a single Combat group
     if (unit.hasTag(POCMercContractSpecialFilter.text)) {
       if (cg.numberOfUnits() !=
           cg.units
               .where((u) => u.hasTag(POCMercContractSpecialFilter.text))
               .length) {
+        return false;
+      } else if (cg.numberOfUnits() !=
+          cg.roster?.numberUnitsWithTag(POCMercContractSpecialFilter.text)) {
         return false;
       }
     } else if (cg.unitHasTag(POCMercContractSpecialFilter.text)) {
