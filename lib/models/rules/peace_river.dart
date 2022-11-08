@@ -41,7 +41,7 @@ class PeaceRiver extends RuleSet {
     List<String>? characterFilters,
     SpecialUnitFilter? specialUnitFilter,
   }) {
-    final coreUnits = getCoreUnits(
+    final coreUnits = _getCoreUnits(
       role,
       characterFilters,
       specialUnitFilter,
@@ -62,7 +62,7 @@ class PeaceRiver extends RuleSet {
     return coreUnits;
   }
 
-  List<Unit> getCoreUnits(
+  List<Unit> _getCoreUnits(
     List<RoleType>? role,
     List<String>? characterFilters,
     SpecialUnitFilter? specialUnitFilter,
@@ -238,7 +238,7 @@ class POC extends PeaceRiver {
   }
 
   @override
-  List<Unit> getCoreUnits(
+  List<Unit> _getCoreUnits(
     List<RoleType>? role,
     List<String>? characterFilters,
     SpecialUnitFilter? specialUnitFilter,
@@ -246,7 +246,7 @@ class POC extends PeaceRiver {
     if (specialUnitFilter?.text == POCMercContractSpecialFilter.text) {
       return [];
     }
-    return super.getCoreUnits(role, characterFilters, specialUnitFilter);
+    return super._getCoreUnits(role, characterFilters, specialUnitFilter);
   }
 
   @override
