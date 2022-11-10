@@ -26,7 +26,10 @@ import 'package:gearforce/models/unit/unit.dart';
   * Architects: The duelist for this force may use a Peace River strider.
 */
 class PeaceRiver extends RuleSet {
-  PeaceRiver(super.data, {super.specialRules});
+  late final List<Unit> _coreUnits;
+  PeaceRiver(super.data, {super.specialRules}) {
+    _coreUnits = _getCoreUnits(null, null, null);
+  }
 
   // TODO look into way to load and tag units seperate of availableUnits call
   // to fix issue where core unis that would fall under special units filter
@@ -41,11 +44,7 @@ class PeaceRiver extends RuleSet {
     List<String>? characterFilters,
     SpecialUnitFilter? specialUnitFilter,
   }) {
-    final coreUnits = _getCoreUnits(
-      role,
-      characterFilters,
-      specialUnitFilter,
-    );
+    final coreUnits = _coreUnits.toList();
 
     if (specialUnitFilter != null) {
       final units = data
