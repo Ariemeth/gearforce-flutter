@@ -26,62 +26,74 @@ import 'package:gearforce/models/unit/unit.dart';
   * Architects: The duelist for this force may use a Peace River strider.
 */
 class PeaceRiver extends RuleSet {
-  late final List<Unit> _coreUnits;
+  final List<Unit> _units = [];
+  // TODO This constructor code is generic and could probably be moved into the
+  // Ruleset constructor.
   PeaceRiver(super.data, {super.specialRules}) {
-    _coreUnits = _getCoreUnits(null, null, null);
+    this.availableSpecialFilters().forEach((specialUnitFilter) {
+      print(specialUnitFilter.text);
+      data
+          .getUnitsByFilter(
+        filters: specialUnitFilter.filters,
+        roleFilter: null,
+        characterFilters: null,
+      )
+          .forEach((uc) {
+        if (_units.any((u) => u.core.name == uc.name)) {
+          _units.firstWhere((u) => u.core.name == uc.name)
+            ..addTag(specialUnitFilter.text);
+        } else {
+          _units.add(Unit(core: uc)..addTag(specialUnitFilter.text));
+        }
+      });
+    });
   }
 
-  // TODO look into way to load and tag units seperate of availableUnits call
-  // to fix issue where core unis that would fall under special units filter
-  // are not tagged as such and only have the core tag.
-
-  // Maybe add a load unit function that each extended class can override
-  // available units could then pull from a set of already loaded/tagged units
-
+  // TODO this function is generic and could probably be moved into the Ruleset
+  // class and not need to be overridden in most cases.
   @override
   List<Unit> availableUnits({
     List<RoleType>? role,
     List<String>? characterFilters,
     SpecialUnitFilter? specialUnitFilter,
   }) {
-    final coreUnits = _coreUnits.toList();
+    List<Unit> results = _units.toList();
 
     if (specialUnitFilter != null) {
-      final units = data
-          .getUnitsByFilter(
-            filters: specialUnitFilter.filters,
-            roleFilter: role,
-            characterFilters: characterFilters,
-          )
-          .map((uc) => Unit(core: uc)..addTag(specialUnitFilter.text))
-          .toList();
-      coreUnits.addAll(units);
+      results = results.where((u) => u.hasTag(specialUnitFilter.text)).toList();
     }
 
-    return coreUnits;
+    if (role != null && role.isNotEmpty) {
+      results = results.where((u) {
+        if (u.role != null) {
+          return u.role!.includesRole(role);
+        }
+        return false;
+      }).toList();
+    }
+
+    if (characterFilters != null) {
+      results =
+          results.where((u) => u.core.contains(characterFilters)).toList();
+    }
+
+    return results;
   }
 
-  List<Unit> _getCoreUnits(
-    List<RoleType>? role,
-    List<String>? characterFilters,
-    SpecialUnitFilter? specialUnitFilter,
-  ) {
-    const unitFilters = [
-      const UnitFilter(FactionType.PeaceRiver),
-      const UnitFilter(FactionType.Airstrike),
-      const UnitFilter(FactionType.Universal),
-      const UnitFilter(FactionType.Universal_TerraNova),
-      const UnitFilter(FactionType.Terrain),
+  @override
+  List<SpecialUnitFilter> availableSpecialFilters() {
+    return [
+      const SpecialUnitFilter(
+        text: tagCore,
+        filters: const [
+          const UnitFilter(FactionType.PeaceRiver),
+          const UnitFilter(FactionType.Airstrike),
+          const UnitFilter(FactionType.Universal),
+          const UnitFilter(FactionType.Universal_TerraNova),
+          const UnitFilter(FactionType.Terrain),
+        ],
+      ),
     ];
-
-    return data
-        .getUnitsByFilter(
-          filters: unitFilters,
-          roleFilter: role,
-          characterFilters: characterFilters,
-        )
-        .map((uc) => Unit(core: uc)..addTag(tagCore))
-        .toList();
   }
 
   @override
@@ -152,8 +164,8 @@ class PRDF extends PeaceRiver {
   }
 
   @override
-  List<SpecialUnitFilter> availableSpecials() {
-    return super.availableSpecials()
+  List<SpecialUnitFilter> availableSpecialFilters() {
+    return super.availableSpecialFilters()
       ..addAll(
         [
           const SpecialUnitFilter(
@@ -237,18 +249,6 @@ class POC extends PeaceRiver {
   }
 
   @override
-  List<Unit> _getCoreUnits(
-    List<RoleType>? role,
-    List<String>? characterFilters,
-    SpecialUnitFilter? specialUnitFilter,
-  ) {
-    if (specialUnitFilter?.text == POCMercContractSpecialFilter.text) {
-      return [];
-    }
-    return super._getCoreUnits(role, characterFilters, specialUnitFilter);
-  }
-
-  @override
   bool canBeAddedToGroup(Unit unit, Group group, CombatGroup cg) {
     // Mercenary Contract special units can only be in a single Combat group
     if (unit.hasTag(POCMercContractSpecialFilter.text)) {
@@ -319,8 +319,8 @@ class POC extends PeaceRiver {
   }
 
   @override
-  List<SpecialUnitFilter> availableSpecials() {
-    return super.availableSpecials()
+  List<SpecialUnitFilter> availableSpecialFilters() {
+    return super.availableSpecialFilters()
       ..addAll(
         [
           POCMercContractSpecialFilter,

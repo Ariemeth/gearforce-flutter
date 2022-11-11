@@ -8,7 +8,7 @@ import 'package:gearforce/models/unit/model_type.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
 
-const tagCore = 'core';
+const tagCore = 'None';
 
 abstract class RuleSet {
   final Data data;
@@ -25,7 +25,7 @@ abstract class RuleSet {
     SpecialUnitFilter? specialUnitFilter,
   });
 
-  List<SpecialUnitFilter> availableSpecials() {
+  List<SpecialUnitFilter> availableSpecialFilters() {
     return [
       const SpecialUnitFilter(
         text: 'None',

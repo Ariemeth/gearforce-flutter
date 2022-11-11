@@ -142,7 +142,7 @@ class _SpecialFilterSelectorState extends State<SpecialFilterSelector> {
         context.select((UnitRoster roster) => roster.subFaction.value);
     final factionNameToCache = '${faction.name}/${subFaction.name}';
     final rs = subFaction.ruleSet;
-    final availableSpecialFilters = rs.availableSpecials();
+    final availableSpecialFilters = rs.availableSpecialFilters();
 
     if (availableSpecialFilters.length == 0) {
       return Container();
