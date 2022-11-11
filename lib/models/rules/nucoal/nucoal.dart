@@ -33,6 +33,16 @@ class Nucoal extends RuleSet {
   }
 
   @override
+  List<SpecialUnitFilter> availableSpecialFilters() {
+    return [
+      const SpecialUnitFilter(
+        text: 'None',
+        filters: [],
+      )
+    ];
+  }
+
+  @override
   List<FactionModification> availableFactionMods(
       UnitRoster ur, CombatGroup cg, Unit u) {
     return [];

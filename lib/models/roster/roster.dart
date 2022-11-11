@@ -31,6 +31,9 @@ class UnitRoster extends ChangeNotifier {
         value.clear();
       });
       subFaction.addListener(() {
+        _combatGroups.forEach((key, value) {
+          value.clear();
+        });
         notifyListeners();
       });
     });

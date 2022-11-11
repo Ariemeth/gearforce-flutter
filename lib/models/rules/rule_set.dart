@@ -25,14 +25,7 @@ abstract class RuleSet {
     SpecialUnitFilter? specialUnitFilter,
   });
 
-  List<SpecialUnitFilter> availableSpecialFilters() {
-    return [
-      const SpecialUnitFilter(
-        text: 'None',
-        filters: [],
-      )
-    ];
-  }
+  List<SpecialUnitFilter> availableSpecialFilters();
 
   List<FactionModification> availableFactionMods(
       UnitRoster ur, CombatGroup cg, Unit u);
@@ -135,6 +128,11 @@ class DefaultRuleSet extends RuleSet {
     List<String>? characterFilters,
     SpecialUnitFilter? specialUnitFilter,
   }) {
+    return [];
+  }
+
+  @override
+  List<SpecialUnitFilter> availableSpecialFilters() {
     return [];
   }
 }

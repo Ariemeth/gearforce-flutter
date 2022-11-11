@@ -7,8 +7,8 @@ import 'package:gearforce/models/rules/special_unit_filter.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
 
-class Eden extends RuleSet {
-  const Eden(super.data);
+class CEF extends RuleSet {
+  const CEF(super.data);
 
   @override
   List<Unit> availableUnits({
@@ -19,7 +19,7 @@ class Eden extends RuleSet {
     return data
         .getUnits(
           baseFactionFilters: [
-            FactionType.Eden,
+            FactionType.CEF,
             FactionType.Airstrike,
             FactionType.Universal,
             FactionType.Universal_Non_TerraNova,
@@ -30,6 +30,16 @@ class Eden extends RuleSet {
         )
         .map((uc) => Unit(core: uc))
         .toList();
+  }
+
+  @override
+  List<SpecialUnitFilter> availableSpecialFilters() {
+    return [
+      const SpecialUnitFilter(
+        text: 'None',
+        filters: [],
+      )
+    ];
   }
 
   @override

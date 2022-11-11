@@ -1,13 +1,14 @@
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/mods/factionUpgrades/faction_mod.dart';
+import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/rules/special_unit_filter.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
 
-class BlackTalons extends RuleSet {
-  const BlackTalons(super.data);
+class South extends RuleSet {
+  const South(super.data);
 
   @override
   List<Unit> availableUnits({
@@ -18,7 +19,7 @@ class BlackTalons extends RuleSet {
     return data
         .getUnits(
           baseFactionFilters: [
-            FactionType.BlackTalon,
+            FactionType.South,
             FactionType.Airstrike,
             FactionType.Universal,
             FactionType.Universal_TerraNova,
@@ -32,8 +33,18 @@ class BlackTalons extends RuleSet {
   }
 
   @override
+  List<SpecialUnitFilter> availableSpecialFilters() {
+    return [
+      const SpecialUnitFilter(
+        text: 'None',
+        filters: [],
+      )
+    ];
+  }
+
+  @override
   List<FactionModification> availableFactionMods(
-      UnitRoster, CombatGroup cg, Unit u) {
+      UnitRoster ur, CombatGroup cg, Unit u) {
     return [];
   }
 }

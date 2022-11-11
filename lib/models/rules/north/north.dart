@@ -7,8 +7,8 @@ import 'package:gearforce/models/rules/special_unit_filter.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
 
-class Utopia extends RuleSet {
-  const Utopia(super.data);
+class North extends RuleSet {
+  const North(super.data);
 
   @override
   List<Unit> availableUnits({
@@ -19,10 +19,10 @@ class Utopia extends RuleSet {
     return data
         .getUnits(
           baseFactionFilters: [
-            FactionType.Utopia,
+            FactionType.North,
             FactionType.Airstrike,
             FactionType.Universal,
-            FactionType.Universal_Non_TerraNova,
+            FactionType.Universal_TerraNova,
             FactionType.Terrain,
           ],
           roleFilter: role,
@@ -30,6 +30,16 @@ class Utopia extends RuleSet {
         )
         .map((uc) => Unit(core: uc))
         .toList();
+  }
+
+  @override
+  List<SpecialUnitFilter> availableSpecialFilters() {
+    return [
+      const SpecialUnitFilter(
+        text: 'None',
+        filters: [],
+      )
+    ];
   }
 
   @override
