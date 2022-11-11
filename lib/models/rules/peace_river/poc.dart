@@ -1,5 +1,7 @@
+import 'package:gearforce/data/unit_filter.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/combatGroups/group.dart';
+import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/mods/factionUpgrades/faction_mod.dart';
 import 'package:gearforce/models/mods/factionUpgrades/peace_river.dart';
 import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart';
@@ -8,6 +10,21 @@ import 'package:gearforce/models/rules/peace_river/peace_river.dart';
 import 'package:gearforce/models/rules/special_unit_filter.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
+
+/*
+  Mercenary Contract: One combat group may be made with models from 
+  North, South, Peace River, and NuCoal (may include a mix from all 
+  four factions) that have an armor of 8 or lower.
+*/
+const POCMercContractSpecialFilter = SpecialUnitFilter(
+  text: 'Mercenary Contract',
+  filters: [
+    const UnitFilter(FactionType.North, matcher: matchArmor8),
+    const UnitFilter(FactionType.South, matcher: matchArmor8),
+    const UnitFilter(FactionType.PeaceRiver, matcher: matchArmor8),
+    const UnitFilter(FactionType.NuCoal, matcher: matchArmor8),
+  ],
+);
 
 /*
 POC - Peace Officer Corps

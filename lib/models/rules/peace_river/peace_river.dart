@@ -120,18 +120,3 @@ class PeaceRiver extends RuleSet {
     return !roster.hasDuelist();
   }
 }
-
-/*
-  Mercenary Contract: One combat group may be made with models from 
-  North, South, Peace River, and NuCoal (may include a mix from all 
-  four factions) that have an armor of 8 or lower.
-*/
-const POCMercContractSpecialFilter = SpecialUnitFilter(
-  text: 'Mercenary Contract',
-  filters: [
-    const UnitFilter(FactionType.North, matcher: matchArmor8),
-    const UnitFilter(FactionType.South, matcher: matchArmor8),
-    const UnitFilter(FactionType.PeaceRiver, matcher: matchArmor8),
-    const UnitFilter(FactionType.NuCoal, matcher: matchArmor8),
-  ],
-);
