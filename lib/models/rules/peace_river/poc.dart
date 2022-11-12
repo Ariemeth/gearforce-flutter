@@ -6,6 +6,7 @@ import 'package:gearforce/models/mods/factionUpgrades/faction_mod.dart';
 import 'package:gearforce/models/mods/factionUpgrades/peace_river.dart';
 import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart';
 import 'package:gearforce/models/roster/roster.dart';
+import 'package:gearforce/models/rules/combat_group_options.dart';
 import 'package:gearforce/models/rules/peace_river/peace_river.dart';
 import 'package:gearforce/models/rules/special_unit_filter.dart';
 import 'package:gearforce/models/unit/role.dart';
@@ -154,5 +155,17 @@ class POC extends PeaceRiver {
           POCMercContractSpecialFilter,
         ],
       );
+  }
+
+  @override
+  List<CombatGroupOption> combatGroupSettings() {
+    return [
+      CombatGroupOption(name: 'Mercenary Contract', options: [
+        Option(
+          name: 'Mercenary Contract',
+          requirementCheck: onlyOneCG('Mercenary Contract'),
+        ),
+      ])
+    ];
   }
 }

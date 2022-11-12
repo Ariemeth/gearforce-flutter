@@ -15,6 +15,7 @@ class CombatGroupSettingsDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // TODO create options sections
     var dialog = SimpleDialog(
       clipBehavior: Clip.antiAlias,
       shape: ContinuousRectangleBorder(
