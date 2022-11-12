@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/screens/roster/delete_combat_group_dialog.dart';
+import 'package:gearforce/widgets/options_section_title.dart';
 
 class CombatGroupSettingsDialog extends StatelessWidget {
   const CombatGroupSettingsDialog({
@@ -16,6 +17,8 @@ class CombatGroupSettingsDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO create options sections
+    final options = ruleSet.combatGroupSettings();
+
     var dialog = SimpleDialog(
       clipBehavior: Clip.antiAlias,
       shape: ContinuousRectangleBorder(
@@ -28,6 +31,10 @@ class CombatGroupSettingsDialog extends StatelessWidget {
               style: TextStyle(fontSize: 24),
               maxLines: 1,
             ),
+            Text(''),
+            ...options
+                .map((cgOption) => optionsSectionTitle(cgOption.name))
+                .toList(),
             Text(''),
             ElevatedButton(
               onPressed: () {
