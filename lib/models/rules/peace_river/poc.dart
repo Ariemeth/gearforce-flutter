@@ -161,14 +161,12 @@ class POC extends PeaceRiver {
   }
 
   @override
-  List<CombatGroupOption> combatGroupSettings() {
-    return [
-      CombatGroupOption(name: '$_pocFullName options', options: [
-        Option(
-          name: _mercContract,
-          requirementCheck: onlyOneCG(_mercContract),
-        ),
-      ])
-    ];
+  CombatGroupOption combatGroupSettings() {
+    return CombatGroupOption(name: '$_pocFullName options', options: [
+      Option(
+        name: _mercContract,
+        requirementCheck: onlyOneCG(_mercContract),
+      ),
+    ]);
   }
 }

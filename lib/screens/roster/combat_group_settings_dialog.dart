@@ -32,9 +32,7 @@ class CombatGroupSettingsDialog extends StatelessWidget {
               maxLines: 1,
             ),
             Text(''),
-            ...options
-                .map((cgOption) => optionsSectionTitle(cgOption.name))
-                .toList(),
+            options != null ? optionsSectionTitle(options.name) : Container(),
             Text(''),
             ElevatedButton(
               onPressed: () {

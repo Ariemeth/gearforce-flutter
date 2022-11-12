@@ -34,9 +34,7 @@ abstract class RuleSet {
 
   List<SpecialUnitFilter> availableSpecialFilters();
 
-  List<CombatGroupOption> combatGroupSettings() {
-    return const [];
-  }
+  CombatGroupOption? combatGroupSettings() => null;
 
   List<FactionModification> availableFactionMods(
       UnitRoster ur, CombatGroup cg, Unit u);
