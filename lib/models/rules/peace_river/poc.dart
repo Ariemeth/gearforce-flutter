@@ -12,13 +12,16 @@ import 'package:gearforce/models/rules/special_unit_filter.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
 
+const String _mercContract = 'Mercenary Contract';
+const String _pocFullName = 'Peace Officer Corps';
+
 /*
   Mercenary Contract: One combat group may be made with models from 
   North, South, Peace River, and NuCoal (may include a mix from all 
   four factions) that have an armor of 8 or lower.
 */
 const POCMercContractSpecialFilter = SpecialUnitFilter(
-  text: 'Mercenary Contract',
+  text: _mercContract,
   filters: [
     const UnitFilter(FactionType.North, matcher: matchArmor8),
     const UnitFilter(FactionType.South, matcher: matchArmor8),
@@ -160,10 +163,10 @@ class POC extends PeaceRiver {
   @override
   List<CombatGroupOption> combatGroupSettings() {
     return [
-      CombatGroupOption(name: 'Mercenary Contract', options: [
+      CombatGroupOption(name: '$_pocFullName options', options: [
         Option(
-          name: 'Mercenary Contract',
-          requirementCheck: onlyOneCG('Mercenary Contract'),
+          name: _mercContract,
+          requirementCheck: onlyOneCG(_mercContract),
         ),
       ])
     ];
