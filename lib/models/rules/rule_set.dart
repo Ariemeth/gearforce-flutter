@@ -9,6 +9,8 @@ import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
 
 const tagCore = 'None';
+const _maxPrimaryActions = 6;
+const _minPrimaryActions = 4;
 
 abstract class RuleSet {
   final Data data;
@@ -18,6 +20,10 @@ abstract class RuleSet {
     this.data, {
     this.specialRules = null,
   });
+
+  int get maxPrimaryActions => _maxPrimaryActions;
+  int get minPrimaryActions => _minPrimaryActions;
+  int maxSecondaryActions(int primaryActions) => (primaryActions / 2).ceil();
 
   List<Unit> availableUnits({
     List<RoleType>? role,

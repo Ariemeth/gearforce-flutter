@@ -21,12 +21,12 @@ const double _upgradeSectionHeight = 33;
 const double _maxVisibleUnitUpgrades = 3;
 
 class UpgradesDialog extends StatelessWidget {
-  UpgradesDialog({
+  const UpgradesDialog({
     Key? key,
     required this.roster,
     required this.cg,
     required this.unit,
-  }) : super(key: key) {}
+  }) : super(key: key);
 
   final UnitRoster roster;
   final CombatGroup cg;

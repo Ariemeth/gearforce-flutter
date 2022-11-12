@@ -7,7 +7,6 @@ import 'package:gearforce/models/mods/factionUpgrades/peace_river.dart';
 import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/rules/peace_river/peace_river.dart';
-import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/rules/special_unit_filter.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
@@ -67,29 +66,32 @@ class POC extends PeaceRiver {
   bool canBeAddedToGroup(Unit unit, Group group, CombatGroup cg) {
     // check if the unit is a core unit and is being added to a core only cg
     // this is the common and simple case.
-    if (unit.hasTag(tagCore) &&
-        cg.unitsWithTag(tagCore).length == cg.numberOfUnits()) {
-      return super.canBeAddedToGroup(unit, group, cg);
-    }
+    // if (unit.hasTag(tagCore)) {
+    //   if (cg.unitsWithTag(tagCore).length == cg.numberOfUnits()) {
+    //     return super.canBeAddedToGroup(unit, group, cg);
+    //   } else {}
+    // }
 
-    /// The unit is not a sipmle core unit or the cg is not all core
-    /// Need to check if this cg already has any [POCMercContractSpecialFilter]
+    // The unit is not a sipmle core unit or the cg is not all core
+    // Need to check if this cg already has any [POCMercContractSpecialFilter]
+    // tags
+    if (unit.hasTag(POCMercContractSpecialFilter.text)) {}
 
     // Mercenary Contract special units can only be in a single Combat group
-    if (unit.hasTag(POCMercContractSpecialFilter.text) &&
-        !unit.hasTag(tagCore)) {
-      if (cg.numberOfUnits() !=
-          cg.units
-              .where((u) => u.hasTag(POCMercContractSpecialFilter.text))
-              .length) {
-        return false;
-      } else if (cg.numberOfUnits() !=
-          cg.roster?.numberUnitsWithTag(POCMercContractSpecialFilter.text)) {
-        return false;
-      }
-    } else if (cg.unitHasTag(POCMercContractSpecialFilter.text)) {
-      return false;
-    }
+    // if (unit.hasTag(POCMercContractSpecialFilter.text) &&
+    //     !unit.hasTag(tagCore)) {
+    //   if (cg.numberOfUnits() !=
+    //       cg.units
+    //           .where((u) => u.hasTag(POCMercContractSpecialFilter.text))
+    //           .length) {
+    //     return false;
+    //   } else if (cg.numberOfUnits() !=
+    //       cg.roster?.numberUnitsWithTag(POCMercContractSpecialFilter.text)) {
+    //     return false;
+    //   }
+    // } else if (cg.unitHasTag(POCMercContractSpecialFilter.text)) {
+    //   return false;
+    // }
 
     return super.canBeAddedToGroup(unit, group, cg);
   }
