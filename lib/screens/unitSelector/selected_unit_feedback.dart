@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:gearforce/models/unit/unit_core.dart';
+import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/screens/unitSelector/unit_selection_text_Cell.dart';
 
 class SelectedUnitFeedback extends StatelessWidget {
-  final UnitCore uc;
+  final Unit unit;
   const SelectedUnitFeedback({
     Key? key,
-    required this.uc,
+    required this.unit,
   }) : super(key: key);
 
   @override
@@ -17,13 +17,13 @@ class SelectedUnitFeedback extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           UnitSelectionTextCell.draggableFeedback(
-            'Model: ${this.uc.name}',
+            'Model: ${this.unit.name}',
           ),
           UnitSelectionTextCell.draggableFeedback(
-            'TV: ${this.uc.tv}',
+            'TV: ${this.unit.tv}',
           ),
           UnitSelectionTextCell.draggableFeedback(
-            'Roles: ${this.uc.role == null ? '-' : this.uc.role!.roles.join(', ')}',
+            'Roles: ${this.unit.role == null ? '-' : this.unit.role!.roles.join(', ')}',
           ),
         ],
       ),

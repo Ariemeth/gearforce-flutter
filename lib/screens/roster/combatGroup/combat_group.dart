@@ -8,8 +8,7 @@ import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/unit.dart';
-import 'package:gearforce/models/unit/unit_core.dart';
-import 'package:gearforce/screens/roster/group_header.dart';
+import 'package:gearforce/screens/roster/combatGroup/group_header.dart';
 import 'package:gearforce/screens/upgrades/upgrades_dialog.dart';
 import 'package:gearforce/widgets/unit_text_cell.dart';
 import 'package:provider/provider.dart';
@@ -50,6 +49,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
           child: _generateTable(
             context: context,
             group: cg.primary,
+            cg: cg,
             ruleSet: widget.roster.subFaction.value.ruleSet,
           ),
         ),
@@ -61,6 +61,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
           child: _generateTable(
             context: context,
             group: cg.secondary,
+            cg: cg,
             ruleSet: widget.roster.subFaction.value.ruleSet,
           ),
         ),
@@ -71,6 +72,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
   Widget _generateTable({
     required BuildContext context,
     required Group group,
+    required CombatGroup cg,
     required RuleSet ruleSet,
   }) {
     var table = DataTable(
@@ -96,16 +98,16 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
       ) {
         return SingleChildScrollView(child: table);
       },
-      onAccept: (UnitCore uc) {
+      onAccept: (Unit u) {
         setState(() {
-          group.addUnit(uc);
+          group.addUnit(u);
         });
       },
-      onWillAccept: (UnitCore? uc) {
-        if (uc == null) {
+      onWillAccept: (Unit? u) {
+        if (u == null) {
           return false;
         }
-        return ruleSet.canBeAddedToGroup(uc, group);
+        return ruleSet.canBeAddedToGroup(u, group, cg);
       },
     );
 

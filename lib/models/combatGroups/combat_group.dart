@@ -14,6 +14,18 @@ class CombatGroup extends ChangeNotifier {
   final String name;
   bool _isVeteran = false;
   final UnitRoster? roster;
+  final List<String> _tags = [];
+
+  /// Retrieve the tags associated with this [CombatGroup].
+  List<String> get tags => _tags.toList();
+
+  /// Retrieve a list of all units in this [CombatGroup].
+  List<Unit> get units => _primary.allUnits()..addAll(_secondary.allUnits());
+
+  bool hasTag(String tag) => this._tags.contains(tag);
+
+  bool unitHasTag(String tag) =>
+      _primary.unitHasTag(tag) || _secondary.unitHasTag(tag);
 
   Group get primary => _primary;
   set primary(Group group) {
@@ -85,6 +97,7 @@ class CombatGroup extends ChangeNotifier {
         'secondary': _secondary.toJson(),
         'name': '$name',
         'isVet': _isVeteran,
+        'tags': _tags,
       };
 
   factory CombatGroup.fromJson(
@@ -105,6 +118,10 @@ class CombatGroup extends ChangeNotifier {
         GroupType.Secondary);
     cg.primary = p;
     cg.secondary = s;
+
+    (json['tags'] as List<String>).forEach((tag) {
+      cg._tags.add(tag);
+    });
 
     return cg;
   }
@@ -130,19 +147,38 @@ class CombatGroup extends ChangeNotifier {
       ..addAll(_secondary.unitsWithMod(id).toList());
   }
 
+  int numberUnitsWithTag(String tag) {
+    return unitsWithTag(tag).length;
+  }
+
+  List<Unit> unitsWithTag(String tag) {
+    return primary.unitsWithTag(tag)..addAll(secondary.unitsWithTag(tag));
+  }
+
   // Retrieve the total number of units in the combat group
   int numberOfUnits() {
     return _primary.numberOfUnits() + _secondary.numberOfUnits();
+  }
+
+  addTag(String tag) {
+    if (!_tags.any((s) => s == tag)) {
+      _tags.add(tag);
+    }
+  }
+
+  removeTag(String tag) {
+    _tags.remove(tag);
   }
 
   void clear() {
     this._primary.reset();
     this._secondary.reset();
     this._isVeteran = false;
+    this._tags.clear();
   }
 
   @override
   String toString() {
-    return 'CombatGroup: {Name: $name, PrimaryCG: $_primary, SecondaryCG: $_secondary}';
+    return 'CombatGroup: {Name: $name, PrimaryCG: $_primary, SecondaryCG: $_secondary, Tags: ${_tags.toString()}}';
   }
 }

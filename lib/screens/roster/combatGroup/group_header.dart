@@ -3,11 +3,12 @@ import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/combatGroups/group.dart';
 import 'package:gearforce/models/mods/duelist/duelist_modification.dart';
 import 'package:gearforce/models/roster/roster.dart';
+import 'package:gearforce/screens/roster/combatGroup/combat_group_settings_dialog.dart';
 import 'package:gearforce/screens/roster/select_role.dart';
 import 'package:gearforce/widgets/display_value.dart';
 
-const _maxPrimaryActions = 6;
-const _minPrimaryActions = 4;
+const maxDefaultPrimaryActions = 6;
+const minDefaultPrimaryActions = 4;
 const _groupHeaderHeight = 35.0;
 
 class GroupHeader extends StatelessWidget {
@@ -25,6 +26,25 @@ class GroupHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final actions = group.totalActions();
+    final maxPrimaryActions = roster == null
+        ? maxDefaultPrimaryActions
+        : roster!.subFaction.value.ruleSet.maxPrimaryActions;
+    final minPrimaryActions = roster == null
+        ? minDefaultPrimaryActions
+        : roster!.subFaction.value.ruleSet.minPrimaryActions;
+    final maxSecondaryAction = roster == null
+        ? (cg.primary.totalActions() / 2).ceil()
+        : roster!.subFaction.value.ruleSet
+            .maxSecondaryActions(cg.primary.totalActions());
+    final settingsIcon = roster != null &&
+            roster?.subFaction.value.ruleSet.combatGroupSettings() != null &&
+            roster!.subFaction.value.ruleSet
+                    .combatGroupSettings()!
+                    .options
+                    .length >
+                0
+        ? Icons.settings_suggest
+        : Icons.settings;
     return Padding(
       padding: const EdgeInsets.all(4.0),
       child: Row(
@@ -55,10 +75,10 @@ class GroupHeader extends StatelessWidget {
             message: group.groupType == GroupType.Primary
                 // a cg is only valid if the number of actions is greater then 4 and
                 // less then or equal to 6
-                ? actions > _maxPrimaryActions || actions < _minPrimaryActions
+                ? actions > maxPrimaryActions || actions < minPrimaryActions
                     ? 'too many or too few actions'
                     : 'valid number of actions'
-                : actions > (cg.primary.totalActions() / 2).ceil()
+                : actions > maxSecondaryAction
                     ? 'too many actions or too few actions'
                     : 'valid number of actions',
             child: DisplayValue(
@@ -69,11 +89,11 @@ class GroupHeader extends StatelessWidget {
                   : group.groupType == GroupType.Primary
                       // a cg is only valid if the number of actions is greater then 4 and
                       // less then or equal to 6
-                      ? actions > _maxPrimaryActions ||
-                              actions < _minPrimaryActions
+                      ? actions > maxPrimaryActions ||
+                              actions < minPrimaryActions
                           ? Colors.red
                           : Colors.green
-                      : actions > (cg.primary.totalActions() / 2).ceil()
+                      : actions > maxSecondaryAction
                           ? Colors.red
                           : Colors.green,
             ),
@@ -124,15 +144,14 @@ class GroupHeader extends StatelessWidget {
                     child: Align(
                       alignment: Alignment.centerRight,
                       child: IconButton(
-                        onPressed: () =>
-                            {_showConfirmDelete(context, cg.name, roster!)},
-                        icon: const Icon(
-                          Icons.delete_forever,
-                          color: Color.fromARGB(255, 200, 28, 28),
+                        onPressed: () => {_showSettingsDialog(context)},
+                        icon: Icon(
+                          settingsIcon,
+                          color: Colors.green,
                         ),
                         splashRadius: 20.0,
                         padding: EdgeInsets.zero,
-                        tooltip: 'Delete combat group ${cg.name}',
+                        tooltip: 'Options for ${cg.name}',
                       ),
                     ),
                   ),
@@ -143,65 +162,15 @@ class GroupHeader extends StatelessWidget {
     );
   }
 
-  void _showConfirmDelete(
-    BuildContext context,
-    String combatGroupName,
-    UnitRoster roster,
-  ) {
-    SimpleDialog optionsDialog = SimpleDialog(
-      title: Column(
-        children: [
-          Text(
-            'Are you sure you want to remove',
-            style: TextStyle(fontSize: 24),
-          ),
-          Text(
-            '$combatGroupName?',
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-          ),
-        ],
-      ),
-      children: [
-        SimpleDialogOption(
-          onPressed: () {
-            Navigator.pop(context, OptionResult.Remove);
-          },
-          child: Center(
-            child: Text(
-              'Yes',
-              style: TextStyle(fontSize: 24, color: Colors.red),
-            ),
-          ),
-        ),
-        SimpleDialogOption(
-          onPressed: () {
-            Navigator.pop(context, OptionResult.Cancel);
-          },
-          child: Center(
-            child: Text(
-              'No',
-              style: TextStyle(fontSize: 24, color: Colors.green),
-            ),
-          ),
-        ),
-      ],
+  void _showSettingsDialog(BuildContext context) {
+    final settingsDialog = CombatGroupSettingsDialog(
+      cg: cg,
+      ruleSet: roster!.subFaction.value.ruleSet,
     );
-
-    Future<OptionResult?> futureResult = showDialog<OptionResult>(
+    showDialog(
         context: context,
         builder: (BuildContext context) {
-          return optionsDialog;
+          return settingsDialog;
         });
-
-    futureResult.then((value) {
-      switch (value) {
-        case OptionResult.Remove:
-          roster.removeCG(combatGroupName);
-          break;
-        default:
-      }
-    });
   }
 }
-
-enum OptionResult { Remove, Cancel }

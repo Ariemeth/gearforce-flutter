@@ -31,6 +31,9 @@ class UnitRoster extends ChangeNotifier {
         value.clear();
       });
       subFaction.addListener(() {
+        _combatGroups.forEach((key, value) {
+          value.clear();
+        });
         notifyListeners();
       });
     });
@@ -203,6 +206,17 @@ class UnitRoster extends ChangeNotifier {
     List<Unit> listOfUnits = [];
     _combatGroups
         .forEach((name, cg) => {listOfUnits.addAll(cg.unitsWithMod(id))});
+    return listOfUnits;
+  }
+
+  int numberUnitsWithTag(String tag) {
+    return unitsWithTag(tag).length;
+  }
+
+  List<Unit> unitsWithTag(String tag) {
+    List<Unit> listOfUnits = [];
+    _combatGroups
+        .forEach((name, cg) => listOfUnits.addAll(cg.unitsWithTag(tag)));
     return listOfUnits;
   }
 

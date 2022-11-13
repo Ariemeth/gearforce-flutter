@@ -14,19 +14,20 @@ import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/screens/upgrades/upgrade_display_line.dart';
+import 'package:gearforce/widgets/options_section_title.dart';
 import 'package:provider/provider.dart';
 
 const double _upgradeSectionWidth = 620;
 const double _upgradeSectionHeight = 33;
-const double _maxVisibleUnitUpgrades = 3;
+const int _maxVisibleUnitUpgrades = 3;
 
 class UpgradesDialog extends StatelessWidget {
-  UpgradesDialog({
+  const UpgradesDialog({
     Key? key,
     required this.roster,
     required this.cg,
     required this.unit,
-  }) : super(key: key) {}
+  }) : super(key: key);
 
   final UnitRoster roster;
   final CombatGroup cg;
@@ -94,21 +95,15 @@ class UpgradesDialog extends StatelessWidget {
           // create listview with available upgrades
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            upgradeTitle('Unit Upgrades'),
-            unitUpgrades(
-              unitMods,
-              unit,
-              cg,
-              roster,
-              rs,
-            ),
-            upgradeTitle('Standard Upgrades'),
+            optionsSectionTitle('Unit Upgrades'),
+            unitUpgrades(unitMods, unit, cg, roster, rs),
+            optionsSectionTitle('Standard Upgrades'),
             unitUpgrades(standardMods, unit, cg, roster, rs),
-            upgradeTitle('Faction upgrades'),
+            optionsSectionTitle('Faction Upgrades'),
             unitUpgrades(factionMods, unit, cg, roster, rs),
-            upgradeTitle('Veteran Upgrades'),
+            optionsSectionTitle('Veteran Upgrades'),
             unitUpgrades(veteranMods, unit, cg, roster, rs),
-            upgradeTitle('Duelist Upgrades'),
+            optionsSectionTitle('Duelist Upgrades'),
             unitUpgrades(duelistMods, unit, cg, roster, rs),
           ],
         ),
@@ -127,18 +122,6 @@ class UpgradesDialog extends StatelessWidget {
     );
     return dialog;
   }
-}
-
-Container upgradeTitle(String title) {
-  return Container(
-    color: Color.fromARGB(255, 187, 222, 251),
-    child: Center(
-      child: Text(
-        title,
-        style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
-      ),
-    ),
-  );
 }
 
 Widget unitUpgrades(List<BaseModification> mods, Unit unit, CombatGroup cg,

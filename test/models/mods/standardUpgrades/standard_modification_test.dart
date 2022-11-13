@@ -4,6 +4,7 @@ import 'package:gearforce/models/mods/standardUpgrades/standard_modification.dar
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/traits/trait.dart';
+import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
 import 'package:gearforce/models/weapons/weapons.dart';
 import 'package:test/test.dart';
@@ -15,7 +16,7 @@ void main() {
     final w1 = buildWeapon('LATM', hasReact: true)!;
     final w2 = buildWeapon('MRP', hasReact: true)!;
     var cg = CombatGroup('test1')
-      ..primary.addUnit(UnitCore.test(reactWeapons: [w1, w2]));
+      ..primary.addUnit(Unit(core: UnitCore.test(reactWeapons: [w1, w2])));
     var u = cg.primary.allUnits()[0];
 
     final mod = StandardModification.antiAirSwap(u, cg);
@@ -26,7 +27,7 @@ void main() {
     final w1 = buildWeapon('LFC', hasReact: true)!;
     final w2 = buildWeapon('MRP', hasReact: true)!;
     var cg = CombatGroup('test1')
-      ..primary.addUnit(UnitCore.test(reactWeapons: [w1, w2]));
+      ..primary.addUnit(Unit(core: UnitCore.test(reactWeapons: [w1, w2])));
     var u = cg.primary.allUnits()[0];
 
     final mod = StandardModification.antiAirTrait(u, cg);
@@ -38,9 +39,9 @@ void main() {
     final w2 = buildWeapon('MRP', hasReact: true)!;
     final w3 = buildWeapon('MAC', hasReact: true)!;
     var cg = CombatGroup('test1')
-      ..primary.addUnit(UnitCore.test(reactWeapons: [w1, w2]))
-      ..primary.addUnit(UnitCore.test(reactWeapons: [w1]))
-      ..primary.addUnit(UnitCore.test(reactWeapons: [w3]));
+      ..primary.addUnit(Unit(core: UnitCore.test(reactWeapons: [w1, w2])))
+      ..primary.addUnit(Unit(core: UnitCore.test(reactWeapons: [w1])))
+      ..primary.addUnit(Unit(core: UnitCore.test(reactWeapons: [w3])));
 
     var u = cg.primary.allUnits().last;
     final mod = StandardModification.antiAirTrait(u, cg);
@@ -53,9 +54,9 @@ void main() {
     final w2 = buildWeapon('MRP')!;
     final w3 = buildWeapon('MAC', hasReact: true)!;
     var cg = CombatGroup('test1')
-      ..primary.addUnit(UnitCore.test(reactWeapons: [w1, w2]))
-      ..primary.addUnit(UnitCore.test(reactWeapons: [w1]))
-      ..primary.addUnit(UnitCore.test(reactWeapons: [w3]));
+      ..primary.addUnit(Unit(core: UnitCore.test(reactWeapons: [w1, w2])))
+      ..primary.addUnit(Unit(core: UnitCore.test(reactWeapons: [w1])))
+      ..primary.addUnit(Unit(core: UnitCore.test(reactWeapons: [w3])));
 
     var u = cg.primary.allUnits().last;
     final mod = StandardModification.antiAirTrait(u, cg);
@@ -66,12 +67,12 @@ void main() {
 
   test('test handGrenade (LHG) requirement check with 2 in group already', () {
     var cg = CombatGroup('test1')
-      ..primary
-          .addUnit(UnitCore.test(traits: const [const Trait(name: 'Hands')]))
-      ..primary
-          .addUnit(UnitCore.test(traits: const [const Trait(name: 'Hands')]))
-      ..primary
-          .addUnit(UnitCore.test(traits: const [const Trait(name: 'Hands')]));
+      ..primary.addUnit(
+          Unit(core: UnitCore.test(traits: const [const Trait(name: 'Hands')])))
+      ..primary.addUnit(
+          Unit(core: UnitCore.test(traits: const [const Trait(name: 'Hands')])))
+      ..primary.addUnit(Unit(
+          core: UnitCore.test(traits: const [const Trait(name: 'Hands')])));
     final roster = UnitRoster(data)..addCG(cg);
 
     var u = cg.primary.allUnits().last;
@@ -83,12 +84,12 @@ void main() {
 
   test('test handGrenade (LHG) requirement check with 1 in group already', () {
     var cg = CombatGroup('test1')
-      ..primary
-          .addUnit(UnitCore.test(traits: const [const Trait(name: 'Hands')]))
-      ..primary
-          .addUnit(UnitCore.test(traits: const [const Trait(name: 'Hands')]))
-      ..primary
-          .addUnit(UnitCore.test(traits: const [const Trait(name: 'Hands')]));
+      ..primary.addUnit(
+          Unit(core: UnitCore.test(traits: const [const Trait(name: 'Hands')])))
+      ..primary.addUnit(
+          Unit(core: UnitCore.test(traits: const [const Trait(name: 'Hands')])))
+      ..primary.addUnit(Unit(
+          core: UnitCore.test(traits: const [const Trait(name: 'Hands')])));
     final roster = UnitRoster(data)..addCG(cg);
 
     var u = cg.primary.allUnits().last;
@@ -99,12 +100,12 @@ void main() {
 
   test('test handGrenade (LHG) requirement check with 1 MHG already added', () {
     var cg = CombatGroup('test1')
-      ..primary
-          .addUnit(UnitCore.test(traits: const [const Trait(name: 'Hands')]))
-      ..primary
-          .addUnit(UnitCore.test(traits: const [const Trait(name: 'Hands')]))
-      ..primary
-          .addUnit(UnitCore.test(traits: const [const Trait(name: 'Hands')]));
+      ..primary.addUnit(
+          Unit(core: UnitCore.test(traits: const [const Trait(name: 'Hands')])))
+      ..primary.addUnit(
+          Unit(core: UnitCore.test(traits: const [const Trait(name: 'Hands')])))
+      ..primary.addUnit(Unit(
+          core: UnitCore.test(traits: const [const Trait(name: 'Hands')])));
     final roster = UnitRoster(data)..addCG(cg);
 
     final u = cg.primary.allUnits().last;
@@ -119,12 +120,12 @@ void main() {
       'test handGrenade (LHG) requirement check with 1 MHG already added to other group',
       () {
     var cg = CombatGroup('test1')
-      ..primary
-          .addUnit(UnitCore.test(traits: const [const Trait(name: 'Hands')]))
-      ..secondary
-          .addUnit(UnitCore.test(traits: const [const Trait(name: 'Hands')]))
-      ..secondary
-          .addUnit(UnitCore.test(traits: const [const Trait(name: 'Hands')]));
+      ..primary.addUnit(
+          Unit(core: UnitCore.test(traits: const [const Trait(name: 'Hands')])))
+      ..secondary.addUnit(
+          Unit(core: UnitCore.test(traits: const [const Trait(name: 'Hands')])))
+      ..secondary.addUnit(Unit(
+          core: UnitCore.test(traits: const [const Trait(name: 'Hands')])));
     final roster = UnitRoster(data)..addCG(cg);
 
     var u = cg.primary.allUnits().last;
@@ -137,12 +138,12 @@ void main() {
 
   test('test handGrenade (LHG) cost with 2 mods', () {
     var cg = CombatGroup('test1')
-      ..primary
-          .addUnit(UnitCore.test(traits: const [const Trait(name: 'Hands')]))
-      ..primary
-          .addUnit(UnitCore.test(traits: const [const Trait(name: 'Hands')]))
-      ..primary
-          .addUnit(UnitCore.test(traits: const [const Trait(name: 'Hands')]));
+      ..primary.addUnit(
+          Unit(core: UnitCore.test(traits: const [const Trait(name: 'Hands')])))
+      ..primary.addUnit(
+          Unit(core: UnitCore.test(traits: const [const Trait(name: 'Hands')])))
+      ..primary.addUnit(Unit(
+          core: UnitCore.test(traits: const [const Trait(name: 'Hands')])));
     final roster = UnitRoster(data)..addCG(cg);
 
     var u = cg.primary.allUnits().first;
@@ -154,12 +155,12 @@ void main() {
 
   test('test handGrenade (MHG) requirement check with 2 in group already', () {
     var cg = CombatGroup('test1')
-      ..primary
-          .addUnit(UnitCore.test(traits: const [const Trait(name: 'Hands')]))
-      ..primary
-          .addUnit(UnitCore.test(traits: const [const Trait(name: 'Hands')]))
-      ..primary
-          .addUnit(UnitCore.test(traits: const [const Trait(name: 'Hands')]));
+      ..primary.addUnit(
+          Unit(core: UnitCore.test(traits: const [const Trait(name: 'Hands')])))
+      ..primary.addUnit(
+          Unit(core: UnitCore.test(traits: const [const Trait(name: 'Hands')])))
+      ..primary.addUnit(Unit(
+          core: UnitCore.test(traits: const [const Trait(name: 'Hands')])));
     final roster = UnitRoster(data)..addCG(cg);
 
     cg.primary.allUnits()[0].addUnitMod(
@@ -173,12 +174,12 @@ void main() {
 
   test('test handGrenade (MHG) requirement check with 1 in group already', () {
     var cg = CombatGroup('test1')
-      ..primary
-          .addUnit(UnitCore.test(traits: const [const Trait(name: 'Hands')]))
-      ..primary
-          .addUnit(UnitCore.test(traits: const [const Trait(name: 'Hands')]))
-      ..primary
-          .addUnit(UnitCore.test(traits: const [const Trait(name: 'Hands')]));
+      ..primary.addUnit(
+          Unit(core: UnitCore.test(traits: const [const Trait(name: 'Hands')])))
+      ..primary.addUnit(
+          Unit(core: UnitCore.test(traits: const [const Trait(name: 'Hands')])))
+      ..primary.addUnit(Unit(
+          core: UnitCore.test(traits: const [const Trait(name: 'Hands')])));
 
     var u = cg.primary.allUnits().last;
     final mod = StandardModification.handGrenadeMHG(u, cg);
@@ -188,12 +189,12 @@ void main() {
 
   test('test handGrenade (MHG) requirement check with 1 LHG already added', () {
     var cg = CombatGroup('test1')
-      ..primary
-          .addUnit(UnitCore.test(traits: const [const Trait(name: 'Hands')]))
-      ..primary
-          .addUnit(UnitCore.test(traits: const [const Trait(name: 'Hands')]))
-      ..primary
-          .addUnit(UnitCore.test(traits: const [const Trait(name: 'Hands')]));
+      ..primary.addUnit(
+          Unit(core: UnitCore.test(traits: const [const Trait(name: 'Hands')])))
+      ..primary.addUnit(
+          Unit(core: UnitCore.test(traits: const [const Trait(name: 'Hands')])))
+      ..primary.addUnit(Unit(
+          core: UnitCore.test(traits: const [const Trait(name: 'Hands')])));
     final roster = UnitRoster(data)..addCG(cg);
 
     cg.primary.allUnits().first.addUnitMod(StandardModification.handGrenadeLHG(
@@ -206,12 +207,12 @@ void main() {
       'test handGrenade (MHG) requirement check with 1 MHG already added to other group',
       () {
     var cg = CombatGroup('test1')
-      ..primary
-          .addUnit(UnitCore.test(traits: const [const Trait(name: 'Hands')]))
-      ..secondary
-          .addUnit(UnitCore.test(traits: const [const Trait(name: 'Hands')]))
-      ..secondary
-          .addUnit(UnitCore.test(traits: const [const Trait(name: 'Hands')]));
+      ..primary.addUnit(
+          Unit(core: UnitCore.test(traits: const [const Trait(name: 'Hands')])))
+      ..secondary.addUnit(
+          Unit(core: UnitCore.test(traits: const [const Trait(name: 'Hands')])))
+      ..secondary.addUnit(Unit(
+          core: UnitCore.test(traits: const [const Trait(name: 'Hands')])));
 
     final first = cg.primary.allUnits().first;
     first.addUnitMod(StandardModification.handGrenadeMHG(first, cg));
@@ -221,12 +222,12 @@ void main() {
   });
   test('test handGrenade (MHG) cost with only 1 mod', () {
     var cg = CombatGroup('test1')
-      ..primary
-          .addUnit(UnitCore.test(traits: const [const Trait(name: 'Hands')]))
-      ..primary
-          .addUnit(UnitCore.test(traits: const [const Trait(name: 'Hands')]))
-      ..primary
-          .addUnit(UnitCore.test(traits: const [const Trait(name: 'Hands')]));
+      ..primary.addUnit(
+          Unit(core: UnitCore.test(traits: const [const Trait(name: 'Hands')])))
+      ..primary.addUnit(
+          Unit(core: UnitCore.test(traits: const [const Trait(name: 'Hands')])))
+      ..primary.addUnit(Unit(
+          core: UnitCore.test(traits: const [const Trait(name: 'Hands')])));
 
     var u = cg.primary.allUnits().last;
     final mod = StandardModification.handGrenadeMHG(u, cg);
@@ -236,12 +237,12 @@ void main() {
 
   test('test handGrenade (MHG) cost with 2 mods', () {
     var cg = CombatGroup('test1')
-      ..primary
-          .addUnit(UnitCore.test(traits: const [const Trait(name: 'Hands')]))
-      ..primary
-          .addUnit(UnitCore.test(traits: const [const Trait(name: 'Hands')]))
-      ..primary
-          .addUnit(UnitCore.test(traits: const [const Trait(name: 'Hands')]));
+      ..primary.addUnit(
+          Unit(core: UnitCore.test(traits: const [const Trait(name: 'Hands')])))
+      ..primary.addUnit(
+          Unit(core: UnitCore.test(traits: const [const Trait(name: 'Hands')])))
+      ..primary.addUnit(Unit(
+          core: UnitCore.test(traits: const [const Trait(name: 'Hands')])));
 
     final u = cg.primary.allUnits().last;
     u.addUnitMod(StandardModification.handGrenadeMHG(u, cg));

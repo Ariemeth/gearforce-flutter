@@ -20,6 +20,10 @@ class UnitModification extends BaseModification {
   // function to ensure the modification can be applied to the unit
 
   static bool _defaultRequirementsFunction(
-          RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) =>
+    RuleSet? rs,
+    UnitRoster? ur,
+    CombatGroup? cg,
+    Unit u,
+  ) =>
       true;
 }

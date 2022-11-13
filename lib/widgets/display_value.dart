@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gearforce/screens/roster/combat_group_tv.dart';
+import 'package:gearforce/screens/roster/combatGroup/combat_group_tv.dart';
 
 class DisplayValue extends StatelessWidget {
   const DisplayValue({

@@ -7,7 +7,6 @@ import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/model_type.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
-import 'package:gearforce/models/unit/unit_core.dart';
 
 const RoleType _defaultRoleType = RoleType.GP;
 
@@ -24,12 +23,11 @@ class Group extends ChangeNotifier {
   final List<Unit> _units = [];
   final GroupType groupType;
 
-  Group(
-    this.groupType, {
-    RoleType role = _defaultRoleType,
-  }) {
+  Group(this.groupType, {RoleType role = _defaultRoleType}) {
     this._role = role;
   }
+
+  bool unitHasTag(String tag) => _units.any((u) => u.hasTag(tag));
 
   Map<String, dynamic> toJson() => {
         'role': _role.toString().split('.').last,
@@ -80,11 +78,8 @@ class Group extends ChangeNotifier {
       }));
   }
 
-  void addUnit(UnitCore unit) {
-    _units.add(Unit(core: unit)
-      ..addListener(() {
-        notifyListeners();
-      }));
+  void addUnit(Unit unit) {
+    _addUnit(unit);
     notifyListeners();
   }
 
@@ -111,11 +106,19 @@ class Group extends ChangeNotifier {
   }
 
   int modCount(String id) {
-    return this._units.where((unit) => unit.hasMod(id)).length;
+    return unitsWithMod(id).length;
   }
 
   List<Unit> unitsWithMod(String id) {
     return this._units.where((unit) => unit.hasMod(id)).toList();
+  }
+
+  int tagCount(String tag) {
+    return unitsWithTag(tag).length;
+  }
+
+  List<Unit> unitsWithTag(String tag) {
+    return this._units.where((unit) => unit.hasTag(tag)).toList();
   }
 
   void reset() {

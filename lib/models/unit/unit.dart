@@ -62,7 +62,8 @@ class Unit extends ChangeNotifier {
       'frame': core.frame,
       'variant': core.name,
       'mods': mods,
-      'command': commandLevelString(_commandLevel)
+      'command': commandLevelString(_commandLevel),
+      'tags': this._tags
     };
   }
 
@@ -74,11 +75,9 @@ class Unit extends ChangeNotifier {
     CombatGroup? cg,
     UnitRoster roster,
   ) {
-    final core = subfaction.ruleSet.availableUnits()
-      ..addAll(subfaction.ruleSet.airstrikeCounters());
+    final core = subfaction.ruleSet.availableUnits();
 
-    Unit u = Unit(
-        core: core.firstWhere((element) => element.name == json['variant']));
+    Unit u = core.firstWhere((unit) => unit.name == json['variant']);
 
     u._commandLevel = convertToCommand(json['command']);
 
@@ -192,6 +191,9 @@ class Unit extends ChangeNotifier {
       loadAttempts++;
     }
 
+    final tags = json['tags'] as List<String>;
+    tags.forEach((tag) => u._tags.add(tag));
+
     return u;
   }
 
@@ -201,6 +203,25 @@ class Unit extends ChangeNotifier {
   List<String> get modNamesWithCost => _mods
       .map((m) => '${m.name}(${m.applyMods(UnitAttribute.tv, 0)})')
       .toList();
+
+  final List<String> _tags = [];
+
+  /// Retrieve the tags associated with this [Unit].
+  List<String> get tags => _tags.toList();
+
+  addTag(String tag) {
+    if (!_tags.any((s) => s == tag)) {
+      _tags.add(tag);
+    }
+  }
+
+  removeTag(String tag) {
+    _tags.remove(tag);
+  }
+
+  bool hasTag(String tag) => _tags.any((t) => t == tag);
+  int numTags() => _tags.length;
+
   CommandLevel _commandLevel = CommandLevel.none;
   List<String> _special = [];
 

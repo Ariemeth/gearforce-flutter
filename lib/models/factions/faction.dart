@@ -1,16 +1,18 @@
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/factions/sub_faction.dart';
-import 'package:gearforce/models/rules/black_talons.dart';
-import 'package:gearforce/models/rules/caprice.dart';
-import 'package:gearforce/models/rules/cef.dart';
-import 'package:gearforce/models/rules/eden.dart';
-import 'package:gearforce/models/rules/north.dart';
-import 'package:gearforce/models/rules/nucoal.dart';
-import 'package:gearforce/models/rules/peace_river.dart';
-import 'package:gearforce/models/rules/south.dart';
-import 'package:gearforce/models/rules/utopia.dart';
-import 'package:gearforce/models/rules/rule_set.dart';
+import 'package:gearforce/models/rules/black_talons/black_talons.dart';
+import 'package:gearforce/models/rules/caprice/caprice.dart';
+import 'package:gearforce/models/rules/cef/cef.dart';
+import 'package:gearforce/models/rules/eden/eden.dart';
+import 'package:gearforce/models/rules/north/north.dart';
+import 'package:gearforce/models/rules/nucoal/nucoal.dart';
+import 'package:gearforce/models/rules/peace_river/peace_river.dart';
+import 'package:gearforce/models/rules/peace_river/poc.dart';
+import 'package:gearforce/models/rules/peace_river/pps.dart';
+import 'package:gearforce/models/rules/peace_river/prdf.dart';
+import 'package:gearforce/models/rules/south/south.dart';
+import 'package:gearforce/models/rules/utopia/utopia.dart';
 
 class Faction {
   String get name => this.factionType.name;
@@ -26,11 +28,10 @@ class Faction {
         FactionType.BlackTalon,
         [
           defaultSub,
-          SubFaction('Black Talon Recon Team', ruleSet: DefaultRuleSet(data)),
-          SubFaction('Black Talon Insertion Team',
-              ruleSet: DefaultRuleSet(data)),
-          SubFaction('Black Talon Strike Team', ruleSet: DefaultRuleSet(data)),
-          SubFaction('Black Talon Assault Team', ruleSet: DefaultRuleSet(data)),
+          SubFaction('Black Talon Recon Team', ruleSet: BlackTalons(data)),
+          SubFaction('Black Talon Insertion Team', ruleSet: BlackTalons(data)),
+          SubFaction('Black Talon Strike Team', ruleSet: BlackTalons(data)),
+          SubFaction('Black Talon Assault Team', ruleSet: BlackTalons(data)),
         ],
         defaultSub);
   }
@@ -40,10 +41,9 @@ class Faction {
       FactionType.Caprice,
       [
         defaultSub,
-        SubFaction('Caprice Invasion Detachment',
-            ruleSet: DefaultRuleSet(data)),
-        SubFaction('Corporate Security Element', ruleSet: DefaultRuleSet(data)),
-        SubFaction('Liberati Resistance Cell', ruleSet: DefaultRuleSet(data)),
+        SubFaction('Caprice Invasion Detachment', ruleSet: Caprice(data)),
+        SubFaction('Corporate Security Element', ruleSet: Caprice(data)),
+        SubFaction('Liberati Resistance Cell', ruleSet: Caprice(data)),
       ],
       defaultSub,
     );
@@ -54,9 +54,9 @@ class Faction {
       FactionType.CEF,
       [
         defaultSub,
-        SubFaction('CEF Frame Formation', ruleSet: DefaultRuleSet(data)),
-        SubFaction('CEF Tank Formation', ruleSet: DefaultRuleSet(data)),
-        SubFaction('CEF Infantry Formation', ruleSet: DefaultRuleSet(data)),
+        SubFaction('CEF Frame Formation', ruleSet: CEF(data)),
+        SubFaction('CEF Tank Formation', ruleSet: CEF(data)),
+        SubFaction('CEF Infantry Formation', ruleSet: CEF(data)),
       ],
       defaultSub,
     );
@@ -67,9 +67,9 @@ class Faction {
       FactionType.Eden,
       [
         defaultSub,
-        SubFaction('Edenite Invasion Force', ruleSet: DefaultRuleSet(data)),
-        SubFaction('Edenite Noble Houses', ruleSet: DefaultRuleSet(data)),
-        SubFaction('Ad-Hoc Edenite Force', ruleSet: DefaultRuleSet(data)),
+        SubFaction('Edenite Invasion Force', ruleSet: Eden(data)),
+        SubFaction('Edenite Noble Houses', ruleSet: Eden(data)),
+        SubFaction('Ad-Hoc Edenite Force', ruleSet: Eden(data)),
       ],
       defaultSub,
     );
@@ -80,13 +80,10 @@ class Faction {
       FactionType.North,
       [
         defaultSub,
-        SubFaction('Norguard', ruleSet: DefaultRuleSet(data)),
-        SubFaction('Western Frontier Protectorate',
-            ruleSet: DefaultRuleSet(data)),
-        SubFaction('United Mercantile Federation',
-            ruleSet: DefaultRuleSet(data)),
-        SubFaction('Northern Lights Confederacy',
-            ruleSet: DefaultRuleSet(data)),
+        SubFaction('Norguard', ruleSet: North(data)),
+        SubFaction('Western Frontier Protectorate', ruleSet: North(data)),
+        SubFaction('United Mercantile Federation', ruleSet: North(data)),
+        SubFaction('Northern Lights Confederacy', ruleSet: North(data)),
       ],
       defaultSub,
     );
@@ -97,14 +94,12 @@ class Faction {
       FactionType.NuCoal,
       [
         defaultSub,
-        SubFaction('NuCoal Self Defense Force', ruleSet: DefaultRuleSet(data)),
-        SubFaction('Port Arthur Korps', ruleSet: DefaultRuleSet(data)),
-        SubFaction('Humanist Alliance Protection Force',
-            ruleSet: DefaultRuleSet(data)),
-        SubFaction('Khayr ad-Dine', ruleSet: DefaultRuleSet(data)),
-        SubFaction('Temple Heights', ruleSet: DefaultRuleSet(data)),
-        SubFaction('Hardscrabble City-State Armies',
-            ruleSet: DefaultRuleSet(data)),
+        SubFaction('NuCoal Self Defense Force', ruleSet: Nucoal(data)),
+        SubFaction('Port Arthur Korps', ruleSet: Nucoal(data)),
+        SubFaction('Humanist Alliance Protection Force', ruleSet: Nucoal(data)),
+        SubFaction('Khayr ad-Dine', ruleSet: Nucoal(data)),
+        SubFaction('Temple Heights', ruleSet: Nucoal(data)),
+        SubFaction('Hardscrabble City-State Armies', ruleSet: Nucoal(data)),
       ],
       defaultSub,
     );
@@ -133,10 +128,10 @@ class Faction {
       [
         defaultSub,
         SubFaction('Military Intervention and Counter Insurgency Army',
-            ruleSet: DefaultRuleSet(data)),
-        SubFaction('Mekong Dominion', ruleSet: DefaultRuleSet(data)),
-        SubFaction('Eastern Sun Emirates', ruleSet: DefaultRuleSet(data)),
-        SubFaction('Free Humanist Alliance', ruleSet: DefaultRuleSet(data)),
+            ruleSet: South(data)),
+        SubFaction('Mekong Dominion', ruleSet: South(data)),
+        SubFaction('Eastern Sun Emirates', ruleSet: South(data)),
+        SubFaction('Free Humanist Alliance', ruleSet: South(data)),
       ],
       defaultSub,
     );
@@ -147,8 +142,8 @@ class Faction {
       FactionType.Utopia,
       [
         defaultSub,
-        SubFaction('Combined Armiger Force', ruleSet: DefaultRuleSet(data)),
-        SubFaction('Other Utopian Forces', ruleSet: DefaultRuleSet(data)),
+        SubFaction('Combined Armiger Force', ruleSet: Utopia(data)),
+        SubFaction('Other Utopian Forces', ruleSet: Utopia(data)),
       ],
       defaultSub,
     );

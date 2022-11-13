@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/services.dart';
+import 'package:gearforce/data/unit_filter.dart';
 import 'package:gearforce/models/factions/faction.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/unit/frame.dart';
@@ -34,100 +35,86 @@ class Data {
     return _factions.toList();
   }
 
-  /// Returns a list of UnitCore's for the specified [faction] and [role] if
+  /// Returns a list of UnitCore's for the specified [baseFactionFilters] using
+  /// the optional [roleFilter], [characterFilters], and [unitFilters] if
   /// available.
   ///
-  /// If no UnitCore's are available to match the specified [faction] and [role]
-  /// the returned list will be empty.  If [role] is null or not specified all
-  /// UnitCore's of the specified [faction] will be returned.
-  List<UnitCore> unitList(
-    FactionType faction, {
-    List<RoleType?>? role,
-    List<String>? characterFilter,
-    bool Function(UnitCore)? filter,
-    bool includeTerrain = true,
-    bool includeAirstrikeTokens = true,
-    bool includeUniversal = true,
+  /// If no UnitCore's are available to match the specified [baseFactionFilters] and [roleFilter]
+  /// the returned list will be empty.  If [roleFilter] is null or not specified all
+  /// UnitCore's of the specified [baseFactionFilters] will be returned.
+  List<UnitCore> getUnits({
+    required List<FactionType> baseFactionFilters,
+    List<RoleType?>? roleFilter,
+    List<String>? characterFilters,
   }) {
-    List<Frame>? factionUnits = _factionFrames[faction]!.toList();
+    assert(baseFactionFilters.length > 0);
 
-    switch (faction) {
-      case FactionType.North:
-      case FactionType.South:
-      case FactionType.NuCoal:
-      case FactionType.PeaceRiver:
-      case FactionType.BlackTalon:
-        if (includeUniversal) {
-          var uniList = _factionFrames[FactionType.Universal_TerraNova];
-          if (uniList != null) {
-            factionUnits.addAll(uniList.toList());
-          }
-          var fullUniList = _factionFrames[FactionType.Universal];
-          if (fullUniList != null) {
-            factionUnits.addAll(fullUniList.toList());
-          }
-        }
-        break;
-      case FactionType.CEF:
-      case FactionType.Caprice:
-      case FactionType.Utopia:
-      case FactionType.Eden:
-        if (includeUniversal) {
-          var uniList = _factionFrames[FactionType.Universal_Non_TerraNova];
-          if (uniList != null) {
-            factionUnits.addAll(uniList.toList());
-          }
-          var fullUniList = _factionFrames[FactionType.Universal];
-          if (fullUniList != null) {
-            factionUnits.addAll(fullUniList.toList());
-          }
-        }
-        break;
-      case FactionType.Universal:
-        break;
-      case FactionType.Universal_Non_TerraNova:
-        break;
-      case FactionType.Universal_TerraNova:
-        break;
-      case FactionType.Terrain:
-        break;
-      case FactionType.Airstrike:
-        break;
-    }
+    final List<Frame> availableFrames = [];
 
-    if (includeTerrain && faction != FactionType.Terrain) {
-      final terrainList = _factionFrames[FactionType.Terrain];
-      if (terrainList != null) {
-        factionUnits.addAll(terrainList);
+    baseFactionFilters.forEach((factionType) {
+      final frames = _factionFrames[factionType];
+      if (frames != null) {
+        availableFrames.addAll(frames);
       }
-    }
-
-    if (includeAirstrikeTokens && faction != FactionType.Airstrike) {
-      final airstrikeTokens = _factionFrames[FactionType.Airstrike];
-      if (airstrikeTokens != null) {
-        factionUnits.addAll(airstrikeTokens);
-      }
-    }
-
-    List<UnitCore> results = [];
-    factionUnits.forEach((frame) {
-      filter != null
-          ? results.addAll(frame.variants.where(filter))
-          : results.addAll(frame.variants);
     });
 
-    if (role != null && role.isNotEmpty) {
+    List<UnitCore> results = [];
+
+    // adding each variant of the already selected frames to the results to be
+    // returned.
+    availableFrames.forEach((frame) {
+      results.addAll(frame.variants);
+    });
+
+    if (roleFilter != null && roleFilter.isNotEmpty) {
       results = results.where((uc) {
         if (uc.role != null) {
-          return uc.role!.includesRole(role);
+          return uc.role!.includesRole(roleFilter);
         }
         return false;
       }).toList();
     }
 
-    return characterFilter == null
-        ? results
-        : results.where((uc) => uc.contains(characterFilter)).toList();
+    if (characterFilters != null) {
+      results = results.where((uc) => uc.contains(characterFilters)).toList();
+    }
+
+    return results;
+  }
+
+  List<UnitCore> getUnitsByFilter({
+    required List<UnitFilter> filters,
+    List<RoleType>? roleFilter,
+    List<String>? characterFilters,
+  }) {
+    if (filters.length == 0) {
+      return [];
+    }
+
+    List<UnitCore> results = [];
+
+    filters.forEach((filter) {
+      final frames = _factionFrames[filter.faction];
+      frames?.forEach((frame) {
+        results.addAll(frame.variants.where((uc) => filter.matcher(uc)));
+      });
+    });
+
+    // filter the selection based on role
+    if (roleFilter != null && roleFilter.isNotEmpty) {
+      results = results.where((uc) {
+        if (uc.role != null) {
+          return uc.role!.includesRole(roleFilter);
+        }
+        return false;
+      }).toList();
+    }
+
+    if (characterFilters != null) {
+      results = results.where((uc) => uc.contains(characterFilters)).toList();
+    }
+
+    return results;
   }
 
   /// This function loads all needed data resources.

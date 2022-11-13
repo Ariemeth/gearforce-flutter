@@ -1,6 +1,7 @@
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/roster/roster.dart';
+import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
 import 'package:test/test.dart';
 
@@ -27,8 +28,8 @@ void main() {
     final data = Data()..load();
     final roster = UnitRoster(data);
     final cg = CombatGroup('test1');
-    cg.primary.addUnit(UnitCore.test());
-    cg.secondary.addUnit(UnitCore.test());
+    cg.primary.addUnit(Unit(core: UnitCore.test()));
+    cg.secondary.addUnit(Unit(core: UnitCore.test()));
     roster.addCG(cg);
     expect(roster.totalTV(), equals(10),
         reason: 'check total tv equals both default units');

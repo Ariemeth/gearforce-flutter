@@ -3,6 +3,7 @@ import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/model_type.dart';
 import 'package:gearforce/models/unit/movement.dart';
 import 'package:gearforce/models/unit/role.dart';
+import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
 import 'package:test/test.dart';
 
@@ -50,22 +51,23 @@ void main() {
   });
 }
 
-UnitCore createDefaultUnit() {
-  return UnitCore(
-      name: 'test',
-      tv: 5,
-      role: Roles(roles: [Role(name: RoleType.GP)]),
-      movement: Movement(type: 'G', rate: 6),
-      armor: 7,
-      hull: 4,
-      structure: 3,
-      actions: 1,
-      gunnery: 5,
-      piloting: 6,
-      ew: 2,
-      reactWeapons: [],
-      mountedWeapons: [],
-      traits: [const Trait(name: 'hands')],
-      type: ModelType.Gear,
-      height: '1.5');
+Unit createDefaultUnit() {
+  return Unit(
+      core: UnitCore(
+          name: 'test',
+          tv: 5,
+          role: Roles(roles: [Role(name: RoleType.GP)]),
+          movement: Movement(type: 'G', rate: 6),
+          armor: 7,
+          hull: 4,
+          structure: 3,
+          actions: 1,
+          gunnery: 5,
+          piloting: 6,
+          ew: 2,
+          reactWeapons: [],
+          mountedWeapons: [],
+          traits: [const Trait(name: 'hands')],
+          type: ModelType.Gear,
+          height: '1.5'));
 }

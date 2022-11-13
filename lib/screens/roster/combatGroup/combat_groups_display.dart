@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/roster/roster.dart';
-import 'package:gearforce/screens/roster/combat_group.dart';
+import 'package:gearforce/screens/roster/combatGroup/combat_group.dart';
 import 'package:provider/provider.dart';
 
 const double _tabBarHeight = 30.0;
