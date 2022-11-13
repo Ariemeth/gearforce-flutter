@@ -10,7 +10,7 @@ class BlackTalons extends RuleSet {
   BlackTalons(super.data);
 
   @override
-  List<SpecialUnitFilter> availableSpecialFilters() {
+  List<SpecialUnitFilter> availableUnitFilters() {
     return [
       const SpecialUnitFilter(
         text: tagCore,

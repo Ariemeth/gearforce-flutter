@@ -11,7 +11,7 @@ class South extends RuleSet {
   South(super.data);
 
   @override
-  List<SpecialUnitFilter> availableSpecialFilters() {
+  List<SpecialUnitFilter> availableUnitFilters() {
     return [
       const SpecialUnitFilter(
         text: tagCore,

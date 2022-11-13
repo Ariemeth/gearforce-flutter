@@ -26,7 +26,7 @@ class PeaceRiver extends RuleSet {
   PeaceRiver(super.data, {super.specialRules});
 
   @override
-  List<SpecialUnitFilter> availableSpecialFilters() {
+  List<SpecialUnitFilter> availableUnitFilters() {
     return [
       const SpecialUnitFilter(
         text: tagCore,

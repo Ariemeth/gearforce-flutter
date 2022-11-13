@@ -22,7 +22,7 @@ abstract class RuleSet {
     this.data, {
     this.specialRules = null,
   }) {
-    this.availableSpecialFilters().forEach((specialUnitFilter) {
+    this.availableUnitFilters().forEach((specialUnitFilter) {
       data
           .getUnitsByFilter(
         filters: specialUnitFilter.filters,
@@ -74,7 +74,7 @@ abstract class RuleSet {
     return results;
   }
 
-  List<SpecialUnitFilter> availableSpecialFilters();
+  List<SpecialUnitFilter> availableUnitFilters();
 
   CombatGroupOption? combatGroupSettings() => null;
 
@@ -174,7 +174,7 @@ class DefaultRuleSet extends RuleSet {
   }
 
   @override
-  List<SpecialUnitFilter> availableSpecialFilters() {
+  List<SpecialUnitFilter> availableUnitFilters() {
     return [];
   }
 }

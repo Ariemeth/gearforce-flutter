@@ -54,8 +54,8 @@ class PRDF extends PeaceRiver {
   }
 
   @override
-  List<SpecialUnitFilter> availableSpecialFilters() {
-    return super.availableSpecialFilters()
+  List<SpecialUnitFilter> availableUnitFilters() {
+    return super.availableUnitFilters()
       ..addAll(
         [
           const SpecialUnitFilter(

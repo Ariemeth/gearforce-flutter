@@ -131,8 +131,8 @@ class POC extends PeaceRiver {
   }
 
   @override
-  List<SpecialUnitFilter> availableSpecialFilters() {
-    return super.availableSpecialFilters()
+  List<SpecialUnitFilter> availableUnitFilters() {
+    return super.availableUnitFilters()
       ..addAll(
         [
           POCMercContractSpecialFilter,
