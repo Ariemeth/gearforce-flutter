@@ -174,15 +174,6 @@ class DefaultRuleSet extends RuleSet {
   }
 
   @override
-  List<Unit> availableUnits({
-    List<RoleType?>? role,
-    List<String>? characterFilters,
-    SpecialUnitFilter? specialUnitFilter,
-  }) {
-    return [];
-  }
-
-  @override
   List<SpecialUnitFilter> availableSpecialFilters() {
     return [];
   }
