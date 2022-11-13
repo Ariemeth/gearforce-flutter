@@ -48,7 +48,7 @@ the Shield trait. If a gear does not have a rocket pack, then it may instead gai
 Shield trait for 1 TV.
 * G-SWAT Sniper: One gear with a rifle, per combat group, may purchase the
 Improved Gunnery upgrade for 1 TV each, without being a veteran.
-Z Mercenary Contract: One combat group may be made with models from North,
+* Mercenary Contract: One combat group may be made with models from North,
 South, Peace River, and NuCoal (may include a mix from all four factions) that have
 an armor of 8 or lower.
 */
@@ -103,20 +103,19 @@ class POC extends PeaceRiver {
 
   @override
   bool veteranModCheck(
-    Unit u, {
-    String? modID,
+    Unit u,
+    CombatGroup cg, {
+    required String modID,
   }) {
     /*
       G-SWAT Sniper: One gear with a rifle, per combat group, may purchase the
       Improved Gunnery upgrade for 1 TV each, without being a veteran.
     */
-    if (modID != null &&
-        modID == improvedGunneryID &&
-        u.hasMod(gSWATSniperID)) {
+    if (modID == improvedGunneryID && u.hasMod(gSWATSniperID)) {
       return true;
     }
 
-    return super.veteranModCheck(u);
+    return super.veteranModCheck(u, cg, modID: modID);
   }
 
   @override

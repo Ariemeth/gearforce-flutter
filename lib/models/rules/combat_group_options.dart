@@ -24,6 +24,7 @@ class Option {
 bool alwaysTrue(CombatGroup? cg, UnitRoster? r) => true;
 bool Function(CombatGroup?, UnitRoster?) onlyOneCG(String name) {
   return (combatGroup, roster) {
+    assert(roster != null);
     if (roster == null) {
       return false;
     }

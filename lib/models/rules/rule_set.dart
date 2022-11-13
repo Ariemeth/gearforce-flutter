@@ -90,7 +90,7 @@ abstract class RuleSet {
     return !roster.hasDuelist();
   }
 
-  bool veteranModCheck(Unit u, {String? modID}) {
+  bool veteranModCheck(Unit u, CombatGroup cg, {required String modID}) {
     return (u.traits.any((trait) => trait.name == 'Vet'));
   }
 
