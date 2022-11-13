@@ -25,8 +25,6 @@ class UnitModLine extends StatefulWidget {
 class _UnitModLineState extends State<UnitModLine> {
   @override
   Widget build(BuildContext context) {
-    //  final bool hasOptionToSelect =
-    //      widget.mod.hasOptions && widget.mod.options!.selectedOption == null;
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       controller: ScrollController(),
@@ -35,7 +33,7 @@ class _UnitModLineState extends State<UnitModLine> {
         children: [
           Checkbox(
               value: widget.unit.hasMod(widget.mod.id),
-              onChanged: widget.isModSelectable // && !hasOptionToSelect
+              onChanged: widget.isModSelectable
                   ? (bool? newValue) {
                       if (newValue!) {
                         widget.unit.addUnitMod(widget.mod);

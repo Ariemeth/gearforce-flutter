@@ -16,11 +16,29 @@ const _minPrimaryActions = 4;
 abstract class RuleSet {
   final Data data;
   final List<String>? specialRules;
+  final List<Unit> _units = [];
 
-  const RuleSet(
+  RuleSet(
     this.data, {
     this.specialRules = null,
-  });
+  }) {
+    this.availableSpecialFilters().forEach((specialUnitFilter) {
+      data
+          .getUnitsByFilter(
+        filters: specialUnitFilter.filters,
+        roleFilter: null,
+        characterFilters: null,
+      )
+          .forEach((uc) {
+        if (_units.any((u) => u.core.name == uc.name)) {
+          _units.firstWhere((u) => u.core.name == uc.name)
+            ..addTag(specialUnitFilter.text);
+        } else {
+          _units.add(Unit(core: uc)..addTag(specialUnitFilter.text));
+        }
+      });
+    });
+  }
 
   int get maxPrimaryActions => _maxPrimaryActions;
   int get minPrimaryActions => _minPrimaryActions;
@@ -30,7 +48,31 @@ abstract class RuleSet {
     List<RoleType>? role,
     List<String>? characterFilters,
     SpecialUnitFilter? specialUnitFilter,
-  });
+  }) {
+    List<Unit> results = [];
+
+    if (specialUnitFilter != null) {
+      results = _units.where((u) => u.hasTag(specialUnitFilter.text)).toList();
+    } else {
+      results = _units.where((u) => u.hasTag(tagCore)).toList();
+    }
+
+    if (role != null && role.isNotEmpty) {
+      results = results.where((u) {
+        if (u.role != null) {
+          return u.role!.includesRole(role);
+        }
+        return false;
+      }).toList();
+    }
+
+    if (characterFilters != null) {
+      results =
+          results.where((u) => u.core.contains(characterFilters)).toList();
+    }
+
+    return results;
+  }
 
   List<SpecialUnitFilter> availableSpecialFilters();
 
@@ -123,7 +165,7 @@ abstract class RuleSet {
 }
 
 class DefaultRuleSet extends RuleSet {
-  const DefaultRuleSet(super.data);
+  DefaultRuleSet(super.data);
 
   @override
   List<FactionModification> availableFactionMods(

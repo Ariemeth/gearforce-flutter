@@ -7,7 +7,6 @@ import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/rules/special_unit_filter.dart';
 import 'package:gearforce/models/unit/model_type.dart';
-import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
 
 /*
@@ -24,59 +23,7 @@ import 'package:gearforce/models/unit/unit.dart';
   * Architects: The duelist for this force may use a Peace River strider.
 */
 class PeaceRiver extends RuleSet {
-  final List<Unit> _units = [];
-  // TODO This constructor code is generic and could probably be moved into the
-  // Ruleset constructor.
-  PeaceRiver(super.data, {super.specialRules}) {
-    this.availableSpecialFilters().forEach((specialUnitFilter) {
-      print(specialUnitFilter.text);
-      data
-          .getUnitsByFilter(
-        filters: specialUnitFilter.filters,
-        roleFilter: null,
-        characterFilters: null,
-      )
-          .forEach((uc) {
-        if (_units.any((u) => u.core.name == uc.name)) {
-          _units.firstWhere((u) => u.core.name == uc.name)
-            ..addTag(specialUnitFilter.text);
-        } else {
-          _units.add(Unit(core: uc)..addTag(specialUnitFilter.text));
-        }
-      });
-    });
-  }
-
-  // TODO this function is generic and could probably be moved into the Ruleset
-  // class and not need to be overridden in most cases.
-  @override
-  List<Unit> availableUnits({
-    List<RoleType>? role,
-    List<String>? characterFilters,
-    SpecialUnitFilter? specialUnitFilter,
-  }) {
-    List<Unit> results = _units.toList();
-
-    if (specialUnitFilter != null) {
-      results = results.where((u) => u.hasTag(specialUnitFilter.text)).toList();
-    }
-
-    if (role != null && role.isNotEmpty) {
-      results = results.where((u) {
-        if (u.role != null) {
-          return u.role!.includesRole(role);
-        }
-        return false;
-      }).toList();
-    }
-
-    if (characterFilters != null) {
-      results =
-          results.where((u) => u.core.contains(characterFilters)).toList();
-    }
-
-    return results;
-  }
+  PeaceRiver(super.data, {super.specialRules});
 
   @override
   List<SpecialUnitFilter> availableSpecialFilters() {

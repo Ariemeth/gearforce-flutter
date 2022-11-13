@@ -1,43 +1,27 @@
+import 'package:gearforce/data/unit_filter.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/mods/factionUpgrades/faction_mod.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/rules/special_unit_filter.dart';
-import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
 
 class Utopia extends RuleSet {
-  const Utopia(super.data);
-
-  @override
-  List<Unit> availableUnits({
-    List<RoleType?>? role,
-    List<String>? characterFilters,
-    SpecialUnitFilter? specialUnitFilter,
-  }) {
-    return data
-        .getUnits(
-          baseFactionFilters: [
-            FactionType.Utopia,
-            FactionType.Airstrike,
-            FactionType.Universal,
-            FactionType.Universal_Non_TerraNova,
-            FactionType.Terrain,
-          ],
-          roleFilter: role,
-          characterFilters: characterFilters,
-        )
-        .map((uc) => Unit(core: uc))
-        .toList();
-  }
+  Utopia(super.data);
 
   @override
   List<SpecialUnitFilter> availableSpecialFilters() {
     return [
       const SpecialUnitFilter(
-        text: 'None',
-        filters: [],
+        text: tagCore,
+        filters: const [
+          const UnitFilter(FactionType.Utopia),
+          const UnitFilter(FactionType.Airstrike),
+          const UnitFilter(FactionType.Universal),
+          const UnitFilter(FactionType.Universal_Non_TerraNova),
+          const UnitFilter(FactionType.Terrain),
+        ],
       )
     ];
   }

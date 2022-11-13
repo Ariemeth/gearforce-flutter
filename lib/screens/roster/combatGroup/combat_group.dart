@@ -8,7 +8,7 @@ import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/unit.dart';
-import 'package:gearforce/screens/roster/group_header.dart';
+import 'package:gearforce/screens/roster/combatGroup/group_header.dart';
 import 'package:gearforce/screens/upgrades/upgrades_dialog.dart';
 import 'package:gearforce/widgets/unit_text_cell.dart';
 import 'package:provider/provider.dart';

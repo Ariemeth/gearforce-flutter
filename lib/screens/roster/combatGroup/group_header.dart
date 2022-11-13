@@ -3,7 +3,7 @@ import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/combatGroups/group.dart';
 import 'package:gearforce/models/mods/duelist/duelist_modification.dart';
 import 'package:gearforce/models/roster/roster.dart';
-import 'package:gearforce/screens/roster/combat_group_settings_dialog.dart';
+import 'package:gearforce/screens/roster/combatGroup/combat_group_settings_dialog.dart';
 import 'package:gearforce/screens/roster/select_role.dart';
 import 'package:gearforce/widgets/display_value.dart';
 
@@ -36,6 +36,15 @@ class GroupHeader extends StatelessWidget {
         ? (cg.primary.totalActions() / 2).ceil()
         : roster!.subFaction.value.ruleSet
             .maxSecondaryActions(cg.primary.totalActions());
+    final settingsIcon = roster != null &&
+            roster?.subFaction.value.ruleSet.combatGroupSettings() != null &&
+            roster!.subFaction.value.ruleSet
+                    .combatGroupSettings()!
+                    .options
+                    .length >
+                0
+        ? Icons.settings_suggest
+        : Icons.settings;
     return Padding(
       padding: const EdgeInsets.all(4.0),
       child: Row(
@@ -136,13 +145,13 @@ class GroupHeader extends StatelessWidget {
                       alignment: Alignment.centerRight,
                       child: IconButton(
                         onPressed: () => {_showSettingsDialog(context)},
-                        icon: const Icon(
-                          Icons.settings,
+                        icon: Icon(
+                          settingsIcon,
                           color: Colors.green,
                         ),
                         splashRadius: 20.0,
                         padding: EdgeInsets.zero,
-                        tooltip: 'Settings for ${cg.name}',
+                        tooltip: 'Options for ${cg.name}',
                       ),
                     ),
                   ),

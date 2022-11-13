@@ -22,6 +22,8 @@ class CombatGroup extends ChangeNotifier {
   /// Retrieve a list of all units in this [CombatGroup].
   List<Unit> get units => _primary.allUnits()..addAll(_secondary.allUnits());
 
+  bool hasTag(String tag) => this._tags.contains(tag);
+
   bool unitHasTag(String tag) =>
       _primary.unitHasTag(tag) || _secondary.unitHasTag(tag);
 
@@ -95,6 +97,7 @@ class CombatGroup extends ChangeNotifier {
         'secondary': _secondary.toJson(),
         'name': '$name',
         'isVet': _isVeteran,
+        'tags': _tags,
       };
 
   factory CombatGroup.fromJson(
@@ -115,6 +118,10 @@ class CombatGroup extends ChangeNotifier {
         GroupType.Secondary);
     cg.primary = p;
     cg.secondary = s;
+
+    (json['tags'] as List<String>).forEach((tag) {
+      cg._tags.add(tag);
+    });
 
     return cg;
   }
@@ -172,6 +179,6 @@ class CombatGroup extends ChangeNotifier {
 
   @override
   String toString() {
-    return 'CombatGroup: {Name: $name, PrimaryCG: $_primary, SecondaryCG: $_secondary}';
+    return 'CombatGroup: {Name: $name, PrimaryCG: $_primary, SecondaryCG: $_secondary, Tags: ${_tags.toString()}}';
   }
 }
