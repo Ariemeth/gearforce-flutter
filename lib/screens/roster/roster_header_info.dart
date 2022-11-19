@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/roster/roster.dart';
+import 'package:gearforce/models/rules/rule_set.dart';
+import 'package:gearforce/screens/roster/roster_settings_dialog.dart';
 import 'package:gearforce/screens/roster/select_faction.dart';
 import 'package:gearforce/screens/roster/select_subfaction.dart';
 import 'package:gearforce/widgets/display_value.dart';
@@ -27,6 +29,7 @@ class RosterHeaderInfo extends StatelessWidget {
       columnWidths: const <int, TableColumnWidth>{
         0: IntrinsicColumnWidth(),
         1: FixedColumnWidth(200.0),
+        2: FixedColumnWidth(30.0),
       },
       defaultVerticalAlignment: TableCellVerticalAlignment.middle,
       children: <TableRow>[
@@ -62,6 +65,7 @@ class RosterHeaderInfo extends StatelessWidget {
               strutStyle: StrutStyle.disabled,
             ),
           ),
+          Container(),
         ]),
         TableRow(children: [
           Padding(
@@ -89,6 +93,7 @@ class RosterHeaderInfo extends StatelessWidget {
               },
             ),
           ),
+          Container(),
         ]),
         TableRow(children: [
           Padding(
@@ -106,6 +111,7 @@ class RosterHeaderInfo extends StatelessWidget {
               selectedFaction: roster.faction,
             ),
           ),
+          Container(),
         ]),
         TableRow(children: [
           Padding(
@@ -124,9 +130,31 @@ class RosterHeaderInfo extends StatelessWidget {
               selectedSubFaction: roster.subFaction,
             ),
           ),
+          IconButton(
+            onPressed: () =>
+                {_showSettingsDialog(context, roster.subFaction.value.ruleSet)},
+            icon: Icon(
+              Icons.settings,
+              color: Colors.green,
+            ),
+            splashRadius: 20.0,
+            padding: EdgeInsets.zero,
+            tooltip: 'Options for ${roster.subFaction.value.name}',
+          ),
         ]),
       ],
     );
+  }
+
+  void _showSettingsDialog(BuildContext context, RuleSet rs) {
+    final settingsDialog = RosterSettingsDialog(
+      ruleSet: rs,
+    );
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return settingsDialog;
+        });
   }
 
   Widget _createTVPanel(BuildContext context) {
