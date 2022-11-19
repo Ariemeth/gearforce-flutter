@@ -68,6 +68,17 @@ class CombatGroupSettingsDialog extends StatelessWidget {
               ),
             ),
             Text(''),
+            SimpleDialogOption(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Center(
+                child: Text(
+                  'Ok',
+                  style: TextStyle(fontSize: 24, color: Colors.green),
+                ),
+              ),
+            ),
           ],
         ),
       ),
