@@ -88,7 +88,6 @@ class CombatGroupSettingsDialog extends StatelessWidget {
   }
 }
 
-// TODO change to faction upgrade options once they are available.
 Widget combatGroupOptions(CombatGroupOption? cgo, CombatGroup cg) {
   if (cgo == null || cgo.options.isEmpty) {
     return const Center(

@@ -1,3 +1,4 @@
+import 'package:gearforce/models/factions/faction_upgrades.dart';
 import 'package:gearforce/models/mods/factionUpgrades/faction_mod.dart';
 import 'package:gearforce/models/rules/peace_river/peace_river.dart';
 import 'package:gearforce/data/unit_filter.dart';
@@ -51,6 +52,35 @@ class PRDF extends PeaceRiver {
         PeaceRiverFactionMods.thunderFromTheSky(),
         PeaceRiverFactionMods.eliteElements(ur),
       ]);
+  }
+
+  @override
+  List<FactionUpgrade> availableSubFactionUpgrades() {
+    return [
+      FactionUpgrade(
+          name: 'Ol\' Trusty',
+          description:
+              'Warriors, Jackals and Spartans may increase their GU skill by one for 1 TV each. This does not include Warrior IVs.'),
+      FactionUpgrade(
+          name: 'Thunder from the Sky',
+          description:
+              'irstrike counters may increase their GU skill to 3+ instead of 4+ for 1 TV each.'),
+      FactionUpgrade(
+          name: 'High Tech',
+          description:
+              'Models with weapons that have the Advanced or Guided traits have unlimited availability for all primary units.'),
+      FactionUpgrade(
+          name: 'The Best Men and Women for the Job',
+          description:
+              'One model in each combat group may be selected from the Black Talon model list.'),
+      FactionUpgrade(
+          name: 'Elite Elements',
+          description: 'One SK unit may change their role to SO.'),
+      FactionUpgrade(
+          name: 'Ghost Strike',
+          description:
+              'Models in one combat group using special operations deployment may start the game with hidden tokens if all the models within the combat group are placed in cover relative to at least one enemy model.')
+    ];
   }
 
   @override

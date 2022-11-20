@@ -2,6 +2,7 @@ import 'package:gearforce/data/unit_filter.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/combatGroups/group.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
+import 'package:gearforce/models/factions/faction_upgrades.dart';
 import 'package:gearforce/models/mods/factionUpgrades/faction_mod.dart';
 import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart';
 import 'package:gearforce/models/roster/roster.dart';
@@ -52,6 +53,26 @@ class PPS extends PeaceRiver {
   List<FactionModification> availableFactionMods(
       UnitRoster ur, CombatGroup cg, Unit u) {
     return super.availableFactionMods(ur, cg, u);
+  }
+
+  @override
+  List<FactionUpgrade> availableSubFactionUpgrades() {
+    return [
+      FactionUpgrade(
+          name: 'Ex-PRDF',
+          description: 'Choose any one upgrade option from the PRDF.'),
+      FactionUpgrade(
+          name: 'Ex-POC',
+          description: 'Choose any one upgrade option from the POC.'),
+      FactionUpgrade(
+          name: 'Badland\'s Soup',
+          description:
+              'One combat group may purchase the following veteran upgrades for their models without being veterans; Improved Gunnery, Dual Guns, Brawler, Veteran Melee upgrade, or ECCM.'),
+      FactionUpgrade(
+          name: 'Sub-Contractors',
+          description:
+              'One combat group may be made with models from North, South, Peace River, and NuCoal (may include a mix from all four factions) that have an armor of 8 or lower.'),
+    ];
   }
 
   @override

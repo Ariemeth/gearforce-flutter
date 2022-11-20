@@ -1,6 +1,7 @@
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/combatGroups/group.dart';
+import 'package:gearforce/models/factions/faction_upgrades.dart';
 import 'package:gearforce/models/mods/factionUpgrades/faction_mod.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/rules/combat_group_options.dart';
@@ -39,6 +40,9 @@ abstract class RuleSet {
       });
     });
   }
+
+  List<FactionUpgrade> availableFactionUpgrades();
+  List<FactionUpgrade> availableSubFactionUpgrades() => [];
 
   int get maxPrimaryActions => _maxPrimaryActions;
   int get minPrimaryActions => _minPrimaryActions;
@@ -177,4 +181,7 @@ class DefaultRuleSet extends RuleSet {
   List<SpecialUnitFilter> availableUnitFilters() {
     return [];
   }
+
+  @override
+  List<FactionUpgrade> availableFactionUpgrades() => [];
 }

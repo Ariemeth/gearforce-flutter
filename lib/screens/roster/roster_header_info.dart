@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gearforce/data/data.dart';
+import 'package:gearforce/models/factions/faction_upgrades.dart';
 import 'package:gearforce/models/roster/roster.dart';
-import 'package:gearforce/models/rules/rule_set.dart';
-import 'package:gearforce/screens/roster/roster_settings_dialog.dart';
+import 'package:gearforce/screens/roster/faction_rules_dialog.dart';
 import 'package:gearforce/screens/roster/select_faction.dart';
 import 'package:gearforce/screens/roster/select_subfaction.dart';
 import 'package:gearforce/widgets/display_value.dart';
@@ -111,13 +111,27 @@ class RosterHeaderInfo extends StatelessWidget {
               selectedFaction: roster.faction,
             ),
           ),
-          Container(),
+          IconButton(
+            onPressed: () => {
+              _showSettingsDialog(
+                  context,
+                  roster.subFaction.value.ruleSet.availableFactionUpgrades(),
+                  true)
+            },
+            icon: Icon(
+              Icons.settings,
+              color: Colors.green,
+            ),
+            splashRadius: 20.0,
+            padding: EdgeInsets.zero,
+            tooltip: 'Rules for ${roster.faction.value.name}',
+          ),
         ]),
         TableRow(children: [
           Padding(
             padding: EdgeInsets.only(right: 5, left: 5, top: 5, bottom: 5),
             child: Text(
-              'Sub-Faction:',
+              'Sub-List:',
               textAlign: TextAlign.right,
               style: TextStyle(fontSize: 16),
             ),
@@ -131,24 +145,31 @@ class RosterHeaderInfo extends StatelessWidget {
             ),
           ),
           IconButton(
-            onPressed: () =>
-                {_showSettingsDialog(context, roster.subFaction.value.ruleSet)},
+            onPressed: () => {
+              _showSettingsDialog(
+                context,
+                roster.subFaction.value.ruleSet.availableSubFactionUpgrades(),
+                false,
+              )
+            },
             icon: Icon(
               Icons.settings,
               color: Colors.green,
             ),
             splashRadius: 20.0,
             padding: EdgeInsets.zero,
-            tooltip: 'Options for ${roster.subFaction.value.name}',
+            tooltip: 'Rules for ${roster.subFaction.value.name}',
           ),
         ]),
       ],
     );
   }
 
-  void _showSettingsDialog(BuildContext context, RuleSet rs) {
-    final settingsDialog = RosterSettingsDialog(
-      ruleSet: rs,
+  void _showSettingsDialog(
+      BuildContext context, List<FactionUpgrade> upgrades, bool isCore) {
+    final settingsDialog = FactionRulesDialog(
+      upgrades: upgrades,
+      isCore: isCore,
     );
     showDialog(
         context: context,

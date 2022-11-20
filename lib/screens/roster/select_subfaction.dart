@@ -27,7 +27,7 @@ class _SelectSubFactionState extends State<SelectSubFaction> {
       builder: (context, value, child) {
         return DropdownButton<SubFaction>(
           value: widget.selectedSubFaction.value,
-          hint: Text('Select sub-faction'),
+          hint: Text('Select sub-list'),
           icon: const Icon(Icons.arrow_downward),
           iconSize: 16,
           elevation: 16,
