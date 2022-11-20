@@ -51,6 +51,94 @@ have an armor of 8 or lower.
 class PPS extends PeaceRiver {
   PPS(super.data);
 
+  final List<FactionRule> _rules = [
+    FactionRule(
+        name: 'Ex-PRDF',
+        description: 'Choose any one upgrade option from the PRDF.',
+        options: [
+          FactionRule.from(
+            ruleOlTrustry,
+            isEnabled: false,
+            canBeToggled: true,
+          ),
+          FactionRule.from(
+            ruleThunderFromTheSky,
+            isEnabled: false,
+            canBeToggled: true,
+          ),
+          FactionRule.from(
+            ruleHighTech,
+            isEnabled: false,
+            canBeToggled: true,
+          ),
+          FactionRule.from(
+            ruleBestMenAndWomen,
+            isEnabled: false,
+            canBeToggled: true,
+          ),
+          FactionRule.from(
+            ruleEliteElements,
+            isEnabled: false,
+            canBeToggled: true,
+          ),
+          FactionRule.from(
+            ruleGhostStrike,
+            isEnabled: false,
+            canBeToggled: true,
+          ),
+        ]),
+    FactionRule(
+        name: 'Ex-POC',
+        description: 'Choose any one upgrade option from the POC.',
+        options: [
+          FactionRule.from(
+            ruleSpecialIssue,
+            isEnabled: false,
+            canBeToggled: true,
+          ),
+          FactionRule.from(
+            ruleECMSpecialist,
+            isEnabled: false,
+            canBeToggled: true,
+          ),
+          FactionRule.from(
+            rulePOCOlTrustry,
+            isEnabled: false,
+            canBeToggled: true,
+          ),
+          FactionRule.from(
+            rulePeaceOfficer,
+            isEnabled: false,
+            canBeToggled: true,
+          ),
+          FactionRule.from(
+            ruleGSwatSniper,
+            isEnabled: false,
+            canBeToggled: true,
+          ),
+          FactionRule.from(
+            ruleMercenaryContract,
+            isEnabled: false,
+            canBeToggled: true,
+          ),
+        ]),
+    FactionRule(
+        name: 'Badland\'s Soup',
+        description:
+            'One combat group may purchase the following veteran upgrades for their models without being veterans; Improved Gunnery, Dual Guns, Brawler, Veteran Melee upgrade, or ECCM.'),
+    FactionRule(
+        name: 'Sub-Contractors',
+        description:
+            'One combat group may be made with models from North, South, Peace River, and NuCoal (may include a mix from all four factions) that have an armor of 8 or lower.'),
+  ];
+  @override
+  bool hasRuleEnabled(String ruleName) {
+    // TODO how to check for a rule enabled?
+    // loop through all of them here plus their children
+    // or add a method that checks a rules children
+    return false;
+  }
+
   @override
   List<FactionModification> availableFactionMods(
       UnitRoster ur, CombatGroup cg, Unit u) {
@@ -59,38 +147,7 @@ class PPS extends PeaceRiver {
 
   @override
   List<FactionRule> availableSubFactionUpgrades() {
-    return [
-      FactionRule(
-          name: 'Ex-PRDF',
-          description: 'Choose any one upgrade option from the PRDF.',
-          options: [
-            FactionRule.from(ruleOlTrustry, isAutoEnabled: false),
-            FactionRule.from(ruleThunderFromTheSky, isAutoEnabled: false),
-            FactionRule.from(ruleHighTech, isAutoEnabled: false),
-            FactionRule.from(ruleBestMenAndWomen, isAutoEnabled: false),
-            FactionRule.from(ruleEliteElements, isAutoEnabled: false),
-            FactionRule.from(ruleGhostStrike, isAutoEnabled: false),
-          ]),
-      FactionRule(
-          name: 'Ex-POC',
-          description: 'Choose any one upgrade option from the POC.',
-          options: [
-            FactionRule.from(ruleSpecialIssue, isAutoEnabled: false),
-            FactionRule.from(ruleECMSpecialist, isAutoEnabled: false),
-            FactionRule.from(rulePOCOlTrustry, isAutoEnabled: false),
-            FactionRule.from(rulePeaceOfficer, isAutoEnabled: false),
-            FactionRule.from(ruleGSwatSniper, isAutoEnabled: false),
-            FactionRule.from(ruleMercenaryContract, isAutoEnabled: false),
-          ]),
-      FactionRule(
-          name: 'Badland\'s Soup',
-          description:
-              'One combat group may purchase the following veteran upgrades for their models without being veterans; Improved Gunnery, Dual Guns, Brawler, Veteran Melee upgrade, or ECCM.'),
-      FactionRule(
-          name: 'Sub-Contractors',
-          description:
-              'One combat group may be made with models from North, South, Peace River, and NuCoal (may include a mix from all four factions) that have an armor of 8 or lower.'),
-    ];
+    return _rules;
   }
 
   @override

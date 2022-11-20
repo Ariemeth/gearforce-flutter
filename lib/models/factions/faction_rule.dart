@@ -1,31 +1,43 @@
 class FactionRule {
-  const FactionRule({
+  FactionRule({
     required this.name,
     this.options = null,
     this.description = '',
-    this.isAutoEnabled = true,
+    isEnabled = true,
     this.canBeToggled = false,
-  });
+    this.requirementCheck = factionRuleAlwaysAvailable,
+  }) {
+    _isEnabled = isEnabled;
+  }
 
   final String name;
   final List<FactionRule>? options;
   final String description;
-  final bool isAutoEnabled;
+  late bool _isEnabled;
   final bool canBeToggled;
+  final bool Function() requirementCheck;
+
+  bool get isEnabled => _isEnabled;
+  void toggleEnabled() {
+    if (canBeToggled) {
+      _isEnabled = !_isEnabled;
+    }
+  }
 
   factory FactionRule.from(
     FactionRule original, {
     List<FactionRule>? options,
-    bool? isAutoEnabled,
+    bool? isEnabled,
     bool? canBeToggled,
   }) {
     return FactionRule(
       name: original.name,
       options: options != null ? options : original.options,
-      isAutoEnabled:
-          isAutoEnabled != null ? isAutoEnabled : original.isAutoEnabled,
+      isEnabled: isEnabled != null ? isEnabled : original.isEnabled,
       canBeToggled: canBeToggled != null ? canBeToggled : original.canBeToggled,
       description: original.description,
     );
   }
 }
+
+bool factionRuleAlwaysAvailable() => true;

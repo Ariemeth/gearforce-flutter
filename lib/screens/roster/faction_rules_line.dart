@@ -27,7 +27,7 @@ class _FactionRulesLineState extends State<FactionRulesLine> {
               )
             : Container(),
         Checkbox(
-            value: widget.upgrade.isAutoEnabled,
+            value: widget.upgrade.isEnabled,
             onChanged: (bool? newValue) {
               setState(() {
                 // TODO add functionality

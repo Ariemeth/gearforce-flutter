@@ -43,6 +43,7 @@ abstract class RuleSet {
 
   List<FactionRule> availableFactionUpgrades();
   List<FactionRule> availableSubFactionUpgrades() => [];
+  bool hasRuleEnabled(String ruleName) => false;
 
   int get maxPrimaryActions => _maxPrimaryActions;
   int get minPrimaryActions => _minPrimaryActions;
