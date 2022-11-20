@@ -1,4 +1,4 @@
-import 'package:gearforce/models/factions/faction_upgrades.dart';
+import 'package:gearforce/models/factions/faction_rule.dart';
 import 'package:gearforce/models/mods/factionUpgrades/faction_mod.dart';
 import 'package:gearforce/models/rules/peace_river/peace_river.dart';
 import 'package:gearforce/data/unit_filter.dart';
@@ -18,6 +18,30 @@ const PRDFSpecialRule1 =
         'one enemy model.';
 
 const PRDFBestMenAndWomenSpecial = 'The Best Men and Women for the Job';
+
+final ruleOlTrustry = FactionRule(
+    name: 'Ol\' Trusty',
+    description:
+        'Warriors, Jackals and Spartans may increase their GU skill by one for 1 TV each. This does not include Warrior IVs.');
+final ruleThunderFromTheSky = FactionRule(
+    name: 'Thunder from the Sky',
+    description:
+        'irstrike counters may increase their GU skill to 3+ instead of 4+ for 1 TV each.');
+final ruleHighTech = FactionRule(
+    name: 'High Tech',
+    description:
+        'Models with weapons that have the Advanced or Guided traits have unlimited availability for all primary units.');
+final ruleBestMenAndWomen = FactionRule(
+    name: 'The Best Men and Women for the Job',
+    description:
+        'One model in each combat group may be selected from the Black Talon model list.');
+final ruleEliteElements = FactionRule(
+    name: 'Elite Elements',
+    description: 'One SK unit may change their role to SO.');
+final ruleGhostStrike = FactionRule(
+    name: 'Ghost Strike',
+    description:
+        'Models in one combat group using special operations deployment may start the game with hidden tokens if all the models within the combat group are placed in cover relative to at least one enemy model.');
 
 /*
 PRDF - Peace River Defense Force
@@ -55,31 +79,14 @@ class PRDF extends PeaceRiver {
   }
 
   @override
-  List<FactionUpgrade> availableSubFactionUpgrades() {
+  List<FactionRule> availableSubFactionUpgrades() {
     return [
-      FactionUpgrade(
-          name: 'Ol\' Trusty',
-          description:
-              'Warriors, Jackals and Spartans may increase their GU skill by one for 1 TV each. This does not include Warrior IVs.'),
-      FactionUpgrade(
-          name: 'Thunder from the Sky',
-          description:
-              'irstrike counters may increase their GU skill to 3+ instead of 4+ for 1 TV each.'),
-      FactionUpgrade(
-          name: 'High Tech',
-          description:
-              'Models with weapons that have the Advanced or Guided traits have unlimited availability for all primary units.'),
-      FactionUpgrade(
-          name: 'The Best Men and Women for the Job',
-          description:
-              'One model in each combat group may be selected from the Black Talon model list.'),
-      FactionUpgrade(
-          name: 'Elite Elements',
-          description: 'One SK unit may change their role to SO.'),
-      FactionUpgrade(
-          name: 'Ghost Strike',
-          description:
-              'Models in one combat group using special operations deployment may start the game with hidden tokens if all the models within the combat group are placed in cover relative to at least one enemy model.')
+      ruleOlTrustry,
+      ruleThunderFromTheSky,
+      ruleHighTech,
+      ruleBestMenAndWomen,
+      ruleEliteElements,
+      ruleGhostStrike,
     ];
   }
 

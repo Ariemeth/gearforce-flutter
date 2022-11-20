@@ -1,7 +1,7 @@
 import 'package:gearforce/data/unit_filter.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
-import 'package:gearforce/models/factions/faction_upgrades.dart';
+import 'package:gearforce/models/factions/faction_rule.dart';
 import 'package:gearforce/models/mods/factionUpgrades/faction_mod.dart';
 import 'package:gearforce/models/mods/factionUpgrades/peace_river.dart';
 import 'package:gearforce/models/roster/roster.dart';
@@ -54,24 +54,24 @@ class PeaceRiver extends RuleSet {
   }
 
   @override
-  List<FactionUpgrade> availableFactionUpgrades() => [
-        const FactionUpgrade(
+  List<FactionRule> availableFactionUpgrades() => [
+        const FactionRule(
             name: 'E-pex',
             description:
                 'One Peace River model within each combat group may increase its EW skill by one for 1 TV each.'),
-        const FactionUpgrade(
+        const FactionRule(
             name: 'Warrior Elite',
             description:
                 'Any Warrior IV may be upgraded to a Warrior Elite for 1 TV each. This upgrade gives the Warrior IV a H/S of 4/2, an EW skill of 4+, and the Agile trait.'),
-        const FactionUpgrade(
+        const FactionRule(
             name: 'Crisis Responders',
             description:
                 'Any Crusader IV that has been upgraded to a Crusader V may swap their HAC, MSC, MBZ or LFG for a MPA (React) and a Shield for 1 TV. This Crisis Responder variant is unlimited for this force.'),
-        const FactionUpgrade(
+        const FactionRule(
             name: 'Laser Tech',
             description:
                 'Veteran universal infantry and veteran Spitz Monowheels may upgrade their IW, IR or IS for 1 TV each. These weapons receive the Advanced trait.'),
-        const FactionUpgrade(
+        const FactionRule(
             name: 'Architects',
             description:
                 'The duelist for this force may use a Peace River strider.'),

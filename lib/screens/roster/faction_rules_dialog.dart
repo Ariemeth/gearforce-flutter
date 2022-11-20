@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gearforce/models/factions/faction_upgrades.dart';
+import 'package:gearforce/models/factions/faction_rule.dart';
 import 'package:gearforce/screens/roster/faction_rules_line.dart';
 
 const double _optionSectionWidth = 400;
@@ -12,7 +12,7 @@ class FactionRulesDialog extends StatelessWidget {
     this.isCore = true,
   });
 
-  final List<FactionUpgrade> upgrades;
+  final List<FactionRule> upgrades;
   final bool isCore;
 
   @override
@@ -53,7 +53,7 @@ class FactionRulesDialog extends StatelessWidget {
   }
 }
 
-Widget _factionOptions(List<FactionUpgrade> options, bool isCore) {
+Widget _factionOptions(List<FactionRule> options, bool isCore) {
   if (options.isEmpty) {
     return const Text('No Faction Rules');
   }
@@ -75,7 +75,22 @@ Widget _factionOptions(List<FactionUpgrade> options, bool isCore) {
               controller: _scrollController,
               shrinkWrap: true,
               itemBuilder: (BuildContext context, int index) {
-                return FactionRulesLine(upgrade: options[index]);
+                final option = options[index];
+                if (option.options != null && option.options!.isNotEmpty) {
+                  return Column(
+                    children: [
+                      FactionRulesLine(upgrade: option),
+                      ...option.options!
+                          .map((o) => FactionRulesLine(
+                                upgrade: o,
+                                leftOffset: 25.0,
+                              ))
+                          .toList()
+                    ],
+                  );
+                } else {
+                  return FactionRulesLine(upgrade: option);
+                }
               },
             ),
           ),

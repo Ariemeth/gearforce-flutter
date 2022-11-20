@@ -2,7 +2,7 @@ import 'package:gearforce/data/unit_filter.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/combatGroups/group.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
-import 'package:gearforce/models/factions/faction_upgrades.dart';
+import 'package:gearforce/models/factions/faction_rule.dart';
 import 'package:gearforce/models/mods/factionUpgrades/faction_mod.dart';
 import 'package:gearforce/models/mods/factionUpgrades/peace_river.dart';
 import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart';
@@ -31,6 +31,30 @@ const POCMercContractSpecialFilter = SpecialUnitFilter(
     const UnitFilter(FactionType.NuCoal, matcher: matchArmor8),
   ],
 );
+
+final ruleSpecialIssue = FactionRule(
+    name: 'Special Issue',
+    description: 'Greyhounds may be placed in GP, SK, FS, RC or SO units.');
+final ruleECMSpecialist = FactionRule(
+    name: 'ECM Specialist',
+    description:
+        'One gear or strider per combat group may improve its ECM to ECM+ for 1 TV each.');
+final rulePOCOlTrustry = FactionRule(
+    name: 'Ol\' Trusty',
+    description:
+        'Pit Bulls and Mustangs may increase their GU skill by one for 1 TV each.');
+final rulePeaceOfficer = FactionRule(
+    name: 'Peace Officer',
+    description:
+        'Gears from one combat group may swap their rocket packs for the Shield trait. If a gear does not have a rocket pack, then it may instead gain the Shield trait for 1 TV.');
+final ruleGSwatSniper = FactionRule(
+    name: 'G-Swat Sniper',
+    description:
+        'One gear with a rifle, per combat group, may purchase the Improved Gunnery upgrade for 1 TV each, without being a veteran.');
+final ruleMercenaryContract = FactionRule(
+    name: 'Mercenary Contract',
+    description:
+        'One combat group may be made with models from North, South, Peace River, and NuCoal (may include a mix from all four factions) that have an armor of 8 or lower.');
 
 /*
 POC - Peace Officer Corps
@@ -69,32 +93,14 @@ class POC extends PeaceRiver {
   }
 
   @override
-  List<FactionUpgrade> availableSubFactionUpgrades() {
+  List<FactionRule> availableSubFactionUpgrades() {
     return [
-      FactionUpgrade(
-          name: 'Special Issue',
-          description:
-              'Greyhounds may be placed in GP, SK, FS, RC or SO units.'),
-      FactionUpgrade(
-          name: 'ECM Specialist',
-          description:
-              'One gear or strider per combat group may improve its ECM to ECM+ for 1 TV each.'),
-      FactionUpgrade(
-          name: 'Ol\' Trusty',
-          description:
-              'Pit Bulls and Mustangs may increase their GU skill by one for 1 TV each.'),
-      FactionUpgrade(
-          name: 'Peace Officer',
-          description:
-              'Gears from one combat group may swap their rocket packs for the Shield trait. If a gear does not have a rocket pack, then it may instead gain the Shield trait for 1 TV.'),
-      FactionUpgrade(
-          name: 'G-Swat Sniper',
-          description:
-              'One gear with a rifle, per combat group, may purchase the Improved Gunnery upgrade for 1 TV each, without being a veteran.'),
-      FactionUpgrade(
-          name: 'Mercenary Contract',
-          description:
-              'One combat group may be made with models from North, South, Peace River, and NuCoal (may include a mix from all four factions) that have an armor of 8 or lower.')
+      ruleSpecialIssue,
+      ruleECMSpecialist,
+      rulePOCOlTrustry,
+      rulePeaceOfficer,
+      ruleGSwatSniper,
+      ruleMercenaryContract,
     ];
   }
 

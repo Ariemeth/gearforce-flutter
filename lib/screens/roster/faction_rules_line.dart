@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:gearforce/models/factions/faction_upgrades.dart';
+import 'package:gearforce/models/factions/faction_rule.dart';
 
 const int _maxOptionNameLines = 2;
 
 class FactionRulesLine extends StatefulWidget {
-  const FactionRulesLine({super.key, required this.upgrade});
-  final FactionUpgrade upgrade;
+  const FactionRulesLine({
+    super.key,
+    required this.upgrade,
+    this.leftOffset = 0.0,
+  });
+  final FactionRule upgrade;
+  final double leftOffset;
 
   @override
   State<FactionRulesLine> createState() => _FactionRulesLineState();
@@ -16,6 +21,11 @@ class _FactionRulesLineState extends State<FactionRulesLine> {
   Widget build(BuildContext context) {
     return Row(
       children: [
+        widget.leftOffset > 0.0
+            ? SizedBox(
+                width: widget.leftOffset,
+              )
+            : Container(),
         Checkbox(
             value: widget.upgrade.isAutoEnabled,
             onChanged: (bool? newValue) {

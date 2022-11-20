@@ -2,12 +2,14 @@ import 'package:gearforce/data/unit_filter.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/combatGroups/group.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
-import 'package:gearforce/models/factions/faction_upgrades.dart';
+import 'package:gearforce/models/factions/faction_rule.dart';
 import 'package:gearforce/models/mods/factionUpgrades/faction_mod.dart';
 import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/rules/combat_group_options.dart';
 import 'package:gearforce/models/rules/peace_river/peace_river.dart';
+import 'package:gearforce/models/rules/peace_river/poc.dart';
+import 'package:gearforce/models/rules/peace_river/prdf.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/rules/special_unit_filter.dart';
 import 'package:gearforce/models/unit/unit.dart';
@@ -56,19 +58,35 @@ class PPS extends PeaceRiver {
   }
 
   @override
-  List<FactionUpgrade> availableSubFactionUpgrades() {
+  List<FactionRule> availableSubFactionUpgrades() {
     return [
-      FactionUpgrade(
+      FactionRule(
           name: 'Ex-PRDF',
-          description: 'Choose any one upgrade option from the PRDF.'),
-      FactionUpgrade(
+          description: 'Choose any one upgrade option from the PRDF.',
+          options: [
+            FactionRule.from(ruleOlTrustry, isAutoEnabled: false),
+            FactionRule.from(ruleThunderFromTheSky, isAutoEnabled: false),
+            FactionRule.from(ruleHighTech, isAutoEnabled: false),
+            FactionRule.from(ruleBestMenAndWomen, isAutoEnabled: false),
+            FactionRule.from(ruleEliteElements, isAutoEnabled: false),
+            FactionRule.from(ruleGhostStrike, isAutoEnabled: false),
+          ]),
+      FactionRule(
           name: 'Ex-POC',
-          description: 'Choose any one upgrade option from the POC.'),
-      FactionUpgrade(
+          description: 'Choose any one upgrade option from the POC.',
+          options: [
+            FactionRule.from(ruleSpecialIssue, isAutoEnabled: false),
+            FactionRule.from(ruleECMSpecialist, isAutoEnabled: false),
+            FactionRule.from(rulePOCOlTrustry, isAutoEnabled: false),
+            FactionRule.from(rulePeaceOfficer, isAutoEnabled: false),
+            FactionRule.from(ruleGSwatSniper, isAutoEnabled: false),
+            FactionRule.from(ruleMercenaryContract, isAutoEnabled: false),
+          ]),
+      FactionRule(
           name: 'Badland\'s Soup',
           description:
               'One combat group may purchase the following veteran upgrades for their models without being veterans; Improved Gunnery, Dual Guns, Brawler, Veteran Melee upgrade, or ECCM.'),
-      FactionUpgrade(
+      FactionRule(
           name: 'Sub-Contractors',
           description:
               'One combat group may be made with models from North, South, Peace River, and NuCoal (may include a mix from all four factions) that have an armor of 8 or lower.'),
