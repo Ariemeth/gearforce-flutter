@@ -54,89 +54,198 @@ class PPS extends PeaceRiver {
   final List<FactionRule> _rules = [
     FactionRule(
         name: 'Ex-PRDF',
+        id: 'rule::pps::exPRDF',
         description: 'Choose any one upgrade option from the PRDF.',
         options: [
           FactionRule.from(
-            ruleOlTrustry,
+            ruleOlTrusty,
             isEnabled: false,
             canBeToggled: true,
+            requirementCheck: FactionRule.thereCanBeOnlyOne(
+              [
+                ruleThunderFromTheSky.id,
+                ruleHighTech.id,
+                ruleBestMenAndWomen.id,
+                ruleEliteElements.id,
+                ruleGhostStrike.id,
+              ],
+            ),
           ),
           FactionRule.from(
             ruleThunderFromTheSky,
             isEnabled: false,
             canBeToggled: true,
+            requirementCheck: FactionRule.thereCanBeOnlyOne(
+              [
+                ruleOlTrusty.id,
+                ruleHighTech.id,
+                ruleBestMenAndWomen.id,
+                ruleEliteElements.id,
+                ruleGhostStrike.id,
+              ],
+            ),
           ),
           FactionRule.from(
             ruleHighTech,
             isEnabled: false,
             canBeToggled: true,
+            requirementCheck: FactionRule.thereCanBeOnlyOne(
+              [
+                ruleOlTrusty.id,
+                ruleThunderFromTheSky.id,
+                ruleBestMenAndWomen.id,
+                ruleEliteElements.id,
+                ruleGhostStrike.id,
+              ],
+            ),
           ),
           FactionRule.from(
             ruleBestMenAndWomen,
             isEnabled: false,
             canBeToggled: true,
+            requirementCheck: FactionRule.thereCanBeOnlyOne(
+              [
+                ruleOlTrusty.id,
+                ruleThunderFromTheSky.id,
+                ruleHighTech.id,
+                ruleEliteElements.id,
+                ruleGhostStrike.id,
+              ],
+            ),
           ),
           FactionRule.from(
             ruleEliteElements,
             isEnabled: false,
             canBeToggled: true,
+            requirementCheck: FactionRule.thereCanBeOnlyOne(
+              [
+                ruleOlTrusty.id,
+                ruleThunderFromTheSky.id,
+                ruleHighTech.id,
+                ruleBestMenAndWomen.id,
+                ruleGhostStrike.id,
+              ],
+            ),
           ),
           FactionRule.from(
             ruleGhostStrike,
             isEnabled: false,
             canBeToggled: true,
+            requirementCheck: FactionRule.thereCanBeOnlyOne(
+              [
+                ruleOlTrusty.id,
+                ruleThunderFromTheSky.id,
+                ruleHighTech.id,
+                ruleBestMenAndWomen.id,
+                ruleEliteElements.id,
+              ],
+            ),
           ),
         ]),
     FactionRule(
         name: 'Ex-POC',
+        id: 'rule::pps::exPOC',
         description: 'Choose any one upgrade option from the POC.',
         options: [
           FactionRule.from(
             ruleSpecialIssue,
             isEnabled: false,
             canBeToggled: true,
+            requirementCheck: FactionRule.thereCanBeOnlyOne(
+              [
+                ruleECMSpecialist.id,
+                rulePOCOlTrusty.id,
+                rulePeaceOfficer.id,
+                ruleGSwatSniper.id,
+                ruleMercenaryContract.id,
+              ],
+            ),
           ),
           FactionRule.from(
             ruleECMSpecialist,
             isEnabled: false,
             canBeToggled: true,
+            requirementCheck: FactionRule.thereCanBeOnlyOne(
+              [
+                ruleSpecialIssue.id,
+                rulePOCOlTrusty.id,
+                rulePeaceOfficer.id,
+                ruleGSwatSniper.id,
+                ruleMercenaryContract.id,
+              ],
+            ),
           ),
           FactionRule.from(
-            rulePOCOlTrustry,
+            rulePOCOlTrusty,
             isEnabled: false,
             canBeToggled: true,
+            requirementCheck: FactionRule.thereCanBeOnlyOne(
+              [
+                ruleSpecialIssue.id,
+                ruleECMSpecialist.id,
+                rulePeaceOfficer.id,
+                ruleGSwatSniper.id,
+                ruleMercenaryContract.id,
+              ],
+            ),
           ),
           FactionRule.from(
             rulePeaceOfficer,
             isEnabled: false,
             canBeToggled: true,
+            requirementCheck: FactionRule.thereCanBeOnlyOne(
+              [
+                ruleSpecialIssue.id,
+                ruleECMSpecialist.id,
+                rulePOCOlTrusty.id,
+                ruleGSwatSniper.id,
+                ruleMercenaryContract.id,
+              ],
+            ),
           ),
           FactionRule.from(
             ruleGSwatSniper,
             isEnabled: false,
             canBeToggled: true,
+            requirementCheck: FactionRule.thereCanBeOnlyOne(
+              [
+                ruleSpecialIssue.id,
+                ruleECMSpecialist.id,
+                rulePOCOlTrusty.id,
+                rulePeaceOfficer.id,
+                ruleMercenaryContract.id,
+              ],
+            ),
           ),
           FactionRule.from(
             ruleMercenaryContract,
             isEnabled: false,
             canBeToggled: true,
+            requirementCheck: FactionRule.thereCanBeOnlyOne(
+              [
+                ruleSpecialIssue.id,
+                ruleECMSpecialist.id,
+                rulePOCOlTrusty.id,
+                rulePeaceOfficer.id,
+                ruleGSwatSniper.id,
+              ],
+            ),
           ),
         ]),
     FactionRule(
         name: 'Badland\'s Soup',
+        id: 'rule::pps::badlandSoup',
         description:
             'One combat group may purchase the following veteran upgrades for their models without being veterans; Improved Gunnery, Dual Guns, Brawler, Veteran Melee upgrade, or ECCM.'),
     FactionRule(
         name: 'Sub-Contractors',
+        id: 'rule::pps::subContractors',
         description:
             'One combat group may be made with models from North, South, Peace River, and NuCoal (may include a mix from all four factions) that have an armor of 8 or lower.'),
   ];
   @override
-  bool hasRuleEnabled(String ruleName) {
-    // TODO how to check for a rule enabled?
-    // loop through all of them here plus their children
-    // or add a method that checks a rules children
-    return false;
+  bool isRuleEnabled(String ruleName) {
+    return FactionRule.isRuleEnabled(_rules, ruleName);
   }
 
   @override

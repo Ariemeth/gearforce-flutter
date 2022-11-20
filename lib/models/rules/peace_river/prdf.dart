@@ -19,27 +19,33 @@ const PRDFSpecialRule1 =
 
 const PRDFBestMenAndWomenSpecial = 'The Best Men and Women for the Job';
 
-final ruleOlTrustry = FactionRule(
+final ruleOlTrusty = FactionRule(
     name: 'Ol\' Trusty',
+    id: 'rule::prdf::oltrusty',
     description:
         'Warriors, Jackals and Spartans may increase their GU skill by one for 1 TV each. This does not include Warrior IVs.');
 final ruleThunderFromTheSky = FactionRule(
     name: 'Thunder from the Sky',
+    id: 'rule::prdf::thunderFromTheSky',
     description:
         'irstrike counters may increase their GU skill to 3+ instead of 4+ for 1 TV each.');
 final ruleHighTech = FactionRule(
     name: 'High Tech',
+    id: 'rule::prdf::highTech',
     description:
         'Models with weapons that have the Advanced or Guided traits have unlimited availability for all primary units.');
 final ruleBestMenAndWomen = FactionRule(
     name: 'The Best Men and Women for the Job',
+    id: 'rule::prdf::theBestMenAndWomenForTheJob',
     description:
         'One model in each combat group may be selected from the Black Talon model list.');
 final ruleEliteElements = FactionRule(
     name: 'Elite Elements',
+    id: 'rule::prdf::eliteElements',
     description: 'One SK unit may change their role to SO.');
 final ruleGhostStrike = FactionRule(
     name: 'Ghost Strike',
+    id: 'rule::prdf::ghostStrike',
     description:
         'Models in one combat group using special operations deployment may start the game with hidden tokens if all the models within the combat group are placed in cover relative to at least one enemy model.');
 
@@ -81,7 +87,7 @@ class PRDF extends PeaceRiver {
   @override
   List<FactionRule> availableSubFactionUpgrades() {
     return [
-      ruleOlTrustry,
+      ruleOlTrusty,
       ruleThunderFromTheSky,
       ruleHighTech,
       ruleBestMenAndWomen,

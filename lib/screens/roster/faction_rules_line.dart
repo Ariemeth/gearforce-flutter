@@ -7,10 +7,14 @@ class FactionRulesLine extends StatefulWidget {
   const FactionRulesLine({
     super.key,
     required this.upgrade,
+    required this.rules,
     this.leftOffset = 0.0,
+    required this.notifyParent,
   });
   final FactionRule upgrade;
   final double leftOffset;
+  final List<FactionRule> rules;
+  final Function() notifyParent;
 
   @override
   State<FactionRulesLine> createState() => _FactionRulesLineState();
@@ -28,11 +32,17 @@ class _FactionRulesLineState extends State<FactionRulesLine> {
             : Container(),
         Checkbox(
             value: widget.upgrade.isEnabled,
-            onChanged: (bool? newValue) {
-              setState(() {
-                // TODO add functionality
-              });
-            }),
+            onChanged: widget.upgrade.canBeToggled &&
+                    widget.upgrade.requirementCheck(widget.rules)
+                ? (bool? newValue) {
+                    setState(() {
+                      if (widget.upgrade.canBeToggled) {
+                        widget.upgrade.toggleIsEnabled(widget.rules);
+                      }
+                      widget.notifyParent();
+                    });
+                  }
+                : null),
         Tooltip(
           child: Text(
             '${widget.upgrade.name} ',
@@ -40,6 +50,9 @@ class _FactionRulesLineState extends State<FactionRulesLine> {
               fontSize: 16,
               fontWeight: FontWeight.w600,
               fontStyle: FontStyle.normal,
+              decoration: widget.upgrade.requirementCheck(widget.rules)
+                  ? null
+                  : TextDecoration.lineThrough,
             ),
             maxLines: _maxOptionNameLines,
           ),

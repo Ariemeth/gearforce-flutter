@@ -57,22 +57,27 @@ class PeaceRiver extends RuleSet {
   List<FactionRule> availableFactionUpgrades() => [
         FactionRule(
             name: 'E-pex',
+            id: 'rule::peaceriver::ePex',
             description:
                 'One Peace River model within each combat group may increase its EW skill by one for 1 TV each.'),
         FactionRule(
             name: 'Warrior Elite',
+            id: 'rule::peaceriver::warriorElite',
             description:
                 'Any Warrior IV may be upgraded to a Warrior Elite for 1 TV each. This upgrade gives the Warrior IV a H/S of 4/2, an EW skill of 4+, and the Agile trait.'),
         FactionRule(
             name: 'Crisis Responders',
+            id: 'rule::peaceriver::crisisResponders',
             description:
                 'Any Crusader IV that has been upgraded to a Crusader V may swap their HAC, MSC, MBZ or LFG for a MPA (React) and a Shield for 1 TV. This Crisis Responder variant is unlimited for this force.'),
         FactionRule(
             name: 'Laser Tech',
+            id: 'rule::peaceriver::laserTech',
             description:
                 'Veteran universal infantry and veteran Spitz Monowheels may upgrade their IW, IR or IS for 1 TV each. These weapons receive the Advanced trait.'),
         FactionRule(
             name: 'Architects',
+            id: 'rule::peaceriver::architects',
             description:
                 'The duelist for this force may use a Peace River strider.'),
       ];
