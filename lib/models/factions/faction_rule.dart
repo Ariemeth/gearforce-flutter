@@ -1,3 +1,9 @@
+import 'package:gearforce/models/combatGroups/combat_group.dart';
+import 'package:gearforce/models/combatGroups/group.dart';
+import 'package:gearforce/models/roster/roster.dart';
+import 'package:gearforce/models/unit/role.dart';
+import 'package:gearforce/models/unit/unit.dart';
+
 class FactionRule {
   FactionRule({
     required this.name,
@@ -6,7 +12,15 @@ class FactionRule {
     this.description = '',
     isEnabled = true,
     this.canBeToggled = false,
-    this.requirementCheck = factionRuleAlwaysAvailable,
+    this.requirementCheck = ruleAlwaysAvailable,
+    this.duelistCheck,
+    this.veteranModCheck,
+    this.modCostOverride,
+    this.canBeCommand,
+    this.canBeAddedToGroup,
+    this.hasGroupRole,
+    this.isRoleTypeUnlimited,
+    this.isUnitCountWithinLimits,
   }) {
     _isEnabled = isEnabled;
   }
@@ -19,6 +33,19 @@ class FactionRule {
   final bool canBeToggled;
   final bool Function(List<FactionRule>) requirementCheck;
 
+  final bool Function(UnitRoster roster, Unit u)? duelistCheck;
+  final bool Function(Unit u, CombatGroup cg, {required String modID})?
+      veteranModCheck;
+  final int Function(int baseCost, String modID, Unit u)? modCostOverride;
+  final bool Function(Unit unit)? canBeCommand;
+  final bool Function(Unit unit, Group group, CombatGroup cg)?
+      canBeAddedToGroup;
+  final bool Function(Unit unit, RoleType target)? hasGroupRole;
+  final bool Function(Unit unit, RoleType target, Group group)?
+      isRoleTypeUnlimited;
+  final bool Function(CombatGroup cg, Group group, Unit unit)?
+      isUnitCountWithinLimits;
+
   bool get isEnabled => _isEnabled;
   void toggleIsEnabled(List<FactionRule> rules) {
     if (canBeToggled && this.requirementCheck(rules)) {
@@ -27,7 +54,6 @@ class FactionRule {
   }
 
   static bool isRuleEnabled(List<FactionRule> rules, String ruleID) {
-    // TODO might be more optimal to use wheres
     for (final r in rules) {
       if (r.id == ruleID) {
         return r.isEnabled;
@@ -42,7 +68,22 @@ class FactionRule {
     return false;
   }
 
-  static bool factionRuleAlwaysAvailable(List<FactionRule> rules) => true;
+  static FactionRule? findRule(List<FactionRule> rules, String ruleID) {
+    for (final r in rules) {
+      if (r.id == ruleID) {
+        return r;
+      }
+      if (r.options != null) {
+        final rule = findRule(r.options!, ruleID);
+        if (rule != null) {
+          return rule;
+        }
+      }
+    }
+    return null;
+  }
+
+  static bool ruleAlwaysAvailable(List<FactionRule> rules) => true;
 
   static bool Function(List<FactionRule> rules) thereCanBeOnlyOne(
       List<String> excludedIDs) {
@@ -75,6 +116,14 @@ class FactionRule {
       requirementCheck: requirementCheck != null
           ? requirementCheck
           : original.requirementCheck,
+      duelistCheck: original.duelistCheck,
+      veteranModCheck: original.veteranModCheck,
+      modCostOverride: original.modCostOverride,
+      canBeCommand: original.canBeCommand,
+      canBeAddedToGroup: original.canBeAddedToGroup,
+      hasGroupRole: original.hasGroupRole,
+      isRoleTypeUnlimited: original.isRoleTypeUnlimited,
+      isUnitCountWithinLimits: original.isUnitCountWithinLimits,
     );
   }
 }

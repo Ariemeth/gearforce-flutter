@@ -5,6 +5,7 @@ import 'package:gearforce/models/factions/faction_rule.dart';
 import 'package:gearforce/models/mods/factionUpgrades/faction_mod.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/rules/combat_group_options.dart';
+import 'package:gearforce/models/rules/peace_river/prdf.dart' as prdf;
 import 'package:gearforce/models/rules/special_unit_filter.dart';
 import 'package:gearforce/models/unit/model_type.dart';
 import 'package:gearforce/models/unit/role.dart';
@@ -33,9 +34,9 @@ abstract class RuleSet {
           .forEach((uc) {
         if (_units.any((u) => u.core.name == uc.name)) {
           _units.firstWhere((u) => u.core.name == uc.name)
-            ..addTag(specialUnitFilter.text);
+            ..addTag(specialUnitFilter.id);
         } else {
-          _units.add(Unit(core: uc)..addTag(specialUnitFilter.text));
+          _units.add(Unit(core: uc)..addTag(specialUnitFilter.id));
         }
       });
     });
@@ -57,7 +58,7 @@ abstract class RuleSet {
     List<Unit> results = [];
 
     if (specialUnitFilter != null) {
-      results = _units.where((u) => u.hasTag(specialUnitFilter.text)).toList();
+      results = _units.where((u) => u.hasTag(specialUnitFilter.id)).toList();
     } else {
       results = _units.where((u) => u.hasTag(tagCore)).toList();
     }
@@ -160,6 +161,21 @@ abstract class RuleSet {
   }
 
   bool isUnitCountWithinLimits(CombatGroup cg, Group group, Unit unit) {
+    /*
+       The Best Men and Women for the Job: One model in each combat group may
+       be selected from the Black Talon model list.
+    */
+    if (unit.hasTag(prdf.ruleBestMenAndWomen.id)) {
+      final rule = FactionRule.findRule([
+        ...availableFactionUpgrades(),
+        ...availableSubFactionUpgrades(),
+      ], prdf.ruleBestMenAndWomen.id)
+          ?.isUnitCountWithinLimits;
+      if (rule != null) {
+        return rule(cg, group, unit);
+      }
+    }
+
     // get the number other instances of this unitcore in the group
     final count =
         group.allUnits().where((u) => u.core.name == unit.core.name).length;

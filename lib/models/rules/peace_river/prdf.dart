@@ -7,6 +7,7 @@ import 'package:gearforce/models/combatGroups/group.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/mods/factionUpgrades/peace_river.dart';
 import 'package:gearforce/models/roster/roster.dart';
+import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/rules/special_unit_filter.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
@@ -17,35 +18,44 @@ const PRDFSpecialRule1 =
         'within the combat group are placed in cover relative to at least ' +
         'one enemy model.';
 
-const PRDFBestMenAndWomenSpecial = 'The Best Men and Women for the Job';
+const _PRDFBestMenAndWomenSpecial = 'The Best Men and Women for the Job';
+
+const String _baseRuleId = 'rule::prdf';
 
 final ruleOlTrusty = FactionRule(
     name: 'Ol\' Trusty',
-    id: 'rule::prdf::oltrusty',
+    id: '$_baseRuleId::oltrusty',
     description:
         'Warriors, Jackals and Spartans may increase their GU skill by one for 1 TV each. This does not include Warrior IVs.');
 final ruleThunderFromTheSky = FactionRule(
     name: 'Thunder from the Sky',
-    id: 'rule::prdf::thunderFromTheSky',
+    id: '$_baseRuleId::thunderFromTheSky',
     description:
         'irstrike counters may increase their GU skill to 3+ instead of 4+ for 1 TV each.');
 final ruleHighTech = FactionRule(
     name: 'High Tech',
-    id: 'rule::prdf::highTech',
+    id: '$_baseRuleId::highTech',
     description:
         'Models with weapons that have the Advanced or Guided traits have unlimited availability for all primary units.');
 final ruleBestMenAndWomen = FactionRule(
-    name: 'The Best Men and Women for the Job',
-    id: 'rule::prdf::theBestMenAndWomenForTheJob',
-    description:
-        'One model in each combat group may be selected from the Black Talon model list.');
+  name: 'The Best Men and Women for the Job',
+  id: '$_baseRuleId::theBestMenAndWomenForTheJob',
+  description:
+      'One model in each combat group may be selected from the Black Talon model list.',
+  isUnitCountWithinLimits: (cg, group, unit) {
+    return cg.units
+            .where((u) => u.hasTag(_PRDFBestMenAndWomenSpecial))
+            .length ==
+        0;
+  },
+);
 final ruleEliteElements = FactionRule(
     name: 'Elite Elements',
-    id: 'rule::prdf::eliteElements',
+    id: '$_baseRuleId::eliteElements',
     description: 'One SK unit may change their role to SO.');
 final ruleGhostStrike = FactionRule(
     name: 'Ghost Strike',
-    id: 'rule::prdf::ghostStrike',
+    id: '$_baseRuleId::ghostStrike',
     description:
         'Models in one combat group using special operations deployment may start the game with hidden tokens if all the models within the combat group are placed in cover relative to at least one enemy model.');
 
@@ -102,7 +112,8 @@ class PRDF extends PeaceRiver {
       ..addAll(
         [
           const SpecialUnitFilter(
-            text: PRDFBestMenAndWomenSpecial,
+            text: _PRDFBestMenAndWomenSpecial,
+            id: '$_baseRuleId::$tagCore',
             filters: [
               const UnitFilter(FactionType.BlackTalon),
             ],
@@ -117,12 +128,16 @@ class PRDF extends PeaceRiver {
        The Best Men and Women for the Job: One model in each combat group may
        be selected from the Black Talon model list.
     */
-    if (unit.hasTag(PRDFBestMenAndWomenSpecial)) {
-      return cg.units
-              .where((u) => u.hasTag(PRDFBestMenAndWomenSpecial))
-              .length ==
-          0;
-    }
+    // if (unit.hasTag(_PRDFBestMenAndWomenSpecial)) {
+    //   final rule = FactionRule.findRule([
+    //     ...availableFactionUpgrades(),
+    //     ...availableSubFactionUpgrades(),
+    //   ], ruleBestMenAndWomen.id)
+    //       ?.isUnitCountWithinLimits;
+    //   if (rule != null) {
+    //     return rule(cg, group, unit);
+    //   }
+    // }
 
     return super.isUnitCountWithinLimits(cg, group, unit);
   }

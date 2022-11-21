@@ -8,6 +8,8 @@ import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/rules/special_unit_filter.dart';
 import 'package:gearforce/models/unit/unit.dart';
 
+const String _baseRuleId = 'rule::south';
+
 class South extends RuleSet {
   South(super.data);
 
@@ -16,6 +18,7 @@ class South extends RuleSet {
     return [
       const SpecialUnitFilter(
         text: tagCore,
+        id: '$_baseRuleId::$tagCore',
         filters: const [
           const UnitFilter(FactionType.South),
           const UnitFilter(FactionType.Airstrike),

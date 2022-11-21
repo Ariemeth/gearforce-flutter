@@ -8,6 +8,8 @@ import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/rules/special_unit_filter.dart';
 import 'package:gearforce/models/unit/unit.dart';
 
+const String _baseRuleId = 'rule::nucoal';
+
 class Nucoal extends RuleSet {
   Nucoal(super.data);
 
@@ -16,6 +18,7 @@ class Nucoal extends RuleSet {
     return [
       const SpecialUnitFilter(
         text: tagCore,
+        id: '$_baseRuleId::$tagCore',
         filters: const [
           const UnitFilter(FactionType.NuCoal),
           const UnitFilter(FactionType.Airstrike),

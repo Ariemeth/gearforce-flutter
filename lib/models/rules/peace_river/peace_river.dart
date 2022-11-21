@@ -10,6 +10,8 @@ import 'package:gearforce/models/rules/special_unit_filter.dart';
 import 'package:gearforce/models/unit/model_type.dart';
 import 'package:gearforce/models/unit/unit.dart';
 
+const String _baseRuleId = 'rule::peaceRiver';
+
 /*
   All the models in the Peace River Model List can be used in any of the sub-lists below. There are also models in the
   Universal Model List that may be selected as well.
@@ -31,6 +33,7 @@ class PeaceRiver extends RuleSet {
     return [
       const SpecialUnitFilter(
         text: tagCore,
+        id: '$_baseRuleId::$tagCore',
         filters: const [
           const UnitFilter(FactionType.PeaceRiver),
           const UnitFilter(FactionType.Airstrike),

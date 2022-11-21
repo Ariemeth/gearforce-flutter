@@ -16,15 +16,17 @@ import 'package:gearforce/models/unit/unit.dart';
 
 const String _mercContract = 'Mercenary Contract';
 const String _pocFullName = 'Peace Officer Corps';
+const String _baseRuleId = 'rule::poc';
 
 /*
   Mercenary Contract: One combat group may be made with models from 
   North, South, Peace River, and NuCoal (may include a mix from all 
   four factions) that have an armor of 8 or lower.
 */
-const POCMercContractSpecialFilter = SpecialUnitFilter(
+const POCMercContractSpecialFilter = const SpecialUnitFilter(
   text: _mercContract,
-  filters: [
+  id: '$_baseRuleId::$tagCore',
+  filters: const [
     const UnitFilter(FactionType.North, matcher: matchArmor8),
     const UnitFilter(FactionType.South, matcher: matchArmor8),
     const UnitFilter(FactionType.PeaceRiver, matcher: matchArmor8),
@@ -34,31 +36,31 @@ const POCMercContractSpecialFilter = SpecialUnitFilter(
 
 final ruleSpecialIssue = FactionRule(
     name: 'Special Issue',
-    id: 'rule::poc::specialIssue',
+    id: '$_baseRuleId::specialIssue',
     description: 'Greyhounds may be placed in GP, SK, FS, RC or SO units.');
 final ruleECMSpecialist = FactionRule(
     name: 'ECM Specialist',
-    id: 'rule::poc::ecmSpecialist',
+    id: '$_baseRuleId::ecmSpecialist',
     description:
         'One gear or strider per combat group may improve its ECM to ECM+ for 1 TV each.');
 final rulePOCOlTrusty = FactionRule(
     name: 'Ol\' Trusty',
-    id: 'rule::poc::oltrusty',
+    id: '$_baseRuleId::oltrusty',
     description:
         'Pit Bulls and Mustangs may increase their GU skill by one for 1 TV each.');
 final rulePeaceOfficer = FactionRule(
     name: 'Peace Officer',
-    id: 'rule::poc::peaceOffice',
+    id: '$_baseRuleId::peaceOffice',
     description:
         'Gears from one combat group may swap their rocket packs for the Shield trait. If a gear does not have a rocket pack, then it may instead gain the Shield trait for 1 TV.');
 final ruleGSwatSniper = FactionRule(
     name: 'G-Swat Sniper',
-    id: 'rule::poc::gswatSniper',
+    id: '$_baseRuleId::gswatSniper',
     description:
         'One gear with a rifle, per combat group, may purchase the Improved Gunnery upgrade for 1 TV each, without being a veteran.');
 final ruleMercenaryContract = FactionRule(
     name: 'Mercenary Contract',
-    id: 'rule::poc::mercenaryContract',
+    id: '$_baseRuleId::mercenaryContract',
     description:
         'One combat group may be made with models from North, South, Peace River, and NuCoal (may include a mix from all four factions) that have an armor of 8 or lower.');
 
