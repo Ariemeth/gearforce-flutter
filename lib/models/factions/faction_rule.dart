@@ -138,4 +138,13 @@ class FactionRule extends ChangeNotifier {
       isUnitCountWithinLimits: original.isUnitCountWithinLimits,
     );
   }
+  Map<String, dynamic> toJson() {
+    return {
+      'id': this.id,
+      'enabled': this._isEnabled,
+      'options': this.options == null
+          ? null
+          : this.options!.map((o) => o.toJson()).toList(),
+    };
+  }
 }
