@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gearforce/data/data.dart';
+import 'package:gearforce/models/factions/faction_rule.dart';
 import 'package:gearforce/models/roster/roster.dart';
+import 'package:gearforce/screens/roster/faction_rules_dialog.dart';
 import 'package:gearforce/screens/roster/select_faction.dart';
 import 'package:gearforce/screens/roster/select_subfaction.dart';
 import 'package:gearforce/widgets/display_value.dart';
@@ -27,6 +29,7 @@ class RosterHeaderInfo extends StatelessWidget {
       columnWidths: const <int, TableColumnWidth>{
         0: IntrinsicColumnWidth(),
         1: FixedColumnWidth(200.0),
+        2: FixedColumnWidth(30.0),
       },
       defaultVerticalAlignment: TableCellVerticalAlignment.middle,
       children: <TableRow>[
@@ -62,6 +65,7 @@ class RosterHeaderInfo extends StatelessWidget {
               strutStyle: StrutStyle.disabled,
             ),
           ),
+          Container(),
         ]),
         TableRow(children: [
           Padding(
@@ -89,6 +93,7 @@ class RosterHeaderInfo extends StatelessWidget {
               },
             ),
           ),
+          Container(),
         ]),
         TableRow(children: [
           Padding(
@@ -106,12 +111,25 @@ class RosterHeaderInfo extends StatelessWidget {
               selectedFaction: roster.faction,
             ),
           ),
+          IconButton(
+            onPressed: () => {
+              _showSettingsDialog(context,
+                  roster.subFaction.value.ruleSet.availableFactionRules(), true)
+            },
+            icon: Icon(
+              Icons.settings,
+              color: Colors.green,
+            ),
+            splashRadius: 20.0,
+            padding: EdgeInsets.zero,
+            tooltip: 'Rules for ${roster.faction.value.name}',
+          ),
         ]),
         TableRow(children: [
           Padding(
             padding: EdgeInsets.only(right: 5, left: 5, top: 5, bottom: 5),
             child: Text(
-              'Sub-Faction:',
+              'Sub-List:',
               textAlign: TextAlign.right,
               style: TextStyle(fontSize: 16),
             ),
@@ -124,9 +142,38 @@ class RosterHeaderInfo extends StatelessWidget {
               selectedSubFaction: roster.subFaction,
             ),
           ),
+          IconButton(
+            onPressed: () => {
+              _showSettingsDialog(
+                context,
+                roster.subFaction.value.ruleSet.availableSubFactionRules(),
+                false,
+              )
+            },
+            icon: Icon(
+              Icons.settings,
+              color: Colors.green,
+            ),
+            splashRadius: 20.0,
+            padding: EdgeInsets.zero,
+            tooltip: 'Rules for ${roster.subFaction.value.name}',
+          ),
         ]),
       ],
     );
+  }
+
+  void _showSettingsDialog(
+      BuildContext context, List<FactionRule> upgrades, bool isCore) {
+    final settingsDialog = FactionRulesDialog(
+      upgrades: upgrades,
+      isCore: isCore,
+    );
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return settingsDialog;
+        });
   }
 
   Widget _createTVPanel(BuildContext context) {

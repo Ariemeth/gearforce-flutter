@@ -25,14 +25,14 @@ class _OptionLineState extends State<OptionLine> {
       child: Row(
         children: [
           Checkbox(
-              value: widget.cg.hasTag(widget.cgOption.name),
-              onChanged: isEnabled || widget.cg.hasTag(widget.cgOption.name)
+              value: widget.cg.hasTag(widget.cgOption.id),
+              onChanged: isEnabled || widget.cg.hasTag(widget.cgOption.id)
                   ? (bool? newValue) {
                       setState(() {
                         if (newValue!) {
-                          widget.cg.addTag(widget.cgOption.name);
+                          widget.cg.addTag(widget.cgOption.id);
                         } else {
-                          widget.cg.removeTag(widget.cgOption.name);
+                          widget.cg.removeTag(widget.cgOption.id);
                         }
                       });
                     }
@@ -43,7 +43,7 @@ class _OptionLineState extends State<OptionLine> {
               fontSize: 16,
               fontWeight: FontWeight.w600,
               fontStyle: FontStyle.normal,
-              decoration: isEnabled || widget.cg.hasTag(widget.cgOption.name)
+              decoration: isEnabled || widget.cg.hasTag(widget.cgOption.id)
                   ? null
                   : TextDecoration.lineThrough,
             ),

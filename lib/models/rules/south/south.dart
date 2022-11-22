@@ -1,20 +1,24 @@
 import 'package:gearforce/data/unit_filter.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
+import 'package:gearforce/models/factions/faction_rule.dart';
 import 'package:gearforce/models/mods/factionUpgrades/faction_mod.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/rules/special_unit_filter.dart';
 import 'package:gearforce/models/unit/unit.dart';
 
+//const String _baseRuleId = 'rule::south';
+
 class South extends RuleSet {
-  South(super.data);
+  South(data) : super(FactionType.South, data);
 
   @override
   List<SpecialUnitFilter> availableUnitFilters() {
     return [
       const SpecialUnitFilter(
-        text: tagCore,
+        text: coreName,
+        id: coreTag,
         filters: const [
           const UnitFilter(FactionType.South),
           const UnitFilter(FactionType.Airstrike),
@@ -31,4 +35,7 @@ class South extends RuleSet {
       UnitRoster ur, CombatGroup cg, Unit u) {
     return [];
   }
+
+  @override
+  List<FactionRule> availableFactionRules() => [];
 }

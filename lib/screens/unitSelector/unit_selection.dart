@@ -31,8 +31,21 @@ class _UnitSelectionState extends State<UnitSelection> {
 
   @override
   Widget build(BuildContext context) {
+    final roster = context.watch<UnitRoster>();
     final hScrollController = ScrollController();
     final vScrollController = ScrollController();
+
+    // Populate the dropdown with the first filter if it hasn't already been set
+    // or if the current filter isn't part of the available filters for this
+    // ruleset.
+    if (_specialUnitFilter == null ||
+        !roster.subFaction.value.ruleSet
+            .availableUnitFilters()
+            .contains(_specialUnitFilter)) {
+      _specialUnitFilter =
+          roster.subFaction.value.ruleSet.availableUnitFilters().first;
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

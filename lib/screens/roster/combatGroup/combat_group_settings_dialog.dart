@@ -37,7 +37,9 @@ class CombatGroupSettingsDialog extends StatelessWidget {
               maxLines: 1,
             ),
             Text(''),
-            options != null ? combatGroupOptions(options, cg) : Container(),
+            options.options.isNotEmpty
+                ? combatGroupOptions(options, cg)
+                : Container(),
             Text(''),
             ElevatedButton(
               onPressed: () {
@@ -68,6 +70,17 @@ class CombatGroupSettingsDialog extends StatelessWidget {
               ),
             ),
             Text(''),
+            SimpleDialogOption(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Center(
+                child: Text(
+                  'Close',
+                  style: TextStyle(fontSize: 24, color: Colors.green),
+                ),
+              ),
+            ),
           ],
         ),
       ),

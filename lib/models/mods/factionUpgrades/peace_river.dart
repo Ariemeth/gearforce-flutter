@@ -277,7 +277,7 @@ class PeaceRiverFactionMods extends FactionModification {
       }
       // unit must be of the SK role type and only 1 unit may have this mod.
       return u.role!.roles.any((r) => r.name == RoleType.SK) &&
-          roster.unitsWithMod(eliteElementsID) == 0;
+          roster.unitsWithMod(eliteElementsID).length == 0;
     };
     return PeaceRiverFactionMods(
         name: 'Elite Elements', requirementCheck: reqCheck, id: eliteElementsID)

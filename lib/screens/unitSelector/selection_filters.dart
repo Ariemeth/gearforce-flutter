@@ -133,7 +133,6 @@ class SpecialFilterSelector extends StatefulWidget {
 class _SpecialFilterSelectorState extends State<SpecialFilterSelector> {
   SpecialUnitFilter? dropdownValue;
   String cachedFactionName = '';
-  String defaultDropdownValue = 'None';
 
   @override
   Widget build(BuildContext context) {
@@ -142,6 +141,9 @@ class _SpecialFilterSelectorState extends State<SpecialFilterSelector> {
         context.select((UnitRoster roster) => roster.subFaction.value);
     final factionNameToCache = '${faction.name}/${subFaction.name}';
     final rs = subFaction.ruleSet;
+    rs.addListener(() {
+      setState(() {});
+    });
     final availableSpecialFilters = rs.availableUnitFilters();
     assert(availableSpecialFilters.length != 0);
 

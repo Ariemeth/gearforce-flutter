@@ -39,7 +39,7 @@ class GroupHeader extends StatelessWidget {
     final settingsIcon = roster != null &&
             roster?.subFaction.value.ruleSet.combatGroupSettings() != null &&
             roster!.subFaction.value.ruleSet
-                    .combatGroupSettings()!
+                    .combatGroupSettings()
                     .options
                     .length >
                 0
@@ -76,10 +76,10 @@ class GroupHeader extends StatelessWidget {
                 // a cg is only valid if the number of actions is greater then 4 and
                 // less then or equal to 6
                 ? actions > maxPrimaryActions || actions < minPrimaryActions
-                    ? 'too many or too few actions'
+                    ? 'must have between $minPrimaryActions and $maxPrimaryActions actionss'
                     : 'valid number of actions'
                 : actions > maxSecondaryAction
-                    ? 'too many actions or too few actions'
+                    ? 'cannot have more then $maxSecondaryAction actions'
                     : 'valid number of actions',
             child: DisplayValue(
               text: 'Actions',
