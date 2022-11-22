@@ -39,7 +39,7 @@ class GroupHeader extends StatelessWidget {
     final settingsIcon = roster != null &&
             roster?.subFaction.value.ruleSet.combatGroupSettings() != null &&
             roster!.subFaction.value.ruleSet
-                    .combatGroupSettings()!
+                    .combatGroupSettings()
                     .options
                     .length >
                 0

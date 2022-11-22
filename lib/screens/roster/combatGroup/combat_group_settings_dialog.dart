@@ -37,7 +37,9 @@ class CombatGroupSettingsDialog extends StatelessWidget {
               maxLines: 1,
             ),
             Text(''),
-            options != null ? combatGroupOptions(options, cg) : Container(),
+            options.options.isNotEmpty
+                ? combatGroupOptions(options, cg)
+                : Container(),
             Text(''),
             ElevatedButton(
               onPressed: () {

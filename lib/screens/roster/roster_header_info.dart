@@ -113,10 +113,8 @@ class RosterHeaderInfo extends StatelessWidget {
           ),
           IconButton(
             onPressed: () => {
-              _showSettingsDialog(
-                  context,
-                  roster.subFaction.value.ruleSet.availableFactionUpgrades(),
-                  true)
+              _showSettingsDialog(context,
+                  roster.subFaction.value.ruleSet.availableFactionRules(), true)
             },
             icon: Icon(
               Icons.settings,
@@ -148,7 +146,7 @@ class RosterHeaderInfo extends StatelessWidget {
             onPressed: () => {
               _showSettingsDialog(
                 context,
-                roster.subFaction.value.ruleSet.availableSubFactionUpgrades(),
+                roster.subFaction.value.ruleSet.availableSubFactionRules(),
                 false,
               )
             },

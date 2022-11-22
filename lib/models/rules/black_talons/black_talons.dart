@@ -7,17 +7,17 @@ import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/rules/special_unit_filter.dart';
 import 'package:gearforce/models/unit/unit.dart';
 
-const String _baseRuleId = 'rule::blackTalon';
+//const String _baseRuleId = 'rule::blackTalon';
 
 class BlackTalons extends RuleSet {
-  BlackTalons(super.data);
+  BlackTalons(data) : super(FactionType.BlackTalon, data);
 
   @override
   List<SpecialUnitFilter> availableUnitFilters() {
     return [
       const SpecialUnitFilter(
-        text: tagCore,
-        id: '$_baseRuleId::$tagCore',
+        text: coreName,
+        id: coreTag,
         filters: const [
           const UnitFilter(FactionType.BlackTalon),
           const UnitFilter(FactionType.Airstrike),
@@ -36,5 +36,5 @@ class BlackTalons extends RuleSet {
   }
 
   @override
-  List<FactionRule> availableFactionUpgrades() => [];
+  List<FactionRule> availableFactionRules() => [];
 }

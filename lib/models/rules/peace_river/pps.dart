@@ -1,30 +1,71 @@
 import 'package:gearforce/data/unit_filter.dart';
-import 'package:gearforce/models/combatGroups/combat_group.dart';
-import 'package:gearforce/models/combatGroups/group.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/factions/faction_rule.dart';
-import 'package:gearforce/models/mods/factionUpgrades/faction_mod.dart';
 import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart';
-import 'package:gearforce/models/roster/roster.dart';
-import 'package:gearforce/models/rules/combat_group_options.dart';
 import 'package:gearforce/models/rules/peace_river/peace_river.dart';
 import 'package:gearforce/models/rules/peace_river/poc.dart' as poc;
 import 'package:gearforce/models/rules/peace_river/prdf.dart' as prdf;
 import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/rules/special_unit_filter.dart';
-import 'package:gearforce/models/unit/unit.dart';
 
-const String _ppsFullName = 'Paxton Private Securities';
-const String _subContractors = 'Sub-Contractors';
-const String _badlandsSoup = 'Badland\'s Soup';
 const String _exPOC = 'Ex-POC';
 const String _exPRDF = 'Ex-PRDF';
 const String _baseRuleId = 'rule::pps';
 
+const String _ruleSubContractorsName = 'Sub-Contractors';
+const String _ruleSubContractorsID = '$_baseRuleId::subcontractor';
+const String _badlandsSoupName = 'Badland\'s Soup';
+const String _ruleBadlandsSoupID = '$_baseRuleId::badlandssoup';
+
+/*
+PPS - Paxton Private Securities
+The Paxton Private Securities LLC offers private contractors at a good rate. After all, if
+you can’t afford your own army made with the best of Paxton’s offerings, maybe you
+can rent their forces at competitive rates instead. While held in reserve for the highest
+bidder, discounts are available during times of peace to ensure they stay well practiced.
+* Ex-PRDF: Choose any one upgrade option from the PRDF.
+* Ex-POC: Choose any one upgrade option from the POC.
+* Badland’s Soup: One combat group may purchase the following veteran upgrades
+for their models without being veterans; Improved Gunnery, Dual Guns, Brawler,
+Veteran Melee upgrade, or ECCM.
+* Sub-Contractors: One combat group may be made with models from North,
+South, Peace River, and NuCoal (may include a mix from all four factions) that
+have an armor of 8 or lower.
+*/
+class PPS extends PeaceRiver {
+  PPS(super.data) {
+    ruleExPRDF..addListener(() => notifyListeners());
+    ruleExPOC..addListener(() => notifyListeners());
+    ruleBadlandsSoup..addListener(() => notifyListeners());
+    ruleSubContractors..addListener(() => notifyListeners());
+  }
+
+  @override
+  List<FactionRule> availableSubFactionRules() {
+    return [
+      ruleExPRDF,
+      ruleExPOC,
+      ruleBadlandsSoup,
+      ruleSubContractors,
+    ];
+  }
+}
+
+const filterSubContractor = SpecialUnitFilter(
+  text: _ruleSubContractorsName,
+  id: _ruleSubContractorsID,
+  filters: [
+    const UnitFilter(FactionType.North, matcher: matchArmor8),
+    const UnitFilter(FactionType.South, matcher: matchArmor8),
+    const UnitFilter(FactionType.PeaceRiver, matcher: matchArmor8),
+    const UnitFilter(FactionType.NuCoal, matcher: matchArmor8),
+  ],
+);
+
 final ruleExPRDF = FactionRule(
     name: _exPRDF,
     id: '$_baseRuleId::exPRDF',
-    description: 'Choose any one upgrade option from the PRDF.',
+    description: 'Choose any one rule from the PRDF.',
     options: [
       FactionRule.from(
         prdf.ruleOlTrusty,
@@ -115,7 +156,7 @@ final ruleExPRDF = FactionRule(
 final ruleExPOC = FactionRule(
     name: _exPOC,
     id: '$_baseRuleId::exPOC',
-    description: 'Choose any one upgrade option from the POC.',
+    description: 'Choose any one rule from the POC.',
     options: [
       FactionRule.from(
         poc.ruleSpecialIssue,
@@ -204,84 +245,9 @@ final ruleExPOC = FactionRule(
     ]);
 
 final ruleBadlandsSoup = FactionRule(
-    name: _badlandsSoup,
-    id: '$_baseRuleId::badlandSoup',
-    description:
-        'One combat group may purchase the following veteran upgrades for their models without being veterans; Improved Gunnery, Dual Guns, Brawler, Veteran Melee upgrade, or ECCM.');
-
-final ruleSubContractors = FactionRule(
-    name: _subContractors,
-    id: '$_baseRuleId::subContractors',
-    description:
-        'One combat group may be made with models from North, South, Peace River, and NuCoal (may include a mix from all four factions) that have an armor of 8 or lower.');
-
-/*
-PPS - Paxton Private Securities
-The Paxton Private Securities LLC offers private contractors at a good rate. After all, if
-you can’t afford your own army made with the best of Paxton’s offerings, maybe you
-can rent their forces at competitive rates instead. While held in reserve for the highest
-bidder, discounts are available during times of peace to ensure they stay well practiced.
-Z Ex-PRDF: Choose any one upgrade option from the PRDF.
-Z Ex-POC: Choose any one upgrade option from the POC.
-* Badland’s Soup: One combat group may purchase the following veteran upgrades
-for their models without being veterans; Improved Gunnery, Dual Guns, Brawler,
-Veteran Melee upgrade, or ECCM.
-* Sub-Contractors: One combat group may be made with models from North,
-South, Peace River, and NuCoal (may include a mix from all four factions) that
-have an armor of 8 or lower.
-*/
-class PPS extends PeaceRiver {
-  PPS(super.data);
-
-  final List<FactionRule> _rules = [
-    ruleExPRDF,
-    ruleExPOC,
-    ruleBadlandsSoup,
-    ruleSubContractors,
-  ];
-
-  @override
-  bool isRuleEnabled(String ruleName) {
-    return FactionRule.isRuleEnabled(_rules, ruleName);
-  }
-
-  @override
-  List<FactionModification> availableFactionMods(
-      UnitRoster ur, CombatGroup cg, Unit u) {
-    return super.availableFactionMods(ur, cg, u);
-  }
-
-  @override
-  List<FactionRule> availableSubFactionUpgrades() {
-    return _rules;
-  }
-
-  @override
-  bool canBeAddedToGroup(Unit unit, Group group, CombatGroup cg) {
-    // core unit into a core combatgroup
-    if (unit.hasTag(tagCore) && !cg.hasTag(_subContractors)) {
-      return super.canBeAddedToGroup(unit, group, cg);
-    }
-
-    if (unit.hasTag(_subContractors) && cg.hasTag(_subContractors)) {
-      return super.canBeAddedToGroup(unit, group, cg);
-    }
-
-    return false;
-  }
-
-  @override
-  bool veteranModCheck(
-    Unit u,
-    CombatGroup cg, {
-    required String modID,
-  }) {
-    /*
-      Badland’s Soup: One combat group may purchase the following veteran upgrades
-      for their models without being veterans; Improved Gunnery, Dual Guns, Brawler,
-      Veteran Melee upgrade, or ECCM.
-    */
-    if (cg.hasTag(_badlandsSoup)) {
+    name: _badlandsSoupName,
+    id: _ruleBadlandsSoupID,
+    veteranModCheck: (u, cg, {required modID}) {
       switch (modID) {
         case improvedGunneryID:
         case dualGunsId:
@@ -291,46 +257,27 @@ class PPS extends PeaceRiver {
         case eccmId:
           return true;
       }
-    }
 
-    return super.veteranModCheck(u, cg, modID: modID);
-  }
+      return false;
+    },
+    description:
+        'One combat group may purchase the following veteran upgrades for their models without being veterans; Improved Gunnery, Dual Guns, Brawler, Veteran Melee upgrade, or ECCM.');
 
-  @override
-  List<SpecialUnitFilter> availableUnitFilters() {
-    return super.availableUnitFilters()
-      ..addAll(
-        [
-          /*
-            Sub-Contractors: One combat group may be made with models from North,
-            South, Peace River, and NuCoal (may include a mix from all four factions) that
-            have an armor of 8 or lower.
-          */
-          const SpecialUnitFilter(
-            text: _subContractors,
-            id: '$_baseRuleId::$tagCore',
-            filters: [
-              const UnitFilter(FactionType.North, matcher: matchArmor8),
-              const UnitFilter(FactionType.South, matcher: matchArmor8),
-              const UnitFilter(FactionType.PeaceRiver, matcher: matchArmor8),
-              const UnitFilter(FactionType.NuCoal, matcher: matchArmor8),
-            ],
-          ),
-        ],
-      );
-  }
+final ruleSubContractors = FactionRule(
+    name: _ruleSubContractorsName,
+    id: _ruleSubContractorsID,
+    canBeAddedToGroup: (unit, group, cg) {
+      // core unit into a core combatgroup
+      if (unit.hasTag(coreTag) && !cg.hasTag(ruleSubContractors.id)) {
+        return true;
+      }
 
-  @override
-  CombatGroupOption combatGroupSettings() {
-    return CombatGroupOption(name: '$_ppsFullName options', options: [
-      Option(
-        name: _subContractors,
-        requirementCheck: onlyOneCG(_subContractors),
-      ),
-      Option(
-        name: _badlandsSoup,
-        requirementCheck: onlyOneCG(_badlandsSoup),
-      )
-    ]);
-  }
-}
+      if (unit.hasTag(ruleSubContractors.id) &&
+          cg.hasTag(ruleSubContractors.id)) {
+        return true;
+      }
+
+      return false;
+    },
+    description:
+        'One combat group may be made with models from North, South, Peace River, and NuCoal (may include a mix from all four factions) that have an armor of 8 or lower.');

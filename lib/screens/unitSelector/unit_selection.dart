@@ -45,6 +45,7 @@ class _UnitSelectionState extends State<UnitSelection> {
       _specialUnitFilter =
           roster.subFaction.value.ruleSet.availableUnitFilters().first;
     }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

@@ -8,17 +8,17 @@ import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/rules/special_unit_filter.dart';
 import 'package:gearforce/models/unit/unit.dart';
 
-const String _baseRuleId = 'rule::north';
+//const String _baseRuleId = 'rule::north';
 
 class North extends RuleSet {
-  North(super.data);
+  North(data) : super(FactionType.North, data);
 
   @override
   List<SpecialUnitFilter> availableUnitFilters() {
     return [
       const SpecialUnitFilter(
-        text: tagCore,
-        id: '$_baseRuleId::$tagCore',
+        text: coreName,
+        id: coreTag,
         filters: const [
           const UnitFilter(FactionType.North),
           const UnitFilter(FactionType.Airstrike),
@@ -37,5 +37,5 @@ class North extends RuleSet {
   }
 
   @override
-  List<FactionRule> availableFactionUpgrades() => [];
+  List<FactionRule> availableFactionRules() => [];
 }

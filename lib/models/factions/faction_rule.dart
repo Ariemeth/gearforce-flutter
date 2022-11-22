@@ -1,16 +1,17 @@
+import 'package:flutter/widgets.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/combatGroups/group.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
 
-class FactionRule {
+class FactionRule extends ChangeNotifier {
   FactionRule({
     required this.name,
     required this.id,
-    this.options = null,
+    List<FactionRule>? options = null,
     this.description = '',
-    isEnabled = true,
+    bool isEnabled = true,
     this.canBeToggled = false,
     this.requirementCheck = ruleAlwaysAvailable,
     this.duelistCheck,
@@ -23,11 +24,21 @@ class FactionRule {
     this.isUnitCountWithinLimits,
   }) {
     _isEnabled = isEnabled;
+    _options = options;
+    if (options != null) {
+      for (final o in options) {
+        o.addListener(() {
+          this.notifyListeners();
+        });
+      }
+    }
   }
 
   final String name;
   final String id;
-  final List<FactionRule>? options;
+  List<FactionRule>? get options =>
+      _options == null ? null : _options!.toList();
+  late final List<FactionRule>? _options;
   final String description;
   late bool _isEnabled;
   final bool canBeToggled;
@@ -50,6 +61,7 @@ class FactionRule {
   void toggleIsEnabled(List<FactionRule> rules) {
     if (canBeToggled && this.requirementCheck(rules)) {
       _isEnabled = !_isEnabled;
+      notifyListeners();
     }
   }
 
@@ -58,8 +70,8 @@ class FactionRule {
       if (r.id == ruleID) {
         return r.isEnabled;
       }
-      if (r.options != null) {
-        final isFound = isRuleEnabled(r.options!, ruleID);
+      if (r._options != null) {
+        final isFound = isRuleEnabled(r._options!, ruleID);
         if (isFound) {
           return true;
         }
@@ -73,8 +85,8 @@ class FactionRule {
       if (r.id == ruleID) {
         return r;
       }
-      if (r.options != null) {
-        final rule = findRule(r.options!, ruleID);
+      if (r._options != null) {
+        final rule = findRule(r._options!, ruleID);
         if (rule != null) {
           return rule;
         }
@@ -109,7 +121,7 @@ class FactionRule {
     return FactionRule(
       name: original.name,
       id: original.id,
-      options: options != null ? options : original.options?.toList(),
+      options: options != null ? options : original._options?.toList(),
       isEnabled: isEnabled != null ? isEnabled : original.isEnabled,
       canBeToggled: canBeToggled != null ? canBeToggled : original.canBeToggled,
       description: original.description,

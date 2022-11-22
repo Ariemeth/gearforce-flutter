@@ -8,17 +8,17 @@ import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/rules/special_unit_filter.dart';
 import 'package:gearforce/models/unit/unit.dart';
 
-const String _baseRuleId = 'rule::utopia';
+//const String _baseRuleId = 'rule::utopia';
 
 class Utopia extends RuleSet {
-  Utopia(super.data);
+  Utopia(data) : super(FactionType.Utopia, data);
 
   @override
   List<SpecialUnitFilter> availableUnitFilters() {
     return [
       const SpecialUnitFilter(
-        text: tagCore,
-        id: '$_baseRuleId::$tagCore',
+        text: coreName,
+        id: coreTag,
         filters: const [
           const UnitFilter(FactionType.Utopia),
           const UnitFilter(FactionType.Airstrike),
@@ -37,5 +37,5 @@ class Utopia extends RuleSet {
   }
 
   @override
-  List<FactionRule> availableFactionUpgrades() => [];
+  List<FactionRule> availableFactionRules() => [];
 }

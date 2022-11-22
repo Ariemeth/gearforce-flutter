@@ -8,17 +8,17 @@ import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/rules/special_unit_filter.dart';
 import 'package:gearforce/models/unit/unit.dart';
 
-const String _baseRuleId = 'rule::eden';
+//const String _baseRuleId = 'rule::eden';
 
 class Eden extends RuleSet {
-  Eden(super.data);
+  Eden(data) : super(FactionType.Eden, data);
 
   @override
   List<SpecialUnitFilter> availableUnitFilters() {
     return [
       const SpecialUnitFilter(
-        text: tagCore,
-        id: '$_baseRuleId::$tagCore',
+        text: coreName,
+        id: coreTag,
         filters: const [
           const UnitFilter(FactionType.Eden),
           const UnitFilter(FactionType.Airstrike),
@@ -37,5 +37,5 @@ class Eden extends RuleSet {
   }
 
   @override
-  List<FactionRule> availableFactionUpgrades() => [];
+  List<FactionRule> availableFactionRules() => [];
 }
