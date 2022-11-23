@@ -30,6 +30,7 @@ class _OptionLineState extends State<OptionLine> {
                   ? (bool? newValue) {
                       setState(() {
                         if (newValue!) {
+                          // TODO move this logic into the option itself
                           widget.cg.addTag(widget.cgOption.id);
                         } else {
                           widget.cg.removeTag(widget.cgOption.id);

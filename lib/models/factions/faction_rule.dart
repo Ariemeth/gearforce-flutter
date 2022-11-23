@@ -22,6 +22,7 @@ class FactionRule extends ChangeNotifier {
     this.hasGroupRole,
     this.isRoleTypeUnlimited,
     this.isUnitCountWithinLimits,
+    this.onDisable,
   }) {
     _isEnabled = isEnabled;
     _options = options;
@@ -56,11 +57,15 @@ class FactionRule extends ChangeNotifier {
       isRoleTypeUnlimited;
   final bool Function(CombatGroup cg, Group group, Unit unit)?
       isUnitCountWithinLimits;
+  final void Function()? onDisable;
 
   bool get isEnabled => _isEnabled;
   void toggleIsEnabled(List<FactionRule> rules) {
     if (canBeToggled && this.requirementCheck(rules)) {
       _isEnabled = !_isEnabled;
+      if (!_isEnabled && onDisable != null) {
+        onDisable!();
+      }
       notifyListeners();
     }
   }
@@ -136,6 +141,7 @@ class FactionRule extends ChangeNotifier {
       hasGroupRole: original.hasGroupRole,
       isRoleTypeUnlimited: original.isRoleTypeUnlimited,
       isUnitCountWithinLimits: original.isUnitCountWithinLimits,
+      onDisable: original.onDisable,
     );
   }
   Map<String, dynamic> toJson() {

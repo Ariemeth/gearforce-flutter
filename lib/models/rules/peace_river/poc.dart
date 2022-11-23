@@ -143,5 +143,6 @@ final ruleMercenaryContract = FactionRule(
 
       return false;
     },
+    onDisable: () {},
     description:
         'One combat group may be made with models from North, South, Peace River, and NuCoal (may include a mix from all four factions) that have an armor of 8 or lower.');
