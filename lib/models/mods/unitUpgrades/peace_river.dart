@@ -232,7 +232,7 @@ final UnitModification spartanSpectre =
 
 final UnitModification crusaderV = UnitModification(name: 'Crusader V Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
-  ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Crusader V'))
+  ..addMod(UnitAttribute.name, createReplaceStringMod(old: 'IV', change: 'V'))
   ..addMod(
       UnitAttribute.mounted_weapons,
       createMultiReplaceWeaponsInList(

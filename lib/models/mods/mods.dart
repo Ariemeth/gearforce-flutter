@@ -15,6 +15,13 @@ String Function(String) createSimpleStringMod(bool isPrefix, String change) {
   };
 }
 
+String Function(String) createReplaceStringMod(
+    {required String old, required String change}) {
+  return (value) {
+    return value.replaceAll(old, change);
+  };
+}
+
 int Function(int) createSetIntMod(int newValue) {
   return (value) {
     return newValue;
