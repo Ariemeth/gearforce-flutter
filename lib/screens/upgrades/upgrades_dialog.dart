@@ -37,36 +37,34 @@ class UpgradesDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     context.watch<Unit>();
 
+    final rs = roster.subFaction.value.ruleSet;
     final unitMods = getUnitMods(unit.core.frame, unit);
     final standardMods = getStandardMods(unit, cg, roster);
     final veteranMods = getVeteranMods(unit, cg);
     final duelistMods = getDuelistMods(unit, cg, roster);
-    final factionMods =
-        roster.subFaction.value.ruleSet.availableFactionMods(roster, cg, unit);
-    final rs = roster.subFaction.value.ruleSet;
+    final factionMods = rs.availableFactionMods(roster, cg, unit);
 
     unit.getMods().forEach((mod) {
-      switch (mod.runtimeType) {
-        case UnitModification:
+      switch (mod.modType) {
+        case ModificationType.unit:
           unitMods[unitMods.indexWhere((m) => m.id == mod.id)] =
               mod as UnitModification;
           break;
-        case StandardModification:
+        case ModificationType.standard:
           standardMods[standardMods.indexWhere((m) => m.id == mod.id)] =
               mod as StandardModification;
           break;
-        case VeteranModification:
+        case ModificationType.veteran:
           veteranMods[veteranMods.indexWhere((m) => m.id == mod.id)] =
               mod as VeteranModification;
           break;
-        case DuelistModification:
+        case ModificationType.duelist:
           duelistMods[duelistMods.indexWhere((m) => m.id == mod.id)] =
               mod as DuelistModification;
           break;
-        case FactionModification:
+        case ModificationType.faction:
           factionMods[factionMods.indexWhere((m) => m.id == mod.id)] =
               mod as FactionModification;
-
           break;
       }
     });

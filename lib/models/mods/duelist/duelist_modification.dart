@@ -13,20 +13,22 @@ import 'package:gearforce/models/weapons/weapon.dart';
 import 'package:gearforce/models/weapons/weapon_modes.dart';
 import 'package:gearforce/models/weapons/weapons.dart';
 
-const duelistId = 'duelist';
-const independentOperatorId = 'duelist: independent';
-const leadByExampleId = 'duelist: lead by example';
-const advancedControlSystemId = 'duelist: advanced control system';
-const stableId = 'duelist: stable';
-const preciseId = 'duelist: precise';
-const autoId = 'duelist: auto';
-const aceGunnerId = 'duelist: ace gunner';
-const trickShotId = 'duelist: trick shot';
-const meleeUpgradeId = 'duelist: melee upgrade';
-const dualMeleeWeaponsId = 'duelist: dual melee weapons';
-const shieldId = 'duelist: shield';
-const agileId = 'duelist: agile';
-const ecmId = 'duelist: ecm';
+const _duelistIDBase = 'mod::duelist';
+
+const duelistId = '$_duelistIDBase::10';
+const independentOperatorId = '$_duelistIDBase::20';
+const leadByExampleId = '$_duelistIDBase::30';
+const advancedControlSystemId = '$_duelistIDBase::40';
+const stableId = '$_duelistIDBase::50';
+const preciseId = '$_duelistIDBase::60';
+const autoId = '$_duelistIDBase::70';
+const aceGunnerId = '$_duelistIDBase::80';
+const trickShotId = '$_duelistIDBase::90';
+const meleeUpgradeId = '$_duelistIDBase::100';
+const dualMeleeWeaponsId = '$_duelistIDBase::110';
+const shieldId = '$_duelistIDBase::120';
+const agileId = '$_duelistIDBase::130';
+const ecmId = '$_duelistIDBase::140';
 
 final RegExp _handsMatch = RegExp(r'^Hands', caseSensitive: false);
 
@@ -38,11 +40,13 @@ class DuelistModification extends BaseModification {
     final ModificationOption? options,
     final BaseModification Function()? refreshData,
   }) : super(
-            name: name,
-            id: id,
-            requirementCheck: requirementCheck,
-            options: options,
-            refreshData: refreshData);
+          name: name,
+          id: id,
+          requirementCheck: requirementCheck,
+          options: options,
+          refreshData: refreshData,
+          modType: ModificationType.duelist,
+        );
 
   // function to ensure the modification can be applied to the unit
 

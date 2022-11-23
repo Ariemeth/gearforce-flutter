@@ -11,19 +11,21 @@ import 'package:gearforce/models/unit/unit_attribute.dart';
 import 'package:gearforce/models/weapons/weapon.dart';
 import 'package:gearforce/models/weapons/weapons.dart';
 
-const veteranId = 'veteran';
-const improvedGunneryID = 'vet: improved gunnery';
-const dualGunsId = 'vet: dual guns';
-const eccmId = 'vet: eccm';
-const brawl1Id = 'vet: brawler1';
-const brawler2Id = 'vet: brawler2';
-const reachId = 'vet: reach';
-const meleeUpgradeId = 'vet: melee upgrade';
-const resistHId = 'vet: resist:h';
-const resistFId = 'vet: resist:f';
-const resistCId = 'vet: resist:c';
-const fieldArmorId = 'vet: field armor';
-const amsId = 'vet: ams';
+const _vetIDBase = 'mod::vet';
+
+const veteranId = '$_vetIDBase::10';
+const improvedGunneryID = '$_vetIDBase::20';
+const dualGunsId = '$_vetIDBase::30';
+const eccmId = '$_vetIDBase::40';
+const brawl1Id = '$_vetIDBase::50';
+const brawler2Id = '$_vetIDBase::60';
+const reachId = '$_vetIDBase::70';
+const meleeUpgradeId = '$_vetIDBase::80';
+const resistHId = '$_vetIDBase::90';
+const resistFId = '$_vetIDBase::100';
+const resistCId = '$_vetIDBase::110';
+const fieldArmorId = '$_vetIDBase::120';
+const amsId = '$_vetIDBase::130';
 
 final RegExp _handsMatch = RegExp(r'^Hands', caseSensitive: false);
 
@@ -40,6 +42,7 @@ class VeteranModification extends BaseModification {
           requirementCheck: requirementCheck,
           options: options,
           refreshData: refreshData,
+          modType: ModificationType.veteran,
         );
 
   factory VeteranModification.makeVet(Unit u, CombatGroup cg) {

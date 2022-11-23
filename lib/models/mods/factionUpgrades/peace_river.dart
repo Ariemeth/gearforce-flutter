@@ -13,19 +13,19 @@ import 'package:gearforce/models/unit/unit_attribute.dart';
 import 'package:gearforce/models/weapons/weapon.dart';
 import 'package:gearforce/models/weapons/weapons.dart';
 
-const peaceRiverIDBase = 'faction: peace river';
+const _peaceRiverIDBase = 'mod::faction::peace river';
 
-const e_pexID = '$peaceRiverIDBase - 10';
-const warriorEliteID = '$peaceRiverIDBase - 20';
-const crisisRespondersID = '$peaceRiverIDBase - 30';
-const laserTechID = '$peaceRiverIDBase - 40';
-const olTrustyID = '$peaceRiverIDBase - 50';
-const thunderFromTheSkyID = '$peaceRiverIDBase - 60';
-const eliteElementsID = '$peaceRiverIDBase - 70';
-const ecmSpecialistID = '$peaceRiverIDBase - 80';
-const olTrustyPOCID = '$peaceRiverIDBase - 90';
-const peaceOfficersID = '$peaceRiverIDBase - 100';
-const gSWATSniperID = '$peaceRiverIDBase - 110';
+const e_pexID = '$_peaceRiverIDBase::10';
+const warriorEliteID = '$_peaceRiverIDBase::20';
+const crisisRespondersID = '$_peaceRiverIDBase::30';
+const laserTechID = '$_peaceRiverIDBase::40';
+const olTrustyID = '$_peaceRiverIDBase::50';
+const thunderFromTheSkyID = '$_peaceRiverIDBase::60';
+const eliteElementsID = '$_peaceRiverIDBase::70';
+const ecmSpecialistID = '$_peaceRiverIDBase::80';
+const olTrustyPOCID = '$_peaceRiverIDBase::90';
+const peaceOfficersID = '$_peaceRiverIDBase::100';
+const gSWATSniperID = '$_peaceRiverIDBase::110';
 
 class PeaceRiverFactionMods extends FactionModification {
   PeaceRiverFactionMods({
@@ -94,7 +94,6 @@ class PeaceRiverFactionMods extends FactionModification {
     may swap their HAC, MSC, MBZ or LFG for a MPA (React) and a Shield for 1 TV.
     This Crisis Responder variant is unlimited for this force.
   */
-  // TODO support the unlimited variant this upgrade adds
   factory PeaceRiverFactionMods.crisisResponders(Unit u) {
     final allowedWeaponMatch = RegExp(r'^(HAC|MSC|MBZ|LFG)$');
     final List<ModificationOption> _options = [];
@@ -128,7 +127,7 @@ class PeaceRiverFactionMods extends FactionModification {
 
         if (modOptions.selectedOption == null ||
             !newList
-                .any((w) => w.toString() != modOptions.selectedOption?.text)) {
+                .any((w) => w.toString() == modOptions.selectedOption?.text)) {
           return newList;
         }
         final selectedWeaponToRemove = newList

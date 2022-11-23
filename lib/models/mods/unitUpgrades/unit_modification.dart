@@ -12,10 +12,12 @@ class UnitModification extends BaseModification {
     ModificationOption? options,
     String? id,
   }) : super(
-            name: name,
-            requirementCheck: requirementCheck,
-            options: options,
-            id: id ?? name);
+          name: name,
+          requirementCheck: requirementCheck,
+          options: options,
+          id: id ?? name,
+          modType: ModificationType.unit,
+        );
 
   // function to ensure the modification can be applied to the unit
 

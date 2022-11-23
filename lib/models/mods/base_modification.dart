@@ -13,6 +13,7 @@ abstract class BaseModification {
     required this.name,
     required this.requirementCheck,
     required String this.id,
+    required this.modType,
     this.options,
     BaseModification Function()? refreshData,
   }) {
@@ -20,6 +21,7 @@ abstract class BaseModification {
   }
 
   final String name;
+  final ModificationType modType;
   final List<String> _descriptions = [];
   final List<String Function()> _dynamicDescriptions = [];
   late final BaseModification Function()? _refreshData;
@@ -108,4 +110,12 @@ Example json format for mods
 
     return result;
   }
+}
+
+enum ModificationType {
+  duelist,
+  faction,
+  standard,
+  unit,
+  veteran,
 }
