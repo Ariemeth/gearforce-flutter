@@ -11,10 +11,12 @@ class FactionModification extends BaseModification {
     required RequirementCheck requirementCheck,
     required String id,
   }) : super(
-            name: name,
-            requirementCheck: requirementCheck,
-            options: options,
-            id: id);
+          name: name,
+          requirementCheck: requirementCheck,
+          options: options,
+          id: id,
+          modType: ModificationType.faction,
+        );
 }
 
 FactionModification? factionModFromId(String id, UnitRoster ur, Unit u) {

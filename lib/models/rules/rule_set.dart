@@ -120,7 +120,7 @@ abstract class RuleSet extends ChangeNotifier {
 
     // if the unit is unlimited for the groups roletype you can add as many
     // as you want.
-    if (isRoleTypeUnlimited(unit, targetRole, group)) {
+    if (isRoleTypeUnlimited(unit, targetRole, group, cg.roster)) {
       return true;
     }
 
@@ -153,7 +153,8 @@ abstract class RuleSet extends ChangeNotifier {
   }
 
   // Check if the role is unlimited
-  bool isRoleTypeUnlimited(Unit unit, RoleType target, Group group) {
+  bool isRoleTypeUnlimited(
+      Unit unit, RoleType target, Group group, UnitRoster? ur) {
     if (unit.role == null || !unit.role!.roles.any((r) => r.name == target)) {
       return false;
     }

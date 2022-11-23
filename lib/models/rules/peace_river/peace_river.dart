@@ -29,6 +29,15 @@ final ruleArchitects = FactionRule(
 final ruleCrisisResponders = FactionRule(
     name: 'Crisis Responders',
     id: '$_baseRuleId::crisisResponders',
+    isRoleTypeUnlimited: (unit, target, group, roster) {
+      assert(roster != null);
+
+      return roster!.getCGs().any(
+            (cg) => cg.units.any(
+              (u) => u.core == unit.core && u.hasMod(crisisRespondersID),
+            ),
+          );
+    },
     description:
         'Any Crusader IV that has been upgraded to a Crusader V may swap their HAC, MSC, MBZ or LFG for a MPA (React) and a Shield for 1 TV. This Crisis Responder variant is unlimited for this force.');
 final ruleEPex = FactionRule(
@@ -234,16 +243,25 @@ class PeaceRiver extends RuleSet {
   }
 
   @override
-  bool isRoleTypeUnlimited(Unit unit, RoleType target, Group group) {
+  bool isRoleTypeUnlimited(
+      Unit unit, RoleType target, Group group, UnitRoster? ur) {
     var rule = FactionRule.findRule(factionUprades, prdf.ruleHighTech.id);
     if (rule != null &&
         rule.isEnabled &&
         rule.isRoleTypeUnlimited != null &&
-        rule.isRoleTypeUnlimited!(unit, target, group)) {
+        rule.isRoleTypeUnlimited!(unit, target, group, ur)) {
       return true;
     }
 
-    return super.isRoleTypeUnlimited(unit, target, group);
+    rule = FactionRule.findRule(factionUprades, ruleCrisisResponders.id);
+    if (rule != null &&
+        rule.isEnabled &&
+        rule.isRoleTypeUnlimited != null &&
+        rule.isRoleTypeUnlimited!(unit, target, group, ur)) {
+      return true;
+    }
+
+    return super.isRoleTypeUnlimited(unit, target, group, ur);
   }
 
   @override

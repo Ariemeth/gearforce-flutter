@@ -11,19 +11,21 @@ import 'package:gearforce/models/unit/unit_attribute.dart';
 import 'package:gearforce/models/weapons/weapon.dart';
 import 'package:gearforce/models/weapons/weapons.dart';
 
-const antiAirTraitId = 'standard: anti-air trait';
-const antiAirSwapId = 'standard: anti-air swap';
-const meleeSwapId = 'standard: melee swap';
-const grenadeSwapId = 'standard: grenade swap';
-const handGrenadeLId = 'standard: grenade l';
-const handGrenadeMId = 'standard: grenade m';
-const panzerfaustsLId = 'standard: panzerfausts l';
-const panzerfaustsMId = 'standard: panzerfausts m';
-const pistolsId = 'standard: pistols';
-const subMachineGunId = 'standard: smg';
-const shapedExplosivesLId = 'standard: explosives l';
-const shapedExplosivesMId = 'standard: explosives m';
-const smokeId = 'standard: smoke';
+const _standardIDBase = 'mod::standard';
+
+const antiAirTraitId = '$_standardIDBase::10';
+const antiAirSwapId = '$_standardIDBase::20';
+const meleeSwapId = '$_standardIDBase::30';
+const grenadeSwapId = '$_standardIDBase::40';
+const handGrenadeLId = '$_standardIDBase::50';
+const handGrenadeMId = '$_standardIDBase::60';
+const panzerfaustsLId = '$_standardIDBase::70';
+const panzerfaustsMId = '$_standardIDBase::80';
+const pistolsId = '$_standardIDBase::90';
+const subMachineGunId = '$_standardIDBase::100';
+const shapedExplosivesLId = '$_standardIDBase::110';
+const shapedExplosivesMId = '$_standardIDBase::120';
+const smokeId = '$_standardIDBase::130';
 
 final RegExp _handsMatch = RegExp(r'^Hands', caseSensitive: false);
 final RegExp _vtolMatch = RegExp(r'^VTOL', caseSensitive: false);
@@ -36,11 +38,13 @@ class StandardModification extends BaseModification {
     ModificationOption? options,
     final BaseModification Function()? refreshData,
   }) : super(
-            name: name,
-            id: id,
-            requirementCheck: requirementCheck,
-            options: options,
-            refreshData: refreshData);
+          name: name,
+          id: id,
+          requirementCheck: requirementCheck,
+          options: options,
+          refreshData: refreshData,
+          modType: ModificationType.standard,
+        );
 
   /*
   > Add the AA trait to an autocannon, rotary cannon,

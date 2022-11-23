@@ -81,7 +81,7 @@ final ruleThunderFromTheSky = FactionRule(
 final ruleHighTech = FactionRule(
     name: 'High Tech',
     id: '$_baseRuleId::highTech',
-    isRoleTypeUnlimited: (unit, target, group) {
+    isRoleTypeUnlimited: (unit, target, group, roster) {
       return group.groupType == GroupType.Primary &&
           (unit.reactWeapons.any((w) => w.traits
                   .any((t) => t.name == 'Advanced' || t.name == 'Guided')) ||
