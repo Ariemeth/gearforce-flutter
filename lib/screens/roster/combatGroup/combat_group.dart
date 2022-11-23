@@ -100,7 +100,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
       },
       onAccept: (Unit u) {
         setState(() {
-          group.addUnit(u);
+          group.addUnit(Unit.from(u));
         });
       },
       onWillAccept: (Unit? u) {

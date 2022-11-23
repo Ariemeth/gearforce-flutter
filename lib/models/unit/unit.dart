@@ -67,6 +67,16 @@ class Unit extends ChangeNotifier {
     };
   }
 
+  factory Unit.from(Unit original) {
+    final newUnit = Unit(core: original.core);
+    newUnit._commandLevel = original._commandLevel;
+    original._mods.forEach((m) => newUnit.addUnitMod(m));
+    newUnit._special = original.special;
+    original._tags.forEach((t) => newUnit.addTag(t));
+
+    return newUnit;
+  }
+
   factory Unit.fromJson(
     dynamic json,
     //  Data data,
