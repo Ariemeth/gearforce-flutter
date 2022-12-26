@@ -89,33 +89,33 @@ class PeaceRiver extends RuleSet {
     ];
 
     // PRDF faction rules
-    var rule = FactionRule.findRule(factionUprades, prdf.ruleOlTrusty.id);
+    var rule = FactionRule.findRule(factionRules, prdf.ruleOlTrusty.id);
     if (rule != null && rule.isEnabled) {
       results.add(PeaceRiverFactionMods.olTrusty());
     }
-    rule = FactionRule.findRule(factionUprades, prdf.ruleThunderFromTheSky.id);
+    rule = FactionRule.findRule(factionRules, prdf.ruleThunderFromTheSky.id);
     if (rule != null && rule.isEnabled) {
       results.add(PeaceRiverFactionMods.thunderFromTheSky());
     }
-    rule = FactionRule.findRule(factionUprades, prdf.ruleEliteElements.id);
+    rule = FactionRule.findRule(factionRules, prdf.ruleEliteElements.id);
     if (rule != null && rule.isEnabled) {
       results.add(PeaceRiverFactionMods.eliteElements(ur));
     }
 
     // POC faction rules
-    rule = FactionRule.findRule(factionUprades, poc.ruleECMSpecialist.id);
+    rule = FactionRule.findRule(factionRules, poc.ruleECMSpecialist.id);
     if (rule != null && rule.isEnabled) {
       results.add(PeaceRiverFactionMods.ecmSpecialist());
     }
-    rule = FactionRule.findRule(factionUprades, poc.rulePOCOlTrusty.id);
+    rule = FactionRule.findRule(factionRules, poc.rulePOCOlTrusty.id);
     if (rule != null && rule.isEnabled) {
       results.add(PeaceRiverFactionMods.olTrustyPOC());
     }
-    rule = FactionRule.findRule(factionUprades, poc.rulePeaceOfficer.id);
+    rule = FactionRule.findRule(factionRules, poc.rulePeaceOfficer.id);
     if (rule != null && rule.isEnabled) {
       results.add(PeaceRiverFactionMods.peaceOfficers(u));
     }
-    rule = FactionRule.findRule(factionUprades, poc.ruleGSwatSniper.id);
+    rule = FactionRule.findRule(factionRules, poc.ruleGSwatSniper.id);
     if (rule != null && rule.isEnabled) {
       results.add(PeaceRiverFactionMods.gSWATSniper());
     }
@@ -148,18 +148,17 @@ class PeaceRiver extends RuleSet {
       )
     ];
 
-    var rule =
-        FactionRule.findRule(factionUprades, prdf.ruleBestMenAndWomen.id);
+    var rule = FactionRule.findRule(factionRules, prdf.ruleBestMenAndWomen.id);
     if (rule != null && rule.isEnabled) {
       filters.add(prdf.filterBestMenAndWomen);
     }
 
-    rule = FactionRule.findRule(factionUprades, poc.ruleMercenaryContract.id);
+    rule = FactionRule.findRule(factionRules, poc.ruleMercenaryContract.id);
     if (rule != null && rule.isEnabled) {
       filters.add(poc.filterMercContract);
     }
 
-    rule = FactionRule.findRule(factionUprades, pps.ruleSubContractors.id);
+    rule = FactionRule.findRule(factionRules, pps.ruleSubContractors.id);
     if (rule != null && rule.isEnabled) {
       filters.add(pps.filterSubContractor);
     }
@@ -169,7 +168,7 @@ class PeaceRiver extends RuleSet {
 
   @override
   bool canBeAddedToGroup(Unit unit, Group group, CombatGroup cg) {
-    var rule = FactionRule.findRule(factionUprades, pps.ruleSubContractors.id);
+    var rule = FactionRule.findRule(factionRules, pps.ruleSubContractors.id);
     if (rule != null &&
         rule.isEnabled &&
         rule.canBeAddedToGroup != null &&
@@ -183,7 +182,7 @@ class PeaceRiver extends RuleSet {
   CombatGroupOption combatGroupSettings() {
     final options = CombatGroupOption(name: 'Rule Options', options: []);
 
-    var rule = FactionRule.findRule(factionUprades, pps.ruleSubContractors.id);
+    var rule = FactionRule.findRule(factionRules, pps.ruleSubContractors.id);
     if (rule != null && rule.isEnabled) {
       options.options.add(Option(
           name: pps.ruleSubContractors.name,
@@ -193,7 +192,7 @@ class PeaceRiver extends RuleSet {
           )));
     }
 
-    rule = FactionRule.findRule(factionUprades, pps.ruleBadlandsSoup.id);
+    rule = FactionRule.findRule(factionRules, pps.ruleBadlandsSoup.id);
     if (rule != null && rule.isEnabled) {
       options.options.add(Option(
           name: pps.ruleBadlandsSoup.name,
@@ -203,7 +202,7 @@ class PeaceRiver extends RuleSet {
           )));
     }
 
-    rule = FactionRule.findRule(factionUprades, poc.ruleMercenaryContract.id);
+    rule = FactionRule.findRule(factionRules, poc.ruleMercenaryContract.id);
     if (rule != null && rule.isEnabled) {
       options.options.add(Option(
         name: poc.ruleMercenaryContract.name,
@@ -216,7 +215,7 @@ class PeaceRiver extends RuleSet {
 
   @override
   bool duelistCheck(UnitRoster roster, Unit u) {
-    final rule = FactionRule.findRule(factionUprades, ruleArchitects.id);
+    final rule = FactionRule.findRule(factionRules, ruleArchitects.id);
     if (rule != null && rule.isEnabled) {
       if (!rule.duelistCheck!(roster, u)) {
         return false;
@@ -231,7 +230,7 @@ class PeaceRiver extends RuleSet {
 
   @override
   bool hasGroupRole(Unit unit, RoleType target) {
-    var rule = FactionRule.findRule(factionUprades, poc.ruleSpecialIssue.id);
+    var rule = FactionRule.findRule(factionRules, poc.ruleSpecialIssue.id);
     if (rule != null &&
         rule.isEnabled &&
         rule.hasGroupRole != null &&
@@ -245,7 +244,7 @@ class PeaceRiver extends RuleSet {
   @override
   bool isRoleTypeUnlimited(
       Unit unit, RoleType target, Group group, UnitRoster? ur) {
-    var rule = FactionRule.findRule(factionUprades, prdf.ruleHighTech.id);
+    var rule = FactionRule.findRule(factionRules, prdf.ruleHighTech.id);
     if (rule != null &&
         rule.isEnabled &&
         rule.isRoleTypeUnlimited != null &&
@@ -253,7 +252,7 @@ class PeaceRiver extends RuleSet {
       return true;
     }
 
-    rule = FactionRule.findRule(factionUprades, ruleCrisisResponders.id);
+    rule = FactionRule.findRule(factionRules, ruleCrisisResponders.id);
     if (rule != null &&
         rule.isEnabled &&
         rule.isRoleTypeUnlimited != null &&
@@ -268,7 +267,7 @@ class PeaceRiver extends RuleSet {
   bool isUnitCountWithinLimits(CombatGroup cg, Group group, Unit unit) {
     if (unit.hasTag(prdf.ruleBestMenAndWomen.id)) {
       final rule = FactionRule.findRule(
-        factionUprades,
+        factionRules,
         prdf.ruleBestMenAndWomen.id,
       )?.isUnitCountWithinLimits;
       if (rule != null) {
@@ -281,7 +280,7 @@ class PeaceRiver extends RuleSet {
 
   @override
   int modCostOverride(int baseCost, String modID, Unit u) {
-    var rule = FactionRule.findRule(factionUprades, poc.ruleGSwatSniper.id);
+    var rule = FactionRule.findRule(factionRules, poc.ruleGSwatSniper.id);
     if (rule != null && rule.isEnabled && rule.modCostOverride != null) {
       return rule.modCostOverride!(baseCost, modID, u);
     }
@@ -292,7 +291,7 @@ class PeaceRiver extends RuleSet {
   @override
   bool veteranModCheck(Unit u, CombatGroup cg, {required String modID}) {
     if (cg.hasTag(pps.ruleBadlandsSoup.id)) {
-      var rule = FactionRule.findRule(factionUprades, pps.ruleBadlandsSoup.id);
+      var rule = FactionRule.findRule(factionRules, pps.ruleBadlandsSoup.id);
       if (rule != null &&
           rule.isEnabled &&
           rule.veteranModCheck != null &&
@@ -301,7 +300,7 @@ class PeaceRiver extends RuleSet {
       }
     }
 
-    var rule = FactionRule.findRule(factionUprades, poc.ruleGSwatSniper.id);
+    var rule = FactionRule.findRule(factionRules, poc.ruleGSwatSniper.id);
     if (rule != null &&
         rule.isEnabled &&
         rule.veteranModCheck != null &&

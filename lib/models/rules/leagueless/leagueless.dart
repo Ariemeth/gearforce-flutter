@@ -23,7 +23,7 @@ class Leagueless extends RuleSet {
       ...super.availableFactionMods(ur, cg, u),
     ];
     var rule =
-        FactionRule.findRule(factionUprades, prdf.ruleThunderFromTheSky.id);
+        FactionRule.findRule(factionRules, prdf.ruleThunderFromTheSky.id);
     if (rule != null && rule.isEnabled) {
       results.add(PeaceRiverFactionMods.thunderFromTheSky());
     }

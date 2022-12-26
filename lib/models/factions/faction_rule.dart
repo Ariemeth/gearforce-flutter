@@ -60,14 +60,24 @@ class FactionRule extends ChangeNotifier {
   final void Function()? onDisable;
 
   bool get isEnabled => _isEnabled;
-  void toggleIsEnabled(List<FactionRule> rules) {
-    if (canBeToggled && this.requirementCheck(rules)) {
-      _isEnabled = !_isEnabled;
-      if (!_isEnabled && onDisable != null) {
-        onDisable!();
-      }
-      notifyListeners();
+
+  void setIsEnabled(bool value, List<FactionRule> rules) {
+    // If the value isn't being changed or the value cannot be changed do nothing
+    if (value == _isEnabled || !canBeToggled) {
+      return;
     }
+
+    // If the requirement check fails, do nothing
+    if (!this.requirementCheck(rules)) {
+      return;
+    }
+
+    _isEnabled = value;
+
+    if (!_isEnabled && onDisable != null) {
+      onDisable!();
+    }
+    notifyListeners();
   }
 
   static bool isRuleEnabled(List<FactionRule> rules, String ruleID) {

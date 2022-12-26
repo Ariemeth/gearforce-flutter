@@ -62,6 +62,7 @@ const filterSubContractor = SpecialUnitFilter(
   ],
 );
 
+// TODO implement onDisable for ths rule or the base rule
 final ruleExPRDF = FactionRule(
     name: _exPRDF,
     id: '$_baseRuleId::exPRDF',

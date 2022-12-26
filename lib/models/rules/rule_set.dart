@@ -49,7 +49,7 @@ abstract class RuleSet extends ChangeNotifier {
     _buildCache();
   }
 
-  List<FactionRule> get factionUprades => [
+  List<FactionRule> get factionRules => [
         ...availableFactionRules(),
         ...availableSubFactionRules(),
       ];
@@ -168,7 +168,7 @@ abstract class RuleSet extends ChangeNotifier {
   }
 
   bool isRuleEnabled(String ruleName) =>
-      FactionRule.isRuleEnabled(factionUprades, ruleName);
+      FactionRule.isRuleEnabled(factionRules, ruleName);
 
   bool isUnitCountWithinLimits(CombatGroup cg, Group group, Unit unit) {
     // get the number other instances of this unitcore in the group

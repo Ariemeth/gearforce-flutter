@@ -84,30 +84,33 @@ const filterMercContract = const SpecialUnitFilter(
 );
 
 final ruleSpecialIssue = FactionRule(
-    name: 'Special Issue',
-    id: '$_baseRuleId::specialIssue',
-    hasGroupRole: (unit, target) {
-      if (unit.core.frame == 'Greyhound' &&
-          (target == RoleType.GP ||
-              target == RoleType.SK ||
-              target == RoleType.FS ||
-              target == RoleType.RC ||
-              target == RoleType.SO)) {
-        return true;
-      }
-      return false;
-    },
-    description: 'Greyhounds may be placed in GP, SK, FS, RC or SO units.');
+  name: 'Special Issue',
+  id: '$_baseRuleId::specialIssue',
+  hasGroupRole: (unit, target) {
+    if (unit.core.frame == 'Greyhound' &&
+        (target == RoleType.GP ||
+            target == RoleType.SK ||
+            target == RoleType.FS ||
+            target == RoleType.RC ||
+            target == RoleType.SO)) {
+      return true;
+    }
+    return false;
+  },
+  description: 'Greyhounds may be placed in GP, SK, FS, RC or SO units.',
+);
 final ruleECMSpecialist = FactionRule(
     name: 'ECM Specialist',
     id: '$_baseRuleId::ecmSpecialist',
     description:
         'One gear or strider per combat group may improve its ECM to ECM+ for 1 TV each.');
 final rulePOCOlTrusty = FactionRule(
-    name: 'Ol\' Trusty',
-    id: '$_baseRuleId::oltrusty',
-    description:
-        'Pit Bulls and Mustangs may increase their GU skill by one for 1 TV each.');
+  name: 'Ol\' Trusty',
+  id: '$_baseRuleId::oltrusty',
+  description:
+      'Pit Bulls and Mustangs may increase their GU skill by one for 1 TV each.',
+  onDisable: () {},
+);
 final rulePeaceOfficer = FactionRule(
     name: 'Peace Officer',
     id: '$_baseRuleId::peaceOffice',
