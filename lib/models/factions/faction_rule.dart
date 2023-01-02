@@ -22,7 +22,7 @@ class FactionRule extends ChangeNotifier {
     this.hasGroupRole,
     this.isRoleTypeUnlimited,
     this.isUnitCountWithinLimits,
-    this.onDisable,
+    this.onDisable = _defaultOnDisable,
   }) {
     _isEnabled = isEnabled;
     _options = options;
@@ -57,7 +57,7 @@ class FactionRule extends ChangeNotifier {
       isRoleTypeUnlimited;
   final bool Function(CombatGroup cg, Group group, Unit unit)?
       isUnitCountWithinLimits;
-  final void Function()? onDisable;
+  final void Function() onDisable;
 
   bool get isEnabled => _isEnabled;
 
@@ -74,8 +74,8 @@ class FactionRule extends ChangeNotifier {
 
     _isEnabled = value;
 
-    if (!_isEnabled && onDisable != null) {
-      onDisable!();
+    if (!_isEnabled) {
+      onDisable();
     }
     notifyListeners();
   }
@@ -111,6 +111,7 @@ class FactionRule extends ChangeNotifier {
   }
 
   static bool ruleAlwaysAvailable(List<FactionRule> rules) => true;
+  static void _defaultOnDisable() {}
 
   static bool Function(List<FactionRule> rules) thereCanBeOnlyOne(
       List<String> excludedIDs) {

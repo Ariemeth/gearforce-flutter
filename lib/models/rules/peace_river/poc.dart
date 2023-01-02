@@ -135,12 +135,11 @@ final ruleMercenaryContract = FactionRule(
     id: _ruleMercContractID,
     canBeAddedToGroup: (unit, group, cg) {
       // core unit into a core combatgroup
-      if (unit.hasTag(coreTag) && !cg.hasTag(ruleMercenaryContract.id)) {
+      if (unit.hasTag(coreTag) && !cg.hasTag(_ruleMercContractID)) {
         return true;
       }
 
-      if (unit.hasTag(ruleMercenaryContract.id) &&
-          cg.hasTag(ruleMercenaryContract.id)) {
+      if (unit.hasTag(_ruleMercContractID) && cg.hasTag(_ruleMercContractID)) {
         return true;
       }
 

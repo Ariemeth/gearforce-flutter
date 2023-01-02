@@ -269,12 +269,12 @@ final ruleSubContractors = FactionRule(
     id: _ruleSubContractorsID,
     canBeAddedToGroup: (unit, group, cg) {
       // core unit into a core combatgroup
-      if (unit.hasTag(coreTag) && !cg.hasTag(ruleSubContractors.id)) {
+      if (unit.hasTag(coreTag) && !cg.hasTag(_ruleSubContractorsID)) {
         return true;
       }
 
-      if (unit.hasTag(ruleSubContractors.id) &&
-          cg.hasTag(ruleSubContractors.id)) {
+      if (unit.hasTag(_ruleSubContractorsID) &&
+          cg.hasTag(_ruleSubContractorsID)) {
         return true;
       }
 

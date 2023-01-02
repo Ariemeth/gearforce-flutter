@@ -53,7 +53,7 @@ class _CombatGroupsDisplayState extends State<CombatGroupsDisplay>
           child: Builder(
             builder: (BuildContext context) {
               final TabController tabController =
-                  DefaultTabController.of(context)!;
+                  DefaultTabController.of(context);
 
               if (tabController.index != 0 &&
                   tabController.index == tabs.length - 1) {
