@@ -109,7 +109,6 @@ final rulePOCOlTrusty = FactionRule(
   id: '$_baseRuleId::oltrusty',
   description:
       'Pit Bulls and Mustangs may increase their GU skill by one for 1 TV each.',
-  onDisable: () {},
 );
 final rulePeaceOfficer = FactionRule(
     name: 'Peace Officer',
@@ -145,6 +144,5 @@ final ruleMercenaryContract = FactionRule(
 
       return false;
     },
-    onDisable: () {},
     description:
         'One combat group may be made with models from North, South, Peace River, and NuCoal (may include a mix from all four factions) that have an armor of 8 or lower.');
