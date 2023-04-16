@@ -13,6 +13,7 @@ import 'package:gearforce/models/mods/unitUpgrades/unit_upgrades.dart';
 import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart';
 import 'package:gearforce/models/mods/veteranUpgrades/veteran_upgrades.dart';
 import 'package:gearforce/models/roster/roster.dart';
+import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/model_type.dart';
@@ -509,6 +510,13 @@ class Unit extends ChangeNotifier {
       }
     });
     notifyListeners();
+  }
+
+  void validateMods(
+      RuleSet ruleset, UnitRoster unitRoster, CombatGroup combatGroup) {
+    // TODO check to ensure each mods requirements are met and remove those
+    // that do not
+    print('unit validation called');
   }
 
   Map<String, dynamic> toJson() {

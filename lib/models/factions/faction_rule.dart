@@ -65,8 +65,9 @@ class FactionRule extends ChangeNotifier {
       return;
     }
 
-    // If the requirement check fails, do nothing
-    if (!this.requirementCheck(rules)) {
+    // If trying to enable the rule the the requirement check must succeed, else
+    // do nothing
+    if (value && !this.requirementCheck(rules)) {
       return;
     }
 
