@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 
-import 'package:file_picker_cross/file_picker_cross.dart';
+//import 'package:file_picker_cross/file_picker_cross.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/screens/roster/pdf/record_sheet/record_sheet.dart';
 import 'package:gearforce/screens/roster/pdf/unit_cards/unit_cards.dart';
@@ -8,11 +8,11 @@ import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 
-const String _defaultRosterFileName = 'hg-roster';
-const String _downloadFileExtension = 'pdf';
+//const String _defaultRosterFileName = 'hg-roster';
+//const String _downloadFileExtension = 'pdf';
 const String _webURL = 'https://gf.metadiversions.com';
 
-const double _pageMargins = 36.0;
+//const double _pageMargins = 36.0;
 const double _unitCardMargins = 5.0;
 
 Future<bool> printPDF(UnitRoster roster, {required String version}) async {
@@ -122,20 +122,20 @@ List<pw.Widget> _buildCardRow(List<pw.Widget> unitCards) {
 }
 
 Future<void> downloadPDF(UnitRoster roster, {required String version}) async {
-  final pdf = await buildPdf(
-    PdfPageFormat.letter.copyWith(
-        marginLeft: _pageMargins,
-        marginRight: _pageMargins,
-        marginTop: _pageMargins,
-        marginBottom: _pageMargins),
-    roster,
-    version: version,
-  );
+  // final pdf = await buildPdf(
+  //   PdfPageFormat.letter.copyWith(
+  //       marginLeft: _pageMargins,
+  //       marginRight: _pageMargins,
+  //       marginTop: _pageMargins,
+  //       marginBottom: _pageMargins),
+  //   roster,
+  //   version: version,
+  // );
 
-  var myFile = FilePickerCross(pdf,
-      type: FileTypeCross.custom, fileExtension: _downloadFileExtension);
-  final filename = roster.name == null || roster.name!.isEmpty
-      ? _defaultRosterFileName
-      : roster.name;
-  myFile.exportToStorage(fileName: '$filename.$_downloadFileExtension');
+  // var myFile = FilePickerCross(pdf,
+  //     type: FileTypeCross.custom, fileExtension: _downloadFileExtension);
+  // final filename = roster.name == null || roster.name!.isEmpty
+  //     ? _defaultRosterFileName
+  //     : roster.name;
+  // myFile.exportToStorage(fileName: '$filename.$_downloadFileExtension');
 }
