@@ -1,5 +1,3 @@
-//import 'dart:convert';
-//import 'dart:typed_data';
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/roster/roster.dart';
 
@@ -7,16 +5,6 @@ import 'package:gearforce/models/roster/roster.dart';
 //const String _downloadFileExtension = 'gf';
 
 UnitRoster loadRoster(Data data) {
-  // var encodedRoster = json.encode(roster);
-  // //TODO remove print when satisfied with external testing
-  // print(encodedRoster);
-  // final data = utf8.encode(encodedRoster);
-  // var myFile = FilePickerCross(Uint8List.fromList(data),
-  //     type: FileTypeCross.custom, fileExtension: _downloadFileExtension);
-  // final filename = roster.name == null || roster.name!.isEmpty
-  //     ? _defaultRosterFileName
-  //     : roster.name;
-  // myFile.exportToStorage(fileName: '$filename.$_downloadFileExtension');
   return UnitRoster(data);
 }
 
