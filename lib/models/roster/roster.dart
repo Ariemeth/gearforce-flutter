@@ -205,7 +205,7 @@ class UnitRoster extends ChangeNotifier {
   List<Unit> unitsWithMod(String id) {
     List<Unit> listOfUnits = [];
     _combatGroups
-        .forEach((name, cg) => {listOfUnits.addAll(cg.unitsWithMod(id))});
+        .forEach((name, cg) => listOfUnits.addAll(cg.unitsWithMod(id)));
     return listOfUnits;
   }
 
