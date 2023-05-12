@@ -5,8 +5,10 @@ import 'package:gearforce/models/factions/faction.dart';
 import 'package:gearforce/models/factions/sub_faction.dart';
 import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart';
 import 'package:gearforce/models/roster/roster.dart';
+import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/unit.dart';
+import 'package:gearforce/models/validation/validations.dart';
 
 class CombatGroup extends ChangeNotifier {
   Group _primary = Group(GroupType.Primary);
@@ -119,7 +121,7 @@ class CombatGroup extends ChangeNotifier {
     cg.primary = p;
     cg.secondary = s;
 
-    (json['tags'] as List<String>).forEach((tag) {
+    (json['tags'] as List).forEach((tag) {
       cg._tags.add(tag);
     });
 
@@ -168,6 +170,13 @@ class CombatGroup extends ChangeNotifier {
 
   removeTag(String tag) {
     _tags.remove(tag);
+  }
+
+  List<Validation> validate(RuleSet ruleset, UnitRoster unitRoster) {
+    // TODO check to ensure each group's unit's mods requirements are met and remove those
+    // that do not
+    print('cg validation called');
+    return [];
   }
 
   void clear() {

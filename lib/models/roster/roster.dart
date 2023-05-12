@@ -4,8 +4,10 @@ import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/factions/faction.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/factions/sub_faction.dart';
+import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/unit.dart';
+import 'package:gearforce/models/validation/validations.dart';
 
 const _currentRosterVersion = 2;
 const _currentRulesVersion = '3.1';
@@ -91,7 +93,7 @@ class UnitRoster extends ChangeNotifier {
     }
 
     ur._combatGroups.clear();
-    var decodedCG = json['cgs'] as List;
+    var decodedCG = json['cgs'];
     decodedCG
         .map((e) => CombatGroup.fromJson(
               e,
@@ -228,5 +230,12 @@ class UnitRoster extends ChangeNotifier {
       }
     }
     return false;
+  }
+
+  List<Validation> validate(RuleSet ruleset) {
+    // TODO check to ensure each cg requirements are met and remove those
+    // that do not
+    print('roster validation called');
+    return [];
   }
 }

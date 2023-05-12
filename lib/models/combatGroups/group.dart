@@ -3,10 +3,12 @@ import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/factions/faction.dart';
 import 'package:gearforce/models/factions/sub_faction.dart';
 import 'package:gearforce/models/roster/roster.dart';
+import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/model_type.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
+import 'package:gearforce/models/validation/validations.dart';
 
 const RoleType _defaultRoleType = RoleType.GP;
 
@@ -153,6 +155,14 @@ class Group extends ChangeNotifier {
       }
     }
     return false;
+  }
+
+  List<Validation> validate(
+      RuleSet ruleset, UnitRoster unitRoster, CombatGroup combatGroup) {
+    // TODO check to ensure each units mods requirements are met and remove those
+    // that do not
+    print('group validation called');
+    return [];
   }
 
   @override

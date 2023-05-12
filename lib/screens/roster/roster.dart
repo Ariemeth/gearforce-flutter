@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/screens/roster/combatGroup/combat_groups_display.dart';
-import 'package:gearforce/screens/roster/fileAccess/downloader.dart';
-import 'package:gearforce/screens/roster/fileAccess/uploader.dart';
+import 'package:gearforce/screens/roster/filehandler/downloader.dart';
+import 'package:gearforce/screens/roster/filehandler/uploader.dart';
 import 'package:gearforce/screens/roster/pdf/pdf.dart';
 import 'package:gearforce/screens/roster/roster_header_info.dart';
 import 'package:gearforce/screens/unitSelector/unit_selection.dart';
@@ -107,7 +107,12 @@ class _RosterWidgetState extends State<RosterWidget> {
                 style: TextStyle(fontSize: 16),
               ),
               onTap: () async {
-                loadRoster(data);
+                final loadedRoster = await loadRoster(data);
+                if (loadedRoster != null) {
+                  setState(() {
+                    roster.copyFrom(loadedRoster);
+                  });
+                }
                 Navigator.pop(context);
               },
             ),
@@ -132,16 +137,15 @@ class _RosterWidgetState extends State<RosterWidget> {
                 printPDF(roster, version: _version);
               },
             ),
-            // TODO add back once downloadPDF is fixed
-            // ListTile(
-            //   title: Text(
-            //     'Export to PDF',
-            //     style: TextStyle(fontSize: 16),
-            //   ),
-            //   onTap: () async {
-            //     downloadPDF(roster, version: _version);
-            //   },
-            // ),
+            ListTile(
+              title: Text(
+                'Export to PDF',
+                style: TextStyle(fontSize: 16),
+              ),
+              onTap: () async {
+                downloadPDF(roster, version: _version);
+              },
+            ),
             ListTile(
               title: Row(children: [
                 Text(

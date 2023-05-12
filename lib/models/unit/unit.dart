@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
+import 'package:gearforce/models/combatGroups/group.dart';
 import 'package:gearforce/models/factions/faction.dart';
 import 'package:gearforce/models/factions/sub_faction.dart';
 import 'package:gearforce/models/mods/base_modification.dart';
@@ -21,6 +22,7 @@ import 'package:gearforce/models/unit/movement.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
+import 'package:gearforce/models/validation/validations.dart';
 import 'package:gearforce/models/weapons/weapon.dart';
 
 Map<BaseModification, Map<String, dynamic>> _loadOptionsFromJSON(
@@ -226,8 +228,9 @@ class Unit extends ChangeNotifier {
       loadAttempts++;
     }
 
-    final tags = json['tags'] as List<String>;
-    tags.forEach((tag) => u._tags.add(tag));
+    final tags = json['tags'] as List;
+    tags.forEach((tag) =>
+        u._tags.any((t) => t.toString() == tag) ? () {} : u._tags.add(tag));
 
     return u;
   }
@@ -512,11 +515,12 @@ class Unit extends ChangeNotifier {
     notifyListeners();
   }
 
-  void validateMods(
-      RuleSet ruleset, UnitRoster unitRoster, CombatGroup combatGroup) {
+  List<Validation> validate(RuleSet ruleset, UnitRoster unitRoster,
+      CombatGroup combatGroup, Group group) {
     // TODO check to ensure each mods requirements are met and remove those
     // that do not
     print('unit validation called');
+    return [];
   }
 
   Map<String, dynamic> toJson() {
