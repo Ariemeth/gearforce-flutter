@@ -21,6 +21,13 @@ class Option {
   final String name;
   final String id;
   final bool Function(CombatGroup?, UnitRoster?) requirementCheck;
+  void SetActiveStatus(bool isActive, CombatGroup cg) {
+    if (isActive) {
+      cg.addTag(id);
+    } else {
+      cg.removeTag(id);
+    }
+  }
 }
 
 bool alwaysTrue(CombatGroup? cg, UnitRoster? r) => true;

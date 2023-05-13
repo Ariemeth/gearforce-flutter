@@ -32,13 +32,24 @@ class UnitRoster extends ChangeNotifier {
       _combatGroups.forEach((key, value) {
         value.clear();
       });
+
       subFaction.addListener(() {
+        // Ensure each combat group is clear
         _combatGroups.forEach((key, value) {
           value.clear();
+        });
+        // No fine grain checks for individual unit or mod rule changes so
+        // reset all cgs if a faction option changes
+        subFaction.value.ruleSet.addListener(() {
+          _combatGroups.forEach((key, value) {
+            value.primary.reset();
+            value.secondary.reset();
+          });
         });
         notifyListeners();
       });
     });
+
     createCG();
   }
 
@@ -49,6 +60,11 @@ class UnitRoster extends ChangeNotifier {
     }
 
     _isEliteForce = newValue;
+
+    _combatGroups.forEach((id, cg) {
+      cg.isEliteForce = newValue;
+    });
+
     notifyListeners();
   }
 
@@ -141,6 +157,7 @@ class UnitRoster extends ChangeNotifier {
   }
 
   void removeCG(String name) {
+    // TODO set roster in the removed cg to null
     _combatGroups.remove(name);
     if (_activeCG == name) {
       _activeCG = '';

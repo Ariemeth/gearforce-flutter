@@ -14,7 +14,6 @@ import 'package:gearforce/models/mods/unitUpgrades/unit_upgrades.dart';
 import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart';
 import 'package:gearforce/models/mods/veteranUpgrades/veteran_upgrades.dart';
 import 'package:gearforce/models/roster/roster.dart';
-import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/model_type.dart';
@@ -84,6 +83,7 @@ Map<BaseModification, Map<String, dynamic>> _loadOptionsFromJSON(
 
 class Unit extends ChangeNotifier {
   final UnitCore core;
+  Group? group;
 
   final List<BaseModification> _mods = [];
 
@@ -112,7 +112,11 @@ class Unit extends ChangeNotifier {
     CombatGroup? cg,
     UnitRoster roster,
   ) {
-    final core = subfaction.ruleSet.availableUnits();
+    var core = subfaction.ruleSet.availableUnits();
+    subfaction.ruleSet.availableUnitFilters().forEach((sfilter) {
+      core.addAll(
+          subfaction.ruleSet.availableUnits(specialUnitFilter: sfilter));
+    });
 
     Unit u = core.firstWhere((unit) => unit.name == json['variant']);
 
@@ -505,22 +509,48 @@ class Unit extends ChangeNotifier {
         _mods.removeWhere((mod) => mod is VeteranModification);
       }
     }
+
     _mods.forEach((m) {
       final updatedMod = m.refreshData();
       updatedMod.options?.validate();
       if (updatedMod != m) {
+        print('replacing mod ${m.id}\n');
         _mods[_mods.indexWhere((element) => element.id == updatedMod.id)];
       }
     });
+    validate();
     notifyListeners();
   }
 
-  List<Validation> validate(RuleSet ruleset, UnitRoster unitRoster,
-      CombatGroup combatGroup, Group group) {
+  List<Validation> validate() {
+    List<Validation> validationErrors = [];
+    final g = this.group;
+    if (g == null) {
+      validationErrors
+          .add(Validation(issue: "Unit does not belong to a group"));
+    }
+    final cg = group?.combatGroup;
+    if (cg == null) {
+      validationErrors
+          .add(Validation(issue: "Unit does not belong to a combat group"));
+    }
+    final roster = cg?.roster;
+    if (roster == null) {
+      validationErrors
+          .add(Validation(issue: "Unit does not belong to a roster"));
+    }
+
+    if (validationErrors.isNotEmpty) {
+      // TODO remove when validation system is done
+      print('Validation errors found validating $name, $validationErrors');
+      return validationErrors;
+    }
     // TODO check to ensure each mods requirements are met and remove those
     // that do not
+
     print('unit validation called');
-    return [];
+
+    return validationErrors;
   }
 
   Map<String, dynamic> toJson() {

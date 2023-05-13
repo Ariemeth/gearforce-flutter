@@ -24,6 +24,7 @@ class Group extends ChangeNotifier {
   RoleType _role = _defaultRoleType;
   final List<Unit> _units = [];
   final GroupType groupType;
+  CombatGroup? combatGroup;
 
   Group(this.groupType, {RoleType role = _defaultRoleType}) {
     this._role = role;
@@ -75,6 +76,7 @@ class Group extends ChangeNotifier {
 
   void _addUnit(Unit unit) {
     _units.add(unit
+      ..group = this
       ..addListener(() {
         notifyListeners();
       }));
@@ -87,6 +89,10 @@ class Group extends ChangeNotifier {
 
   void removeUnit(int index) {
     if (index < _units.length) {
+      _units.elementAt(index).removeListener(() {
+        notifyListeners();
+      });
+      _units.elementAt(index).group = null;
       _units.removeAt(index);
     }
     notifyListeners();

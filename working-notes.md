@@ -6,3 +6,17 @@ need to hook up the calls to validate
 * sub faction option changes
 * combat group option changes
 * unit mod changes (removals)
+
+Going with a full reset when any faction options change, this only applies to a few subfactions.
+Changing cg options clears that cg
+
+Want to eventually do more fine grained validation
+
+next
+* when removing a mod from a unit, check to make sure the rest of the mods on the unit are still valid
+* update units, groups, combatgroups to know which parent it belongs.  This should simplify a lot of logic and allow better/easier requirement/validation checks.
+
+is the refresh_data on unit mods even used?
+
+I think the refresh was added to update mod options.  is there a  better way
+

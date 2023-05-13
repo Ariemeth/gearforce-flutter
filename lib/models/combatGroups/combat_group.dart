@@ -36,6 +36,7 @@ class CombatGroup extends ChangeNotifier {
         notifyListeners();
       });
     }
+    group.combatGroup = this;
     group.addListener(() {
       notifyListeners();
     });
@@ -49,6 +50,7 @@ class CombatGroup extends ChangeNotifier {
         notifyListeners();
       });
     }
+    group.combatGroup = this;
     group.addListener(() {
       notifyListeners();
     });
@@ -79,7 +81,7 @@ class CombatGroup extends ChangeNotifier {
 
   bool get isEliteForce => roster != null && roster!.isEliteForce;
   set isEliteForce(bool newValue) {
-    if (!newValue && !isVeteran) {
+    if (!newValue && !_isVeteran) {
       _primary.allUnits().forEach((unit) {
         unit.removeUnitMod(veteranId);
       });
@@ -169,7 +171,12 @@ class CombatGroup extends ChangeNotifier {
   }
 
   removeTag(String tag) {
+    if (!_tags.any((t) => t == tag)) {
+      return;
+    }
     _tags.remove(tag);
+    _primary.reset();
+    _secondary.reset();
   }
 
   List<Validation> validate(RuleSet ruleset, UnitRoster unitRoster) {
