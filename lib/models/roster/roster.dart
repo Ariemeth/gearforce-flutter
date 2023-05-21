@@ -157,7 +157,13 @@ class UnitRoster extends ChangeNotifier {
   }
 
   void removeCG(String name) {
-    // TODO set roster in the removed cg to null
+    // if the cg isn't part of the roster no need to do any more checks
+    if (!_combatGroups.keys.any((key) => key == name)) {
+      return;
+    }
+
+    _combatGroups[name]?.roster = null;
+
     _combatGroups.remove(name);
     if (_activeCG == name) {
       _activeCG = '';
@@ -250,9 +256,14 @@ class UnitRoster extends ChangeNotifier {
   }
 
   List<Validation> validate(RuleSet ruleset) {
-    // TODO check to ensure each cg requirements are met and remove those
-    // that do not
+    final List<Validation> validationErrors = [];
     print('roster validation called');
-    return [];
+    _combatGroups.forEach((key, cg) {
+      final ve = cg.validate();
+      if (ve.isNotEmpty) {
+        validationErrors.addAll(ve);
+      }
+    });
+    return validationErrors;
   }
 }

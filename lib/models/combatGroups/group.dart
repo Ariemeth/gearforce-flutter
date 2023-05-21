@@ -3,7 +3,6 @@ import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/factions/faction.dart';
 import 'package:gearforce/models/factions/sub_faction.dart';
 import 'package:gearforce/models/roster/roster.dart';
-import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/model_type.dart';
 import 'package:gearforce/models/unit/role.dart';
@@ -163,12 +162,17 @@ class Group extends ChangeNotifier {
     return false;
   }
 
-  List<Validation> validate(
-      RuleSet ruleset, UnitRoster unitRoster, CombatGroup combatGroup) {
-    // TODO check to ensure each units mods requirements are met and remove those
-    // that do not
+  List<Validation> validate({bool tryFix = false}) {
+    final List<Validation> validationErrors = [];
+
+    _units.forEach((u) {
+      final ve = u.validate(tryFix: tryFix);
+      if (ve.isNotEmpty) {
+        validationErrors.addAll(ve);
+      }
+    });
     print('group validation called');
-    return [];
+    return validationErrors;
   }
 
   @override

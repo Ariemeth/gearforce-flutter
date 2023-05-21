@@ -20,3 +20,5 @@ is the refresh_data on unit mods even used?
 
 I think the refresh was added to update mod options.  is there a  better way
 
+when removing a mod, seems all mods are failing requirement check.
+added duelist, dual gun and aa, removing either dual gun or aa removes all mods including duelist

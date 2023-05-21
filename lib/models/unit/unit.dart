@@ -497,56 +497,67 @@ class Unit extends ChangeNotifier {
 
   void removeUnitMod(String id) {
     _mods.removeWhere((mod) => mod.id == id);
-    if (id == veteranId) {
-      // only remove all vet upgrades if the unit doesn't still have the vet trait
-      if (!traits.any((trait) => trait.name == 'Vet')) {
-        _mods.removeWhere((mod) => mod is VeteranModification);
-      }
-    } else if (id == duelistId) {
-      _mods.removeWhere((mod) => mod is DuelistModification);
-      // if the unit isn't also a vet remove the vet traits
-      if (!traits.any((trait) => trait.name == 'Vet')) {
-        _mods.removeWhere((mod) => mod is VeteranModification);
-      }
-    }
 
-    _mods.forEach((m) {
-      final updatedMod = m.refreshData();
-      updatedMod.options?.validate();
-      if (updatedMod != m) {
-        print('replacing mod ${m.id}\n');
-        _mods[_mods.indexWhere((element) => element.id == updatedMod.id)];
-      }
-    });
-    validate();
+    validate(tryFix: true);
     notifyListeners();
   }
 
-  List<Validation> validate() {
+  List<Validation> validate({bool tryFix = false}) {
     List<Validation> validationErrors = [];
     final g = this.group;
     if (g == null) {
-      validationErrors
-          .add(Validation(issue: "Unit does not belong to a group"));
+      validationErrors.add(Validation(issue: "Unit does not have a group"));
     }
     final cg = group?.combatGroup;
     if (cg == null) {
       validationErrors
-          .add(Validation(issue: "Unit does not belong to a combat group"));
+          .add(Validation(issue: "Unit does not have a combat group"));
     }
     final roster = cg?.roster;
     if (roster == null) {
-      validationErrors
-          .add(Validation(issue: "Unit does not belong to a roster"));
+      validationErrors.add(Validation(issue: "Unit does not have a roster"));
     }
 
     if (validationErrors.isNotEmpty) {
-      // TODO remove when validation system is done
+      // TODO remove print when validation system is done
       print('Validation errors found validating $name, $validationErrors');
       return validationErrors;
     }
-    // TODO check to ensure each mods requirements are met and remove those
-    // that do not
+
+    if (tryFix) {
+      _mods.removeWhere((mod) {
+        // TODO remove print statement when done with validation
+        print('${_mods.indexWhere((m) => m.id == mod.id)} : ${mod.name}');
+        return !mod.requirementCheck(
+          roster!.subFaction.value.ruleSet,
+          roster,
+          cg,
+          this,
+        );
+      });
+
+      _mods.forEach((m) {
+        final updatedMod = m.refreshData();
+        updatedMod.options?.validate();
+        if (updatedMod != m) {
+          print('replacing mod ${m.id}\n');
+          _mods[_mods.indexWhere((mod) => mod.id == updatedMod.id)];
+        }
+      });
+    } else {
+      _mods.forEach((mod) {
+        if (!mod.requirementCheck(
+          roster!.subFaction.value.ruleSet,
+          roster,
+          cg,
+          this,
+        )) {
+          validationErrors.add(Validation(
+              issue:
+                  'mod ${mod.id} does not met its requirement check during validation'));
+        }
+      });
+    }
 
     print('unit validation called');
 

@@ -5,7 +5,6 @@ import 'package:gearforce/models/factions/faction.dart';
 import 'package:gearforce/models/factions/sub_faction.dart';
 import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart';
 import 'package:gearforce/models/roster/roster.dart';
-import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/validation/validations.dart';
@@ -15,7 +14,7 @@ class CombatGroup extends ChangeNotifier {
   Group _secondary = Group(GroupType.Secondary);
   final String name;
   bool _isVeteran = false;
-  final UnitRoster? roster;
+  UnitRoster? roster;
   final List<String> _tags = [];
 
   /// Retrieve the tags associated with this [CombatGroup].
@@ -36,6 +35,8 @@ class CombatGroup extends ChangeNotifier {
         notifyListeners();
       });
     }
+    _primary.combatGroup = null;
+
     group.combatGroup = this;
     group.addListener(() {
       notifyListeners();
@@ -50,6 +51,8 @@ class CombatGroup extends ChangeNotifier {
         notifyListeners();
       });
     }
+    _secondary.combatGroup = null;
+
     group.combatGroup = this;
     group.addListener(() {
       notifyListeners();
@@ -179,11 +182,20 @@ class CombatGroup extends ChangeNotifier {
     _secondary.reset();
   }
 
-  List<Validation> validate(RuleSet ruleset, UnitRoster unitRoster) {
-    // TODO check to ensure each group's unit's mods requirements are met and remove those
-    // that do not
-    print('cg validation called');
-    return [];
+  List<Validation> validate({bool tryFix = false}) {
+    final List<Validation> validationErrors = [];
+
+    final pve = primary.validate(tryFix: tryFix);
+    if (pve.isNotEmpty) {
+      validationErrors.addAll(pve);
+    }
+    final sve = secondary.validate(tryFix: tryFix);
+    if (sve.isNotEmpty) {
+      validationErrors.addAll(pve);
+    }
+
+    print('combat group validation called');
+    return validationErrors;
   }
 
   void clear() {
