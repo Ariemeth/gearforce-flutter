@@ -52,18 +52,11 @@ class VeteranModification extends BaseModification {
         requirementCheck:
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
           assert(cg != null);
-          if (u.hasMod(veteranId)) {
+          assert(rs != null);
+          if (rs == null || cg == null) {
             return false;
           }
-
-          if (u.type == ModelType.Drone ||
-              u.type == ModelType.Terrain ||
-              u.type == ModelType.AreaTerrain ||
-              u.type == ModelType.AirstrikeCounter ||
-              u.traits.any((t) => t.name == "Conscript")) {
-            return false;
-          }
-          return cg!.isVeteran && !u.traits.any((trait) => trait.name == 'Vet');
+          return rs.vetCheck(cg, u);
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
       ..addMod(
@@ -83,9 +76,6 @@ class VeteranModification extends BaseModification {
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
           assert(rs != null);
           assert(cg != null);
-          if (u.hasMod(eccmId)) {
-            return false;
-          }
 
           if (!(u.type == ModelType.Gear ||
               u.type == ModelType.Strider ||
@@ -132,9 +122,6 @@ class VeteranModification extends BaseModification {
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
           assert(rs != null);
           assert(cg != null);
-          if (u.hasMod(reachId)) {
-            return false;
-          }
 
           if (!u.reactWeapons.any((weapon) =>
               allowedWeaponMatch.hasMatch(weapon.code) &&
@@ -183,9 +170,6 @@ class VeteranModification extends BaseModification {
               u.type == ModelType.Infantry ||
               u.type == ModelType.Cavalry ||
               u.type == ModelType.AirstrikeCounter) {
-            return false;
-          }
-          if (u.hasMod(fieldArmorId)) {
             return false;
           }
 
@@ -239,7 +223,7 @@ class VeteranModification extends BaseModification {
               u.type == ModelType.Strider)) {
             return false;
           }
-          if (u.hasMod(brawl1Id) || u.hasMod(brawler2Id)) {
+          if (u.hasMod(brawler2Id)) {
             return false;
           }
 
@@ -275,7 +259,7 @@ class VeteranModification extends BaseModification {
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
           assert(rs != null);
           assert(cg != null);
-          if (u.hasMod(brawler2Id) || u.hasMod(brawl1Id)) {
+          if (u.hasMod(brawl1Id)) {
             return false;
           }
 
@@ -314,9 +298,6 @@ class VeteranModification extends BaseModification {
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
           assert(rs != null);
           assert(cg != null);
-          if (u.hasMod(resistHId)) {
-            return false;
-          }
 
           if (traits.any((element) =>
               element.name == 'Resist' && element.type == 'Haywire')) {
@@ -358,9 +339,6 @@ class VeteranModification extends BaseModification {
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
           assert(rs != null);
           assert(cg != null);
-          if (u.hasMod(resistFId)) {
-            return false;
-          }
 
           if (traits.any((element) =>
               element.name == 'Resist' && element.type == 'Fire')) {
@@ -401,9 +379,6 @@ class VeteranModification extends BaseModification {
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
           assert(rs != null);
           assert(cg != null);
-          if (u.hasMod(resistCId)) {
-            return false;
-          }
 
           if (traits.any((element) =>
               element.name == 'Resist' && element.type == 'Corrosion')) {
@@ -448,9 +423,6 @@ class VeteranModification extends BaseModification {
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
           assert(rs != null);
           assert(cg != null);
-          if (u.hasMod(improvedGunneryID)) {
-            return false;
-          }
 
           if (u.actions == null || u.gunnery == null || u.gunnery == '-') {
             return false;
@@ -511,9 +483,6 @@ class VeteranModification extends BaseModification {
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
           assert(rs != null);
           assert(cg != null);
-          if (u.hasMod(dualGunsId)) {
-            return false;
-          }
 
           if (!u.reactWeapons.any((weapon) =>
               weaponCheck.hasMatch(weapon.code) && !weapon.isCombo)) {
@@ -566,9 +535,6 @@ class VeteranModification extends BaseModification {
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
           assert(rs != null);
           assert(cg != null);
-          if (u.hasMod(meleeUpgradeId)) {
-            return false;
-          }
 
           if (u.type != ModelType.Gear) {
             return false;
@@ -626,9 +592,6 @@ class VeteranModification extends BaseModification {
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
           assert(rs != null);
           assert(cg != null);
-          if (u.hasMod(amsId)) {
-            return false;
-          }
 
           final matchingWeapons = u.weapons.where((weapon) {
             return allowedWeaponMatch.hasMatch(weapon.code);

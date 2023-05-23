@@ -75,7 +75,7 @@ class StandardModification extends BaseModification {
         requirementCheck:
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
           // can only have one of this mod or the anti air swap mod
-          if (u.hasMod(antiAirTraitId) || u.hasMod(antiAirSwapId)) {
+          if (u.hasMod(antiAirSwapId)) {
             return false;
           }
 
@@ -146,7 +146,7 @@ class StandardModification extends BaseModification {
         requirementCheck:
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
           // can only have one of this mod or the anti air swap mod
-          if (u.hasMod(antiAirTraitId) || u.hasMod(antiAirSwapId)) {
+          if (u.hasMod(antiAirTraitId)) {
             return false;
           }
 
@@ -281,10 +281,6 @@ class StandardModification extends BaseModification {
         options: modOptions,
         requirementCheck:
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
-          if (u.hasMod(meleeSwapId)) {
-            return false;
-          }
-
           if (!traits.any((element) => _handsMatch.hasMatch(element.name))) {
             return false;
           }
@@ -359,10 +355,6 @@ class StandardModification extends BaseModification {
         options: modOptions,
         requirementCheck:
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
-          if (u.hasMod(grenadeSwapId)) {
-            return false;
-          }
-
           return u.mountedWeapons
                   .any((weapon) => weaponMatch.hasMatch(weapon.code)) ||
               u.reactWeapons.any((weapon) => weaponMatch.hasMatch(weapon.code));
@@ -460,7 +452,7 @@ class StandardModification extends BaseModification {
             return false;
           }
 
-          return !u.hasMod(handGrenadeLId) && !u.hasMod(handGrenadeMId);
+          return !u.hasMod(handGrenadeMId);
         })
       ..addMod<int>(
         UnitAttribute.tv,
@@ -494,7 +486,7 @@ class StandardModification extends BaseModification {
             return false;
           }
 
-          return !u.hasMod(handGrenadeLId) && !u.hasMod(handGrenadeMId);
+          return !u.hasMod(handGrenadeLId);
         })
       ..addMod(
         UnitAttribute.tv,
@@ -527,7 +519,7 @@ class StandardModification extends BaseModification {
             return false;
           }
 
-          if (u.hasMod(panzerfaustsMId) || u.hasMod(panzerfaustsLId)) {
+          if (u.hasMod(panzerfaustsMId)) {
             return false;
           }
 
@@ -566,7 +558,7 @@ class StandardModification extends BaseModification {
             return false;
           }
 
-          if (u.hasMod(panzerfaustsMId) || u.hasMod(panzerfaustsLId)) {
+          if (u.hasMod(panzerfaustsLId)) {
             return false;
           }
 
@@ -604,7 +596,7 @@ class StandardModification extends BaseModification {
           }
 
           // can only have eithe 1 pistol or 1 submachinegun
-          if (u.hasMod(pistolsId) || u.hasMod(subMachineGunId)) {
+          if (u.hasMod(subMachineGunId)) {
             return false;
           }
 
@@ -650,7 +642,7 @@ class StandardModification extends BaseModification {
           }
 
           // can only have eithe 1 pistol or 1 submachinegun
-          if (u.hasMod(pistolsId) || u.hasMod(subMachineGunId)) {
+          if (u.hasMod(pistolsId)) {
             return false;
           }
 
@@ -694,7 +686,7 @@ class StandardModification extends BaseModification {
         id: shapedExplosivesLId,
         requirementCheck:
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
-          if (u.hasMod(shapedExplosivesMId) || u.hasMod(shapedExplosivesLId)) {
+          if (u.hasMod(shapedExplosivesMId)) {
             return false;
           }
 
@@ -737,7 +729,7 @@ class StandardModification extends BaseModification {
         id: shapedExplosivesMId,
         requirementCheck:
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
-          if (u.hasMod(shapedExplosivesMId) || u.hasMod(shapedExplosivesLId)) {
+          if (u.hasMod(shapedExplosivesLId)) {
             return false;
           }
 
@@ -777,7 +769,7 @@ class StandardModification extends BaseModification {
             return false;
           }
 
-          return !u.hasMod(smokeId);
+          return true;
         })
       ..addMod(
         UnitAttribute.tv,

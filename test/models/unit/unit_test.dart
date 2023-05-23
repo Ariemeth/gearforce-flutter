@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:gearforce/models/mods/unitUpgrades/unit_modification.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
@@ -218,8 +220,14 @@ void main() {
       );
 
     expect(
+      tu.numUnitMods(),
+      equals(1),
+      reason: 'duplicate mods will not be added',
+    );
+
+    expect(
       tu.tv,
-      equals(uc.tv + 2),
+      equals(uc.tv + 1),
       reason: 'tv should increase by 2',
     );
   });

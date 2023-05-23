@@ -47,7 +47,8 @@ class PeaceRiverFactionMods extends FactionModification {
     final RequirementCheck reqCheck =
         (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       assert(cg != null);
-      return cg!.modCount(e_pexID) == 0;
+      return cg!.modCount(e_pexID) == 0 ||
+          (cg.modCount(e_pexID) == 1 && u.hasMod(e_pexID));
     };
     return PeaceRiverFactionMods(
         name: 'E-pex', requirementCheck: reqCheck, id: e_pexID)
@@ -276,7 +277,9 @@ class PeaceRiverFactionMods extends FactionModification {
       }
       // unit must be of the SK role type and only 1 unit may have this mod.
       return u.role!.roles.any((r) => r.name == RoleType.SK) &&
-          roster.unitsWithMod(eliteElementsID).length == 0;
+          (roster.unitsWithMod(eliteElementsID).length == 0 ||
+              (roster.unitsWithMod(eliteElementsID).length == 1 &&
+                  u.hasMod(eliteElementsID)));
     };
     return PeaceRiverFactionMods(
         name: 'Elite Elements', requirementCheck: reqCheck, id: eliteElementsID)
@@ -297,7 +300,8 @@ class PeaceRiverFactionMods extends FactionModification {
         requirementCheck:
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
           assert(cg != null);
-          if (cg!.modCount((ecmSpecialistID)) >= 1) {
+          if (cg!.modCount((ecmSpecialistID)) >= 1 &&
+              !u.hasMod(ecmSpecialistID)) {
             return false;
           }
 
@@ -305,7 +309,8 @@ class PeaceRiverFactionMods extends FactionModification {
             return false;
           }
 
-          if (!u.traits.any((trait) => traitCheck.hasMatch(trait.name))) {
+          if (!u.traits.any((trait) => traitCheck.hasMatch(trait.name)) &&
+              !u.hasMod(ecmSpecialistID)) {
             return false;
           }
           return true;
@@ -414,7 +419,8 @@ class PeaceRiverFactionMods extends FactionModification {
         (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       assert(rs != null);
       assert(cg != null);
-      return cg!.modCount(gSWATSniperID) == 0 &&
+      return ((cg!.modCount(gSWATSniperID) == 0) ||
+              (cg.modCount(gSWATSniperID) == 1 && u.hasMod(gSWATSniperID))) &&
           u.weapons.any((w) => w.code == 'RF');
     };
     return PeaceRiverFactionMods(

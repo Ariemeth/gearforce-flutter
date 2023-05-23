@@ -48,8 +48,6 @@ class DuelistModification extends BaseModification {
           modType: ModificationType.duelist,
         );
 
-  // function to ensure the modification can be applied to the unit
-
   factory DuelistModification.makeDuelist(Unit u, UnitRoster roster) {
     final traits = u.traits.toList();
     final isVet =
@@ -60,9 +58,8 @@ class DuelistModification extends BaseModification {
         requirementCheck:
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
           if (u.hasMod(duelistId)) {
-            return false;
+            return true;
           }
-
           if (!roster.subFaction.value.ruleSet.duelistCheck(roster, u)) {
             return false;
           }
@@ -112,7 +109,7 @@ class DuelistModification extends BaseModification {
         id: independentOperatorId,
         requirementCheck:
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
-          if (u.hasMod(independentOperatorId) || u.hasMod(leadByExampleId)) {
+          if (u.hasMod(leadByExampleId)) {
             return false;
           }
 
@@ -150,7 +147,7 @@ class DuelistModification extends BaseModification {
         id: leadByExampleId,
         requirementCheck:
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
-          if (u.hasMod(independentOperatorId) || u.hasMod(leadByExampleId)) {
+          if (u.hasMod(independentOperatorId)) {
             return false;
           }
 
@@ -179,10 +176,6 @@ class DuelistModification extends BaseModification {
         id: advancedControlSystemId,
         requirementCheck:
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
-          if (u.hasMod(advancedControlSystemId)) {
-            return false;
-          }
-
           if (u.actions != null && u.actions! >= 3) {
             return false;
           }
@@ -234,9 +227,6 @@ class DuelistModification extends BaseModification {
         },
         requirementCheck:
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
-          if (u.hasMod(stableId)) {
-            return false;
-          }
           return u.isDuelist;
         })
       ..addMod<int>(UnitAttribute.tv, (value) {
@@ -301,9 +291,6 @@ class DuelistModification extends BaseModification {
         options: modOptions,
         requirementCheck:
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
-          if (u.hasMod(preciseId)) {
-            return false;
-          }
           return u.isDuelist;
         },
         refreshData: () {
@@ -376,10 +363,6 @@ class DuelistModification extends BaseModification {
         options: modOptions,
         requirementCheck:
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
-          if (u.hasMod(autoId)) {
-            return false;
-          }
-
           if (u.reactWeapons
               .where((weapon) =>
                   weapon.modes.any((mode) => mode != weaponModes.Melee) ||
@@ -426,10 +409,6 @@ class DuelistModification extends BaseModification {
         id: aceGunnerId,
         requirementCheck:
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
-          if (u.hasMod(aceGunnerId)) {
-            return false;
-          }
-
           final matchingWeapons = u.weapons
               .where((weapon) => allowedWeaponMatch.hasMatch(weapon.code));
 
@@ -476,11 +455,6 @@ class DuelistModification extends BaseModification {
             return false;
           }
 
-          // can only have eithe 1 pistol or 1 submachinegun
-          if (u.hasMod(trickShotId)) {
-            return false;
-          }
-
           return true;
         })
       ..addMod(
@@ -524,9 +498,6 @@ class DuelistModification extends BaseModification {
         options: modOptions,
         requirementCheck:
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
-          if (u.hasMod(dualMeleeWeaponsId)) {
-            return false;
-          }
           return u.isDuelist;
         },
         refreshData: () {
@@ -580,10 +551,6 @@ class DuelistModification extends BaseModification {
         id: agileId,
         requirementCheck:
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
-          if (u.hasMod(agileId)) {
-            return false;
-          }
-
           if (u.traits.any((trait) => traitCheck.hasMatch(trait.name))) {
             return false;
           }
@@ -609,9 +576,6 @@ class DuelistModification extends BaseModification {
         id: shieldId,
         requirementCheck:
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
-          if (u.hasMod(shieldId)) {
-            return false;
-          }
           return u.isDuelist;
         })
       ..addMod<int>(
@@ -661,9 +625,6 @@ class DuelistModification extends BaseModification {
         options: modOptions,
         requirementCheck:
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
-          if (u.hasMod(meleeUpgradeId)) {
-            return false;
-          }
           return u.isDuelist;
         },
         refreshData: () {
@@ -700,10 +661,6 @@ class DuelistModification extends BaseModification {
         id: ecmId,
         requirementCheck:
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
-          if (u.hasMod(ecmId)) {
-            return false;
-          }
-
           if (!u.traits.any((trait) => traitCheck.hasMatch(trait.name))) {
             return false;
           }

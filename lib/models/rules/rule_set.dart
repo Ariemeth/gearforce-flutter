@@ -183,6 +183,18 @@ abstract class RuleSet extends ChangeNotifier {
 
   int modCostOverride(int baseCost, String modID, Unit u) => baseCost;
 
+  bool vetCheck(CombatGroup cg, Unit u) {
+    if (u.type == ModelType.Drone ||
+        u.type == ModelType.Terrain ||
+        u.type == ModelType.AreaTerrain ||
+        u.type == ModelType.AirstrikeCounter ||
+        u.traits.any((t) => t.name == "Conscript")) {
+      return false;
+    }
+
+    return cg.isVeteran;
+  }
+
   bool veteranModCheck(Unit u, CombatGroup cg, {required String modID}) {
     return (u.traits.any((trait) => trait.name == 'Vet'));
   }

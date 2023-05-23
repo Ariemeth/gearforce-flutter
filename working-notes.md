@@ -22,3 +22,8 @@ I think the refresh was added to update mod options.  is there a  better way
 
 when removing a mod, seems all mods are failing requirement check.
 added duelist, dual gun and aa, removing either dual gun or aa removes all mods including duelist
+
+change requirement checks to not return false if the mod is already on the unit
+
+Nedd to update requirement checks for
+* faction upgrades

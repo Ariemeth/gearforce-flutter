@@ -428,6 +428,10 @@ class Unit extends ChangeNotifier {
   }
 
   void addUnitMod(BaseModification mod) {
+    // Duplicate mods are not allowed on the same unit
+    if (_mods.any((m) => m.id == mod.id)) {
+      return;
+    }
     _mods.add(mod);
     _mods.forEach((m) {
       final updatedMod = m.refreshData();
@@ -484,7 +488,7 @@ class Unit extends ChangeNotifier {
   bool hasTag(String tag) => _tags.any((t) => t == tag);
 
   bool isVeteran() {
-    return this.traits.any((element) => element.name == 'Vet');
+    return this.traits.any((t) => t.name == 'Vet');
   }
 
   int numTags() => _tags.length;
