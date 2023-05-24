@@ -137,9 +137,8 @@ class _SpecialFilterSelectorState extends State<SpecialFilterSelector> {
   Widget build(BuildContext context) {
     final subFaction =
         context.select((UnitRoster roster) => roster.subFaction.value);
-    final rs = subFaction.ruleSet;
 
-    final availableSpecialFilters = rs.availableUnitFilters();
+    final availableSpecialFilters = subFaction.ruleSet.availableUnitFilters();
     assert(availableSpecialFilters.length != 0);
 
     if (!availableSpecialFilters.contains(dropdownValue)) {
