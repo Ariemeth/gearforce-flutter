@@ -34,7 +34,7 @@ bool Function(CombatGroup?, UnitRoster?) onlyOneCG(String id) {
       return false;
     }
     final cgsWithOptionCount =
-        roster.getCGs().where((cg) => cg.hasOption(id)).length;
+        roster.getCGs().where((cg) => cg.isOptionEnabled(id)).length;
 
     // Either there is currently no cg with this option or the selected
     // cg already has the option

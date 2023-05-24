@@ -23,7 +23,7 @@ class CombatGroupSettingsDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final options = ruleSet.combatGroupSettings();
+    final options = cg.options;
 
     var dialog = SimpleDialog(
       clipBehavior: Clip.antiAlias,

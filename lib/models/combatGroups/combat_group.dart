@@ -101,10 +101,7 @@ class CombatGroup extends ChangeNotifier {
   CombatGroup(this.name, {Group? primary, Group? secondary, this.roster}) {
     this.primary = primary == null ? Group(GroupType.Primary) : primary;
     this.secondary = secondary == null ? Group(GroupType.Secondary) : secondary;
-    final settings = roster?.subFaction.value.ruleSet.combatGroupSettings();
-    if (settings != null) {
-      _options = settings;
-    }
+    _resetOptions();
   }
 
   // TODO export Options to json
@@ -189,15 +186,25 @@ class CombatGroup extends ChangeNotifier {
       validationErrors.addAll(pve);
     }
 
+    // TODO validate options
+
     print('combat group validation called');
     return validationErrors;
   }
 
+  void _resetOptions() {
+    _options.clear();
+    final settings = roster?.subFaction.value.ruleSet.combatGroupSettings();
+    if (settings != null) {
+      _options = settings;
+    }
+  }
+
   void clear() {
-    this._primary.reset();
-    this._secondary.reset();
-    this._isVeteran = false;
-    this._options.clear();
+    _primary.reset();
+    _secondary.reset();
+    _isVeteran = false;
+    _resetOptions();
   }
 
   @override
