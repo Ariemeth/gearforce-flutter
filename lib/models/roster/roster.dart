@@ -38,13 +38,12 @@ class UnitRoster extends ChangeNotifier {
         _combatGroups.forEach((key, value) {
           value.clear();
         });
-        // No fine grain checks for individual unit or mod rule changes so
-        // reset all cgs if a faction option changes
+
         subFaction.value.ruleSet.addListener(() {
           _combatGroups.forEach((key, value) {
-            value.primary.reset();
-            value.secondary.reset();
+            value.validate(tryFix: true);
           });
+          notifyListeners();
         });
         notifyListeners();
       });

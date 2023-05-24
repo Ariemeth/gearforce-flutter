@@ -178,8 +178,8 @@ class CombatGroup extends ChangeNotifier {
       return;
     }
     _tags.remove(tag);
-    _primary.reset();
-    _secondary.reset();
+    _primary.validate(tryFix: true);
+    _secondary.validate(tryFix: true);
   }
 
   List<Validation> validate({bool tryFix = false}) {

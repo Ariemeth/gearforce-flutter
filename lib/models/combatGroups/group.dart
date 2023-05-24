@@ -171,6 +171,18 @@ class Group extends ChangeNotifier {
         validationErrors.addAll(ve);
       }
     });
+
+    if (combatGroup != null && combatGroup!.roster != null) {
+      final tempList = _units.toList(growable: false);
+      tempList.reversed.forEach((u) {
+        if (!combatGroup!.roster!.subFaction.value.ruleSet
+            .canBeAddedToGroup(u, this, combatGroup!)) {
+          print(
+              '${u.name} no longer can be part of the $groupType of $combatGroup\n');
+          _units.remove(u);
+        }
+      });
+    }
     print('group validation called');
     return validationErrors;
   }

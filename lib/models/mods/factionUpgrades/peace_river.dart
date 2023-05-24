@@ -1,9 +1,13 @@
 import 'package:gearforce/models/combatGroups/combat_group.dart';
+import 'package:gearforce/models/factions/faction_rule.dart';
 import 'package:gearforce/models/mods/base_modification.dart';
 import 'package:gearforce/models/mods/factionUpgrades/faction_mod.dart';
 import 'package:gearforce/models/mods/modification_option.dart';
 import 'package:gearforce/models/mods/mods.dart';
 import 'package:gearforce/models/roster/roster.dart';
+import 'package:gearforce/models/rules/peace_river/peace_river.dart';
+import 'package:gearforce/models/rules/peace_river/poc.dart';
+import 'package:gearforce/models/rules/peace_river/prdf.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/model_type.dart';
@@ -47,6 +51,12 @@ class PeaceRiverFactionMods extends FactionModification {
     final RequirementCheck reqCheck =
         (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       assert(cg != null);
+      assert(rs != null);
+
+      if (rs == null ||
+          !FactionRule.isRuleEnabled(rs.factionRules, ruleEPex.id)) {
+        return false;
+      }
       return cg!.modCount(e_pexID) == 0 ||
           (cg.modCount(e_pexID) == 1 && u.hasMod(e_pexID));
     };
@@ -71,6 +81,12 @@ class PeaceRiverFactionMods extends FactionModification {
   factory PeaceRiverFactionMods.warriorElite() {
     final RequirementCheck reqCheck =
         (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+      assert(rs != null);
+
+      if (rs == null ||
+          !FactionRule.isRuleEnabled(rs.factionRules, ruleWarriorElite.id)) {
+        return false;
+      }
       return u.core.frame == 'Warrior IV';
     };
     return PeaceRiverFactionMods(
@@ -110,6 +126,13 @@ class PeaceRiverFactionMods extends FactionModification {
 
     final RequirementCheck reqCheck =
         (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+      assert(rs != null);
+
+      if (rs == null ||
+          !FactionRule.isRuleEnabled(
+              rs.factionRules, ruleCrisisResponders.id)) {
+        return false;
+      }
       return u.core.frame == 'Crusader IV' && u.hasMod('Crusader V Upgrade');
     };
     return PeaceRiverFactionMods(
@@ -162,6 +185,12 @@ class PeaceRiverFactionMods extends FactionModification {
 
     final RequirementCheck reqCheck =
         (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+      assert(rs != null);
+
+      if (rs == null ||
+          !FactionRule.isRuleEnabled(rs.factionRules, ruleLaserTech.id)) {
+        return false;
+      }
       return u.isVeteran() &&
           (u.core.frame == 'Universal Infantry' || u.name == 'Spitz Monowheel');
     };
@@ -230,6 +259,12 @@ class PeaceRiverFactionMods extends FactionModification {
   factory PeaceRiverFactionMods.olTrusty() {
     final RequirementCheck reqCheck =
         (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+      assert(rs != null);
+
+      if (rs == null ||
+          !FactionRule.isRuleEnabled(rs.factionRules, ruleOlTrusty.id)) {
+        return false;
+      }
       return u.core.frame == 'Warrior' ||
           u.core.frame == 'Jackal' ||
           u.core.frame == 'Spartan';
@@ -254,6 +289,13 @@ class PeaceRiverFactionMods extends FactionModification {
   factory PeaceRiverFactionMods.thunderFromTheSky() {
     final RequirementCheck reqCheck =
         (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+      assert(rs != null);
+
+      if (rs == null ||
+          !FactionRule.isRuleEnabled(
+              rs.factionRules, ruleThunderFromTheSky.id)) {
+        return false;
+      }
       return u.core.type == ModelType.AirstrikeCounter;
     };
     return PeaceRiverFactionMods(
@@ -272,6 +314,12 @@ class PeaceRiverFactionMods extends FactionModification {
   factory PeaceRiverFactionMods.eliteElements(UnitRoster roster) {
     final RequirementCheck reqCheck =
         (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+      assert(rs != null);
+
+      if (rs == null ||
+          !FactionRule.isRuleEnabled(rs.factionRules, ruleEliteElements.id)) {
+        return false;
+      }
       if (u.role == null) {
         return false;
       }
@@ -300,6 +348,13 @@ class PeaceRiverFactionMods extends FactionModification {
         requirementCheck:
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
           assert(cg != null);
+          assert(rs != null);
+
+          if (rs == null ||
+              !FactionRule.isRuleEnabled(
+                  rs.factionRules, ruleECMSpecialist.id)) {
+            return false;
+          }
           if (cg!.modCount((ecmSpecialistID)) >= 1 &&
               !u.hasMod(ecmSpecialistID)) {
             return false;
@@ -340,6 +395,12 @@ class PeaceRiverFactionMods extends FactionModification {
   factory PeaceRiverFactionMods.olTrustyPOC() {
     final RequirementCheck reqCheck =
         (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+      assert(rs != null);
+
+      if (rs == null ||
+          !FactionRule.isRuleEnabled(rs.factionRules, rulePOCOlTrusty.id)) {
+        return false;
+      }
       return u.core.frame == 'Pit Bull' || u.core.frame == 'Mustang';
     };
     return PeaceRiverFactionMods(
@@ -380,6 +441,12 @@ class PeaceRiverFactionMods extends FactionModification {
     final RequirementCheck reqCheck = (rs, ur, cg, u) {
       assert(cg != null);
       assert(ur != null);
+      assert(rs != null);
+
+      if (rs == null ||
+          !FactionRule.isRuleEnabled(rs.factionRules, rulePeaceOfficer.id)) {
+        return false;
+      }
 
       if (u.type != ModelType.Gear) {
         return false;
@@ -413,12 +480,19 @@ class PeaceRiverFactionMods extends FactionModification {
   /*
     G-SWAT Sniper: One gear with a rifle, per combat group, may purchase the
     Improved Gunnery upgrade for 1 TV each, without being a veteran.
+    TODO: is this needed to be its own faction mod or just part of the ruleset for vet mod check on improved gunnery
   */
   factory PeaceRiverFactionMods.gSWATSniper() {
     final RequirementCheck reqCheck =
         (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       assert(rs != null);
       assert(cg != null);
+
+      if (rs == null ||
+          !FactionRule.isRuleEnabled(rs.factionRules, ruleGSwatSniper.id)) {
+        return false;
+      }
+
       return ((cg!.modCount(gSWATSniperID) == 0) ||
               (cg.modCount(gSWATSniperID) == 1 && u.hasMod(gSWATSniperID))) &&
           u.weapons.any((w) => w.code == 'RF');

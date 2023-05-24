@@ -11,6 +11,7 @@ class CombatGroupOption {
   final List<Option> options;
 }
 
+// TODO look into making this a changenotifier with a state intead of just setting tags
 class Option {
   const Option({
     required this.name,

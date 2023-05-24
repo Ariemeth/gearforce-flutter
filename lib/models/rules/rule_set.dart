@@ -175,8 +175,11 @@ abstract class RuleSet extends ChangeNotifier {
     final count =
         group.allUnits().where((u) => u.core.name == unit.core.name).length;
 
+    // if unit is already part of the group increase the count by 1
+    final maxCount = group.allUnits().contains(unit) ? 2 : 1;
+
     // Can only have a max of 2 non-unlimted units in a group.
-    return count < 2;
+    return count <= maxCount;
   }
 
   int maxSecondaryActions(int primaryActions) => (primaryActions / 2).ceil();

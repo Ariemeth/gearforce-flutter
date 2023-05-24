@@ -89,34 +89,28 @@ class PeaceRiver extends RuleSet {
     ];
 
     // PRDF faction rules
-    var rule = FactionRule.findRule(factionRules, prdf.ruleOlTrusty.id);
-    if (rule != null && rule.isEnabled) {
+    if (FactionRule.isRuleEnabled(factionRules, prdf.ruleOlTrusty.id)) {
       results.add(PeaceRiverFactionMods.olTrusty());
     }
-    rule = FactionRule.findRule(factionRules, prdf.ruleThunderFromTheSky.id);
-    if (rule != null && rule.isEnabled) {
+    if (FactionRule.isRuleEnabled(
+        factionRules, prdf.ruleThunderFromTheSky.id)) {
       results.add(PeaceRiverFactionMods.thunderFromTheSky());
     }
-    rule = FactionRule.findRule(factionRules, prdf.ruleEliteElements.id);
-    if (rule != null && rule.isEnabled) {
+    if (FactionRule.isRuleEnabled(factionRules, prdf.ruleEliteElements.id)) {
       results.add(PeaceRiverFactionMods.eliteElements(ur));
     }
 
     // POC faction rules
-    rule = FactionRule.findRule(factionRules, poc.ruleECMSpecialist.id);
-    if (rule != null && rule.isEnabled) {
+    if (FactionRule.isRuleEnabled(factionRules, poc.ruleECMSpecialist.id)) {
       results.add(PeaceRiverFactionMods.ecmSpecialist());
     }
-    rule = FactionRule.findRule(factionRules, poc.rulePOCOlTrusty.id);
-    if (rule != null && rule.isEnabled) {
+    if (FactionRule.isRuleEnabled(factionRules, poc.rulePOCOlTrusty.id)) {
       results.add(PeaceRiverFactionMods.olTrustyPOC());
     }
-    rule = FactionRule.findRule(factionRules, poc.rulePeaceOfficer.id);
-    if (rule != null && rule.isEnabled) {
+    if (FactionRule.isRuleEnabled(factionRules, poc.rulePeaceOfficer.id)) {
       results.add(PeaceRiverFactionMods.peaceOfficers(u));
     }
-    rule = FactionRule.findRule(factionRules, poc.ruleGSwatSniper.id);
-    if (rule != null && rule.isEnabled) {
+    if (FactionRule.isRuleEnabled(factionRules, poc.ruleGSwatSniper.id)) {
       results.add(PeaceRiverFactionMods.gSWATSniper());
     }
 
@@ -148,18 +142,13 @@ class PeaceRiver extends RuleSet {
       )
     ];
 
-    var rule = FactionRule.findRule(factionRules, prdf.ruleBestMenAndWomen.id);
-    if (rule != null && rule.isEnabled) {
+    if (FactionRule.isRuleEnabled(factionRules, prdf.ruleBestMenAndWomen.id)) {
       filters.add(prdf.filterBestMenAndWomen);
     }
-
-    rule = FactionRule.findRule(factionRules, poc.ruleMercenaryContract.id);
-    if (rule != null && rule.isEnabled) {
+    if (FactionRule.isRuleEnabled(factionRules, poc.ruleMercenaryContract.id)) {
       filters.add(poc.filterMercContract);
     }
-
-    rule = FactionRule.findRule(factionRules, pps.ruleSubContractors.id);
-    if (rule != null && rule.isEnabled) {
+    if (FactionRule.isRuleEnabled(factionRules, pps.ruleSubContractors.id)) {
       filters.add(pps.filterSubContractor);
     }
 
@@ -172,8 +161,8 @@ class PeaceRiver extends RuleSet {
     if (rule != null &&
         rule.isEnabled &&
         rule.canBeAddedToGroup != null &&
-        !rule.canBeAddedToGroup!(unit, group, cg)) {
-      return false;
+        rule.canBeAddedToGroup!(unit, group, cg)) {
+      return true;
     }
     return super.canBeAddedToGroup(unit, group, cg);
   }
@@ -182,8 +171,7 @@ class PeaceRiver extends RuleSet {
   CombatGroupOption combatGroupSettings() {
     final options = CombatGroupOption(name: 'Rule Options', options: []);
 
-    var rule = FactionRule.findRule(factionRules, pps.ruleSubContractors.id);
-    if (rule != null && rule.isEnabled) {
+    if (FactionRule.isRuleEnabled(factionRules, pps.ruleSubContractors.id)) {
       options.options.add(Option(
           name: pps.ruleSubContractors.name,
           id: pps.ruleSubContractors.id,
@@ -192,8 +180,7 @@ class PeaceRiver extends RuleSet {
           )));
     }
 
-    rule = FactionRule.findRule(factionRules, pps.ruleBadlandsSoup.id);
-    if (rule != null && rule.isEnabled) {
+    if (FactionRule.isRuleEnabled(factionRules, pps.ruleBadlandsSoup.id)) {
       options.options.add(Option(
           name: pps.ruleBadlandsSoup.name,
           id: pps.ruleBadlandsSoup.id,
@@ -202,8 +189,7 @@ class PeaceRiver extends RuleSet {
           )));
     }
 
-    rule = FactionRule.findRule(factionRules, poc.ruleMercenaryContract.id);
-    if (rule != null && rule.isEnabled) {
+    if (FactionRule.isRuleEnabled(factionRules, poc.ruleMercenaryContract.id)) {
       options.options.add(Option(
         name: poc.ruleMercenaryContract.name,
         id: poc.ruleMercenaryContract.id,

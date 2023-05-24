@@ -26,4 +26,5 @@ added duelist, dual gun and aa, removing either dual gun or aa removes all mods 
 change requirement checks to not return false if the mod is already on the unit
 
 mods have been updated to work with new pattern
-should be able to update groups, cgs and rosters to properly update on option changes without having to reset everything
+should be able to update cgs to properly update on option changes without having to reset everything
+

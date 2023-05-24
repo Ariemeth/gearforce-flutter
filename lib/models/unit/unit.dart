@@ -523,15 +523,12 @@ class Unit extends ChangeNotifier {
     }
 
     if (validationErrors.isNotEmpty) {
-      // TODO remove print when validation system is done
       print('Validation errors found validating $name, $validationErrors');
       return validationErrors;
     }
 
     if (tryFix) {
       _mods.removeWhere((mod) {
-        // TODO remove print statement when done with validation
-        print('${_mods.indexWhere((m) => m.id == mod.id)} : ${mod.name}');
         return !mod.requirementCheck(
           roster!.subFaction.value.ruleSet,
           roster,
@@ -548,6 +545,7 @@ class Unit extends ChangeNotifier {
           _mods[_mods.indexWhere((mod) => mod.id == updatedMod.id)];
         }
       });
+      notifyListeners();
     } else {
       _mods.forEach((mod) {
         if (!mod.requirementCheck(
@@ -564,6 +562,9 @@ class Unit extends ChangeNotifier {
     }
 
     print('unit validation called');
+    if (validationErrors.isNotEmpty) {
+      notifyListeners();
+    }
 
     return validationErrors;
   }
