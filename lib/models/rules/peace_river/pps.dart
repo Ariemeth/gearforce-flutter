@@ -6,7 +6,7 @@ import 'package:gearforce/models/rules/peace_river/peace_river.dart';
 import 'package:gearforce/models/rules/peace_river/poc.dart' as poc;
 import 'package:gearforce/models/rules/peace_river/prdf.dart' as prdf;
 import 'package:gearforce/models/rules/rule_set.dart';
-import 'package:gearforce/models/rules/special_unit_filter.dart';
+import 'package:gearforce/models/rules/options/special_unit_filter.dart';
 
 const String _exPOC = 'Ex-POC';
 const String _exPRDF = 'Ex-PRDF';

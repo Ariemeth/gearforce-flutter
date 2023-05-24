@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
-import 'package:gearforce/models/rules/combat_group_options.dart';
+import 'package:gearforce/models/rules/options/combat_group_options.dart';
 
 const int _maxOptionNameLines = 2;
 

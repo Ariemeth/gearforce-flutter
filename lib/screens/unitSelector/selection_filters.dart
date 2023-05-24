@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gearforce/models/roster/roster.dart';
-import 'package:gearforce/models/rules/special_unit_filter.dart';
+import 'package:gearforce/models/rules/options/special_unit_filter.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:provider/provider.dart';
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
-import 'package:gearforce/models/rules/combat_group_options.dart';
+import 'package:gearforce/models/rules/options/combat_group_options.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/screens/roster/combatGroup/delete_combat_group_dialog.dart';
 import 'package:gearforce/screens/roster/combatGroup/option_line.dart';

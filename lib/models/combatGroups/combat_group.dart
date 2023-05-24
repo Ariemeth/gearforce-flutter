@@ -5,7 +5,7 @@ import 'package:gearforce/models/factions/faction.dart';
 import 'package:gearforce/models/factions/sub_faction.dart';
 import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart';
 import 'package:gearforce/models/roster/roster.dart';
-import 'package:gearforce/models/rules/combat_group_options.dart';
+import 'package:gearforce/models/rules/options/combat_group_options.dart';
 import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/validation/validations.dart';
