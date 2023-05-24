@@ -28,3 +28,5 @@ change requirement checks to not return false if the mod is already on the unit
 mods have been updated to work with new pattern
 should be able to update cgs to properly update on option changes without having to reset everything
 
+units from special filters are not being blocked from being added to a cg when they shouldn't be allowed.
+
