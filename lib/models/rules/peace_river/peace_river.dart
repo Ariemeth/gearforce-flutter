@@ -168,11 +168,11 @@ class PeaceRiver extends RuleSet {
   }
 
   @override
-  CombatGroupOption combatGroupSettings() {
-    final options = CombatGroupOption(name: 'Rule Options', options: []);
+  List<Option> combatGroupSettings() {
+    final List<Option> options = [];
 
     if (FactionRule.isRuleEnabled(factionRules, pps.ruleSubContractors.id)) {
-      options.options.add(Option(
+      options.add(Option(
           name: pps.ruleSubContractors.name,
           id: pps.ruleSubContractors.id,
           requirementCheck: onlyOneCG(
@@ -181,7 +181,7 @@ class PeaceRiver extends RuleSet {
     }
 
     if (FactionRule.isRuleEnabled(factionRules, pps.ruleBadlandsSoup.id)) {
-      options.options.add(Option(
+      options.add(Option(
           name: pps.ruleBadlandsSoup.name,
           id: pps.ruleBadlandsSoup.id,
           requirementCheck: onlyOneCG(
@@ -190,7 +190,7 @@ class PeaceRiver extends RuleSet {
     }
 
     if (FactionRule.isRuleEnabled(factionRules, poc.ruleMercenaryContract.id)) {
-      options.options.add(Option(
+      options.add(Option(
         name: poc.ruleMercenaryContract.name,
         id: poc.ruleMercenaryContract.id,
       ));
@@ -276,7 +276,7 @@ class PeaceRiver extends RuleSet {
 
   @override
   bool veteranModCheck(Unit u, CombatGroup cg, {required String modID}) {
-    if (cg.hasTag(pps.ruleBadlandsSoup.id)) {
+    if (cg.isOptionEnabled(pps.ruleBadlandsSoup.id)) {
       var rule = FactionRule.findRule(factionRules, pps.ruleBadlandsSoup.id);
       if (rule != null &&
           rule.isEnabled &&

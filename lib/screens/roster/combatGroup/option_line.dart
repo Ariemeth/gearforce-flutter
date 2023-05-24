@@ -16,7 +16,7 @@ class OptionLine extends StatefulWidget {
 class _OptionLineState extends State<OptionLine> {
   @override
   Widget build(BuildContext context) {
-    final isEnabled =
+    final isAvailable =
         widget.cgOption.requirementCheck(widget.cg, widget.cg.roster);
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
@@ -25,23 +25,25 @@ class _OptionLineState extends State<OptionLine> {
       child: Row(
         children: [
           Checkbox(
-              value: widget.cg.hasTag(widget.cgOption.id),
-              onChanged: isEnabled || widget.cg.hasTag(widget.cgOption.id)
-                  ? (bool? newValue) {
-                      setState(() {
-                        widget.cgOption.SetActiveStatus(newValue!, widget.cg);
-                      });
-                    }
-                  : null),
+              value: widget.cg.isOptionEnabled(widget.cgOption.id),
+              onChanged:
+                  isAvailable || widget.cg.isOptionEnabled(widget.cgOption.id)
+                      ? (bool? newValue) {
+                          setState(() {
+                            widget.cgOption.isEnabled = newValue!;
+                          });
+                        }
+                      : null),
           Text(
             '${widget.cgOption.name} ',
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w600,
               fontStyle: FontStyle.normal,
-              decoration: isEnabled || widget.cg.hasTag(widget.cgOption.id)
-                  ? null
-                  : TextDecoration.lineThrough,
+              decoration:
+                  isAvailable || widget.cg.isOptionEnabled(widget.cgOption.id)
+                      ? null
+                      : TextDecoration.lineThrough,
             ),
             maxLines: _maxOptionNameLines,
           ),

@@ -5,6 +5,7 @@ import 'package:gearforce/models/factions/faction.dart';
 import 'package:gearforce/models/factions/sub_faction.dart';
 import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart';
 import 'package:gearforce/models/roster/roster.dart';
+import 'package:gearforce/models/rules/combat_group_options.dart';
 import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/validation/validations.dart';
@@ -15,15 +16,18 @@ class CombatGroup extends ChangeNotifier {
   final String name;
   bool _isVeteran = false;
   UnitRoster? roster;
-  final List<String> _tags = [];
+  List<Option> _options = [];
 
-  /// Retrieve the tags associated with this [CombatGroup].
-  List<String> get tags => _tags.toList();
+  /// Retrieve the options associated with this [CombatGroup].
+  List<Option> get options => _options.toList();
+  bool hasOption(String id) => _options.any((o) => o.id == id);
+  bool isOptionEnabled(String id) {
+    return _options.any((o) => o.id == id) &&
+        _options.firstWhere((o) => o.id == id).isEnabled;
+  }
 
   /// Retrieve a list of all units in this [CombatGroup].
   List<Unit> get units => _primary.allUnits()..addAll(_secondary.allUnits());
-
-  bool hasTag(String tag) => this._tags.contains(tag);
 
   bool unitHasTag(String tag) =>
       _primary.unitHasTag(tag) || _secondary.unitHasTag(tag);
@@ -97,14 +101,19 @@ class CombatGroup extends ChangeNotifier {
   CombatGroup(this.name, {Group? primary, Group? secondary, this.roster}) {
     this.primary = primary == null ? Group(GroupType.Primary) : primary;
     this.secondary = secondary == null ? Group(GroupType.Secondary) : secondary;
+    final settings = roster?.subFaction.value.ruleSet.combatGroupSettings();
+    if (settings != null) {
+      _options = settings;
+    }
   }
 
+  // TODO export Options to json
   Map<String, dynamic> toJson() => {
         'primary': _primary.toJson(),
         'secondary': _secondary.toJson(),
         'name': '$name',
         'isVet': _isVeteran,
-        'tags': _tags,
+        //    'tags': _tags,
       };
 
   factory CombatGroup.fromJson(
@@ -126,9 +135,10 @@ class CombatGroup extends ChangeNotifier {
     cg.primary = p;
     cg.secondary = s;
 
-    (json['tags'] as List).forEach((tag) {
-      cg._tags.add(tag);
-    });
+    // TODO add options to json import
+    // (json['tags'] as List).forEach((tag) {
+    //   cg._tags.add(tag);
+    // });
 
     return cg;
   }
@@ -167,21 +177,6 @@ class CombatGroup extends ChangeNotifier {
     return _primary.numberOfUnits() + _secondary.numberOfUnits();
   }
 
-  addTag(String tag) {
-    if (!_tags.any((s) => s == tag)) {
-      _tags.add(tag);
-    }
-  }
-
-  removeTag(String tag) {
-    if (!_tags.any((t) => t == tag)) {
-      return;
-    }
-    _tags.remove(tag);
-    _primary.validate(tryFix: true);
-    _secondary.validate(tryFix: true);
-  }
-
   List<Validation> validate({bool tryFix = false}) {
     final List<Validation> validationErrors = [];
 
@@ -202,11 +197,11 @@ class CombatGroup extends ChangeNotifier {
     this._primary.reset();
     this._secondary.reset();
     this._isVeteran = false;
-    this._tags.clear();
+    this._options.clear();
   }
 
   @override
   String toString() {
-    return 'CombatGroup: {Name: $name, PrimaryCG: $_primary, SecondaryCG: $_secondary, Tags: ${_tags.toString()}}';
+    return 'CombatGroup: {Name: $name, PrimaryCG: $_primary, SecondaryCG: $_secondary}';
   }
 }

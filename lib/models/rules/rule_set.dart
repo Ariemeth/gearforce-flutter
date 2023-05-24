@@ -135,8 +135,7 @@ abstract class RuleSet extends ChangeNotifier {
         !unit.traits.any((t) => t.name == 'Conscript');
   }
 
-  CombatGroupOption combatGroupSettings() =>
-      CombatGroupOption(name: 'Rule Options', options: []);
+  List<Option> combatGroupSettings() => [];
 
   bool duelistCheck(UnitRoster roster, Unit u) {
     if (u.type != ModelType.Gear) {

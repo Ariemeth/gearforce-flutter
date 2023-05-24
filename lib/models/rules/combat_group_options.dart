@@ -1,19 +1,10 @@
+import 'package:flutter/widgets.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/roster/roster.dart';
 
-class CombatGroupOption {
-  const CombatGroupOption({
-    required this.name,
-    required this.options,
-  });
-
-  final String name;
-  final List<Option> options;
-}
-
 // TODO look into making this a changenotifier with a state intead of just setting tags
-class Option {
-  const Option({
+class Option extends ChangeNotifier {
+  Option({
     required this.name,
     required this.id,
     this.requirementCheck = alwaysTrue,
@@ -21,23 +12,34 @@ class Option {
 
   final String name;
   final String id;
-  final bool Function(CombatGroup?, UnitRoster?) requirementCheck;
-  void SetActiveStatus(bool isActive, CombatGroup cg) {
-    if (isActive) {
-      cg.addTag(id);
-    } else {
-      cg.removeTag(id);
+  bool _isEnabled = false;
+  bool get isEnabled => _isEnabled;
+  set isEnabled(bool newState) {
+    if (newState != _isEnabled) {
+      _isEnabled = newState;
+      notifyListeners();
     }
   }
+
+  final bool Function(CombatGroup?, UnitRoster?) requirementCheck;
 }
 
 bool alwaysTrue(CombatGroup? cg, UnitRoster? r) => true;
 bool Function(CombatGroup?, UnitRoster?) onlyOneCG(String id) {
   return (combatGroup, roster) {
     assert(roster != null);
+    assert(combatGroup != null);
+
     if (roster == null) {
       return false;
     }
-    return roster.getCGs().where((cg) => cg.tags.contains(id)).length == 0;
+    final cgsWithOptionCount =
+        roster.getCGs().where((cg) => cg.hasOption(id)).length;
+
+    // Either there is currently no cg with this option or the selected
+    // cg already has the option
+    return cgsWithOptionCount == 0 || combatGroup == null
+        ? true
+        : cgsWithOptionCount == 1 && combatGroup.isOptionEnabled(id);
   };
 }

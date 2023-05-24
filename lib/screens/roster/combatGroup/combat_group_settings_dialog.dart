@@ -9,6 +9,7 @@ import 'package:gearforce/widgets/options_section_title.dart';
 const double _optionSectionWidth = 400;
 const double _optionSectionHeight = 33;
 const int _maxVisibleOptions = 3;
+const String _optionText = 'Rules Options';
 
 class CombatGroupSettingsDialog extends StatelessWidget {
   const CombatGroupSettingsDialog({
@@ -37,9 +38,7 @@ class CombatGroupSettingsDialog extends StatelessWidget {
               maxLines: 1,
             ),
             Text(''),
-            options.options.isNotEmpty
-                ? combatGroupOptions(options, cg)
-                : Container(),
+            options.isNotEmpty ? combatGroupOptions(options, cg) : Container(),
             Text(''),
             ElevatedButton(
               onPressed: () {
@@ -90,8 +89,8 @@ class CombatGroupSettingsDialog extends StatelessWidget {
   }
 }
 
-Widget combatGroupOptions(CombatGroupOption? cgo, CombatGroup cg) {
-  if (cgo == null || cgo.options.isEmpty) {
+Widget combatGroupOptions(List<Option> options, CombatGroup cg) {
+  if (options.isEmpty) {
     return const Center(
       child: Text(
         'no upgrades available',
@@ -110,25 +109,25 @@ Widget combatGroupOptions(CombatGroupOption? cgo, CombatGroup cg) {
     width: _optionSectionWidth,
     height: _optionSectionHeight +
         _optionSectionHeight *
-            (cgo.options.length > _maxVisibleOptions
+            (options.length > _maxVisibleOptions
                 ? _maxVisibleOptions
-                : cgo.options.length.toDouble()),
+                : options.length.toDouble()),
     child: Column(
       children: [
-        optionsSectionTitle(cgo.name),
+        optionsSectionTitle(_optionText),
         Scrollbar(
           thumbVisibility: true,
           trackVisibility: true,
           controller: _scrollController,
           interactive: true,
           child: ListView.builder(
-            itemCount: cgo.options.length,
+            itemCount: options.length,
             controller: _scrollController,
             shrinkWrap: true,
             itemBuilder: (BuildContext context, int index) {
               return OptionLine(
                 cg: cg,
-                cgOption: cgo.options[index],
+                cgOption: options[index],
               );
             },
           ),

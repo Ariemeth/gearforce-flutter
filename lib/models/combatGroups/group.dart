@@ -73,17 +73,26 @@ class Group extends ChangeNotifier {
     notifyListeners();
   }
 
-  void _addUnit(Unit unit) {
+  Validation? _addUnit(Unit unit) {
+    if (_units.contains(unit)) {
+      return Validation(
+          issue: 'Unit ${unit.name} is alreayd in $groupType in $combatGroup');
+    }
     _units.add(unit
       ..group = this
       ..addListener(() {
         notifyListeners();
       }));
+    return null;
   }
 
   void addUnit(Unit unit) {
-    _addUnit(unit);
-    notifyListeners();
+    final errors = _addUnit(unit);
+    if (errors != null) {
+      print(errors.issue);
+    } else {
+      notifyListeners();
+    }
   }
 
   void removeUnit(int index) {
