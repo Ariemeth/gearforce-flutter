@@ -116,19 +116,9 @@ abstract class RuleSet extends ChangeNotifier {
       }
     }
 
-    // having no role or role type upgrade are always allowed
-    if (_isAlwaysAllowedRole(r)) {
-      return true;
-    }
-
-    // if a null role was not accepted in _isAlwaysAllowedRole, then
-    // it cannot be added
-    if (r == null) {
-      return false;
-    }
-
     // Unit must have the role of the group it is being added.
-    if (!hasGroupRole(unit, targetRole)) {
+    if (!(hasGroupRole(unit, targetRole) ||
+        unit.type == ModelType.AirstrikeCounter)) {
       return false;
     }
 
@@ -168,9 +158,10 @@ abstract class RuleSet extends ChangeNotifier {
   // Check if the role is unlimited
   bool isRoleTypeUnlimited(
       Unit unit, RoleType target, Group group, UnitRoster? ur) {
-    if (unit.role == null || !unit.role!.roles.any((r) => r.name == target)) {
+    if (unit.role == null) {
       return false;
     }
+
     if (unit.role!.roles
         .firstWhere(((role) => role.name == target))
         .unlimited) {
@@ -185,14 +176,21 @@ abstract class RuleSet extends ChangeNotifier {
 
   bool isUnitCountWithinLimits(CombatGroup cg, Group group, Unit unit) {
     // get the number other instances of this unitcore in the group
-    final count =
-        group.allUnits().where((u) => u.core.name == unit.core.name).length;
-
-    // if unit is already part of the group increase the count by 1
-    final maxCount = group.allUnits().contains(unit) ? 2 : 1;
+    var count = 0;
+    var maxCount = 2;
+    if (unit.type == ModelType.AirstrikeCounter) {
+      count = cg.roster == null
+          ? cg.units.where((u) => u.type == ModelType.AirstrikeCounter).length
+          : cg.roster!.totalAirstrikeCounters();
+      maxCount = group.allUnits().contains(unit) ? 5 : 4;
+    } else {
+      count =
+          group.allUnits().where((u) => u.core.name == unit.core.name).length;
+      maxCount = group.allUnits().contains(unit) ? 3 : 2;
+    }
 
     // Can only have a max of 2 non-unlimted units in a group.
-    return count <= maxCount;
+    return count < maxCount;
   }
 
   int maxSecondaryActions(int primaryActions) => (primaryActions / 2).ceil();

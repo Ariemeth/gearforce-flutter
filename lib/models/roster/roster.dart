@@ -6,6 +6,7 @@ import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/factions/sub_faction.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/unit/command.dart';
+import 'package:gearforce/models/unit/model_type.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/validation/validations.dart';
 
@@ -281,6 +282,15 @@ class UnitRoster extends ChangeNotifier {
       }
     }
     return false;
+  }
+
+  int totalAirstrikeCounters() {
+    var total = 0;
+    _combatGroups.forEach((key, cg) {
+      total +=
+          cg.units.where((u) => u.type == ModelType.AirstrikeCounter).length;
+    });
+    return total;
   }
 
   List<Validation> validate(RuleSet ruleset) {
