@@ -561,7 +561,6 @@ class Unit extends ChangeNotifier {
       });
     }
 
-    print('unit validation called');
     if (validationErrors.isNotEmpty) {
       notifyListeners();
     }

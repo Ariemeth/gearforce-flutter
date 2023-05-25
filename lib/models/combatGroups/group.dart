@@ -192,7 +192,7 @@ class Group extends ChangeNotifier {
         }
       });
     }
-    print('group validation called');
+
     return validationErrors;
   }
 

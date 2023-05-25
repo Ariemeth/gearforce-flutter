@@ -186,9 +186,24 @@ class CombatGroup extends ChangeNotifier {
       validationErrors.addAll(pve);
     }
 
-    // TODO validate options
+    final options = roster?.subFaction.value.ruleSet.combatGroupSettings();
+    if (options != null) {
+      // if the new options and current _options are the same size and both contain all the same ids, it is good to go
+      if (!(options.every((o) => _options.any((oe) => oe.id == o.id)) &&
+          options.length == _options.length)) {
+        // Options are not the same
 
-    print('combat group validation called');
+        // remove any options from _options that are not in the updated options
+        _options.removeWhere((o) => !options.any((uo) => uo.id == o.id));
+
+        //add any new options
+        _options.addAll(
+            options.where((ou) => !_options.any((oe) => oe.id == ou.id)));
+      }
+    } else {
+      _options.clear();
+    }
+
     return validationErrors;
   }
 

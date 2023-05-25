@@ -2,7 +2,6 @@ import 'package:flutter/widgets.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/roster/roster.dart';
 
-// TODO look into making this a changenotifier with a state intead of just setting tags
 class Option extends ChangeNotifier {
   Option({
     required this.name,
