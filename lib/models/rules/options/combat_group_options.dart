@@ -29,15 +29,16 @@ bool Function(CombatGroup?, UnitRoster?) onlyOneCG(String id) {
     assert(roster != null);
     assert(combatGroup != null);
 
-    if (roster == null) {
+    if (roster == null || combatGroup == null) {
       return false;
     }
+
     final cgsWithOptionCount =
         roster.getCGs().where((cg) => cg.isOptionEnabled(id)).length;
 
     // Either there is currently no cg with this option or the selected
     // cg already has the option
-    return cgsWithOptionCount == 0 || combatGroup == null
+    return cgsWithOptionCount == 0
         ? true
         : cgsWithOptionCount == 1 && combatGroup.isOptionEnabled(id);
   };

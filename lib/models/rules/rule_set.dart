@@ -102,6 +102,14 @@ abstract class RuleSet extends ChangeNotifier {
     final r = unit.role;
     final targetRole = group.role();
 
+    if (!unit.tags.any((t) => t == coreTag)) {
+      if (!cg.options
+          .where((o) => o.isEnabled)
+          .any((o) => unit.tags.any((t) => t == o.id))) {
+        return false;
+      }
+    }
+
     // having no role or role type upgrade are always allowed
     if (_isAlwaysAllowedRole(r)) {
       return true;

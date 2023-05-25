@@ -5,7 +5,11 @@ import 'package:gearforce/models/rules/options/combat_group_options.dart';
 const int _maxOptionNameLines = 2;
 
 class OptionLine extends StatefulWidget {
-  const OptionLine({super.key, required this.cg, required this.cgOption});
+  const OptionLine({
+    super.key,
+    required this.cg,
+    required this.cgOption,
+  });
   final CombatGroup cg;
   final Option cgOption;
 

@@ -175,25 +175,21 @@ class PeaceRiver extends RuleSet {
       options.add(Option(
           name: pps.ruleSubContractors.name,
           id: pps.ruleSubContractors.id,
-          requirementCheck: onlyOneCG(
-            pps.ruleSubContractors.id,
-          )));
+          requirementCheck: onlyOneCG(pps.ruleSubContractors.id)));
     }
 
     if (FactionRule.isRuleEnabled(factionRules, pps.ruleBadlandsSoup.id)) {
       options.add(Option(
           name: pps.ruleBadlandsSoup.name,
           id: pps.ruleBadlandsSoup.id,
-          requirementCheck: onlyOneCG(
-            pps.ruleBadlandsSoup.id,
-          )));
+          requirementCheck: onlyOneCG(pps.ruleBadlandsSoup.id)));
     }
 
     if (FactionRule.isRuleEnabled(factionRules, poc.ruleMercenaryContract.id)) {
       options.add(Option(
-        name: poc.ruleMercenaryContract.name,
-        id: poc.ruleMercenaryContract.id,
-      ));
+          name: poc.ruleMercenaryContract.name,
+          id: poc.ruleMercenaryContract.id,
+          requirementCheck: onlyOneCG(poc.ruleMercenaryContract.id)));
     }
 
     return options;
