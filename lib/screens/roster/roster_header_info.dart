@@ -8,6 +8,9 @@ import 'package:gearforce/screens/roster/select_subfaction.dart';
 import 'package:gearforce/widgets/display_value.dart';
 import 'package:provider/provider.dart';
 
+const _editableSettingsIcon = Icons.settings_suggest;
+const _settingsIcon = Icons.settings;
+
 class RosterHeaderInfo extends StatelessWidget {
   RosterHeaderInfo({Key? key}) : super(key: key);
 
@@ -117,7 +120,12 @@ class RosterHeaderInfo extends StatelessWidget {
                   roster.subFaction.value.ruleSet.availableFactionRules(), true)
             },
             icon: Icon(
-              Icons.settings,
+              roster.subFaction.value.ruleSet.availableFactionRules().any((r) =>
+                      r.canBeToggled || r.options != null
+                          ? r.options!.any((o) => o.canBeToggled)
+                          : false)
+                  ? _editableSettingsIcon
+                  : _settingsIcon,
               color: Colors.green,
             ),
             splashRadius: 20.0,
@@ -151,7 +159,12 @@ class RosterHeaderInfo extends StatelessWidget {
               )
             },
             icon: Icon(
-              Icons.settings,
+              roster.subFaction.value.ruleSet.availableSubFactionRules().any(
+                      (r) => r.canBeToggled || r.options != null
+                          ? r.options!.any((o) => o.canBeToggled)
+                          : false)
+                  ? _editableSettingsIcon
+                  : _settingsIcon,
               color: Colors.green,
             ),
             splashRadius: 20.0,

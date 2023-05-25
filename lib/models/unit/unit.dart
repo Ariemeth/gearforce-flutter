@@ -106,7 +106,6 @@ class Unit extends ChangeNotifier {
   }
   factory Unit.fromJson(
     dynamic json,
-    //  Data data,
     Faction faction,
     SubFaction subfaction,
     CombatGroup? cg,
@@ -117,8 +116,8 @@ class Unit extends ChangeNotifier {
       core.addAll(
           subfaction.ruleSet.availableUnits(specialUnitFilter: sfilter));
     });
-
-    Unit u = core.firstWhere((unit) => unit.name == json['variant']);
+    final variant = json['variant'] as String;
+    Unit u = core.firstWhere((unit) => unit.core.name == variant);
 
     u._commandLevel = convertToCommand(json['command']);
 

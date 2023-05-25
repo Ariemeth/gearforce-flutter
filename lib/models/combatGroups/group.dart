@@ -45,14 +45,20 @@ class Group extends ChangeNotifier {
     GroupType groupType,
   ) {
     Group g = Group(groupType, role: convertRoleType(json['role'] as String));
+    g.combatGroup = cg;
 
     var decodedUnits = json['units'] as List;
-    decodedUnits
-        .map((e) => Unit.fromJson(e, faction, subfaction, cg, roster))
-        .toList()
-      ..forEach((u) {
-        g._addUnit(u);
-      });
+    try {
+      decodedUnits
+          .map((e) => Unit.fromJson(e, faction, subfaction, cg, roster))
+          .toList()
+        ..forEach((u) {
+          g._addUnit(u);
+        });
+    } on Exception catch (e) {
+      print(
+          'Exception caught while decoding units in $groupType of ${cg.name}: $e');
+    }
 
     return g;
   }
@@ -186,8 +192,9 @@ class Group extends ChangeNotifier {
       tempList.reversed.forEach((u) {
         if (!combatGroup!.roster!.subFaction.value.ruleSet
             .canBeAddedToGroup(u, this, combatGroup!)) {
-          print(
-              '${u.name} no longer can be part of the $groupType of $combatGroup\n');
+          validationErrors.add(Validation(
+              issue:
+                  '${u.name} no longer can be part of the $groupType of $combatGroup'));
           _units.remove(u);
         }
       });

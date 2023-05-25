@@ -104,13 +104,13 @@ class CombatGroup extends ChangeNotifier {
     _resetOptions();
   }
 
-  // TODO export Options to json
   Map<String, dynamic> toJson() => {
         'primary': _primary.toJson(),
         'secondary': _secondary.toJson(),
         'name': '$name',
         'isVet': _isVeteran,
-        //    'tags': _tags,
+        'enabledOptions':
+            _options.where((o) => o.isEnabled).map((o) => o.id).toList(),
       };
 
   factory CombatGroup.fromJson(
@@ -132,10 +132,12 @@ class CombatGroup extends ChangeNotifier {
     cg.primary = p;
     cg.secondary = s;
 
-    // TODO add options to json import
-    // (json['tags'] as List).forEach((tag) {
-    //   cg._tags.add(tag);
-    // });
+    final enabledOptions = json['enabledOptions'] as List;
+    enabledOptions.forEach((optionId) {
+      cg._options
+          .where((oo) => oo.id == optionId)
+          .forEach((o) => o.isEnabled = true);
+    });
 
     return cg;
   }

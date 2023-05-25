@@ -480,7 +480,6 @@ class PeaceRiverFactionMods extends FactionModification {
   /*
     G-SWAT Sniper: One gear with a rifle, per combat group, may purchase the
     Improved Gunnery upgrade for 1 TV each, without being a veteran.
-    TODO: is this needed to be its own faction mod or just part of the ruleset for vet mod check on improved gunnery
   */
   factory PeaceRiverFactionMods.gSWATSniper() {
     final RequirementCheck reqCheck =

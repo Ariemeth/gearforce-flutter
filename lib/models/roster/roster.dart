@@ -36,7 +36,7 @@ class UnitRoster extends ChangeNotifier {
       subFaction.addListener(() {
         // Ensure each combat group is clear
         _combatGroups.forEach((key, value) {
-          value.clear();
+          value.validate(tryFix: true);
         });
 
         subFaction.value.ruleSet.addListener(() {
@@ -76,7 +76,20 @@ class UnitRoster extends ChangeNotifier {
         'player': player,
         'name': name,
         'faction': faction.value.factionType.name,
-        'subfaction': subFaction.value.name,
+        'subfaction': {
+          'name': subFaction.value.name,
+          'enabledRules': subFaction.value.ruleSet
+              .availableSubFactionRules()
+              .where((r) => r.isEnabled)
+              .map((r) => {
+                    'id': r.id,
+                    'options': r.options
+                        ?.where((o) => o.isEnabled)
+                        .map((o) => o.id)
+                        .toList(),
+                  })
+              .toList(),
+        },
         'totalCreated': _totalCreated,
         'cgs': _combatGroups.entries.map((e) => e.value.toJson()).toList(),
         'version': _currentRosterVersion,
@@ -98,16 +111,35 @@ class UnitRoster extends ChangeNotifier {
         print(e);
       }
     }
-    final subFactionName = json['subfaction'] as String?;
+    final subFaction = json['subfaction'];
+    final subFactionName = subFaction['name'] as String?;
     if (subFactionName != null && faction != null) {
       if (ur.faction.value.subFactions
           .any((sub) => sub.name == subFactionName)) {
         ur.subFaction.value = ur.faction.value.subFactions
             .firstWhere((sub) => sub.name == subFactionName);
       }
+      final subRules = subFaction['enabledRules'] as List;
+      subRules.forEach((subRule) {
+        final ruleId = subRule['id'];
+        final rules = ur.subFaction.value.ruleSet.availableSubFactionRules();
+        final rule = rules.where((r) => r.id == ruleId).first;
+        rule.setIsEnabled(true, rules);
+
+        final options = subRule['options'] as List?;
+        options?.forEach((optionRuleId) {
+          final optionRules = rule.options;
+          final optionRule =
+              optionRules?.where((r) => r.id == optionRuleId).first;
+          optionRule?.setIsEnabled(true, optionRules!);
+        });
+      });
     }
 
     ur._combatGroups.clear();
+    ur._isEliteForce =
+        json['isEliteForce'] != null ? json['isEliteForce'] as bool : false;
+    ur._totalCreated = json['totalCreated'] as int;
     var decodedCG = json['cgs'];
     decodedCG
         .map((e) => CombatGroup.fromJson(
@@ -121,9 +153,6 @@ class UnitRoster extends ChangeNotifier {
       ..forEach((element) {
         ur.addCG(element);
       });
-    ur._totalCreated = json['totalCreated'] as int;
-    ur._isEliteForce =
-        json['isEliteForce'] != null ? json['isEliteForce'] as bool : false;
 
     return ur;
   }
