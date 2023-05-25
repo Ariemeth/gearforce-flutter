@@ -156,40 +156,26 @@ class PeaceRiver extends RuleSet {
   }
 
   @override
-  bool canBeAddedToGroup(Unit unit, Group group, CombatGroup cg) {
-    var rule = FactionRule.findRule(factionRules, pps.ruleSubContractors.id);
-    if (rule != null &&
-        rule.isEnabled &&
-        rule.canBeAddedToGroup != null &&
-        rule.canBeAddedToGroup!(unit, group, cg)) {
-      return true;
-    }
-    return super.canBeAddedToGroup(unit, group, cg);
-  }
-
-  @override
-  List<Option> combatGroupSettings() {
-    final List<Option> options = [];
+  List<CombatGroupOption> combatGroupSettings() {
+    final List<CombatGroupOption> options = [];
 
     if (FactionRule.isRuleEnabled(factionRules, pps.ruleSubContractors.id)) {
-      options.add(Option(
-          name: pps.ruleSubContractors.name,
-          id: pps.ruleSubContractors.id,
-          requirementCheck: onlyOneCG(pps.ruleSubContractors.id)));
+      options.add(pps.ruleSubContractors.buidCombatGroupOption());
     }
 
     if (FactionRule.isRuleEnabled(factionRules, pps.ruleBadlandsSoup.id)) {
-      options.add(Option(
-          name: pps.ruleBadlandsSoup.name,
-          id: pps.ruleBadlandsSoup.id,
-          requirementCheck: onlyOneCG(pps.ruleBadlandsSoup.id)));
+      options.add(pps.ruleBadlandsSoup.buidCombatGroupOption());
     }
 
     if (FactionRule.isRuleEnabled(factionRules, poc.ruleMercenaryContract.id)) {
-      options.add(Option(
-          name: poc.ruleMercenaryContract.name,
-          id: poc.ruleMercenaryContract.id,
-          requirementCheck: onlyOneCG(poc.ruleMercenaryContract.id)));
+      options.add(poc.ruleMercenaryContract.buidCombatGroupOption());
+    }
+
+    if (FactionRule.isRuleEnabled(factionRules, prdf.ruleBestMenAndWomen.id)) {
+      options.add(prdf.ruleBestMenAndWomen.buidCombatGroupOption(
+        canBeToggled: false,
+        initialState: true,
+      ));
     }
 
     return options;

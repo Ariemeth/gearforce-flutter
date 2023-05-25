@@ -11,7 +11,7 @@ class OptionLine extends StatefulWidget {
     required this.cgOption,
   });
   final CombatGroup cg;
-  final Option cgOption;
+  final CombatGroupOption cgOption;
 
   @override
   State<OptionLine> createState() => _OptionLineState();
@@ -29,15 +29,15 @@ class _OptionLineState extends State<OptionLine> {
       child: Row(
         children: [
           Checkbox(
-              value: widget.cg.isOptionEnabled(widget.cgOption.id),
-              onChanged:
-                  isAvailable || widget.cg.isOptionEnabled(widget.cgOption.id)
-                      ? (bool? newValue) {
-                          setState(() {
-                            widget.cgOption.isEnabled = newValue!;
-                          });
-                        }
-                      : null),
+              value: widget.cgOption.isEnabled,
+              onChanged: (isAvailable || widget.cgOption.isEnabled) &&
+                      widget.cgOption.canBeToggled
+                  ? (bool? newValue) {
+                      setState(() {
+                        widget.cgOption.isEnabled = newValue!;
+                      });
+                    }
+                  : null),
           Text(
             '${widget.cgOption.name} ',
             style: TextStyle(

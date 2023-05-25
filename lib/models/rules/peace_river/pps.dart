@@ -2,6 +2,7 @@ import 'package:gearforce/data/unit_filter.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/factions/faction_rule.dart';
 import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart';
+import 'package:gearforce/models/rules/options/combat_group_options.dart';
 import 'package:gearforce/models/rules/peace_river/peace_river.dart';
 import 'package:gearforce/models/rules/peace_river/poc.dart' as poc;
 import 'package:gearforce/models/rules/peace_river/prdf.dart' as prdf;
@@ -247,6 +248,7 @@ final ruleExPOC = FactionRule(
 final ruleBadlandsSoup = FactionRule(
     name: _badlandsSoupName,
     id: _ruleBadlandsSoupID,
+    cgCheck: onlyOneCG(_ruleBadlandsSoupID),
     veteranModCheck: (u, cg, {required modID}) {
       switch (modID) {
         case improvedGunneryID:
@@ -266,7 +268,11 @@ final ruleBadlandsSoup = FactionRule(
 final ruleSubContractors = FactionRule(
     name: _ruleSubContractorsName,
     id: _ruleSubContractorsID,
+    cgCheck: onlyOneCG(_ruleSubContractorsID),
     canBeAddedToGroup: (unit, group, cg) {
+      if (unit.armor != null && unit.armor! > 8) {
+        return false;
+      }
       // core unit into a core combatgroup
       if (unit.hasTag(coreTag) && !cg.isOptionEnabled(_ruleSubContractorsID)) {
         return true;

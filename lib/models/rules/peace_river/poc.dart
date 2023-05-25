@@ -6,6 +6,7 @@ import 'package:gearforce/models/mods/factionUpgrades/faction_mod.dart';
 import 'package:gearforce/models/mods/factionUpgrades/peace_river.dart';
 import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart';
 import 'package:gearforce/models/roster/roster.dart';
+import 'package:gearforce/models/rules/options/combat_group_options.dart';
 import 'package:gearforce/models/rules/peace_river/peace_river.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/rules/options/special_unit_filter.dart';
@@ -132,7 +133,11 @@ final ruleGSwatSniper = FactionRule(
 final ruleMercenaryContract = FactionRule(
     name: _ruleMercContractName,
     id: _ruleMercContractID,
+    cgCheck: onlyOneCG(_ruleMercContractID),
     canBeAddedToGroup: (unit, group, cg) {
+      if (unit.armor != null && unit.armor! > 8) {
+        return false;
+      }
       // core unit into a core combatgroup
       if (unit.hasTag(coreTag) && !cg.isOptionEnabled(_ruleMercContractID)) {
         return true;

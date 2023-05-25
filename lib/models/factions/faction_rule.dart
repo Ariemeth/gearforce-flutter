@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
+import 'package:gearforce/models/rules/options/combat_group_options.dart';
 import 'package:gearforce/models/combatGroups/group.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/unit/role.dart';
@@ -14,6 +15,7 @@ class FactionRule extends ChangeNotifier {
     bool isEnabled = true,
     this.canBeToggled = false,
     this.requirementCheck = ruleAlwaysAvailable,
+    this.cgCheck = alwaysTrueCG,
     this.duelistCheck,
     this.veteranModCheck,
     this.modCostOverride,
@@ -43,6 +45,7 @@ class FactionRule extends ChangeNotifier {
   late bool _isEnabled;
   final bool canBeToggled;
   final bool Function(List<FactionRule>) requirementCheck;
+  final bool Function(CombatGroup?, UnitRoster?) cgCheck;
 
   final bool Function(UnitRoster roster, Unit u)? duelistCheck;
   final bool Function(Unit u, CombatGroup cg, {required String modID})?
@@ -74,6 +77,20 @@ class FactionRule extends ChangeNotifier {
     _isEnabled = value;
 
     notifyListeners();
+  }
+
+  CombatGroupOption buidCombatGroupOption({
+    bool canBeToggled = true,
+    bool initialState = false,
+  }) {
+    return CombatGroupOption(
+      this,
+      name: name,
+      id: id,
+      requirementCheck: cgCheck,
+      canBeToggled: canBeToggled,
+      initialState: initialState,
+    );
   }
 
   static bool isRuleEnabled(List<FactionRule> rules, String ruleID) {

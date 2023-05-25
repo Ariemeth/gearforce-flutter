@@ -8,7 +8,7 @@ import 'package:gearforce/widgets/options_section_title.dart';
 
 const double _optionSectionWidth = 400;
 const double _optionSectionHeight = 33;
-const int _maxVisibleOptions = 3;
+const int _maxVisibleOptions = 4;
 const String _optionText = 'Rules Options';
 
 class CombatGroupSettingsDialog extends StatelessWidget {
@@ -89,7 +89,7 @@ class CombatGroupSettingsDialog extends StatelessWidget {
   }
 }
 
-Widget combatGroupOptions(List<Option> options, CombatGroup cg) {
+Widget combatGroupOptions(List<CombatGroupOption> options, CombatGroup cg) {
   if (options.isEmpty) {
     return const Center(
       child: Text(

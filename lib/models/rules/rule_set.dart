@@ -102,10 +102,16 @@ abstract class RuleSet extends ChangeNotifier {
     final r = unit.role;
     final targetRole = group.role();
 
+    final enabledCGOptions = cg.options.where((o) => o.isEnabled);
+    for (var option in enabledCGOptions) {
+      if (option.factionRule.canBeAddedToGroup != null &&
+          !option.factionRule.canBeAddedToGroup!(unit, group, cg)) {
+        return false;
+      }
+    }
+
     if (!unit.tags.any((t) => t == coreTag)) {
-      if (!cg.options
-          .where((o) => o.isEnabled)
-          .any((o) => unit.tags.any((t) => t == o.id))) {
+      if (!enabledCGOptions.any((o) => unit.tags.any((t) => t == o.id))) {
         return false;
       }
     }
@@ -143,7 +149,7 @@ abstract class RuleSet extends ChangeNotifier {
         !unit.traits.any((t) => t.name == 'Conscript');
   }
 
-  List<Option> combatGroupSettings() => [];
+  List<CombatGroupOption> combatGroupSettings() => [];
 
   bool duelistCheck(UnitRoster roster, Unit u) {
     if (u.type != ModelType.Gear) {

@@ -1,19 +1,31 @@
 import 'package:flutter/widgets.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
+import 'package:gearforce/models/factions/faction_rule.dart';
 import 'package:gearforce/models/roster/roster.dart';
 
-class Option extends ChangeNotifier {
-  Option({
+class CombatGroupOption extends ChangeNotifier {
+  CombatGroupOption(
+    this.factionRule, {
     required this.name,
     required this.id,
-    this.requirementCheck = alwaysTrue,
-  });
+    this.requirementCheck = alwaysTrueCG,
+    this.canBeToggled = true,
+    bool initialState = false,
+  }) {
+    _isEnabled = initialState;
+  }
 
   final String name;
   final String id;
-  bool _isEnabled = false;
+  final FactionRule factionRule;
+  final bool canBeToggled;
+
+  late bool _isEnabled;
   bool get isEnabled => _isEnabled;
   set isEnabled(bool newState) {
+    if (!canBeToggled) {
+      return;
+    }
     if (newState != _isEnabled) {
       _isEnabled = newState;
       notifyListeners();
@@ -23,7 +35,7 @@ class Option extends ChangeNotifier {
   final bool Function(CombatGroup?, UnitRoster?) requirementCheck;
 }
 
-bool alwaysTrue(CombatGroup? cg, UnitRoster? r) => true;
+bool alwaysTrueCG(CombatGroup? cg, UnitRoster? r) => true;
 bool Function(CombatGroup?, UnitRoster?) onlyOneCG(String id) {
   return (combatGroup, roster) {
     assert(roster != null);

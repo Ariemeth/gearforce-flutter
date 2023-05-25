@@ -16,10 +16,10 @@ class CombatGroup extends ChangeNotifier {
   final String name;
   bool _isVeteran = false;
   UnitRoster? roster;
-  List<Option> _options = [];
+  List<CombatGroupOption> _options = [];
 
   /// Retrieve the options associated with this [CombatGroup].
-  List<Option> get options => _options.toList();
+  List<CombatGroupOption> get options => _options.toList();
   bool hasOption(String id) => _options.any((o) => o.id == id);
   bool isOptionEnabled(String id) {
     return _options.any((o) => o.id == id) &&
@@ -179,15 +179,6 @@ class CombatGroup extends ChangeNotifier {
   List<Validation> validate({bool tryFix = false}) {
     final List<Validation> validationErrors = [];
 
-    final pve = primary.validate(tryFix: tryFix);
-    if (pve.isNotEmpty) {
-      validationErrors.addAll(pve);
-    }
-    final sve = secondary.validate(tryFix: tryFix);
-    if (sve.isNotEmpty) {
-      validationErrors.addAll(pve);
-    }
-
     final options = roster?.subFaction.value.ruleSet.combatGroupSettings();
     if (options != null) {
       // if the new options and current _options are the same size and both contain all the same ids, it is good to go
@@ -204,6 +195,15 @@ class CombatGroup extends ChangeNotifier {
       }
     } else {
       _options.clear();
+    }
+
+    final pve = primary.validate(tryFix: tryFix);
+    if (pve.isNotEmpty) {
+      validationErrors.addAll(pve);
+    }
+    final sve = secondary.validate(tryFix: tryFix);
+    if (sve.isNotEmpty) {
+      validationErrors.addAll(pve);
     }
 
     return validationErrors;
