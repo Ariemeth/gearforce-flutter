@@ -135,20 +135,7 @@ final ruleMercenaryContract = FactionRule(
     id: _ruleMercContractID,
     cgCheck: onlyOneCG(_ruleMercContractID),
     canBeAddedToGroup: (unit, group, cg) {
-      if (unit.armor != null && unit.armor! > 8) {
-        return false;
-      }
-      // core unit into a core combatgroup
-      if (unit.hasTag(coreTag) && !cg.isOptionEnabled(_ruleMercContractID)) {
-        return true;
-      }
-
-      if (unit.hasTag(_ruleMercContractID) &&
-          cg.isOptionEnabled(_ruleMercContractID)) {
-        return true;
-      }
-
-      return false;
+      return unit.armor == null || (unit.armor != null && unit.armor! <= 8);
     },
     description:
         'One combat group may be made with models from North, South, Peace River, and NuCoal (may include a mix from all four factions) that have an armor of 8 or lower.');
