@@ -1,11 +1,10 @@
-import 'dart:convert';
-import 'package:file_picker_cross/file_picker_cross.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/screens/roster/combatGroup/combat_groups_display.dart';
-import 'package:gearforce/screens/roster/download/download.dart';
+import 'package:gearforce/screens/roster/filehandler/downloader.dart';
+import 'package:gearforce/screens/roster/filehandler/uploader.dart';
 import 'package:gearforce/screens/roster/pdf/pdf.dart';
 import 'package:gearforce/screens/roster/roster_header_info.dart';
 import 'package:gearforce/screens/unitSelector/unit_selection.dart';
@@ -15,7 +14,7 @@ import 'package:url_launcher/url_launcher_string.dart';
 const double _leftPanelWidth = 670.0;
 const double _titleHeight = 40.0;
 const double _menuTitleHeight = 50.0;
-const String _version = '0.40.4';
+const String _version = '0.41.0';
 const String _bugEmailAddress = 'gearforce@metadiversions.com';
 const String _dp9URL = 'https://www.dp9.com/';
 const String _sourceCodeURL = 'https://github.com/Ariemeth/gearforce-flutter';
@@ -108,27 +107,11 @@ class _RosterWidgetState extends State<RosterWidget> {
                 style: TextStyle(fontSize: 16),
               ),
               onTap: () async {
-                final filePicker = FilePickerCross.importFromStorage(
-                    type: FileTypeCross
-                        .custom, // Available: `any`, `audio`, `image`, `video`, `custom`. Note: not available using FDE
-                    fileExtension:
-                        'gf' // Only if FileTypeCross.custom . May be any file extension like `dot`, `ppt,pptx,odp`
-                    );
-                try {
-                  final myFile = await filePicker;
-                  var decodedFile = json.decode(myFile.toString());
-                  var r = UnitRoster.fromJson(decodedFile, data);
+                final loadedRoster = await loadRoster(data);
+                if (loadedRoster != null) {
                   setState(() {
-                    roster.copyFrom(r);
+                    roster.copyFrom(loadedRoster);
                   });
-                } on FormatException catch (e) {
-                  // TODO add notification toast that the file format was invalid
-                  print('Format exception caught : $e');
-                } on Exception catch (e) {
-                  // TODO add notification toast that the file could not be loaded and why
-                  print('exception caught loading file : $e');
-                } catch (e) {
-                  print('error occured decoding safe file : $e');
                 }
                 Navigator.pop(context);
               },
@@ -142,6 +125,7 @@ class _RosterWidgetState extends State<RosterWidget> {
               ),
               onTap: () async {
                 downloadRoster(roster);
+                Navigator.pop(context);
               },
             ),
             ListTile(

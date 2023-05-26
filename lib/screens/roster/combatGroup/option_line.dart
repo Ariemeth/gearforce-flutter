@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
-import 'package:gearforce/models/rules/combat_group_options.dart';
+import 'package:gearforce/models/rules/options/combat_group_options.dart';
 
 const int _maxOptionNameLines = 2;
 
 class OptionLine extends StatefulWidget {
-  const OptionLine({super.key, required this.cg, required this.cgOption});
+  const OptionLine({
+    super.key,
+    required this.cg,
+    required this.cgOption,
+  });
   final CombatGroup cg;
-  final Option cgOption;
+  final CombatGroupOption cgOption;
 
   @override
   State<OptionLine> createState() => _OptionLineState();
@@ -16,7 +20,7 @@ class OptionLine extends StatefulWidget {
 class _OptionLineState extends State<OptionLine> {
   @override
   Widget build(BuildContext context) {
-    final isEnabled =
+    final isAvailable =
         widget.cgOption.requirementCheck(widget.cg, widget.cg.roster);
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
@@ -25,29 +29,53 @@ class _OptionLineState extends State<OptionLine> {
       child: Row(
         children: [
           Checkbox(
-              value: widget.cg.hasTag(widget.cgOption.id),
-              onChanged: isEnabled || widget.cg.hasTag(widget.cgOption.id)
+              value: widget.cgOption.isEnabled,
+              onChanged: (isAvailable || widget.cgOption.isEnabled) &&
+                      widget.cgOption.canBeToggled
                   ? (bool? newValue) {
                       setState(() {
-                        if (newValue!) {
-                          widget.cg.addTag(widget.cgOption.id);
-                        } else {
-                          widget.cg.removeTag(widget.cgOption.id);
-                        }
+                        widget.cgOption.isEnabled = newValue!;
                       });
                     }
                   : null),
-          Text(
-            '${widget.cgOption.name} ',
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-              fontStyle: FontStyle.normal,
-              decoration: isEnabled || widget.cg.hasTag(widget.cgOption.id)
-                  ? null
-                  : TextDecoration.lineThrough,
+          Tooltip(
+            child: Text(
+              '${widget.cgOption.name} ',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                fontStyle: FontStyle.normal,
+                decoration:
+                    isAvailable || widget.cg.isOptionEnabled(widget.cgOption.id)
+                        ? null
+                        : TextDecoration.lineThrough,
+              ),
+              maxLines: _maxOptionNameLines,
             ),
-            maxLines: _maxOptionNameLines,
+            richMessage: WidgetSpan(
+              baseline: TextBaseline.alphabetic,
+              child: Container(
+                constraints: const BoxConstraints(maxWidth: 250.0),
+                child: Text(
+                  widget.cgOption.description != null
+                      ? widget.cgOption.description!
+                      : '',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.normal,
+                    fontStyle: FontStyle.normal,
+                    color: Colors.white,
+                  ),
+                ),
+                padding: EdgeInsets.all(5),
+              ),
+            ),
+            preferBelow: true,
+            waitDuration: Duration(milliseconds: 250),
+            decoration: BoxDecoration(
+              color: Colors.blueGrey,
+              borderRadius: const BorderRadius.all(Radius.circular(4)),
+            ),
           ),
         ],
       ),

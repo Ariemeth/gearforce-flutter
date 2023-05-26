@@ -3,7 +3,7 @@ import 'package:gearforce/models/factions/faction_rule.dart';
 import 'package:gearforce/models/rules/peace_river/peace_river.dart';
 import 'package:gearforce/data/unit_filter.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
-import 'package:gearforce/models/rules/special_unit_filter.dart';
+import 'package:gearforce/models/rules/options/special_unit_filter.dart';
 
 const PRDFSpecialRule1 =
     'Ghost Strike: Models in one combat group using special operations ' +
@@ -96,7 +96,7 @@ final ruleBestMenAndWomen = FactionRule(
   description:
       'One model in each combat group may be selected from the Black Talon model list.',
   isUnitCountWithinLimits: (cg, group, unit) {
-    return cg.units.where((u) => u.hasTag(ruleBestMenAndWomen.id)).length == 0;
+    return cg.units.where((u) => u.hasTag(_ruleBestMenAndWomenID)).length == 0;
   },
 );
 final ruleEliteElements = FactionRule(

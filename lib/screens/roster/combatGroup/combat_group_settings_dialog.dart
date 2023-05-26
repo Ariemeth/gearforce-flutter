@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
-import 'package:gearforce/models/rules/combat_group_options.dart';
+import 'package:gearforce/models/rules/options/combat_group_options.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/screens/roster/combatGroup/delete_combat_group_dialog.dart';
 import 'package:gearforce/screens/roster/combatGroup/option_line.dart';
@@ -8,7 +8,8 @@ import 'package:gearforce/widgets/options_section_title.dart';
 
 const double _optionSectionWidth = 400;
 const double _optionSectionHeight = 33;
-const int _maxVisibleOptions = 3;
+const int _maxVisibleOptions = 4;
+const String _optionText = 'Rules Options';
 
 class CombatGroupSettingsDialog extends StatelessWidget {
   const CombatGroupSettingsDialog({
@@ -22,7 +23,7 @@ class CombatGroupSettingsDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final options = ruleSet.combatGroupSettings();
+    final options = cg.options;
 
     var dialog = SimpleDialog(
       clipBehavior: Clip.antiAlias,
@@ -37,9 +38,7 @@ class CombatGroupSettingsDialog extends StatelessWidget {
               maxLines: 1,
             ),
             Text(''),
-            options.options.isNotEmpty
-                ? combatGroupOptions(options, cg)
-                : Container(),
+            options.isNotEmpty ? combatGroupOptions(options, cg) : Container(),
             Text(''),
             ElevatedButton(
               onPressed: () {
@@ -90,8 +89,8 @@ class CombatGroupSettingsDialog extends StatelessWidget {
   }
 }
 
-Widget combatGroupOptions(CombatGroupOption? cgo, CombatGroup cg) {
-  if (cgo == null || cgo.options.isEmpty) {
+Widget combatGroupOptions(List<CombatGroupOption> options, CombatGroup cg) {
+  if (options.isEmpty) {
     return const Center(
       child: Text(
         'no upgrades available',
@@ -110,25 +109,25 @@ Widget combatGroupOptions(CombatGroupOption? cgo, CombatGroup cg) {
     width: _optionSectionWidth,
     height: _optionSectionHeight +
         _optionSectionHeight *
-            (cgo.options.length > _maxVisibleOptions
+            (options.length > _maxVisibleOptions
                 ? _maxVisibleOptions
-                : cgo.options.length.toDouble()),
+                : options.length.toDouble()),
     child: Column(
       children: [
-        optionsSectionTitle(cgo.name),
+        optionsSectionTitle(_optionText),
         Scrollbar(
           thumbVisibility: true,
           trackVisibility: true,
           controller: _scrollController,
           interactive: true,
           child: ListView.builder(
-            itemCount: cgo.options.length,
+            itemCount: options.length,
             controller: _scrollController,
             shrinkWrap: true,
             itemBuilder: (BuildContext context, int index) {
               return OptionLine(
                 cg: cg,
-                cgOption: cgo.options[index],
+                cgOption: options[index],
               );
             },
           ),

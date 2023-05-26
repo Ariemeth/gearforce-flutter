@@ -26,7 +26,8 @@ class ModificationOption {
         !subOptions!.any((option) => option.text == text)) {
       return null;
     }
-    return subOptions?.firstWhere((option) => option.text == text);
+    return subOptions?.firstWhere((option) => option.text == text,
+        orElse: null);
   }
 
   bool validate() {

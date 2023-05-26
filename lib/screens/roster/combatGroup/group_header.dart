@@ -38,11 +38,7 @@ class GroupHeader extends StatelessWidget {
             .maxSecondaryActions(cg.primary.totalActions());
     final settingsIcon = roster != null &&
             roster?.subFaction.value.ruleSet.combatGroupSettings() != null &&
-            roster!.subFaction.value.ruleSet
-                    .combatGroupSettings()
-                    .options
-                    .length >
-                0
+            roster!.subFaction.value.ruleSet.combatGroupSettings().length > 0
         ? Icons.settings_suggest
         : Icons.settings;
     return Padding(

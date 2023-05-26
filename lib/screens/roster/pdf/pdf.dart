@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 
-import 'package:file_picker_cross/file_picker_cross.dart';
+import 'package:file_selector/file_selector.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/screens/roster/pdf/record_sheet/record_sheet.dart';
 import 'package:gearforce/screens/roster/pdf/unit_cards/unit_cards.dart';
@@ -9,7 +9,6 @@ import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 
 const String _defaultRosterFileName = 'hg-roster';
-const String _downloadFileExtension = 'pdf';
 const String _webURL = 'https://gf.metadiversions.com';
 
 const double _pageMargins = 36.0;
@@ -132,10 +131,18 @@ Future<void> downloadPDF(UnitRoster roster, {required String version}) async {
     version: version,
   );
 
-  var myFile = FilePickerCross(pdf,
-      type: FileTypeCross.custom, fileExtension: _downloadFileExtension);
-  final filename = roster.name == null || roster.name!.isEmpty
-      ? _defaultRosterFileName
-      : roster.name;
-  myFile.exportToStorage(fileName: '$filename.$_downloadFileExtension');
+  final String fileName = '${roster.name ?? _defaultRosterFileName}.pdf';
+  final String? path = await getSavePath(suggestedName: fileName);
+  if (path == null) {
+    // Operation was canceled by the user.
+    return;
+  }
+
+  final XFile textFile = XFile.fromData(
+    pdf,
+    mimeType: 'application/pdf',
+    name: fileName,
+  );
+
+  await textFile.saveTo(path);
 }

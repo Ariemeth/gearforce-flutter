@@ -4,8 +4,11 @@ import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/factions/faction.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/factions/sub_faction.dart';
+import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/unit/command.dart';
+import 'package:gearforce/models/unit/model_type.dart';
 import 'package:gearforce/models/unit/unit.dart';
+import 'package:gearforce/models/validation/validations.dart';
 
 const _currentRosterVersion = 2;
 const _currentRulesVersion = '3.1';
@@ -30,13 +33,23 @@ class UnitRoster extends ChangeNotifier {
       _combatGroups.forEach((key, value) {
         value.clear();
       });
+
       subFaction.addListener(() {
+        // Ensure each combat group is clear
         _combatGroups.forEach((key, value) {
-          value.clear();
+          value.validate(tryFix: true);
+        });
+
+        subFaction.value.ruleSet.addListener(() {
+          _combatGroups.forEach((key, value) {
+            value.validate(tryFix: true);
+          });
+          notifyListeners();
         });
         notifyListeners();
       });
     });
+
     createCG();
   }
 
@@ -47,6 +60,11 @@ class UnitRoster extends ChangeNotifier {
     }
 
     _isEliteForce = newValue;
+
+    _combatGroups.forEach((id, cg) {
+      cg.isEliteForce = newValue;
+    });
+
     notifyListeners();
   }
 
@@ -59,7 +77,20 @@ class UnitRoster extends ChangeNotifier {
         'player': player,
         'name': name,
         'faction': faction.value.factionType.name,
-        'subfaction': subFaction.value.name,
+        'subfaction': {
+          'name': subFaction.value.name,
+          'enabledRules': subFaction.value.ruleSet
+              .availableSubFactionRules()
+              .where((r) => r.isEnabled)
+              .map((r) => {
+                    'id': r.id,
+                    'options': r.options
+                        ?.where((o) => o.isEnabled)
+                        .map((o) => o.id)
+                        .toList(),
+                  })
+              .toList(),
+        },
         'totalCreated': _totalCreated,
         'cgs': _combatGroups.entries.map((e) => e.value.toJson()).toList(),
         'version': _currentRosterVersion,
@@ -81,17 +112,36 @@ class UnitRoster extends ChangeNotifier {
         print(e);
       }
     }
-    final subFactionName = json['subfaction'] as String?;
+    final subFaction = json['subfaction'];
+    final subFactionName = subFaction['name'] as String?;
     if (subFactionName != null && faction != null) {
       if (ur.faction.value.subFactions
           .any((sub) => sub.name == subFactionName)) {
         ur.subFaction.value = ur.faction.value.subFactions
             .firstWhere((sub) => sub.name == subFactionName);
       }
+      final subRules = subFaction['enabledRules'] as List;
+      subRules.forEach((subRule) {
+        final ruleId = subRule['id'];
+        final rules = ur.subFaction.value.ruleSet.availableSubFactionRules();
+        final rule = rules.where((r) => r.id == ruleId).first;
+        rule.setIsEnabled(true, rules);
+
+        final options = subRule['options'] as List?;
+        options?.forEach((optionRuleId) {
+          final optionRules = rule.options;
+          final optionRule =
+              optionRules?.where((r) => r.id == optionRuleId).first;
+          optionRule?.setIsEnabled(true, optionRules!);
+        });
+      });
     }
 
     ur._combatGroups.clear();
-    var decodedCG = json['cgs'] as List;
+    ur._isEliteForce =
+        json['isEliteForce'] != null ? json['isEliteForce'] as bool : false;
+    ur._totalCreated = json['totalCreated'] as int;
+    var decodedCG = json['cgs'];
     decodedCG
         .map((e) => CombatGroup.fromJson(
               e,
@@ -104,9 +154,6 @@ class UnitRoster extends ChangeNotifier {
       ..forEach((element) {
         ur.addCG(element);
       });
-    ur._totalCreated = json['totalCreated'] as int;
-    ur._isEliteForce =
-        json['isEliteForce'] != null ? json['isEliteForce'] as bool : false;
 
     return ur;
   }
@@ -139,6 +186,13 @@ class UnitRoster extends ChangeNotifier {
   }
 
   void removeCG(String name) {
+    // if the cg isn't part of the roster no need to do any more checks
+    if (!_combatGroups.keys.any((key) => key == name)) {
+      return;
+    }
+
+    _combatGroups[name]?.roster = null;
+
     _combatGroups.remove(name);
     if (_activeCG == name) {
       _activeCG = '';
@@ -205,7 +259,7 @@ class UnitRoster extends ChangeNotifier {
   List<Unit> unitsWithMod(String id) {
     List<Unit> listOfUnits = [];
     _combatGroups
-        .forEach((name, cg) => {listOfUnits.addAll(cg.unitsWithMod(id))});
+        .forEach((name, cg) => listOfUnits.addAll(cg.unitsWithMod(id)));
     return listOfUnits;
   }
 
@@ -228,5 +282,26 @@ class UnitRoster extends ChangeNotifier {
       }
     }
     return false;
+  }
+
+  int totalAirstrikeCounters() {
+    var total = 0;
+    _combatGroups.forEach((key, cg) {
+      total +=
+          cg.units.where((u) => u.type == ModelType.AirstrikeCounter).length;
+    });
+    return total;
+  }
+
+  List<Validation> validate(RuleSet ruleset) {
+    final List<Validation> validationErrors = [];
+    print('roster validation called');
+    _combatGroups.forEach((key, cg) {
+      final ve = cg.validate();
+      if (ve.isNotEmpty) {
+        validationErrors.addAll(ve);
+      }
+    });
+    return validationErrors;
   }
 }

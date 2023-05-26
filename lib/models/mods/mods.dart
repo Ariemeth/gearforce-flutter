@@ -96,6 +96,12 @@ Roles Function(Roles) createAddRoleToList(Role newValue) {
   };
 }
 
+Roles Function(Roles) createReplaceRoles(Roles newValue) {
+  return (value) {
+    return newValue;
+  };
+}
+
 List<Trait> Function(List<Trait>) createRemoveTraitFromList(Trait newValue) {
   return (value) {
     var newList = new List<Trait>.from(value);

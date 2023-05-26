@@ -7,6 +7,7 @@ import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/model_type.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
+import 'package:gearforce/models/validation/validations.dart';
 
 const RoleType _defaultRoleType = RoleType.GP;
 
@@ -22,6 +23,7 @@ class Group extends ChangeNotifier {
   RoleType _role = _defaultRoleType;
   final List<Unit> _units = [];
   final GroupType groupType;
+  CombatGroup? combatGroup;
 
   Group(this.groupType, {RoleType role = _defaultRoleType}) {
     this._role = role;
@@ -43,14 +45,20 @@ class Group extends ChangeNotifier {
     GroupType groupType,
   ) {
     Group g = Group(groupType, role: convertRoleType(json['role'] as String));
+    g.combatGroup = cg;
 
     var decodedUnits = json['units'] as List;
-    decodedUnits
-        .map((e) => Unit.fromJson(e, faction, subfaction, cg, roster))
-        .toList()
-      ..forEach((u) {
-        g._addUnit(u);
-      });
+    try {
+      decodedUnits
+          .map((e) => Unit.fromJson(e, faction, subfaction, cg, roster))
+          .toList()
+        ..forEach((u) {
+          g._addUnit(u);
+        });
+    } on Exception catch (e) {
+      print(
+          'Exception caught while decoding units in $groupType of ${cg.name}: $e');
+    }
 
     return g;
   }
@@ -71,20 +79,34 @@ class Group extends ChangeNotifier {
     notifyListeners();
   }
 
-  void _addUnit(Unit unit) {
+  Validation? _addUnit(Unit unit) {
+    if (_units.contains(unit)) {
+      return Validation(
+          issue: 'Unit ${unit.name} is alreayd in $groupType in $combatGroup');
+    }
     _units.add(unit
+      ..group = this
       ..addListener(() {
         notifyListeners();
       }));
+    return null;
   }
 
   void addUnit(Unit unit) {
-    _addUnit(unit);
-    notifyListeners();
+    final errors = _addUnit(unit);
+    if (errors != null) {
+      print(errors.issue);
+    } else {
+      notifyListeners();
+    }
   }
 
   void removeUnit(int index) {
     if (index < _units.length) {
+      _units.elementAt(index).removeListener(() {
+        notifyListeners();
+      });
+      _units.elementAt(index).group = null;
       _units.removeAt(index);
     }
     notifyListeners();
@@ -153,6 +175,32 @@ class Group extends ChangeNotifier {
       }
     }
     return false;
+  }
+
+  List<Validation> validate({bool tryFix = false}) {
+    final List<Validation> validationErrors = [];
+
+    _units.forEach((u) {
+      final ve = u.validate(tryFix: tryFix);
+      if (ve.isNotEmpty) {
+        validationErrors.addAll(ve);
+      }
+    });
+
+    if (combatGroup != null && combatGroup!.roster != null) {
+      final tempList = _units.toList(growable: false);
+      tempList.reversed.forEach((u) {
+        if (!combatGroup!.roster!.subFaction.value.ruleSet
+            .canBeAddedToGroup(u, this, combatGroup!)) {
+          validationErrors.add(Validation(
+              issue:
+                  '${u.name} no longer can be part of the $groupType of $combatGroup'));
+          _units.remove(u);
+        }
+      });
+    }
+
+    return validationErrors;
   }
 
   @override

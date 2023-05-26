@@ -2,11 +2,11 @@ import 'package:gearforce/data/unit_filter.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/factions/faction_rule.dart';
 import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart';
+import 'package:gearforce/models/rules/options/combat_group_options.dart';
 import 'package:gearforce/models/rules/peace_river/peace_river.dart';
 import 'package:gearforce/models/rules/peace_river/poc.dart' as poc;
 import 'package:gearforce/models/rules/peace_river/prdf.dart' as prdf;
-import 'package:gearforce/models/rules/rule_set.dart';
-import 'package:gearforce/models/rules/special_unit_filter.dart';
+import 'package:gearforce/models/rules/options/special_unit_filter.dart';
 
 const String _exPOC = 'Ex-POC';
 const String _exPRDF = 'Ex-PRDF';
@@ -247,6 +247,7 @@ final ruleExPOC = FactionRule(
 final ruleBadlandsSoup = FactionRule(
     name: _badlandsSoupName,
     id: _ruleBadlandsSoupID,
+    cgCheck: onlyOneCG(_ruleBadlandsSoupID),
     veteranModCheck: (u, cg, {required modID}) {
       switch (modID) {
         case improvedGunneryID:
@@ -266,18 +267,9 @@ final ruleBadlandsSoup = FactionRule(
 final ruleSubContractors = FactionRule(
     name: _ruleSubContractorsName,
     id: _ruleSubContractorsID,
+    cgCheck: onlyOneCG(_ruleSubContractorsID),
     canBeAddedToGroup: (unit, group, cg) {
-      // core unit into a core combatgroup
-      if (unit.hasTag(coreTag) && !cg.hasTag(ruleSubContractors.id)) {
-        return true;
-      }
-
-      if (unit.hasTag(ruleSubContractors.id) &&
-          cg.hasTag(ruleSubContractors.id)) {
-        return true;
-      }
-
-      return false;
+      return unit.armor == null || (unit.armor != null && unit.armor! <= 8);
     },
     description:
         'One combat group may be made with models from North, South, Peace River, and NuCoal (may include a mix from all four factions) that have an armor of 8 or lower.');

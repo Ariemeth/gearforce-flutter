@@ -36,9 +36,7 @@ class _FactionRulesLineState extends State<FactionRulesLine> {
                     widget.upgrade.requirementCheck(widget.rules)
                 ? (bool? newValue) {
                     setState(() {
-                      if (widget.upgrade.canBeToggled) {
-                        widget.upgrade.toggleIsEnabled(widget.rules);
-                      }
+                      widget.upgrade.setIsEnabled(newValue!, widget.rules);
                       widget.notifyParent();
                     });
                   }

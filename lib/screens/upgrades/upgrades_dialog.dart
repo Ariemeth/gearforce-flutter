@@ -47,24 +47,34 @@ class UpgradesDialog extends StatelessWidget {
     unit.getMods().forEach((mod) {
       switch (mod.modType) {
         case ModificationType.unit:
-          unitMods[unitMods.indexWhere((m) => m.id == mod.id)] =
-              mod as UnitModification;
+          final modIndex = unitMods.indexWhere((m) => m.id == mod.id);
+          if (modIndex >= 0) {
+            unitMods[modIndex] = mod as UnitModification;
+          }
           break;
         case ModificationType.standard:
-          standardMods[standardMods.indexWhere((m) => m.id == mod.id)] =
-              mod as StandardModification;
+          final modIndex = standardMods.indexWhere((m) => m.id == mod.id);
+          if (modIndex >= 0) {
+            standardMods[modIndex] = mod as StandardModification;
+          }
           break;
         case ModificationType.veteran:
-          veteranMods[veteranMods.indexWhere((m) => m.id == mod.id)] =
-              mod as VeteranModification;
+          final modIndex = veteranMods.indexWhere((m) => m.id == mod.id);
+          if (modIndex >= 0) {
+            veteranMods[modIndex] = mod as VeteranModification;
+          }
           break;
         case ModificationType.duelist:
-          duelistMods[duelistMods.indexWhere((m) => m.id == mod.id)] =
-              mod as DuelistModification;
+          final modIndex = duelistMods.indexWhere((m) => m.id == mod.id);
+          if (modIndex >= 0) {
+            duelistMods[modIndex] = mod as DuelistModification;
+          }
           break;
         case ModificationType.faction:
-          factionMods[factionMods.indexWhere((m) => m.id == mod.id)] =
-              mod as FactionModification;
+          final modIndex = factionMods.indexWhere((m) => m.id == mod.id);
+          if (modIndex >= 0) {
+            factionMods[modIndex] = mod as FactionModification;
+          }
           break;
       }
     });

@@ -4,10 +4,11 @@ import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/combatGroups/group.dart';
 import 'package:gearforce/models/factions/faction_rule.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
+import 'package:gearforce/models/mods/duelist/duelist_modification.dart';
 import 'package:gearforce/models/mods/factionUpgrades/faction_mod.dart';
 import 'package:gearforce/models/roster/roster.dart';
-import 'package:gearforce/models/rules/combat_group_options.dart';
-import 'package:gearforce/models/rules/special_unit_filter.dart';
+import 'package:gearforce/models/rules/options/combat_group_options.dart';
+import 'package:gearforce/models/rules/options/special_unit_filter.dart';
 import 'package:gearforce/models/unit/model_type.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
@@ -49,7 +50,7 @@ abstract class RuleSet extends ChangeNotifier {
     _buildCache();
   }
 
-  List<FactionRule> get factionUprades => [
+  List<FactionRule> get factionRules => [
         ...availableFactionRules(),
         ...availableSubFactionRules(),
       ];
@@ -99,22 +100,31 @@ abstract class RuleSet extends ChangeNotifier {
   }
 
   bool canBeAddedToGroup(Unit unit, Group group, CombatGroup cg) {
-    final r = unit.role;
-    final targetRole = group.role();
-
-    // having no role or role type upgrade are always allowed
-    if (_isAlwaysAllowedRole(r)) {
-      return true;
-    }
-
-    // if a null role was not accepted in _isAlwaysAllowedRole, then
-    // it cannot be added
-    if (r == null) {
+    final numIndependentOperator = cg.numUnitsWithMod(independentOperatorId);
+    if (!(numIndependentOperator == 0 ||
+        (numIndependentOperator == 1 && unit.hasMod(independentOperatorId)))) {
       return false;
     }
 
+    final enabledCGOptions = cg.options.where((o) => o.isEnabled);
+    for (var option in enabledCGOptions) {
+      if (option.factionRule.canBeAddedToGroup != null &&
+          !option.factionRule.canBeAddedToGroup!(unit, group, cg)) {
+        return false;
+      }
+    }
+
+    if (!unit.tags.any((t) => t == coreTag)) {
+      if (!enabledCGOptions.any((o) => unit.tags.any((t) => t == o.id))) {
+        return false;
+      }
+    }
+
+    final targetRole = group.role();
+
     // Unit must have the role of the group it is being added.
-    if (!hasGroupRole(unit, targetRole)) {
+    if (!(hasGroupRole(unit, targetRole) ||
+        unit.type == ModelType.AirstrikeCounter)) {
       return false;
     }
 
@@ -135,8 +145,7 @@ abstract class RuleSet extends ChangeNotifier {
         !unit.traits.any((t) => t.name == 'Conscript');
   }
 
-  CombatGroupOption combatGroupSettings() =>
-      CombatGroupOption(name: 'Rule Options', options: []);
+  List<CombatGroupOption> combatGroupSettings() => [];
 
   bool duelistCheck(UnitRoster roster, Unit u) {
     if (u.type != ModelType.Gear) {
@@ -155,9 +164,10 @@ abstract class RuleSet extends ChangeNotifier {
   // Check if the role is unlimited
   bool isRoleTypeUnlimited(
       Unit unit, RoleType target, Group group, UnitRoster? ur) {
-    if (unit.role == null || !unit.role!.roles.any((r) => r.name == target)) {
+    if (unit.role == null) {
       return false;
     }
+
     if (unit.role!.roles
         .firstWhere(((role) => role.name == target))
         .unlimited) {
@@ -168,20 +178,42 @@ abstract class RuleSet extends ChangeNotifier {
   }
 
   bool isRuleEnabled(String ruleName) =>
-      FactionRule.isRuleEnabled(factionUprades, ruleName);
+      FactionRule.isRuleEnabled(factionRules, ruleName);
 
   bool isUnitCountWithinLimits(CombatGroup cg, Group group, Unit unit) {
     // get the number other instances of this unitcore in the group
-    final count =
-        group.allUnits().where((u) => u.core.name == unit.core.name).length;
+    var count = 0;
+    var maxCount = 2;
+    if (unit.type == ModelType.AirstrikeCounter) {
+      count = cg.roster == null
+          ? cg.units.where((u) => u.type == ModelType.AirstrikeCounter).length
+          : cg.roster!.totalAirstrikeCounters();
+      maxCount = group.allUnits().contains(unit) ? 5 : 4;
+    } else {
+      count =
+          group.allUnits().where((u) => u.core.name == unit.core.name).length;
+      maxCount = group.allUnits().contains(unit) ? 3 : 2;
+    }
 
     // Can only have a max of 2 non-unlimted units in a group.
-    return count < 2;
+    return count < maxCount;
   }
 
   int maxSecondaryActions(int primaryActions) => (primaryActions / 2).ceil();
 
   int modCostOverride(int baseCost, String modID, Unit u) => baseCost;
+
+  bool vetCheck(CombatGroup cg, Unit u) {
+    if (u.type == ModelType.Drone ||
+        u.type == ModelType.Terrain ||
+        u.type == ModelType.AreaTerrain ||
+        u.type == ModelType.AirstrikeCounter ||
+        u.traits.any((t) => t.name == "Conscript")) {
+      return false;
+    }
+
+    return cg.isVeteran;
+  }
 
   bool veteranModCheck(Unit u, CombatGroup cg, {required String modID}) {
     return (u.traits.any((trait) => trait.name == 'Vet'));
@@ -204,9 +236,5 @@ abstract class RuleSet extends ChangeNotifier {
         }
       });
     });
-  }
-
-  bool _isAlwaysAllowedRole(Roles? r) {
-    return r == null;
   }
 }

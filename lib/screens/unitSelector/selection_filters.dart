@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gearforce/models/roster/roster.dart';
-import 'package:gearforce/models/rules/special_unit_filter.dart';
+import 'package:gearforce/models/rules/options/special_unit_filter.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:provider/provider.dart';
 
@@ -132,24 +132,20 @@ class SpecialFilterSelector extends StatefulWidget {
 
 class _SpecialFilterSelectorState extends State<SpecialFilterSelector> {
   SpecialUnitFilter? dropdownValue;
-  String cachedFactionName = '';
 
   @override
   Widget build(BuildContext context) {
-    final faction = context.select((UnitRoster roster) => roster.faction.value);
     final subFaction =
         context.select((UnitRoster roster) => roster.subFaction.value);
-    final factionNameToCache = '${faction.name}/${subFaction.name}';
-    final rs = subFaction.ruleSet;
-    rs.addListener(() {
-      setState(() {});
-    });
-    final availableSpecialFilters = rs.availableUnitFilters();
+
+    final availableSpecialFilters = subFaction.ruleSet.availableUnitFilters();
     assert(availableSpecialFilters.length != 0);
 
-    if (cachedFactionName != factionNameToCache) {
-      cachedFactionName = factionNameToCache;
-      dropdownValue = availableSpecialFilters.first;
+    if (!availableSpecialFilters.contains(dropdownValue)) {
+      dropdownValue = availableSpecialFilters
+          .firstWhere((sf) => sf.id == dropdownValue?.id, orElse: () {
+        return availableSpecialFilters.first;
+      });
     }
 
     return DropdownButton<SpecialUnitFilter>(

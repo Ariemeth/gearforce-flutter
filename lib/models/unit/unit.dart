@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
+import 'package:gearforce/models/combatGroups/group.dart';
 import 'package:gearforce/models/factions/faction.dart';
 import 'package:gearforce/models/factions/sub_faction.dart';
 import 'package:gearforce/models/mods/base_modification.dart';
@@ -20,53 +21,80 @@ import 'package:gearforce/models/unit/movement.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
+import 'package:gearforce/models/validation/validations.dart';
 import 'package:gearforce/models/weapons/weapon.dart';
 
+Map<BaseModification, Map<String, dynamic>> _loadOptionsFromJSON(
+    Map<BaseModification, Map<String, dynamic>> modsWithOptionsToLoad,
+    {bool refreshOptions = false}) {
+  /*
+      {
+        "text": "LAC",
+        "selected": null
+      }
+      ////////////////////
+      {
+        "text": "LSG",
+        "selected": {
+          "text": "LCW",
+          "selected": null
+        }
+      }
+      */
+  final Map<BaseModification, Map<String, dynamic>> failedToLoadOptions = {};
+  modsWithOptionsToLoad.forEach((modWithOptions, modOptions) {
+    final selectedOptionText = modOptions['text'];
+    final seletedOptionSelection = modOptions['selected'];
+
+    if (refreshOptions) {
+      modWithOptions = modWithOptions.refreshData();
+    }
+
+    if (selectedOptionText != null) {
+      final selectedOption =
+          modWithOptions.options!.optionByText(selectedOptionText);
+      if (selectedOption != null) {
+        modWithOptions.options!.selectedOption = selectedOption;
+        if (seletedOptionSelection != null) {
+          final subOptionText = seletedOptionSelection['text'];
+          if (subOptionText != null) {
+            final selectedSubOption =
+                selectedOption.optionByText(subOptionText);
+            if (selectedSubOption != null) {
+              selectedOption.selectedOption = selectedSubOption;
+            } else {
+              failedToLoadOptions[modWithOptions] = modOptions;
+              print('was unable to find a sub option that matches the ' +
+                  'selected text value of $subOptionText for mod ' +
+                  '${modWithOptions.id}');
+            }
+          }
+        }
+      } else {
+        failedToLoadOptions[modWithOptions] = modOptions;
+        print('was unable to find an option that matches the selected text' +
+            ' value of $selectedOptionText for mod ${modWithOptions.id}');
+      }
+    }
+  });
+
+  return failedToLoadOptions;
+}
+
 class Unit extends ChangeNotifier {
+  final UnitCore core;
+  Group? group;
+
+  final List<BaseModification> _mods = [];
+
+  final List<String> _tags = [];
+
+  CommandLevel _commandLevel = CommandLevel.none;
+
+  List<String> _special = [];
   Unit({
     required this.core,
   });
-
-  Map<String, dynamic> toJson() {
-    Map<String, List<dynamic>> mods = {};
-    _mods.forEach((mod) {
-      if (mod is UnitModification) {
-        if (mods['unit'] == null) {
-          mods['unit'] = [];
-        }
-        mods['unit']!.add(mod.toJson());
-      } else if (mod is StandardModification) {
-        if (mods['standard'] == null) {
-          mods['standard'] = [];
-        }
-        mods['standard']!.add(mod.toJson());
-      } else if (mod is VeteranModification) {
-        if (mods['vet'] == null) {
-          mods['vet'] = [];
-        }
-        mods['vet']!.add(mod.toJson());
-      } else if (mod is DuelistModification) {
-        if (mods['duelist'] == null) {
-          mods['duelist'] = [];
-        }
-        mods['duelist']!.add(mod.toJson());
-      } else if (mod is FactionModification) {
-        if (mods['faction'] == null) {
-          mods['faction'] = [];
-        }
-        mods['faction']!.add(mod.toJson());
-      }
-    });
-
-    return {
-      'frame': core.frame,
-      'variant': core.name,
-      'mods': mods,
-      'command': commandLevelString(_commandLevel),
-      'tags': this._tags
-    };
-  }
-
   factory Unit.from(Unit original) {
     final newUnit = Unit(core: original.core);
     newUnit._commandLevel = original._commandLevel;
@@ -76,18 +104,20 @@ class Unit extends ChangeNotifier {
 
     return newUnit;
   }
-
   factory Unit.fromJson(
     dynamic json,
-    //  Data data,
     Faction faction,
     SubFaction subfaction,
     CombatGroup? cg,
     UnitRoster roster,
   ) {
-    final core = subfaction.ruleSet.availableUnits();
-
-    Unit u = core.firstWhere((unit) => unit.name == json['variant']);
+    var core = subfaction.ruleSet.availableUnits();
+    subfaction.ruleSet.availableUnitFilters().forEach((sfilter) {
+      core.addAll(
+          subfaction.ruleSet.availableUnits(specialUnitFilter: sfilter));
+    });
+    final variant = json['variant'] as String;
+    Unit u = core.firstWhere((unit) => unit.core.name == variant);
 
     u._commandLevel = convertToCommand(json['command']);
 
@@ -201,92 +231,18 @@ class Unit extends ChangeNotifier {
       loadAttempts++;
     }
 
-    final tags = json['tags'] as List<String>;
-    tags.forEach((tag) => u._tags.add(tag));
+    final tags = json['tags'] as List;
+    tags.forEach((tag) =>
+        u._tags.any((t) => t.toString() == tag) ? () {} : u._tags.add(tag));
 
     return u;
   }
 
-  final UnitCore core;
-  final List<BaseModification> _mods = [];
-  List<String> get modNames => _mods.map((m) => m.name).toList();
-  List<String> get modNamesWithCost => _mods
-      .map((m) => '${m.name}(${m.applyMods(UnitAttribute.tv, 0)})')
-      .toList();
-
-  final List<String> _tags = [];
-
-  /// Retrieve the tags associated with this [Unit].
-  List<String> get tags => _tags.toList();
-
-  addTag(String tag) {
-    if (!_tags.any((s) => s == tag)) {
-      _tags.add(tag);
-    }
-  }
-
-  removeTag(String tag) {
-    _tags.remove(tag);
-  }
-
-  bool hasTag(String tag) => _tags.any((t) => t == tag);
-  int numTags() => _tags.length;
-
-  CommandLevel _commandLevel = CommandLevel.none;
-  List<String> _special = [];
-
-  CommandLevel get commandLevel => _commandLevel;
-  set commandLevel(CommandLevel cl) {
-    _commandLevel = cl;
-    notifyListeners();
-  }
-
-  bool get isDuelist {
-    return this.traits.any((element) => element.name == 'Duelist');
-  }
-
-  bool isVeteran() {
-    return this.traits.any((element) => element.name == 'Vet');
-  }
-
-  String get name {
-    var value = this.core.name;
-
+  int? get actions {
+    var value = this.core.actions;
     for (var mod in this._mods) {
-      value = mod.applyMods(UnitAttribute.name, value);
+      value = mod.applyMods(UnitAttribute.actions, value);
     }
-
-    return value;
-  }
-
-  int get tv {
-    var value = this.core.tv;
-    value = value + commandTVCost(this._commandLevel);
-
-    for (var mod in this._mods) {
-      value = mod.applyMods(UnitAttribute.tv, value);
-    }
-
-    return value;
-  }
-
-  Roles? get role {
-    var value = this.core.role;
-
-    for (var mod in this._mods) {
-      value = mod.applyMods(UnitAttribute.roles, value);
-    }
-
-    return value;
-  }
-
-  Movement? get movement {
-    var value = this.core.movement;
-
-    for (var mod in this._mods) {
-      value = mod.applyMods(UnitAttribute.movement, value);
-    }
-
     return value;
   }
 
@@ -298,10 +254,17 @@ class Unit extends ChangeNotifier {
     return value;
   }
 
-  int? get actions {
-    var value = this.core.actions;
+  CommandLevel get commandLevel => _commandLevel;
+
+  set commandLevel(CommandLevel cl) {
+    _commandLevel = cl;
+    notifyListeners();
+  }
+
+  int? get ew {
+    var value = this.core.ew;
     for (var mod in this._mods) {
-      value = mod.applyMods(UnitAttribute.actions, value);
+      value = mod.applyMods(UnitAttribute.ew, value);
     }
     return value;
   }
@@ -314,20 +277,8 @@ class Unit extends ChangeNotifier {
     return value;
   }
 
-  int? get piloting {
-    var value = this.core.piloting;
-    for (var mod in this._mods) {
-      value = mod.applyMods(UnitAttribute.piloting, value);
-    }
-    return value;
-  }
-
-  int? get ew {
-    var value = this.core.ew;
-    for (var mod in this._mods) {
-      value = mod.applyMods(UnitAttribute.ew, value);
-    }
-    return value;
+  String get height {
+    return this.core.height;
   }
 
   int? get hull {
@@ -338,16 +289,56 @@ class Unit extends ChangeNotifier {
     return value;
   }
 
-  int? get structure {
-    var value = this.core.structure;
+  bool get isDuelist {
+    return this.traits.any((element) => element.name == 'Duelist');
+  }
+
+  List<String> get modNames => _mods.map((m) => m.name).toList();
+
+  List<String> get modNamesWithCost => _mods
+      .map((m) => '${m.name}(${m.applyMods(UnitAttribute.tv, 0)})')
+      .toList();
+
+  List<Weapon> get mountedWeapons {
+    var newList = this
+        .core
+        .mountedWeapons
+        .map((weapon) => Weapon.fromWeapon(weapon))
+        .toList();
+
     for (var mod in this._mods) {
-      value = mod.applyMods(UnitAttribute.structure, value);
+      newList = mod.applyMods(UnitAttribute.mounted_weapons, newList);
     }
+
+    return newList;
+  }
+
+  Movement? get movement {
+    var value = this.core.movement;
+
+    for (var mod in this._mods) {
+      value = mod.applyMods(UnitAttribute.movement, value);
+    }
+
     return value;
   }
 
-  List<Weapon> get weapons {
-    return reactWeapons..addAll(mountedWeapons);
+  String get name {
+    var value = this.core.name;
+
+    for (var mod in this._mods) {
+      value = mod.applyMods(UnitAttribute.name, value);
+    }
+
+    return value;
+  }
+
+  int? get piloting {
+    var value = this.core.piloting;
+    for (var mod in this._mods) {
+      value = mod.applyMods(UnitAttribute.piloting, value);
+    }
+    return value;
   }
 
   List<Weapon> get reactWeapons {
@@ -364,19 +355,34 @@ class Unit extends ChangeNotifier {
     return newList;
   }
 
-  List<Weapon> get mountedWeapons {
-    var newList = this
-        .core
-        .mountedWeapons
-        .map((weapon) => Weapon.fromWeapon(weapon))
-        .toList();
+  Roles? get role {
+    var value = this.core.role;
 
     for (var mod in this._mods) {
-      newList = mod.applyMods(UnitAttribute.mounted_weapons, newList);
+      value = mod.applyMods(UnitAttribute.roles, value);
     }
 
-    return newList;
+    return value;
   }
+
+  List<String> get special {
+    var value = this._special.toList();
+    for (var mod in this._mods) {
+      value = mod.applyMods(UnitAttribute.special, value);
+    }
+    return value;
+  }
+
+  int? get structure {
+    var value = this.core.structure;
+    for (var mod in this._mods) {
+      value = mod.applyMods(UnitAttribute.structure, value);
+    }
+    return value;
+  }
+
+  /// Retrieve the tags associated with this [Unit].
+  List<String> get tags => _tags.toList();
 
   List<Trait> get traits {
     var newList =
@@ -389,6 +395,17 @@ class Unit extends ChangeNotifier {
     return newList;
   }
 
+  int get tv {
+    var value = this.core.tv;
+    value = value + commandTVCost(this._commandLevel);
+
+    for (var mod in this._mods) {
+      value = mod.applyMods(UnitAttribute.tv, value);
+    }
+
+    return value;
+  }
+
   ModelType get type {
     var value = this.core.type;
 
@@ -399,16 +416,30 @@ class Unit extends ChangeNotifier {
     return value;
   }
 
-  String get height {
-    return this.core.height;
+  List<Weapon> get weapons {
+    return reactWeapons..addAll(mountedWeapons);
   }
 
-  List<String> get special {
-    var value = this._special.toList();
-    for (var mod in this._mods) {
-      value = mod.applyMods(UnitAttribute.special, value);
+  addTag(String tag) {
+    if (!_tags.any((s) => s == tag)) {
+      _tags.add(tag);
     }
-    return value;
+  }
+
+  void addUnitMod(BaseModification mod) {
+    // Duplicate mods are not allowed on the same unit
+    if (_mods.any((m) => m.id == mod.id)) {
+      return;
+    }
+    _mods.add(mod);
+    _mods.forEach((m) {
+      final updatedMod = m.refreshData();
+      updatedMod.options?.validate();
+      if (updatedMod != m) {
+        _mods[_mods.indexWhere((element) => element.id == updatedMod.id)];
+      }
+    });
+    notifyListeners();
   }
 
   T attribute<T>(
@@ -428,44 +459,20 @@ class Unit extends ChangeNotifier {
     return value;
   }
 
-  void addUnitMod(BaseModification mod) {
-    _mods.add(mod);
-    _mods.forEach((m) {
-      final updatedMod = m.refreshData();
-      updatedMod.options?.validate();
-      if (updatedMod != m) {
-        _mods[_mods.indexWhere((element) => element.id == updatedMod.id)];
-      }
-    });
-    notifyListeners();
-  }
-
-  void removeUnitMod(String id) {
-    _mods.removeWhere((mod) => mod.id == id);
-    if (id == veteranId) {
-      // only remove all vet upgrades if the unit doesn't still have the vet trait
-      if (!traits.any((trait) => trait.name == 'Vet')) {
-        _mods.removeWhere((mod) => mod is VeteranModification);
-      }
-    } else if (id == duelistId) {
-      _mods.removeWhere((mod) => mod is DuelistModification);
-      // if the unit isn't also a vet remove the vet traits
-      if (!traits.any((trait) => trait.name == 'Vet')) {
-        _mods.removeWhere((mod) => mod is VeteranModification);
-      }
-    }
-    _mods.forEach((m) {
-      final updatedMod = m.refreshData();
-      updatedMod.options?.validate();
-      if (updatedMod != m) {
-        _mods[_mods.indexWhere((element) => element.id == updatedMod.id)];
-      }
-    });
+  void clearUnitMods() {
+    _mods.clear();
     notifyListeners();
   }
 
   void forceNotify() {
     notifyListeners();
+  }
+
+  BaseModification? getMod(String id) {
+    if (!this.hasMod(id)) {
+      return null;
+    }
+    return this._mods.firstWhere((mod) => mod.id == id);
   }
 
   List<BaseModification> getMods() {
@@ -477,73 +484,126 @@ class Unit extends ChangeNotifier {
       .where((element) => element.name == id || element.id == id)
       .isNotEmpty;
 
-  BaseModification? getMod(String id) {
-    if (!this.hasMod(id)) {
-      return null;
-    }
-    return this._mods.firstWhere((mod) => mod.id == id);
+  bool hasTag(String tag) => _tags.any((t) => t == tag);
+
+  bool isVeteran() {
+    return this.traits.any((t) => t.name == 'Vet');
   }
+
+  int numTags() => _tags.length;
 
   int numUnitMods() => _mods.length;
-  void clearUnitMods() {
-    _mods.clear();
+
+  removeTag(String tag) {
+    _tags.remove(tag);
+  }
+
+  void removeUnitMod(String id) {
+    _mods.removeWhere((mod) => mod.id == id);
+
+    validate(tryFix: true);
     notifyListeners();
   }
-}
 
-Map<BaseModification, Map<String, dynamic>> _loadOptionsFromJSON(
-    Map<BaseModification, Map<String, dynamic>> modsWithOptionsToLoad,
-    {bool refreshOptions = false}) {
-  /*
-      {
-        "text": "LAC",
-        "selected": null
-      }
-      ////////////////////
-      {
-        "text": "LSG",
-        "selected": {
-          "text": "LCW",
-          "selected": null
-        }
-      }
-      */
-  final Map<BaseModification, Map<String, dynamic>> failedToLoadOptions = {};
-  modsWithOptionsToLoad.forEach((modWithOptions, modOptions) {
-    final selectedOptionText = modOptions['text'];
-    final seletedOptionSelection = modOptions['selected'];
-
-    if (refreshOptions) {
-      modWithOptions = modWithOptions.refreshData();
+  List<Validation> validate({bool tryFix = false}) {
+    List<Validation> validationErrors = [];
+    final g = this.group;
+    if (g == null) {
+      validationErrors.add(Validation(issue: "Unit does not have a group"));
+    }
+    final cg = group?.combatGroup;
+    if (cg == null) {
+      validationErrors
+          .add(Validation(issue: "Unit does not have a combat group"));
+    }
+    final roster = cg?.roster;
+    if (roster == null) {
+      validationErrors.add(Validation(issue: "Unit does not have a roster"));
     }
 
-    if (selectedOptionText != null) {
-      final selectedOption =
-          modWithOptions.options!.optionByText(selectedOptionText);
-      if (selectedOption != null) {
-        modWithOptions.options!.selectedOption = selectedOption;
-        if (seletedOptionSelection != null) {
-          final subOptionText = seletedOptionSelection['text'];
-          if (subOptionText != null) {
-            final selectedSubOption =
-                selectedOption.optionByText(subOptionText);
-            if (selectedSubOption != null) {
-              selectedOption.selectedOption = selectedSubOption;
-            } else {
-              failedToLoadOptions[modWithOptions] = modOptions;
-              print('was unable to find a sub option that matches the ' +
-                  'selected text value of $subOptionText for mod ' +
-                  '${modWithOptions.id}');
-            }
-          }
-        }
-      } else {
-        failedToLoadOptions[modWithOptions] = modOptions;
-        print('was unable to find an option that matches the selected text' +
-            ' value of $selectedOptionText for mod ${modWithOptions.id}');
-      }
+    if (validationErrors.isNotEmpty) {
+      print('Validation errors found validating $name, $validationErrors');
+      return validationErrors;
     }
-  });
 
-  return failedToLoadOptions;
+    if (tryFix) {
+      _mods.removeWhere((mod) {
+        return !mod.requirementCheck(
+          roster!.subFaction.value.ruleSet,
+          roster,
+          cg,
+          this,
+        );
+      });
+
+      _mods.forEach((m) {
+        final updatedMod = m.refreshData();
+        updatedMod.options?.validate();
+        if (updatedMod != m) {
+          print('replacing mod ${m.id}\n');
+          _mods[_mods.indexWhere((mod) => mod.id == updatedMod.id)];
+        }
+      });
+      notifyListeners();
+    } else {
+      _mods.forEach((mod) {
+        if (!mod.requirementCheck(
+          roster!.subFaction.value.ruleSet,
+          roster,
+          cg,
+          this,
+        )) {
+          validationErrors.add(Validation(
+              issue:
+                  'mod ${mod.id} does not met its requirement check during validation'));
+        }
+      });
+    }
+
+    if (validationErrors.isNotEmpty) {
+      notifyListeners();
+    }
+
+    return validationErrors;
+  }
+
+  Map<String, dynamic> toJson() {
+    Map<String, List<dynamic>> mods = {};
+    _mods.forEach((mod) {
+      if (mod is UnitModification) {
+        if (mods['unit'] == null) {
+          mods['unit'] = [];
+        }
+        mods['unit']!.add(mod.toJson());
+      } else if (mod is StandardModification) {
+        if (mods['standard'] == null) {
+          mods['standard'] = [];
+        }
+        mods['standard']!.add(mod.toJson());
+      } else if (mod is VeteranModification) {
+        if (mods['vet'] == null) {
+          mods['vet'] = [];
+        }
+        mods['vet']!.add(mod.toJson());
+      } else if (mod is DuelistModification) {
+        if (mods['duelist'] == null) {
+          mods['duelist'] = [];
+        }
+        mods['duelist']!.add(mod.toJson());
+      } else if (mod is FactionModification) {
+        if (mods['faction'] == null) {
+          mods['faction'] = [];
+        }
+        mods['faction']!.add(mod.toJson());
+      }
+    });
+
+    return {
+      'frame': core.frame,
+      'variant': core.name,
+      'mods': mods,
+      'command': commandLevelString(_commandLevel),
+      'tags': this._tags
+    };
+  }
 }
