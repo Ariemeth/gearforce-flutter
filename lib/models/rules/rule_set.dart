@@ -99,7 +99,6 @@ abstract class RuleSet extends ChangeNotifier {
   }
 
   bool canBeAddedToGroup(Unit unit, Group group, CombatGroup cg) {
-    final r = unit.role;
     final targetRole = group.role();
 
     final enabledCGOptions = cg.options.where((o) => o.isEnabled);
