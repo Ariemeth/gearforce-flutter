@@ -6,6 +6,7 @@ import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart'
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/traits/trait.dart';
+import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
 import 'package:gearforce/models/weapons/range.dart';
@@ -115,8 +116,12 @@ class DuelistModification extends BaseModification {
 
           assert(cg != null);
 
+          if (cg == null) {
+            return false;
+          }
+
           // The independent operator must be in a CG alone
-          if (cg!.numberOfUnits() > 1) {
+          if (cg.numberOfUnits() > 1) {
             return false;
           }
 
@@ -128,7 +133,19 @@ class DuelistModification extends BaseModification {
         description:
             'Duelist is an Independent Operator and will be the sole ' +
                 'model in a combat group',
-      );
+      )
+      ..addMod(
+          UnitAttribute.roles,
+          createReplaceRoles(Roles(
+            roles: [
+              Role(name: RoleType.FS),
+              Role(name: RoleType.FT),
+              Role(name: RoleType.GP),
+              Role(name: RoleType.RC),
+              Role(name: RoleType.SK),
+              Role(name: RoleType.SO),
+            ],
+          )));
   }
 
 /*

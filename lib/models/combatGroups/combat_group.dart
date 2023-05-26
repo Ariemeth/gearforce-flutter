@@ -163,6 +163,11 @@ class CombatGroup extends ChangeNotifier {
       ..addAll(_secondary.unitsWithMod(id).toList());
   }
 
+  int numUnitsWithMod(String id) {
+    return _primary.unitsWithMod(id).length +
+        _secondary.unitsWithMod(id).length;
+  }
+
   int numberUnitsWithTag(String tag) {
     return unitsWithTag(tag).length;
   }

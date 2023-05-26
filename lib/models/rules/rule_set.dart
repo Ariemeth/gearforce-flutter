@@ -4,6 +4,7 @@ import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/combatGroups/group.dart';
 import 'package:gearforce/models/factions/faction_rule.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
+import 'package:gearforce/models/mods/duelist/duelist_modification.dart';
 import 'package:gearforce/models/mods/factionUpgrades/faction_mod.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/rules/options/combat_group_options.dart';
@@ -99,7 +100,11 @@ abstract class RuleSet extends ChangeNotifier {
   }
 
   bool canBeAddedToGroup(Unit unit, Group group, CombatGroup cg) {
-    final targetRole = group.role();
+    final numIndependentOperator = cg.numUnitsWithMod(independentOperatorId);
+    if (!(numIndependentOperator == 0 ||
+        (numIndependentOperator == 1 && unit.hasMod(independentOperatorId)))) {
+      return false;
+    }
 
     final enabledCGOptions = cg.options.where((o) => o.isEnabled);
     for (var option in enabledCGOptions) {
@@ -114,6 +119,8 @@ abstract class RuleSet extends ChangeNotifier {
         return false;
       }
     }
+
+    final targetRole = group.role();
 
     // Unit must have the role of the group it is being added.
     if (!(hasGroupRole(unit, targetRole) ||
@@ -229,9 +236,5 @@ abstract class RuleSet extends ChangeNotifier {
         }
       });
     });
-  }
-
-  bool _isAlwaysAllowedRole(Roles? r) {
-    return r == null;
   }
 }
