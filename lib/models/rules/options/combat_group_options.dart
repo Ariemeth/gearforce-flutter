@@ -11,6 +11,7 @@ class CombatGroupOption extends ChangeNotifier {
     this.requirementCheck = alwaysTrueCG,
     this.canBeToggled = true,
     bool initialState = false,
+    this.description,
   }) {
     _isEnabled = initialState;
   }
@@ -19,6 +20,7 @@ class CombatGroupOption extends ChangeNotifier {
   final String id;
   final FactionRule factionRule;
   final bool canBeToggled;
+  final String? description;
 
   late bool _isEnabled;
   bool get isEnabled => _isEnabled;

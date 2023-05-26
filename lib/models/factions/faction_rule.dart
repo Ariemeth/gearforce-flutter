@@ -90,6 +90,7 @@ class FactionRule extends ChangeNotifier {
       requirementCheck: cgCheck,
       canBeToggled: canBeToggled,
       initialState: initialState,
+      description: description,
     );
   }
 
