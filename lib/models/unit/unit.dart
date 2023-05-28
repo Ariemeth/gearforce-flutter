@@ -117,9 +117,9 @@ class Unit extends ChangeNotifier {
           subfaction.ruleSet.availableUnits(specialUnitFilter: sfilter));
     });
     final variant = json['variant'] as String;
-    Unit u = core.firstWhere((unit) => unit.core.name == variant);
+    Unit u = Unit.from(core.firstWhere((unit) => unit.core.name == variant));
 
-    u._commandLevel = convertToCommand(json['command']);
+    u._commandLevel = CommandLevel.fromString(json['command']);
 
     Map<BaseModification, Map<String, dynamic>> modsWithOptions = {};
 
@@ -257,7 +257,49 @@ class Unit extends ChangeNotifier {
   CommandLevel get commandLevel => _commandLevel;
 
   set commandLevel(CommandLevel cl) {
+    if (_commandLevel == cl) {
+      return;
+    }
+    switch (cl) {
+      case CommandLevel.none:
+        break;
+      case CommandLevel.cgl:
+        // Only 1 cgl, tfc, co, or xo can exist within a single Combat Group
+        group?.combatGroup?.getUnitWithCommand(CommandLevel.cgl)?.commandLevel =
+            CommandLevel.none;
+        group?.combatGroup?.getUnitWithCommand(CommandLevel.tfc)?.commandLevel =
+            CommandLevel.none;
+        group?.combatGroup?.getUnitWithCommand(CommandLevel.co)?.commandLevel =
+            CommandLevel.none;
+        group?.combatGroup?.getUnitWithCommand(CommandLevel.xo)?.commandLevel =
+            CommandLevel.none;
+        break;
+      case CommandLevel.secic:
+        // only 1 second in command per combat group
+        group?.combatGroup
+            ?.getUnitWithCommand(CommandLevel.secic)
+            ?.commandLevel = CommandLevel.none;
+        break;
+      case CommandLevel.xo:
+      case CommandLevel.co:
+      case CommandLevel.tfc:
+        // only 1 xo, co, tfc per task force
+        group?.combatGroup?.roster?.getFirstUnitWithCommand(cl)?.commandLevel =
+            CommandLevel.cgl;
+        // only 1 of xo, co, tfc, or cgl per combat group
+        group?.combatGroup?.getUnitWithCommand(CommandLevel.cgl)?.commandLevel =
+            CommandLevel.none;
+        group?.combatGroup?.getUnitWithCommand(CommandLevel.tfc)?.commandLevel =
+            CommandLevel.none;
+        group?.combatGroup?.getUnitWithCommand(CommandLevel.co)?.commandLevel =
+            CommandLevel.none;
+        group?.combatGroup?.getUnitWithCommand(CommandLevel.xo)?.commandLevel =
+            CommandLevel.none;
+        break;
+    }
+
     _commandLevel = cl;
+
     notifyListeners();
   }
 
@@ -397,7 +439,9 @@ class Unit extends ChangeNotifier {
 
   int get tv {
     var value = this.core.tv;
-    value = value + commandTVCost(this._commandLevel);
+    value += group?.combatGroup?.roster?.subFaction.value.ruleSet
+            .commandTVCost(_commandLevel) ??
+        0;
 
     for (var mod in this._mods) {
       value = mod.applyMods(UnitAttribute.tv, value);
@@ -602,7 +646,7 @@ class Unit extends ChangeNotifier {
       'frame': core.frame,
       'variant': core.name,
       'mods': mods,
-      'command': commandLevelString(_commandLevel),
+      'command': _commandLevel.name,
       'tags': this._tags
     };
   }
