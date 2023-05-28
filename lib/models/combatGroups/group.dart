@@ -66,14 +66,14 @@ class Group extends ChangeNotifier {
   RoleType role() => _role;
 
   void changeRole(RoleType role) {
-    if (role == this._role) {
+    if (role == _role) {
       return;
     }
 
-    this._role = role;
+    _role = role;
 
     _units.removeWhere((unit) {
-      return !unit.role!.includesRole([this._role]);
+      return !unit.role!.includesRole([_role]);
     });
 
     notifyListeners();
@@ -82,8 +82,9 @@ class Group extends ChangeNotifier {
   Validation? _addUnit(Unit unit) {
     if (_units.contains(unit)) {
       return Validation(
-          issue: 'Unit ${unit.name} is alreayd in $groupType in $combatGroup');
+          issue: 'Unit ${unit.name} is already in $groupType in $combatGroup');
     }
+
     _units.add(unit
       ..group = this
       ..addListener(() {
@@ -132,7 +133,7 @@ class Group extends ChangeNotifier {
   }
 
   List<Unit> unitsWithMod(String id) {
-    return this._units.where((unit) => unit.hasMod(id)).toList();
+    return _units.where((unit) => unit.hasMod(id)).toList();
   }
 
   int tagCount(String tag) {
@@ -140,18 +141,18 @@ class Group extends ChangeNotifier {
   }
 
   List<Unit> unitsWithTag(String tag) {
-    return this._units.where((unit) => unit.hasTag(tag)).toList();
+    return _units.where((unit) => unit.hasTag(tag)).toList();
   }
 
   void reset() {
-    this._role = _defaultRoleType;
-    this._units.clear();
+    _role = _defaultRoleType;
+    _units.clear();
     notifyListeners();
   }
 
   int totalTV() {
     var total = 0;
-    this._units.forEach((u) {
+    _units.forEach((u) {
       total += u.tv;
     });
 
@@ -160,21 +161,14 @@ class Group extends ChangeNotifier {
 
   int totalActions() {
     var total = 0;
-    this._units.forEach((u) {
-      if (u.core.type != ModelType.Drone) {
-        total += u.actions ?? 0;
-      }
+    _units.where((u) => u.core.type != ModelType.Drone).forEach((u) {
+      total += u.actions ?? 0;
     });
     return total;
   }
 
   bool hasDuelist() {
-    for (final u in _units) {
-      if (u.isDuelist) {
-        return true;
-      }
-    }
-    return false;
+    return _units.any((u) => u.isDuelist);
   }
 
   List<Validation> validate({bool tryFix = false}) {

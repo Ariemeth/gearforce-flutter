@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/combatGroups/group.dart';
-import 'package:gearforce/models/mods/duelist/duelist_modification.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/unit/command.dart';
@@ -216,9 +215,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
                 padding: const EdgeInsets.fromLTRB(15, 5, 15, 5),
                 child: Center(
                   child: DropdownButton<String>(
-                    value: canBeCommand
-                        ? commandLevelString(unit.commandLevel)
-                        : null,
+                    value: canBeCommand ? unit.commandLevel.name : null,
                     hint: Text('Select Command Level'),
                     icon: const Icon(Icons.arrow_downward),
                     iconSize: 16,
@@ -229,104 +226,19 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
                     underline: SizedBox(),
                     onChanged: (String? newValue) {
                       setState(() {
-                        final newCommandLevel = newValue == null
-                            ? CommandLevel.none
-                            : convertToCommand(newValue);
-                        switch (newCommandLevel) {
-                          case CommandLevel.none:
-                            // setting to command level none requires no checks
-                            break;
-                          case CommandLevel.cgl:
-                            final tfc = widget
-                                .getOwnCG()
-                                .getUnitWithCommand(CommandLevel.tfc);
-                            if (tfc != null) {
-                              tfc.commandLevel = CommandLevel.none;
-                            }
-                            final co = widget
-                                .getOwnCG()
-                                .getUnitWithCommand(CommandLevel.co);
-                            if (co != null) {
-                              co.commandLevel = CommandLevel.none;
-                            }
-                            final xo = widget
-                                .getOwnCG()
-                                .getUnitWithCommand(CommandLevel.xo);
-                            if (xo != null) {
-                              xo.commandLevel = CommandLevel.none;
-                            }
-                            final commandUnit = widget
-                                .getOwnCG()
-                                .getUnitWithCommand(newCommandLevel);
-                            if (commandUnit != null) {
-                              commandUnit.commandLevel = CommandLevel.none;
-                            }
-                            break;
-                          case CommandLevel.secic:
-                            final commandUnit = widget
-                                .getOwnCG()
-                                .getUnitWithCommand(newCommandLevel);
-                            if (commandUnit != null) {
-                              commandUnit.commandLevel = CommandLevel.none;
-                            }
-                            break;
-                          case CommandLevel.xo:
-                          case CommandLevel.co:
-                          case CommandLevel.tfc:
-                            // only 1 of xo, co, or tfc per combat group
-                            final tfc = widget
-                                .getOwnCG()
-                                .getUnitWithCommand(CommandLevel.tfc);
-                            if (tfc != null) {
-                              tfc.commandLevel = CommandLevel.none;
-                            }
-                            final co = widget
-                                .getOwnCG()
-                                .getUnitWithCommand(CommandLevel.co);
-                            if (co != null) {
-                              co.commandLevel = CommandLevel.none;
-                            }
-                            final xo = widget
-                                .getOwnCG()
-                                .getUnitWithCommand(CommandLevel.xo);
-                            if (xo != null) {
-                              xo.commandLevel = CommandLevel.none;
-                            }
-
-                            // only 1 xo, co, tfc per task force
-                            final prevCommander = widget.roster
-                                .getFirstUnitWithCommand(newCommandLevel);
-                            if (prevCommander != null) {
-                              prevCommander.commandLevel = CommandLevel.cgl;
-                            }
-
-                            // an XO, CO or TFC replaces a CGL
-                            final prevGroupLeader = widget
-                                .getOwnCG()
-                                .getUnitWithCommand(CommandLevel.cgl);
-                            if (prevGroupLeader != null) {
-                              prevGroupLeader.commandLevel = CommandLevel.none;
-                            }
-                            break;
-                        }
-                        unit.commandLevel = newCommandLevel;
+                        unit.commandLevel = CommandLevel.fromString(newValue);
                       });
                     },
                     items: canBeCommand
-                        ? CommandLevel.values.where((element) {
-                            if (unit.hasMod(independentOperatorId) &&
-                                (element == CommandLevel.cgl ||
-                                    element == CommandLevel.secic)) {
-                              return false;
-                            }
-                            return true;
-                          }).map<DropdownMenuItem<String>>(
-                            (CommandLevel value) {
+                        ? ruleSet
+                            .availableCommandLevels(unit)
+                            .map<DropdownMenuItem<String>>(
+                                (CommandLevel value) {
                             return DropdownMenuItem<String>(
-                              value: commandLevelString(value),
+                              value: value.name,
                               child: Center(
                                 child: Text(
-                                  commandLevelString(value),
+                                  value.name,
                                   style: TextStyle(fontSize: 14),
                                 ),
                               ),

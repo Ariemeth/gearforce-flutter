@@ -155,6 +155,8 @@ class UnitRoster extends ChangeNotifier {
         ur.addCG(element);
       });
 
+    ur.validate(ur.subFaction.value.ruleSet);
+
     return ur;
   }
 

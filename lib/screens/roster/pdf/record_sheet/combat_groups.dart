@@ -199,7 +199,7 @@ pw.Widget _buildUnitsContentTable(pw.Font font, List<Unit> units) {
           case 1:
             return '${unit.modNamesWithCost.join(', ')}';
           case 2:
-            return '${unit.commandLevel == CommandLevel.none ? '-' : commandLevelString(unit.commandLevel)}';
+            return '${unit.commandLevel == CommandLevel.none ? '-' : unit.commandLevel.name}';
 
           case 3:
             return '${unit.actions ?? '-'}';
