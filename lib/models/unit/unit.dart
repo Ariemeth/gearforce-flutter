@@ -472,10 +472,7 @@ class Unit extends ChangeNotifier {
   }
 
   int get skillPoints {
-    var sp = 0;
-    traits.where((t) => t.name == "SP").forEach((t) {
-      sp += t.level ?? 0;
-    });
+    var sp = core.attribute(UnitAttribute.sp);
 
     for (var mod in this._mods) {
       sp = mod.applyMods(UnitAttribute.sp, sp);
