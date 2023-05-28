@@ -1,5 +1,6 @@
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/traits/trait.dart';
+import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/weapons/weapon.dart';
 import 'package:gearforce/models/weapons/weapon_modes.dart';
@@ -17,7 +18,7 @@ const double _weaponSectionPadding = 3.0;
 const double _unitCardFooterPadding = 3.0;
 const double _cardHeight = 300.0;
 const double _cardWidth = 250.0;
-const double? _section3Height = 65.0;
+const double? _section3Height = 73.0;
 const double _combatStatsWidth = 50.0;
 const double _secondaryStatsWidth = 80.0;
 const double _hullWidth =
@@ -120,15 +121,28 @@ pw.Widget _buildFirstSection(pw.Font font, Unit u) {
       vertical: _nameRowVerticalPadding,
       horizontal: _nameRowHorizontalPadding,
     ),
-    child: pw.Text(
-      u.name,
-      style: pw.TextStyle(
-        fontSize: _nameFontSize,
-        font: font,
-        fontWeight: pw.FontWeight.bold,
+    child: pw.Row(children: [
+      pw.Expanded(
+        child: pw.Text(
+          u.name,
+          style: pw.TextStyle(
+            fontSize: _nameFontSize,
+            font: font,
+            fontWeight: pw.FontWeight.bold,
+          ),
+          textAlign: pw.TextAlign.center,
+        ),
       ),
-      textAlign: pw.TextAlign.center,
-    ),
+      pw.Text(
+        u.commandLevel != CommandLevel.none ? u.commandLevel.name : '',
+        style: pw.TextStyle(
+          fontSize: _nameFontSize,
+          font: font,
+          fontWeight: pw.FontWeight.bold,
+        ),
+        textAlign: pw.TextAlign.right,
+      ),
+    ]),
     decoration: pw.BoxDecoration(
       border: pw.Border(
         bottom: pw.BorderSide(
@@ -147,9 +161,9 @@ pw.Widget _buildSecondSection(pw.Font font, Unit u) {
       children: [
         pw.Container(
           child: pw.Text(
-            'Roles: ${u.role != null ? u.role!.roles.join(', ') : '-'}',
+            'Role: ${u.group?.role().name}',
             style: pw.TextStyle(fontSize: _standardFontSize),
-            textAlign: pw.TextAlign.center,
+            textAlign: pw.TextAlign.left,
           ),
         ),
         pw.Container(
@@ -233,6 +247,16 @@ pw.Widget _buildFirstStatBlock(pw.Font font, Unit u) {
             pw.Text('Ew:', style: textStyle, textAlign: pw.TextAlign.right),
             pw.Text('${u.ew ?? ' - '}${u.ew != null ? '+' : ''}',
                 style: textStyle, textAlign: pw.TextAlign.right),
+          ],
+        ),
+        pw.TableRow(
+          children: [
+            pw.Text('${u.commandLevel == CommandLevel.none ? 'SP' : 'CP'}:',
+                style: textStyle, textAlign: pw.TextAlign.right),
+            pw.Text(
+                '${u.commandLevel == CommandLevel.none ? u.skillPoints : u.commandPoints}',
+                style: textStyle,
+                textAlign: pw.TextAlign.center),
           ],
         ),
       ],

@@ -136,17 +136,25 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
       ),
       DataColumn(
         label: Container(
-          width: 60,
+          width: 40,
           child: UnitTextCell.columnTitle(
-            'Actions',
+            'Act',
           ),
         ),
       ),
       DataColumn(
         label: Container(
-          width: 120,
+          width: 60,
           child: UnitTextCell.columnTitle(
-            'Command type',
+            'SP/CP',
+          ),
+        ),
+      ),
+      DataColumn(
+        label: Container(
+          width: 92,
+          child: UnitTextCell.columnTitle(
+            'Rank',
           ),
         ),
       ),
@@ -195,58 +203,57 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
     for (var i = 0; i < units.length; i++) {
       var unit = units[i];
       final canBeCommand = ruleSet.canBeCommand(unit);
-      var nameCell = DataCell(UnitTextCell.content(
-        unit.name,
-        alignment: Alignment.centerLeft,
-        textAlignment: TextAlign.left,
-      ));
+      var nameCell = DataCell(
+        UnitTextCell.content(
+          unit.name,
+          alignment: Alignment.centerLeft,
+          textAlignment: TextAlign.left,
+        ),
+      );
 
       var tvCell = DataCell(UnitTextCell.content(unit.tv.toString()));
 
       var actionCell = DataCell(UnitTextCell.content(
           unit.actions == null ? '-' : unit.actions.toString()));
+      var spCell = DataCell(UnitTextCell.content(
+          '${unit.commandLevel == CommandLevel.none ? unit.skillPoints : unit.commandPoints}'));
       var commandCell = DataCell(Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Expanded(
-            child: Container(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(15, 5, 15, 5),
-                child: Center(
-                  child: DropdownButton<String>(
-                    value: canBeCommand ? unit.commandLevel.name : null,
-                    hint: Text('Select Command Level'),
-                    icon: const Icon(Icons.arrow_downward),
-                    iconSize: 16,
-                    elevation: 16,
-                    isExpanded: true,
-                    isDense: true,
-                    style: const TextStyle(color: Colors.blue),
-                    underline: SizedBox(),
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        unit.commandLevel = CommandLevel.fromString(newValue);
-                      });
-                    },
-                    items: canBeCommand
-                        ? ruleSet
-                            .availableCommandLevels(unit)
-                            .map<DropdownMenuItem<String>>(
-                                (CommandLevel value) {
-                            return DropdownMenuItem<String>(
-                              value: value.name,
-                              child: Center(
-                                child: Text(
-                                  value.name,
-                                  style: TextStyle(fontSize: 14),
-                                ),
-                              ),
-                            );
-                          }).toList()
-                        : null,
-                  ),
-                ),
+          Container(
+            child: Center(
+              child: DropdownButton<String>(
+                value: canBeCommand ? unit.commandLevel.name : null,
+                // hint: Text('Select Command Level'),
+                icon: const Icon(Icons.arrow_downward),
+                iconSize: 16,
+                elevation: 16,
+                isExpanded: true,
+                isDense: true,
+                padding: EdgeInsets.all(0.0),
+                style: const TextStyle(color: Colors.blue),
+                underline: SizedBox(),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    unit.commandLevel = CommandLevel.fromString(newValue);
+                  });
+                },
+                items: canBeCommand
+                    ? ruleSet
+                        .availableCommandLevels(unit)
+                        .map<DropdownMenuItem<String>>((CommandLevel value) {
+                        return DropdownMenuItem<String>(
+                          value: value.name,
+                          child: Center(
+                            child: Text(
+                              value.name,
+                              style: TextStyle(fontSize: 14),
+                            ),
+                          ),
+                        );
+                      }).toList()
+                    : null,
               ),
             ),
           ),
@@ -330,6 +337,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
         nameCell,
         tvCell,
         actionCell,
+        spCell,
         commandCell,
         duelistCell,
         veteranCell,

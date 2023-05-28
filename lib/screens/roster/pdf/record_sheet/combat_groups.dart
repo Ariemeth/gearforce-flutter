@@ -16,9 +16,10 @@ const double _primarySecondarySpacing = 10.0;
 const double _tableHeaderHeight = 25.0;
 const double _tableCellHeight = 20.0;
 const double _modelNameColumnWidth = 150.0;
-const double _commandNameColumnWidth = 65.0;
-const double _actionsColumnWidth = 45.0;
-const double _tvColumnWidth = 30;
+const double _commandNameColumnWidth = 35.0;
+const double _actionsColumnWidth = 30.0;
+const double _cpAndSpColumnWidth = 40.0;
+const double _tvColumnWidth = 30.0;
 const double _borderThickness = 0.5;
 const double _cornerRadius = 2.0;
 
@@ -161,8 +162,9 @@ pw.Widget _buildUnitsContentTable(pw.Font font, List<Unit> units) {
   const tableHeaders = [
     'Model',
     'Upgrades',
-    'Command',
-    'Actions',
+    'Rank',
+    'CP/SP',
+    'Act',
     'TV',
   ];
 
@@ -183,6 +185,7 @@ pw.Widget _buildUnitsContentTable(pw.Font font, List<Unit> units) {
       2: pw.Alignment.center,
       3: pw.Alignment.center,
       4: pw.Alignment.center,
+      5: pw.Alignment.center,
     },
     headerStyle: pw.TextStyle(
       //  color: _baseTextColor,
@@ -209,8 +212,9 @@ pw.Widget _buildUnitsContentTable(pw.Font font, List<Unit> units) {
       0: const pw.FixedColumnWidth(_modelNameColumnWidth),
       1: const pw.FlexColumnWidth(2.0),
       2: const pw.FixedColumnWidth(_commandNameColumnWidth),
-      3: const pw.FixedColumnWidth(_actionsColumnWidth),
-      4: const pw.FixedColumnWidth(_tvColumnWidth),
+      3: const pw.FixedColumnWidth(_cpAndSpColumnWidth),
+      4: const pw.FixedColumnWidth(_actionsColumnWidth),
+      5: const pw.FixedColumnWidth(_tvColumnWidth),
     },
     data: List<List<String>>.generate(
       units.length,
@@ -223,10 +227,11 @@ pw.Widget _buildUnitsContentTable(pw.Font font, List<Unit> units) {
             return '${unit.modNamesWithCost.join(', ')}';
           case 2:
             return '${unit.commandLevel == CommandLevel.none ? '-' : unit.commandLevel.name}';
-
           case 3:
-            return '${unit.actions ?? '-'}';
+            return '${unit.commandLevel == CommandLevel.none ? unit.skillPoints : unit.commandPoints}';
           case 4:
+            return '${unit.actions ?? '-'}';
+          case 5:
             return '${unit.tv}';
           default:
             return '';

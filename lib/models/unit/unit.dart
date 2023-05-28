@@ -468,8 +468,24 @@ class Unit extends ChangeNotifier {
     var cp = group?.combatGroup?.roster?.subFaction.value.ruleSet
         .commandCPs(commandLevel);
 
-    // TODO check for any sps a command unit may have and add them here
-    return cp ?? 0;
+    return skillPoints + (cp ?? 0);
+  }
+
+  int get skillPoints {
+    var sp = 0;
+    traits.where((t) => t.name == "SP").forEach((t) {
+      sp += t.level ?? 0;
+    });
+
+    for (var mod in this._mods) {
+      sp = mod.applyMods(UnitAttribute.sp, sp);
+    }
+
+    if (isVeteran()) {
+      sp += 1;
+    }
+
+    return sp;
   }
 
   List<Weapon> get weapons {
