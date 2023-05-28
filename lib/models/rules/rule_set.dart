@@ -136,16 +136,18 @@ abstract class RuleSet extends ChangeNotifier {
       return false;
     }
 
-    final actions = group.totalActions() + (unit.actions ?? 0);
-    final maxAllowedActions = group.groupType == GroupType.Primary
-        ? maxPrimaryActions
-        : maxSecondaryActions(cg.primary.totalActions());
-    if (actions > maxAllowedActions) {
-      print(
-          'Unit ${unit.name} has ${unit.actions} action and cannot be added as it would increase the number of actions beyond the max allowed of $maxAllowedActions');
-      return false;
+    final isUnitAlreadyInGroup = group.allUnits().any((u) => u == unit);
+    if (!isUnitAlreadyInGroup) {
+      final actions = group.totalActions() + (unit.actions ?? 0);
+      final maxAllowedActions = group.groupType == GroupType.Primary
+          ? maxPrimaryActions
+          : maxSecondaryActions(cg.primary.totalActions());
+      if (actions > maxAllowedActions) {
+        print(
+            'Unit ${unit.name} has ${unit.actions} action and cannot be added as it would increase the number of actions beyond the max allowed of $maxAllowedActions');
+        return false;
+      }
     }
-
     // if the unit is unlimited for the groups roletype you can add as many
     // as you want.
     if (isRoleTypeUnlimited(unit, targetRole, group, cg.roster)) {
