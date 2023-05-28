@@ -460,6 +460,18 @@ class Unit extends ChangeNotifier {
     return value;
   }
 
+  int get commandPoints {
+    if (commandLevel == CommandLevel.none) {
+      return 0;
+    }
+
+    var cp = group?.combatGroup?.roster?.subFaction.value.ruleSet
+        .commandCPs(commandLevel);
+
+    // TODO check for any sps a command unit may have and add them here
+    return cp ?? 0;
+  }
+
   List<Weapon> get weapons {
     return reactWeapons..addAll(mountedWeapons);
   }

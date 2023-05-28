@@ -182,6 +182,23 @@ abstract class RuleSet extends ChangeNotifier {
     }
   }
 
+  int commandCPs(CommandLevel cl) {
+    switch (cl) {
+      case CommandLevel.none:
+        return 0;
+      case CommandLevel.cgl:
+        return 1;
+      case CommandLevel.secic:
+        return 1;
+      case CommandLevel.xo:
+        return 1;
+      case CommandLevel.co:
+        return 1;
+      case CommandLevel.tfc:
+        return 1;
+    }
+  }
+
   List<CommandLevel> availableCommandLevels(Unit unit) {
     final results = [CommandLevel.none];
     if (!unit.hasMod(independentOperatorId)) {

@@ -1,8 +1,10 @@
 import 'dart:math';
 
 import 'package:gearforce/models/combatGroups/combat_group.dart';
+import 'package:gearforce/models/combatGroups/group.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/unit/command.dart';
+import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:pdf/widgets.dart' as pw;
 
@@ -38,7 +40,12 @@ pw.Widget _buildCombatGroup(pw.Font font, CombatGroup cg) {
   }
 
   final result = pw.Column(children: [
-    _buildCombatGroupHeader(font, GroupName: cg.name),
+    _buildCombatGroupHeader(
+      font,
+      GroupName: cg.name,
+      groupType: GroupType.Primary,
+      role: cg.primary.role(),
+    ),
     _buildUnitsContent(
       font,
       units: cg.primary.allUnits(),
@@ -49,18 +56,24 @@ pw.Widget _buildCombatGroup(pw.Font font, CombatGroup cg) {
   ]);
 
   if (cg.secondary.allUnits().length > 0) {
-    result.children.add(
+    result.children.addAll([
       pw.Padding(
         padding: pw.EdgeInsets.only(top: _primarySecondarySpacing),
-        child: _buildUnitsContent(
+        child: _buildCombatGroupHeader(
           font,
-          units: cg.secondary.allUnits(),
-          actions: cg.secondary.totalActions(),
-          tv: cg.secondary.totalTV(),
-          groupType: 'Secondary',
+          GroupName: cg.name,
+          groupType: GroupType.Secondary,
+          role: cg.secondary.role(),
         ),
       ),
-    );
+      _buildUnitsContent(
+        font,
+        units: cg.secondary.allUnits(),
+        actions: cg.secondary.totalActions(),
+        tv: cg.secondary.totalTV(),
+        groupType: 'Secondary',
+      ),
+    ]);
   }
 
   return pw.Padding(
@@ -69,7 +82,12 @@ pw.Widget _buildCombatGroup(pw.Font font, CombatGroup cg) {
   );
 }
 
-pw.Widget _buildCombatGroupHeader(pw.Font font, {required String GroupName}) {
+pw.Widget _buildCombatGroupHeader(
+  pw.Font font, {
+  required String GroupName,
+  required GroupType groupType,
+  required RoleType role,
+}) {
   final headerTextStyle = pw.TextStyle(
     font: font,
     fontSize: _headerTextSize,
@@ -82,9 +100,14 @@ pw.Widget _buildCombatGroupHeader(pw.Font font, {required String GroupName}) {
       children: [
         pw.Expanded(
           child: pw.Text(
-            'Combat Group: $GroupName',
+            '$GroupName Combat Group',
             style: headerTextStyle,
+            textAlign: pw.TextAlign.center,
           ),
+        ),
+        pw.Text(
+          'Role: ${role.name}',
+          style: headerTextStyle,
         ),
       ],
     ),
