@@ -19,6 +19,7 @@ enum UnitAttribute {
   react_weapons(List<Weapon>),
   mounted_weapons(List<Weapon>),
   traits(List<Trait>),
+  sp(int),
   type(ModelType),
   height(String),
   special(List<String>);

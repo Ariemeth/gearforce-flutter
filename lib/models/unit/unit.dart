@@ -460,6 +460,31 @@ class Unit extends ChangeNotifier {
     return value;
   }
 
+  int get commandPoints {
+    if (commandLevel == CommandLevel.none) {
+      return 0;
+    }
+
+    var cp = group?.combatGroup?.roster?.subFaction.value.ruleSet
+        .commandCPs(commandLevel);
+
+    return skillPoints + (cp ?? 0);
+  }
+
+  int get skillPoints {
+    var sp = core.attribute(UnitAttribute.sp);
+
+    for (var mod in this._mods) {
+      sp = mod.applyMods(UnitAttribute.sp, sp);
+    }
+
+    if (isVeteran()) {
+      sp += 1;
+    }
+
+    return sp;
+  }
+
   List<Weapon> get weapons {
     return reactWeapons..addAll(mountedWeapons);
   }

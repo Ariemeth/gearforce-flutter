@@ -1,8 +1,10 @@
 import 'dart:math';
 
 import 'package:gearforce/models/combatGroups/combat_group.dart';
+import 'package:gearforce/models/combatGroups/group.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/unit/command.dart';
+import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:pdf/widgets.dart' as pw;
 
@@ -14,9 +16,10 @@ const double _primarySecondarySpacing = 10.0;
 const double _tableHeaderHeight = 25.0;
 const double _tableCellHeight = 20.0;
 const double _modelNameColumnWidth = 150.0;
-const double _commandNameColumnWidth = 65.0;
-const double _actionsColumnWidth = 45.0;
-const double _tvColumnWidth = 30;
+const double _commandNameColumnWidth = 35.0;
+const double _actionsColumnWidth = 30.0;
+const double _cpAndSpColumnWidth = 40.0;
+const double _tvColumnWidth = 30.0;
 const double _borderThickness = 0.5;
 const double _cornerRadius = 2.0;
 
@@ -38,7 +41,12 @@ pw.Widget _buildCombatGroup(pw.Font font, CombatGroup cg) {
   }
 
   final result = pw.Column(children: [
-    _buildCombatGroupHeader(font, GroupName: cg.name),
+    _buildCombatGroupHeader(
+      font,
+      GroupName: cg.name,
+      groupType: GroupType.Primary,
+      role: cg.primary.role(),
+    ),
     _buildUnitsContent(
       font,
       units: cg.primary.allUnits(),
@@ -49,18 +57,24 @@ pw.Widget _buildCombatGroup(pw.Font font, CombatGroup cg) {
   ]);
 
   if (cg.secondary.allUnits().length > 0) {
-    result.children.add(
+    result.children.addAll([
       pw.Padding(
         padding: pw.EdgeInsets.only(top: _primarySecondarySpacing),
-        child: _buildUnitsContent(
+        child: _buildCombatGroupHeader(
           font,
-          units: cg.secondary.allUnits(),
-          actions: cg.secondary.totalActions(),
-          tv: cg.secondary.totalTV(),
-          groupType: 'Secondary',
+          GroupName: cg.name,
+          groupType: GroupType.Secondary,
+          role: cg.secondary.role(),
         ),
       ),
-    );
+      _buildUnitsContent(
+        font,
+        units: cg.secondary.allUnits(),
+        actions: cg.secondary.totalActions(),
+        tv: cg.secondary.totalTV(),
+        groupType: 'Secondary',
+      ),
+    ]);
   }
 
   return pw.Padding(
@@ -69,7 +83,12 @@ pw.Widget _buildCombatGroup(pw.Font font, CombatGroup cg) {
   );
 }
 
-pw.Widget _buildCombatGroupHeader(pw.Font font, {required String GroupName}) {
+pw.Widget _buildCombatGroupHeader(
+  pw.Font font, {
+  required String GroupName,
+  required GroupType groupType,
+  required RoleType role,
+}) {
   final headerTextStyle = pw.TextStyle(
     font: font,
     fontSize: _headerTextSize,
@@ -82,9 +101,14 @@ pw.Widget _buildCombatGroupHeader(pw.Font font, {required String GroupName}) {
       children: [
         pw.Expanded(
           child: pw.Text(
-            'Combat Group: $GroupName',
+            '$GroupName Combat Group',
             style: headerTextStyle,
+            textAlign: pw.TextAlign.center,
           ),
+        ),
+        pw.Text(
+          'Role: ${role.name}',
+          style: headerTextStyle,
         ),
       ],
     ),
@@ -138,8 +162,9 @@ pw.Widget _buildUnitsContentTable(pw.Font font, List<Unit> units) {
   const tableHeaders = [
     'Model',
     'Upgrades',
-    'Command',
-    'Actions',
+    'Rank',
+    'CP/SP',
+    'Act',
     'TV',
   ];
 
@@ -160,6 +185,7 @@ pw.Widget _buildUnitsContentTable(pw.Font font, List<Unit> units) {
       2: pw.Alignment.center,
       3: pw.Alignment.center,
       4: pw.Alignment.center,
+      5: pw.Alignment.center,
     },
     headerStyle: pw.TextStyle(
       //  color: _baseTextColor,
@@ -186,8 +212,9 @@ pw.Widget _buildUnitsContentTable(pw.Font font, List<Unit> units) {
       0: const pw.FixedColumnWidth(_modelNameColumnWidth),
       1: const pw.FlexColumnWidth(2.0),
       2: const pw.FixedColumnWidth(_commandNameColumnWidth),
-      3: const pw.FixedColumnWidth(_actionsColumnWidth),
-      4: const pw.FixedColumnWidth(_tvColumnWidth),
+      3: const pw.FixedColumnWidth(_cpAndSpColumnWidth),
+      4: const pw.FixedColumnWidth(_actionsColumnWidth),
+      5: const pw.FixedColumnWidth(_tvColumnWidth),
     },
     data: List<List<String>>.generate(
       units.length,
@@ -200,10 +227,11 @@ pw.Widget _buildUnitsContentTable(pw.Font font, List<Unit> units) {
             return '${unit.modNamesWithCost.join(', ')}';
           case 2:
             return '${unit.commandLevel == CommandLevel.none ? '-' : unit.commandLevel.name}';
-
           case 3:
-            return '${unit.actions ?? '-'}';
+            return '${unit.commandLevel == CommandLevel.none ? unit.skillPoints : unit.commandPoints}';
           case 4:
+            return '${unit.actions ?? '-'}';
+          case 5:
             return '${unit.tv}';
           default:
             return '';
