@@ -627,7 +627,7 @@
       "name": "Gilgamesh front",
       "variants": [
         {
-          "model": "Forward Body Type A",
+          "model": "Gilgamesh Forward Body Type A",
           "tv": 25,
           "role": "FS",
           "mr": "G:6",
@@ -644,7 +644,7 @@
           "height": 1.5
         },
         {
-          "model": "Forward Body Type B",
+          "model": "Gilgamesh Forward Body Type B",
           "tv": 29,
           "role": "FS",
           "mr": "G:6",
@@ -666,7 +666,7 @@
       "name": "Gilgamesh Rear",
       "variants": [
         {
-          "model": "Rear Body Type A",
+          "model": "Gilgamesh Rear Body Type A",
           "tv": 23,
           "role": "FS",
           "mr": "-",
@@ -683,7 +683,7 @@
           "height": 1.5
         },
         {
-          "model": "Rear Body Type B",
+          "model": "Gilgamesh Rear Body Type B",
           "tv": 26,
           "role": "FS",
           "mr": "-",
@@ -705,7 +705,7 @@
       "name": "Gilgamesh Turret",
       "variants": [
         {
-          "model": "Turret",
+          "model": "Gilgamesh Turret",
           "tv": 30,
           "role": "FS",
           "mr": "-",
@@ -722,7 +722,7 @@
           "height": 2.5
         },
         {
-          "model": "Command Turret",
+          "model": "Gilgamesh Command Turret",
           "tv": 30,
           "role": "FS",
           "mr": "-",
