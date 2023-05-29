@@ -8,11 +8,10 @@ import 'package:gearforce/models/rules/eden/eden.dart';
 import 'package:gearforce/models/rules/north/north.dart';
 import 'package:gearforce/models/rules/nucoal/nucoal.dart';
 import 'package:gearforce/models/rules/peace_river/peace_river.dart';
-import 'package:gearforce/models/rules/peace_river/poc.dart';
-import 'package:gearforce/models/rules/peace_river/pps.dart';
-import 'package:gearforce/models/rules/peace_river/prdf.dart';
 import 'package:gearforce/models/rules/south/south.dart';
 import 'package:gearforce/models/rules/utopia/utopia.dart';
+
+const String _emptySubFactionName = '';
 
 class Faction {
   String get name => this.factionType.name;
@@ -23,7 +22,8 @@ class Faction {
   const Faction(this.factionType, this.subFactions, this.defaultSubFaction);
 
   factory Faction.blackTalons(Data data) {
-    final defaultSub = SubFaction('', ruleSet: BlackTalons(data));
+    final defaultSub =
+        SubFaction('$_emptySubFactionName', ruleSet: BlackTalons(data));
     return Faction(
         FactionType.BlackTalon,
         [
@@ -36,7 +36,8 @@ class Faction {
         defaultSub);
   }
   factory Faction.caprice(Data data) {
-    final defaultSub = SubFaction('', ruleSet: Caprice(data));
+    final defaultSub =
+        SubFaction('$_emptySubFactionName', ruleSet: Caprice(data));
     return Faction(
       FactionType.Caprice,
       [
@@ -49,7 +50,7 @@ class Faction {
     );
   }
   factory Faction.cef(Data data) {
-    final defaultSub = SubFaction('', ruleSet: CEF(data));
+    final defaultSub = SubFaction('$_emptySubFactionName', ruleSet: CEF(data));
     return Faction(
       FactionType.CEF,
       [
@@ -62,7 +63,7 @@ class Faction {
     );
   }
   factory Faction.eden(Data data) {
-    final defaultSub = SubFaction('', ruleSet: Eden(data));
+    final defaultSub = SubFaction('$_emptySubFactionName', ruleSet: Eden(data));
     return Faction(
       FactionType.Eden,
       [
@@ -75,7 +76,8 @@ class Faction {
     );
   }
   factory Faction.north(Data data) {
-    final defaultSub = SubFaction('', ruleSet: North(data));
+    final defaultSub =
+        SubFaction('$_emptySubFactionName', ruleSet: North(data));
     return Faction(
       FactionType.North,
       [
@@ -89,7 +91,8 @@ class Faction {
     );
   }
   factory Faction.nucoal(Data data) {
-    final defaultSub = SubFaction('', ruleSet: Nucoal(data));
+    final defaultSub =
+        SubFaction('$_emptySubFactionName', ruleSet: Nucoal(data));
     return Faction(
       FactionType.NuCoal,
       [
@@ -105,7 +108,8 @@ class Faction {
     );
   }
   factory Faction.peaceRiver(Data data) {
-    final defaultSub = SubFaction('', ruleSet: PeaceRiver(data));
+    final defaultSub =
+        SubFaction('$_emptySubFactionName', ruleSet: PeaceRiver(data));
     return Faction(
       FactionType.PeaceRiver,
       [
@@ -113,16 +117,17 @@ class Faction {
         SubFaction(
           'Peace River Defense Force',
           description: PRDFDescription,
-          ruleSet: PRDF(data),
+          ruleSet: PeaceRiver.PRDF(data),
         ),
-        SubFaction('Peace Officer Corps', ruleSet: POC(data)),
-        SubFaction('Paxton Private Securities', ruleSet: PPS(data)),
+        SubFaction('Peace Officer Corps', ruleSet: PeaceRiver.POC(data)),
+        SubFaction('Paxton Private Securities', ruleSet: PeaceRiver.PPS(data)),
       ],
       defaultSub,
     );
   }
   factory Faction.south(Data data) {
-    final defaultSub = SubFaction('', ruleSet: South(data));
+    final defaultSub =
+        SubFaction('$_emptySubFactionName', ruleSet: South(data));
     return Faction(
       FactionType.South,
       [
@@ -137,7 +142,8 @@ class Faction {
     );
   }
   factory Faction.utopia(Data data) {
-    final defaultSub = SubFaction('', ruleSet: Utopia(data));
+    final defaultSub =
+        SubFaction('$_emptySubFactionName', ruleSet: Utopia(data));
     return Faction(
       FactionType.Utopia,
       [

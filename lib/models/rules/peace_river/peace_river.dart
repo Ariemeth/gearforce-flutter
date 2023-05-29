@@ -1,3 +1,4 @@
+import 'package:gearforce/data/data.dart';
 import 'package:gearforce/data/unit_filter.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/combatGroups/group.dart';
@@ -277,5 +278,15 @@ class PeaceRiver extends RuleSet {
     }
 
     return super.veteranModCheck(u, cg, modID: modID);
+  }
+
+  factory PeaceRiver.POC(Data data) {
+    return poc.POC(data);
+  }
+  factory PeaceRiver.PPS(Data data) {
+    return pps.PPS(data);
+  }
+  factory PeaceRiver.PRDF(Data data) {
+    return prdf.PRDF(data);
   }
 }
