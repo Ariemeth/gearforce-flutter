@@ -65,7 +65,6 @@ class RosterHeaderInfo extends StatelessWidget {
                 print(roster);
               },
               style: TextStyle(fontSize: 16),
-              strutStyle: StrutStyle.disabled,
             ),
           ),
           Container(),

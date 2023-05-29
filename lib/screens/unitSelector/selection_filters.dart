@@ -59,7 +59,6 @@ class SelectionFilters extends StatelessWidget {
                         onFilterChanged(value);
                       },
                       style: TextStyle(fontSize: 16),
-                      strutStyle: StrutStyle.disabled,
                     ),
                   ),
                 )
