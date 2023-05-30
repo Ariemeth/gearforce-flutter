@@ -99,6 +99,7 @@ final ruleSpecialIssue = FactionRule(
   },
   description: 'Greyhounds may be placed in GP, SK, FS, RC or SO units.',
 );
+
 final ruleECMSpecialist = FactionRule(
     name: 'ECM Specialist',
     id: '$_baseRuleId::ecmSpecialist',

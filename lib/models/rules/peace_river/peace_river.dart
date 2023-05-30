@@ -19,44 +19,6 @@ import 'package:gearforce/models/unit/unit.dart';
 
 const String _baseRuleId = 'rule::peaceriver';
 
-final ruleArchitects = FactionRule(
-    name: 'Architects',
-    id: '$_baseRuleId::architects',
-    duelistCheck: (roster, u) {
-      return (u.type == ModelType.Gear || u.type == ModelType.Strider);
-    },
-    description: 'The duelist for this force may use a Peace River strider.');
-
-final ruleCrisisResponders = FactionRule(
-    name: 'Crisis Responders',
-    id: '$_baseRuleId::crisisResponders',
-    isRoleTypeUnlimited: (unit, target, group, roster) {
-      assert(roster != null);
-
-      return roster!.getCGs().any(
-            (cg) => cg.units.any(
-              (u) => u.core == unit.core && u.hasMod(crisisRespondersID),
-            ),
-          );
-    },
-    description:
-        'Any Crusader IV that has been upgraded to a Crusader V may swap their HAC, MSC, MBZ or LFG for a MPA (React) and a Shield for 1 TV. This Crisis Responder variant is unlimited for this force.');
-final ruleEPex = FactionRule(
-    name: 'E-pex',
-    id: '$_baseRuleId::ePex',
-    description:
-        'One Peace River model within each combat group may increase its EW skill by one for 1 TV each.');
-final ruleLaserTech = FactionRule(
-    name: 'Laser Tech',
-    id: '$_baseRuleId::laserTech',
-    description:
-        'Veteran universal infantry and veteran Spitz Monowheels may upgrade their IW, IR or IS for 1 TV each. These weapons receive the Advanced trait.');
-final ruleWarriorElite = FactionRule(
-    name: 'Warrior Elite',
-    id: '$_baseRuleId::warriorElite',
-    description:
-        'Any Warrior IV may be upgraded to a Warrior Elite for 1 TV each. This upgrade gives the Warrior IV a H/S of 4/2, an EW skill of 4+, and the Agile trait.');
-
 /*
   All the models in the Peace River Model List can be used in any of the sub-lists below. There are also models in the
   Universal Model List that may be selected as well.
@@ -290,3 +252,41 @@ class PeaceRiver extends RuleSet {
     return prdf.PRDF(data);
   }
 }
+
+final ruleArchitects = FactionRule(
+    name: 'Architects',
+    id: '$_baseRuleId::architects',
+    duelistCheck: (roster, u) {
+      return (u.type == ModelType.Gear || u.type == ModelType.Strider);
+    },
+    description: 'The duelist for this force may use a Peace River strider.');
+
+final ruleCrisisResponders = FactionRule(
+    name: 'Crisis Responders',
+    id: '$_baseRuleId::crisisResponders',
+    isRoleTypeUnlimited: (unit, target, group, roster) {
+      assert(roster != null);
+
+      return roster!.getCGs().any(
+            (cg) => cg.units.any(
+              (u) => u.core == unit.core && u.hasMod(crisisRespondersID),
+            ),
+          );
+    },
+    description:
+        'Any Crusader IV that has been upgraded to a Crusader V may swap their HAC, MSC, MBZ or LFG for a MPA (React) and a Shield for 1 TV. This Crisis Responder variant is unlimited for this force.');
+final ruleEPex = FactionRule(
+    name: 'E-pex',
+    id: '$_baseRuleId::ePex',
+    description:
+        'One Peace River model within each combat group may increase its EW skill by one for 1 TV each.');
+final ruleLaserTech = FactionRule(
+    name: 'Laser Tech',
+    id: '$_baseRuleId::laserTech',
+    description:
+        'Veteran universal infantry and veteran Spitz Monowheels may upgrade their IW, IR or IS for 1 TV each. These weapons receive the Advanced trait.');
+final ruleWarriorElite = FactionRule(
+    name: 'Warrior Elite',
+    id: '$_baseRuleId::warriorElite',
+    description:
+        'Any Warrior IV may be upgraded to a Warrior Elite for 1 TV each. This upgrade gives the Warrior IV a H/S of 4/2, an EW skill of 4+, and the Agile trait.');
