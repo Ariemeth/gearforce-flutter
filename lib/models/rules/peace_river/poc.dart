@@ -38,7 +38,7 @@ South, Peace River, and NuCoal (may include a mix from all four factions) that h
 an armor of 8 or lower.
 */
 class POC extends PeaceRiver {
-  POC(super.data) {
+  POC(super.data) : super(name: 'Peace Officer Corps') {
     ruleSpecialIssue..addListener(() => notifyListeners());
     ruleECMSpecialist..addListener(() => notifyListeners());
     rulePOCOlTrusty..addListener(() => notifyListeners());

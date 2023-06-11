@@ -23,133 +23,138 @@ class Faction {
 
   factory Faction.blackTalons(Data data) {
     final defaultSub =
-        SubFaction('$_emptySubFactionName', ruleSet: BlackTalons(data));
+        SubFaction(ruleSet: BlackTalons(data, name: '$_emptySubFactionName'));
     return Faction(
         FactionType.BlackTalon,
         [
           defaultSub,
-          SubFaction('Black Talon Recon Team', ruleSet: BlackTalons(data)),
-          SubFaction('Black Talon Insertion Team', ruleSet: BlackTalons(data)),
-          SubFaction('Black Talon Strike Team', ruleSet: BlackTalons(data)),
-          SubFaction('Black Talon Assault Team', ruleSet: BlackTalons(data)),
+          SubFaction(
+              ruleSet: BlackTalons(data, name: 'Black Talon Recon Team')),
+          SubFaction(
+              ruleSet: BlackTalons(data, name: 'Black Talon Insertion Team')),
+          SubFaction(
+              ruleSet: BlackTalons(data, name: 'Black Talon Strike Team')),
+          SubFaction(
+              ruleSet: BlackTalons(data, name: 'Black Talon Assault Team')),
         ],
         defaultSub);
   }
   factory Faction.caprice(Data data) {
     final defaultSub =
-        SubFaction('$_emptySubFactionName', ruleSet: Caprice(data));
+        SubFaction(ruleSet: Caprice(data, name: '$_emptySubFactionName'));
     return Faction(
       FactionType.Caprice,
       [
         defaultSub,
-        SubFaction('Caprice Invasion Detachment', ruleSet: Caprice(data)),
-        SubFaction('Corporate Security Element', ruleSet: Caprice(data)),
-        SubFaction('Liberati Resistance Cell', ruleSet: Caprice(data)),
+        SubFaction(ruleSet: Caprice(data, name: 'Caprice Invasion Detachment')),
+        SubFaction(ruleSet: Caprice(data, name: 'Corporate Security Element')),
+        SubFaction(ruleSet: Caprice(data, name: 'Liberati Resistance Cell')),
       ],
       defaultSub,
     );
   }
   factory Faction.cef(Data data) {
-    final defaultSub = SubFaction('$_emptySubFactionName', ruleSet: CEF(data));
+    final defaultSub =
+        SubFaction(ruleSet: CEF(data, name: '$_emptySubFactionName'));
     return Faction(
       FactionType.CEF,
       [
         defaultSub,
-        SubFaction('CEF Frame Formation', ruleSet: CEF(data)),
-        SubFaction('CEF Tank Formation', ruleSet: CEF(data)),
-        SubFaction('CEF Infantry Formation', ruleSet: CEF(data)),
+        SubFaction(ruleSet: CEF(data, name: 'CEF Frame Formation')),
+        SubFaction(ruleSet: CEF(data, name: 'CEF Tank Formation')),
+        SubFaction(ruleSet: CEF(data, name: 'CEF Infantry Formation')),
       ],
       defaultSub,
     );
   }
   factory Faction.eden(Data data) {
-    final defaultSub = SubFaction('$_emptySubFactionName', ruleSet: Eden(data));
+    final defaultSub =
+        SubFaction(ruleSet: Eden(data, name: '$_emptySubFactionName'));
     return Faction(
       FactionType.Eden,
       [
         defaultSub,
-        SubFaction('Edenite Invasion Force', ruleSet: Eden(data)),
-        SubFaction('Edenite Noble Houses', ruleSet: Eden(data)),
-        SubFaction('Ad-Hoc Edenite Force', ruleSet: Eden(data)),
+        SubFaction(ruleSet: Eden(data, name: 'Edenite Invasion Force')),
+        SubFaction(ruleSet: Eden(data, name: 'Edenite Noble Houses')),
+        SubFaction(ruleSet: Eden(data, name: 'Ad-Hoc Edenite Force')),
       ],
       defaultSub,
     );
   }
   factory Faction.north(Data data) {
     final defaultSub =
-        SubFaction('$_emptySubFactionName', ruleSet: North(data));
+        SubFaction(ruleSet: North(data, name: '$_emptySubFactionName'));
     return Faction(
       FactionType.North,
       [
         defaultSub,
-        SubFaction('Norguard', ruleSet: North(data)),
-        SubFaction('Western Frontier Protectorate', ruleSet: North(data)),
-        SubFaction('United Mercantile Federation', ruleSet: North(data)),
-        SubFaction('Northern Lights Confederacy', ruleSet: North(data)),
+        SubFaction(ruleSet: North(data, name: 'Norguard')),
+        SubFaction(ruleSet: North(data, name: 'Western Frontier Protectorate')),
+        SubFaction(ruleSet: North(data, name: 'United Mercantile Federation')),
+        SubFaction(ruleSet: North(data, name: 'Northern Lights Confederacy')),
       ],
       defaultSub,
     );
   }
   factory Faction.nucoal(Data data) {
     final defaultSub =
-        SubFaction('$_emptySubFactionName', ruleSet: Nucoal(data));
+        SubFaction(ruleSet: Nucoal(data, name: '$_emptySubFactionName'));
     return Faction(
       FactionType.NuCoal,
       [
         defaultSub,
-        SubFaction('NuCoal Self Defense Force', ruleSet: Nucoal(data)),
-        SubFaction('Port Arthur Korps', ruleSet: Nucoal(data)),
-        SubFaction('Humanist Alliance Protection Force', ruleSet: Nucoal(data)),
-        SubFaction('Khayr ad-Dine', ruleSet: Nucoal(data)),
-        SubFaction('Temple Heights', ruleSet: Nucoal(data)),
-        SubFaction('Hardscrabble City-State Armies', ruleSet: Nucoal(data)),
+        SubFaction(ruleSet: Nucoal(data, name: 'NuCoal Self Defense Force')),
+        SubFaction(ruleSet: Nucoal(data, name: 'Port Arthur Korps')),
+        SubFaction(
+            ruleSet: Nucoal(data, name: 'Humanist Alliance Protection Force')),
+        SubFaction(ruleSet: Nucoal(data, name: 'Khayr ad-Dine')),
+        SubFaction(ruleSet: Nucoal(data, name: 'Temple Heights')),
+        SubFaction(
+            ruleSet: Nucoal(data, name: 'Hardscrabble City-State Armies')),
       ],
       defaultSub,
     );
   }
   factory Faction.peaceRiver(Data data) {
     final defaultSub =
-        SubFaction('$_emptySubFactionName', ruleSet: PeaceRiver(data));
+        SubFaction(ruleSet: PeaceRiver(data, name: '$_emptySubFactionName'));
     return Faction(
       FactionType.PeaceRiver,
       [
         defaultSub,
-        SubFaction(
-          'Peace River Defense Force',
-          description: PRDFDescription,
-          ruleSet: PeaceRiver.PRDF(data),
-        ),
-        SubFaction('Peace Officer Corps', ruleSet: PeaceRiver.POC(data)),
-        SubFaction('Paxton Private Securities', ruleSet: PeaceRiver.PPS(data)),
+        SubFaction(ruleSet: PeaceRiver.PRDF(data)),
+        SubFaction(ruleSet: PeaceRiver.POC(data)),
+        SubFaction(ruleSet: PeaceRiver.PPS(data)),
       ],
       defaultSub,
     );
   }
   factory Faction.south(Data data) {
     final defaultSub =
-        SubFaction('$_emptySubFactionName', ruleSet: South(data));
+        SubFaction(ruleSet: South(data, name: '$_emptySubFactionName'));
     return Faction(
       FactionType.South,
       [
         defaultSub,
-        SubFaction('Military Intervention and Counter Insurgency Army',
-            ruleSet: South(data)),
-        SubFaction('Mekong Dominion', ruleSet: South(data)),
-        SubFaction('Eastern Sun Emirates', ruleSet: South(data)),
-        SubFaction('Free Humanist Alliance', ruleSet: South(data)),
+        SubFaction(
+            ruleSet: South(data,
+                name: 'Military Intervention and Counter Insurgency Army')),
+        SubFaction(ruleSet: South(data, name: 'Mekong Dominion')),
+        SubFaction(ruleSet: South(data, name: 'Eastern Sun Emirates')),
+        SubFaction(ruleSet: South(data, name: 'Free Humanist Alliance')),
       ],
       defaultSub,
     );
   }
   factory Faction.utopia(Data data) {
     final defaultSub =
-        SubFaction('$_emptySubFactionName', ruleSet: Utopia(data));
+        SubFaction(ruleSet: Utopia(data, name: '$_emptySubFactionName'));
     return Faction(
       FactionType.Utopia,
       [
         defaultSub,
-        SubFaction('Combined Armiger Force', ruleSet: Utopia(data)),
-        SubFaction('Other Utopian Forces', ruleSet: Utopia(data)),
+        SubFaction(ruleSet: Utopia(data, name: 'Combined Armiger Force')),
+        SubFaction(ruleSet: Utopia(data, name: 'Other Utopian Forces')),
       ],
       defaultSub,
     );
@@ -193,12 +198,3 @@ class Faction {
     return this.subFactions.any((element) => element.name == name);
   }
 }
-
-const PRDFDescription =
-    'To be a soldier in the PRDF is to know a deep and abiding' +
-        'hatred of Earth. CEF agents were responsible for the destruction of' +
-        'Peace River City and countless lives. When this information came to ' +
-        'light, a sleeping beast awoke. PRDF recruitment has never been ' +
-        'better. With the full might of the manufacturing giant of Paxton ' +
-        'Arms behind them, the PRDF is a powerful force to face on the ' +
-        'battlefield.';

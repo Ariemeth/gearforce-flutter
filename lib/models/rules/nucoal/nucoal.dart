@@ -1,3 +1,4 @@
+import 'package:gearforce/data/data.dart';
 import 'package:gearforce/data/unit_filter.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
@@ -11,7 +12,17 @@ import 'package:gearforce/models/unit/unit.dart';
 //const String _baseRuleId = 'rule::nucoal';
 
 class Nucoal extends RuleSet {
-  Nucoal(data) : super(FactionType.NuCoal, data);
+  Nucoal(
+    Data data, {
+    String? description,
+    required String name,
+    List<String>? specialRules,
+  }) : super(
+          FactionType.NuCoal,
+          data,
+          name: name,
+          description: description,
+        );
 
   @override
   List<SpecialUnitFilter> availableUnitFilters() {

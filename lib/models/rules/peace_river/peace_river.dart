@@ -33,8 +33,18 @@ const String _baseRuleId = 'rule::peaceriver';
   * Architects: The duelist for this force may use a Peace River strider.
 */
 class PeaceRiver extends RuleSet {
-  PeaceRiver(data, {specialRules})
-      : super(FactionType.PeaceRiver, data, specialRules: specialRules) {
+  PeaceRiver(
+    Data data, {
+    String? description,
+    required String name,
+    List<String>? specialRules,
+  }) : super(
+          FactionType.PeaceRiver,
+          data,
+          description: description,
+          name: name,
+          specialRules: specialRules,
+        ) {
     ruleEPex..addListener(() => notifyListeners());
     ruleWarriorElite..addListener(() => notifyListeners());
     ruleCrisisResponders..addListener(() => notifyListeners());

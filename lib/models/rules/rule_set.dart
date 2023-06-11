@@ -23,7 +23,12 @@ const _minPrimaryActions = 4;
 const _maxSecondaryActions = 3;
 
 class DefaultRuleSet extends RuleSet {
-  DefaultRuleSet(data) : super(FactionType.Universal, data);
+  DefaultRuleSet(data)
+      : super(
+          FactionType.Universal,
+          data,
+          name: 'Default ruleset',
+        );
 
   @override
   List<FactionModification> availableFactionMods(
@@ -45,14 +50,21 @@ abstract class RuleSet extends ChangeNotifier {
   final List<String>? specialRules;
   final List<Unit> _units = [];
   final FactionType type;
+  late final String? _description;
+  final String name;
 
   RuleSet(
     this.type,
     this.data, {
+    required this.name,
+    String? description,
     this.specialRules = null,
   }) {
+    _description = description;
     _buildCache();
   }
+
+  String? get description => _description;
 
   List<FactionRule> get factionRules => [
         ...availableFactionRules(),

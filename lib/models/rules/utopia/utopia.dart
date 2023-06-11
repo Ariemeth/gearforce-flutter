@@ -1,3 +1,4 @@
+import 'package:gearforce/data/data.dart';
 import 'package:gearforce/data/unit_filter.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
@@ -11,7 +12,17 @@ import 'package:gearforce/models/unit/unit.dart';
 //const String _baseRuleId = 'rule::utopia';
 
 class Utopia extends RuleSet {
-  Utopia(data) : super(FactionType.Utopia, data);
+  Utopia(
+    Data data, {
+    String? description,
+    required String name,
+    List<String>? specialRules,
+  }) : super(
+          FactionType.Utopia,
+          data,
+          name: name,
+          description: description,
+        );
 
   @override
   List<SpecialUnitFilter> availableUnitFilters() {

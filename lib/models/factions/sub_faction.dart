@@ -1,12 +1,10 @@
 import 'package:gearforce/models/rules/rule_set.dart';
 
 class SubFaction {
-  final String name;
-  final String? description;
+  String get name => this.ruleSet.name;
+  String? get description => this.ruleSet.description;
   final RuleSet ruleSet;
-  const SubFaction(
-    this.name, {
-    this.description,
+  const SubFaction({
     required this.ruleSet,
   });
 

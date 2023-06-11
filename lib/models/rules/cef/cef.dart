@@ -1,3 +1,4 @@
+import 'package:gearforce/data/data.dart';
 import 'package:gearforce/data/unit_filter.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
@@ -11,7 +12,17 @@ import 'package:gearforce/models/unit/unit.dart';
 //const String _baseRuleId = 'rule::cef';
 
 class CEF extends RuleSet {
-  CEF(data) : super(FactionType.CEF, data);
+  CEF(
+    Data data, {
+    String? description,
+    required String name,
+    List<String>? specialRules,
+  }) : super(
+          FactionType.CEF,
+          data,
+          name: name,
+          description: description,
+        );
 
   @override
   List<SpecialUnitFilter> availableUnitFilters() {
