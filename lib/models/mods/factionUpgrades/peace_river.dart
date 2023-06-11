@@ -1,5 +1,4 @@
 import 'package:gearforce/models/combatGroups/combat_group.dart';
-import 'package:gearforce/models/factions/faction_rule.dart';
 import 'package:gearforce/models/mods/base_modification.dart';
 import 'package:gearforce/models/mods/factionUpgrades/faction_mod.dart';
 import 'package:gearforce/models/mods/modification_option.dart';
@@ -53,8 +52,7 @@ class PeaceRiverFactionMods extends FactionModification {
       assert(cg != null);
       assert(rs != null);
 
-      if (rs == null ||
-          !FactionRule.isRuleEnabled(rs.factionRules, ruleEPex.id)) {
+      if (rs == null || !rs.isRuleEnabled(ruleEPex.id)) {
         return false;
       }
       return cg!.modCount(e_pexID) == 0 ||
@@ -83,8 +81,7 @@ class PeaceRiverFactionMods extends FactionModification {
         (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       assert(rs != null);
 
-      if (rs == null ||
-          !FactionRule.isRuleEnabled(rs.factionRules, ruleWarriorElite.id)) {
+      if (rs == null || !rs.isRuleEnabled(ruleWarriorElite.id)) {
         return false;
       }
       return u.core.frame == 'Warrior IV';
@@ -128,9 +125,7 @@ class PeaceRiverFactionMods extends FactionModification {
         (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       assert(rs != null);
 
-      if (rs == null ||
-          !FactionRule.isRuleEnabled(
-              rs.factionRules, ruleCrisisResponders.id)) {
+      if (rs == null || !rs.isRuleEnabled(ruleCrisisResponders.id)) {
         return false;
       }
       return u.core.frame == 'Crusader IV' && u.hasMod('Crusader V Upgrade');
@@ -187,8 +182,7 @@ class PeaceRiverFactionMods extends FactionModification {
         (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       assert(rs != null);
 
-      if (rs == null ||
-          !FactionRule.isRuleEnabled(rs.factionRules, ruleLaserTech.id)) {
+      if (rs == null || !rs.isRuleEnabled(ruleLaserTech.id)) {
         return false;
       }
       return u.isVeteran() &&
@@ -261,8 +255,7 @@ class PeaceRiverFactionMods extends FactionModification {
         (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       assert(rs != null);
 
-      if (rs == null ||
-          !FactionRule.isRuleEnabled(rs.factionRules, ruleOlTrusty.id)) {
+      if (rs == null || !rs.isRuleEnabled(ruleOlTrusty.id)) {
         return false;
       }
       return u.core.frame == 'Warrior' ||
@@ -291,9 +284,7 @@ class PeaceRiverFactionMods extends FactionModification {
         (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       assert(rs != null);
 
-      if (rs == null ||
-          !FactionRule.isRuleEnabled(
-              rs.factionRules, ruleThunderFromTheSky.id)) {
+      if (rs == null || !rs.isRuleEnabled(ruleThunderFromTheSky.id)) {
         return false;
       }
       return u.core.type == ModelType.AirstrikeCounter;
@@ -316,8 +307,7 @@ class PeaceRiverFactionMods extends FactionModification {
         (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       assert(rs != null);
 
-      if (rs == null ||
-          !FactionRule.isRuleEnabled(rs.factionRules, ruleEliteElements.id)) {
+      if (rs == null || !rs.isRuleEnabled(ruleEliteElements.id)) {
         return false;
       }
       if (u.role == null) {
@@ -350,9 +340,7 @@ class PeaceRiverFactionMods extends FactionModification {
           assert(cg != null);
           assert(rs != null);
 
-          if (rs == null ||
-              !FactionRule.isRuleEnabled(
-                  rs.factionRules, ruleECMSpecialist.id)) {
+          if (rs == null || !rs.isRuleEnabled(ruleECMSpecialist.id)) {
             return false;
           }
           if (cg!.modCount((ecmSpecialistID)) >= 1 &&
@@ -397,8 +385,7 @@ class PeaceRiverFactionMods extends FactionModification {
         (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       assert(rs != null);
 
-      if (rs == null ||
-          !FactionRule.isRuleEnabled(rs.factionRules, rulePOCOlTrusty.id)) {
+      if (rs == null || !rs.isRuleEnabled(rulePOCOlTrusty.id)) {
         return false;
       }
       return u.core.frame == 'Pit Bull' || u.core.frame == 'Mustang';
@@ -443,8 +430,7 @@ class PeaceRiverFactionMods extends FactionModification {
       assert(ur != null);
       assert(rs != null);
 
-      if (rs == null ||
-          !FactionRule.isRuleEnabled(rs.factionRules, rulePeaceOfficer.id)) {
+      if (rs == null || !rs.isRuleEnabled(rulePeaceOfficer.id)) {
         return false;
       }
 
@@ -487,8 +473,7 @@ class PeaceRiverFactionMods extends FactionModification {
       assert(rs != null);
       assert(cg != null);
 
-      if (rs == null ||
-          !FactionRule.isRuleEnabled(rs.factionRules, ruleGSwatSniper.id)) {
+      if (rs == null || !rs.isRuleEnabled(ruleGSwatSniper.id)) {
         return false;
       }
 

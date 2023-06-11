@@ -1,3 +1,4 @@
+import 'package:gearforce/data/data.dart';
 import 'package:gearforce/data/unit_filter.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
@@ -11,7 +12,20 @@ import 'package:gearforce/models/unit/unit.dart';
 //const String _baseRuleId = 'rule::north';
 
 class North extends RuleSet {
-  North(data) : super(FactionType.North, data);
+  North(
+    Data data, {
+    String? description,
+    required String name,
+    List<String>? specialRules,
+    List<FactionRule> subFactionRules = const [],
+  }) : super(
+          FactionType.North,
+          data,
+          name: name,
+          description: description,
+          factionRules: [],
+          subFactionRules: subFactionRules,
+        );
 
   @override
   List<SpecialUnitFilter> availableUnitFilters() {
@@ -35,7 +49,4 @@ class North extends RuleSet {
       UnitRoster ur, CombatGroup cg, Unit u) {
     return [];
   }
-
-  @override
-  List<FactionRule> availableFactionRules() => [];
 }

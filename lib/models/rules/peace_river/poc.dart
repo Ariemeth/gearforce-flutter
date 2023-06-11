@@ -38,14 +38,18 @@ South, Peace River, and NuCoal (may include a mix from all four factions) that h
 an armor of 8 or lower.
 */
 class POC extends PeaceRiver {
-  POC(super.data) {
-    ruleSpecialIssue..addListener(() => notifyListeners());
-    ruleECMSpecialist..addListener(() => notifyListeners());
-    rulePOCOlTrusty..addListener(() => notifyListeners());
-    rulePeaceOfficer..addListener(() => notifyListeners());
-    ruleGSwatSniper..addListener(() => notifyListeners());
-    ruleMercenaryContract..addListener(() => notifyListeners());
-  }
+  POC(super.data)
+      : super(
+          name: 'Peace Officer Corps',
+          subFactionRules: [
+            ruleSpecialIssue,
+            ruleECMSpecialist,
+            rulePOCOlTrusty,
+            rulePeaceOfficer,
+            ruleGSwatSniper,
+            ruleMercenaryContract,
+          ],
+        );
 
   @override
   List<FactionModification> availableFactionMods(
@@ -56,18 +60,6 @@ class POC extends PeaceRiver {
       PeaceRiverFactionMods.peaceOfficers(u),
       PeaceRiverFactionMods.gSWATSniper(),
       ...super.availableFactionMods(ur, cg, u),
-    ];
-  }
-
-  @override
-  List<FactionRule> availableSubFactionRules() {
-    return [
-      ruleSpecialIssue,
-      ruleECMSpecialist,
-      rulePOCOlTrusty,
-      rulePeaceOfficer,
-      ruleGSwatSniper,
-      ruleMercenaryContract,
     ];
   }
 }
@@ -99,6 +91,7 @@ final ruleSpecialIssue = FactionRule(
   },
   description: 'Greyhounds may be placed in GP, SK, FS, RC or SO units.',
 );
+
 final ruleECMSpecialist = FactionRule(
     name: 'ECM Specialist',
     id: '$_baseRuleId::ecmSpecialist',

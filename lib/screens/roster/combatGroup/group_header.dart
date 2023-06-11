@@ -28,17 +28,17 @@ class GroupHeader extends StatelessWidget {
     final actions = group.totalActions();
     final maxPrimaryActions = roster == null
         ? maxDefaultPrimaryActions
-        : roster!.subFaction.value.ruleSet.maxPrimaryActions;
+        : roster!.rulesetNotifer.value.maxPrimaryActions;
     final minPrimaryActions = roster == null
         ? minDefaultPrimaryActions
-        : roster!.subFaction.value.ruleSet.minPrimaryActions;
+        : roster!.rulesetNotifer.value.minPrimaryActions;
     final maxSecondaryAction = roster == null
         ? (cg.primary.totalActions() / 2).ceil()
-        : roster!.subFaction.value.ruleSet
+        : roster!.rulesetNotifer.value
             .maxSecondaryActions(cg.primary.totalActions());
     final settingsIcon = roster != null &&
-            roster?.subFaction.value.ruleSet.combatGroupSettings() != null &&
-            roster!.subFaction.value.ruleSet.combatGroupSettings().length > 0
+            roster?.rulesetNotifer.value.combatGroupSettings() != null &&
+            roster!.rulesetNotifer.value.combatGroupSettings().length > 0
         ? Icons.settings_suggest
         : Icons.settings;
     return Padding(
@@ -161,7 +161,7 @@ class GroupHeader extends StatelessWidget {
   void _showSettingsDialog(BuildContext context) {
     final settingsDialog = CombatGroupSettingsDialog(
       cg: cg,
-      ruleSet: roster!.subFaction.value.ruleSet,
+      ruleSet: roster!.rulesetNotifer.value,
     );
     showDialog(
         context: context,

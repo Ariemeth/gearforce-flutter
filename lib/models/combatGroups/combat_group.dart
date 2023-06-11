@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/combatGroups/group.dart';
 import 'package:gearforce/models/factions/faction.dart';
-import 'package:gearforce/models/factions/sub_faction.dart';
 import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/rules/options/combat_group_options.dart';
+import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/validation/validations.dart';
@@ -117,7 +117,7 @@ class CombatGroup extends ChangeNotifier {
     dynamic json,
     Data data,
     Faction faction,
-    SubFaction subfaction,
+    RuleSet ruleset,
     UnitRoster roster,
   ) {
     final cg = CombatGroup(
@@ -126,11 +126,13 @@ class CombatGroup extends ChangeNotifier {
     ).._isVeteran = json['isVet'] != null ? json['isVet'] as bool : false;
 
     final p = Group.fromJson(
-        json['primary'], faction, subfaction, cg, roster, GroupType.Primary);
-    final s = Group.fromJson(json['secondary'], faction, subfaction, cg, roster,
-        GroupType.Secondary);
+        json['primary'], faction, ruleset, cg, roster, GroupType.Primary);
+    final s = Group.fromJson(
+        json['secondary'], faction, ruleset, cg, roster, GroupType.Secondary);
     cg.primary = p;
     cg.secondary = s;
+
+    cg._options = roster.rulesetNotifer.value.combatGroupSettings();
 
     final enabledOptions = json['enabledOptions'] as List;
     enabledOptions.forEach((optionId) {
@@ -184,7 +186,7 @@ class CombatGroup extends ChangeNotifier {
   List<Validation> validate({bool tryFix = false}) {
     final List<Validation> validationErrors = [];
 
-    final options = roster?.subFaction.value.ruleSet.combatGroupSettings();
+    final options = roster?.rulesetNotifer.value.combatGroupSettings();
     if (options != null) {
       // if the new options and current _options are the same size and both contain all the same ids, it is good to go
       if (!(options.every((o) => _options.any((oe) => oe.id == o.id)) &&
@@ -216,7 +218,7 @@ class CombatGroup extends ChangeNotifier {
 
   void _resetOptions() {
     _options.clear();
-    final settings = roster?.subFaction.value.ruleSet.combatGroupSettings();
+    final settings = roster?.rulesetNotifer.value.combatGroupSettings();
     if (settings != null) {
       _options = settings;
     }

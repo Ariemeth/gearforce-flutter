@@ -10,11 +10,11 @@ List<pw.Widget> buildRecordSheet(pw.Font font, UnitRoster roster) {
     buildRosterHeader(font, roster),
     sectionDivide,
     ...buildCombatGroups(font, roster),
-    roster.subFaction.value.ruleSet.specialRules != null
+    roster.rulesetNotifer.value.specialRules != null
         ? pw.Column(children: [
             pw.Text('Faction Special Rules',
                 style: pw.TextStyle(font: font, fontSize: 14)),
-            ...roster.subFaction.value.ruleSet.specialRules!
+            ...roster.rulesetNotifer.value.specialRules!
                 .map((rule) => pw.Text(
                       rule,
                       style: pw.TextStyle(

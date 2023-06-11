@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gearforce/models/factions/faction.dart';
-import 'package:gearforce/models/factions/sub_faction.dart';
+import 'package:gearforce/models/rules/rule_set.dart';
 
 class SelectSubFaction extends StatefulWidget {
   const SelectSubFaction(
@@ -12,7 +12,7 @@ class SelectSubFaction extends StatefulWidget {
       : super(key: key);
   final List<Faction> factions;
   final ValueListenable<Faction> selectedFaction;
-  final ValueNotifier<SubFaction> selectedSubFaction;
+  final ValueNotifier<RuleSet> selectedSubFaction;
 
   @override
   _SelectSubFactionState createState() => _SelectSubFactionState();
@@ -25,7 +25,7 @@ class _SelectSubFactionState extends State<SelectSubFaction> {
     return ValueListenableBuilder<Faction>(
       valueListenable: widget.selectedFaction,
       builder: (context, value, child) {
-        return DropdownButton<SubFaction>(
+        return DropdownButton<RuleSet>(
           value: widget.selectedSubFaction.value,
           hint: Text('Select sub-list'),
           icon: const Icon(Icons.arrow_downward),
@@ -35,7 +35,7 @@ class _SelectSubFactionState extends State<SelectSubFaction> {
           isDense: true,
           style: const TextStyle(color: Colors.blue),
           underline: SizedBox(),
-          onChanged: (SubFaction? newValue) {
+          onChanged: (RuleSet? newValue) {
             setState(() {
               widget.selectedSubFaction.value = newValue!;
             });
@@ -46,11 +46,11 @@ class _SelectSubFactionState extends State<SelectSubFaction> {
     );
   }
 
-  List<DropdownMenuItem<SubFaction>> _subFactions() {
-    final subfactions = widget.selectedFaction.value.subFactions;
+  List<DropdownMenuItem<RuleSet>> _subFactions() {
+    final subfactions = widget.selectedFaction.value.rulesets;
 
-    var menuItems = subfactions.map<DropdownMenuItem<SubFaction>>((name) {
-      return DropdownMenuItem<SubFaction>(
+    var menuItems = subfactions.map<DropdownMenuItem<RuleSet>>((name) {
+      return DropdownMenuItem<RuleSet>(
         value: name,
         child: Text(
           name.name,

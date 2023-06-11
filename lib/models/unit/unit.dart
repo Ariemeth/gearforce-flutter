@@ -2,7 +2,6 @@ import 'package:flutter/widgets.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/combatGroups/group.dart';
 import 'package:gearforce/models/factions/faction.dart';
-import 'package:gearforce/models/factions/sub_faction.dart';
 import 'package:gearforce/models/mods/base_modification.dart';
 import 'package:gearforce/models/mods/duelist/duelist_modification.dart';
 import 'package:gearforce/models/mods/duelist/duelist_upgrades.dart';
@@ -14,6 +13,7 @@ import 'package:gearforce/models/mods/unitUpgrades/unit_upgrades.dart';
 import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart';
 import 'package:gearforce/models/mods/veteranUpgrades/veteran_upgrades.dart';
 import 'package:gearforce/models/roster/roster.dart';
+import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/model_type.dart';
@@ -107,14 +107,13 @@ class Unit extends ChangeNotifier {
   factory Unit.fromJson(
     dynamic json,
     Faction faction,
-    SubFaction subfaction,
+    RuleSet ruleset,
     CombatGroup? cg,
     UnitRoster roster,
   ) {
-    var core = subfaction.ruleSet.availableUnits();
-    subfaction.ruleSet.availableUnitFilters().forEach((sfilter) {
-      core.addAll(
-          subfaction.ruleSet.availableUnits(specialUnitFilter: sfilter));
+    var core = ruleset.availableUnits();
+    ruleset.availableUnitFilters().forEach((sfilter) {
+      core.addAll(ruleset.availableUnits(specialUnitFilter: sfilter));
     });
     final variant = json['variant'] as String;
     Unit u = Unit.from(core.firstWhere((unit) => unit.core.name == variant));
@@ -439,7 +438,7 @@ class Unit extends ChangeNotifier {
 
   int get tv {
     var value = this.core.tv;
-    value += group?.combatGroup?.roster?.subFaction.value.ruleSet
+    value += group?.combatGroup?.roster?.rulesetNotifer.value
             .commandTVCost(_commandLevel) ??
         0;
 
@@ -465,7 +464,7 @@ class Unit extends ChangeNotifier {
       return 0;
     }
 
-    var cp = group?.combatGroup?.roster?.subFaction.value.ruleSet
+    var cp = group?.combatGroup?.roster?.rulesetNotifer.value
         .commandCPs(commandLevel);
 
     return skillPoints + (cp ?? 0);
@@ -598,7 +597,7 @@ class Unit extends ChangeNotifier {
     if (tryFix) {
       _mods.removeWhere((mod) {
         return !mod.requirementCheck(
-          roster!.subFaction.value.ruleSet,
+          roster!.rulesetNotifer.value,
           roster,
           cg,
           this,
@@ -617,7 +616,7 @@ class Unit extends ChangeNotifier {
     } else {
       _mods.forEach((mod) {
         if (!mod.requirementCheck(
-          roster!.subFaction.value.ruleSet,
+          roster!.rulesetNotifer.value,
           roster,
           cg,
           this,

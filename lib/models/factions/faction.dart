@@ -1,6 +1,5 @@
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
-import 'package:gearforce/models/factions/sub_faction.dart';
 import 'package:gearforce/models/rules/black_talons/black_talons.dart';
 import 'package:gearforce/models/rules/caprice/caprice.dart';
 import 'package:gearforce/models/rules/cef/cef.dart';
@@ -8,6 +7,7 @@ import 'package:gearforce/models/rules/eden/eden.dart';
 import 'package:gearforce/models/rules/north/north.dart';
 import 'package:gearforce/models/rules/nucoal/nucoal.dart';
 import 'package:gearforce/models/rules/peace_river/peace_river.dart';
+import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/rules/south/south.dart';
 import 'package:gearforce/models/rules/utopia/utopia.dart';
 
@@ -16,143 +16,96 @@ const String _emptySubFactionName = '';
 class Faction {
   String get name => this.factionType.name;
   final FactionType factionType;
-  final List<SubFaction> subFactions;
-  final SubFaction defaultSubFaction;
+  final List<RuleSet> rulesets;
+  final RuleSet defaultSubFaction;
 
-  const Faction(this.factionType, this.subFactions, this.defaultSubFaction);
+  const Faction(this.factionType, this.rulesets, this.defaultSubFaction);
 
   factory Faction.blackTalons(Data data) {
-    final defaultSub =
-        SubFaction('$_emptySubFactionName', ruleSet: BlackTalons(data));
-    return Faction(
-        FactionType.BlackTalon,
-        [
-          defaultSub,
-          SubFaction('Black Talon Recon Team', ruleSet: BlackTalons(data)),
-          SubFaction('Black Talon Insertion Team', ruleSet: BlackTalons(data)),
-          SubFaction('Black Talon Strike Team', ruleSet: BlackTalons(data)),
-          SubFaction('Black Talon Assault Team', ruleSet: BlackTalons(data)),
-        ],
-        defaultSub);
+    final rulesets = [
+      BlackTalons(data, name: '$_emptySubFactionName'),
+      BlackTalons(data, name: 'Black Talon Recon Team'),
+      BlackTalons(data, name: 'Black Talon Insertion Team'),
+      BlackTalons(data, name: 'Black Talon Strike Team'),
+      BlackTalons(data, name: 'Black Talon Assault Team'),
+    ];
+    return Faction(FactionType.BlackTalon, rulesets, rulesets.first);
   }
   factory Faction.caprice(Data data) {
-    final defaultSub =
-        SubFaction('$_emptySubFactionName', ruleSet: Caprice(data));
-    return Faction(
-      FactionType.Caprice,
-      [
-        defaultSub,
-        SubFaction('Caprice Invasion Detachment', ruleSet: Caprice(data)),
-        SubFaction('Corporate Security Element', ruleSet: Caprice(data)),
-        SubFaction('Liberati Resistance Cell', ruleSet: Caprice(data)),
-      ],
-      defaultSub,
-    );
+    final rulesets = [
+      Caprice(data, name: '$_emptySubFactionName'),
+      Caprice(data, name: 'Caprice Invasion Detachment'),
+      Caprice(data, name: 'Corporate Security Element'),
+      Caprice(data, name: 'Liberati Resistance Cell'),
+    ];
+    return Faction(FactionType.Caprice, rulesets, rulesets.first);
   }
   factory Faction.cef(Data data) {
-    final defaultSub = SubFaction('$_emptySubFactionName', ruleSet: CEF(data));
-    return Faction(
-      FactionType.CEF,
-      [
-        defaultSub,
-        SubFaction('CEF Frame Formation', ruleSet: CEF(data)),
-        SubFaction('CEF Tank Formation', ruleSet: CEF(data)),
-        SubFaction('CEF Infantry Formation', ruleSet: CEF(data)),
-      ],
-      defaultSub,
-    );
+    final rulesets = [
+      CEF(data, name: '$_emptySubFactionName'),
+      CEF(data, name: 'CEF Frame Formation'),
+      CEF(data, name: 'CEF Tank Formation'),
+      CEF(data, name: 'CEF Infantry Formation'),
+    ];
+    return Faction(FactionType.CEF, rulesets, rulesets.first);
   }
   factory Faction.eden(Data data) {
-    final defaultSub = SubFaction('$_emptySubFactionName', ruleSet: Eden(data));
-    return Faction(
-      FactionType.Eden,
-      [
-        defaultSub,
-        SubFaction('Edenite Invasion Force', ruleSet: Eden(data)),
-        SubFaction('Edenite Noble Houses', ruleSet: Eden(data)),
-        SubFaction('Ad-Hoc Edenite Force', ruleSet: Eden(data)),
-      ],
-      defaultSub,
-    );
+    final rulesets = [
+      Eden(data, name: '$_emptySubFactionName'),
+      Eden(data, name: 'Edenite Invasion Force'),
+      Eden(data, name: 'Edenite Noble Houses'),
+      Eden(data, name: 'Ad-Hoc Edenite Force'),
+    ];
+    return Faction(FactionType.Eden, rulesets, rulesets.first);
   }
   factory Faction.north(Data data) {
-    final defaultSub =
-        SubFaction('$_emptySubFactionName', ruleSet: North(data));
-    return Faction(
-      FactionType.North,
-      [
-        defaultSub,
-        SubFaction('Norguard', ruleSet: North(data)),
-        SubFaction('Western Frontier Protectorate', ruleSet: North(data)),
-        SubFaction('United Mercantile Federation', ruleSet: North(data)),
-        SubFaction('Northern Lights Confederacy', ruleSet: North(data)),
-      ],
-      defaultSub,
-    );
+    final rulesets = [
+      North(data, name: '$_emptySubFactionName'),
+      North(data, name: 'Norguard'),
+      North(data, name: 'Western Frontier Protectorate'),
+      North(data, name: 'United Mercantile Federation'),
+      North(data, name: 'Northern Lights Confederacy'),
+    ];
+    return Faction(FactionType.North, rulesets, rulesets.first);
   }
   factory Faction.nucoal(Data data) {
-    final defaultSub =
-        SubFaction('$_emptySubFactionName', ruleSet: Nucoal(data));
-    return Faction(
-      FactionType.NuCoal,
-      [
-        defaultSub,
-        SubFaction('NuCoal Self Defense Force', ruleSet: Nucoal(data)),
-        SubFaction('Port Arthur Korps', ruleSet: Nucoal(data)),
-        SubFaction('Humanist Alliance Protection Force', ruleSet: Nucoal(data)),
-        SubFaction('Khayr ad-Dine', ruleSet: Nucoal(data)),
-        SubFaction('Temple Heights', ruleSet: Nucoal(data)),
-        SubFaction('Hardscrabble City-State Armies', ruleSet: Nucoal(data)),
-      ],
-      defaultSub,
-    );
+    final rulesets = [
+      Nucoal(data, name: '$_emptySubFactionName'),
+      Nucoal(data, name: 'NuCoal Self Defense Force'),
+      Nucoal(data, name: 'Port Arthur Korps'),
+      Nucoal(data, name: 'Humanist Alliance Protection Force'),
+      Nucoal(data, name: 'Khayr ad-Dine'),
+      Nucoal(data, name: 'Temple Heights'),
+      Nucoal(data, name: 'Hardscrabble City-State Armies'),
+    ];
+    return Faction(FactionType.NuCoal, rulesets, rulesets.first);
   }
   factory Faction.peaceRiver(Data data) {
-    final defaultSub =
-        SubFaction('$_emptySubFactionName', ruleSet: PeaceRiver(data));
-    return Faction(
-      FactionType.PeaceRiver,
-      [
-        defaultSub,
-        SubFaction(
-          'Peace River Defense Force',
-          description: PRDFDescription,
-          ruleSet: PeaceRiver.PRDF(data),
-        ),
-        SubFaction('Peace Officer Corps', ruleSet: PeaceRiver.POC(data)),
-        SubFaction('Paxton Private Securities', ruleSet: PeaceRiver.PPS(data)),
-      ],
-      defaultSub,
-    );
+    final rulesets = [
+      PeaceRiver(data, name: '$_emptySubFactionName'),
+      PeaceRiver.PRDF(data),
+      PeaceRiver.POC(data),
+      PeaceRiver.PPS(data),
+    ];
+    return Faction(FactionType.PeaceRiver, rulesets, rulesets.first);
   }
   factory Faction.south(Data data) {
-    final defaultSub =
-        SubFaction('$_emptySubFactionName', ruleSet: South(data));
-    return Faction(
-      FactionType.South,
-      [
-        defaultSub,
-        SubFaction('Military Intervention and Counter Insurgency Army',
-            ruleSet: South(data)),
-        SubFaction('Mekong Dominion', ruleSet: South(data)),
-        SubFaction('Eastern Sun Emirates', ruleSet: South(data)),
-        SubFaction('Free Humanist Alliance', ruleSet: South(data)),
-      ],
-      defaultSub,
-    );
+    final rulesets = [
+      South(data, name: '$_emptySubFactionName'),
+      South(data, name: 'Military Intervention and Counter Insurgency Army'),
+      South(data, name: 'Mekong Dominion'),
+      South(data, name: 'Eastern Sun Emirates'),
+      South(data, name: 'Free Humanist Alliance'),
+    ];
+    return Faction(FactionType.South, rulesets, rulesets.first);
   }
   factory Faction.utopia(Data data) {
-    final defaultSub =
-        SubFaction('$_emptySubFactionName', ruleSet: Utopia(data));
-    return Faction(
-      FactionType.Utopia,
-      [
-        defaultSub,
-        SubFaction('Combined Armiger Force', ruleSet: Utopia(data)),
-        SubFaction('Other Utopian Forces', ruleSet: Utopia(data)),
-      ],
-      defaultSub,
-    );
+    final rulesets = [
+      Utopia(data, name: '$_emptySubFactionName'),
+      Utopia(data, name: 'Combined Armiger Force'),
+      Utopia(data, name: 'Other Utopian Forces'),
+    ];
+    return Faction(FactionType.Utopia, rulesets, rulesets.first);
   }
 
   factory Faction.fromType(FactionType faction, Data data) {
@@ -188,17 +141,4 @@ class Faction {
     }
     throw FormatException('Cannot create a faction from ${faction.name}');
   }
-
-  bool hasSubFaction(String name) {
-    return this.subFactions.any((element) => element.name == name);
-  }
 }
-
-const PRDFDescription =
-    'To be a soldier in the PRDF is to know a deep and abiding' +
-        'hatred of Earth. CEF agents were responsible for the destruction of' +
-        'Peace River City and countless lives. When this information came to ' +
-        'light, a sleeping beast awoke. PRDF recruitment has never been ' +
-        'better. With the full might of the manufacturing giant of Paxton ' +
-        'Arms behind them, the PRDF is a powerful force to face on the ' +
-        'battlefield.';

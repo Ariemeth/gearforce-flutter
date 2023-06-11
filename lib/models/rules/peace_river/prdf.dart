@@ -16,6 +16,15 @@ const _ruleBestMenAndWomenID = '$_baseRuleId::bestmenandwomenforthejob';
 
 const String _baseRuleId = 'rule::prdf';
 
+const PRDFDescription =
+    'To be a soldier in the PRDF is to know a deep and abiding' +
+        'hatred of Earth. CEF agents were responsible for the destruction of' +
+        'Peace River City and countless lives. When this information came to ' +
+        'light, a sleeping beast awoke. PRDF recruitment has never been ' +
+        'better. With the full might of the manufacturing giant of Paxton ' +
+        'Arms behind them, the PRDF is a powerful force to face on the ' +
+        'battlefield.';
+
 /*
 PRDF - Peace River Defense Force
 To be a soldier in the PRDF is to know a deep and abiding hatred of Earth. CEF agents
@@ -38,26 +47,20 @@ are placed in cover relative to at least one enemy model.
 */
 
 class PRDF extends PeaceRiver {
-  PRDF(super.data) : super(specialRules: const [PRDFSpecialRule1]) {
-    ruleOlTrusty..addListener(() => notifyListeners());
-    ruleThunderFromTheSky..addListener(() => notifyListeners());
-    ruleHighTech..addListener(() => notifyListeners());
-    ruleBestMenAndWomen..addListener(() => notifyListeners());
-    ruleEliteElements..addListener(() => notifyListeners());
-    ruleGhostStrike..addListener(() => notifyListeners());
-  }
-
-  @override
-  List<FactionRule> availableSubFactionRules() {
-    return [
-      ruleOlTrusty,
-      ruleThunderFromTheSky,
-      ruleHighTech,
-      ruleBestMenAndWomen,
-      ruleEliteElements,
-      ruleGhostStrike,
-    ];
-  }
+  PRDF(super.data)
+      : super(
+          description: PRDFDescription,
+          name: 'Peace River Defense Force',
+          specialRules: const [PRDFSpecialRule1],
+          subFactionRules: [
+            ruleOlTrusty,
+            ruleThunderFromTheSky,
+            ruleHighTech,
+            ruleBestMenAndWomen,
+            ruleEliteElements,
+            ruleGhostStrike,
+          ],
+        );
 }
 
 const filterBestMenAndWomen = SpecialUnitFilter(
