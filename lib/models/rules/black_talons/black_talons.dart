@@ -16,11 +16,14 @@ class BlackTalons extends RuleSet {
     String? description,
     required String name,
     List<String>? specialRules,
+    List<FactionRule> subFactionRules = const [],
   }) : super(
           FactionType.BlackTalon,
           data,
           name: name,
           description: description,
+          factionRules: [],
+          subFactionRules: subFactionRules,
         );
 
   @override
@@ -45,7 +48,4 @@ class BlackTalons extends RuleSet {
       UnitRoster, CombatGroup cg, Unit u) {
     return [];
   }
-
-  @override
-  List<FactionRule> availableFactionRules() => [];
 }

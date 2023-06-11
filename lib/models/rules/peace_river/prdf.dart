@@ -52,26 +52,15 @@ class PRDF extends PeaceRiver {
           description: PRDFDescription,
           name: 'Peace River Defense Force',
           specialRules: const [PRDFSpecialRule1],
-        ) {
-    ruleOlTrusty..addListener(() => notifyListeners());
-    ruleThunderFromTheSky..addListener(() => notifyListeners());
-    ruleHighTech..addListener(() => notifyListeners());
-    ruleBestMenAndWomen..addListener(() => notifyListeners());
-    ruleEliteElements..addListener(() => notifyListeners());
-    ruleGhostStrike..addListener(() => notifyListeners());
-  }
-
-  @override
-  List<FactionRule> availableSubFactionRules() {
-    return [
-      ruleOlTrusty,
-      ruleThunderFromTheSky,
-      ruleHighTech,
-      ruleBestMenAndWomen,
-      ruleEliteElements,
-      ruleGhostStrike,
-    ];
-  }
+          subFactionRules: [
+            ruleOlTrusty,
+            ruleThunderFromTheSky,
+            ruleHighTech,
+            ruleBestMenAndWomen,
+            ruleEliteElements,
+            ruleGhostStrike,
+          ],
+        );
 }
 
 const filterBestMenAndWomen = SpecialUnitFilter(

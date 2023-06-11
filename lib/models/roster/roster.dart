@@ -86,8 +86,7 @@ class UnitRoster extends ChangeNotifier {
         'faction': factionNotifier.value.factionType.name,
         'subfaction': {
           'name': rulesetNotifer.value.name,
-          'enabledRules': rulesetNotifer.value
-              .availableSubFactionRules()
+          'enabledRules': rulesetNotifer.value.subFactionRules
               .where((r) => r.isEnabled)
               .map((r) => {
                     'id': r.id,
@@ -130,7 +129,7 @@ class UnitRoster extends ChangeNotifier {
       final subRules = subFaction['enabledRules'] as List;
       subRules.forEach((subRule) {
         final ruleId = subRule['id'];
-        final rules = ur.rulesetNotifer.value.availableSubFactionRules();
+        final rules = ur.rulesetNotifer.value.subFactionRules;
         final rule = rules.where((r) => r.id == ruleId).first;
         rule.setIsEnabled(true, rules);
 

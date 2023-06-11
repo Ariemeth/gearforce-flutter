@@ -115,11 +115,11 @@ class RosterHeaderInfo extends StatelessWidget {
           ),
           IconButton(
             onPressed: () => {
-              _showSettingsDialog(context,
-                  roster.rulesetNotifer.value.availableFactionRules(), true)
+              _showSettingsDialog(
+                  context, roster.rulesetNotifer.value.factionRules, true)
             },
             icon: Icon(
-              roster.rulesetNotifer.value.availableFactionRules().any((r) =>
+              roster.rulesetNotifer.value.factionRules.any((r) =>
                       r.canBeToggled || r.options != null
                           ? r.options!.any((o) => o.canBeToggled)
                           : false)
@@ -153,12 +153,12 @@ class RosterHeaderInfo extends StatelessWidget {
             onPressed: () => {
               _showSettingsDialog(
                 context,
-                roster.rulesetNotifer.value.availableSubFactionRules(),
+                roster.rulesetNotifer.value.subFactionRules,
                 false,
               )
             },
             icon: Icon(
-              roster.rulesetNotifer.value.availableSubFactionRules().any((r) =>
+              roster.rulesetNotifer.value.subFactionRules.any((r) =>
                       r.canBeToggled || r.options != null
                           ? r.options!.any((o) => o.canBeToggled)
                           : false)

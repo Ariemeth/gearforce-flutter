@@ -33,22 +33,16 @@ South, Peace River, and NuCoal (may include a mix from all four factions) that
 have an armor of 8 or lower.
 */
 class PPS extends PeaceRiver {
-  PPS(super.data) : super(name: 'Paxton Private Securities') {
-    ruleExPRDF..addListener(() => notifyListeners());
-    ruleExPOC..addListener(() => notifyListeners());
-    ruleBadlandsSoup..addListener(() => notifyListeners());
-    ruleSubContractors..addListener(() => notifyListeners());
-  }
-
-  @override
-  List<FactionRule> availableSubFactionRules() {
-    return [
-      ruleExPRDF,
-      ruleExPOC,
-      ruleBadlandsSoup,
-      ruleSubContractors,
-    ];
-  }
+  PPS(super.data)
+      : super(
+          name: 'Paxton Private Securities',
+          subFactionRules: [
+            ruleExPRDF,
+            ruleExPOC,
+            ruleBadlandsSoup,
+            ruleSubContractors,
+          ],
+        );
 }
 
 const filterSubContractor = SpecialUnitFilter(

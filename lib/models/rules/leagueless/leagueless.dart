@@ -15,18 +15,15 @@ class Leagueless extends RuleSet {
     String? description,
     required String name,
     List<String>? specialRules,
+    List<FactionRule> subFactionRules = const [],
   }) : super(
           FactionType.Universal,
           data,
           name: name,
           description: description,
+          factionRules: [],
+          subFactionRules: subFactionRules,
         );
-
-  @override
-  List<FactionRule> availableFactionRules() {
-    // TODO: implement availableFactionRules
-    throw UnimplementedError();
-  }
 
   @override
   List<FactionModification> availableFactionMods(
@@ -34,8 +31,7 @@ class Leagueless extends RuleSet {
     final results = [
       ...super.availableFactionMods(ur, cg, u),
     ];
-    var rule =
-        FactionRule.findRule(factionRules, prdf.ruleThunderFromTheSky.id);
+    var rule = findFactionRule(prdf.ruleThunderFromTheSky.id);
     if (rule != null && rule.isEnabled) {
       results.add(PeaceRiverFactionMods.thunderFromTheSky());
     }

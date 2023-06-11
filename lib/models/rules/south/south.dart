@@ -17,11 +17,14 @@ class South extends RuleSet {
     String? description,
     required String name,
     List<String>? specialRules,
+    List<FactionRule> subFactionRules = const [],
   }) : super(
           FactionType.South,
           data,
           name: name,
           description: description,
+          factionRules: [],
+          subFactionRules: subFactionRules,
         );
 
   @override
@@ -46,7 +49,4 @@ class South extends RuleSet {
       UnitRoster ur, CombatGroup cg, Unit u) {
     return [];
   }
-
-  @override
-  List<FactionRule> availableFactionRules() => [];
 }

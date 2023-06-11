@@ -28,6 +28,8 @@ class DefaultRuleSet extends RuleSet {
           FactionType.Universal,
           data,
           name: 'Default ruleset',
+          factionRules: [],
+          subFactionRules: [],
         );
 
   @override
@@ -35,9 +37,6 @@ class DefaultRuleSet extends RuleSet {
       UnitRoster ur, CombatGroup cg, Unit u) {
     return [];
   }
-
-  @override
-  List<FactionRule> availableFactionRules() => [];
 
   @override
   List<SpecialUnitFilter> availableUnitFilters() {
@@ -52,6 +51,8 @@ abstract class RuleSet extends ChangeNotifier {
   final FactionType type;
   final String? description;
   final String name;
+  final List<FactionRule> _factionRules = [];
+  final List<FactionRule> _subFactionRules = [];
 
   RuleSet(
     this.type,
@@ -59,14 +60,30 @@ abstract class RuleSet extends ChangeNotifier {
     required this.name,
     this.description,
     this.specialRules = null,
+    required List<FactionRule> factionRules,
+    required List<FactionRule> subFactionRules,
   }) {
+    factionRules.forEach((fr) {
+      fr.addListener(() {
+        this.notifyListeners();
+      });
+    });
+    subFactionRules.forEach((fr) {
+      fr.addListener(() {
+        this.notifyListeners();
+      });
+    });
+    _factionRules.addAll(factionRules);
+    _subFactionRules.addAll(subFactionRules);
     _buildCache();
   }
 
-  List<FactionRule> get factionRules => [
-        ...availableFactionRules(),
-        ...availableSubFactionRules(),
+  List<FactionRule> get allFactionRules => [
+        ...factionRules,
+        ...subFactionRules,
       ];
+  List<FactionRule> get factionRules => _factionRules.toList();
+  List<FactionRule> get subFactionRules => _subFactionRules.toList();
 
   int get maxPrimaryActions => _maxPrimaryActions;
   int get minPrimaryActions => _minPrimaryActions;
@@ -78,8 +95,6 @@ abstract class RuleSet extends ChangeNotifier {
           UnitRoster ur, CombatGroup cg, Unit u) =>
       [];
 
-  List<FactionRule> availableFactionRules();
-  List<FactionRule> availableSubFactionRules() => [];
   List<SpecialUnitFilter> availableUnitFilters() => [];
 
   List<Unit> availableUnits({
@@ -250,7 +265,10 @@ abstract class RuleSet extends ChangeNotifier {
   }
 
   bool isRuleEnabled(String ruleName) =>
-      FactionRule.isRuleEnabled(factionRules, ruleName);
+      FactionRule.isRuleEnabled(allFactionRules, ruleName);
+
+  FactionRule? findFactionRule(String ruleName) =>
+      FactionRule.findRule(allFactionRules, ruleName);
 
   bool isUnitCountWithinLimits(CombatGroup cg, Group group, Unit unit) {
     // get the number other instances of this unitcore in the group
