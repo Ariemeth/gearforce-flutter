@@ -49,7 +49,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
             context: context,
             group: cg.primary,
             cg: cg,
-            ruleSet: widget.roster.subFaction.value.ruleSet,
+            ruleSet: widget.roster.rulesetNotifer.value,
           ),
         ),
         GroupHeader(
@@ -61,7 +61,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
             context: context,
             group: cg.secondary,
             cg: cg,
-            ruleSet: widget.roster.subFaction.value.ruleSet,
+            ruleSet: widget.roster.rulesetNotifer.value,
           ),
         ),
       ],
@@ -79,7 +79,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
       rows: _generateTableRows(
         context: context,
         group: group,
-        ruleSet: widget.roster.subFaction.value.ruleSet,
+        ruleSet: widget.roster.rulesetNotifer.value,
       ),
       columnSpacing: 1.0,
       horizontalMargin: 0.0,

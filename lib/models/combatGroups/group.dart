@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/factions/faction.dart';
-import 'package:gearforce/models/factions/sub_faction.dart';
 import 'package:gearforce/models/roster/roster.dart';
+import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/model_type.dart';
 import 'package:gearforce/models/unit/role.dart';
@@ -39,7 +39,7 @@ class Group extends ChangeNotifier {
   factory Group.fromJson(
     dynamic json,
     Faction faction,
-    SubFaction subfaction,
+    RuleSet ruleset,
     CombatGroup cg,
     UnitRoster roster,
     GroupType groupType,
@@ -50,7 +50,7 @@ class Group extends ChangeNotifier {
     var decodedUnits = json['units'] as List;
     try {
       decodedUnits
-          .map((e) => Unit.fromJson(e, faction, subfaction, cg, roster))
+          .map((e) => Unit.fromJson(e, faction, ruleset, cg, roster))
           .toList()
         ..forEach((u) {
           g._addUnit(u);
@@ -184,7 +184,7 @@ class Group extends ChangeNotifier {
     if (combatGroup != null && combatGroup!.roster != null) {
       final tempList = _units.toList(growable: false);
       tempList.reversed.forEach((u) {
-        if (!combatGroup!.roster!.subFaction.value.ruleSet
+        if (!combatGroup!.roster!.rulesetNotifer.value
             .canBeAddedToGroup(u, this, combatGroup!)) {
           validationErrors.add(Validation(
               issue:

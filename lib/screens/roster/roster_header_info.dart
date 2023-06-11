@@ -110,16 +110,16 @@ class RosterHeaderInfo extends StatelessWidget {
             padding: EdgeInsets.only(right: 10, left: 5, top: 5, bottom: 5),
             child: SelectFaction(
               factions: Provider.of<Data>(context).factions(),
-              selectedFaction: roster.faction,
+              selectedFaction: roster.factionNotifier,
             ),
           ),
           IconButton(
             onPressed: () => {
               _showSettingsDialog(context,
-                  roster.subFaction.value.ruleSet.availableFactionRules(), true)
+                  roster.rulesetNotifer.value.availableFactionRules(), true)
             },
             icon: Icon(
-              roster.subFaction.value.ruleSet.availableFactionRules().any((r) =>
+              roster.rulesetNotifer.value.availableFactionRules().any((r) =>
                       r.canBeToggled || r.options != null
                           ? r.options!.any((o) => o.canBeToggled)
                           : false)
@@ -129,7 +129,7 @@ class RosterHeaderInfo extends StatelessWidget {
             ),
             splashRadius: 20.0,
             padding: EdgeInsets.zero,
-            tooltip: 'Rules for ${roster.faction.value.name}',
+            tooltip: 'Rules for ${roster.factionNotifier.value.name}',
           ),
         ]),
         TableRow(children: [
@@ -145,21 +145,21 @@ class RosterHeaderInfo extends StatelessWidget {
             padding: EdgeInsets.only(right: 10, left: 5, top: 5, bottom: 5),
             child: SelectSubFaction(
               factions: Provider.of<Data>(context).factions(),
-              selectedFaction: roster.faction,
-              selectedSubFaction: roster.subFaction,
+              selectedFaction: roster.factionNotifier,
+              selectedSubFaction: roster.rulesetNotifer,
             ),
           ),
           IconButton(
             onPressed: () => {
               _showSettingsDialog(
                 context,
-                roster.subFaction.value.ruleSet.availableSubFactionRules(),
+                roster.rulesetNotifer.value.availableSubFactionRules(),
                 false,
               )
             },
             icon: Icon(
-              roster.subFaction.value.ruleSet.availableSubFactionRules().any(
-                      (r) => r.canBeToggled || r.options != null
+              roster.rulesetNotifer.value.availableSubFactionRules().any((r) =>
+                      r.canBeToggled || r.options != null
                           ? r.options!.any((o) => o.canBeToggled)
                           : false)
                   ? _editableSettingsIcon
@@ -168,7 +168,7 @@ class RosterHeaderInfo extends StatelessWidget {
             ),
             splashRadius: 20.0,
             padding: EdgeInsets.zero,
-            tooltip: 'Rules for ${roster.subFaction.value.name}',
+            tooltip: 'Rules for ${roster.rulesetNotifer.value.name}',
           ),
         ]),
       ],

@@ -39,11 +39,11 @@ class _UnitSelectionState extends State<UnitSelection> {
     // or if the current filter isn't part of the available filters for this
     // ruleset.
     if (_specialUnitFilter == null ||
-        !roster.subFaction.value.ruleSet
+        !roster.rulesetNotifer.value
             .availableUnitFilters()
             .contains(_specialUnitFilter)) {
       _specialUnitFilter =
-          roster.subFaction.value.ruleSet.availableUnitFilters().first;
+          roster.rulesetNotifer.value.availableUnitFilters().first;
     }
 
     return Column(
@@ -120,7 +120,7 @@ class SelectionList extends StatelessWidget {
 
     return Column(
       children: [
-        _buildTable(roster.subFaction.value.ruleSet),
+        _buildTable(roster.rulesetNotifer.value),
       ],
     );
   }

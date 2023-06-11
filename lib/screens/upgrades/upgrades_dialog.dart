@@ -37,7 +37,7 @@ class UpgradesDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     context.watch<Unit>();
 
-    final rs = roster.subFaction.value.ruleSet;
+    final rs = roster.rulesetNotifer.value;
     final unitMods = getUnitMods(unit.core.frame, unit);
     final standardMods = getStandardMods(unit, cg, roster);
     final veteranMods = getVeteranMods(unit, cg);

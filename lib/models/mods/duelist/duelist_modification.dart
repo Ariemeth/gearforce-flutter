@@ -61,7 +61,7 @@ class DuelistModification extends BaseModification {
           if (u.hasMod(duelistId)) {
             return true;
           }
-          if (!roster.subFaction.value.ruleSet.duelistCheck(roster, u)) {
+          if (!roster.rulesetNotifer.value.duelistCheck(roster, u)) {
             return false;
           }
 

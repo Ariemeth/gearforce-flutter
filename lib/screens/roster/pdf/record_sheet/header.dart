@@ -89,7 +89,7 @@ pw.Widget buildRosterHeader(pw.Font font, UnitRoster roster) {
             pw.Container(
               //   alignment: pw.Alignment.topRight,
               child: pw.Text(
-                '${roster.faction.value.name} / ${roster.subFaction.value}',
+                '${roster.factionNotifier.value.name} / ${roster.rulesetNotifer.value}',
                 style: standardTextStyle,
                 maxLines: 2,
                 overflow: pw.TextOverflow.clip,

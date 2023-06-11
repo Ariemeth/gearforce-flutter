@@ -3,7 +3,6 @@ import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/factions/faction.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
-import 'package:gearforce/models/factions/sub_faction.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/model_type.dart';
@@ -16,8 +15,8 @@ const _currentRulesVersion = '3.1';
 class UnitRoster extends ChangeNotifier {
   String? player;
   String? name;
-  late final ValueNotifier<Faction> faction;
-  late final ValueNotifier<SubFaction> subFaction;
+  late final ValueNotifier<Faction> factionNotifier;
+  late final ValueNotifier<RuleSet> rulesetNotifer;
   final Map<String, CombatGroup> _combatGroups = new Map<String, CombatGroup>();
 
   int _totalCreated = 0;
@@ -26,21 +25,29 @@ class UnitRoster extends ChangeNotifier {
   bool _isEliteForce = false;
 
   UnitRoster(Data data) {
-    faction = ValueNotifier<Faction>(Faction.blackTalons(data));
-    subFaction = ValueNotifier<SubFaction>(faction.value.defaultSubFaction);
-    faction.addListener(() {
-      subFaction.value = faction.value.defaultSubFaction;
-      _combatGroups.forEach((key, value) {
-        value.clear();
-      });
+    factionNotifier = ValueNotifier<Faction>(Faction.blackTalons(data));
+    rulesetNotifer =
+        ValueNotifier<RuleSet>(factionNotifier.value.defaultSubFaction);
+    factionNotifier.addListener(() {
+      rulesetNotifer.value = factionNotifier.value.defaultSubFaction;
+      _totalCreated = 0;
+      _combatGroups.clear();
+      createCG();
 
-      subFaction.addListener(() {
+      rulesetNotifer.addListener(() {
         // Ensure each combat group is clear
         _combatGroups.forEach((key, value) {
           value.validate(tryFix: true);
         });
 
-        subFaction.value.ruleSet.addListener(() {
+        if (_combatGroups.length > 1) {
+          _combatGroups.removeWhere((key, value) => value.units.length == 0);
+          if (_combatGroups.length == 0) {
+            createCG();
+          }
+        }
+
+        rulesetNotifer.value.addListener(() {
           _combatGroups.forEach((key, value) {
             value.validate(tryFix: true);
           });
@@ -70,16 +77,16 @@ class UnitRoster extends ChangeNotifier {
 
   @override
   String toString() {
-    return 'Roster: {Player: $player, Force Name: $name, Faction: ${faction.value}, Sub-Faction: ${subFaction.value}}, CGs: $_combatGroups';
+    return 'Roster: {Player: $player, Force Name: $name, Faction: ${factionNotifier.value}, Sub-Faction: ${rulesetNotifer.value}}, CGs: $_combatGroups';
   }
 
   Map<String, dynamic> toJson() => {
         'player': player,
         'name': name,
-        'faction': faction.value.factionType.name,
+        'faction': factionNotifier.value.factionType.name,
         'subfaction': {
-          'name': subFaction.value.name,
-          'enabledRules': subFaction.value.ruleSet
+          'name': rulesetNotifer.value.name,
+          'enabledRules': rulesetNotifer.value
               .availableSubFactionRules()
               .where((r) => r.isEnabled)
               .map((r) => {
@@ -107,7 +114,7 @@ class UnitRoster extends ChangeNotifier {
     if (faction != null) {
       try {
         final f = Faction.fromType(FactionType.fromName(faction), data);
-        ur.faction.value = f;
+        ur.factionNotifier.value = f;
       } on Exception catch (e) {
         print(e);
       }
@@ -115,15 +122,15 @@ class UnitRoster extends ChangeNotifier {
     final subFaction = json['subfaction'];
     final subFactionName = subFaction['name'] as String?;
     if (subFactionName != null && faction != null) {
-      if (ur.faction.value.subFactions
+      if (ur.factionNotifier.value.rulesets
           .any((sub) => sub.name == subFactionName)) {
-        ur.subFaction.value = ur.faction.value.subFactions
+        ur.rulesetNotifer.value = ur.factionNotifier.value.rulesets
             .firstWhere((sub) => sub.name == subFactionName);
       }
       final subRules = subFaction['enabledRules'] as List;
       subRules.forEach((subRule) {
         final ruleId = subRule['id'];
-        final rules = ur.subFaction.value.ruleSet.availableSubFactionRules();
+        final rules = ur.rulesetNotifer.value.availableSubFactionRules();
         final rule = rules.where((r) => r.id == ruleId).first;
         rule.setIsEnabled(true, rules);
 
@@ -146,8 +153,8 @@ class UnitRoster extends ChangeNotifier {
         .map((e) => CombatGroup.fromJson(
               e,
               data,
-              ur.faction.value,
-              ur.subFaction.value,
+              ur.factionNotifier.value,
+              ur.rulesetNotifer.value,
               ur,
             ))
         .toList()
@@ -155,7 +162,7 @@ class UnitRoster extends ChangeNotifier {
         ur.addCG(element);
       });
 
-    ur.validate(ur.subFaction.value.ruleSet);
+    ur.validate(ur.rulesetNotifer.value);
 
     return ur;
   }
@@ -163,11 +170,11 @@ class UnitRoster extends ChangeNotifier {
   void copyFrom(UnitRoster ur) {
     this.name = ur.name;
     this.player = ur.player;
-    this.faction.value = ur.faction.value;
-    this.subFaction.value = ur.subFaction.value;
+    this.factionNotifier.value = ur.factionNotifier.value;
+    this.rulesetNotifer.value = ur.rulesetNotifer.value;
     this._activeCG = ur._activeCG;
-    ur._combatGroups.forEach((key, value) {
-      this.addCG(value);
+    ur._combatGroups.forEach((key, cg) {
+      this.addCG(cg);
     });
     this._totalCreated = ur._totalCreated;
     this._isEliteForce = ur._isEliteForce;
@@ -179,6 +186,7 @@ class UnitRoster extends ChangeNotifier {
     cg.addListener(() {
       notifyListeners();
     });
+    cg.roster = this;
     _combatGroups[cg.name] = cg;
     if (_activeCG == '') {
       _activeCG = cg.name;
