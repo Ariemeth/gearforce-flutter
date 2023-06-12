@@ -55,6 +55,7 @@ class PeaceRiver extends RuleSet {
           subFactionRules: subFactionRules,
         );
 
+  @override
   List<FactionModification> availableFactionMods(
       UnitRoster ur, CombatGroup cg, Unit u) {
     List<FactionModification> results = [
@@ -89,7 +90,7 @@ class PeaceRiver extends RuleSet {
       results.add(PeaceRiverFactionMods.gSWATSniper());
     }
 
-    return [...results, ...super.availableFactionMods(ur, cg, u)];
+    return results;
   }
 
   @override
@@ -118,7 +119,7 @@ class PeaceRiver extends RuleSet {
       filters.add(pps.filterSubContractor);
     }
 
-    return [...filters, ...super.availableUnitFilters()];
+    return filters;
   }
 
   @override

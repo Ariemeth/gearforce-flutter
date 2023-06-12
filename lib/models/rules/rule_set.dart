@@ -92,10 +92,9 @@ abstract class RuleSet extends ChangeNotifier {
       min((primaryActions / 2).ceil(), _maxSecondaryActions);
 
   List<FactionModification> availableFactionMods(
-          UnitRoster ur, CombatGroup cg, Unit u) =>
-      [];
+      UnitRoster ur, CombatGroup cg, Unit u);
 
-  List<SpecialUnitFilter> availableUnitFilters() => [];
+  List<SpecialUnitFilter> availableUnitFilters();
 
   List<Unit> availableUnits({
     List<RoleType>? role,

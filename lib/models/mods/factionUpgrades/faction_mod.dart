@@ -1,4 +1,5 @@
 import 'package:gearforce/models/mods/base_modification.dart';
+import 'package:gearforce/models/mods/factionUpgrades/north.dart';
 import 'package:gearforce/models/mods/factionUpgrades/peace_river.dart';
 import 'package:gearforce/models/mods/modification_option.dart';
 import 'package:gearforce/models/roster/roster.dart';
@@ -21,6 +22,7 @@ class FactionModification extends BaseModification {
 
 FactionModification? factionModFromId(String id, UnitRoster ur, Unit u) {
   switch (id) {
+    // Peace River Faction mods
     case e_pexID:
       return PeaceRiverFactionMods.e_pex();
     case warriorEliteID:
@@ -43,6 +45,10 @@ FactionModification? factionModFromId(String id, UnitRoster ur, Unit u) {
       return PeaceRiverFactionMods.peaceOfficers(u);
     case gSWATSniperID:
       return PeaceRiverFactionMods.gSWATSniper();
+
+    // Northern Faction mods
+    case taskBuiltID:
+      return NorthernFactionMods.taskBuilt();
   }
   return null;
 }
