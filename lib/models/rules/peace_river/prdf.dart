@@ -86,10 +86,8 @@ final ruleHighTech = FactionRule(
     id: '$_baseRuleId::highTech',
     isRoleTypeUnlimited: (unit, target, group, roster) {
       return group.groupType == GroupType.Primary &&
-          (unit.reactWeapons.any((w) => w.traits
-                  .any((t) => t.name == 'Advanced' || t.name == 'Guided')) ||
-              unit.mountedWeapons.any((w) => w.traits
-                  .any((t) => t.name == 'Advanced' || t.name == 'Guided')));
+          (unit.weapons.any((w) =>
+              w.traits.any((t) => t.name == 'Advanced' || t.name == 'Guided')));
     },
     description:
         'Models with weapons that have the Advanced or Guided traits have unlimited availability for all primary units.');

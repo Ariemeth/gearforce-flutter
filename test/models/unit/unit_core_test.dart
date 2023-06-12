@@ -27,9 +27,11 @@ void main() {
     expect(fromJson.gunnery, equals(4), reason: "Gunnery check");
     expect(fromJson.piloting, equals(4), reason: "Piloting check");
     expect(fromJson.ew, equals(6), reason: "EW check");
-    expect(fromJson.reactWeapons.toString(), equals('[LAC, LVB]'),
+    expect(fromJson.weapons.where((w) => w.hasReact).toString(),
+        equals('(LAC, LVB)'),
         reason: "React Weapons check");
-    expect(fromJson.mountedWeapons.toString(), equals('[LRP, LAPGL, LPZ]'),
+    expect(fromJson.weapons.where((w) => !w.hasReact).toString(),
+        equals('(LRP, LAPGL, LPZ)'),
         reason: "Mounted Weapons check");
     expect(fromJson.traits.first.name, equals('Hands'), reason: "Traits check");
     expect(fromJson.type, equals(ModelType.Gear), reason: "Unit type check");
@@ -50,9 +52,10 @@ void main() {
     expect(fromJson.gunnery, equals(null), reason: "Gunnery check");
     expect(fromJson.piloting, equals(null), reason: "Piloting check");
     expect(fromJson.ew, equals(null), reason: "EW check");
-    expect(fromJson.reactWeapons, equals([]), reason: "React Weapons check");
+    expect(fromJson.weapons.where((w) => w.hasReact), equals([]),
+        reason: "React Weapons check");
     expect(
-      fromJson.mountedWeapons,
+      fromJson.weapons.where((w) => !w.hasReact),
       equals([]),
       reason: "Mounted Weapons check",
     );
@@ -120,13 +123,13 @@ void main() {
       reason: "EW check",
     );
     expect(
-      tu.attribute(UnitAttribute.react_weapons),
-      equals(tu.reactWeapons),
+      tu.attribute(UnitAttribute.weapons),
+      equals(tu.weapons.where((w) => w.hasReact)),
       reason: "React Weapons check",
     );
     expect(
-      tu.attribute(UnitAttribute.mounted_weapons),
-      equals(tu.mountedWeapons),
+      tu.attribute(UnitAttribute.weapons),
+      equals(tu.weapons.where((w) => !w.hasReact)),
       reason: "Mounted Weapons check",
     );
     expect(

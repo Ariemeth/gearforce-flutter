@@ -19,7 +19,7 @@ final UnitModification sawBladeSwap = UnitModification(
   ..addMod(
       UnitAttribute.name, createSimpleStringMod(false, 'with Saw Blade Swap'))
   ..addMod(
-      UnitAttribute.react_weapons,
+      UnitAttribute.weapons,
       createReplaceWeaponInList(
           oldValue: buildWeapon('MCW (Reach:1 Demo:4)', hasReact: true)!,
           newValue: buildWeapon('MCW (Brawl:1 Demo:4)', hasReact: true)!),
@@ -35,7 +35,7 @@ final UnitModification vibroswordSwap = UnitModification(
   ..addMod(
       UnitAttribute.name, createSimpleStringMod(false, 'with Vibrosword Swap'))
   ..addMod(
-      UnitAttribute.react_weapons,
+      UnitAttribute.weapons,
       createReplaceWeaponInList(
           oldValue: buildWeapon('MCW (Reach:1, Demo:4)', hasReact: true)!,
           newValue: buildWeapon('MVB (Reach:1)', hasReact: true)!),
@@ -49,7 +49,7 @@ final UnitModification destroyer = UnitModification(
   ..addMod(UnitAttribute.tv, createSimpleIntMod(-1), description: 'TV -1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Destroyer Upgrade'))
   ..addMod(
-      UnitAttribute.react_weapons,
+      UnitAttribute.weapons,
       createReplaceWeaponInList(
           oldValue: buildWeapon('HAC', hasReact: true)!,
           newValue: buildWeapon('MBZ', hasReact: true)!),
@@ -64,7 +64,7 @@ final UnitModification demolisher = UnitModification(
   ..addMod(UnitAttribute.name,
       createSimpleStringMod(false, 'with Demolisher Hand Swap'))
   ..addMod(
-      UnitAttribute.react_weapons,
+      UnitAttribute.weapons,
       createReplaceWeaponInList(
           oldValue: buildWeapon('HAC', hasReact: true)!,
           newValue: buildWeapon('MCW (Link Demo:4)', hasReact: true)!),
@@ -85,7 +85,7 @@ final UnitModification heavyChainswordSwap = UnitModification(
   ..addMod(UnitAttribute.name,
       createSimpleStringMod(false, 'with Heavy Chainsword Swap'))
   ..addMod(
-      UnitAttribute.react_weapons,
+      UnitAttribute.weapons,
       createReplaceWeaponInList(
           oldValue: buildWeapon('LVB', hasReact: true)!,
           newValue: buildWeapon('MCW (Brawl:1 Reach:1)', hasReact: true)!),
@@ -101,7 +101,7 @@ final UnitModification maulerFistSwap = UnitModification(
   ..addMod(
       UnitAttribute.name, createSimpleStringMod(false, 'with Mauler Fist Swap'))
   ..addMod(
-      UnitAttribute.react_weapons,
+      UnitAttribute.weapons,
       createReplaceWeaponInList(
           oldValue: buildWeapon('MCW (Reach:1, Demo:4)', hasReact: true)!,
           newValue: buildWeapon('MCW (Brawl:1, Demo:4)', hasReact: true)!),
@@ -117,7 +117,7 @@ final UnitModification chainswordSwap = UnitModification(
   ..addMod(
       UnitAttribute.name, createSimpleStringMod(false, 'with Chainsword Swap'))
   ..addMod(
-      UnitAttribute.react_weapons,
+      UnitAttribute.weapons,
       createReplaceWeaponInList(
           oldValue: buildWeapon('MCW (Brawl:1, Demo:4)', hasReact: true)!,
           newValue: buildWeapon('LCW (Brawl:1, Reach:1)', hasReact: true)!),
@@ -133,7 +133,7 @@ final UnitModification stonemasonChainswordSwap = UnitModification(
   ..addMod(
       UnitAttribute.name, createSimpleStringMod(false, 'with Chainsword Swap'))
   ..addMod(
-      UnitAttribute.react_weapons,
+      UnitAttribute.weapons,
       createReplaceWeaponInList(
           oldValue: buildWeapon('MCW (Reach:1, Demo:4)', hasReact: true)!,
           newValue: buildWeapon('LCW (Brawl:1, Reach:1)', hasReact: true)!),
@@ -147,7 +147,7 @@ final UnitModification strike = UnitModification(
   ..addMod(UnitAttribute.tv, createSimpleIntMod(-1), description: 'TV -1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Strike Upgrade'))
   ..addMod(
-      UnitAttribute.react_weapons,
+      UnitAttribute.weapons,
       createReplaceWeaponInList(
           oldValue: buildWeapon('HAC', hasReact: true)!,
           newValue: buildWeapon('MBZ', hasReact: true)!),
@@ -162,7 +162,7 @@ final UnitModification clawSwap = UnitModification(
   ..addMod(UnitAttribute.tv, createSimpleIntMod(0), description: 'TV +0')
   ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'with Claw Swap'))
   ..addMod(
-      UnitAttribute.react_weapons,
+      UnitAttribute.weapons,
       createReplaceWeaponInList(
           oldValue: buildWeapon('MCW (Brawl:1, Demo:4)', hasReact: true)!,
           newValue: buildWeapon('MVB', hasReact: true)!),
@@ -177,7 +177,7 @@ final UnitModification valenceClawSwap = UnitModification(
   ..addMod(UnitAttribute.tv, createSimpleIntMod(0), description: 'TV +0')
   ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'with Claw Swap'))
   ..addMod(
-      UnitAttribute.react_weapons,
+      UnitAttribute.weapons,
       createReplaceWeaponInList(
           oldValue: buildWeapon('MCW (Reach:1, Demo:4)', hasReact: true)!,
           newValue: buildWeapon('MVB', hasReact: true)!),
@@ -192,7 +192,7 @@ final UnitModification hammerSwap = UnitModification(
   ..addMod(UnitAttribute.tv, createSimpleIntMod(0), description: 'TV +0')
   ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'with Hammer Swap'))
   ..addMod(
-      UnitAttribute.react_weapons,
+      UnitAttribute.weapons,
       createReplaceWeaponInList(
           oldValue: buildWeapon('MCW (Brawl:1, Reach:1)', hasReact: true)!,
           newValue: buildWeapon('MCW (Reach:1, Demo:4)', hasReact: true)!),
@@ -233,7 +233,7 @@ final UnitModification latm = UnitModification(name: 'LATM Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
   ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'with LATM'))
   ..addMod(
-      UnitAttribute.mounted_weapons,
+      UnitAttribute.weapons,
       createReplaceWeaponInList(
           oldValue: buildWeapon('LAAM (Link)')!,
           newValue: buildWeapon('LATM (Link)')!),

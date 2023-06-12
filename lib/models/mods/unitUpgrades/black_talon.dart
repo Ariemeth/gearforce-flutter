@@ -51,20 +51,19 @@ final UnitModification darkMambaPsi = UnitModification(name: 'Psi Upgrade')
 final UnitModification xi = UnitModification(name: 'Xi Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Xi'))
-  ..addMod(
-      UnitAttribute.mounted_weapons, createAddWeaponToList(buildWeapon('MGM')!),
+  ..addMod(UnitAttribute.weapons, createAddWeaponToList(buildWeapon('MGM')!),
       description: '+MGM');
 
 final UnitModification omi = UnitModification(
     name: 'Omi Upgrade',
     requirementCheck: (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
-      return u.reactWeapons
+      return u.weapons
           .any((w) => w.abbreviation == 'HMG' && w.bonusString == '(Apex)');
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Omi'))
   ..addMod(
-      UnitAttribute.react_weapons,
+      UnitAttribute.weapons,
       createReplaceWeaponInList(
           oldValue: buildWeapon('HMG (Apex)', hasReact: true)!,
           newValue: buildWeapon('LLC', hasReact: true)!),
@@ -73,13 +72,13 @@ final UnitModification omi = UnitModification(
 final UnitModification zeta = UnitModification(
     name: 'Zeta Upgrade',
     requirementCheck: (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
-      return u.reactWeapons
+      return u.weapons
           .any((w) => w.abbreviation == 'HMG' && w.bonusString == '(Apex)');
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Zeta'))
   ..addMod(
-      UnitAttribute.react_weapons,
+      UnitAttribute.weapons,
       createReplaceWeaponInList(
           oldValue: buildWeapon('HMG (Apex)', hasReact: true)!,
           newValue: buildWeapon('LPA', hasReact: true)!),
@@ -88,13 +87,13 @@ final UnitModification zeta = UnitModification(
 final UnitModification pur = UnitModification(
     name: 'Pur Upgrade',
     requirementCheck: (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
-      return u.reactWeapons
+      return u.weapons
           .any((w) => w.abbreviation == 'HMG' && w.bonusString == '(Apex)');
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(0), description: 'TV 0')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Pur'))
   ..addMod(
-      UnitAttribute.react_weapons,
+      UnitAttribute.weapons,
       createReplaceWeaponInList(
           oldValue: buildWeapon('HMG (Apex)', hasReact: true)!,
           newValue: buildWeapon('MFL', hasReact: true)!),
@@ -120,18 +119,17 @@ final UnitModification darkCoyotePsi = UnitModification(name: 'Psi Upgrade')
 final UnitModification iota = UnitModification(name: 'Iota Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(0), description: 'TV +0')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Iota'))
-  ..addMod(UnitAttribute.mounted_weapons,
-      createRemoveWeaponFromList(buildWeapon('MRP')!),
+  ..addMod(
+      UnitAttribute.weapons, createRemoveWeaponFromList(buildWeapon('MRP')!),
       description: '-MRP')
-  ..addMod(UnitAttribute.mounted_weapons,
-      createAddWeaponToList(buildWeapon('LAPR')!),
+  ..addMod(UnitAttribute.weapons, createAddWeaponToList(buildWeapon('LAPR')!),
       description: '+LAPR');
 
 final UnitModification theta = UnitModification(name: 'Theta Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Theta'))
   ..addMod(
-      UnitAttribute.mounted_weapons,
+      UnitAttribute.weapons,
       createReplaceWeaponInList(
           oldValue: buildWeapon('MGM')!, newValue: buildWeapon('MATM')!),
       description: '-MGM, +MATM');
@@ -166,7 +164,7 @@ final UnitModification blackwindTheta = UnitModification(name: 'Theta Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Theta'))
   ..addMod(
-      UnitAttribute.mounted_weapons,
+      UnitAttribute.weapons,
       createReplaceWeaponInList(
           oldValue: buildWeapon('MRP (Link)')!,
           newValue: buildWeapon('LATM (Link)')!),

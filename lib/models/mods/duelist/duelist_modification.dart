@@ -253,7 +253,7 @@ class DuelistModification extends BaseModification {
       },
           description:
               'TV +2/3, Add Stable to a weapon for TV +3 for combo weapons or +2 for regular weapons')
-      ..addMod<List<Weapon>>(UnitAttribute.react_weapons, (value) {
+      ..addMod<List<Weapon>>(UnitAttribute.weapons, (value) {
         final newList = value.toList();
 
         if (modOptions.selectedOption != null &&
@@ -263,20 +263,6 @@ class DuelistModification extends BaseModification {
           var existingWeapon = newList.firstWhere((weapon) =>
               weapon.toString() == modOptions.selectedOption?.text &&
               weapon.hasReact);
-          existingWeapon.bonusTraits.add(traitToAdd);
-        }
-        return newList;
-      })
-      ..addMod<List<Weapon>>(UnitAttribute.mounted_weapons, (value) {
-        final newList = value.toList();
-
-        if (modOptions.selectedOption != null &&
-            newList.any((weapon) =>
-                weapon.toString() == modOptions.selectedOption?.text &&
-                !weapon.hasReact)) {
-          var existingWeapon = newList.firstWhere((weapon) =>
-              weapon.toString() == modOptions.selectedOption?.text &&
-              !weapon.hasReact);
           existingWeapon.bonusTraits.add(traitToAdd);
         }
         return newList;
@@ -320,30 +306,14 @@ class DuelistModification extends BaseModification {
       },
           description:
               'TV +1/2, Add Precise to a weapon for TV +2 for combo weapons or +1 for regular weapons')
-      ..addMod<List<Weapon>>(UnitAttribute.react_weapons, (value) {
+      ..addMod<List<Weapon>>(UnitAttribute.weapons, (value) {
         final newList = value.toList();
 
         if (modOptions.selectedOption != null &&
             newList.any((weapon) =>
-                weapon.toString() == modOptions.selectedOption?.text &&
-                weapon.hasReact)) {
-          var existingWeapon = newList.firstWhere((weapon) =>
-              weapon.toString() == modOptions.selectedOption?.text &&
-              weapon.hasReact);
-          existingWeapon.bonusTraits.add(traitToAdd);
-        }
-        return newList;
-      })
-      ..addMod<List<Weapon>>(UnitAttribute.mounted_weapons, (value) {
-        final newList = value;
-
-        if (modOptions.selectedOption != null &&
-            newList.any((weapon) =>
-                weapon.toString() == modOptions.selectedOption?.text &&
-                !weapon.hasReact)) {
-          var existingWeapon = newList.firstWhere((weapon) =>
-              weapon.toString() == modOptions.selectedOption?.text &&
-              !weapon.hasReact);
+                weapon.toString() == modOptions.selectedOption?.text)) {
+          var existingWeapon = newList.firstWhere(
+              (weapon) => weapon.toString() == modOptions.selectedOption?.text);
           existingWeapon.bonusTraits.add(traitToAdd);
         }
         return newList;
@@ -395,7 +365,7 @@ class DuelistModification extends BaseModification {
       ..addMod<int>(UnitAttribute.tv, createSimpleIntMod(1),
           description: 'TV +1')
       ..addMod<List<Weapon>>(
-        UnitAttribute.react_weapons,
+        UnitAttribute.weapons,
         (value) {
           final newList = value.toList();
 
@@ -480,7 +450,7 @@ class DuelistModification extends BaseModification {
         description: 'TV +1',
       )
       ..addMod(
-        UnitAttribute.react_weapons,
+        UnitAttribute.weapons,
         createAddWeaponToList(trickPistol),
         description: '+LP (Link, Split)',
       );
@@ -493,12 +463,10 @@ class DuelistModification extends BaseModification {
   */
   factory DuelistModification.dualMeleeWeapons(Unit u) {
     final RegExp meleeCheck = RegExp(r'(VB|CW|SG)');
-    final react = u.reactWeapons;
-    final mounted = u.mountedWeapons;
     final List<ModificationOption> _options = [];
     const traitToAdd = const Trait(name: 'Link');
 
-    final allWeapons = react.toList()..addAll(mounted);
+    final allWeapons = u.weapons;
     allWeapons
         .where((weapon) => meleeCheck.hasMatch(weapon.code))
         .forEach((weapon) {
@@ -525,30 +493,14 @@ class DuelistModification extends BaseModification {
               'TV +1, Add the Link trait to any melee weapon other than ' +
                   'Shaped Explosives. This adds a second weapon of the ' +
                   'same type to the model.')
-      ..addMod<List<Weapon>>(UnitAttribute.react_weapons, (value) {
+      ..addMod<List<Weapon>>(UnitAttribute.weapons, (value) {
         final newList =
             value.map((weapon) => Weapon.fromWeapon(weapon)).toList();
         if (modOptions.selectedOption != null &&
             newList.any((weapon) =>
-                weapon.toString() == modOptions.selectedOption?.text &&
-                weapon.hasReact)) {
-          var existingWeapon = newList.firstWhere((weapon) =>
-              weapon.toString() == modOptions.selectedOption?.text &&
-              weapon.hasReact);
-          existingWeapon.bonusTraits.add(traitToAdd);
-        }
-        return newList;
-      })
-      ..addMod<List<Weapon>>(UnitAttribute.mounted_weapons, (value) {
-        final newList = value;
-
-        if (modOptions.selectedOption != null &&
-            newList.any((weapon) =>
-                weapon.toString() == modOptions.selectedOption?.text &&
-                !weapon.hasReact)) {
-          var existingWeapon = newList.firstWhere((weapon) =>
-              weapon.toString() == modOptions.selectedOption?.text &&
-              !weapon.hasReact);
+                weapon.toString() == modOptions.selectedOption?.text)) {
+          var existingWeapon = newList.firstWhere(
+              (weapon) => weapon.toString() == modOptions.selectedOption?.text);
           existingWeapon.bonusTraits.add(traitToAdd);
         }
         return newList;
@@ -648,7 +600,7 @@ class DuelistModification extends BaseModification {
           return DuelistModification.meleeUpgrade(u);
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
-      ..addMod<List<Weapon>>(UnitAttribute.react_weapons, (value) {
+      ..addMod<List<Weapon>>(UnitAttribute.weapons, (value) {
         // check if an option has been selected
         if (modOptions.selectedOption == null) {
           return value;

@@ -141,7 +141,7 @@ class PeaceRiverFactionMods extends FactionModification {
       ..addMod<List<Trait>>(UnitAttribute.traits,
           createAddTraitToList(const Trait(name: 'Shield')),
           description: '+Shield')
-      ..addMod<List<Weapon>>(UnitAttribute.react_weapons, (value) {
+      ..addMod<List<Weapon>>(UnitAttribute.weapons, (value) {
         final newList = value.toList();
 
         if (modOptions.selectedOption == null ||
@@ -197,7 +197,7 @@ class PeaceRiverFactionMods extends FactionModification {
     )
       ..addMod<int>(UnitAttribute.tv, createSimpleIntMod(1),
           description: 'TV: +1')
-      ..addMod<List<Weapon>>(UnitAttribute.react_weapons, (value) {
+      ..addMod<List<Weapon>>(UnitAttribute.weapons, (value) {
         if (value.isEmpty) {
           return value;
         }
@@ -221,30 +221,7 @@ class PeaceRiverFactionMods extends FactionModification {
       },
           description: 'Veteran universal infantry and veteran Spitz ' +
               'Monowheels may upgrade their IW, IR or IS with the Advanced ' +
-              'trait.')
-      ..addMod<List<Weapon>>(UnitAttribute.mounted_weapons, (value) {
-        if (value.isEmpty) {
-          return value;
-        }
-        final newList = value.toList();
-
-        if (modOptions.selectedOption == null ||
-            !newList
-                .any((w) => w.toString() == modOptions.selectedOption?.text)) {
-          return newList;
-        }
-
-        final selectedWeaponToRemove = newList
-            .firstWhere((w) => w.toString() == modOptions.selectedOption?.text);
-
-        newList.remove(selectedWeaponToRemove);
-        newList.add(Weapon.fromWeapon(
-          selectedWeaponToRemove,
-          addTraits: [const Trait(name: 'Advanced')],
-        ));
-
-        return newList;
-      });
+              'trait.');
   }
 /*
   Ol’ Trusty: Warriors, Jackals and Spartans may increase their GU skill by one for 1
@@ -413,12 +390,12 @@ class PeaceRiverFactionMods extends FactionModification {
   factory PeaceRiverFactionMods.peaceOfficers(Unit unit) {
     const weaponCodeToRemove = 'RP';
     final unitRPToRemove = unit
-            .attribute<List<Weapon>>(UnitAttribute.mounted_weapons,
+            .attribute<List<Weapon>>(UnitAttribute.weapons,
                 modIDToSkip: peaceOfficersID)
             .any((w) => w.code == weaponCodeToRemove)
         ? unit
             .attribute<List<Weapon>>(
-              UnitAttribute.mounted_weapons,
+              UnitAttribute.weapons,
               modIDToSkip: peaceOfficersID,
             )
             .firstWhere((w) => w.code == weaponCodeToRemove)
@@ -451,7 +428,7 @@ class PeaceRiverFactionMods extends FactionModification {
     )
       ..addMod<int>(UnitAttribute.tv, createSimpleIntMod(1),
           description: 'TV: +1')
-      ..addMod<List<Weapon>>(UnitAttribute.mounted_weapons, (value) {
+      ..addMod<List<Weapon>>(UnitAttribute.weapons, (value) {
         return new List<Weapon>.from(value)
             .where(
                 (existingWeapon) => existingWeapon.code != weaponCodeToRemove)

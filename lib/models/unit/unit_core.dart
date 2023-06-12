@@ -19,8 +19,7 @@ class UnitCore {
     required this.gunnery,
     required this.piloting,
     required this.ew,
-    required this.reactWeapons,
-    required this.mountedWeapons,
+    required this.weapons,
     required this.traits,
     required this.type,
     required this.height,
@@ -37,8 +36,7 @@ class UnitCore {
   final int? gunnery;
   final int? piloting;
   final int? ew;
-  final List<Weapon> reactWeapons;
-  final List<Weapon> mountedWeapons;
+  final List<Weapon> weapons;
   final List<Trait> traits;
   final ModelType type;
   final String height;
@@ -56,8 +54,7 @@ class UnitCore {
     this.gunnery = 4,
     this.piloting = 4,
     this.ew = 5,
-    this.reactWeapons = const [],
-    this.mountedWeapons = const [],
+    this.weapons = const [],
     this.traits = const [],
     this.type = ModelType.Gear,
     this.height = '1.5',
@@ -88,10 +85,8 @@ class UnitCore {
         return this.piloting;
       case UnitAttribute.ew:
         return this.ew;
-      case UnitAttribute.react_weapons:
-        return this.reactWeapons;
-      case UnitAttribute.mounted_weapons:
-        return this.mountedWeapons;
+      case UnitAttribute.weapons:
+        return this.weapons;
       case UnitAttribute.traits:
         return this.traits;
       case UnitAttribute.type:
@@ -165,10 +160,7 @@ class UnitCore {
         return true;
       }
 
-      if (this.reactWeapons.toString().toLowerCase().contains(c)) {
-        return true;
-      }
-      if (this.mountedWeapons.toString().toLowerCase().contains(c)) {
+      if (this.weapons.toString().toLowerCase().contains(c)) {
         return true;
       }
 
@@ -238,8 +230,7 @@ class UnitCore {
       ew: json['ew'].toString() == '-'
           ? null
           : int.parse(json['ew'].toString().substring(0, 1)),
-      reactWeapons: reactWeapons,
-      mountedWeapons: mountedWeapons,
+      weapons: [...reactWeapons, ...mountedWeapons],
       traits: traits,
       type: ModelType.fromName(json['type']),
       height: json['height'].toString(),
@@ -270,8 +261,7 @@ class UnitCore {
         "GU: $g " +
         "PI: $p " +
         "EW: $e " +
-        "React Weapons: ${this.reactWeapons} " +
-        "Mounted Weapons: ${this.mountedWeapons} " +
+        "Weapons: ${this.weapons} " +
         "Traits: ${this.traits} " +
         "Type: ${this.type} " +
         "Height: ${this.height} " +

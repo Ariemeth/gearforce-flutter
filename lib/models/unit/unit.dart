@@ -340,15 +340,42 @@ class Unit extends ChangeNotifier {
       .map((m) => '${m.name}(${m.applyMods(UnitAttribute.tv, 0)})')
       .toList();
 
-  List<Weapon> get mountedWeapons {
+  List<Weapon> get reactWeapons {
     var newList = this
         .core
-        .mountedWeapons
+        .weapons
+        .where((weapon) => weapon.hasReact)
         .map((weapon) => Weapon.fromWeapon(weapon))
         .toList();
 
     for (var mod in this._mods) {
-      newList = mod.applyMods(UnitAttribute.mounted_weapons, newList);
+      newList = mod.applyMods(UnitAttribute.weapons, newList);
+    }
+
+    return newList;
+  }
+
+  List<Weapon> get mountedWeapons {
+    var newList = this
+        .core
+        .weapons
+        .where((weapon) => !weapon.hasReact)
+        .map((weapon) => Weapon.fromWeapon(weapon))
+        .toList();
+
+    for (var mod in this._mods) {
+      newList = mod.applyMods(UnitAttribute.weapons, newList);
+    }
+
+    return newList;
+  }
+
+  List<Weapon> get weapons {
+    var newList =
+        this.core.weapons.map((weapon) => Weapon.fromWeapon(weapon)).toList();
+
+    for (var mod in this._mods) {
+      newList = mod.applyMods(UnitAttribute.weapons, newList);
     }
 
     return newList;
@@ -380,20 +407,6 @@ class Unit extends ChangeNotifier {
       value = mod.applyMods(UnitAttribute.piloting, value);
     }
     return value;
-  }
-
-  List<Weapon> get reactWeapons {
-    var newList = this
-        .core
-        .reactWeapons
-        .map((weapon) => Weapon.fromWeapon(weapon))
-        .toList();
-
-    for (var mod in this._mods) {
-      newList = mod.applyMods(UnitAttribute.react_weapons, newList);
-    }
-
-    return newList;
   }
 
   Roles? get role {
@@ -482,10 +495,6 @@ class Unit extends ChangeNotifier {
     }
 
     return sp;
-  }
-
-  List<Weapon> get weapons {
-    return reactWeapons..addAll(mountedWeapons);
   }
 
   addTag(String tag) {
