@@ -123,12 +123,14 @@ class Data {
   Future<void> load() async {
     this._factions = _loadFactions();
 
-    await Future.forEach<FactionType>(_factionUnitFiles.keys, (key) async {
-      String? filename = _factionUnitFiles[key];
+    await Future.forEach<MapEntry<FactionType, String>>(
+        _factionUnitFiles.entries.map((me) => me).toList(), (me) async {
+      final String filename = me.value;
+      final FactionType key = me.key;
+
       try {
-        await _loadFrames(filename!).then(
-          (value) => _factionFrames[key] = value,
-        );
+        await _loadFrames(filename, faction: key)
+            .then((frames) => _factionFrames[key] = frames);
       } catch (e) {
         print('Exception caught loading $key from $filename: $e');
       }
@@ -149,9 +151,12 @@ class Data {
     ];
   }
 
-  Future<List<Frame>> _loadFrames(String filename) async {
+  Future<List<Frame>> _loadFrames(
+    String filename, {
+    required FactionType faction,
+  }) async {
     var jsonData = await rootBundle.loadString(filename);
     var decodedData = json.decode(jsonData)['frames'] as List;
-    return decodedData.map((f) => Frame.fromJson(f)).toList();
+    return decodedData.map((f) => Frame.fromJson(f, faction: faction)).toList();
   }
 }

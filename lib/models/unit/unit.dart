@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/combatGroups/group.dart';
 import 'package:gearforce/models/factions/faction.dart';
+import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/mods/base_modification.dart';
 import 'package:gearforce/models/mods/duelist/duelist_modification.dart';
 import 'package:gearforce/models/mods/duelist/duelist_upgrades.dart';
@@ -471,6 +472,8 @@ class Unit extends ChangeNotifier {
 
     return value;
   }
+
+  FactionType get faction => core.faction;
 
   int get commandPoints {
     if (commandLevel == CommandLevel.none) {

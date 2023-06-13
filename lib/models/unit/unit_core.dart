@@ -1,3 +1,4 @@
+import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/model_type.dart';
 import 'package:gearforce/models/unit/movement.dart';
@@ -24,6 +25,7 @@ class UnitCore {
     required this.type,
     required this.height,
     this.frame = '',
+    this.faction = FactionType.None,
   });
   final String name;
   final int tv;
@@ -41,25 +43,26 @@ class UnitCore {
   final ModelType type;
   final String height;
   final String frame;
+  final FactionType faction;
 
-  const UnitCore.test({
-    this.name = 'test',
-    this.tv = 5,
-    this.role = const Roles(roles: [Role(name: RoleType.GP)]),
-    this.movement = const Movement(type: 'G', rate: 7),
-    this.armor = 6,
-    this.hull = 3,
-    this.structure = 3,
-    this.actions = 1,
-    this.gunnery = 4,
-    this.piloting = 4,
-    this.ew = 5,
-    this.weapons = const [],
-    this.traits = const [],
-    this.type = ModelType.Gear,
-    this.height = '1.5',
-    this.frame = 'none',
-  });
+  const UnitCore.test(
+      {this.name = 'test',
+      this.tv = 5,
+      this.role = const Roles(roles: [Role(name: RoleType.GP)]),
+      this.movement = const Movement(type: 'G', rate: 7),
+      this.armor = 6,
+      this.hull = 3,
+      this.structure = 3,
+      this.actions = 1,
+      this.gunnery = 4,
+      this.piloting = 4,
+      this.ew = 5,
+      this.weapons = const [],
+      this.traits = const [],
+      this.type = ModelType.Gear,
+      this.height = '1.5',
+      this.frame = 'none',
+      this.faction = FactionType.None});
 
   dynamic attribute(UnitAttribute att) {
     switch (att) {
@@ -178,7 +181,11 @@ class UnitCore {
     return false;
   }
 
-  factory UnitCore.fromJson(dynamic json, {String frame = ''}) {
+  factory UnitCore.fromJson(
+    dynamic json, {
+    String frame = '',
+    FactionType faction = FactionType.None,
+  }) {
     List<Weapon> reactWeapons = json['react-weapons'] == '-'
         ? []
         : List.from(json['react-weapons']
@@ -234,6 +241,7 @@ class UnitCore {
       traits: traits,
       type: ModelType.fromName(json['type']),
       height: json['height'].toString(),
+      faction: faction,
     );
 
     return uc;
@@ -266,6 +274,7 @@ class UnitCore {
         "Type: ${this.type} " +
         "Height: ${this.height} " +
         "Frame: ${this.frame}" +
+        "Faction: ${this.faction}" +
         "}";
   }
 }
