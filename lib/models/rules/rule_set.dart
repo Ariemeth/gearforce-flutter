@@ -91,6 +91,15 @@ abstract class RuleSet extends ChangeNotifier {
   int maxSecondaryActions(int primaryActions) =>
       min((primaryActions / 2).ceil(), _maxSecondaryActions);
 
+  bool isRuleEnabled(String ruleName) =>
+      FactionRule.isRuleEnabled(allFactionRules, ruleName);
+
+  FactionRule? findFactionRule(String ruleName) =>
+      FactionRule.findRule(allFactionRules, ruleName);
+
+  List<FactionRule> allEnabledRules() =>
+      FactionRule.enabledRules(allFactionRules);
+
   List<FactionModification> availableFactionMods(
       UnitRoster ur, CombatGroup cg, Unit u);
 
@@ -234,7 +243,14 @@ abstract class RuleSet extends ChangeNotifier {
   List<CombatGroupOption> combatGroupSettings() => [];
 
   bool duelistCheck(UnitRoster roster, Unit u) {
-    if (u.type != ModelType.Gear) {
+    final modelCheckOverrides =
+        allEnabledRules().where((rule) => rule.duelistModelCheck != null);
+    if (modelCheckOverrides.isNotEmpty) {
+      if (modelCheckOverrides
+          .any((rule) => !rule.duelistModelCheck!(roster, u))) {
+        return false;
+      }
+    } else if (u.type != ModelType.Gear) {
       return false;
     }
 
@@ -262,12 +278,6 @@ abstract class RuleSet extends ChangeNotifier {
 
     return false;
   }
-
-  bool isRuleEnabled(String ruleName) =>
-      FactionRule.isRuleEnabled(allFactionRules, ruleName);
-
-  FactionRule? findFactionRule(String ruleName) =>
-      FactionRule.findRule(allFactionRules, ruleName);
 
   bool isUnitCountWithinLimits(CombatGroup cg, Group group, Unit unit) {
     // get the number other instances of this unitcore in the group

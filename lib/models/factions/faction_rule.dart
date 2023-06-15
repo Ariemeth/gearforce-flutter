@@ -16,7 +16,7 @@ class FactionRule extends ChangeNotifier {
     this.canBeToggled = false,
     this.requirementCheck = ruleAlwaysAvailable,
     this.cgCheck = alwaysTrueCG,
-    this.duelistCheck,
+    this.duelistModelCheck,
     this.veteranModCheck,
     this.modCostOverride,
     this.canBeCommand,
@@ -47,7 +47,7 @@ class FactionRule extends ChangeNotifier {
   final bool Function(List<FactionRule>) requirementCheck;
   final bool Function(CombatGroup?, UnitRoster?) cgCheck;
 
-  final bool Function(UnitRoster roster, Unit u)? duelistCheck;
+  final bool Function(UnitRoster roster, Unit u)? duelistModelCheck;
   final bool Function(Unit u, CombatGroup cg, {required String modID})?
       veteranModCheck;
   final int Function(int baseCost, String modID, Unit u)? modCostOverride;
@@ -124,6 +124,20 @@ class FactionRule extends ChangeNotifier {
     return null;
   }
 
+  static List<FactionRule> enabledRules(List<FactionRule> rules) {
+    final List<FactionRule> results = [];
+    rules.forEach((rule) {
+      if (rule.isEnabled) {
+        results.add(rule);
+        if (rule.options != null) {
+          results.addAll(enabledRules(rule.options!));
+        }
+      }
+    });
+
+    return results;
+  }
+
   static bool ruleAlwaysAvailable(List<FactionRule> rules) => true;
 
   static bool Function(List<FactionRule> rules) thereCanBeOnlyOne(
@@ -157,7 +171,7 @@ class FactionRule extends ChangeNotifier {
       requirementCheck: requirementCheck != null
           ? requirementCheck
           : original.requirementCheck,
-      duelistCheck: original.duelistCheck,
+      duelistModelCheck: original.duelistModelCheck,
       veteranModCheck: original.veteranModCheck,
       modCostOverride: original.modCostOverride,
       canBeCommand: original.canBeCommand,

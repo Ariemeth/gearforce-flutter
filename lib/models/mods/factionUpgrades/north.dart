@@ -24,6 +24,11 @@ class NorthernFactionMods extends FactionModification {
           options: options,
           id: id,
         );
+  /*
+    Task Built: Each Northern gear may swap its rocket pack for an Heavy Machinegun (HMG) for 0 TV. Each Northern
+    gear without a rocket pack may add an HMG for 1 TV. Each Bricklayer, Engineering Grizzly, Camel Truck and Stinger
+    may also add an HMG for 1 TV.
+  */
   factory NorthernFactionMods.taskBuilt() {
     final RequirementCheck reqCheck =
         (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
@@ -33,6 +38,7 @@ class NorthernFactionMods extends FactionModification {
       if (rs == null || !rs.isRuleEnabled(ruleTaskBuilt.id)) {
         return false;
       }
+      // TODO implement
 
       return true;
     };

@@ -149,21 +149,6 @@ class PeaceRiver extends RuleSet {
   }
 
   @override
-  bool duelistCheck(UnitRoster roster, Unit u) {
-    final rule = findFactionRule(ruleArchitects.id);
-    if (rule != null && rule.isEnabled) {
-      if (!rule.duelistCheck!(roster, u)) {
-        return false;
-      }
-    } else if (u.type != ModelType.Gear) {
-      return false;
-    }
-
-    // only 1 duelist is allowed.
-    return !roster.hasDuelist();
-  }
-
-  @override
   bool hasGroupRole(Unit unit, RoleType target) {
     var rule = findFactionRule(poc.ruleSpecialIssue.id);
     if (rule != null &&
@@ -258,7 +243,7 @@ class PeaceRiver extends RuleSet {
 final ruleArchitects = FactionRule(
     name: 'Architects',
     id: '$_baseRuleId::architects',
-    duelistCheck: (roster, u) {
+    duelistModelCheck: (roster, u) {
       return (u.type == ModelType.Gear || u.type == ModelType.Strider);
     },
     description: 'The duelist for this force may use a Peace River strider.');
