@@ -260,19 +260,39 @@ abstract class RuleSet extends ChangeNotifier {
 
   // Ensure the target Roletype is within the Roles
   bool hasGroupRole(Unit unit, RoleType target) {
+    final hasGroupRoleOverride =
+        allEnabledRules().where((rule) => rule.hasGroupRole != null);
+    if (hasGroupRoleOverride.isNotEmpty) {
+      if (hasGroupRoleOverride
+          .any((rule) => rule.hasGroupRole!(unit, target))) {
+        return true;
+      }
+    }
+
     return unit.role == null ? false : unit.role!.includesRole([target]);
   }
 
   // Check if the role is unlimited
   bool isRoleTypeUnlimited(
-      Unit unit, RoleType target, Group group, UnitRoster? ur) {
+    Unit unit,
+    RoleType target,
+    Group group,
+    UnitRoster? ur,
+  ) {
+    final isRoleTypeUnlimitedOverride =
+        allEnabledRules().where((rule) => rule.isRoleTypeUnlimited != null);
+    if (isRoleTypeUnlimitedOverride.isNotEmpty) {
+      if (isRoleTypeUnlimitedOverride
+          .any((rule) => rule.isRoleTypeUnlimited!(unit, target, group, ur))) {
+        return true;
+      }
+    }
+
     if (unit.role == null) {
       return false;
     }
 
-    if (unit.role!.roles
-        .firstWhere(((role) => role.name == target))
-        .unlimited) {
+    if (unit.role!.roles.any((r) => r.name == target && r.unlimited)) {
       return true;
     }
 
@@ -282,8 +302,18 @@ abstract class RuleSet extends ChangeNotifier {
   bool isUnitCountWithinLimits(CombatGroup cg, Group group, Unit unit) {
     // get the number other instances of this unitcore in the group
     var count = 0;
-    var maxCount = 2;
-    if (unit.type == ModelType.AirstrikeCounter) {
+    var maxCount = group.allUnits().contains(unit) ? 3 : 2;
+
+    final unitCountOverride =
+        allEnabledRules().where((rule) => rule.unitCountOverride != null);
+    if (unitCountOverride.isNotEmpty &&
+        unitCountOverride
+            .any((rule) => rule.unitCountOverride!(cg, group, unit) != null)) {
+      count = unitCountOverride
+          .firstWhere(
+              (rule) => rule.unitCountOverride!(cg, group, unit) != null)
+          .unitCountOverride!(cg, group, unit)!;
+    } else if (unit.type == ModelType.AirstrikeCounter) {
       count = cg.roster == null
           ? cg.units.where((u) => u.type == ModelType.AirstrikeCounter).length
           : cg.roster!.totalAirstrikeCounters();
@@ -291,7 +321,6 @@ abstract class RuleSet extends ChangeNotifier {
     } else {
       count =
           group.allUnits().where((u) => u.core.name == unit.core.name).length;
-      maxCount = group.allUnits().contains(unit) ? 3 : 2;
     }
 
     // Can only have a max of 2 non-unlimted units in a group.

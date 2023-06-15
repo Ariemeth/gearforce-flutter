@@ -6,6 +6,7 @@ import 'package:gearforce/models/factions/faction_rule.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/mods/factionUpgrades/faction_mod.dart';
 import 'package:gearforce/models/mods/factionUpgrades/peace_river.dart';
+import 'package:gearforce/models/mods/unitUpgrades/peace_river.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/rules/options/combat_group_options.dart';
 import 'package:gearforce/models/rules/peace_river/poc.dart' as poc;
@@ -14,7 +15,6 @@ import 'package:gearforce/models/rules/peace_river/prdf.dart' as prdf;
 import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/rules/options/special_unit_filter.dart';
 import 'package:gearforce/models/unit/model_type.dart';
-import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
 
 const String _baseRuleId = 'rule::peaceriver';
@@ -148,41 +148,31 @@ class PeaceRiver extends RuleSet {
     return options;
   }
 
-  @override
-  bool hasGroupRole(Unit unit, RoleType target) {
-    var rule = findFactionRule(poc.ruleSpecialIssue.id);
-    if (rule != null &&
-        rule.isEnabled &&
-        rule.hasGroupRole != null &&
-        rule.hasGroupRole!(unit, target)) {
-      return true;
-    }
+  // @override
+  // bool isRoleTypeUnlimited(
+  //     Unit unit, RoleType target, Group group, UnitRoster? ur) {
+  //   var rule = findFactionRule(prdf.ruleHighTech.id);
+  //   if (rule != null &&
+  //       rule.isEnabled &&
+  //       rule.isRoleTypeUnlimited != null &&
+  //       rule.isRoleTypeUnlimited!(unit, target, group, ur)) {
+  //     return true;
+  //   }
 
-    return super.hasGroupRole(unit, target);
-  }
+  //   rule = findFactionRule(ruleCrisisResponders.id);
+  //   if (rule != null &&
+  //       rule.isEnabled &&
+  //       rule.isRoleTypeUnlimited != null &&
+  //       rule.isRoleTypeUnlimited!(unit, target, group, ur)) {
+  //     return true;
+  //   }
 
-  @override
-  bool isRoleTypeUnlimited(
-      Unit unit, RoleType target, Group group, UnitRoster? ur) {
-    var rule = findFactionRule(prdf.ruleHighTech.id);
-    if (rule != null &&
-        rule.isEnabled &&
-        rule.isRoleTypeUnlimited != null &&
-        rule.isRoleTypeUnlimited!(unit, target, group, ur)) {
-      return true;
-    }
+  //   return super.isRoleTypeUnlimited(unit, target, group, ur);
+  // }
 
-    rule = findFactionRule(ruleCrisisResponders.id);
-    if (rule != null &&
-        rule.isEnabled &&
-        rule.isRoleTypeUnlimited != null &&
-        rule.isRoleTypeUnlimited!(unit, target, group, ur)) {
-      return true;
-    }
-
-    return super.isRoleTypeUnlimited(unit, target, group, ur);
-  }
-
+// TODO removing this override allows multiple Black talon models to be added to
+// a cg without the the best men and women cg option selected
+// what if cg options are checked in the faction rule instead of in the rule_set?
   @override
   bool isUnitCountWithinLimits(CombatGroup cg, Group group, Unit unit) {
     if (unit.hasTag(prdf.ruleBestMenAndWomen.id)) {
@@ -252,13 +242,17 @@ final ruleCrisisResponders = FactionRule(
     name: 'Crisis Responders',
     id: '$_baseRuleId::crisisResponders',
     isRoleTypeUnlimited: (unit, target, group, roster) {
-      assert(roster != null);
-
-      return roster!.getCGs().any(
-            (cg) => cg.units.any(
-              (u) => u.core == unit.core && u.hasMod(crisisRespondersID),
-            ),
-          );
+      return unit.hasMod(crusaderVMod);
+    },
+    unitCountOverride: (cg, group, unit) {
+      if (unit.core.name != 'Crusader IV') {
+        return null;
+      }
+      return group
+          .allUnits()
+          .where(
+              (u) => u.core.name == unit.core.name && !u.hasMod(crusaderVMod))
+          .length;
     },
     description:
         'Any Crusader IV that has been upgraded to a Crusader V may swap their HAC, MSC, MBZ or LFG for a MPA (React) and a Shield for 1 TV. This Crisis Responder variant is unlimited for this force.');

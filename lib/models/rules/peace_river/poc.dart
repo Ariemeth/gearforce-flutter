@@ -105,7 +105,7 @@ final rulePOCOlTrusty = FactionRule(
 );
 final rulePeaceOfficer = FactionRule(
     name: 'Peace Officer',
-    id: '$_baseRuleId::peaceOffice',
+    id: '$_baseRuleId::peaceOfficer',
     description:
         'Gears from one combat group may swap their rocket packs for the Shield trait. If a gear does not have a rocket pack, then it may instead gain the Shield trait for 1 TV.');
 final ruleGSwatSniper = FactionRule(

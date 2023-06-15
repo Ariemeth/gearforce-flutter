@@ -97,7 +97,8 @@ final ruleBestMenAndWomen = FactionRule(
   description:
       'One model in each combat group may be selected from the Black Talon model list.',
   isUnitCountWithinLimits: (cg, group, unit) {
-    return cg.units.where((u) => u.hasTag(_ruleBestMenAndWomenID)).length == 0;
+    return cg.units.where((u) => u.faction == FactionType.BlackTalon).length ==
+        0;
   },
 );
 final ruleEliteElements = FactionRule(

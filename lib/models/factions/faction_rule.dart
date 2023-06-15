@@ -24,6 +24,7 @@ class FactionRule extends ChangeNotifier {
     this.hasGroupRole,
     this.isRoleTypeUnlimited,
     this.isUnitCountWithinLimits,
+    this.unitCountOverride,
   }) {
     _isEnabled = isEnabled;
     _options = options;
@@ -59,6 +60,8 @@ class FactionRule extends ChangeNotifier {
       isRoleTypeUnlimited;
   final bool Function(CombatGroup cg, Group group, Unit unit)?
       isUnitCountWithinLimits;
+  final int? Function(CombatGroup cg, Group group, Unit unit)?
+      unitCountOverride;
 
   bool get isEnabled => _isEnabled;
 

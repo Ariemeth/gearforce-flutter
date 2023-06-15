@@ -9,6 +9,10 @@ import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
 import 'package:gearforce/models/weapons/weapons.dart';
 
+const String _baseRuleId = 'mod::peace river';
+
+const String crusaderVMod = '$_baseRuleId::crusaderV';
+
 final UnitModification chieftain = UnitModification(name: 'Chieftain Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Chieftain'))
@@ -230,7 +234,10 @@ final UnitModification spartanSpectre =
           )),
           description: '+Sensors:24 (Aux)');
 
-final UnitModification crusaderV = UnitModification(name: 'Crusader V Upgrade')
+final UnitModification crusaderV = UnitModification(
+  name: 'Crusader V Upgrade',
+  id: crusaderVMod,
+)
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createReplaceStringMod(old: 'IV', change: 'V'))
   ..addMod(

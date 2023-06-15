@@ -559,10 +559,7 @@ class Unit extends ChangeNotifier {
     return _mods.toList();
   }
 
-  bool hasMod(String id) => this
-      ._mods
-      .where((element) => element.name == id || element.id == id)
-      .isNotEmpty;
+  bool hasMod(String id) => _mods.any((mod) => mod.name == id || mod.id == id);
 
   bool hasTag(String tag) => _tags.any((t) => t == tag);
 
