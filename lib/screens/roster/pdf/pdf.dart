@@ -132,8 +132,8 @@ Future<void> downloadPDF(UnitRoster roster, {required String version}) async {
   );
 
   final String fileName = '${roster.name ?? _defaultRosterFileName}.pdf';
-  final String? path = await getSavePath(suggestedName: fileName);
-  if (path == null) {
+  final saveLocation = await getSaveLocation(suggestedName: fileName);
+  if (saveLocation == null) {
     // Operation was canceled by the user.
     return;
   }
@@ -144,5 +144,5 @@ Future<void> downloadPDF(UnitRoster roster, {required String version}) async {
     name: fileName,
   );
 
-  await textFile.saveTo(path);
+  await textFile.saveTo(saveLocation.path);
 }
