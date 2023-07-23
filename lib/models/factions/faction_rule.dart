@@ -19,7 +19,6 @@ class FactionRule extends ChangeNotifier {
     this.duelistModelCheck,
     this.veteranModCheck,
     this.modCostOverride,
-    this.canBeCommand,
     this.canBeAddedToGroup,
     this.hasGroupRole,
     this.isRoleTypeUnlimited,
@@ -48,14 +47,14 @@ class FactionRule extends ChangeNotifier {
   final bool Function(List<FactionRule>) requirementCheck;
   final bool Function(CombatGroup?, UnitRoster?) cgCheck;
 
-  final bool Function(UnitRoster roster, Unit u)? duelistModelCheck;
-  final bool Function(Unit u, CombatGroup cg, {required String modID})?
+  final bool? Function(UnitRoster roster, Unit u)? duelistModelCheck;
+  final bool? Function(Unit u, CombatGroup cg, {required String modID})?
       veteranModCheck;
   final int Function(int baseCost, String modID, Unit u)? modCostOverride;
-  final bool Function(Unit unit)? canBeCommand;
-  final bool Function(Unit unit, Group group, CombatGroup cg)?
+
+  final bool? Function(Unit unit, Group group, CombatGroup cg)?
       canBeAddedToGroup;
-  final bool Function(Unit unit, RoleType target)? hasGroupRole;
+  final bool? Function(Unit unit, RoleType target)? hasGroupRole;
   final bool? Function(Unit unit, RoleType target, Group group, UnitRoster? ur)?
       isRoleTypeUnlimited;
   final bool? Function(CombatGroup cg, Group group, Unit unit)?
@@ -86,7 +85,7 @@ class FactionRule extends ChangeNotifier {
     bool canBeToggled = true,
     bool initialState = false,
   }) {
-    return CombatGroupOption(
+    final cgOption = CombatGroupOption(
       this,
       name: name,
       id: id,
@@ -95,6 +94,10 @@ class FactionRule extends ChangeNotifier {
       initialState: initialState,
       description: description,
     );
+    cgOption.addListener(() {
+      this.notifyListeners();
+    });
+    return cgOption;
   }
 
   static bool isRuleEnabled(List<FactionRule> rules, String ruleID) {
@@ -177,11 +180,11 @@ class FactionRule extends ChangeNotifier {
       duelistModelCheck: original.duelistModelCheck,
       veteranModCheck: original.veteranModCheck,
       modCostOverride: original.modCostOverride,
-      canBeCommand: original.canBeCommand,
       canBeAddedToGroup: original.canBeAddedToGroup,
       hasGroupRole: original.hasGroupRole,
       isRoleTypeUnlimited: original.isRoleTypeUnlimited,
       isUnitCountWithinLimits: original.isUnitCountWithinLimits,
+      unitCountOverride: original.unitCountOverride,
     );
   }
   Map<String, dynamic> toJson() {

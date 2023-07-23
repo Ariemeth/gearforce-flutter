@@ -147,39 +147,6 @@ class PeaceRiver extends RuleSet {
     return options;
   }
 
-  @override
-  int modCostOverride(int baseCost, String modID, Unit u) {
-    var rule = findFactionRule(poc.ruleGSwatSniper.id);
-    if (rule != null && rule.isEnabled && rule.modCostOverride != null) {
-      return rule.modCostOverride!(baseCost, modID, u);
-    }
-
-    return super.modCostOverride(baseCost, modID, u);
-  }
-
-  @override
-  bool veteranModCheck(Unit u, CombatGroup cg, {required String modID}) {
-    if (cg.isOptionEnabled(pps.ruleBadlandsSoup.id)) {
-      var rule = findFactionRule(pps.ruleBadlandsSoup.id);
-      if (rule != null &&
-          rule.isEnabled &&
-          rule.veteranModCheck != null &&
-          rule.veteranModCheck!(u, cg, modID: modID)) {
-        return true;
-      }
-    }
-
-    var rule = findFactionRule(poc.ruleGSwatSniper.id);
-    if (rule != null &&
-        rule.isEnabled &&
-        rule.veteranModCheck != null &&
-        rule.veteranModCheck!(u, cg, modID: modID)) {
-      return true;
-    }
-
-    return super.veteranModCheck(u, cg, modID: modID);
-  }
-
   factory PeaceRiver.POC(Data data) {
     return poc.POC(data);
   }
@@ -195,7 +162,10 @@ final ruleArchitects = FactionRule(
     name: 'Architects',
     id: '$_baseRuleId::architects',
     duelistModelCheck: (roster, u) {
-      return (u.type == ModelType.Gear || u.type == ModelType.Strider);
+      if (u.type == ModelType.Strider) {
+        return true;
+      }
+      return null;
     },
     description: 'The duelist for this force may use a Peace River strider.');
 

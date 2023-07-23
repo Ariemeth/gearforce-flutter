@@ -253,7 +253,7 @@ final ruleBadlandsSoup = FactionRule(
           return true;
       }
 
-      return false;
+      return null;
     },
     description:
         'One combat group may purchase the following veteran upgrades for their models without being veterans; Improved Gunnery, Dual Guns, Brawler, Veteran Melee upgrade, or ECCM.');

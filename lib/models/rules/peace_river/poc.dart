@@ -87,7 +87,7 @@ final ruleSpecialIssue = FactionRule(
             target == RoleType.SO)) {
       return true;
     }
-    return false;
+    return null;
   },
   description: 'Greyhounds may be placed in GP, SK, FS, RC or SO units.',
 );
@@ -112,7 +112,10 @@ final ruleGSwatSniper = FactionRule(
     name: 'G-Swat Sniper',
     id: '$_baseRuleId::gswatSniper',
     veteranModCheck: (u, cg, {required modID}) {
-      return modID == improvedGunneryID && u.hasMod(gSWATSniperID);
+      if (modID == improvedGunneryID && u.hasMod(gSWATSniperID)) {
+        return true;
+      }
+      return null;
     },
     modCostOverride: (baseCost, modID, u) {
       if (modID == improvedGunneryID && u.hasMod(gSWATSniperID)) {
