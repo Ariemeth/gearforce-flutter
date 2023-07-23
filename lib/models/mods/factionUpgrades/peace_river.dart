@@ -1,4 +1,5 @@
 import 'package:gearforce/models/combatGroups/combat_group.dart';
+import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/mods/base_modification.dart';
 import 'package:gearforce/models/mods/factionUpgrades/faction_mod.dart';
 import 'package:gearforce/models/mods/modification_option.dart';
@@ -52,9 +53,14 @@ class PeaceRiverFactionMods extends FactionModification {
       assert(cg != null);
       assert(rs != null);
 
+      if (u.faction != FactionType.PeaceRiver) {
+        return false;
+      }
+
       if (rs == null || !rs.isRuleEnabled(ruleEPex.id)) {
         return false;
       }
+
       return cg!.modCount(e_pexID) == 0 ||
           (cg.modCount(e_pexID) == 1 && u.hasMod(e_pexID));
     };
@@ -62,9 +68,6 @@ class PeaceRiverFactionMods extends FactionModification {
         name: 'E-pex', requirementCheck: reqCheck, id: e_pexID)
       ..addMod<int>(UnitAttribute.tv, createSimpleIntMod(1),
           description: 'TV: +1')
-      // TODO figure a way to handle both this mod and hunter elite at the same
-      // time.  currently there is an ordering issue which could affect the
-      // final value.
       ..addMod<int>(UnitAttribute.ew, createSimpleIntMod(-1),
           description: 'One ' +
               'Peace River model within each combat group may ' +
