@@ -14,8 +14,8 @@ final UnitModification command = UnitModification(name: 'Command Upgrade')
 final UnitModification mortar = UnitModification(name: 'Mortar Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'with Mortar'))
-  ..addMod(UnitAttribute.mounted_weapons,
-      createAddWeaponToList(buildWeapon('LGM (T)')!),
+  ..addMod(
+      UnitAttribute.weapons, createAddWeaponToList(buildWeapon('LGM (T)')!),
       description: '+LGM (T)');
 
 final UnitModification command2 = UnitModification(name: 'Command Upgrade')

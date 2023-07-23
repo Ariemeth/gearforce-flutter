@@ -1,3 +1,4 @@
+import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/model_type.dart';
 import 'package:gearforce/models/unit/movement.dart';
@@ -19,12 +20,12 @@ class UnitCore {
     required this.gunnery,
     required this.piloting,
     required this.ew,
-    required this.reactWeapons,
-    required this.mountedWeapons,
+    required this.weapons,
     required this.traits,
     required this.type,
     required this.height,
     this.frame = '',
+    this.faction = FactionType.None,
   });
   final String name;
   final int tv;
@@ -37,32 +38,31 @@ class UnitCore {
   final int? gunnery;
   final int? piloting;
   final int? ew;
-  final List<Weapon> reactWeapons;
-  final List<Weapon> mountedWeapons;
+  final List<Weapon> weapons;
   final List<Trait> traits;
   final ModelType type;
   final String height;
   final String frame;
+  final FactionType faction;
 
-  const UnitCore.test({
-    this.name = 'test',
-    this.tv = 5,
-    this.role = const Roles(roles: [Role(name: RoleType.GP)]),
-    this.movement = const Movement(type: 'G', rate: 7),
-    this.armor = 6,
-    this.hull = 3,
-    this.structure = 3,
-    this.actions = 1,
-    this.gunnery = 4,
-    this.piloting = 4,
-    this.ew = 5,
-    this.reactWeapons = const [],
-    this.mountedWeapons = const [],
-    this.traits = const [],
-    this.type = ModelType.Gear,
-    this.height = '1.5',
-    this.frame = 'none',
-  });
+  const UnitCore.test(
+      {this.name = 'test',
+      this.tv = 5,
+      this.role = const Roles(roles: [Role(name: RoleType.GP)]),
+      this.movement = const Movement(type: 'G', rate: 7),
+      this.armor = 6,
+      this.hull = 3,
+      this.structure = 3,
+      this.actions = 1,
+      this.gunnery = 4,
+      this.piloting = 4,
+      this.ew = 5,
+      this.weapons = const [],
+      this.traits = const [],
+      this.type = ModelType.Gear,
+      this.height = '1.5',
+      this.frame = 'none',
+      this.faction = FactionType.None});
 
   dynamic attribute(UnitAttribute att) {
     switch (att) {
@@ -88,10 +88,8 @@ class UnitCore {
         return this.piloting;
       case UnitAttribute.ew:
         return this.ew;
-      case UnitAttribute.react_weapons:
-        return this.reactWeapons;
-      case UnitAttribute.mounted_weapons:
-        return this.mountedWeapons;
+      case UnitAttribute.weapons:
+        return this.weapons;
       case UnitAttribute.traits:
         return this.traits;
       case UnitAttribute.type:
@@ -165,10 +163,7 @@ class UnitCore {
         return true;
       }
 
-      if (this.reactWeapons.toString().toLowerCase().contains(c)) {
-        return true;
-      }
-      if (this.mountedWeapons.toString().toLowerCase().contains(c)) {
+      if (this.weapons.toString().toLowerCase().contains(c)) {
         return true;
       }
 
@@ -186,7 +181,11 @@ class UnitCore {
     return false;
   }
 
-  factory UnitCore.fromJson(dynamic json, {String frame = ''}) {
+  factory UnitCore.fromJson(
+    dynamic json, {
+    String frame = '',
+    FactionType faction = FactionType.None,
+  }) {
     List<Weapon> reactWeapons = json['react-weapons'] == '-'
         ? []
         : List.from(json['react-weapons']
@@ -238,11 +237,11 @@ class UnitCore {
       ew: json['ew'].toString() == '-'
           ? null
           : int.parse(json['ew'].toString().substring(0, 1)),
-      reactWeapons: reactWeapons,
-      mountedWeapons: mountedWeapons,
+      weapons: [...reactWeapons, ...mountedWeapons],
       traits: traits,
       type: ModelType.fromName(json['type']),
       height: json['height'].toString(),
+      faction: faction,
     );
 
     return uc;
@@ -270,12 +269,12 @@ class UnitCore {
         "GU: $g " +
         "PI: $p " +
         "EW: $e " +
-        "React Weapons: ${this.reactWeapons} " +
-        "Mounted Weapons: ${this.mountedWeapons} " +
+        "Weapons: ${this.weapons} " +
         "Traits: ${this.traits} " +
         "Type: ${this.type} " +
         "Height: ${this.height} " +
         "Frame: ${this.frame}" +
+        "Faction: ${this.faction}" +
         "}";
   }
 }

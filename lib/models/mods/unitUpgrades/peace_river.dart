@@ -9,6 +9,10 @@ import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
 import 'package:gearforce/models/weapons/weapons.dart';
 
+const String _baseRuleId = 'mod::peace river';
+
+const String crusaderVMod = '$_baseRuleId::crusaderV';
+
 final UnitModification chieftain = UnitModification(name: 'Chieftain Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Chieftain'))
@@ -76,7 +80,7 @@ final UnitModification meleeSpecialist = UnitModification(
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'melee specialist'))
   ..addMod(
-      UnitAttribute.react_weapons,
+      UnitAttribute.weapons,
       createReplaceWeaponInList(
           oldValue: buildWeapon('LVB', hasReact: true)!,
           newValue: buildWeapon('MVB', hasReact: true)!),
@@ -92,7 +96,7 @@ final UnitModification meleeSpecialist1 = UnitModification(
     name: 'Melee Specialist Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'melee specialist'))
-  ..addMod(UnitAttribute.react_weapons,
+  ..addMod(UnitAttribute.weapons,
       createAddWeaponToList(buildWeapon('MVB', hasReact: true)!),
       description: '+MVB')
   ..addMod(
@@ -179,7 +183,7 @@ final UnitModification shinobiMeleeSpecialist = UnitModification(
       createAddTraitToList(const Trait(name: 'Brawl', level: 2)),
       description: '+Brawl:2')
   ..addMod(
-      UnitAttribute.react_weapons,
+      UnitAttribute.weapons,
       createReplaceWeaponInList(
           oldValue: buildWeapon('LVB', hasReact: true)!,
           newValue: buildWeapon('LVB (Precise)', hasReact: true)!),
@@ -230,11 +234,14 @@ final UnitModification spartanSpectre =
           )),
           description: '+Sensors:24 (Aux)');
 
-final UnitModification crusaderV = UnitModification(name: 'Crusader V Upgrade')
+final UnitModification crusaderV = UnitModification(
+  name: 'Crusader V Upgrade',
+  id: crusaderVMod,
+)
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createReplaceStringMod(old: 'IV', change: 'V'))
   ..addMod(
-      UnitAttribute.mounted_weapons,
+      UnitAttribute.weapons,
       createMultiReplaceWeaponsInList(
         oldItems: [buildWeapon('MRP (Link)')!, buildWeapon('LFM')!],
         newItems: [buildWeapon('MRP')!, buildWeapon('MFM')!],
@@ -249,7 +256,7 @@ final UnitModification cataphractSarisa =
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
       ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Sarisa'))
       ..addMod(
-          UnitAttribute.mounted_weapons,
+          UnitAttribute.weapons,
           createMultiReplaceWeaponsInList(
             oldItems: [buildWeapon('MFM')!],
             newItems: [buildWeapon('LATM (Precise)')!],
@@ -275,7 +282,7 @@ final UnitModification tankHunter =
       ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
       ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Tank Hunter'))
       ..addMod(
-          UnitAttribute.mounted_weapons,
+          UnitAttribute.weapons,
           createReplaceWeaponInList(
               oldValue: buildWeapon('HRP (Link)')!,
               newValue: buildWeapon('MTG (Link)')!),
@@ -324,10 +331,10 @@ final UnitModification alphaDog = UnitModification(name: 'Alpha Dog Upgrade')
 final UnitModification arbalest = UnitModification(name: 'Arbalest Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Arbalest'))
-  ..addMod(UnitAttribute.react_weapons,
+  ..addMod(UnitAttribute.weapons,
       createRemoveWeaponFromList(buildWeapon('MRC (T AA)', hasReact: true)!),
       description: '-MRC (T AA)')
-  ..addMod(UnitAttribute.mounted_weapons,
+  ..addMod(UnitAttribute.weapons,
       createAddWeaponToList(buildWeapon('2 X HAR (T)', hasReact: false)!),
       description: '+2 x HARs (T)');
 
@@ -353,7 +360,7 @@ final UnitModification missile = UnitModification(name: 'Missile Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Missile'))
   ..addMod(
-      UnitAttribute.mounted_weapons,
+      UnitAttribute.weapons,
       createReplaceWeaponInList(
           oldValue: buildWeapon('MRP (Link)')!,
           newValue: buildWeapon('LATM (Link)')!),

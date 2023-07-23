@@ -138,6 +138,8 @@ class Faction {
         return Faction.blackTalons(data);
       case FactionType.Airstrike:
         break;
+      case FactionType.None:
+        break;
     }
     throw FormatException('Cannot create a faction from ${faction.name}');
   }

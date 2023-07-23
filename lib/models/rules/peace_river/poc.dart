@@ -1,16 +1,12 @@
 import 'package:gearforce/data/unit_filter.dart';
-import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/factions/faction_rule.dart';
-import 'package:gearforce/models/mods/factionUpgrades/faction_mod.dart';
 import 'package:gearforce/models/mods/factionUpgrades/peace_river.dart';
 import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart';
-import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/rules/options/combat_group_options.dart';
 import 'package:gearforce/models/rules/peace_river/peace_river.dart';
 import 'package:gearforce/models/rules/options/special_unit_filter.dart';
 import 'package:gearforce/models/unit/role.dart';
-import 'package:gearforce/models/unit/unit.dart';
 
 const String _baseRuleId = 'rule::poc';
 const String _ruleMercContractName = 'Mercenary Contract';
@@ -50,18 +46,6 @@ class POC extends PeaceRiver {
             ruleMercenaryContract,
           ],
         );
-
-  @override
-  List<FactionModification> availableFactionMods(
-      UnitRoster ur, CombatGroup cg, Unit u) {
-    return [
-      PeaceRiverFactionMods.ecmSpecialist(),
-      PeaceRiverFactionMods.olTrustyPOC(),
-      PeaceRiverFactionMods.peaceOfficers(u),
-      PeaceRiverFactionMods.gSWATSniper(),
-      ...super.availableFactionMods(ur, cg, u),
-    ];
-  }
 }
 
 const filterMercContract = const SpecialUnitFilter(
@@ -87,7 +71,7 @@ final ruleSpecialIssue = FactionRule(
             target == RoleType.SO)) {
       return true;
     }
-    return false;
+    return null;
   },
   description: 'Greyhounds may be placed in GP, SK, FS, RC or SO units.',
 );
@@ -95,24 +79,33 @@ final ruleSpecialIssue = FactionRule(
 final ruleECMSpecialist = FactionRule(
     name: 'ECM Specialist',
     id: '$_baseRuleId::ecmSpecialist',
+    factionMod: (ur, cg, u) => PeaceRiverFactionMods.ecmSpecialist(),
     description:
         'One gear or strider per combat group may improve its ECM to ECM+ for 1 TV each.');
+
 final rulePOCOlTrusty = FactionRule(
   name: 'Ol\' Trusty',
   id: '$_baseRuleId::oltrusty',
+  factionMod: (ur, cg, u) => PeaceRiverFactionMods.olTrustyPOC(),
   description:
       'Pit Bulls and Mustangs may increase their GU skill by one for 1 TV each.',
 );
+
 final rulePeaceOfficer = FactionRule(
     name: 'Peace Officer',
-    id: '$_baseRuleId::peaceOffice',
+    id: '$_baseRuleId::peaceOfficer',
+    factionMod: (ur, cg, u) => PeaceRiverFactionMods.peaceOfficers(u),
     description:
         'Gears from one combat group may swap their rocket packs for the Shield trait. If a gear does not have a rocket pack, then it may instead gain the Shield trait for 1 TV.');
+
 final ruleGSwatSniper = FactionRule(
     name: 'G-Swat Sniper',
     id: '$_baseRuleId::gswatSniper',
     veteranModCheck: (u, cg, {required modID}) {
-      return modID == improvedGunneryID && u.hasMod(gSWATSniperID);
+      if (modID == improvedGunneryID && u.hasMod(gSWATSniperID)) {
+        return true;
+      }
+      return null;
     },
     modCostOverride: (baseCost, modID, u) {
       if (modID == improvedGunneryID && u.hasMod(gSWATSniperID)) {
@@ -120,14 +113,20 @@ final ruleGSwatSniper = FactionRule(
       }
       return baseCost;
     },
+    factionMod: (ur, cg, u) => PeaceRiverFactionMods.gSWATSniper(),
     description:
         'One gear with a rifle, per combat group, may purchase the Improved Gunnery upgrade for 1 TV each, without being a veteran.');
-final ruleMercenaryContract = FactionRule(
+
+final FactionRule ruleMercenaryContract = FactionRule(
     name: _ruleMercContractName,
     id: _ruleMercContractID,
     cgCheck: onlyOneCG(_ruleMercContractID),
     canBeAddedToGroup: (unit, group, cg) {
       return unit.armor == null || (unit.armor != null && unit.armor! <= 8);
     },
+    combatGroupOption: () {
+      return ruleMercenaryContract.buidCombatGroupOption();
+    },
+    unitFilter: () => filterMercContract,
     description:
         'One combat group may be made with models from North, South, Peace River, and NuCoal (may include a mix from all four factions) that have an armor of 8 or lower.');

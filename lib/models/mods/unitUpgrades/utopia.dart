@@ -10,7 +10,7 @@ final UnitModification antiTank = UnitModification(name: 'Anti-Tank Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Anti-Tank'))
   ..addMod(
-      UnitAttribute.mounted_weapons,
+      UnitAttribute.weapons,
       createReplaceWeaponInList(
           oldValue: buildWeapon('MRP')!, newValue: buildWeapon('LATM')!),
       description: '-MRP, +LATM');
@@ -29,7 +29,7 @@ final UnitModification rocket = UnitModification(name: 'Rocket Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'with Rockets'))
   ..addMod(
-      UnitAttribute.mounted_weapons,
+      UnitAttribute.weapons,
       createReplaceWeaponInList(
           oldValue: buildWeapon('LRP')!, newValue: buildWeapon('MRP')!),
       description: '-LRP, +MRP');
@@ -49,7 +49,7 @@ final UnitModification nlil = UnitModification(name: 'N-LIL Upgrade')
 final UnitModification rocket2 = UnitModification(name: 'Rocket Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'with Rockets'))
-  ..addMod(UnitAttribute.mounted_weapons,
+  ..addMod(UnitAttribute.weapons,
       createAddWeaponToList(buildWeapon('LRP', hasReact: true)!),
       description: '+LRP');
 
@@ -57,7 +57,7 @@ final UnitModification sniper = UnitModification(name: 'Sniper Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Sniper'))
   ..addMod(
-      UnitAttribute.mounted_weapons,
+      UnitAttribute.weapons,
       createReplaceWeaponInList(
           oldValue: buildWeapon('HRC')!, newValue: buildWeapon('MLC')!),
       description: '-HRC, +MLC');
@@ -92,10 +92,10 @@ final UnitModification gilgameshEngineering = UnitModification(
   ..addMod(UnitAttribute.tv, createSimpleIntMod(-1), description: 'TV -1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'with Engineering'))
   ..addMod(
-      UnitAttribute.react_weapons,
+      UnitAttribute.weapons,
       createReplaceWeaponInList(
-          oldValue: buildWeapon('2 x MRC (B)')!,
-          newValue: buildWeapon('HCW (B Link Reach:3)')!),
+          oldValue: buildWeapon('2 x MRC (B)', hasReact: true)!,
+          newValue: buildWeapon('HCW (B Link Reach:3)', hasReact: true)!),
       description: '-2 x MRC (B), +HCW (B Link Reach:3)')
   ..addMod(
       UnitAttribute.traits, createAddTraitToList(const Trait(name: 'Repair')),

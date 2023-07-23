@@ -41,7 +41,7 @@ final UnitModification fragCannon = UnitModification(
   ..addMod(UnitAttribute.tv, createSimpleIntMod(-1), description: 'TV -1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'with Frag Cannon'))
   ..addMod(
-      UnitAttribute.react_weapons,
+      UnitAttribute.weapons,
       createReplaceWeaponInList(
           oldValue: buildWeapon('MRF', hasReact: true)!,
           newValue: buildWeapon('MFC', hasReact: true)!),
@@ -56,7 +56,7 @@ final UnitModification rapidFireBazooka = UnitModification(
   ..addMod(UnitAttribute.name,
       createSimpleStringMod(false, 'with Rapid Fire Bazooka'))
   ..addMod(
-      UnitAttribute.react_weapons,
+      UnitAttribute.weapons,
       createReplaceWeaponInList(
           oldValue: buildWeapon('MRF', hasReact: true)!,
           newValue: buildWeapon('LBZ (AP:1 Burst:1)', hasReact: true)!),
@@ -76,12 +76,12 @@ final UnitModification espionCv = UnitModification(name: 'CV Upgrade')
 final UnitModification mfmBoa = UnitModification(
     name: 'MFM Upgrade',
     requirementCheck: (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
-      return u.mountedWeapons.any((w) => w.abbreviation == 'LGM');
+      return u.weapons.any((w) => w.abbreviation == 'LGM');
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'MFM'))
   ..addMod(
-      UnitAttribute.mounted_weapons,
+      UnitAttribute.weapons,
       createReplaceWeaponInList(
           oldValue: buildWeapon('LGM')!, newValue: buildWeapon('MFM')!),
       description: '-LGM, +MFM');
@@ -103,13 +103,12 @@ final UnitModification cv2 = UnitModification(name: 'CV Upgrade')
 final UnitModification voltigeurABM = UnitModification(
     name: 'ABM Upgrade',
     requirementCheck: (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
-      return u.mountedWeapons
-          .any((w) => w.abbreviation == 'MATM' && w.numberOf == 2);
+      return u.weapons.any((w) => w.abbreviation == 'MATM' && w.numberOf == 2);
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(-1), description: 'TV: -1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'ABM'))
   ..addMod(
-      UnitAttribute.mounted_weapons,
+      UnitAttribute.weapons,
       createReplaceWeaponInList(
           oldValue: buildWeapon('2 X MATM')!,
           newValue: buildWeapon('2 X MABM')!),
@@ -118,13 +117,12 @@ final UnitModification voltigeurABM = UnitModification(
 final UnitModification voltigeurAM = UnitModification(
     name: 'AM Upgrade',
     requirementCheck: (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
-      return u.mountedWeapons
-          .any((w) => w.abbreviation == 'MATM' && w.numberOf == 2);
+      return u.weapons.any((w) => w.abbreviation == 'MATM' && w.numberOf == 2);
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(0), description: 'TV: 0')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'AM'))
   ..addMod(
-      UnitAttribute.mounted_weapons,
+      UnitAttribute.weapons,
       createReplaceWeaponInList(
           oldValue: buildWeapon('2 X MATM')!,
           newValue: buildWeapon('2 X MAM')!),

@@ -25,7 +25,7 @@ final UnitModification mortarUpgrade = UnitModification(name: 'Mortar Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(0), description: 'TV +0')
   ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'with mortar'))
   ..addMod(
-      UnitAttribute.mounted_weapons,
+      UnitAttribute.weapons,
       createReplaceWeaponInList(
         oldValue: buildWeapon('MRP')!,
         newValue: buildWeapon('LGM')!,
@@ -86,7 +86,7 @@ final UnitModification SRUpgrade = UnitModification(name: 'SR Upgrade Upgrade')
     description: '+Stealth (Aux)',
   )
   ..addMod(
-      UnitAttribute.react_weapons,
+      UnitAttribute.weapons,
       createReplaceWeaponInList(
         oldValue: buildWeapon('LVB')!,
         newValue: buildWeapon('LSG')!,
@@ -97,7 +97,7 @@ final UnitModification ruggedTerrain = UnitModification(
     name: 'Rugged Terrain Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Rugged Terrain'))
-  ..addMod(UnitAttribute.react_weapons,
+  ..addMod(UnitAttribute.weapons,
       createAddWeaponToList(buildWeapon('MCW', hasReact: true)!),
       description: '+MCW')
   ..addMod(
@@ -108,7 +108,7 @@ final UnitModification copperheadArenaPilot = UnitModification(
     name: 'Arena Pilot')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'with Arena Pilot'))
-  ..addMod(UnitAttribute.react_weapons,
+  ..addMod(UnitAttribute.weapons,
       createAddWeaponToList(buildWeapon('MVB', hasReact: true)!),
       description: '+MVB')
   ..addMod(
@@ -119,7 +119,7 @@ final UnitModification longFang = UnitModification(name: 'Long Fang Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Long Fang'))
   ..addMod(
-      UnitAttribute.mounted_weapons,
+      UnitAttribute.weapons,
       createReplaceWeaponInList(
           oldValue: buildWeapon('MAPR')!, newValue: buildWeapon('MAR')!),
       description: '-MAPR, +MAR');
@@ -136,7 +136,7 @@ UnitModification diamondbackArenaPilot(Unit u) {
       name: 'Arena Pilot', options: modOptions, id: 'diamondbackArenaPilot')
     ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
     ..addMod(UnitAttribute.name, createSimpleStringMod(false, ' Arena Pilot'))
-    ..addMod<List<Weapon>>(UnitAttribute.react_weapons, (value) {
+    ..addMod<List<Weapon>>(UnitAttribute.weapons, (value) {
       // check if a option has been chosen
       if (modOptions.selectedOption == null) {
         return value;
@@ -162,7 +162,7 @@ final UnitModification blackAdderArenaPilot = UnitModification(
     name: 'Arena Pilot')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'with Arena Pilot'))
-  ..addMod(UnitAttribute.react_weapons,
+  ..addMod(UnitAttribute.weapons,
       createAddWeaponToList(buildWeapon('MVB (Reach:1)', hasReact: true)!),
       description: '+MVB (Reach:1)')
   ..addMod(UnitAttribute.traits,
@@ -188,12 +188,12 @@ final UnitModification cobraRazorFang =
 final UnitModification boasLongFang = UnitModification(
     name: 'Long Fang Upgrade',
     requirementCheck: (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
-      return u.mountedWeapons.any((w) => w.abbreviation == 'LGM');
+      return u.weapons.any((w) => w.abbreviation == 'LGM');
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Long Fang'))
   ..addMod(
-      UnitAttribute.mounted_weapons,
+      UnitAttribute.weapons,
       createReplaceWeaponInList(
           oldValue: buildWeapon('LGM')!, newValue: buildWeapon('MFM')!),
       description: '-LGM, +MFM');
@@ -207,7 +207,7 @@ final UnitModification meleeSwap = UnitModification(
   ..addMod(UnitAttribute.tv, createSimpleIntMod(0), description: 'TV: +0')
   ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'with melee swap'))
   ..addMod(
-      UnitAttribute.react_weapons,
+      UnitAttribute.weapons,
       createReplaceWeaponInList(
           oldValue: buildWeapon('MVB (Reach:1)', hasReact: true)!,
           newValue: buildWeapon('MCW (Reach:1 Demo:4)', hasReact: true)!),
@@ -223,12 +223,12 @@ final UnitModification boasArenaPilot = UnitModification(name: 'Arena Pilot')
 final UnitModification barbed = UnitModification(
     name: 'Barbed Upgrade',
     requirementCheck: (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
-      return u.mountedWeapons.any((w) => w.abbreviation == 'LRP');
+      return u.weapons.any((w) => w.abbreviation == 'LRP');
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Barbed'))
   ..addMod(
-      UnitAttribute.mounted_weapons,
+      UnitAttribute.weapons,
       createReplaceWeaponInList(
           oldValue: buildWeapon('LRP')!, newValue: buildWeapon('MRP')!),
       description: '-LRP, +MRP');
@@ -247,12 +247,12 @@ final UnitModification mpCommand = UnitModification(name: 'Command Upgrade')
 final UnitModification fang = UnitModification(
     name: 'Fang Upgrade',
     requirementCheck: (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
-      return u.mountedWeapons.any((w) => w.abbreviation == 'MABM');
+      return u.weapons.any((w) => w.abbreviation == 'MABM');
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Fang'))
   ..addMod(
-      UnitAttribute.mounted_weapons,
+      UnitAttribute.weapons,
       createReplaceWeaponInList(
           oldValue: buildWeapon('MABM')!, newValue: buildWeapon('HRP (Link)')!),
       description: '-MABM, +HRP (Link)');
@@ -280,7 +280,7 @@ final UnitModification hooded = UnitModification(
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Hooded'))
   ..addMod(
-      UnitAttribute.react_weapons,
+      UnitAttribute.weapons,
       createReplaceWeaponInList(
           oldValue: buildWeapon('HMG (Apex)', hasReact: true)!,
           newValue: buildWeapon('LLC', hasReact: true)!),
@@ -295,7 +295,7 @@ final UnitModification spark = UnitModification(
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Spark'))
   ..addMod(
-      UnitAttribute.react_weapons,
+      UnitAttribute.weapons,
       createReplaceWeaponInList(
           oldValue: buildWeapon('HMG (Apex)', hasReact: true)!,
           newValue: buildWeapon('LPA', hasReact: true)!),
@@ -310,7 +310,7 @@ final UnitModification flame = UnitModification(
   ..addMod(UnitAttribute.tv, createSimpleIntMod(0), description: 'TV: 0')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Flame'))
   ..addMod(
-      UnitAttribute.react_weapons,
+      UnitAttribute.weapons,
       createReplaceWeaponInList(
           oldValue: buildWeapon('HMG (Apex)', hasReact: true)!,
           newValue: buildWeapon('MFL', hasReact: true)!),

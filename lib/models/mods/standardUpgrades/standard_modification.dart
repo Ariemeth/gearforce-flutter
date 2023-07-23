@@ -51,13 +51,11 @@ class StandardModification extends BaseModification {
     laser cannon or rotary laser cannon for 1 TV.
   */
   factory StandardModification.antiAirTrait(Unit u, CombatGroup cg) {
-    final react = u.reactWeapons;
-    final mounted = u.mountedWeapons;
     final List<ModificationOption> _options = [];
     final RegExp weaponMatch = RegExp(r'^(AC|RC|LC|RLC)');
     final traitToAdd = const Trait(name: 'AA');
 
-    final allWeapons = react.toList()..addAll(mounted);
+    final allWeapons = u.weapons;
     allWeapons
         .where((weapon) => weaponMatch.hasMatch(weapon.code))
         .forEach((weapon) {
@@ -86,36 +84,19 @@ class StandardModification extends BaseModification {
           return StandardModification.antiAirTrait(u, cg);
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
-      ..addMod<List<Weapon>>(UnitAttribute.react_weapons, (value) {
+      ..addMod<List<Weapon>>(UnitAttribute.weapons, (value) {
         final newList =
             value.map((weapon) => Weapon.fromWeapon(weapon)).toList();
         if (modOptions.selectedOption != null &&
             newList.any((weapon) =>
-                weapon.toString() == modOptions.selectedOption?.text &&
-                weapon.hasReact)) {
-          var existingWeapon = newList.firstWhere((weapon) =>
-              weapon.toString() == modOptions.selectedOption?.text &&
-              weapon.hasReact);
+                weapon.toString() == modOptions.selectedOption?.text)) {
+          var existingWeapon = newList.firstWhere(
+              (weapon) => weapon.toString() == modOptions.selectedOption?.text);
 
           existingWeapon.bonusTraits.add(traitToAdd);
         }
         return newList;
-      }, description: 'Add the Anti-Air trait to one AC, RC, LC or RLC')
-      ..addMod<List<Weapon>>(UnitAttribute.mounted_weapons, (value) {
-        final newList =
-            value.map((weapon) => Weapon.fromWeapon(weapon)).toList();
-        if (modOptions.selectedOption != null &&
-            newList.any((weapon) =>
-                weapon.toString() == modOptions.selectedOption?.text &&
-                !weapon.hasReact)) {
-          var existingWeapon = newList.firstWhere((weapon) =>
-              weapon.toString() == modOptions.selectedOption?.text &&
-              !weapon.hasReact);
-
-          existingWeapon.bonusTraits.add(traitToAdd);
-        }
-        return newList;
-      });
+      }, description: 'Add the Anti-Air trait to one AC, RC, LC or RLC');
   }
 
   /*
@@ -123,12 +104,10 @@ class StandardModification extends BaseModification {
     Missile (AAM) of the same class for 0 TV.
   */
   factory StandardModification.antiAirSwap(Unit u, CombatGroup cg) {
-    final react = u.reactWeapons;
-    final mounted = u.mountedWeapons;
     final List<ModificationOption> _options = [];
     final RegExp weaponMatch = RegExp(r'^(ATM)');
 
-    final allWeapons = react.toList()..addAll(mounted);
+    final allWeapons = u.weapons;
     allWeapons
         .where((weapon) => weaponMatch.hasMatch(weapon.code))
         .forEach((weapon) {
@@ -157,16 +136,14 @@ class StandardModification extends BaseModification {
           return StandardModification.antiAirSwap(u, cg);
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(0), description: 'TV 0')
-      ..addMod<List<Weapon>>(UnitAttribute.react_weapons, (value) {
+      ..addMod<List<Weapon>>(UnitAttribute.weapons, (value) {
         final newList =
             value.map((weapon) => Weapon.fromWeapon(weapon)).toList();
         if (modOptions.selectedOption != null &&
             newList.any((weapon) =>
-                weapon.toString() == modOptions.selectedOption?.text &&
-                weapon.hasReact)) {
-          var existingWeapon = newList.firstWhere((weapon) =>
-              weapon.toString() == modOptions.selectedOption?.text &&
-              weapon.hasReact);
+                weapon.toString() == modOptions.selectedOption?.text)) {
+          var existingWeapon = newList.firstWhere(
+              (weapon) => weapon.toString() == modOptions.selectedOption?.text);
 
           final index = newList.indexWhere(
               (weapon) => weapon.toString() == modOptions.selectedOption?.text);
@@ -174,38 +151,14 @@ class StandardModification extends BaseModification {
             newList.removeAt(index);
             final aam = buildWeapon(
                 '${existingWeapon.size}AAM ${existingWeapon.bonusString}',
-                hasReact: true);
+                hasReact: existingWeapon.hasReact);
             if (aam != null) {
               newList.insert(index, aam);
             }
           }
         }
         return newList;
-      }, description: 'Upgrade any one ATM to an AAM of the same class')
-      ..addMod<List<Weapon>>(UnitAttribute.mounted_weapons, (value) {
-        final newList =
-            value.map((weapon) => Weapon.fromWeapon(weapon)).toList();
-        if (modOptions.selectedOption != null &&
-            newList.any((weapon) =>
-                weapon.toString() == modOptions.selectedOption?.text &&
-                !weapon.hasReact)) {
-          var existingWeapon = newList.firstWhere((weapon) =>
-              weapon.toString() == modOptions.selectedOption?.text &&
-              !weapon.hasReact);
-
-          final index = newList.indexWhere(
-              (weapon) => weapon.toString() == modOptions.selectedOption?.text);
-          if (index >= 0) {
-            newList.removeAt(index);
-            final aam = buildWeapon(
-                '${existingWeapon.size}AAM ${existingWeapon.bonusString}');
-            if (aam != null) {
-              newList.insert(index, aam);
-            }
-          }
-        }
-        return newList;
-      });
+      }, description: 'Upgrade any one ATM to an AAM of the same class');
   }
 
   /*
@@ -222,7 +175,7 @@ class StandardModification extends BaseModification {
 
   factory StandardModification.meleeSwap(Unit u) {
     final RegExp meleeCheck = RegExp(r'\b([LM])(VB|SG|CW)');
-    final react = u.reactWeapons.toList();
+    final react = u.reactWeapons;
     final traits = u.traits.toList();
 
     final matchingWeapons =
@@ -301,7 +254,7 @@ class StandardModification extends BaseModification {
               'TV +0, One Light (L) or Medium (M) melee weapon with the React trait ' +
                   'can be swapped for an equal class melee weapon for 0 TV,' +
                   'i.e. a LCW can be swapped for a LVB or a LSG')
-      ..addMod<List<Weapon>>(UnitAttribute.react_weapons, (value) {
+      ..addMod<List<Weapon>>(UnitAttribute.weapons, (value) {
         // Grab the substring starting at position 1 to exclude the - or +
         if (modOptions.selectedOption == null ||
             modOptions.selectedOption!.selectedOption == null) {
@@ -329,12 +282,10 @@ class StandardModification extends BaseModification {
   be of the same class, such as L, M, or H.
   */
   factory StandardModification.grenadeSwap(Unit u, CombatGroup cg) {
-    final react = u.reactWeapons;
-    final mounted = u.mountedWeapons;
     final List<ModificationOption> _options = [];
     final RegExp weaponMatch = RegExp(r'^(HG|PZ)$');
 
-    final availableWeapons = react.toList()..addAll(mounted);
+    final availableWeapons = u.weapons;
     availableWeapons
         .where((weapon) => weaponMatch.hasMatch(weapon.code))
         .toList()
@@ -355,24 +306,20 @@ class StandardModification extends BaseModification {
         options: modOptions,
         requirementCheck:
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
-          return u.mountedWeapons
-                  .any((weapon) => weaponMatch.hasMatch(weapon.code)) ||
-              u.reactWeapons.any((weapon) => weaponMatch.hasMatch(weapon.code));
+          return u.weapons.any((weapon) => weaponMatch.hasMatch(weapon.code));
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(0),
           description:
               'swap their hand grenades for panzerfausts or vice versa. The ' +
                   'swapped item must be of the same class, such as L, M, or H')
-      ..addMod<List<Weapon>>(UnitAttribute.react_weapons, (value) {
+      ..addMod<List<Weapon>>(UnitAttribute.weapons, (value) {
         final newList =
             value.map((weapon) => Weapon.fromWeapon(weapon)).toList();
         if (modOptions.selectedOption != null &&
             newList.any((weapon) =>
-                weapon.toString() == modOptions.selectedOption?.text &&
-                weapon.hasReact)) {
-          var existingWeapon = newList.firstWhere((weapon) =>
-              weapon.toString() == modOptions.selectedOption?.text &&
-              weapon.hasReact);
+                weapon.toString() == modOptions.selectedOption?.text)) {
+          var existingWeapon = newList.firstWhere(
+              (weapon) => weapon.toString() == modOptions.selectedOption?.text);
 
           var newWeaponAbb = '';
 
@@ -385,41 +332,10 @@ class StandardModification extends BaseModification {
             return newList;
           }
 
-          final newWeapon = buildWeapon(newWeaponAbb, hasReact: true);
-          if (newWeapon != null) {
-            final index = newList.indexWhere(
-                (weapon) => weapon.toString() == existingWeapon.toString());
-            if (index >= 0) {
-              newList.removeAt(index);
-              newList.insert(index, newWeapon);
-            }
-          }
-        }
-        return newList;
-      })
-      ..addMod<List<Weapon>>(UnitAttribute.mounted_weapons, (value) {
-        final newList =
-            value.map((weapon) => Weapon.fromWeapon(weapon)).toList();
-        if (modOptions.selectedOption != null &&
-            newList.any((weapon) =>
-                weapon.toString() == modOptions.selectedOption?.text &&
-                !weapon.hasReact)) {
-          var existingWeapon = newList.firstWhere((weapon) =>
-              weapon.toString() == modOptions.selectedOption?.text &&
-              !weapon.hasReact);
-
-          var newWeaponAbb = '';
-
-          if (existingWeapon.code == 'HG') {
-            newWeaponAbb = '${existingWeapon.size}PZ';
-          } else if (existingWeapon.code == 'PZ') {
-            newWeaponAbb = '${existingWeapon.size}HG';
-          } else {
-            print('weapon code ${existingWeapon.toString()} is not a HG or PZ');
-            return newList;
-          }
-
-          final newWeapon = buildWeapon(newWeaponAbb);
+          final newWeapon = buildWeapon(
+            newWeaponAbb,
+            hasReact: existingWeapon.hasReact,
+          );
           if (newWeapon != null) {
             final index = newList.indexWhere(
                 (weapon) => weapon.toString() == existingWeapon.toString());
@@ -462,7 +378,7 @@ class StandardModification extends BaseModification {
         description: 'TV +1 per 2',
       )
       ..addMod(
-        UnitAttribute.mounted_weapons,
+        UnitAttribute.weapons,
         createAddWeaponToList(buildWeapon('LHG')!),
         description: '+LHG',
       );
@@ -494,7 +410,7 @@ class StandardModification extends BaseModification {
         description: 'TV +1',
       )
       ..addMod(
-        UnitAttribute.mounted_weapons,
+        UnitAttribute.weapons,
         createAddWeaponToList(buildWeapon('MHG')!),
         description: '+MHG',
       );
@@ -533,7 +449,7 @@ class StandardModification extends BaseModification {
         description: 'TV +1 per 2',
       )
       ..addMod(
-        UnitAttribute.mounted_weapons,
+        UnitAttribute.weapons,
         createAddWeaponToList(buildWeapon('LPZ')!),
         description: '+LPZ',
       );
@@ -570,7 +486,7 @@ class StandardModification extends BaseModification {
         description: 'TV +1',
       )
       ..addMod(
-        UnitAttribute.mounted_weapons,
+        UnitAttribute.weapons,
         createAddWeaponToList(buildWeapon('MPZ')!),
         description: '+MPZ',
       );
@@ -616,7 +532,7 @@ class StandardModification extends BaseModification {
         description: 'TV +1 per 2 Sidearms',
       )
       ..addMod(
-        UnitAttribute.react_weapons,
+        UnitAttribute.weapons,
         createAddWeaponToList(buildWeapon('LP', hasReact: true)!),
         description: '+LP',
       );
@@ -662,7 +578,7 @@ class StandardModification extends BaseModification {
         description: 'TV +1 per 2 Sidearms',
       )
       ..addMod(
-        UnitAttribute.react_weapons,
+        UnitAttribute.weapons,
         createAddWeaponToList(buildWeapon('LSMG', hasReact: true)!),
         description: '+LSMG',
       );
@@ -706,7 +622,7 @@ class StandardModification extends BaseModification {
         description: 'TV +1 per 2',
       )
       ..addMod(
-        UnitAttribute.mounted_weapons,
+        UnitAttribute.weapons,
         createAddWeaponToList(buildWeapon('LSE')!),
         description: '+LSE',
       );
@@ -747,7 +663,7 @@ class StandardModification extends BaseModification {
         description: 'TV +1',
       )
       ..addMod(
-        UnitAttribute.mounted_weapons,
+        UnitAttribute.weapons,
         createAddWeaponToList(buildWeapon('MSE')!),
         description: '+MSE',
       );

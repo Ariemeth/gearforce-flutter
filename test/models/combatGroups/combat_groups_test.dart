@@ -65,8 +65,7 @@ Unit createDefaultUnit() {
           gunnery: 5,
           piloting: 6,
           ew: 2,
-          reactWeapons: [],
-          mountedWeapons: [],
+          weapons: [],
           traits: [const Trait(name: 'hands')],
           type: ModelType.Gear,
           height: '1.5'));

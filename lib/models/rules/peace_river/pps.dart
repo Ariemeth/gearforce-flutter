@@ -238,7 +238,7 @@ final ruleExPOC = FactionRule(
       ),
     ]);
 
-final ruleBadlandsSoup = FactionRule(
+final FactionRule ruleBadlandsSoup = FactionRule(
     name: _badlandsSoupName,
     id: _ruleBadlandsSoupID,
     cgCheck: onlyOneCG(_ruleBadlandsSoupID),
@@ -253,17 +253,24 @@ final ruleBadlandsSoup = FactionRule(
           return true;
       }
 
-      return false;
+      return null;
+    },
+    combatGroupOption: () {
+      return ruleBadlandsSoup.buidCombatGroupOption();
     },
     description:
         'One combat group may purchase the following veteran upgrades for their models without being veterans; Improved Gunnery, Dual Guns, Brawler, Veteran Melee upgrade, or ECCM.');
 
-final ruleSubContractors = FactionRule(
+final FactionRule ruleSubContractors = FactionRule(
     name: _ruleSubContractorsName,
     id: _ruleSubContractorsID,
     cgCheck: onlyOneCG(_ruleSubContractorsID),
     canBeAddedToGroup: (unit, group, cg) {
       return unit.armor == null || (unit.armor != null && unit.armor! <= 8);
     },
+    combatGroupOption: () {
+      return ruleSubContractors.buidCombatGroupOption();
+    },
+    unitFilter: () => filterSubContractor,
     description:
         'One combat group may be made with models from North, South, Peace River, and NuCoal (may include a mix from all four factions) that have an armor of 8 or lower.');

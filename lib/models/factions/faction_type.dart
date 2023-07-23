@@ -12,7 +12,8 @@ enum FactionType {
   Universal_Non_TerraNova('Non Terra Nova Universal'),
   Terrain('Terrain'),
   BlackTalon('Black Talons'),
-  Airstrike('Airstrike Counter');
+  Airstrike('Airstrike Counter'),
+  None('No faction');
 
   const FactionType(this.name);
   final String name;
@@ -23,7 +24,7 @@ enum FactionType {
   factory FactionType.fromName(String name) {
     return FactionType.values.firstWhere(
       (element) => element.name == name,
-      orElse: () => throw new FormatException("Unknown role type", name),
+      orElse: () => throw new FormatException("Unknown faction type", name),
     );
   }
 }

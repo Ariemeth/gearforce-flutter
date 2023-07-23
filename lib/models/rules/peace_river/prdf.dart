@@ -1,5 +1,6 @@
 import 'package:gearforce/models/combatGroups/group.dart';
 import 'package:gearforce/models/factions/faction_rule.dart';
+import 'package:gearforce/models/mods/factionUpgrades/peace_river.dart';
 import 'package:gearforce/models/rules/peace_river/peace_river.dart';
 import 'package:gearforce/data/unit_filter.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
@@ -74,38 +75,68 @@ const filterBestMenAndWomen = SpecialUnitFilter(
 final ruleOlTrusty = FactionRule(
     name: 'Ol\' Trusty',
     id: '$_baseRuleId::oltrusty',
+    factionMod: (ur, cg, u) => PeaceRiverFactionMods.olTrusty(),
     description:
         'Warriors, Jackals and Spartans may increase their GU skill by one for 1 TV each. This does not include Warrior IVs.');
+
 final ruleThunderFromTheSky = FactionRule(
     name: 'Thunder from the Sky',
     id: '$_baseRuleId::thunderFromTheSky',
+    factionMod: (ur, cg, u) => PeaceRiverFactionMods.thunderFromTheSky(),
     description:
         'Airstrike counters may increase their GU skill to 3+ instead of 4+ for 1 TV each.');
+
 final ruleHighTech = FactionRule(
     name: 'High Tech',
     id: '$_baseRuleId::highTech',
     isRoleTypeUnlimited: (unit, target, group, roster) {
-      return group.groupType == GroupType.Primary &&
-          (unit.reactWeapons.any((w) => w.traits
-                  .any((t) => t.name == 'Advanced' || t.name == 'Guided')) ||
-              unit.mountedWeapons.any((w) => w.traits
-                  .any((t) => t.name == 'Advanced' || t.name == 'Guided')));
+      if (group.groupType != GroupType.Primary) {
+        return null;
+      }
+      if (unit.weapons.any((w) =>
+          w.traits.any((t) => t.name == 'Advanced' || t.name == 'Guided'))) {
+        return true;
+      }
+      return null;
     },
     description:
         'Models with weapons that have the Advanced or Guided traits have unlimited availability for all primary units.');
-final ruleBestMenAndWomen = FactionRule(
+
+final FactionRule ruleBestMenAndWomen = FactionRule(
   name: _ruleBestMenAndWomenName,
   id: '$_ruleBestMenAndWomenID',
   description:
       'One model in each combat group may be selected from the Black Talon model list.',
   isUnitCountWithinLimits: (cg, group, unit) {
-    return cg.units.where((u) => u.hasTag(_ruleBestMenAndWomenID)).length == 0;
+    if (unit.faction != FactionType.BlackTalon) {
+      return null;
+    }
+    final bTalonUnits =
+        cg.units.where((u) => u.faction == FactionType.BlackTalon);
+    if (bTalonUnits.length == 0) {
+      return true;
+    }
+    return bTalonUnits.length == 1 &&
+        group.allUnits().where((u) => u == unit).length == 1;
   },
+  isRoleTypeUnlimited: (unit, target, group, roster) {
+    return unit.faction == FactionType.BlackTalon ? false : null;
+  },
+  combatGroupOption: () {
+    return ruleBestMenAndWomen.buidCombatGroupOption(
+      canBeToggled: false,
+      initialState: true,
+    );
+  },
+  unitFilter: () => filterBestMenAndWomen,
 );
+
 final ruleEliteElements = FactionRule(
     name: 'Elite Elements',
     id: '$_baseRuleId::eliteElements',
+    factionMod: (ur, cg, u) => PeaceRiverFactionMods.eliteElements(ur),
     description: 'One SK unit may change their role to SO.');
+
 final ruleGhostStrike = FactionRule(
     name: 'Ghost Strike',
     id: '$_baseRuleId::ghostStrike',

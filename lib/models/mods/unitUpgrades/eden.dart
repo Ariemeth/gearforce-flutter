@@ -42,7 +42,7 @@ final UnitModification halberd = UnitModification(name: 'Halberd Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'with Halberd'))
   ..addMod(
-    UnitAttribute.react_weapons,
+    UnitAttribute.weapons,
     createReplaceWeaponInList(
       oldValue: buildWeapon('MVB (Reach:1)')!,
       newValue: buildWeapon('HVB (Reach:2)')!,
@@ -82,7 +82,7 @@ final UnitModification saker = UnitModification(name: 'Saker Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(0), description: 'TV: 0')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Saker'))
   ..addMod(
-    UnitAttribute.mounted_weapons,
+    UnitAttribute.weapons,
     createReplaceWeaponInList(
       oldValue: buildWeapon('HFM')!,
       newValue: buildWeapon('HGM')!,
@@ -94,7 +94,7 @@ final UnitModification lyddite = UnitModification(name: 'Lyddite Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(-1), description: 'TV: -1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Lyddite'))
   ..addMod(
-    UnitAttribute.mounted_weapons,
+    UnitAttribute.weapons,
     createReplaceWeaponInList(
       oldValue: buildWeapon('MATM (T)')!,
       newValue: buildWeapon('LAM (T)')!,

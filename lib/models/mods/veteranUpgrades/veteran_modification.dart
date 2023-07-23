@@ -131,7 +131,7 @@ class VeteranModification extends BaseModification {
           return rs!.veteranModCheck(u, cg!, modID: reachId);
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
-      ..addMod<List<Weapon>>(UnitAttribute.react_weapons, (value) {
+      ..addMod<List<Weapon>>(UnitAttribute.weapons, (value) {
         final newList = value.toList();
 
         if (modOptions.selectedOption != null) {
@@ -492,16 +492,14 @@ class VeteranModification extends BaseModification {
           return rs!.veteranModCheck(u, cg!, modID: dualGunsId);
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
-      ..addMod<List<Weapon>>(UnitAttribute.react_weapons, (value) {
+      ..addMod<List<Weapon>>(UnitAttribute.weapons, (value) {
         final newList = value;
 
         if (modOptions.selectedOption != null &&
             newList.any((weapon) =>
-                weapon.toString() == modOptions.selectedOption?.text &&
-                weapon.hasReact)) {
-          var existingWeapon = newList.firstWhere((weapon) =>
-              weapon.toString() == modOptions.selectedOption?.text &&
-              weapon.hasReact);
+                weapon.toString() == modOptions.selectedOption?.text)) {
+          var existingWeapon = newList.firstWhere(
+              (weapon) => weapon.toString() == modOptions.selectedOption?.text);
           existingWeapon.bonusTraits.add(traitToAdd);
         }
         return newList;
@@ -556,7 +554,7 @@ class VeteranModification extends BaseModification {
         createSimpleIntMod(1),
         description: 'TV +1',
       )
-      ..addMod<List<Weapon>>(UnitAttribute.react_weapons, (value) {
+      ..addMod<List<Weapon>>(UnitAttribute.weapons, (value) {
         final newList =
             value.map((weapon) => Weapon.fromWeapon(weapon)).toList();
 

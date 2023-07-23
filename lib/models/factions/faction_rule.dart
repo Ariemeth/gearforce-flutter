@@ -1,8 +1,10 @@
 import 'package:flutter/widgets.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
+import 'package:gearforce/models/mods/factionUpgrades/faction_mod.dart';
 import 'package:gearforce/models/rules/options/combat_group_options.dart';
 import 'package:gearforce/models/combatGroups/group.dart';
 import 'package:gearforce/models/roster/roster.dart';
+import 'package:gearforce/models/rules/options/special_unit_filter.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
 
@@ -16,14 +18,17 @@ class FactionRule extends ChangeNotifier {
     this.canBeToggled = false,
     this.requirementCheck = ruleAlwaysAvailable,
     this.cgCheck = alwaysTrueCG,
-    this.duelistCheck,
+    this.duelistModelCheck,
     this.veteranModCheck,
     this.modCostOverride,
-    this.canBeCommand,
     this.canBeAddedToGroup,
     this.hasGroupRole,
     this.isRoleTypeUnlimited,
     this.isUnitCountWithinLimits,
+    this.unitCountOverride,
+    this.combatGroupOption,
+    this.factionMod,
+    this.unitFilter,
   }) {
     _isEnabled = isEnabled;
     _options = options;
@@ -47,18 +52,24 @@ class FactionRule extends ChangeNotifier {
   final bool Function(List<FactionRule>) requirementCheck;
   final bool Function(CombatGroup?, UnitRoster?) cgCheck;
 
-  final bool Function(UnitRoster roster, Unit u)? duelistCheck;
-  final bool Function(Unit u, CombatGroup cg, {required String modID})?
+  final bool? Function(UnitRoster roster, Unit u)? duelistModelCheck;
+  final bool? Function(Unit u, CombatGroup cg, {required String modID})?
       veteranModCheck;
   final int Function(int baseCost, String modID, Unit u)? modCostOverride;
-  final bool Function(Unit unit)? canBeCommand;
-  final bool Function(Unit unit, Group group, CombatGroup cg)?
+
+  final bool? Function(Unit unit, Group group, CombatGroup cg)?
       canBeAddedToGroup;
-  final bool Function(Unit unit, RoleType target)? hasGroupRole;
-  final bool Function(Unit unit, RoleType target, Group group, UnitRoster? ur)?
+  final bool? Function(Unit unit, RoleType target)? hasGroupRole;
+  final bool? Function(Unit unit, RoleType target, Group group, UnitRoster? ur)?
       isRoleTypeUnlimited;
-  final bool Function(CombatGroup cg, Group group, Unit unit)?
+  final bool? Function(CombatGroup cg, Group group, Unit unit)?
       isUnitCountWithinLimits;
+  final int? Function(CombatGroup cg, Group group, Unit unit)?
+      unitCountOverride;
+  final CombatGroupOption Function()? combatGroupOption;
+  final FactionModification Function(UnitRoster ur, CombatGroup cg, Unit u)?
+      factionMod;
+  final SpecialUnitFilter Function()? unitFilter;
 
   bool get isEnabled => _isEnabled;
 
@@ -83,7 +94,7 @@ class FactionRule extends ChangeNotifier {
     bool canBeToggled = true,
     bool initialState = false,
   }) {
-    return CombatGroupOption(
+    final cgOption = CombatGroupOption(
       this,
       name: name,
       id: id,
@@ -92,6 +103,10 @@ class FactionRule extends ChangeNotifier {
       initialState: initialState,
       description: description,
     );
+    cgOption.addListener(() {
+      this.notifyListeners();
+    });
+    return cgOption;
   }
 
   static bool isRuleEnabled(List<FactionRule> rules, String ruleID) {
@@ -122,6 +137,20 @@ class FactionRule extends ChangeNotifier {
       }
     }
     return null;
+  }
+
+  static List<FactionRule> enabledRules(List<FactionRule> rules) {
+    final List<FactionRule> results = [];
+    rules.forEach((rule) {
+      if (rule.isEnabled) {
+        results.add(rule);
+        if (rule.options != null) {
+          results.addAll(enabledRules(rule.options!));
+        }
+      }
+    });
+
+    return results;
   }
 
   static bool ruleAlwaysAvailable(List<FactionRule> rules) => true;
@@ -157,14 +186,17 @@ class FactionRule extends ChangeNotifier {
       requirementCheck: requirementCheck != null
           ? requirementCheck
           : original.requirementCheck,
-      duelistCheck: original.duelistCheck,
+      duelistModelCheck: original.duelistModelCheck,
       veteranModCheck: original.veteranModCheck,
       modCostOverride: original.modCostOverride,
-      canBeCommand: original.canBeCommand,
       canBeAddedToGroup: original.canBeAddedToGroup,
       hasGroupRole: original.hasGroupRole,
       isRoleTypeUnlimited: original.isRoleTypeUnlimited,
       isUnitCountWithinLimits: original.isUnitCountWithinLimits,
+      unitCountOverride: original.unitCountOverride,
+      combatGroupOption: original.combatGroupOption,
+      factionMod: original.factionMod,
+      unitFilter: original.unitFilter,
     );
   }
   Map<String, dynamic> toJson() {

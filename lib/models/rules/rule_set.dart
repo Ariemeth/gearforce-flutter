@@ -21,6 +21,8 @@ const coreTag = 'none';
 const _maxPrimaryActions = 6;
 const _minPrimaryActions = 4;
 const _maxSecondaryActions = 3;
+const _maxNumberModels = 2;
+const _maxNumberAirstrikes = 4;
 
 class DefaultRuleSet extends RuleSet {
   DefaultRuleSet(data)
@@ -91,11 +93,55 @@ abstract class RuleSet extends ChangeNotifier {
   int maxSecondaryActions(int primaryActions) =>
       min((primaryActions / 2).ceil(), _maxSecondaryActions);
 
-  List<FactionModification> availableFactionMods(
-          UnitRoster ur, CombatGroup cg, Unit u) =>
-      [];
+  bool isRuleEnabled(String ruleName) =>
+      FactionRule.isRuleEnabled(allFactionRules, ruleName);
 
-  List<SpecialUnitFilter> availableUnitFilters() => [];
+  FactionRule? findFactionRule(String ruleName) =>
+      FactionRule.findRule(allFactionRules, ruleName);
+
+  List<FactionRule> allEnabledRules(List<CombatGroupOption>? cgOptions) {
+    final enabledAvailableRules =
+        FactionRule.enabledRules(allFactionRules).toList();
+
+    if (cgOptions == null || cgOptions.isEmpty) {
+      return enabledAvailableRules;
+    }
+    // only return faction rules that either have no corresponding combatgroup
+    // option or have a combatgroup option that is enabled.
+    return enabledAvailableRules.where((r) {
+      if (cgOptions.any((cgo) => cgo.factionRule.id == r.id)) {
+        final matchingOption =
+            cgOptions.firstWhere((o) => o.factionRule.id == r.id);
+        return matchingOption.isEnabled;
+      }
+      return true;
+    }).toList();
+  }
+
+  List<FactionModification> availableFactionMods(
+      UnitRoster ur, CombatGroup cg, Unit u) {
+    final availableFactionModRules =
+        allEnabledRules(cg.options).where((rule) => rule.factionMod != null);
+
+    final List<FactionModification> availableFactionMods = [];
+    availableFactionModRules.forEach((rule) {
+      availableFactionMods.add(rule.factionMod!(ur, cg, u));
+    });
+
+    return availableFactionMods;
+  }
+
+  List<SpecialUnitFilter> availableUnitFilters() {
+    final availableUnitFilterRules =
+        allEnabledRules(null).where((rule) => rule.unitFilter != null);
+
+    final List<SpecialUnitFilter> availableUnitFilters = [];
+    availableUnitFilterRules.forEach((rule) {
+      availableUnitFilters.add(rule.unitFilter!());
+    });
+
+    return availableUnitFilters;
+  }
 
   List<Unit> availableUnits({
     List<RoleType>? role,
@@ -138,14 +184,21 @@ abstract class RuleSet extends ChangeNotifier {
       return false;
     }
 
-    final enabledCGOptions = cg.options.where((o) => o.isEnabled);
-    for (var option in enabledCGOptions) {
-      if (option.factionRule.canBeAddedToGroup != null &&
-          !option.factionRule.canBeAddedToGroup!(unit, group, cg)) {
+    // Check if any faction rules override the default canBeAddedToGroup check.
+    // If any result is false, then the check is failed.  If all results
+    // returned are true, continue the check
+    final canBeAddedToGroupOverrides = allEnabledRules(cg.options)
+        .where((rule) => rule.canBeAddedToGroup != null);
+    final overrideValues = canBeAddedToGroupOverrides
+        .map((rule) => rule.canBeAddedToGroup!(unit, group, cg))
+        .where((result) => result != null);
+    if (overrideValues.isNotEmpty) {
+      if (overrideValues.any((status) => status == false)) {
         return false;
       }
     }
 
+    final enabledCGOptions = cg.options.where((o) => o.isEnabled);
     if (!unit.tags.any((t) => t == coreTag)) {
       if (!enabledCGOptions.any((o) => unit.tags.any((t) => t == o.id))) {
         return false;
@@ -232,10 +285,31 @@ abstract class RuleSet extends ChangeNotifier {
     return results;
   }
 
-  List<CombatGroupOption> combatGroupSettings() => [];
+  List<CombatGroupOption> combatGroupSettings() {
+    final availableCombatOptionRules =
+        allEnabledRules(null).where((rule) => rule.combatGroupOption != null);
+
+    final List<CombatGroupOption> cgOptions = [];
+    availableCombatOptionRules.forEach((rule) {
+      cgOptions.add(rule.combatGroupOption!());
+    });
+    return cgOptions;
+  }
 
   bool duelistCheck(UnitRoster roster, Unit u) {
-    if (u.type != ModelType.Gear) {
+    // Check if any faction rules override the default duelist check.  If any
+    // result is false, then the check is failed.  If all results returned are
+    // true, continue the check
+    final modelCheckOverrides = allEnabledRules(u.group?.combatGroup?.options)
+        .where((rule) => rule.duelistModelCheck != null);
+    final overrideValues = modelCheckOverrides
+        .map((r) => r.duelistModelCheck!(roster, u))
+        .where((result) => result != null);
+    if (overrideValues.isNotEmpty) {
+      if (overrideValues.any((status) => status == false)) {
+        return false;
+      }
+    } else if (u.type != ModelType.Gear) {
       return false;
     }
 
@@ -245,51 +319,131 @@ abstract class RuleSet extends ChangeNotifier {
 
   // Ensure the target Roletype is within the Roles
   bool hasGroupRole(Unit unit, RoleType target) {
+    final hasGroupRoleOverrides =
+        allEnabledRules(unit.group?.combatGroup?.options)
+            .where((rule) => rule.hasGroupRole != null);
+    final overrideValues = hasGroupRoleOverrides
+        .map((rule) => rule.hasGroupRole!(unit, target))
+        .where((result) => result != null);
+    if (overrideValues.isNotEmpty) {
+      if (overrideValues.any((status) => status == false)) {
+        return false;
+      }
+      return true;
+    }
+
     return unit.role == null ? false : unit.role!.includesRole([target]);
   }
 
   // Check if the role is unlimited
   bool isRoleTypeUnlimited(
-      Unit unit, RoleType target, Group group, UnitRoster? ur) {
+    Unit unit,
+    RoleType target,
+    Group group,
+    UnitRoster? ur,
+  ) {
+    final isRoleTypeUnlimitedOverrides =
+        allEnabledRules(group.combatGroup?.options)
+            .where((rule) => rule.isRoleTypeUnlimited != null);
+
+    final overrideValues = isRoleTypeUnlimitedOverrides
+        .map((r) => r.isRoleTypeUnlimited!(unit, target, group, ur))
+        .toList()
+        .where((result) => result != null);
+    if (overrideValues.isNotEmpty) {
+      if (overrideValues.any((status) => status == false)) {
+        return false;
+      }
+      return true;
+    }
+
     if (unit.role == null) {
       return false;
     }
 
-    if (unit.role!.roles
-        .firstWhere(((role) => role.name == target))
-        .unlimited) {
+    if (unit.role!.roles.any((r) => r.name == target && r.unlimited)) {
       return true;
     }
 
     return false;
   }
 
-  bool isRuleEnabled(String ruleName) =>
-      FactionRule.isRuleEnabled(allFactionRules, ruleName);
-
-  FactionRule? findFactionRule(String ruleName) =>
-      FactionRule.findRule(allFactionRules, ruleName);
-
   bool isUnitCountWithinLimits(CombatGroup cg, Group group, Unit unit) {
     // get the number other instances of this unitcore in the group
-    var count = 0;
-    var maxCount = 2;
-    if (unit.type == ModelType.AirstrikeCounter) {
-      count = cg.roster == null
-          ? cg.units.where((u) => u.type == ModelType.AirstrikeCounter).length
-          : cg.roster!.totalAirstrikeCounters();
-      maxCount = group.allUnits().contains(unit) ? 5 : 4;
-    } else {
-      count =
-          group.allUnits().where((u) => u.core.name == unit.core.name).length;
-      maxCount = group.allUnits().contains(unit) ? 3 : 2;
+    var count = group
+        .allUnits()
+        .where((u) => u.core.name == unit.core.name && u != unit)
+        .length;
+
+    // Check for any faction rules overriding unit counts.  If multiple rules
+    // return a value, use the max value returned.
+    final unitCountOverrides = allEnabledRules(cg.options).where((rule) =>
+        rule.unitCountOverride != null &&
+        rule.unitCountOverride!(cg, group, unit) != null);
+    if (unitCountOverrides.isNotEmpty) {
+      int? overrideCount = 0;
+      unitCountOverrides
+          .map((r) => r.unitCountOverride!(cg, group, unit))
+          .forEach((result) {
+        if (result != null) {
+          overrideCount =
+              max(overrideCount == null ? 0 : overrideCount!, result);
+        }
+      });
+      if (overrideCount != null) {
+        count = overrideCount!;
+      }
     }
 
-    // Can only have a max of 2 non-unlimted units in a group.
-    return count < maxCount;
+    if (unit.type == ModelType.AirstrikeCounter) {
+      count = cg.roster == null
+          ? cg.units
+              .where((u) => u.type == ModelType.AirstrikeCounter && u != unit)
+              .length
+          : cg.roster!.totalAirstrikeCounters() -
+              group.allUnits().where((u) => u == unit).length;
+    }
+
+    // Check if any faction rules override the default unit count check.  If any
+    // result is false, then the check is failed.  If all results returned are
+    // true, the check is passed.
+    final unitCountWithinLimitsOverrides = allEnabledRules(cg.options)
+        .where((rule) => rule.isUnitCountWithinLimits != null);
+    final overrideValues = unitCountWithinLimitsOverrides
+        .map((r) => r.isUnitCountWithinLimits!(cg, group, unit))
+        .toList()
+        .where((result) => result != null);
+    if (overrideValues.isNotEmpty) {
+      if (overrideValues.any((status) => status == false)) {
+        return false;
+      }
+      return true;
+    }
+
+    return unit.type == ModelType.AirstrikeCounter
+        ? count < _maxNumberAirstrikes
+        : count < _maxNumberModels;
   }
 
-  int modCostOverride(int baseCost, String modID, Unit u) => baseCost;
+  int modCostOverride(int baseCost, String modID, Unit u) {
+    final modCostOverrides = allEnabledRules(u.group?.combatGroup?.options)
+        .where((rule) => rule.modCostOverride != null);
+    if (modCostOverrides.isEmpty) {
+      return baseCost;
+    }
+
+    // check the rule's modCostOverrides function for any override values for
+    // this mod.  If multiple functions are found, return the min value from all
+    // of them.
+    final overrideValues = modCostOverrides
+        .map((r) => r.modCostOverride!(baseCost, modID, u))
+        .toList();
+    var minOverrideValue = baseCost;
+    overrideValues.forEach((v) {
+      minOverrideValue = min(minOverrideValue, v);
+    });
+    return minOverrideValue;
+  }
 
   bool vetCheck(CombatGroup cg, Unit u) {
     if (u.type == ModelType.Drone ||
@@ -304,6 +458,21 @@ abstract class RuleSet extends ChangeNotifier {
   }
 
   bool veteranModCheck(Unit u, CombatGroup cg, {required String modID}) {
+    final vetModCheckOverrides = allEnabledRules(cg.options).where((rule) =>
+        rule.veteranModCheck != null &&
+        rule.veteranModCheck!(u, cg, modID: modID) != null);
+
+    final overrideValues = vetModCheckOverrides
+        .map((r) => r.veteranModCheck!(u, cg, modID: modID))
+        .takeWhile((result) => result != null);
+
+    if (overrideValues.isNotEmpty) {
+      if (overrideValues.any((status) => status == false)) {
+        return false;
+      }
+      return true;
+    }
+
     return (u.traits.any((trait) => trait.name == 'Vet'));
   }
 

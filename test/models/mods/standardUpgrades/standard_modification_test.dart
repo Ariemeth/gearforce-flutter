@@ -16,7 +16,7 @@ void main() {
     final w1 = buildWeapon('LATM', hasReact: true)!;
     final w2 = buildWeapon('MRP', hasReact: true)!;
     var cg = CombatGroup('test1')
-      ..primary.addUnit(Unit(core: UnitCore.test(reactWeapons: [w1, w2])));
+      ..primary.addUnit(Unit(core: UnitCore.test(weapons: [w1, w2])));
     var u = cg.primary.allUnits()[0];
 
     final mod = StandardModification.antiAirSwap(u, cg);
@@ -27,7 +27,7 @@ void main() {
     final w1 = buildWeapon('LFC', hasReact: true)!;
     final w2 = buildWeapon('MRP', hasReact: true)!;
     var cg = CombatGroup('test1')
-      ..primary.addUnit(Unit(core: UnitCore.test(reactWeapons: [w1, w2])));
+      ..primary.addUnit(Unit(core: UnitCore.test(weapons: [w1, w2])));
     var u = cg.primary.allUnits()[0];
 
     final mod = StandardModification.antiAirTrait(u, cg);
@@ -39,9 +39,9 @@ void main() {
     final w2 = buildWeapon('MRP', hasReact: true)!;
     final w3 = buildWeapon('MAC', hasReact: true)!;
     var cg = CombatGroup('test1')
-      ..primary.addUnit(Unit(core: UnitCore.test(reactWeapons: [w1, w2])))
-      ..primary.addUnit(Unit(core: UnitCore.test(reactWeapons: [w1])))
-      ..primary.addUnit(Unit(core: UnitCore.test(reactWeapons: [w3])));
+      ..primary.addUnit(Unit(core: UnitCore.test(weapons: [w1, w2])))
+      ..primary.addUnit(Unit(core: UnitCore.test(weapons: [w1])))
+      ..primary.addUnit(Unit(core: UnitCore.test(weapons: [w3])));
 
     var u = cg.primary.allUnits().last;
     final mod = StandardModification.antiAirTrait(u, cg);
@@ -54,9 +54,9 @@ void main() {
     final w2 = buildWeapon('MRP')!;
     final w3 = buildWeapon('MAC', hasReact: true)!;
     var cg = CombatGroup('test1')
-      ..primary.addUnit(Unit(core: UnitCore.test(reactWeapons: [w1, w2])))
-      ..primary.addUnit(Unit(core: UnitCore.test(reactWeapons: [w1])))
-      ..primary.addUnit(Unit(core: UnitCore.test(reactWeapons: [w3])));
+      ..primary.addUnit(Unit(core: UnitCore.test(weapons: [w1, w2])))
+      ..primary.addUnit(Unit(core: UnitCore.test(weapons: [w1])))
+      ..primary.addUnit(Unit(core: UnitCore.test(weapons: [w3])));
 
     var u = cg.primary.allUnits().last;
     final mod = StandardModification.antiAirTrait(u, cg);

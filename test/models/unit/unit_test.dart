@@ -82,12 +82,12 @@ void main() {
     );
     expect(
       tu.reactWeapons,
-      equals(uc.reactWeapons),
+      equals(uc.weapons.where((w) => w.hasReact)),
       reason: 'React Weapons check',
     );
     expect(
       tu.mountedWeapons,
-      equals(uc.mountedWeapons),
+      equals(uc.weapons.where((w) => !w.hasReact)),
       reason: 'Mounted Weapons check',
     );
     expect(

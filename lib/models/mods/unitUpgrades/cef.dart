@@ -61,7 +61,7 @@ final UnitModification mrl = UnitModification(name: 'MRL Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'with MRL'))
   ..addMod(
-      UnitAttribute.react_weapons,
+      UnitAttribute.weapons,
       createReplaceWeaponInList(
           oldValue: buildWeapon('LLC', hasReact: true)!,
           newValue: buildWeapon('MRL', hasReact: true)!),
@@ -141,8 +141,7 @@ final UnitModification team = UnitModification(name: 'Team')
 final UnitModification lpz = UnitModification(name: 'LPZ Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'with LPZ'))
-  ..addMod(
-      UnitAttribute.mounted_weapons, createAddWeaponToList(buildWeapon('LPZ')!),
+  ..addMod(UnitAttribute.weapons, createAddWeaponToList(buildWeapon('LPZ')!),
       description: '+LPZ');
 
 final UnitModification tankHunter =
@@ -150,7 +149,7 @@ final UnitModification tankHunter =
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
       ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Tank Hunter'))
       ..addMod(
-          UnitAttribute.mounted_weapons,
+          UnitAttribute.weapons,
           createReplaceWeaponInList(
               oldValue: buildWeapon('MRP (Link)')!,
               newValue: buildWeapon('LATM (Link)')!),

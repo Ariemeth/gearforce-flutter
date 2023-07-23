@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/combatGroups/group.dart';
 import 'package:gearforce/models/factions/faction.dart';
+import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/mods/base_modification.dart';
 import 'package:gearforce/models/mods/duelist/duelist_modification.dart';
 import 'package:gearforce/models/mods/duelist/duelist_upgrades.dart';
@@ -340,15 +341,42 @@ class Unit extends ChangeNotifier {
       .map((m) => '${m.name}(${m.applyMods(UnitAttribute.tv, 0)})')
       .toList();
 
-  List<Weapon> get mountedWeapons {
+  List<Weapon> get reactWeapons {
     var newList = this
         .core
-        .mountedWeapons
+        .weapons
+        .where((weapon) => weapon.hasReact)
         .map((weapon) => Weapon.fromWeapon(weapon))
         .toList();
 
     for (var mod in this._mods) {
-      newList = mod.applyMods(UnitAttribute.mounted_weapons, newList);
+      newList = mod.applyMods(UnitAttribute.weapons, newList);
+    }
+
+    return newList;
+  }
+
+  List<Weapon> get mountedWeapons {
+    var newList = this
+        .core
+        .weapons
+        .where((weapon) => !weapon.hasReact)
+        .map((weapon) => Weapon.fromWeapon(weapon))
+        .toList();
+
+    for (var mod in this._mods) {
+      newList = mod.applyMods(UnitAttribute.weapons, newList);
+    }
+
+    return newList;
+  }
+
+  List<Weapon> get weapons {
+    var newList =
+        this.core.weapons.map((weapon) => Weapon.fromWeapon(weapon)).toList();
+
+    for (var mod in this._mods) {
+      newList = mod.applyMods(UnitAttribute.weapons, newList);
     }
 
     return newList;
@@ -380,20 +408,6 @@ class Unit extends ChangeNotifier {
       value = mod.applyMods(UnitAttribute.piloting, value);
     }
     return value;
-  }
-
-  List<Weapon> get reactWeapons {
-    var newList = this
-        .core
-        .reactWeapons
-        .map((weapon) => Weapon.fromWeapon(weapon))
-        .toList();
-
-    for (var mod in this._mods) {
-      newList = mod.applyMods(UnitAttribute.react_weapons, newList);
-    }
-
-    return newList;
   }
 
   Roles? get role {
@@ -459,6 +473,8 @@ class Unit extends ChangeNotifier {
     return value;
   }
 
+  FactionType get faction => core.faction;
+
   int get commandPoints {
     if (commandLevel == CommandLevel.none) {
       return 0;
@@ -482,10 +498,6 @@ class Unit extends ChangeNotifier {
     }
 
     return sp;
-  }
-
-  List<Weapon> get weapons {
-    return reactWeapons..addAll(mountedWeapons);
   }
 
   addTag(String tag) {
@@ -547,10 +559,7 @@ class Unit extends ChangeNotifier {
     return _mods.toList();
   }
 
-  bool hasMod(String id) => this
-      ._mods
-      .where((element) => element.name == id || element.id == id)
-      .isNotEmpty;
+  bool hasMod(String id) => _mods.any((mod) => mod.name == id || mod.id == id);
 
   bool hasTag(String tag) => _tags.any((t) => t == tag);
 
