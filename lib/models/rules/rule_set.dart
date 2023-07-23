@@ -290,10 +290,10 @@ abstract class RuleSet extends ChangeNotifier {
 
   // Ensure the target Roletype is within the Roles
   bool hasGroupRole(Unit unit, RoleType target) {
-    final hasGroupRoleOverride =
+    final hasGroupRoleOverrides =
         allEnabledRules(unit.group?.combatGroup?.options)
             .where((rule) => rule.hasGroupRole != null);
-    final overrideValues = hasGroupRoleOverride
+    final overrideValues = hasGroupRoleOverrides
         .map((rule) => rule.hasGroupRole!(unit, target))
         .where((result) => result != null);
     if (overrideValues.isNotEmpty) {
@@ -321,7 +321,7 @@ abstract class RuleSet extends ChangeNotifier {
         .map((r) => r.isRoleTypeUnlimited!(unit, target, group, ur))
         .toList()
         .where((result) => result != null);
-    if (overrideValues.length > 0) {
+    if (overrideValues.isNotEmpty) {
       if (overrideValues.any((status) => status == false)) {
         return false;
       }
@@ -351,7 +351,7 @@ abstract class RuleSet extends ChangeNotifier {
     final unitCountOverrides = allEnabledRules(cg.options).where((rule) =>
         rule.unitCountOverride != null &&
         rule.unitCountOverride!(cg, group, unit) != null);
-    if (unitCountOverrides.length > 0) {
+    if (unitCountOverrides.isNotEmpty) {
       int? overrideCount = 0;
       unitCountOverrides
           .map((r) => r.unitCountOverride!(cg, group, unit))
@@ -384,7 +384,7 @@ abstract class RuleSet extends ChangeNotifier {
         .map((r) => r.isUnitCountWithinLimits!(cg, group, unit))
         .toList()
         .where((result) => result != null);
-    if (overrideValues.length > 0) {
+    if (overrideValues.isNotEmpty) {
       if (overrideValues.any((status) => status == false)) {
         return false;
       }
@@ -437,7 +437,7 @@ abstract class RuleSet extends ChangeNotifier {
         .map((r) => r.veteranModCheck!(u, cg, modID: modID))
         .takeWhile((result) => result != null);
 
-    if (overrideValues.length > 0) {
+    if (overrideValues.isNotEmpty) {
       if (overrideValues.any((status) => status == false)) {
         return false;
       }
