@@ -1,8 +1,10 @@
 import 'package:flutter/widgets.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
+import 'package:gearforce/models/mods/factionUpgrades/faction_mod.dart';
 import 'package:gearforce/models/rules/options/combat_group_options.dart';
 import 'package:gearforce/models/combatGroups/group.dart';
 import 'package:gearforce/models/roster/roster.dart';
+import 'package:gearforce/models/rules/options/special_unit_filter.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
 
@@ -24,6 +26,9 @@ class FactionRule extends ChangeNotifier {
     this.isRoleTypeUnlimited,
     this.isUnitCountWithinLimits,
     this.unitCountOverride,
+    this.combatGroupOption,
+    this.factionMod,
+    this.unitFilter,
   }) {
     _isEnabled = isEnabled;
     _options = options;
@@ -61,6 +66,10 @@ class FactionRule extends ChangeNotifier {
       isUnitCountWithinLimits;
   final int? Function(CombatGroup cg, Group group, Unit unit)?
       unitCountOverride;
+  final CombatGroupOption Function()? combatGroupOption;
+  final FactionModification Function(UnitRoster ur, CombatGroup cg, Unit u)?
+      factionMod;
+  final SpecialUnitFilter Function()? unitFilter;
 
   bool get isEnabled => _isEnabled;
 
@@ -185,6 +194,9 @@ class FactionRule extends ChangeNotifier {
       isRoleTypeUnlimited: original.isRoleTypeUnlimited,
       isUnitCountWithinLimits: original.isUnitCountWithinLimits,
       unitCountOverride: original.unitCountOverride,
+      combatGroupOption: original.combatGroupOption,
+      factionMod: original.factionMod,
+      unitFilter: original.unitFilter,
     );
   }
   Map<String, dynamic> toJson() {

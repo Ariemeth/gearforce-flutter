@@ -119,9 +119,29 @@ abstract class RuleSet extends ChangeNotifier {
   }
 
   List<FactionModification> availableFactionMods(
-      UnitRoster ur, CombatGroup cg, Unit u);
+      UnitRoster ur, CombatGroup cg, Unit u) {
+    final availableFactionModRules =
+        allEnabledRules(cg.options).where((rule) => rule.factionMod != null);
 
-  List<SpecialUnitFilter> availableUnitFilters();
+    final List<FactionModification> availableFactionMods = [];
+    availableFactionModRules.forEach((rule) {
+      availableFactionMods.add(rule.factionMod!(ur, cg, u));
+    });
+
+    return availableFactionMods;
+  }
+
+  List<SpecialUnitFilter> availableUnitFilters() {
+    final availableUnitFilterRules =
+        allEnabledRules(null).where((rule) => rule.unitFilter != null);
+
+    final List<SpecialUnitFilter> availableUnitFilters = [];
+    availableUnitFilterRules.forEach((rule) {
+      availableUnitFilters.add(rule.unitFilter!());
+    });
+
+    return availableUnitFilters;
+  }
 
   List<Unit> availableUnits({
     List<RoleType>? role,
@@ -265,7 +285,16 @@ abstract class RuleSet extends ChangeNotifier {
     return results;
   }
 
-  List<CombatGroupOption> combatGroupSettings() => [];
+  List<CombatGroupOption> combatGroupSettings() {
+    final availableCombatOptionRules =
+        allEnabledRules(null).where((rule) => rule.combatGroupOption != null);
+
+    final List<CombatGroupOption> cgOptions = [];
+    availableCombatOptionRules.forEach((rule) {
+      cgOptions.add(rule.combatGroupOption!());
+    });
+    return cgOptions;
+  }
 
   bool duelistCheck(UnitRoster roster, Unit u) {
     // Check if any faction rules override the default duelist check.  If any
