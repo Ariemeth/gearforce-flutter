@@ -1,13 +1,10 @@
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/data/unit_filter.dart';
-import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/factions/faction_rule.dart';
-import 'package:gearforce/models/mods/factionUpgrades/faction_mod.dart';
-import 'package:gearforce/models/roster/roster.dart';
+import 'package:gearforce/models/rules/options/combat_group_options.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/rules/options/special_unit_filter.dart';
-import 'package:gearforce/models/unit/unit.dart';
 
 //const String _baseRuleId = 'rule::eden';
 
@@ -28,8 +25,10 @@ class Eden extends RuleSet {
         );
 
   @override
-  List<SpecialUnitFilter> availableUnitFilters() {
-    return [
+  List<SpecialUnitFilter> availableUnitFilters(
+    List<CombatGroupOption>? cgOptions,
+  ) {
+    final filters = [
       const SpecialUnitFilter(
         text: coreName,
         id: coreTag,
@@ -42,11 +41,6 @@ class Eden extends RuleSet {
         ],
       )
     ];
-  }
-
-  @override
-  List<FactionModification> availableFactionMods(
-      UnitRoster ur, CombatGroup cg, Unit u) {
-    return [];
+    return [...filters, ...super.availableUnitFilters(cgOptions)];
   }
 }

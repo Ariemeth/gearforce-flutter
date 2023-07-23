@@ -5,6 +5,7 @@ class UnitFilter {
   final FactionType faction;
   final bool Function(UnitCore uc) matcher;
   const UnitFilter(this.faction, {this.matcher = matchAll});
+  bool isMatch(UnitCore uc) => uc.faction == faction && matcher(uc);
 }
 
 // Match all units
