@@ -1,7 +1,6 @@
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/data/unit_filter.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
-import 'package:gearforce/models/combatGroups/group.dart';
 import 'package:gearforce/models/factions/faction_rule.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/mods/factionUpgrades/faction_mod.dart';
@@ -148,44 +147,6 @@ class PeaceRiver extends RuleSet {
     return options;
   }
 
-  // @override
-  // bool isRoleTypeUnlimited(
-  //     Unit unit, RoleType target, Group group, UnitRoster? ur) {
-  //   var rule = findFactionRule(prdf.ruleHighTech.id);
-  //   if (rule != null &&
-  //       rule.isEnabled &&
-  //       rule.isRoleTypeUnlimited != null &&
-  //       rule.isRoleTypeUnlimited!(unit, target, group, ur)) {
-  //     return true;
-  //   }
-
-  //   rule = findFactionRule(ruleCrisisResponders.id);
-  //   if (rule != null &&
-  //       rule.isEnabled &&
-  //       rule.isRoleTypeUnlimited != null &&
-  //       rule.isRoleTypeUnlimited!(unit, target, group, ur)) {
-  //     return true;
-  //   }
-
-  //   return super.isRoleTypeUnlimited(unit, target, group, ur);
-  // }
-
-// TODO removing this override allows multiple Black talon models to be added to
-// a cg without the the best men and women cg option selected
-// what if cg options are checked in the faction rule instead of in the rule_set?
-  @override
-  bool isUnitCountWithinLimits(CombatGroup cg, Group group, Unit unit) {
-    if (unit.hasTag(prdf.ruleBestMenAndWomen.id)) {
-      final rule =
-          findFactionRule(prdf.ruleBestMenAndWomen.id)?.isUnitCountWithinLimits;
-      if (rule != null) {
-        return rule(cg, group, unit);
-      }
-    }
-
-    return super.isUnitCountWithinLimits(cg, group, unit);
-  }
-
   @override
   int modCostOverride(int baseCost, String modID, Unit u) {
     var rule = findFactionRule(poc.ruleGSwatSniper.id);
@@ -242,16 +203,19 @@ final ruleCrisisResponders = FactionRule(
     name: 'Crisis Responders',
     id: '$_baseRuleId::crisisResponders',
     isRoleTypeUnlimited: (unit, target, group, roster) {
-      return unit.hasMod(crusaderVMod);
+      return unit.hasMod(crusaderVMod) ? true : null;
     },
     unitCountOverride: (cg, group, unit) {
       if (unit.core.name != 'Crusader IV') {
         return null;
       }
+
       return group
           .allUnits()
-          .where(
-              (u) => u.core.name == unit.core.name && !u.hasMod(crusaderVMod))
+          .where((u) =>
+              u.core.name == unit.core.name &&
+              !u.hasMod(crusaderVMod) &&
+              u != unit)
           .length;
     },
     description:

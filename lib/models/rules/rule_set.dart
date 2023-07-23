@@ -21,6 +21,8 @@ const coreTag = 'none';
 const _maxPrimaryActions = 6;
 const _minPrimaryActions = 4;
 const _maxSecondaryActions = 3;
+const _maxNumberModels = 2;
+const _maxNumberAirstrikes = 4;
 
 class DefaultRuleSet extends RuleSet {
   DefaultRuleSet(data)
@@ -279,13 +281,18 @@ abstract class RuleSet extends ChangeNotifier {
     Group group,
     UnitRoster? ur,
   ) {
-    final isRoleTypeUnlimitedOverride =
+    final isRoleTypeUnlimitedOverrides =
         allEnabledRules().where((rule) => rule.isRoleTypeUnlimited != null);
-    if (isRoleTypeUnlimitedOverride.isNotEmpty) {
-      if (isRoleTypeUnlimitedOverride
-          .any((rule) => rule.isRoleTypeUnlimited!(unit, target, group, ur))) {
-        return true;
+
+    final overrideValues = isRoleTypeUnlimitedOverrides
+        .map((r) => r.isRoleTypeUnlimited!(unit, target, group, ur))
+        .toList()
+        .where((result) => result != null);
+    if (overrideValues.length > 0) {
+      if (overrideValues.any((status) => status == false)) {
+        return false;
       }
+      return true;
     }
 
     if (unit.role == null) {
@@ -301,30 +308,59 @@ abstract class RuleSet extends ChangeNotifier {
 
   bool isUnitCountWithinLimits(CombatGroup cg, Group group, Unit unit) {
     // get the number other instances of this unitcore in the group
-    var count = 0;
-    var maxCount = group.allUnits().contains(unit) ? 3 : 2;
+    var count = group
+        .allUnits()
+        .where((u) => u.core.name == unit.core.name && u != unit)
+        .length;
 
-    final unitCountOverride =
-        allEnabledRules().where((rule) => rule.unitCountOverride != null);
-    if (unitCountOverride.isNotEmpty &&
-        unitCountOverride
-            .any((rule) => rule.unitCountOverride!(cg, group, unit) != null)) {
-      count = unitCountOverride
-          .firstWhere(
-              (rule) => rule.unitCountOverride!(cg, group, unit) != null)
-          .unitCountOverride!(cg, group, unit)!;
-    } else if (unit.type == ModelType.AirstrikeCounter) {
-      count = cg.roster == null
-          ? cg.units.where((u) => u.type == ModelType.AirstrikeCounter).length
-          : cg.roster!.totalAirstrikeCounters();
-      maxCount = group.allUnits().contains(unit) ? 5 : 4;
-    } else {
-      count =
-          group.allUnits().where((u) => u.core.name == unit.core.name).length;
+    // Check for any faction rules overriding unit counts.  If multiple rules
+    // return a value, use the max value returned.
+    final unitCountOverrides = allEnabledRules().where((rule) =>
+        rule.unitCountOverride != null &&
+        rule.unitCountOverride!(cg, group, unit) != null);
+    if (unitCountOverrides.length > 0) {
+      int? overrideCount = 0;
+      unitCountOverrides
+          .map((r) => r.unitCountOverride!(cg, group, unit))
+          .forEach((result) {
+        if (result != null) {
+          overrideCount =
+              max(overrideCount == null ? 0 : overrideCount!, result);
+        }
+      });
+      if (overrideCount != null) {
+        count = overrideCount!;
+      }
     }
 
-    // Can only have a max of 2 non-unlimted units in a group.
-    return count < maxCount;
+    if (unit.type == ModelType.AirstrikeCounter) {
+      count = cg.roster == null
+          ? cg.units
+              .where((u) => u.type == ModelType.AirstrikeCounter && u != unit)
+              .length
+          : cg.roster!.totalAirstrikeCounters() -
+              group.allUnits().where((u) => u == unit).length;
+    }
+
+    // Check if any faction rules override the default unit count check.  If any
+    // result is false, then the check is failed.  If all results returned are
+    // true, the check is passed.
+    final unitCountWithinLimitsOverrides =
+        allEnabledRules().where((rule) => rule.isUnitCountWithinLimits != null);
+    final overrideValues = unitCountWithinLimitsOverrides
+        .map((r) => r.isUnitCountWithinLimits!(cg, group, unit))
+        .toList()
+        .where((result) => result != null);
+    if (overrideValues.length > 0) {
+      if (overrideValues.any((status) => status == false)) {
+        return false;
+      }
+      return true;
+    }
+
+    return unit.type == ModelType.AirstrikeCounter
+        ? count < _maxNumberAirstrikes
+        : count < _maxNumberModels;
   }
 
   int modCostOverride(int baseCost, String modID, Unit u) => baseCost;

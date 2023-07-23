@@ -72,9 +72,7 @@ class Group extends ChangeNotifier {
 
     _role = role;
 
-    _units.removeWhere((unit) {
-      return !unit.role!.includesRole([_role]);
-    });
+    validate(tryFix: true);
 
     notifyListeners();
   }

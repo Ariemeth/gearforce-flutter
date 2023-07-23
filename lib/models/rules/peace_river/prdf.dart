@@ -85,22 +85,37 @@ final ruleHighTech = FactionRule(
     name: 'High Tech',
     id: '$_baseRuleId::highTech',
     isRoleTypeUnlimited: (unit, target, group, roster) {
-      return group.groupType == GroupType.Primary &&
-          (unit.weapons.any((w) =>
-              w.traits.any((t) => t.name == 'Advanced' || t.name == 'Guided')));
+      if (group.groupType != GroupType.Primary) {
+        return null;
+      }
+      if (unit.weapons.any((w) =>
+          w.traits.any((t) => t.name == 'Advanced' || t.name == 'Guided'))) {
+        return true;
+      }
+      return null;
     },
     description:
         'Models with weapons that have the Advanced or Guided traits have unlimited availability for all primary units.');
 final ruleBestMenAndWomen = FactionRule(
-  name: _ruleBestMenAndWomenName,
-  id: '$_ruleBestMenAndWomenID',
-  description:
-      'One model in each combat group may be selected from the Black Talon model list.',
-  isUnitCountWithinLimits: (cg, group, unit) {
-    return cg.units.where((u) => u.faction == FactionType.BlackTalon).length ==
-        0;
-  },
-);
+    name: _ruleBestMenAndWomenName,
+    id: '$_ruleBestMenAndWomenID',
+    description:
+        'One model in each combat group may be selected from the Black Talon model list.',
+    isUnitCountWithinLimits: (cg, group, unit) {
+      if (unit.faction != FactionType.BlackTalon) {
+        return null;
+      }
+      final bTalonUnits =
+          cg.units.where((u) => u.faction == FactionType.BlackTalon);
+      if (bTalonUnits.length == 0) {
+        return true;
+      }
+      return bTalonUnits.length == 1 &&
+          group.allUnits().where((u) => u == unit).length == 1;
+    },
+    isRoleTypeUnlimited: (unit, target, group, roster) {
+      return unit.faction == FactionType.BlackTalon ? false : null;
+    });
 final ruleEliteElements = FactionRule(
     name: 'Elite Elements',
     id: '$_baseRuleId::eliteElements',
