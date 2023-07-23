@@ -40,10 +40,10 @@ class _UnitSelectionState extends State<UnitSelection> {
     // ruleset.
     if (_specialUnitFilter == null ||
         !roster.rulesetNotifer.value
-            .availableUnitFilters()
+            .availableUnitFilters(null)
             .contains(_specialUnitFilter)) {
       _specialUnitFilter =
-          roster.rulesetNotifer.value.availableUnitFilters().first;
+          roster.rulesetNotifer.value.availableUnitFilters(null).first;
     }
 
     return Column(
@@ -91,7 +91,7 @@ class _UnitSelectionState extends State<UnitSelection> {
                   child: SelectionList(
                     roleFilters: widget._roleFilter,
                     filter: _filter,
-                    specialUnitFilter: _specialUnitFilter,
+                    specialUnitFilter: _specialUnitFilter!,
                   ),
                 ),
               ),
@@ -113,7 +113,7 @@ class SelectionList extends StatelessWidget {
 
   final Map<RoleType, bool> roleFilters;
   final String? filter;
-  final SpecialUnitFilter? specialUnitFilter;
+  final SpecialUnitFilter specialUnitFilter;
   @override
   Widget build(BuildContext context) {
     final roster = context.watch<UnitRoster>();

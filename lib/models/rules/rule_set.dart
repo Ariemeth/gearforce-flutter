@@ -33,26 +33,15 @@ class DefaultRuleSet extends RuleSet {
           factionRules: [],
           subFactionRules: [],
         );
-
-  @override
-  List<FactionModification> availableFactionMods(
-      UnitRoster ur, CombatGroup cg, Unit u) {
-    return [];
-  }
-
-  @override
-  List<SpecialUnitFilter> availableUnitFilters() {
-    return [];
-  }
 }
 
 abstract class RuleSet extends ChangeNotifier {
   final Data data;
   final List<String>? specialRules;
-  final List<Unit> _units = [];
   final FactionType type;
   final String? description;
   final String name;
+  final List<Unit> _unitCache = [];
   final List<FactionRule> _factionRules = [];
   final List<FactionRule> _subFactionRules = [];
 
@@ -131,9 +120,10 @@ abstract class RuleSet extends ChangeNotifier {
     return availableFactionMods;
   }
 
-  List<SpecialUnitFilter> availableUnitFilters() {
+  List<SpecialUnitFilter> availableUnitFilters(
+      List<CombatGroupOption>? cgOptions) {
     final availableUnitFilterRules =
-        allEnabledRules(null).where((rule) => rule.unitFilter != null);
+        allEnabledRules(cgOptions).where((rule) => rule.unitFilter != null);
 
     final List<SpecialUnitFilter> availableUnitFilters = [];
     availableUnitFilterRules.forEach((rule) {
@@ -146,18 +136,16 @@ abstract class RuleSet extends ChangeNotifier {
   List<Unit> availableUnits({
     List<RoleType>? role,
     List<String>? characterFilters,
-    SpecialUnitFilter? specialUnitFilter,
+    required SpecialUnitFilter specialUnitFilter,
   }) {
-    List<Unit> results = [];
-
-    if (specialUnitFilter != null) {
-      results = _units.where((u) => u.hasTag(specialUnitFilter.id)).toList();
-      if (results.isEmpty) {
-        _buildCache();
-        results = _units.where((u) => u.hasTag(specialUnitFilter.id)).toList();
-      }
-    } else {
-      results = _units.where((u) => u.hasTag(coreTag)).toList();
+    List<Unit> results = _unitCache
+        .where((unit) => specialUnitFilter.anyMatch(unit.core))
+        .toList();
+    if (results.isEmpty) {
+      _buildCache();
+      _unitCache
+          .where((unit) => specialUnitFilter.anyMatch(unit.core))
+          .toList();
     }
 
     if (role != null && role.isNotEmpty) {
@@ -184,6 +172,13 @@ abstract class RuleSet extends ChangeNotifier {
       return false;
     }
 
+    // check to ensure the unit passes at least 1 of the enabled rules
+    // SpecialUnitFIlters
+    final unitFilters = availableUnitFilters(cg.options);
+    if (!unitFilters.any((filter) => filter.anyMatch(unit.core))) {
+      return false;
+    }
+
     // Check if any faction rules override the default canBeAddedToGroup check.
     // If any result is false, then the check is failed.  If all results
     // returned are true, continue the check
@@ -194,13 +189,6 @@ abstract class RuleSet extends ChangeNotifier {
         .where((result) => result != null);
     if (overrideValues.isNotEmpty) {
       if (overrideValues.any((status) => status == false)) {
-        return false;
-      }
-    }
-
-    final enabledCGOptions = cg.options.where((o) => o.isEnabled);
-    if (!unit.tags.any((t) => t == coreTag)) {
-      if (!enabledCGOptions.any((o) => unit.tags.any((t) => t == o.id))) {
         return false;
       }
     }
@@ -477,7 +465,7 @@ abstract class RuleSet extends ChangeNotifier {
   }
 
   void _buildCache() {
-    this.availableUnitFilters().forEach((specialUnitFilter) {
+    availableUnitFilters(null).forEach((specialUnitFilter) {
       data
           .getUnitsByFilter(
         filters: specialUnitFilter.filters,
@@ -485,12 +473,7 @@ abstract class RuleSet extends ChangeNotifier {
         characterFilters: null,
       )
           .forEach((uc) {
-        if (_units.any((u) => u.core.name == uc.name)) {
-          _units.firstWhere((u) => u.core.name == uc.name)
-            ..addTag(specialUnitFilter.id);
-        } else {
-          _units.add(Unit(core: uc)..addTag(specialUnitFilter.id));
-        }
+        _unitCache.add(Unit(core: uc));
       });
     });
   }

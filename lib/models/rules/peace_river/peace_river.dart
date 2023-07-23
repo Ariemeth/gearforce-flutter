@@ -4,6 +4,7 @@ import 'package:gearforce/models/factions/faction_rule.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/mods/factionUpgrades/peace_river.dart';
 import 'package:gearforce/models/mods/unitUpgrades/peace_river.dart';
+import 'package:gearforce/models/rules/options/combat_group_options.dart';
 import 'package:gearforce/models/rules/peace_river/poc.dart' as poc;
 import 'package:gearforce/models/rules/peace_river/pps.dart' as pps;
 import 'package:gearforce/models/rules/peace_river/prdf.dart' as prdf;
@@ -50,7 +51,9 @@ class PeaceRiver extends RuleSet {
         );
 
   @override
-  List<SpecialUnitFilter> availableUnitFilters() {
+  List<SpecialUnitFilter> availableUnitFilters(
+    List<CombatGroupOption>? cgOptions,
+  ) {
     final filters = [
       const SpecialUnitFilter(
         text: coreName,
@@ -65,7 +68,7 @@ class PeaceRiver extends RuleSet {
       )
     ];
 
-    return [...filters, ...super.availableUnitFilters()];
+    return [...filters, ...super.availableUnitFilters(cgOptions)];
   }
 
   factory PeaceRiver.POC(Data data) {

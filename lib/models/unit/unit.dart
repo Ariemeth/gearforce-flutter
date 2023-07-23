@@ -112,8 +112,8 @@ class Unit extends ChangeNotifier {
     CombatGroup? cg,
     UnitRoster roster,
   ) {
-    var core = ruleset.availableUnits();
-    ruleset.availableUnitFilters().forEach((sfilter) {
+    final List<Unit> core = [];
+    ruleset.availableUnitFilters(null).forEach((sfilter) {
       core.addAll(ruleset.availableUnits(specialUnitFilter: sfilter));
     });
     final variant = json['variant'] as String;

@@ -137,7 +137,7 @@ class _SpecialFilterSelectorState extends State<SpecialFilterSelector> {
     final subFaction =
         context.select((UnitRoster roster) => roster.rulesetNotifer.value);
 
-    final availableSpecialFilters = subFaction.availableUnitFilters();
+    final availableSpecialFilters = subFaction.availableUnitFilters(null);
     assert(availableSpecialFilters.length != 0);
 
     if (!availableSpecialFilters.contains(dropdownValue)) {
