@@ -6,6 +6,7 @@ import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart'
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/rules/options/combat_group_options.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
+import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/validation/validations.dart';
@@ -163,6 +164,10 @@ class CombatGroup extends ChangeNotifier {
   List<Unit> unitsWithMod(String id) {
     return _primary.unitsWithMod(id).toList()
       ..addAll(_secondary.unitsWithMod(id).toList());
+  }
+
+  List<Unit> unitsWithTrait(Trait trait) {
+    return _primary.unitsWithTrait(trait) + _secondary.unitsWithTrait(trait);
   }
 
   int numUnitsWithMod(String id) {

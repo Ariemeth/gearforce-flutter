@@ -6,6 +6,9 @@ import 'package:gearforce/models/mods/factionUpgrades/north.dart';
 import 'package:gearforce/models/rules/options/combat_group_options.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/rules/options/special_unit_filter.dart';
+import 'package:gearforce/models/traits/trait.dart';
+import 'package:gearforce/models/unit/model_type.dart';
+import 'package:gearforce/models/unit/role.dart';
 
 const String _baseRuleId = 'rule::north';
 
@@ -77,9 +80,89 @@ final ruleTaskBuilt = FactionRule(
           ' Camel Truck and Stinger may also add an HMG for 1 TV.',
 );
 
-final ruleProspectors = FactionRule(
+final FactionRule ruleProspectors = FactionRule(
   name: 'Prospectors',
   id: '$_baseRuleId::20',
+  hasGroupRole: (unit, target, group) {
+    if (unit.type != ModelType.Gear) {
+      return null;
+    }
+
+    if (unit.role != null && unit.role!.includesRole([target])) {
+      return null;
+    }
+
+    final targetRoleIsCorrect = target == RoleType.GP ||
+        target == RoleType.SK ||
+        target == RoleType.FS ||
+        target == RoleType.RC ||
+        target == RoleType.SO;
+    if (!targetRoleIsCorrect) {
+      return null;
+    }
+
+    final hasClimber = unit.traits.any((trait) => trait.name == 'Climber');
+    if (!hasClimber) {
+      return null;
+    }
+
+    // Get the number of gears with climber in the entire force
+    final unitsWithClimber = group.combatGroup?.roster
+        ?.unitsWithTrait(Trait(name: 'Climber'))
+        .where((u) => u != unit);
+
+    // If there are less then 2 climbers already in the force, no need to check
+    // if they are using this rule or not
+    if (unitsWithClimber == null || unitsWithClimber.length < 2) {
+      return true;
+    }
+
+    // Check how many of the gears with climbing are in a group that does not
+    // share thier role
+    final unitsWithoutMatchingGroupRole = unitsWithClimber.where((u) {
+      if (u.role == null) {
+        return false;
+      }
+      //unit.role == null ? false : unit.role!.includesRole([target]);
+      return !u.role!.includesRole([u.group?.role()]);
+    });
+
+    // If there are less then 2 climbers without matching group roles, no need
+    // to check if they are using this rule or not
+    if (unitsWithoutMatchingGroupRole.length < 2) {
+      return true;
+    }
+    // check how many of the remaining units can be satisfied by another rule
+    final unitsNeedingProspectors = unitsWithoutMatchingGroupRole.where((u) {
+      final g = u.group;
+      if (g == null) {
+        return false;
+      }
+      final hasGroupRoleOverrideRules = g
+          .combatGroup?.roster?.rulesetNotifer.value
+          .allEnabledRules(g.combatGroup?.options)
+          .where((rule) =>
+              rule.hasGroupRole != null && rule.id != ruleProspectors.id);
+      if (hasGroupRoleOverrideRules == null) {
+        return false;
+      }
+      final overrideValues = hasGroupRoleOverrideRules
+          .map((rule) => rule.hasGroupRole!(unit, target, group))
+          .where((result) => result != null);
+      if (overrideValues.isNotEmpty) {
+        if (overrideValues.any((status) => status == false)) {
+          return true;
+        }
+        return false;
+      }
+      return true;
+    });
+
+    print(
+        'number of climbers without matching group role: ${unitsNeedingProspectors.length}');
+
+    return unitsNeedingProspectors.length < 2;
+  },
   description: 'Up to two gears with the Climber trait may be placed in GP,' +
       ' SK, FS, RC or SO units.',
 );

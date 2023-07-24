@@ -3,6 +3,7 @@ import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/factions/faction.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
+import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/model_type.dart';
 import 'package:gearforce/models/unit/role.dart';
@@ -132,6 +133,10 @@ class Group extends ChangeNotifier {
 
   List<Unit> unitsWithMod(String id) {
     return _units.where((unit) => unit.hasMod(id)).toList();
+  }
+
+  List<Unit> unitsWithTrait(Trait trait) {
+    return _units.where((unit) => unit.traits.any((t) => t == trait)).toList();
   }
 
   int tagCount(String tag) {

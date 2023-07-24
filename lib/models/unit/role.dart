@@ -53,7 +53,7 @@ class Roles {
   }
 
   bool includesRole(List<RoleType?> roleType) {
-    return roles.any((element) => roleType.contains(element.name));
+    return roles.any((role) => roleType.contains(role.name));
   }
 
   @override

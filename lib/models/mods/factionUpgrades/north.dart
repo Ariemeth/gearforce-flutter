@@ -14,7 +14,8 @@ import 'package:gearforce/models/weapons/weapon.dart';
 import 'package:gearforce/models/weapons/weapons.dart';
 
 const _northernIDBase = 'mod::faction::northern';
-
+// TODO remove exampleID when finished
+const exampleID = '000';
 const taskBuiltID = '$_northernIDBase::10';
 const hammersOfTheNorth = '$_northernIDBase::20';
 
@@ -30,6 +31,33 @@ class NorthernFactionMods extends FactionModification {
           options: options,
           id: id,
         );
+
+  /*
+    Example faction mod
+    TODO Remove when done
+  */
+  factory NorthernFactionMods.example(Unit unit) {
+    final RequirementCheck reqCheck = (
+      RuleSet? rs,
+      UnitRoster? ur,
+      CombatGroup? cg,
+      Unit u,
+    ) {
+      assert(cg != null);
+      assert(rs != null);
+
+      return true;
+    };
+
+    final fm = NorthernFactionMods(
+      name: 'Example',
+      requirementCheck: reqCheck,
+      id: exampleID,
+    );
+
+    return fm;
+  }
+
   /*
     Task Built: Each Northern gear may swap its rocket pack for a Heavy 
     Machinegun (HMG) for 0 TV. Each Northern gear without a rocket pack may add

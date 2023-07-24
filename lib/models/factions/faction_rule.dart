@@ -59,7 +59,7 @@ class FactionRule extends ChangeNotifier {
 
   final bool? Function(Unit unit, Group group, CombatGroup cg)?
       canBeAddedToGroup;
-  final bool? Function(Unit unit, RoleType target)? hasGroupRole;
+  final bool? Function(Unit unit, RoleType target, Group group)? hasGroupRole;
   final bool? Function(Unit unit, RoleType target, Group group, UnitRoster? ur)?
       isRoleTypeUnlimited;
   final bool? Function(CombatGroup cg, Group group, Unit unit)?

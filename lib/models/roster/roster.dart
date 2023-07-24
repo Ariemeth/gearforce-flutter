@@ -4,6 +4,7 @@ import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/factions/faction.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
+import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/model_type.dart';
 import 'package:gearforce/models/unit/unit.dart';
@@ -281,6 +282,16 @@ class UnitRoster extends ChangeNotifier {
     _combatGroups
         .forEach((name, cg) => listOfUnits.addAll(cg.unitsWithTag(tag)));
     return listOfUnits;
+  }
+
+  List<Unit> unitsWithTrait(Trait trait) {
+    final List<Unit> results = [];
+
+    _combatGroups.entries.map((e) => e.value).forEach((cg) {
+      results.addAll(cg.unitsWithTrait(trait));
+    });
+
+    return results;
   }
 
   // Returns true if the Roster currently has a duelist.
