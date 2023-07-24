@@ -48,7 +48,7 @@ FactionModification? factionModFromId(String id, UnitRoster ur, Unit u) {
 
     // Northern Faction mods
     case taskBuiltID:
-      return NorthernFactionMods.taskBuilt();
+      return NorthernFactionMods.taskBuilt(u);
   }
   return null;
 }

@@ -69,9 +69,9 @@ class North extends RuleSet {
 final ruleTaskBuilt = FactionRule(
   name: 'Task Built',
   id: '$_baseRuleId::10',
-  factionMod: (ur, cg, u) => NorthernFactionMods.taskBuilt(),
+  factionMod: (ur, cg, u) => NorthernFactionMods.taskBuilt(u),
   description:
-      'Each Northern gear may swap its rocket pack for an Heavy Machinegun' +
+      'Each Northern gear may swap its rocket pack for a Heavy Machinegun' +
           ' (HMG) for 0 TV. Each Northern gear without a rocket pack may' +
           ' add an HMG for 1 TV. Each Bricklayer, Engineering Grizzly,' +
           ' Camel Truck and Stinger may also add an HMG for 1 TV.',
