@@ -170,6 +170,7 @@ final FactionRule ruleProspectors = FactionRule(
 final ruleHammersOfTheNorth = FactionRule(
   name: 'Hammers of the North',
   id: '$_baseRuleId::30',
+  factionMod: (ur, cg, u) => NorthernFactionMods.hammerOfTheNorth(u),
   description: 'Snub cannons may be given the Precise trait for +1 TV each.',
 );
 

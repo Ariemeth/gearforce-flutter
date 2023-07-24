@@ -7,6 +7,7 @@ import 'package:gearforce/models/mods/mods.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/rules/north/north.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
+import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/model_type.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
@@ -17,7 +18,7 @@ const _northernIDBase = 'mod::faction::northern';
 // TODO remove exampleID when finished
 const exampleID = '000';
 const taskBuiltID = '$_northernIDBase::10';
-const hammersOfTheNorth = '$_northernIDBase::20';
+const hammersOfTheNorthID = '$_northernIDBase::20';
 
 class NorthernFactionMods extends FactionModification {
   NorthernFactionMods({
@@ -150,6 +151,77 @@ class NorthernFactionMods extends FactionModification {
         description: 'Add a HMG',
       );
     }
+
+    return fm;
+  }
+
+  /*
+    Hammers of the North: Snub cannons may be given the Precise trait for +1 TV each.
+  */
+  factory NorthernFactionMods.hammerOfTheNorth(Unit unit) {
+    final RequirementCheck reqCheck = (
+      RuleSet? rs,
+      UnitRoster? ur,
+      CombatGroup? cg,
+      Unit u,
+    ) {
+      assert(cg != null);
+      assert(rs != null);
+
+      final snubCannons = u.weapons.where(
+          (w) => w.code == 'SC' && !w.traits.any((t) => t.name == 'Precise'));
+      if (snubCannons.isEmpty) {
+        return false;
+      }
+
+      return true;
+    };
+
+    final modOptions = ModificationOption(
+      'Hammers of the North',
+      subOptions: unit.weapons
+          .where((w) => w.code == 'SC')
+          .map((w) => ModificationOption(w.abbreviation))
+          .toList(),
+      description: 'Select a Snub Cannon to have the Precise trait.',
+    );
+
+    final fm = NorthernFactionMods(
+      name: 'Hammers of the North',
+      requirementCheck: reqCheck,
+      options: modOptions,
+      id: hammersOfTheNorthID,
+    );
+    fm.addMod<int>(
+      UnitAttribute.tv,
+      createSimpleIntMod(1),
+      description: 'TV: +1',
+    );
+    fm.addMod<List<Weapon>>(UnitAttribute.weapons, (value) {
+      final newList = value.map((weapon) => Weapon.fromWeapon(weapon)).toList();
+
+      // check if an option has been selected
+      if (modOptions.selectedOption == null) {
+        return newList;
+      }
+
+      // make sure the selected weapon is in the list
+      final isInList =
+          newList.any((w) => w.abbreviation == modOptions.selectedOption?.text);
+
+      if (!isInList) {
+        return newList;
+      }
+
+      final weaponToRemove = newList.firstWhere(
+        (w) => w.abbreviation == modOptions.selectedOption?.text,
+      );
+
+      newList.remove(weaponToRemove);
+      newList.add(Weapon.fromWeapon(weaponToRemove,
+          addTraits: [Trait(name: 'Precise')]));
+      return newList;
+    }, description: 'Add Precise to a Snub Cannon');
 
     return fm;
   }
