@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/combatGroups/group.dart';
 import 'package:gearforce/models/factions/faction.dart';
-import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/rules/options/combat_group_options.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
@@ -77,12 +76,7 @@ class CombatGroup extends ChangeNotifier {
     }
     _isVeteran = value;
     if (!value) {
-      _primary.allUnits().forEach((unit) {
-        unit.removeUnitMod(veteranId);
-      });
-      _secondary.allUnits().forEach((unit) {
-        unit.removeUnitMod(veteranId);
-      });
+      validate(tryFix: true);
     }
     notifyListeners();
   }
@@ -90,12 +84,7 @@ class CombatGroup extends ChangeNotifier {
   bool get isEliteForce => roster != null && roster!.isEliteForce;
   set isEliteForce(bool newValue) {
     if (!newValue && !_isVeteran) {
-      _primary.allUnits().forEach((unit) {
-        unit.removeUnitMod(veteranId);
-      });
-      _secondary.allUnits().forEach((unit) {
-        unit.removeUnitMod(veteranId);
-      });
+      validate(tryFix: true);
     }
   }
 
@@ -187,6 +176,9 @@ class CombatGroup extends ChangeNotifier {
   int numberOfUnits() {
     return _primary.numberOfUnits() + _secondary.numberOfUnits();
   }
+
+  /// Indicates if there are any units in the [CombatGroup]
+  bool isEmpty() => _primary.isEmpty() && _secondary.isEmpty();
 
   List<Validation> validate({bool tryFix = false}) {
     final List<Validation> validationErrors = [];

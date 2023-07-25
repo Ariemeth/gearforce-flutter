@@ -1,5 +1,6 @@
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/data/unit_filter.dart';
+import 'package:gearforce/models/combatGroups/group.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/factions/faction_rule.dart';
 import 'package:gearforce/models/mods/factionUpgrades/north.dart';
@@ -188,9 +189,223 @@ final ruleVeteranLeaders = FactionRule(
       ' force without counting against the normal veteran limitations',
 );
 
-final ruleDragoonSquad = FactionRule(
+final FactionRule ruleDragoonSquad = FactionRule(
   name: 'Dragoon Squad',
   id: '$_baseRuleId::50',
+  cgCheck: (cg, roster) {
+    if (cg?.primary.role() != RoleType.SK &&
+        cg?.secondary.role() != RoleType.SK) {
+      return false;
+    }
+
+    if (!onlyOneCG(ruleDragoonSquad.id)(cg, roster)) {
+      return false;
+    }
+
+    return true;
+  },
+  combatGroupOption: () {
+    return ruleDragoonSquad.buidCombatGroupOption();
+  },
+  veteranCheckOverride: (u, cg) {
+    if (u.group?.role() != RoleType.SK) {
+      return null;
+    }
+
+    // If this is a vet group no need to check
+    if (cg.isVeteran) {
+      return null;
+    }
+
+    // Getting the other group in the cg
+    final otherGroup =
+        u.group?.groupType == GroupType.Primary ? cg.secondary : cg.primary;
+
+    // If the other group is empty no additional checks are needed
+    if (otherGroup.allUnits().isEmpty) {
+      return true;
+    }
+
+    // Check if the other group in the cg is also sk
+    if (otherGroup.role() != RoleType.SK) {
+      return true;
+    }
+
+    final vetsInOtherUnit =
+        otherGroup.allUnits().where((unit) => unit.isVeteran());
+    if (vetsInOtherUnit.isNotEmpty) {
+      // check how many of the remaining units can be satisfied by another rule
+      final unitsNeedingDragoonSquad = vetsInOtherUnit.where((u) {
+        final g = u.group;
+        if (g == null) {
+          return false;
+        }
+        final hasVeteranCheckOverrideRules = g
+            .combatGroup?.roster?.rulesetNotifer.value
+            .allEnabledRules(g.combatGroup?.options)
+            .where((rule) =>
+                rule.veteranCheckOverride != null &&
+                rule.id != ruleDragoonSquad.id);
+        if (hasVeteranCheckOverrideRules == null) {
+          return false;
+        }
+        final overrideValues = hasVeteranCheckOverrideRules
+            .map((rule) => rule.veteranCheckOverride!(u, cg))
+            .where((result) => result != null);
+        if (overrideValues.isNotEmpty) {
+          if (overrideValues.any((status) => status == false)) {
+            return true;
+          }
+          return false;
+        }
+        return true;
+      });
+
+      if (unitsNeedingDragoonSquad.isNotEmpty) {
+        return null;
+      }
+    }
+
+    // if cheetahs that could only be there because of this rule it can't be
+    // used here
+    final cheetahsInOtherUnit =
+        otherGroup.allUnits().where((unit) => unit.core.frame == 'Cheetah');
+    if (cheetahsInOtherUnit.isEmpty) {
+      return true;
+    }
+
+    // check how many of the remaining units can be satisfied by another rule
+    final cheetahsNeedingDragoonSquad = cheetahsInOtherUnit.where((u) {
+      final g = u.group;
+      if (g == null) {
+        return false;
+      }
+      final hasGroupRoleOverrideRules = g
+          .combatGroup?.roster?.rulesetNotifer.value
+          .allEnabledRules(g.combatGroup?.options)
+          .where((rule) =>
+              rule.hasGroupRole != null && rule.id != ruleDragoonSquad.id);
+      if (hasGroupRoleOverrideRules == null) {
+        return false;
+      }
+      final overrideValues = hasGroupRoleOverrideRules
+          .map((rule) => rule.hasGroupRole!(u, u.group!.role(), u.group!))
+          .where((result) => result != null);
+      if (overrideValues.isNotEmpty) {
+        if (overrideValues.any((status) => status == false)) {
+          return true;
+        }
+        return false;
+      }
+      return true;
+    });
+
+    if (cheetahsNeedingDragoonSquad.isEmpty) {
+      return true;
+    }
+
+    return null;
+  },
+  hasGroupRole: (unit, target, group) {
+    if (group.role() != RoleType.SK) {
+      return null;
+    }
+
+    if (unit.core.frame != 'Cheetah') {
+      return null;
+    }
+
+    // Getting the other group in the cg
+    final otherGroup = group.groupType == GroupType.Primary
+        ? group.combatGroup?.secondary
+        : group.combatGroup?.primary;
+
+    // If the other group is empty no additional checks are needed
+    if (otherGroup == null || otherGroup.isEmpty()) {
+      return true;
+    }
+
+    // Check if the other group in the cg is also sk
+    if (otherGroup.role() != RoleType.SK) {
+      return true;
+    }
+
+    // check if the other unit in the combatgroup is already using the rule
+    final vetsInOtherUnit =
+        otherGroup.allUnits().where((unit) => unit.isVeteran());
+    if (vetsInOtherUnit.isNotEmpty) {
+      // check how many of the remaining units can be satisfied by another rule
+      final unitsNeedingDragoonSquad = vetsInOtherUnit.where((u) {
+        final g = u.group;
+        if (g == null || g.combatGroup == null) {
+          return false;
+        }
+        final hasVeteranCheckOverrideRules = g
+            .combatGroup?.roster?.rulesetNotifer.value
+            .allEnabledRules(g.combatGroup?.options)
+            .where((rule) =>
+                rule.veteranCheckOverride != null &&
+                rule.id != ruleDragoonSquad.id);
+        if (hasVeteranCheckOverrideRules == null) {
+          return false;
+        }
+        final overrideValues = hasVeteranCheckOverrideRules
+            .map((rule) => rule.veteranCheckOverride!(u, g.combatGroup!))
+            .where((result) => result != null);
+        if (overrideValues.isNotEmpty) {
+          if (overrideValues.any((status) => status == false)) {
+            return true;
+          }
+          return false;
+        }
+        return true;
+      });
+
+      if (unitsNeedingDragoonSquad.isNotEmpty) {
+        return null;
+      }
+    }
+
+    // if cheetahs that could only be there because of this rule it can't be
+    // used here
+    final cheetahsInOtherUnit =
+        otherGroup.allUnits().where((unit) => unit.core.frame == 'Cheetah');
+    if (cheetahsInOtherUnit.isEmpty) {
+      return true;
+    }
+
+    // check how many of the remaining units can be satisfied by another rule
+    final cheetahsNeedingDragoonSquad = cheetahsInOtherUnit.where((u) {
+      final g = u.group;
+      if (g == null) {
+        return false;
+      }
+      final hasGroupRoleOverrideRules = g
+          .combatGroup?.roster?.rulesetNotifer.value
+          .allEnabledRules(g.combatGroup?.options)
+          .where((rule) =>
+              rule.hasGroupRole != null && rule.id != ruleDragoonSquad.id);
+      if (hasGroupRoleOverrideRules == null) {
+        return false;
+      }
+      final overrideValues = hasGroupRoleOverrideRules
+          .map((rule) => rule.hasGroupRole!(u, u.group!.role(), u.group!))
+          .where((result) => result != null);
+      if (overrideValues.isNotEmpty) {
+        if (overrideValues.any((status) => status == false)) {
+          return true;
+        }
+        return false;
+      }
+      return true;
+    });
+
+    if (cheetahsNeedingDragoonSquad.isEmpty) {
+      return true;
+    }
+
+    return null;
+  },
   description: 'Models in one SK unit may purchase the Vet trait without' +
       ' counting against the veteran limitations. Any Cheetah variant may be' +
       ' placed in this SK unit.',

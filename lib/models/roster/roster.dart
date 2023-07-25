@@ -29,33 +29,38 @@ class UnitRoster extends ChangeNotifier {
     factionNotifier = ValueNotifier<Faction>(Faction.blackTalons(data));
     rulesetNotifer =
         ValueNotifier<RuleSet>(factionNotifier.value.defaultSubFaction);
+
+    final rulesetListener = () {
+      _combatGroups.forEach((key, value) {
+        value.validate(tryFix: true);
+      });
+      notifyListeners();
+    };
+
+    rulesetNotifer.value.addListener(rulesetListener);
+
     factionNotifier.addListener(() {
       rulesetNotifer.value = factionNotifier.value.defaultSubFaction;
       _totalCreated = 0;
       _combatGroups.clear();
       createCG();
+    });
 
-      rulesetNotifer.addListener(() {
-        // Ensure each combat group is clear
-        _combatGroups.forEach((key, value) {
-          value.validate(tryFix: true);
-        });
-
-        if (_combatGroups.length > 1) {
-          _combatGroups.removeWhere((key, value) => value.units.length == 0);
-          if (_combatGroups.length == 0) {
-            createCG();
-          }
-        }
-
-        rulesetNotifer.value.addListener(() {
-          _combatGroups.forEach((key, value) {
-            value.validate(tryFix: true);
-          });
-          notifyListeners();
-        });
-        notifyListeners();
+    rulesetNotifer.addListener(() {
+      // Ensure each combat group is clear
+      _combatGroups.forEach((key, value) {
+        value.validate(tryFix: true);
       });
+
+      if (_combatGroups.length > 1) {
+        _combatGroups.removeWhere((key, value) => value.units.length == 0);
+        if (_combatGroups.length == 0) {
+          createCG();
+        }
+      }
+
+      rulesetNotifer.value.addListener(rulesetListener);
+      notifyListeners();
     });
 
     createCG();

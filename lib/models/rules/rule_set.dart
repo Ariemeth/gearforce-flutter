@@ -307,9 +307,8 @@ abstract class RuleSet extends ChangeNotifier {
 
   // Ensure the target Roletype is within the Roles
   bool hasGroupRole(Unit unit, RoleType target, Group group) {
-    final hasGroupRoleOverrides =
-        allEnabledRules(unit.group?.combatGroup?.options)
-            .where((rule) => rule.hasGroupRole != null);
+    final hasGroupRoleOverrides = allEnabledRules(group.combatGroup?.options)
+        .where((rule) => rule.hasGroupRole != null);
     final overrideValues = hasGroupRoleOverrides
         .map((rule) => rule.hasGroupRole!(unit, target, group))
         .where((result) => result != null);
@@ -434,12 +433,13 @@ abstract class RuleSet extends ChangeNotifier {
   }
 
   bool vetCheck(CombatGroup cg, Unit u) {
-    final vetCheckOverrides = allEnabledRules(cg.options)
+    final vetCheckOverrideRules = allEnabledRules(cg.options)
         .where((rule) => rule.veteranCheckOverride != null);
-    if (vetCheckOverrides.isNotEmpty) {
-      final overrideValues = vetCheckOverrides
-          .map((r) => r.veteranCheckOverride!(u, cg))
-          .takeWhile((result) => result != null);
+    if (vetCheckOverrideRules.isNotEmpty) {
+      final overrideValues = vetCheckOverrideRules.map((r) {
+        final result = r.veteranCheckOverride!(u, cg);
+        return result;
+      }).where((result) => result != null);
 
       if (overrideValues.isNotEmpty) {
         if (overrideValues.any((status) => status == false)) {
@@ -467,7 +467,7 @@ abstract class RuleSet extends ChangeNotifier {
 
     final overrideValues = vetModCheckOverrides
         .map((r) => r.veteranModCheck!(u, cg, modID: modID))
-        .takeWhile((result) => result != null);
+        .where((result) => result != null);
 
     if (overrideValues.isNotEmpty) {
       if (overrideValues.any((status) => status == false)) {

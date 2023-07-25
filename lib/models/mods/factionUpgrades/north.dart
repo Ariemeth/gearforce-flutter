@@ -15,7 +15,7 @@ import 'package:gearforce/models/weapons/weapon.dart';
 import 'package:gearforce/models/weapons/weapons.dart';
 
 const _northernIDBase = 'mod::faction::northern';
-// TODO remove exampleID when finished
+// TODO remove exampleID when finished with all northern factions
 const exampleID = '000';
 const taskBuiltID = '$_northernIDBase::10';
 const hammersOfTheNorthID = '$_northernIDBase::20';
@@ -35,7 +35,7 @@ class NorthernFactionMods extends FactionModification {
 
   /*
     Example faction mod
-    TODO Remove when done
+    TODO Remove when finished with all northern factions
   */
   factory NorthernFactionMods.example(Unit unit) {
     final RequirementCheck reqCheck = (

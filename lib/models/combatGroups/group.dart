@@ -147,6 +147,8 @@ class Group extends ChangeNotifier {
     return _units.where((unit) => unit.hasTag(tag)).toList();
   }
 
+  bool isEmpty() => _units.isEmpty;
+
   void reset() {
     _role = _defaultRoleType;
     _units.clear();
