@@ -4,6 +4,7 @@ import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/factions/faction.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
+import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/model_type.dart';
 import 'package:gearforce/models/unit/unit.dart';
@@ -28,33 +29,38 @@ class UnitRoster extends ChangeNotifier {
     factionNotifier = ValueNotifier<Faction>(Faction.blackTalons(data));
     rulesetNotifer =
         ValueNotifier<RuleSet>(factionNotifier.value.defaultSubFaction);
+
+    final rulesetListener = () {
+      _combatGroups.forEach((key, value) {
+        value.validate(tryFix: true);
+      });
+      notifyListeners();
+    };
+
+    rulesetNotifer.value.addListener(rulesetListener);
+
     factionNotifier.addListener(() {
       rulesetNotifer.value = factionNotifier.value.defaultSubFaction;
       _totalCreated = 0;
       _combatGroups.clear();
       createCG();
+    });
 
-      rulesetNotifer.addListener(() {
-        // Ensure each combat group is clear
-        _combatGroups.forEach((key, value) {
-          value.validate(tryFix: true);
-        });
-
-        if (_combatGroups.length > 1) {
-          _combatGroups.removeWhere((key, value) => value.units.length == 0);
-          if (_combatGroups.length == 0) {
-            createCG();
-          }
-        }
-
-        rulesetNotifer.value.addListener(() {
-          _combatGroups.forEach((key, value) {
-            value.validate(tryFix: true);
-          });
-          notifyListeners();
-        });
-        notifyListeners();
+    rulesetNotifer.addListener(() {
+      // Ensure each combat group is clear
+      _combatGroups.forEach((key, value) {
+        value.validate(tryFix: true);
       });
+
+      if (_combatGroups.length > 1) {
+        _combatGroups.removeWhere((key, value) => value.units.length == 0);
+        if (_combatGroups.length == 0) {
+          createCG();
+        }
+      }
+
+      rulesetNotifer.value.addListener(rulesetListener);
+      notifyListeners();
     });
 
     createCG();
@@ -281,6 +287,16 @@ class UnitRoster extends ChangeNotifier {
     _combatGroups
         .forEach((name, cg) => listOfUnits.addAll(cg.unitsWithTag(tag)));
     return listOfUnits;
+  }
+
+  List<Unit> unitsWithTrait(Trait trait) {
+    final List<Unit> results = [];
+
+    _combatGroups.entries.map((e) => e.value).forEach((cg) {
+      results.addAll(cg.unitsWithTrait(trait));
+    });
+
+    return results;
   }
 
   // Returns true if the Roster currently has a duelist.

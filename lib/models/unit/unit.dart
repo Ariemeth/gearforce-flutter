@@ -353,7 +353,7 @@ class Unit extends ChangeNotifier {
       newList = mod.applyMods(UnitAttribute.weapons, newList);
     }
 
-    return newList;
+    return newList.where((w) => w.hasReact).toList();
   }
 
   List<Weapon> get mountedWeapons {
@@ -368,7 +368,7 @@ class Unit extends ChangeNotifier {
       newList = mod.applyMods(UnitAttribute.weapons, newList);
     }
 
-    return newList;
+    return newList.where((w) => !w.hasReact).toList();
   }
 
   List<Weapon> get weapons {

@@ -122,6 +122,7 @@ class Weapon {
     Weapon original, {
     Range? range,
     List<Trait>? addTraits,
+    bool? hasReact,
   }) {
     final bonusTraits =
         original.bonusTraits.map((trait) => Trait.fromTrait(trait)).toList();
@@ -137,7 +138,7 @@ class Weapon {
       modes: original.modes,
       range: range != null ? range : original.range,
       damage: original.damage,
-      hasReact: original.hasReact,
+      hasReact: hasReact != null ? hasReact : original.hasReact,
       baseTraits:
           original.baseTraits.map((trait) => Trait.fromTrait(trait)).toList(),
       baseAlternativeTraits: original.baseAlternativeTraits

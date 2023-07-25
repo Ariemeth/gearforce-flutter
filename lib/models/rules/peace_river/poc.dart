@@ -62,7 +62,7 @@ const filterMercContract = const SpecialUnitFilter(
 final ruleSpecialIssue = FactionRule(
   name: 'Special Issue',
   id: '$_baseRuleId::specialIssue',
-  hasGroupRole: (unit, target) {
+  hasGroupRole: (unit, target, group) {
     if (unit.core.frame == 'Greyhound' &&
         (target == RoleType.GP ||
             target == RoleType.SK ||

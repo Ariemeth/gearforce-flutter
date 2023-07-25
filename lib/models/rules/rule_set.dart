@@ -196,7 +196,7 @@ abstract class RuleSet extends ChangeNotifier {
     final targetRole = group.role();
 
     // Unit must have the role of the group it is being added.
-    if (!(hasGroupRole(unit, targetRole) ||
+    if (!(hasGroupRole(unit, targetRole, group) ||
         unit.type == ModelType.AirstrikeCounter)) {
       return false;
     }
@@ -306,12 +306,11 @@ abstract class RuleSet extends ChangeNotifier {
   }
 
   // Ensure the target Roletype is within the Roles
-  bool hasGroupRole(Unit unit, RoleType target) {
-    final hasGroupRoleOverrides =
-        allEnabledRules(unit.group?.combatGroup?.options)
-            .where((rule) => rule.hasGroupRole != null);
+  bool hasGroupRole(Unit unit, RoleType target, Group group) {
+    final hasGroupRoleOverrides = allEnabledRules(group.combatGroup?.options)
+        .where((rule) => rule.hasGroupRole != null);
     final overrideValues = hasGroupRoleOverrides
-        .map((rule) => rule.hasGroupRole!(unit, target))
+        .map((rule) => rule.hasGroupRole!(unit, target, group))
         .where((result) => result != null);
     if (overrideValues.isNotEmpty) {
       if (overrideValues.any((status) => status == false)) {
@@ -434,6 +433,22 @@ abstract class RuleSet extends ChangeNotifier {
   }
 
   bool vetCheck(CombatGroup cg, Unit u) {
+    final vetCheckOverrideRules = allEnabledRules(cg.options)
+        .where((rule) => rule.veteranCheckOverride != null);
+    if (vetCheckOverrideRules.isNotEmpty) {
+      final overrideValues = vetCheckOverrideRules.map((r) {
+        final result = r.veteranCheckOverride!(u, cg);
+        return result;
+      }).where((result) => result != null);
+
+      if (overrideValues.isNotEmpty) {
+        if (overrideValues.any((status) => status == false)) {
+          return false;
+        }
+        return true;
+      }
+    }
+
     if (u.type == ModelType.Drone ||
         u.type == ModelType.Terrain ||
         u.type == ModelType.AreaTerrain ||
@@ -452,7 +467,7 @@ abstract class RuleSet extends ChangeNotifier {
 
     final overrideValues = vetModCheckOverrides
         .map((r) => r.veteranModCheck!(u, cg, modID: modID))
-        .takeWhile((result) => result != null);
+        .where((result) => result != null);
 
     if (overrideValues.isNotEmpty) {
       if (overrideValues.any((status) => status == false)) {

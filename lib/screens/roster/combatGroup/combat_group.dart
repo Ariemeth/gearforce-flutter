@@ -373,7 +373,8 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
     result.whenComplete(() {
       setState(() {});
       if (!kReleaseMode) {
-        print('unit weapons after returning from upgrade screen');
+        print(
+            'unit weapons after returning from upgrade screen for ${unit.name}');
         print('react weapons: ${unit.reactWeapons.toString()}');
         print('mount weapons: ${unit.mountedWeapons.toString()}');
         print('       traits: ${unit.traits.toString()}');
