@@ -7,6 +7,7 @@ import 'package:gearforce/models/rules/options/combat_group_options.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/rules/options/special_unit_filter.dart';
 import 'package:gearforce/models/traits/trait.dart';
+import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/model_type.dart';
 import 'package:gearforce/models/unit/role.dart';
 
@@ -177,6 +178,12 @@ final ruleHammersOfTheNorth = FactionRule(
 final ruleVeteranLeaders = FactionRule(
   name: 'Veteran Leaders',
   id: '$_baseRuleId::40',
+  veteranCheckOverride: (u, cg) {
+    if (u.commandLevel != CommandLevel.none) {
+      return true;
+    }
+    return null;
+  },
   description: 'You may purchase the Vet trait for any commander in the' +
       ' force without counting against the normal veteran limitations',
 );

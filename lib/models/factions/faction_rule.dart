@@ -20,6 +20,7 @@ class FactionRule extends ChangeNotifier {
     this.cgCheck = alwaysTrueCG,
     this.duelistModelCheck,
     this.veteranModCheck,
+    this.veteranCheckOverride,
     this.modCostOverride,
     this.canBeAddedToGroup,
     this.hasGroupRole,
@@ -55,6 +56,7 @@ class FactionRule extends ChangeNotifier {
   final bool? Function(UnitRoster roster, Unit u)? duelistModelCheck;
   final bool? Function(Unit u, CombatGroup cg, {required String modID})?
       veteranModCheck;
+  final bool? Function(Unit u, CombatGroup cg)? veteranCheckOverride;
   final int Function(int baseCost, String modID, Unit u)? modCostOverride;
 
   final bool? Function(Unit unit, Group group, CombatGroup cg)?
@@ -188,6 +190,7 @@ class FactionRule extends ChangeNotifier {
           : original.requirementCheck,
       duelistModelCheck: original.duelistModelCheck,
       veteranModCheck: original.veteranModCheck,
+      veteranCheckOverride: original.veteranCheckOverride,
       modCostOverride: original.modCostOverride,
       canBeAddedToGroup: original.canBeAddedToGroup,
       hasGroupRole: original.hasGroupRole,

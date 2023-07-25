@@ -434,6 +434,21 @@ abstract class RuleSet extends ChangeNotifier {
   }
 
   bool vetCheck(CombatGroup cg, Unit u) {
+    final vetCheckOverrides = allEnabledRules(cg.options)
+        .where((rule) => rule.veteranCheckOverride != null);
+    if (vetCheckOverrides.isNotEmpty) {
+      final overrideValues = vetCheckOverrides
+          .map((r) => r.veteranCheckOverride!(u, cg))
+          .takeWhile((result) => result != null);
+
+      if (overrideValues.isNotEmpty) {
+        if (overrideValues.any((status) => status == false)) {
+          return false;
+        }
+        return true;
+      }
+    }
+
     if (u.type == ModelType.Drone ||
         u.type == ModelType.Terrain ||
         u.type == ModelType.AreaTerrain ||
