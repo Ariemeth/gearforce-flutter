@@ -73,7 +73,7 @@ const filterBestMenAndWomen = SpecialUnitFilter(
 );
 
 final ruleOlTrusty = FactionRule(
-    name: 'Ol\' Trusty',
+    name: 'Ol’ Trusty',
     id: '$_baseRuleId::oltrusty',
     factionMod: (ur, cg, u) => PeaceRiverFactionMods.olTrusty(),
     description:

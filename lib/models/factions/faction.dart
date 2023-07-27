@@ -23,7 +23,7 @@ class Faction {
 
   factory Faction.blackTalons(Data data) {
     final rulesets = [
-      BlackTalons(data, name: '$_emptySubFactionName'),
+      BlackTalons(data, name: _emptySubFactionName),
       BlackTalons(data, name: 'Black Talon Recon Team'),
       BlackTalons(data, name: 'Black Talon Insertion Team'),
       BlackTalons(data, name: 'Black Talon Strike Team'),
@@ -33,7 +33,7 @@ class Faction {
   }
   factory Faction.caprice(Data data) {
     final rulesets = [
-      Caprice(data, name: '$_emptySubFactionName'),
+      Caprice(data, name: _emptySubFactionName),
       Caprice(data, name: 'Caprice Invasion Detachment'),
       Caprice(data, name: 'Corporate Security Element'),
       Caprice(data, name: 'Liberati Resistance Cell'),
@@ -42,7 +42,7 @@ class Faction {
   }
   factory Faction.cef(Data data) {
     final rulesets = [
-      CEF(data, name: '$_emptySubFactionName'),
+      CEF(data, name: _emptySubFactionName),
       CEF(data, name: 'CEF Frame Formation'),
       CEF(data, name: 'CEF Tank Formation'),
       CEF(data, name: 'CEF Infantry Formation'),
@@ -51,7 +51,7 @@ class Faction {
   }
   factory Faction.eden(Data data) {
     final rulesets = [
-      Eden(data, name: '$_emptySubFactionName'),
+      Eden(data, name: _emptySubFactionName),
       Eden(data, name: 'Edenite Invasion Force'),
       Eden(data, name: 'Edenite Noble Houses'),
       Eden(data, name: 'Ad-Hoc Edenite Force'),
@@ -60,9 +60,9 @@ class Faction {
   }
   factory Faction.north(Data data) {
     final rulesets = [
-      North(data, name: '$_emptySubFactionName'),
+      North(data, name: _emptySubFactionName),
       North(data, name: 'Norguard'),
-      North(data, name: 'Western Frontier Protectorate'),
+      North.WFP(data),
       North(data, name: 'United Mercantile Federation'),
       North(data, name: 'Northern Lights Confederacy'),
     ];
@@ -70,7 +70,7 @@ class Faction {
   }
   factory Faction.nucoal(Data data) {
     final rulesets = [
-      Nucoal(data, name: '$_emptySubFactionName'),
+      Nucoal(data, name: _emptySubFactionName),
       Nucoal(data, name: 'NuCoal Self Defense Force'),
       Nucoal(data, name: 'Port Arthur Korps'),
       Nucoal(data, name: 'Humanist Alliance Protection Force'),
@@ -82,7 +82,7 @@ class Faction {
   }
   factory Faction.peaceRiver(Data data) {
     final rulesets = [
-      PeaceRiver(data, name: '$_emptySubFactionName'),
+      PeaceRiver(data, name: _emptySubFactionName),
       PeaceRiver.PRDF(data),
       PeaceRiver.POC(data),
       PeaceRiver.PPS(data),
@@ -91,7 +91,7 @@ class Faction {
   }
   factory Faction.south(Data data) {
     final rulesets = [
-      South(data, name: '$_emptySubFactionName'),
+      South(data, name: _emptySubFactionName),
       South(data, name: 'Military Intervention and Counter Insurgency Army'),
       South(data, name: 'Mekong Dominion'),
       South(data, name: 'Eastern Sun Emirates'),
@@ -101,7 +101,7 @@ class Faction {
   }
   factory Faction.utopia(Data data) {
     final rulesets = [
-      Utopia(data, name: '$_emptySubFactionName'),
+      Utopia(data, name: _emptySubFactionName),
       Utopia(data, name: 'Combined Armiger Force'),
       Utopia(data, name: 'Other Utopian Forces'),
     ];
