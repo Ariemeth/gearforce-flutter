@@ -84,7 +84,7 @@ final ruleECMSpecialist = FactionRule(
         'One gear or strider per combat group may improve its ECM to ECM+ for 1 TV each.');
 
 final rulePOCOlTrusty = FactionRule(
-  name: 'Ol\' Trusty',
+  name: 'Ol’ Trusty',
   id: '$_baseRuleId::oltrusty',
   factionMod: (ur, cg, u) => PeaceRiverFactionMods.olTrustyPOC(),
   description:

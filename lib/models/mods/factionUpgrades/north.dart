@@ -6,6 +6,7 @@ import 'package:gearforce/models/mods/modification_option.dart';
 import 'package:gearforce/models/mods/mods.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/rules/north/north.dart';
+import 'package:gearforce/models/rules/north/wfp.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/model_type.dart';
@@ -19,6 +20,7 @@ const _northernIDBase = 'mod::faction::northern';
 const exampleID = '000';
 const taskBuiltID = '$_northernIDBase::10';
 const hammersOfTheNorthID = '$_northernIDBase::20';
+const olTrustyWFPID = '$_northernIDBase::30';
 
 class NorthernFactionMods extends FactionModification {
   NorthernFactionMods({
@@ -224,5 +226,41 @@ class NorthernFactionMods extends FactionModification {
     }, description: 'Add Precise to a Snub Cannon');
 
     return fm;
+  }
+
+  /*
+    Ol’ Trusty: Hunters, Ferrets, Weasels, Wildcats and Bobcats may improve their
+    GU skill by one for 1 TV each. This does not include Hunter XMGs.
+  */
+  factory NorthernFactionMods.olTrustyWFP() {
+    final RequirementCheck reqCheck =
+        (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+      assert(rs != null);
+
+      if (rs == null || !rs.isRuleEnabled(ruleOlTrustyWFP.id)) {
+        return false;
+      }
+      final frameName = u.core.frame;
+      return (frameName.toLowerCase().contains('hunter') &&
+              !frameName.contains('XMG')) ||
+          frameName == 'Ferret' ||
+          frameName == 'Weasel' ||
+          frameName == 'Wildcat' ||
+          frameName == 'Bobcat';
+    };
+    return NorthernFactionMods(
+      name: 'Ol’ Trusty',
+      requirementCheck: reqCheck,
+      id: olTrustyWFPID,
+    )
+      ..addMod<int>(UnitAttribute.tv, createSimpleIntMod(1),
+          description: 'TV: +1')
+      ..addMod<int>(
+        UnitAttribute.gunnery,
+        createSimpleIntMod(-1),
+        description: 'Hunters, Ferrets, Weasels, Wildcats and Bobcats may' +
+            ' improve their GU skill by one for 1 TV each. This does not' +
+            ' include Hunter XMGs.',
+      );
   }
 }
