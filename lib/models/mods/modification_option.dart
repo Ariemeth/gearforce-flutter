@@ -31,7 +31,11 @@ class ModificationOption {
   }
 
   bool validate() {
-    final result = optionByText(text);
+    if (selectedOption == null) {
+      return true;
+    }
+
+    final result = optionByText(selectedOption!.text);
     if (result == null || false) {
       selectedOption = null;
       return false;

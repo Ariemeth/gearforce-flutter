@@ -4,6 +4,7 @@ import 'package:gearforce/models/combatGroups/group.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/factions/faction_rule.dart';
 import 'package:gearforce/models/mods/factionUpgrades/north.dart';
+import 'package:gearforce/models/rules/north/umf.dart' as umf;
 import 'package:gearforce/models/rules/north/wfp.dart' as wfp;
 import 'package:gearforce/models/rules/options/combat_group_options.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
@@ -73,6 +74,9 @@ class North extends RuleSet {
 
   factory North.WFP(Data data) {
     return wfp.WFP(data);
+  }
+  factory North.UMF(Data data) {
+    return umf.UMF(data);
   }
 }
 
@@ -165,10 +169,10 @@ final FactionRule ruleProspectors = FactionRule(
       return true;
     });
 
-    print(
-        'number of climbers without matching group role: ${unitsNeedingProspectors.length}');
-
-    return unitsNeedingProspectors.length < 2;
+    if (unitsNeedingProspectors.length < 2) {
+      return true;
+    }
+    return null;
   },
   description: 'Up to two gears with the Climber trait may be placed in GP,' +
       ' SK, FS, RC or SO units.',
@@ -237,7 +241,7 @@ final FactionRule ruleDragoonSquad = FactionRule(
     }
 
     final vetsInOtherUnit =
-        otherGroup.allUnits().where((unit) => unit.isVeteran());
+        otherGroup.allUnits().where((unit) => unit.isVeteran);
     if (vetsInOtherUnit.isNotEmpty) {
       // check how many of the remaining units can be satisfied by another rule
       final unitsNeedingDragoonSquad = vetsInOtherUnit.where((u) {
@@ -337,7 +341,7 @@ final FactionRule ruleDragoonSquad = FactionRule(
 
     // check if the other unit in the combatgroup is already using the rule
     final vetsInOtherUnit =
-        otherGroup.allUnits().where((unit) => unit.isVeteran());
+        otherGroup.allUnits().where((unit) => unit.isVeteran);
     if (vetsInOtherUnit.isNotEmpty) {
       // check how many of the remaining units can be satisfied by another rule
       final unitsNeedingDragoonSquad = vetsInOtherUnit.where((u) {

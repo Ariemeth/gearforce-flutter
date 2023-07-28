@@ -280,7 +280,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
           Expanded(
             child: Container(
               child: Radio<bool>(
-                value: unit.isVeteran(),
+                value: unit.isVeteran,
                 toggleable: true,
                 groupValue: true,
                 onChanged: (bool? value) {},

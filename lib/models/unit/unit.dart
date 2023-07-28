@@ -335,6 +335,10 @@ class Unit extends ChangeNotifier {
     return this.traits.any((element) => element.name == 'Duelist');
   }
 
+  bool get isVeteran {
+    return this.traits.any((t) => t.name == 'Vet');
+  }
+
   List<String> get modNames => _mods.map((m) => m.name).toList();
 
   List<String> get modNamesWithCost => _mods
@@ -493,7 +497,7 @@ class Unit extends ChangeNotifier {
       sp = mod.applyMods(UnitAttribute.sp, sp);
     }
 
-    if (isVeteran()) {
+    if (isVeteran) {
       sp += 1;
     }
 
@@ -562,10 +566,6 @@ class Unit extends ChangeNotifier {
   bool hasMod(String id) => _mods.any((mod) => mod.name == id || mod.id == id);
 
   bool hasTag(String tag) => _tags.any((t) => t == tag);
-
-  bool isVeteran() {
-    return this.traits.any((t) => t.name == 'Vet');
-  }
 
   int numTags() => _tags.length;
 

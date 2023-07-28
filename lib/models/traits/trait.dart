@@ -102,22 +102,30 @@ class Trait {
   factory Trait.Advanced() {
     return const Trait(
         name: 'Advanced',
-        description:
-            'When a weapon with the Advanced trait attacks, add +1 to the result rolled (+1 R)');
+        description: 'When a weapon with the Advanced trait attacks, add +1 ' +
+            ' to the result rolled (+1 R)');
   }
 
   factory Trait.AOE(int level) {
     return Trait(
         name: 'AOE',
         level: level,
-        description:
-            'Weapons with the AOE:X trait may be used to attack an area with a radius of X inches around a target point.');
+        description: 'Weapons with the AOE:X trait may be used to attack an ' +
+            ' area with a radius of X inches around a target point.');
   }
 
   factory Trait.Agile() {
     return const Trait(
         name: 'Agile',
-        description:
-            'Attacks targeting this model will miss on a margin of success of zero');
+        description: 'Attacks targeting this model will miss on a margin' +
+            ' of success of zero');
+  }
+
+  factory Trait.Reach(int level) {
+    return Trait(
+        name: 'Reach',
+        level: level,
+        description: 'This melee weapon can attack a target X inches from' +
+            ' its base. This is not a ranged attack');
   }
 }

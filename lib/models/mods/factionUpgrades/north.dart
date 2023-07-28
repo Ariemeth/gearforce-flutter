@@ -4,8 +4,10 @@ import 'package:gearforce/models/mods/base_modification.dart';
 import 'package:gearforce/models/mods/factionUpgrades/faction_mod.dart';
 import 'package:gearforce/models/mods/modification_option.dart';
 import 'package:gearforce/models/mods/mods.dart';
+import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/rules/north/north.dart';
+import 'package:gearforce/models/rules/north/umf.dart';
 import 'package:gearforce/models/rules/north/wfp.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/traits/trait.dart';
@@ -21,6 +23,7 @@ const exampleID = '000';
 const taskBuiltID = '$_northernIDBase::10';
 const hammersOfTheNorthID = '$_northernIDBase::20';
 const olTrustyWFPID = '$_northernIDBase::30';
+const wellFundedID = '$_northernIDBase::40';
 
 class NorthernFactionMods extends FactionModification {
   NorthernFactionMods({
@@ -262,5 +265,56 @@ class NorthernFactionMods extends FactionModification {
             ' improve their GU skill by one for 1 TV each. This does not' +
             ' include Hunter XMGs.',
       );
+  }
+
+  /*
+    Well Funded: Two models in each combat group may purchase one veteran
+    upgrade without making them veterans.
+    NOTE: The rulebook just list this as a rule not an upgrade.  Making it a 
+    faction mod to make it easier to check requirements
+  */
+  factory NorthernFactionMods.wellFunded(Unit unit) {
+    final RequirementCheck reqCheck = (
+      RuleSet? rs,
+      UnitRoster? ur,
+      CombatGroup? cg,
+      Unit u,
+    ) {
+      assert(cg != null);
+      assert(rs != null);
+      if (rs == null || !rs.isRuleEnabled(ruleWellFunded.id)) {
+        return false;
+      }
+
+      final unitsWithMod =
+          cg?.unitsWithMod(wellFundedID).where((unit) => unit != u);
+      if (unitsWithMod == null || unitsWithMod.length < 2) {
+        return true;
+      }
+      return false;
+    };
+
+    final modOptions = ModificationOption(
+      'Well Funded',
+      subOptions: VeteranModification.getAllVetModNames()
+          .map((n) => ModificationOption(n))
+          .toList(),
+      description:
+          'Select a Veteran upgrade that can be purchased even if this model isn\'t a veteran.',
+    );
+
+    final fm = NorthernFactionMods(
+      name: 'Well Funded',
+      requirementCheck: reqCheck,
+      options: modOptions,
+      id: wellFundedID,
+    );
+    fm.addMod<int>(
+      UnitAttribute.tv,
+      createSimpleIntMod(0),
+      description: 'Model can purchase 1 vet upgrade without being a vet',
+    );
+
+    return fm;
   }
 }

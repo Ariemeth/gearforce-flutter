@@ -63,7 +63,7 @@ class Faction {
       North(data, name: _emptySubFactionName),
       North(data, name: 'Norguard'),
       North.WFP(data),
-      North(data, name: 'United Mercantile Federation'),
+      North.UMF(data),
       North(data, name: 'Northern Lights Confederacy'),
     ];
     return Faction(FactionType.North, rulesets, rulesets.first);
