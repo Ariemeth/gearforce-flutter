@@ -44,25 +44,42 @@ class NLC extends North {
 }
 
 final FactionRule rule1 = FactionRule(
-  name: '',
+  name: 'Chaplain',
   id: '$_baseRuleId::rule1',
-  description: '',
+  description: 'You may select one non-commander gear to be a Battle Chaplain' +
+      ' (BC) for 2 TV. The BC becomes an officer and can take the place as a' +
+      ' thid commander within a combat group. The BC comes with 1 CP and can' +
+      ' use it to give orders to any model or combat group in the force. BCs' +
+      ' will only be used to roll for initiative if there are no other' +
+      ' commanders in the force. When there are no other commanders in the' +
+      ' force, the BC will roll with a 5+ initiative skill.',
 );
 
 final FactionRule rule2 = FactionRule(
-  name: '',
+  name: 'Warrior Monks',
   id: '$_baseRuleId::rule2',
-  description: '',
+  description: 'Commanders and veterans, with the Hands trait, may purchase' +
+      ' a fighting staff upgrade for 1 TV each. If a model takes this upgrade,' +
+      ' then it will also receive the Brawl:1 trait or increase its Brawl:X' +
+      ' trait by one. A fighting staff is a MVB that has the React and' +
+      ' Reach:2 traits.',
 );
 
 final FactionRule rule3 = FactionRule(
-  name: '',
+  name: 'The Pride',
   id: '$_baseRuleId::rule3',
-  description: '',
+  description: 'You may select 2 gears in this force to become duelists. All' +
+      'duelists must take the Warrior Monks upgrade.',
 );
 
 final FactionRule rule4 = FactionRule(
-  name: '',
+  name: 'Devoted',
   id: '$_baseRuleId::rule4',
-  description: '',
+  description: 'When the chaplain is targeted by a direct or indirect attack,' +
+      ' a friendly monk (model with a fighting staff) within 3 inches may' +
+      ' choose to be the targetinstead. Resolve the attack normally against' +
+      'the monk as if the monk was in the chaplain’s position. This may' +
+      'result in the monk being the target of the attack twice in the case' +
+      ' of Split or AOE weapons. Only one monk may be targeted in this' +
+      ' way per attack.',
 );

@@ -1,7 +1,7 @@
 import 'package:gearforce/models/factions/faction_rule.dart';
 import 'package:gearforce/models/rules/north/north.dart';
 
-const String _baseRuleId = 'rule::nlc';
+const String _baseRuleId = 'rule::ng';
 
 /*
 NG - Norguard
@@ -26,31 +26,27 @@ class NG extends North {
             rule1,
             rule2,
             rule3,
-            rule4,
           ],
         );
 }
 
 final FactionRule rule1 = FactionRule(
-  name: '',
+  name: 'Pan-Northern',
   id: '$_baseRuleId::rule1',
-  description: '',
+  description: 'Each combat group may use one upgrade option from WFP, UMF' +
+      'or NLC. Live Free Die Hard, The Pride and Devoted may not be selected.',
 );
 
 final FactionRule rule2 = FactionRule(
-  name: '',
+  name: 'Surplus Hunters',
   id: '$_baseRuleId::rule2',
-  description: '',
+  description: 'Hunters may be placed in GP, SK, FS or RC units. Hunter and' +
+      ' Stripped-Down Hunter variants are not limited to 1-2 models and may' +
+      ' be selected an unlimited number of times.',
 );
 
 final FactionRule rule3 = FactionRule(
-  name: '',
+  name: 'Surplus Jaguars',
   id: '$_baseRuleId::rule3',
-  description: '',
-);
-
-final FactionRule rule4 = FactionRule(
-  name: '',
-  id: '$_baseRuleId::rule4',
-  description: '',
+  description: 'Jaguars may be placed in GP, SK, FS, RC or SO units.',
 );
