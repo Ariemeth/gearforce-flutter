@@ -188,7 +188,7 @@ class PeaceRiverFactionMods extends FactionModification {
       if (rs == null || !rs.isRuleEnabled(ruleLaserTech.id)) {
         return false;
       }
-      return u.isVeteran() &&
+      return u.isVeteran &&
           (u.core.frame == 'Universal Infantry' || u.name == 'Spitz Monowheel');
     };
 

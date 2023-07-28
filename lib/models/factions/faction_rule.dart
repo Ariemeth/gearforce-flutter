@@ -54,6 +54,11 @@ class FactionRule extends ChangeNotifier {
   final bool Function(CombatGroup?, UnitRoster?) cgCheck;
 
   final bool? Function(UnitRoster roster, Unit u)? duelistModelCheck;
+
+  /// Overrides the requirement to be a veteran add a specific veteran upgrade.
+  /// Return true if the veteran upgrade can be acquired.  False if this model
+  /// absolutely should not have the upgrade (rare), or null if this rule does
+  /// not apply.
   final bool? Function(Unit u, CombatGroup cg, {required String modID})?
       veteranModCheck;
   final bool? Function(Unit u, CombatGroup cg)? veteranCheckOverride;
@@ -173,6 +178,7 @@ class FactionRule extends ChangeNotifier {
 
   factory FactionRule.from(
     FactionRule original, {
+    String? id,
     List<FactionRule>? options,
     bool? isEnabled,
     bool? canBeToggled,
@@ -180,7 +186,7 @@ class FactionRule extends ChangeNotifier {
   }) {
     return FactionRule(
       name: original.name,
-      id: original.id,
+      id: id != null ? id : original.id,
       options: options != null ? options : original._options?.toList(),
       isEnabled: isEnabled != null ? isEnabled : original.isEnabled,
       canBeToggled: canBeToggled != null ? canBeToggled : original.canBeToggled,

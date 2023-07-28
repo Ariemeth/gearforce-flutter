@@ -27,6 +27,21 @@ const resistCId = '$_vetIDBase::110';
 const fieldArmorId = '$_vetIDBase::120';
 const amsId = '$_vetIDBase::130';
 
+final Map<String, String> _vetModNames = {
+  eccmId: 'ECCM',
+  improvedGunneryID: 'Improved Gunnery',
+  dualGunsId: 'Dual Guns',
+  brawl1Id: 'Brawler 1',
+  brawler2Id: 'Brawler 2',
+  reachId: 'Reach',
+  meleeUpgradeId: 'Melee Weapon Upgrade',
+  resistHId: 'Resist Haywire',
+  resistFId: 'Resist Fire',
+  resistCId: 'Resist Corrosion',
+  fieldArmorId: 'Field Armor',
+  amsId: 'AMS'
+};
+
 final RegExp _handsMatch = RegExp(r'^Hands', caseSensitive: false);
 
 class VeteranModification extends BaseModification {
@@ -44,6 +59,35 @@ class VeteranModification extends BaseModification {
           refreshData: refreshData,
           modType: ModificationType.veteran,
         );
+
+  /// Checks if the [modId] is that of a Veteran Upgrade mod.  This will work
+  /// if this [modId] is either an ID of a Veteran Upgrade mod, or the name
+  /// of a Veteran Upgrade mod.
+  static bool isVetMod(String modId) {
+    if (modId.startsWith(_vetIDBase)) {
+      return _vetModNames.keys.contains(modId);
+    }
+    return _vetModNames.values.contains(modId);
+  }
+
+  static String? vetModName(String modId) {
+    return _vetModNames[modId];
+  }
+
+  static String? vetModId(String modName) {
+    if (!_vetModNames.entries.any((e) => e.value == modName)) {
+      return null;
+    }
+    return _vetModNames.entries.firstWhere((e) => e.value == modName).key;
+  }
+
+  static List<String> getAllVetModNames() {
+    return _vetModNames.values.toList();
+  }
+
+  static List<String> getAllModIds() {
+    return _vetModNames.keys.toList();
+  }
 
   factory VeteranModification.makeVet(Unit u, CombatGroup cg) {
     return VeteranModification(
@@ -69,8 +113,11 @@ class VeteranModification extends BaseModification {
   Add ECCM trait to a gear, vehicle, or strider for 1 TV.
   */
   factory VeteranModification.eccm(Unit u) {
+    final modName = _vetModNames[eccmId];
+    assert(modName != null);
+
     return VeteranModification(
-        name: 'ECCM',
+        name: modName ?? eccmId,
         id: eccmId,
         requirementCheck:
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
@@ -99,13 +146,15 @@ class VeteranModification extends BaseModification {
   trait, then increase it by +1.
   */
   factory VeteranModification.reach(Unit u) {
+    final modName = _vetModNames[reachId];
+    assert(modName != null);
+
     final react = u.reactWeapons;
     final List<ModificationOption> _options = [];
-    const traitToAdd = const Trait(name: 'Brawl', level: 1);
+    const traitToAdd = const Trait(name: 'Reach', level: 1);
     final allowedWeaponMatch = RegExp(r'^(VB|SG|CW|ICW)$');
     react.where((weapon) {
-      return allowedWeaponMatch.hasMatch(weapon.code) &&
-          !weapon.traits.any((trait) => trait.name == 'Reach');
+      return allowedWeaponMatch.hasMatch(weapon.code);
     }).forEach((weapon) {
       _options.add(ModificationOption(weapon.toString()));
     });
@@ -115,7 +164,7 @@ class VeteranModification extends BaseModification {
         description: 'Choose one of the available weapons to add Reach:1');
 
     return VeteranModification(
-        name: 'Reach',
+        name: modName ?? reachId,
         id: reachId,
         options: modOptions,
         requirementCheck:
@@ -123,9 +172,8 @@ class VeteranModification extends BaseModification {
           assert(rs != null);
           assert(cg != null);
 
-          if (!u.reactWeapons.any((weapon) =>
-              allowedWeaponMatch.hasMatch(weapon.code) &&
-              !weapon.traits.any((trait) => trait.name == 'Reach'))) {
+          if (!u.reactWeapons
+              .any((weapon) => allowedWeaponMatch.hasMatch(weapon.code))) {
             return false;
           }
           return rs!.veteranModCheck(u, cg!, modID: reachId);
@@ -134,15 +182,34 @@ class VeteranModification extends BaseModification {
       ..addMod<List<Weapon>>(UnitAttribute.weapons, (value) {
         final newList = value.toList();
 
-        if (modOptions.selectedOption != null) {
+        if (modOptions.selectedOption != null &&
+            newList.any((weapon) =>
+                weapon.toString() == modOptions.selectedOption?.text)) {
           var existingWeapon = newList.firstWhere(
               (weapon) => weapon.toString() == modOptions.selectedOption?.text);
-          existingWeapon.bonusTraits.add(traitToAdd);
+          if (existingWeapon.traits.any((t) => t.name == 'Reach')) {
+            final existingTrait =
+                existingWeapon.traits.firstWhere((t) => t.name == 'Reach');
+            final currentIndex = newList.indexOf(existingWeapon);
+            final newTrait = Trait.Reach(existingTrait.level! + 1);
+            final newWeapon = Weapon.fromWeapon(existingWeapon);
+            if (newWeapon.baseTraits.any((t) => t.name == 'Reach')) {
+              newWeapon.baseTraits.remove(existingTrait);
+              newWeapon.baseTraits.add(newTrait);
+            } else if (newWeapon.bonusTraits.any((t) => t.name == 'Reach')) {
+              newWeapon.bonusTraits.remove(existingTrait);
+              newWeapon.bonusTraits.add(newTrait);
+            }
+            newList.replaceRange(currentIndex, currentIndex + 1, [newWeapon]);
+          } else {
+            existingWeapon.bonusTraits.add(traitToAdd);
+          }
         }
         return newList;
       },
           description: 'Add the Reach:1 trait to any Vibro Blade, Spike Gun ' +
-              'or Combat Weapon with the React trait.');
+              'or Combat Weapon with the React trait or increase the value ' +
+              'by 1 if it already has reach.');
   }
 
   /*
@@ -157,8 +224,10 @@ class VeteranModification extends BaseModification {
   airstrike counters cannot purchase field armor.
   */
   factory VeteranModification.fieldArmor(Unit u) {
+    final modName = _vetModNames[fieldArmorId];
+    assert(modName != null);
     return VeteranModification(
-        name: 'Field Armor',
+        name: modName ?? fieldArmorId,
         id: fieldArmorId,
         requirementCheck:
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
@@ -209,9 +278,12 @@ class VeteranModification extends BaseModification {
   trait by +1 for 1 TV.
   */
   factory VeteranModification.brawler1(Unit u) {
+    final modName = _vetModNames[brawl1Id];
+    assert(modName != null);
+
     final traits = u.traits.toList();
     return VeteranModification(
-        name: 'Brawler 1',
+        name: modName ?? brawl1Id,
         id: brawl1Id,
         requirementCheck:
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
@@ -251,9 +323,12 @@ class VeteranModification extends BaseModification {
   +2 for 2 TV.
   */
   factory VeteranModification.brawler2(Unit u) {
+    final modName = _vetModNames[brawler2Id];
+    assert(modName != null);
+
     final traits = u.traits.toList();
     return VeteranModification(
-        name: 'Brawler 2',
+        name: modName ?? brawler2Id,
         id: brawler2Id,
         requirementCheck:
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
@@ -288,11 +363,14 @@ class VeteranModification extends BaseModification {
   Add the Resist:H trait or remove the Vuln:H trait for 1 TV.
   */
   factory VeteranModification.resistHaywire(Unit u) {
+    final modName = _vetModNames[resistHId];
+    assert(modName != null);
+
     final traits = u.traits.toList();
     final isVulnerable = traits
         .any((element) => element.name == 'Vuln' && element.type == 'Haywire');
     return VeteranModification(
-        name: 'Resist Haywire',
+        name: modName ?? resistHId,
         id: resistHId,
         requirementCheck:
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
@@ -329,11 +407,14 @@ class VeteranModification extends BaseModification {
   Add the Resist:F trait or remove the Vuln:F trait for 1 TV.
   */
   factory VeteranModification.resistFire(Unit u) {
+    final modName = _vetModNames[resistFId];
+    assert(modName != null);
+
     final traits = u.traits.toList();
     final isVulnerable = traits
         .any((element) => element.name == 'Vuln' && element.type == 'Fire');
     return VeteranModification(
-        name: 'Resist Fire',
+        name: modName ?? resistFId,
         id: resistFId,
         requirementCheck:
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
@@ -369,11 +450,14 @@ class VeteranModification extends BaseModification {
   Add the Resist:C trait or remove the Vuln:C trait for 1 TV.
   */
   factory VeteranModification.resistCorrosion(Unit u) {
+    final modName = _vetModNames[resistCId];
+    assert(modName != null);
+
     final traits = u.traits.toList();
     final isVulnerable = traits.any(
         (element) => element.name == 'Vuln' && element.type == 'Corrosion');
     return VeteranModification(
-        name: 'Resist Corrosion',
+        name: modName ?? resistCId,
         id: resistCId,
         requirementCheck:
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
@@ -413,11 +497,14 @@ class VeteranModification extends BaseModification {
   other upgrades.
   */
   factory VeteranModification.improvedGunnery(Unit u) {
+    final modName = _vetModNames[improvedGunneryID];
+    assert(modName != null);
+
     final gunnery = u.gunnery;
     var modCost = u.actions != null ? u.actions! * 2 : 0;
 
     return VeteranModification(
-        name: 'Improved Gunnery',
+        name: modName ?? improvedGunneryID,
         id: improvedGunneryID,
         requirementCheck:
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
@@ -457,6 +544,9 @@ class VeteranModification extends BaseModification {
   such as a LAC/LGL.
   */
   factory VeteranModification.dualGuns(Unit u) {
+    final modName = _vetModNames[dualGunsId];
+    assert(modName != null);
+
     final RegExp weaponCheck = RegExp(r'^(P|SMG|AC|FC|FL|GL)');
     final react = u.reactWeapons;
     final List<ModificationOption> _options = [];
@@ -476,7 +566,7 @@ class VeteranModification extends BaseModification {
             'Launcher with the React trait for 1 TV.');
 
     return VeteranModification(
-        name: 'Dual Guns',
+        name: modName ?? dualGunsId,
         id: dualGunsId,
         options: modOptions,
         requirementCheck:
@@ -517,6 +607,9 @@ class VeteranModification extends BaseModification {
   > LCW (React, Brawl:1)
   */
   factory VeteranModification.meleeWeaponUpgrade(Unit u) {
+    final modName = _vetModNames[meleeUpgradeId];
+    assert(modName != null);
+
     final modOptions = ModificationOption('Melee Weapon Upgrade',
         subOptions: [
           ModificationOption('LVB (React Precise)'),
@@ -526,7 +619,7 @@ class VeteranModification extends BaseModification {
             'a LVB (React, Precise) or LCW (React, Brawl:1)');
 
     return VeteranModification(
-        name: 'Melee Weapon Upgrade',
+        name: modName ?? meleeUpgradeId,
         id: meleeUpgradeId,
         options: modOptions,
         requirementCheck:
@@ -582,9 +675,12 @@ class VeteranModification extends BaseModification {
   cannon for 1 TV.
   */
   factory VeteranModification.ams(Unit u) {
+    final modName = _vetModNames[amsId];
+    assert(modName != null);
+
     final allowedWeaponMatch = RegExp(r'^(FC|AC|SMG|MG|RC)$');
     return VeteranModification(
-        name: 'AMS',
+        name: modName ?? amsId,
         id: amsId,
         requirementCheck:
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {

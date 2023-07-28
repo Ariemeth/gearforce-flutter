@@ -35,45 +35,49 @@ class WFP extends North {
 }
 
 final FactionRule rulePristineAntiques = FactionRule(
-    name: 'Pristine Antiques',
-    id: '$_baseRuleId::pristineAntiques',
-    hasGroupRole: (unit, target, group) {
-      final frameName = unit.core.frame;
-      final isAllowedUnit = (frameName.toLowerCase().contains('hunter') &&
-              !frameName.contains('XMG')) ||
-          frameName == 'Ferret' ||
-          frameName == 'Weasel' ||
-          frameName == 'Wildcat' ||
-          frameName == 'Bobcat';
-      final isAllowedRole = target == RoleType.GP ||
-          target == RoleType.SK ||
-          target == RoleType.FS ||
-          target == RoleType.RC;
+  name: 'Pristine Antiques',
+  id: '$_baseRuleId::pristineAntiques',
+  hasGroupRole: (unit, target, group) {
+    final frameName = unit.core.frame;
+    final isAllowedUnit = (frameName.toLowerCase().contains('hunter') &&
+            !frameName.contains('XMG')) ||
+        frameName == 'Ferret' ||
+        frameName == 'Weasel' ||
+        frameName == 'Wildcat' ||
+        frameName == 'Bobcat';
+    final isAllowedRole = target == RoleType.GP ||
+        target == RoleType.SK ||
+        target == RoleType.FS ||
+        target == RoleType.RC;
 
-      return isAllowedUnit && isAllowedRole ? true : null;
-    },
-    description: 'Hunters, Ferrets, Weasels, Wildcat and Bobcats may be' +
-        ' placed in a GP, SK, FS or RC units. This does not include Hunter' +
-        ' XMGs.');
+    return isAllowedUnit && isAllowedRole ? true : null;
+  },
+  description: 'Hunters, Ferrets, Weasels, Wildcat and Bobcats may be' +
+      ' placed in a GP, SK, FS or RC units. This does not include Hunter' +
+      ' XMGs.',
+);
 
 final FactionRule ruleOlTrustyWFP = FactionRule(
-    name: 'Ol’ Trusty',
-    id: '$_baseRuleId::olTrusty',
-    factionMod: (ur, cg, u) => NorthernFactionMods.olTrustyWFP(),
-    description: 'Hunters, Ferrets, Weasels, Wildcats and Bobcats may ' +
-        ' improve their GU skill by one for 1 TV each. This does not include ' +
-        ' Hunter XMGs.');
+  name: 'Ol’ Trusty',
+  id: '$_baseRuleId::olTrusty',
+  factionMod: (ur, cg, u) => NorthernFactionMods.olTrustyWFP(),
+  description: 'Hunters, Ferrets, Weasels, Wildcats and Bobcats may ' +
+      ' improve their GU skill by one for 1 TV each. This does not include ' +
+      ' Hunter XMGs.',
+);
 
 final FactionRule ruleDropBears = FactionRule(
-    name: 'Drop Bears',
-    id: '$_baseRuleId::dropBears',
-    description: 'Combat groups performing airdrop deployments are not ' +
-        ' required to be placed in formation.');
+  name: 'Drop Bears',
+  id: '$_baseRuleId::dropBears',
+  description: 'Combat groups performing airdrop deployments are not ' +
+      ' required to be placed in formation.',
+);
 
 final FactionRule ruleLiveFreeDieHard = FactionRule(
-    name: 'Live Free Die Hard',
-    id: '$_baseRuleId::liveFreeDieHard',
-    description: 'Whenever a WFP commander is destroyed, immediately' +
-        ' give one SP to one model in formation with the destroyed commander.' +
-        ' This SP does not convert to a CP. If not used, this SP is removed' +
-        ' during cleanup.');
+  name: 'Live Free Die Hard',
+  id: '$_baseRuleId::liveFreeDieHard',
+  description: 'Whenever a WFP commander is destroyed, immediately' +
+      ' give one SP to one model in formation with the destroyed commander.' +
+      ' This SP does not convert to a CP. If not used, this SP is removed' +
+      ' during cleanup.',
+);
