@@ -61,10 +61,10 @@ class Faction {
   factory Faction.north(Data data) {
     final rulesets = [
       North(data, name: _emptySubFactionName),
-      North(data, name: 'Norguard'),
+      North.NG(data),
       North.WFP(data),
       North.UMF(data),
-      North(data, name: 'Northern Lights Confederacy'),
+      North.NG(data),
     ];
     return Faction(FactionType.North, rulesets, rulesets.first);
   }
