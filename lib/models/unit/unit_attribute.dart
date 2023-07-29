@@ -18,6 +18,7 @@ enum UnitAttribute {
   ew(int),
   weapons(List<Weapon>),
   traits(List<Trait>),
+  cp(int),
   sp(int),
   type(ModelType),
   height(String),

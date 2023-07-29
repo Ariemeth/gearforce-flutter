@@ -4,7 +4,8 @@ enum CommandLevel {
   secic(_2ic),
   xo(_xo),
   co(_co),
-  tfc(_tfc);
+  tfc(_tfc),
+  bc(_3ic);
 
   final String name;
   const CommandLevel(this.name);
@@ -20,6 +21,8 @@ enum CommandLevel {
         return CommandLevel.co;
       case _tfc:
         return CommandLevel.tfc;
+      case _3ic:
+        return CommandLevel.bc;
       default:
         return CommandLevel.none;
     }
@@ -32,3 +35,4 @@ const String _2ic = '2iC';
 const String _xo = 'XO';
 const String _co = 'CO';
 const String _tfc = 'TFC';
+const String _3ic = 'BC';

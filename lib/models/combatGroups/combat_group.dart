@@ -142,6 +142,10 @@ class CombatGroup extends ChangeNotifier {
     return this._primary.hasDuelist() || this._secondary.hasDuelist();
   }
 
+  int get duelistCount {
+    return _primary.duelistCount + _secondary.duelistCount;
+  }
+
   int modCount(String id) {
     return _primary.modCount(id) + _secondary.modCount(id);
   }

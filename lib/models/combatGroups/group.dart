@@ -176,6 +176,13 @@ class Group extends ChangeNotifier {
     return _units.any((u) => u.isDuelist);
   }
 
+  int get duelistCount {
+    if (!hasDuelist()) {
+      return 0;
+    }
+    return _units.where((u) => u.isDuelist).length;
+  }
+
   List<Validation> validate({bool tryFix = false}) {
     final List<Validation> validationErrors = [];
 

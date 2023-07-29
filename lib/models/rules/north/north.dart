@@ -4,8 +4,10 @@ import 'package:gearforce/models/combatGroups/group.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/factions/faction_rule.dart';
 import 'package:gearforce/models/mods/factionUpgrades/north.dart';
-import 'package:gearforce/models/rules/north/umf.dart' as umf;
-import 'package:gearforce/models/rules/north/wfp.dart' as wfp;
+import 'package:gearforce/models/rules/north/ng.dart';
+import 'package:gearforce/models/rules/north/nlc.dart';
+import 'package:gearforce/models/rules/north/umf.dart';
+import 'package:gearforce/models/rules/north/wfp.dart';
 import 'package:gearforce/models/rules/options/combat_group_options.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/rules/options/special_unit_filter.dart';
@@ -72,12 +74,10 @@ class North extends RuleSet {
     return [...filters, ...super.availableUnitFilters(cgOptions)];
   }
 
-  factory North.WFP(Data data) {
-    return wfp.WFP(data);
-  }
-  factory North.UMF(Data data) {
-    return umf.UMF(data);
-  }
+  factory North.NG(Data data) => NG(data);
+  factory North.WFP(Data data) => WFP(data);
+  factory North.UMF(Data data) => UMF(data);
+  factory North.NLC(Data data) => NLC(data);
 }
 
 final ruleTaskBuilt = FactionRule(

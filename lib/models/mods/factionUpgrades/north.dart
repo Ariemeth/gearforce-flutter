@@ -6,14 +6,17 @@ import 'package:gearforce/models/mods/modification_option.dart';
 import 'package:gearforce/models/mods/mods.dart';
 import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart';
 import 'package:gearforce/models/roster/roster.dart';
+import 'package:gearforce/models/rules/north/nlc.dart';
 import 'package:gearforce/models/rules/north/north.dart';
 import 'package:gearforce/models/rules/north/umf.dart';
 import 'package:gearforce/models/rules/north/wfp.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/traits/trait.dart';
+import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/model_type.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
+import 'package:gearforce/models/weapons/range.dart';
 import 'package:gearforce/models/weapons/weapon.dart';
 import 'package:gearforce/models/weapons/weapons.dart';
 
@@ -24,19 +27,18 @@ const taskBuiltID = '$_northernIDBase::10';
 const hammersOfTheNorthID = '$_northernIDBase::20';
 const olTrustyWFPID = '$_northernIDBase::30';
 const wellFundedID = '$_northernIDBase::40';
+const chaplainID = '$_northernIDBase::50';
+const warriorMonksID = '$_northernIDBase::60';
 
 class NorthernFactionMods extends FactionModification {
   NorthernFactionMods({
-    required String name,
-    required RequirementCheck requirementCheck,
-    ModificationOption? options,
-    required String id,
-  }) : super(
-          name: name,
-          requirementCheck: requirementCheck,
-          options: options,
-          id: id,
-        );
+    required super.name,
+    required super.id,
+    required super.requirementCheck,
+    super.options,
+    super.onAdd,
+    super.onRemove,
+  }) : super();
 
   /*
     Example faction mod
@@ -273,7 +275,7 @@ class NorthernFactionMods extends FactionModification {
     NOTE: The rulebook just list this as a rule not an upgrade.  Making it a 
     faction mod to make it easier to check requirements
   */
-  factory NorthernFactionMods.wellFunded(Unit unit) {
+  factory NorthernFactionMods.wellFunded() {
     final RequirementCheck reqCheck = (
       RuleSet? rs,
       UnitRoster? ur,
@@ -314,6 +316,142 @@ class NorthernFactionMods extends FactionModification {
       createSimpleIntMod(0),
       description: 'Model can purchase 1 vet upgrade without being a vet',
     );
+
+    return fm;
+  }
+
+  /*
+    You may select one non-commander gear to be a Battle Chaplain
+    (BC) for 2 TV. The BC becomes an officer and can take the place as a third
+    commander within a combat group. The BC comes with 1 CP and can use it to
+    give orders to any model or combat group in the force. BCs will only be used
+    to roll for initiative if there are no other commanders in the force. When
+    there are no other commanders in the force, the BC will roll with a 5+ 
+    initiative skill.
+  */
+  factory NorthernFactionMods.chaplain() {
+    final RequirementCheck reqCheck = (
+      RuleSet? rs,
+      UnitRoster? ur,
+      CombatGroup? cg,
+      Unit u,
+    ) {
+      assert(cg != null);
+      assert(rs != null);
+
+      if (u.type != ModelType.Gear) {
+        return false;
+      }
+
+      if (rs == null || !rs.isRuleEnabled(ruleChaplain.id)) {
+        return false;
+      }
+
+      if (!(u.commandLevel == CommandLevel.none ||
+          u.commandLevel == CommandLevel.bc)) {
+        return false;
+      }
+
+      if (ur == null) {
+        return false;
+      }
+
+      final otherUnitsWithMod =
+          ur.unitsWithMod(chaplainID).where((unit) => unit != u);
+
+      return otherUnitsWithMod.isEmpty;
+    };
+
+    final fm = NorthernFactionMods(
+      name: 'Chaplain',
+      requirementCheck: reqCheck,
+      id: chaplainID,
+      onAdd: (u) {
+        if (u == null) {
+          return;
+        }
+        u.commandLevel = CommandLevel.bc;
+      },
+      onRemove: (u) {
+        if (u == null) {
+          return;
+        }
+        u.commandLevel = CommandLevel.none;
+      },
+    );
+
+    fm.addMod<int>(UnitAttribute.tv, createSimpleIntMod(2),
+        description: 'TV: +2');
+    fm.addMod(UnitAttribute.cp, createSimpleIntMod(1),
+        description: 'CP +1, Chaplains become third in command leaders');
+
+    return fm;
+  }
+
+  /*
+    Commanders and veterans, with the Hands trait, may purchase
+    a fighting staff upgrade for 1 TV each. If a model takes this upgrade, then 
+    it will also receive the Brawl:1 trait or increase its Brawl:X trait by one.
+    A fighting staff is a MVB that has the React and Reach:2 traits.
+  */
+  factory NorthernFactionMods.warriorMonks(Unit unit) {
+    final RequirementCheck reqCheck = (
+      RuleSet? rs,
+      UnitRoster? ur,
+      CombatGroup? cg,
+      Unit u,
+    ) {
+      assert(cg != null);
+      assert(rs != null);
+
+      if (rs == null || !rs.isRuleEnabled(ruleWarriorMonks.id)) {
+        return false;
+      }
+
+      if (u.commandLevel == CommandLevel.none && !u.isVeteran) {
+        return false;
+      }
+      if (!u.traits.contains(Trait.Hands())) {
+        return false;
+      }
+
+      return true;
+    };
+    final mvb = buildWeapon('MVB', hasReact: true);
+    assert(mvb != null);
+    final fightingStaff = Weapon.fromWeapon(mvb!,
+        name: 'Fighting Staff',
+        addTraits: [Trait.Reach(2)],
+        range: Range(0, 2, null, hasReach: true));
+
+    final fm = NorthernFactionMods(
+      name: 'Warrior Monks',
+      requirementCheck: reqCheck,
+      id: warriorMonksID,
+    );
+
+    fm.addMod<int>(UnitAttribute.tv, createSimpleIntMod(1),
+        description: 'TV: +1');
+    fm.addMod<List<Weapon>>(
+        UnitAttribute.weapons, createAddWeaponToList(fightingStaff));
+    fm.addMod<List<Trait>>(UnitAttribute.traits, (value) {
+      var newList = new List<Trait>.from(value);
+
+      var newBrawl = Trait.Brawl(1);
+      if (newList.any((t) => newBrawl.name == t.name)) {
+        final existingBrawl =
+            newList.firstWhere((t) => newBrawl.name == t.name);
+        newBrawl = Trait.fromTrait(existingBrawl,
+            level: existingBrawl.level! + newBrawl.level!);
+        newList.remove(existingBrawl);
+      }
+
+      newList.add(newBrawl);
+
+      return newList;
+    },
+        description: 'Add Brawl:1 trait, or increase existing Brawl by 1 and' +
+            ' add a fighting staff (MVB with Reach:2)');
 
     return fm;
   }

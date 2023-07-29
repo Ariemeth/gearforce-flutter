@@ -1,23 +1,18 @@
 import 'package:gearforce/models/mods/base_modification.dart';
 import 'package:gearforce/models/mods/factionUpgrades/north.dart';
 import 'package:gearforce/models/mods/factionUpgrades/peace_river.dart';
-import 'package:gearforce/models/mods/modification_option.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/unit/unit.dart';
 
 class FactionModification extends BaseModification {
-  FactionModification({
-    required String name,
-    ModificationOption? options,
-    required RequirementCheck requirementCheck,
-    required String id,
-  }) : super(
-          name: name,
-          requirementCheck: requirementCheck,
-          options: options,
-          id: id,
-          modType: ModificationType.faction,
-        );
+  FactionModification(
+      {required super.name,
+      super.options,
+      required super.requirementCheck,
+      required super.id,
+      super.onAdd,
+      super.onRemove})
+      : super(modType: ModificationType.faction);
 }
 
 FactionModification? factionModFromId(String id, UnitRoster ur, Unit u) {
@@ -53,6 +48,12 @@ FactionModification? factionModFromId(String id, UnitRoster ur, Unit u) {
       return NorthernFactionMods.hammerOfTheNorth(u);
     case olTrustyWFPID:
       return NorthernFactionMods.olTrustyWFP();
+    case wellFundedID:
+      return NorthernFactionMods.wellFunded();
+    case chaplainID:
+      return NorthernFactionMods.chaplain();
+    case warriorMonksID:
+      return NorthernFactionMods.warriorMonks(u);
   }
   return null;
 }

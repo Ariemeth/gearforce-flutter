@@ -32,10 +32,6 @@ class Range {
       result = 'Reach $result';
     }
 
-    if (increasableReach) {
-      result = '$result+';
-    }
-
     if (short != null) {
       result = '$result-$short';
     }

@@ -5,6 +5,7 @@ import 'package:gearforce/models/rules/options/combat_group_options.dart';
 import 'package:gearforce/models/combatGroups/group.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/rules/options/special_unit_filter.dart';
+import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
 
@@ -19,6 +20,8 @@ class FactionRule extends ChangeNotifier {
     this.requirementCheck = ruleAlwaysAvailable,
     this.cgCheck = alwaysTrueCG,
     this.duelistModelCheck,
+    this.duelistMaxNumberOverride,
+    this.availableCommandLevelOverride,
     this.veteranModCheck,
     this.veteranCheckOverride,
     this.modCostOverride,
@@ -30,6 +33,8 @@ class FactionRule extends ChangeNotifier {
     this.combatGroupOption,
     this.factionMod,
     this.unitFilter,
+    this.onModAdded,
+    this.onModRemoved,
   }) {
     _isEnabled = isEnabled;
     _options = options;
@@ -54,6 +59,9 @@ class FactionRule extends ChangeNotifier {
   final bool Function(CombatGroup?, UnitRoster?) cgCheck;
 
   final bool? Function(UnitRoster roster, Unit u)? duelistModelCheck;
+  final int? Function(Unit u)? duelistMaxNumberOverride;
+
+  final List<CommandLevel>? Function(Unit u)? availableCommandLevelOverride;
 
   /// Overrides the requirement to be a veteran add a specific veteran upgrade.
   /// Return true if the veteran upgrade can be acquired.  False if this model
@@ -77,6 +85,9 @@ class FactionRule extends ChangeNotifier {
   final FactionModification Function(UnitRoster ur, CombatGroup cg, Unit u)?
       factionMod;
   final SpecialUnitFilter Function()? unitFilter;
+
+  final Function(Unit unit, String modId)? onModAdded;
+  final Function(Unit unit, String modId)? onModRemoved;
 
   bool get isEnabled => _isEnabled;
 
@@ -195,6 +206,8 @@ class FactionRule extends ChangeNotifier {
           ? requirementCheck
           : original.requirementCheck,
       duelistModelCheck: original.duelistModelCheck,
+      duelistMaxNumberOverride: original.duelistMaxNumberOverride,
+      availableCommandLevelOverride: original.availableCommandLevelOverride,
       veteranModCheck: original.veteranModCheck,
       veteranCheckOverride: original.veteranCheckOverride,
       modCostOverride: original.modCostOverride,
@@ -206,6 +219,8 @@ class FactionRule extends ChangeNotifier {
       combatGroupOption: original.combatGroupOption,
       factionMod: original.factionMod,
       unitFilter: original.unitFilter,
+      onModAdded: original.onModAdded,
+      onModRemoved: original.onModRemoved,
     );
   }
   Map<String, dynamic> toJson() {

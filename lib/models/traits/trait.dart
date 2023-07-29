@@ -48,12 +48,14 @@ class Trait {
   factory Trait.fromTrait(
     Trait original, {
     String? name,
+    int? level,
+    bool? isAux,
   }) {
     return Trait(
       name: name == null ? original.name : name,
       type: original.type,
-      level: original.level,
-      isAux: original.isAux,
+      level: level != null ? level : original.level,
+      isAux: isAux != null ? isAux : original.isAux,
     );
   }
 
@@ -119,6 +121,21 @@ class Trait {
         name: 'Agile',
         description: 'Attacks targeting this model will miss on a margin' +
             ' of success of zero');
+  }
+
+  factory Trait.Brawl(int level) {
+    return Trait(
+        name: 'Brawl',
+        level: level,
+        description: 'Add a +XD6 modifier to any attack roll made with this' +
+            ' weapon (generally +1D6 or +2D6).');
+  }
+
+  factory Trait.Hands() {
+    return const Trait(
+        name: 'Hands',
+        description: 'This model has additional upgrade options available and' +
+            ' limited climbing ability. See Climbing.');
   }
 
   factory Trait.Reach(int level) {

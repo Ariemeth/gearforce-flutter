@@ -16,6 +16,8 @@ abstract class BaseModification {
     required this.modType,
     this.options,
     BaseModification Function()? refreshData,
+    this.onAdd,
+    this.onRemove,
   }) {
     _refreshData = refreshData;
   }
@@ -29,6 +31,9 @@ abstract class BaseModification {
       _refreshData == null ? this : _refreshData!();
   // function to ensure the modification can be applied to the unit
   final RequirementCheck requirementCheck;
+
+  final Function(Unit? u)? onAdd;
+  final Function(Unit? u)? onRemove;
 
   final String id;
 

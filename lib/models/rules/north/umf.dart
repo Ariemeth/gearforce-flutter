@@ -140,7 +140,7 @@ final FactionRule ruleWellFunded = FactionRule(
 
     return null;
   },
-  factionMod: (ur, cg, u) => NorthernFactionMods.wellFunded(u),
+  factionMod: (ur, cg, u) => NorthernFactionMods.wellFunded(),
   description: 'Two models in each combat group may purchase one veteran' +
       ' upgrade without making them veterans.',
 );
