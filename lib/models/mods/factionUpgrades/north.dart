@@ -382,7 +382,8 @@ class NorthernFactionMods extends FactionModification {
 
     fm.addMod<int>(UnitAttribute.tv, createSimpleIntMod(2),
         description: 'TV: +2');
-    fm.addMod(UnitAttribute.cp, createSimpleIntMod(1), description: 'CP +1');
+    fm.addMod(UnitAttribute.cp, createSimpleIntMod(1),
+        description: 'CP +1, Chaplains become third in command leaders');
 
     return fm;
   }
@@ -422,7 +423,6 @@ class NorthernFactionMods extends FactionModification {
         name: 'Fighting Staff',
         addTraits: [Trait.Reach(2)],
         range: Range(0, 2, null, hasReach: true));
-    //fightingStaff.traits.add(Trait.Reach(2));
 
     final fm = NorthernFactionMods(
       name: 'Warrior Monks',
@@ -431,11 +431,7 @@ class NorthernFactionMods extends FactionModification {
     );
 
     fm.addMod<int>(UnitAttribute.tv, createSimpleIntMod(1),
-        description: 'Commanders and veterans, with the Hands trait, may' +
-            ' purchase a fighting staff upgrade for 1 TV each. If a model' +
-            ' takes this upgrade, then it will also receive the Brawl:1 trait' +
-            ' or increase its Brawl:X trait by one. A fighting staff is a MVB' +
-            ' that has the React and Reach:2 traits.');
+        description: 'TV: +1');
     fm.addMod<List<Weapon>>(
         UnitAttribute.weapons, createAddWeaponToList(fightingStaff));
     fm.addMod<List<Trait>>(UnitAttribute.traits, (value) {
@@ -453,7 +449,9 @@ class NorthernFactionMods extends FactionModification {
       newList.add(newBrawl);
 
       return newList;
-    });
+    },
+        description: 'Add Brawl:1 trait, or increase existing Brawl by 1 and' +
+            ' add a fighting staff (MVB with Reach:2)');
 
     return fm;
   }
