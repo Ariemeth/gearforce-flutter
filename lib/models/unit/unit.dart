@@ -263,6 +263,8 @@ class Unit extends ChangeNotifier {
     switch (cl) {
       case CommandLevel.none:
         break;
+      case CommandLevel.bc:
+        break;
       case CommandLevel.cgl:
         // Only 1 cgl, tfc, co, or xo can exist within a single Combat Group
         group?.combatGroup?.getUnitWithCommand(CommandLevel.cgl)?.commandLevel =
@@ -300,6 +302,8 @@ class Unit extends ChangeNotifier {
 
     _commandLevel = cl;
 
+    validate(tryFix: true);
+
     notifyListeners();
   }
 
@@ -332,7 +336,7 @@ class Unit extends ChangeNotifier {
   }
 
   bool get isDuelist {
-    return this.traits.any((element) => element.name == 'Duelist');
+    return this.traits.any((t) => t.name == 'Duelist');
   }
 
   bool get isVeteran {
@@ -480,17 +484,28 @@ class Unit extends ChangeNotifier {
   FactionType get faction => core.faction;
 
   int get commandPoints {
-    if (commandLevel == CommandLevel.none) {
-      return 0;
+    var cp = 0;
+
+    for (var mod in this._mods) {
+      cp = mod.applyMods(UnitAttribute.cp, cp);
     }
 
-    var cp = group?.combatGroup?.roster?.rulesetNotifer.value
-        .commandCPs(commandLevel);
+    if (commandLevel != CommandLevel.none) {
+      cp = cp + _calculateSkillPoints();
+    }
 
-    return skillPoints + (cp ?? 0);
+    return cp;
   }
 
   int get skillPoints {
+    if (commandLevel != CommandLevel.none) {
+      return 0;
+    }
+
+    return _calculateSkillPoints();
+  }
+
+  int _calculateSkillPoints() {
     var sp = core.attribute(UnitAttribute.sp);
 
     for (var mod in this._mods) {
@@ -516,6 +531,17 @@ class Unit extends ChangeNotifier {
       return;
     }
     _mods.add(mod);
+    if (mod.onAdd != null) {
+      mod.onAdd!(this);
+    }
+
+    final ruleOverrides = group?.combatGroup?.roster?.rulesetNotifer.value
+        .allEnabledRules(group?.combatGroup?.options)
+        .where((rule) => rule.onModAdded != null);
+    ruleOverrides?.forEach((rule) {
+      rule.onModAdded!(this, mod.id);
+    });
+
     _mods.forEach((m) {
       final updatedMod = m.refreshData();
       updatedMod.options?.validate();
@@ -576,7 +602,21 @@ class Unit extends ChangeNotifier {
   }
 
   void removeUnitMod(String id) {
-    _mods.removeWhere((mod) => mod.id == id);
+    final mod = getMod(id);
+    if (mod == null) {
+      return;
+    }
+    _mods.remove(mod);
+    if (mod.onRemove != null) {
+      mod.onRemove!(this);
+    }
+
+    final ruleOverrides = group?.combatGroup?.roster?.rulesetNotifer.value
+        .allEnabledRules(group?.combatGroup?.options)
+        .where((rule) => rule.onModRemoved != null);
+    ruleOverrides?.forEach((rule) {
+      rule.onModRemoved!(this, mod.id);
+    });
 
     validate(tryFix: true);
     notifyListeners();

@@ -98,6 +98,8 @@ class UnitCore {
         return this.height;
       case UnitAttribute.special:
         return [];
+      case UnitAttribute.cp:
+        return 0;
       case UnitAttribute.sp:
         var value = 0;
         traits.where((t) => t.name == "SP").forEach((t) {

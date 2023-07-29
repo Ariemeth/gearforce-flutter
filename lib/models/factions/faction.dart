@@ -64,7 +64,7 @@ class Faction {
       North.NG(data),
       North.WFP(data),
       North.UMF(data),
-      North.NG(data),
+      North.NLC(data),
     ];
     return Faction(FactionType.North, rulesets, rulesets.first);
   }

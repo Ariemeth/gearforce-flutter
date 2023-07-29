@@ -74,18 +74,10 @@ class North extends RuleSet {
     return [...filters, ...super.availableUnitFilters(cgOptions)];
   }
 
-  factory North.NG(Data data) {
-    return NG(data);
-  }
-  factory North.WFP(Data data) {
-    return WFP(data);
-  }
-  factory North.UMF(Data data) {
-    return UMF(data);
-  }
-  factory North.NLC(Data data) {
-    return NLC(data);
-  }
+  factory North.NG(Data data) => NG(data);
+  factory North.WFP(Data data) => WFP(data);
+  factory North.UMF(Data data) => UMF(data);
+  factory North.NLC(Data data) => NLC(data);
 }
 
 final ruleTaskBuilt = FactionRule(

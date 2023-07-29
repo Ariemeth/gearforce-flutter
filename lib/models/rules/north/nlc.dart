@@ -1,5 +1,8 @@
 import 'package:gearforce/models/factions/faction_rule.dart';
+import 'package:gearforce/models/mods/duelist/duelist_modification.dart';
+import 'package:gearforce/models/mods/factionUpgrades/north.dart';
 import 'package:gearforce/models/rules/north/north.dart';
+import 'package:gearforce/models/unit/command.dart';
 
 const String _baseRuleId = 'rule::nlc';
 
@@ -35,17 +38,24 @@ class NLC extends North {
       : super(
           name: 'Northern Lights Confederacy',
           subFactionRules: [
-            rule1,
-            rule2,
-            rule3,
-            rule4,
+            ruleChaplain,
+            ruleWarriorMonks,
+            ruleThePride,
+            ruleDevoted,
           ],
         );
 }
 
-final FactionRule rule1 = FactionRule(
+final FactionRule ruleChaplain = FactionRule(
   name: 'Chaplain',
-  id: '$_baseRuleId::rule1',
+  id: '$_baseRuleId::chaplain',
+  factionMod: (ur, cg, u) => NorthernFactionMods.chaplain(),
+  availableCommandLevelOverride: (u) {
+    if (!u.hasMod(chaplainID)) {
+      return null;
+    }
+    return [CommandLevel.bc];
+  },
   description: 'You may select one non-commander gear to be a Battle Chaplain' +
       ' (BC) for 2 TV. The BC becomes an officer and can take the place as a' +
       ' thid commander within a combat group. The BC comes with 1 CP and can' +
@@ -55,9 +65,10 @@ final FactionRule rule1 = FactionRule(
       ' force, the BC will roll with a 5+ initiative skill.',
 );
 
-final FactionRule rule2 = FactionRule(
+final FactionRule ruleWarriorMonks = FactionRule(
   name: 'Warrior Monks',
-  id: '$_baseRuleId::rule2',
+  id: '$_baseRuleId::warriorMonks',
+  factionMod: (ur, cg, u) => NorthernFactionMods.warriorMonks(u),
   description: 'Commanders and veterans, with the Hands trait, may purchase' +
       ' a fighting staff upgrade for 1 TV each. If a model takes this upgrade,' +
       ' then it will also receive the Brawl:1 trait or increase its Brawl:X' +
@@ -65,16 +76,29 @@ final FactionRule rule2 = FactionRule(
       ' Reach:2 traits.',
 );
 
-final FactionRule rule3 = FactionRule(
+final FactionRule ruleThePride = FactionRule(
   name: 'The Pride',
-  id: '$_baseRuleId::rule3',
+  id: '$_baseRuleId::thePride',
+  duelistMaxNumberOverride: (u) => 2,
+  onModAdded: (unit, modId) {
+    if (modId != duelistId) {
+      return;
+    }
+    unit.addUnitMod(NorthernFactionMods.warriorMonks(unit));
+  },
+  onModRemoved: (unit, modId) {
+    if (modId != warriorMonksID || !unit.isDuelist) {
+      return;
+    }
+    unit.addUnitMod(NorthernFactionMods.warriorMonks(unit));
+  },
   description: 'You may select 2 gears in this force to become duelists. All' +
       'duelists must take the Warrior Monks upgrade.',
 );
 
-final FactionRule rule4 = FactionRule(
+final FactionRule ruleDevoted = FactionRule(
   name: 'Devoted',
-  id: '$_baseRuleId::rule4',
+  id: '$_baseRuleId::devoted',
   description: 'When the chaplain is targeted by a direct or indirect attack,' +
       ' a friendly monk (model with a fighting staff) within 3 inches may' +
       ' choose to be the targetinstead. Resolve the attack normally against' +

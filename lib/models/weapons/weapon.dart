@@ -66,6 +66,10 @@ class Weapon {
         .map<Trait>((trait) => Trait.fromTrait(trait))
         .toList();
 
+    if (result.isEmpty) {
+      return [];
+    }
+
     final List<Trait> bonuses =
         bonusTraits.map((trait) => Trait.fromTrait(trait)).toList();
     // add the bonus traits to the result list to return
@@ -120,6 +124,7 @@ class Weapon {
 
   factory Weapon.fromWeapon(
     Weapon original, {
+    String? name,
     Range? range,
     List<Trait>? addTraits,
     bool? hasReact,
@@ -133,7 +138,7 @@ class Weapon {
     }
     return Weapon(
       abbreviation: original.abbreviation,
-      name: original.name,
+      name: name != null ? name : original.name,
       numberOf: original.numberOf,
       modes: original.modes,
       range: range != null ? range : original.range,

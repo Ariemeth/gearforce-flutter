@@ -231,40 +231,35 @@ abstract class RuleSet extends ChangeNotifier {
   }
 
   int commandTVCost(CommandLevel cl) {
-    switch (cl) {
-      case CommandLevel.none:
-        return 0;
-      case CommandLevel.cgl:
-        return 0;
-      case CommandLevel.secic:
-        return 1;
-      case CommandLevel.xo:
-        return 3;
-      case CommandLevel.co:
-        return 3;
-      case CommandLevel.tfc:
-        return 5;
-    }
-  }
-
-  int commandCPs(CommandLevel cl) {
-    switch (cl) {
-      case CommandLevel.none:
-        return 0;
-      case CommandLevel.cgl:
-        return 1;
-      case CommandLevel.secic:
-        return 1;
-      case CommandLevel.xo:
-        return 1;
-      case CommandLevel.co:
-        return 1;
-      case CommandLevel.tfc:
-        return 1;
-    }
+    return switch (cl) {
+      CommandLevel.none => 0,
+      CommandLevel.cgl => 0,
+      CommandLevel.secic => 1,
+      CommandLevel.xo => 3,
+      CommandLevel.co => 3,
+      CommandLevel.tfc => 5,
+      CommandLevel.bc => 0,
+    };
   }
 
   List<CommandLevel> availableCommandLevels(Unit unit) {
+    final hasCommandLevelOverrides =
+        allEnabledRules(unit.group?.combatGroup?.options)
+            .where((rule) => rule.availableCommandLevelOverride != null);
+    final overrideValues = hasCommandLevelOverrides
+        .map((rule) => rule.availableCommandLevelOverride!(unit))
+        .where((result) => result != null)
+        .toList();
+    if (overrideValues.isNotEmpty) {
+      final List<CommandLevel> results = [];
+      overrideValues.forEach((r) {
+        if (r != null) {
+          results.addAll(r);
+        }
+      });
+      return results;
+    }
+
     final results = [CommandLevel.none];
     if (!unit.hasMod(independentOperatorId)) {
       results.addAll([CommandLevel.cgl, CommandLevel.secic]);
@@ -301,8 +296,33 @@ abstract class RuleSet extends ChangeNotifier {
       return false;
     }
 
-    // only 1 duelist is allowed.
-    return !roster.hasDuelist();
+    // core rules limit duelist to 1 per force.
+    var maxAllowedDuelist = 1;
+
+    final maxDuelistCountOverrides =
+        allEnabledRules(u.group?.combatGroup?.options)
+            .where((rule) => rule.duelistMaxNumberOverride != null);
+    if (maxDuelistCountOverrides.isNotEmpty) {
+      final countOverrideValues = maxDuelistCountOverrides
+          .map((r) => r.duelistMaxNumberOverride!(u))
+          .where((result) => result != null);
+
+      int? maxOverrride;
+      countOverrideValues.forEach((v) {
+        if (v == null) {
+          return;
+        }
+        if (maxOverrride == null) {
+          maxOverrride = v;
+        } else {
+          maxOverrride = min(maxOverrride!, v);
+        }
+      });
+      if (maxOverrride != null) {
+        maxAllowedDuelist = maxOverrride!;
+      }
+    }
+    return roster.duelistCount < maxAllowedDuelist;
   }
 
   // Ensure the target Roletype is within the Roles
