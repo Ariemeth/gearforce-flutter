@@ -60,7 +60,7 @@ void main() {
     const longRange = null;
     const hasReach = true;
     const canIncrease = true;
-    const toString = 'Reach $minRange+';
+    const toString = 'Reach $minRange';
 
     const r = Range(
       minRange,
