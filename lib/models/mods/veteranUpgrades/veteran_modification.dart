@@ -367,8 +367,8 @@ class VeteranModification extends BaseModification {
     assert(modName != null);
 
     final traits = u.traits.toList();
-    final isVulnerable = traits
-        .any((element) => element.name == 'Vuln' && element.type == 'Haywire');
+    final isVulnerable =
+        traits.any((element) => element.name == 'Vuln' && element.type == 'H');
     return VeteranModification(
         name: modName ?? resistHId,
         id: resistHId,
@@ -377,8 +377,8 @@ class VeteranModification extends BaseModification {
           assert(rs != null);
           assert(cg != null);
 
-          if (traits.any((element) =>
-              element.name == 'Resist' && element.type == 'Haywire')) {
+          if (traits.any(
+              (element) => element.name == 'Resist' && element.type == 'H')) {
             return false;
           }
 
@@ -389,16 +389,16 @@ class VeteranModification extends BaseModification {
         UnitAttribute.traits,
         (value) {
           if (isVulnerable) {
-            var oldTrait = traits.firstWhere((element) =>
-                element.name == 'Vuln' && element.type == 'Haywire');
+            var oldTrait = traits.firstWhere(
+                (element) => element.name == 'Vuln' && element.type == 'H');
             return createRemoveTraitFromList(oldTrait)(value);
           } else {
             return createAddTraitToList(
-              const Trait(name: 'Resist', type: 'Haywire'),
+              const Trait(name: 'Resist', type: 'H'),
             )(value);
           }
         },
-        description: '${isVulnerable ? '-Vuln:Haywire' : ' +Resist:Haywire'}',
+        description: '${isVulnerable ? '-Vuln:H' : ' +Resist:H'}',
       );
   }
 
@@ -411,8 +411,8 @@ class VeteranModification extends BaseModification {
     assert(modName != null);
 
     final traits = u.traits.toList();
-    final isVulnerable = traits
-        .any((element) => element.name == 'Vuln' && element.type == 'Fire');
+    final isVulnerable =
+        traits.any((element) => element.name == 'Vuln' && element.type == 'F');
     return VeteranModification(
         name: modName ?? resistFId,
         id: resistFId,
@@ -421,8 +421,8 @@ class VeteranModification extends BaseModification {
           assert(rs != null);
           assert(cg != null);
 
-          if (traits.any((element) =>
-              element.name == 'Resist' && element.type == 'Fire')) {
+          if (traits.any(
+              (element) => element.name == 'Resist' && element.type == 'F')) {
             return false;
           }
 
@@ -434,14 +434,14 @@ class VeteranModification extends BaseModification {
         (value) {
           if (isVulnerable) {
             var oldTrait = traits.firstWhere(
-                (element) => element.name == 'Vuln' && element.type == 'Fire');
+                (element) => element.name == 'Vuln' && element.type == 'F');
             return createRemoveTraitFromList(oldTrait)(value);
           } else {
-            return createAddTraitToList(
-                const Trait(name: 'Resist', type: 'Fire'))(value);
+            return createAddTraitToList(const Trait(name: 'Resist', type: 'F'))(
+                value);
           }
         },
-        description: '${isVulnerable ? '-Vuln:Fire' : ' +Resist:Fire'}',
+        description: '${isVulnerable ? '-Vuln:F' : ' +Resist:F'}',
       );
   }
 
@@ -454,8 +454,8 @@ class VeteranModification extends BaseModification {
     assert(modName != null);
 
     final traits = u.traits.toList();
-    final isVulnerable = traits.any(
-        (element) => element.name == 'Vuln' && element.type == 'Corrosion');
+    final isVulnerable =
+        traits.any((element) => element.name == 'Vuln' && element.type == 'C');
     return VeteranModification(
         name: modName ?? resistCId,
         id: resistCId,
@@ -464,8 +464,8 @@ class VeteranModification extends BaseModification {
           assert(rs != null);
           assert(cg != null);
 
-          if (traits.any((element) =>
-              element.name == 'Resist' && element.type == 'Corrosion')) {
+          if (traits.any(
+              (element) => element.name == 'Resist' && element.type == 'C')) {
             return false;
           }
 
@@ -476,16 +476,15 @@ class VeteranModification extends BaseModification {
         UnitAttribute.traits,
         (value) {
           if (isVulnerable) {
-            var oldTrait = traits.firstWhere((element) =>
-                element.name == 'Vuln' && element.type == 'Corrosion');
+            var oldTrait = traits.firstWhere(
+                (element) => element.name == 'Vuln' && element.type == 'C');
             return createRemoveTraitFromList(oldTrait)(value);
           } else {
-            return createAddTraitToList(
-                const Trait(name: 'Resist', type: 'Corrosion'))(value);
+            return createAddTraitToList(const Trait(name: 'Resist', type: 'C'))(
+                value);
           }
         },
-        description:
-            '${isVulnerable ? '-Vuln:Corrosion' : ' +Resist:Corrosion'}',
+        description: '${isVulnerable ? '-Vuln:C' : ' +Resist:C'}',
       );
   }
 
