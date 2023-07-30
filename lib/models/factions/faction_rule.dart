@@ -111,19 +111,25 @@ class FactionRule extends ChangeNotifier {
   CombatGroupOption buidCombatGroupOption({
     bool canBeToggled = true,
     bool initialState = false,
+    bool Function(CombatGroup?, UnitRoster?)? cgCheck,
+    Function()? listener,
   }) {
     final cgOption = CombatGroupOption(
       this,
       name: name,
       id: id,
-      requirementCheck: cgCheck,
+      requirementCheck: cgCheck != null ? cgCheck : this.cgCheck,
       canBeToggled: canBeToggled,
       initialState: initialState,
       description: description,
     );
-    cgOption.addListener(() {
-      this.notifyListeners();
-    });
+    if (listener == null) {
+      cgOption.addListener(() {
+        this.notifyListeners();
+      });
+    } else {
+      cgOption.addListener(listener);
+    }
     return cgOption;
   }
 
@@ -194,6 +200,8 @@ class FactionRule extends ChangeNotifier {
     bool? isEnabled,
     bool? canBeToggled,
     bool Function(List<FactionRule>)? requirementCheck,
+    bool Function(CombatGroup?, UnitRoster?)? cgCheck,
+    CombatGroupOption Function()? combatGroupOption,
   }) {
     return FactionRule(
       name: original.name,
@@ -216,11 +224,14 @@ class FactionRule extends ChangeNotifier {
       isRoleTypeUnlimited: original.isRoleTypeUnlimited,
       isUnitCountWithinLimits: original.isUnitCountWithinLimits,
       unitCountOverride: original.unitCountOverride,
-      combatGroupOption: original.combatGroupOption,
+      combatGroupOption: combatGroupOption != null
+          ? combatGroupOption
+          : original.combatGroupOption,
       factionMod: original.factionMod,
       unitFilter: original.unitFilter,
       onModAdded: original.onModAdded,
       onModRemoved: original.onModRemoved,
+      cgCheck: cgCheck != null ? cgCheck : original.cgCheck,
     );
   }
   Map<String, dynamic> toJson() {

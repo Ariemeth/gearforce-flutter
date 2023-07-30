@@ -21,8 +21,6 @@ import 'package:gearforce/models/weapons/weapon.dart';
 import 'package:gearforce/models/weapons/weapons.dart';
 
 const _northernIDBase = 'mod::faction::northern';
-// TODO remove exampleID when finished with all northern factions
-const exampleID = '000';
 const taskBuiltID = '$_northernIDBase::10';
 const hammersOfTheNorthID = '$_northernIDBase::20';
 const olTrustyWFPID = '$_northernIDBase::30';
@@ -39,32 +37,6 @@ class NorthernFactionMods extends FactionModification {
     super.onAdd,
     super.onRemove,
   }) : super();
-
-  /*
-    Example faction mod
-    TODO Remove when finished with all northern factions
-  */
-  factory NorthernFactionMods.example(Unit unit) {
-    final RequirementCheck reqCheck = (
-      RuleSet? rs,
-      UnitRoster? ur,
-      CombatGroup? cg,
-      Unit u,
-    ) {
-      assert(cg != null);
-      assert(rs != null);
-
-      return true;
-    };
-
-    final fm = NorthernFactionMods(
-      name: 'Example',
-      requirementCheck: reqCheck,
-      id: exampleID,
-    );
-
-    return fm;
-  }
 
   /*
     Task Built: Each Northern gear may swap its rocket pack for a Heavy 
