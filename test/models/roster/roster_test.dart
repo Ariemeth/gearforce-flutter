@@ -1,11 +1,18 @@
+import 'package:flutter_test/flutter_test.dart';
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/roster/roster.dart';
+import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
-import 'package:test/test.dart';
 
 void main() {
+  setUpAll(() async {
+    // Data class uses the rootBundle, therefore the the flutterbindings need to
+    // be initialized before testing.
+    TestWidgetsFlutterBinding.ensureInitialized();
+  });
+
   test('create default CombatGroup', () {
     final data = Data()..load();
     final roster = UnitRoster(data);
@@ -44,5 +51,51 @@ void main() {
         reason: 'active cg should not be null');
     expect(roster.activeCG()!.name, equals('CG 1'),
         reason: 'active cg should not be null');
+  });
+
+  test('Single CGL picked up as only available leader', () async {
+    final data = await Data()
+      ..load();
+    final roster = UnitRoster(data);
+    expect(roster.getLeaders(null).length, 0);
+
+    final unit = Unit(
+        core: UnitCore.test(faction: roster.factionNotifier.value.factionType));
+
+    roster.getCGs().firstOrNull?.primary.addUnit(unit);
+    unit.commandLevel = CommandLevel.cgl;
+
+    expect(roster.getLeaders(null).length, 1);
+  });
+
+  test('CO picked up as only available force leader with 2 leaders in roster',
+      () async {
+    final data = await Data()
+      ..load();
+    final roster = UnitRoster(data);
+    expect(roster.getLeaders(null).length, 0);
+
+    final unit = Unit(
+        core: UnitCore.test(faction: roster.factionNotifier.value.factionType));
+    final unit2 = Unit(
+        core: UnitCore.test(faction: roster.factionNotifier.value.factionType));
+
+    final cg = roster.getCGs().firstOrNull;
+    expect(cg, isNotNull, reason: 'CG should not be null');
+
+    cg!.primary.addUnit(unit);
+    cg.primary.addUnit(unit2);
+
+    unit.commandLevel = CommandLevel.co;
+    unit2.commandLevel = CommandLevel.secic;
+
+    expect(roster.getLeaders(null).length, 2, reason: 'Should be 2 leaders');
+    expect(roster.availableForceLeaders().length, 1,
+        reason: 'Should only be 1 available Force Leader');
+    expect(roster.availableForceLeaders().first, equals(unit),
+        reason: 'Should be the first unit');
+    expect(roster.availableForceLeaders().first.commandLevel,
+        equals(CommandLevel.co),
+        reason: 'Force Leader should be the co');
   });
 }

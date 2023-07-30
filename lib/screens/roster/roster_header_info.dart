@@ -4,7 +4,9 @@ import 'package:gearforce/models/factions/faction_rule.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/screens/roster/faction_rules_dialog.dart';
 import 'package:gearforce/screens/roster/select_faction.dart';
+import 'package:gearforce/screens/roster/select_force_leader.dart';
 import 'package:gearforce/screens/roster/select_subfaction.dart';
+import 'package:gearforce/screens/upgrades/unit_upgrade_button.dart';
 import 'package:gearforce/widgets/display_value.dart';
 import 'package:provider/provider.dart';
 
@@ -170,6 +172,31 @@ class RosterHeaderInfo extends StatelessWidget {
             padding: EdgeInsets.zero,
             tooltip: 'Rules for ${roster.rulesetNotifer.value.name}',
           ),
+        ]),
+        TableRow(children: [
+          Padding(
+            padding: EdgeInsets.only(right: 5, left: 5, top: 5, bottom: 5),
+            child: Text(
+              'Force Leader:',
+              textAlign: TextAlign.right,
+              style: TextStyle(fontSize: 16),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(right: 10, left: 5, top: 5, bottom: 5),
+            child: SelectForceLeader(),
+          ),
+          roster.selectedForceLeader != null
+              ? UnitUpgradeButton(
+                  roster.selectedForceLeader!,
+                  roster.selectedForceLeader!.group!,
+                  roster.selectedForceLeader!.group!.combatGroup!,
+                  roster,
+                )
+              : Container(
+                  width: 30,
+                  height: 40,
+                ),
         ]),
       ],
     );

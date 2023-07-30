@@ -154,6 +154,10 @@ class CombatGroup extends ChangeNotifier {
     return _primary.getUnitWithCommand(cl) ?? _secondary.getUnitWithCommand(cl);
   }
 
+  List<Unit> getLeaders(CommandLevel? cl) {
+    return [..._primary.getLeaders(cl), ..._secondary.getLeaders(cl)];
+  }
+
   List<Unit> unitsWithMod(String id) {
     return _primary.unitsWithMod(id).toList()
       ..addAll(_secondary.unitsWithMod(id).toList());

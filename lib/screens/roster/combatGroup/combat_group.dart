@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
@@ -8,9 +7,8 @@ import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/screens/roster/combatGroup/group_header.dart';
-import 'package:gearforce/screens/upgrades/upgrades_dialog.dart';
+import 'package:gearforce/screens/upgrades/unit_upgrade_button.dart';
 import 'package:gearforce/widgets/unit_text_cell.dart';
-import 'package:provider/provider.dart';
 
 class CombatGroupWidget extends StatefulWidget {
   CombatGroupWidget(this.data, this.roster, {required this.name});
@@ -295,18 +293,8 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
           children: [
             Expanded(
               child: Container(
-                child: IconButton(
-                  onPressed: () => {
-                    _showUpgradeDialog(context, unit, i, group, widget.roster)
-                  },
-                  icon: const Icon(
-                    Icons.add_task,
-                    color: Colors.green,
-                  ),
-                  splashRadius: 20.0,
-                  tooltip: 'Add upgrades to this unit',
-                ),
-              ),
+                  child: UnitUpgradeButton(
+                      unit, group, widget.getOwnCG(), widget.roster)),
             ),
           ],
         ),
@@ -348,40 +336,6 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
     }
 
     return dataRows;
-  }
-
-  void _showUpgradeDialog(
-    BuildContext context,
-    Unit unit,
-    int unitIndex,
-    Group group,
-    UnitRoster roster,
-  ) {
-    var result = showDialog<OptionResult>(
-        context: context,
-        builder: (BuildContext context) {
-          return ChangeNotifierProvider.value(
-            value: unit,
-            child: UpgradesDialog(
-              roster: roster,
-              cg: widget.getOwnCG(),
-              unit: unit,
-            ),
-          );
-        });
-
-    result.whenComplete(() {
-      setState(() {});
-      if (!kReleaseMode) {
-        print(
-            'unit weapons after returning from upgrade screen for ${unit.name}');
-        print('react weapons: ${unit.reactWeapons.toString()}');
-        print('mount weapons: ${unit.mountedWeapons.toString()}');
-        print('       traits: ${unit.traits.toString()}');
-        print('      actions: ${unit.actions}');
-        print('           tv: ${unit.tv}');
-      }
-    });
   }
 
   void _showConfirmDelete(
