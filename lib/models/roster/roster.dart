@@ -24,6 +24,7 @@ class UnitRoster extends ChangeNotifier {
   String _activeCG = '';
   String get rulesVersion => _currentRulesVersion;
   bool _isEliteForce = false;
+  Unit? selectedForceLeader;
 
   UnitRoster(Data data) {
     factionNotifier = ValueNotifier<Faction>(Faction.blackTalons(data));
@@ -81,6 +82,36 @@ class UnitRoster extends ChangeNotifier {
     notifyListeners();
   }
 
+  List<Unit> availableForceLeaders() {
+    final tfcs = getLeaders(CommandLevel.tfc);
+    if (tfcs.isNotEmpty) {
+      return tfcs;
+    }
+
+    final cos = getLeaders(CommandLevel.co);
+    if (cos.isNotEmpty) {
+      return cos;
+    }
+
+    final xos = getLeaders(CommandLevel.xo);
+    if (xos.isNotEmpty) {
+      return xos;
+    }
+
+    final cgls = getLeaders(CommandLevel.cgl);
+    if (cgls.isNotEmpty) {
+      return cgls;
+    }
+
+    final secics = getLeaders(CommandLevel.secic);
+    if (secics.isNotEmpty) {
+      return secics;
+    }
+
+    // any remaining leaders would be third in commands
+    return getLeaders(null);
+  }
+
   @override
   String toString() {
     return 'Roster: {Player: $player, Force Name: $name, Faction: ${factionNotifier.value}, Sub-Faction: ${rulesetNotifer.value}}, CGs: $_combatGroups';
@@ -102,6 +133,14 @@ class UnitRoster extends ChangeNotifier {
                         .toList(),
                   })
               .toList(),
+        },
+        'forceLeader': {
+          'cg': selectedForceLeader?.group?.combatGroup?.name,
+          'group': selectedForceLeader?.group?.groupType.name,
+          'unit': selectedForceLeader?.name,
+          'position': selectedForceLeader?.group
+              ?.allUnits()
+              .indexOf(selectedForceLeader!),
         },
         'totalCreated': _totalCreated,
         'cgs': _combatGroups.entries.map((e) => e.value.toJson()).toList(),
@@ -167,6 +206,25 @@ class UnitRoster extends ChangeNotifier {
         ur.addCG(element);
       });
 
+    try {
+      final leaderJson = json['forceLeader'];
+      if (leaderJson != null) {
+        final leader = ur.availableForceLeaders().firstWhere((unit) {
+          final unitName = leaderJson['unit'] as String;
+          final groupName = leaderJson['group'] as String;
+          final cgName = leaderJson['cg'] as String;
+          final unitPosition = leaderJson['position'] as int;
+          return (unit.name == unitName) &&
+              (unit.group?.groupType.name == groupName) &&
+              (unit.group?.combatGroup?.name == cgName) &&
+              (unit.group?.allUnits().indexOf(unit) == unitPosition);
+        });
+
+        ur.selectedForceLeader = leader;
+      }
+    } catch (e) {
+      print('Error loading force leader: $e');
+    }
     ur.validate(ur.rulesetNotifer.value);
 
     return ur;
@@ -183,12 +241,14 @@ class UnitRoster extends ChangeNotifier {
     });
     this._totalCreated = ur._totalCreated;
     this._isEliteForce = ur._isEliteForce;
+    this.selectedForceLeader = ur.selectedForceLeader;
   }
 
   CombatGroup? getCG(String name) => _combatGroups[name];
 
   void addCG(CombatGroup cg) {
     cg.addListener(() {
+      validate(rulesetNotifer.value);
       notifyListeners();
     });
     cg.roster = this;
@@ -256,6 +316,14 @@ class UnitRoster extends ChangeNotifier {
       }
     }
     return null;
+  }
+
+  List<Unit> getLeaders(CommandLevel? cl) {
+    final List<Unit> leaders = [];
+    _combatGroups.forEach((_, cg) {
+      leaders.addAll(cg.getLeaders(cl));
+    });
+    return leaders;
   }
 
   // Retrieve a list of combatgroups that have at least 1 unit with a
@@ -328,7 +396,13 @@ class UnitRoster extends ChangeNotifier {
 
   List<Validation> validate(RuleSet ruleset) {
     final List<Validation> validationErrors = [];
-    print('roster validation called');
+
+    final forceLeaders = availableForceLeaders();
+    if (!forceLeaders.any((unit) => unit == selectedForceLeader)) {
+      selectedForceLeader =
+          forceLeaders.length == 1 ? forceLeaders.first : null;
+    }
+
     _combatGroups.forEach((key, cg) {
       final ve = cg.validate();
       if (ve.isNotEmpty) {

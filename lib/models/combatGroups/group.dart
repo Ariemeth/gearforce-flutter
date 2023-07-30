@@ -97,6 +97,9 @@ class Group extends ChangeNotifier {
     if (errors != null) {
       print(errors.issue);
     } else {
+      if (unit.group == null) {
+        unit.group = this;
+      }
       notifyListeners();
     }
   }
@@ -125,6 +128,16 @@ class Group extends ChangeNotifier {
     return _units.any((u) => u.commandLevel == cl)
         ? _units.firstWhere((u) => u.commandLevel == cl)
         : null;
+  }
+
+  List<Unit> getLeaders(CommandLevel? cl) {
+    if (cl != null) {
+      return _units.where((unit) => unit.commandLevel == cl).toList();
+    }
+
+    return _units
+        .where((unit) => unit.commandLevel != CommandLevel.none)
+        .toList();
   }
 
   int modCount(String id) {
@@ -186,7 +199,7 @@ class Group extends ChangeNotifier {
   List<Validation> validate({bool tryFix = false}) {
     final List<Validation> validationErrors = [];
 
-    _units.forEach((u) {
+    _units.toList().forEach((u) {
       final ve = u.validate(tryFix: tryFix);
       if (ve.isNotEmpty) {
         validationErrors.addAll(ve);
