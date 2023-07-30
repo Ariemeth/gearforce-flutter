@@ -45,6 +45,21 @@ class Trait {
   @override
   int get hashCode => name.hashCode ^ level.hashCode ^ isAux.hashCode;
 
+  /// Checks if the [Trait] other has the same name.
+  bool isSameType(Trait other) {
+    return this.name == other.name;
+  }
+
+  /// Checks if the [Trait] other has the same level.
+  bool isSameLevel(Trait other) {
+    return this.level == other.level;
+  }
+
+  /// Checks to see if the [Trait] other has the same name and level.
+  bool isSame(Trait other) {
+    return this.name == other.name && this.level == other.level;
+  }
+
   factory Trait.fromTrait(
     Trait original, {
     String? name,
@@ -123,9 +138,98 @@ class Trait {
             ' of success of zero');
   }
 
+  factory Trait.AI() {
+    return const Trait(
+        name: 'AI',
+        description: 'Weapons with the AI trait may deal more than two damage' +
+            ' to infantry on a successful attack. These weapons also' +
+            ' have a bonus of +1D6 against infantry and cavalry models.');
+  }
+
+  factory Trait.Airdrop() {
+    return const Trait(
+        name: 'Airdrop',
+        description: 'Combat groups composed entirely of models with the' +
+            ' Airdrop trait may deploy using the airdrop deployment' +
+            ' option. See Airdrop Deployment.');
+  }
+
+  factory Trait.Amphib() {
+    return const Trait(
+        name: 'Amphib',
+        description: 'This model may move over water terrain at its full MR.');
+  }
+
+  factory Trait.AMS() {
+    return const Trait(
+        name: 'AMS',
+        description: 'This model may reroll defense rolls against all' +
+            ' indirect attacks and airstrikes.');
+  }
+
+  factory Trait.Apex() {
+    return const Trait(
+        name: 'Apex',
+        description: 'Add +1 to this weapon’s base damage. Multiple sources' +
+            ' of Apex are cumulative.');
+  }
+
+  factory Trait.AP(int level) {
+    return Trait(
+        name: 'AP',
+        level: level,
+        description: 'Armor piercing weapons are able to do damage on a' +
+            ' successful attack even when the damage does not exceed' +
+            ' the enemy’s armor.');
+  }
+
+  factory Trait.Auto() {
+    return const Trait(
+        name: 'Auto',
+        description: 'A weapon with this trait may be used for retaliation' +
+            ' once per round without spending an action point. If this is a' +
+            ' combination weapon, then only one of the weapons may' +
+            ' be used in this way per round.');
+  }
+
+  factory Trait.B() {
+    return const Trait(
+        name: 'B',
+        description: 'Weapons with this trait can only be fired at targets' +
+            ' within this model’s back arc (the back 180 degrees of the' +
+            ' model).');
+  }
+
+  factory Trait.Blast() {
+    return const Trait(
+        name: 'Blast',
+        description: '* If an attacking model has LOS to a target, indirect' +
+            ' attacks with this weapon ignore the bonus defense' +
+            ' dice for cover.\n' +
+            '* A fire mission may also receive this benefit if the' +
+            ' forward observer, or the attacking model has LOS to' +
+            ' the target(s).');
+  }
+
+  factory Trait.Brace() {
+    return const Trait(
+        name: 'Brace',
+        description: 'This weapon may only be fired if the model is braced.');
+  }
+
   factory Trait.Brawl(int level) {
     return Trait(
         name: 'Brawl',
+        level: level,
+        description: '* A Brawl:X trait on a weapon will modify attack rolls' +
+            ' by XD6 when using that weapon.\n' +
+            '* A Brawl:X trait on a model will modify all melee rolls' +
+            ' that model makes by XD6.');
+  }
+
+  factory Trait.Burst(int level) {
+    return Trait(
+        name: 'Burst',
         level: level,
         description: 'Add a +XD6 modifier to any attack roll made with this' +
             ' weapon (generally +1D6 or +2D6).');
