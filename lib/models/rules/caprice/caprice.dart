@@ -2,12 +2,28 @@ import 'package:gearforce/data/data.dart';
 import 'package:gearforce/data/unit_filter.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/factions/faction_rule.dart';
+import 'package:gearforce/models/rules/caprice/cid.dart';
+import 'package:gearforce/models/rules/caprice/cse.dart';
+import 'package:gearforce/models/rules/caprice/lrc.dart';
 import 'package:gearforce/models/rules/options/combat_group_options.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/rules/options/special_unit_filter.dart';
 
 //const String _baseRuleId = 'rule::caprice';
 
+/*
+  All the models in the Caprician Model List can be used in any of the sub-lists below. There are also models in the
+  Universal Model List that may be selected as well.
+  All Caprician models have the following special rule:
+  * Dueling Mounts: Bashan, Kadesh, Aphek and Meggido may become duelists even though they are striders. Follow
+  all other duelist rules as normal.
+  * Advanced Interface Networks (AIN): Each veteran mount may improve their GU skill by one for 1 TV times the
+  number of Actions that the model has.
+  * Cybernetic Upgrades: Each veteran universal infantry may add the following bonuses for 1 TV total;
+  +1 Armor, +1 GU and the Climber trait.
+  All Caprician forces have the following special rule:
+  * Abominations: One combat group may include FLAILs from the CEF.
+*/
 class Caprice extends RuleSet {
   Caprice(
     Data data, {
@@ -43,4 +59,8 @@ class Caprice extends RuleSet {
     ];
     return [...filters, ...super.availableUnitFilters(cgOptions)];
   }
+
+  factory Caprice.CID(Data data) => CID(data);
+  factory Caprice.CSE(Data data) => CSE(data);
+  factory Caprice.LRC(Data data) => LRC(data);
 }

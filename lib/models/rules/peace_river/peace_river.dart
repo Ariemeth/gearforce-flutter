@@ -71,15 +71,9 @@ class PeaceRiver extends RuleSet {
     return [...filters, ...super.availableUnitFilters(cgOptions)];
   }
 
-  factory PeaceRiver.POC(Data data) {
-    return poc.POC(data);
-  }
-  factory PeaceRiver.PPS(Data data) {
-    return pps.PPS(data);
-  }
-  factory PeaceRiver.PRDF(Data data) {
-    return prdf.PRDF(data);
-  }
+  factory PeaceRiver.POC(Data data) => poc.POC(data);
+  factory PeaceRiver.PPS(Data data) => pps.PPS(data);
+  factory PeaceRiver.PRDF(Data data) => prdf.PRDF(data);
 }
 
 final ruleArchitects = FactionRule(

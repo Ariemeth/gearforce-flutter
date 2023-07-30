@@ -24,37 +24,37 @@ class Faction {
   factory Faction.blackTalons(Data data) {
     final rulesets = [
       BlackTalons(data, name: _emptySubFactionName),
-      BlackTalons(data, name: 'Black Talon Recon Team'),
-      BlackTalons(data, name: 'Black Talon Insertion Team'),
-      BlackTalons(data, name: 'Black Talon Strike Team'),
-      BlackTalons(data, name: 'Black Talon Assault Team'),
+      BlackTalons.BTRT(data),
+      BlackTalons.BTIT(data),
+      BlackTalons.BTST(data),
+      BlackTalons.BTAT(data),
     ];
     return Faction(FactionType.BlackTalon, rulesets, rulesets.first);
   }
   factory Faction.caprice(Data data) {
     final rulesets = [
       Caprice(data, name: _emptySubFactionName),
-      Caprice(data, name: 'Caprice Invasion Detachment'),
-      Caprice(data, name: 'Corporate Security Element'),
-      Caprice(data, name: 'Liberati Resistance Cell'),
+      Caprice.CID(data),
+      Caprice.CSE(data),
+      Caprice.LRC(data),
     ];
     return Faction(FactionType.Caprice, rulesets, rulesets.first);
   }
   factory Faction.cef(Data data) {
     final rulesets = [
       CEF(data, name: _emptySubFactionName),
-      CEF(data, name: 'CEF Frame Formation'),
-      CEF(data, name: 'CEF Tank Formation'),
-      CEF(data, name: 'CEF Infantry Formation'),
+      CEF.CEFFF(data),
+      CEF.CEFTF(data),
+      CEF.CEFIF(data),
     ];
     return Faction(FactionType.CEF, rulesets, rulesets.first);
   }
   factory Faction.eden(Data data) {
     final rulesets = [
       Eden(data, name: _emptySubFactionName),
-      Eden(data, name: 'Edenite Invasion Force'),
-      Eden(data, name: 'Edenite Noble Houses'),
-      Eden(data, name: 'Ad-Hoc Edenite Force'),
+      Eden.EIF(data),
+      Eden.ENH(data),
+      Eden.AEF(data),
     ];
     return Faction(FactionType.Eden, rulesets, rulesets.first);
   }
@@ -70,13 +70,13 @@ class Faction {
   }
   factory Faction.nucoal(Data data) {
     final rulesets = [
-      Nucoal(data, name: _emptySubFactionName),
-      Nucoal(data, name: 'NuCoal Self Defense Force'),
-      Nucoal(data, name: 'Port Arthur Korps'),
-      Nucoal(data, name: 'Humanist Alliance Protection Force'),
-      Nucoal(data, name: 'Khayr ad-Dine'),
-      Nucoal(data, name: 'Temple Heights'),
-      Nucoal(data, name: 'Hardscrabble City-State Armies'),
+      NuCoal(data, name: _emptySubFactionName),
+      NuCoal.NSDF(data),
+      NuCoal.PAK(data),
+      NuCoal.HAPF(data),
+      NuCoal.KADA(data),
+      NuCoal.TH(data),
+      NuCoal.HCSA(data),
     ];
     return Faction(FactionType.NuCoal, rulesets, rulesets.first);
   }
@@ -92,18 +92,19 @@ class Faction {
   factory Faction.south(Data data) {
     final rulesets = [
       South(data, name: _emptySubFactionName),
-      South(data, name: 'Military Intervention and Counter Insurgency Army'),
-      South(data, name: 'Mekong Dominion'),
-      South(data, name: 'Eastern Sun Emirates'),
-      South(data, name: 'Free Humanist Alliance'),
+      South.SRA(data),
+      South.MILICIA(data),
+      South.MD(data),
+      South.ESE(data),
+      South.FHA(data),
     ];
     return Faction(FactionType.South, rulesets, rulesets.first);
   }
   factory Faction.utopia(Data data) {
     final rulesets = [
       Utopia(data, name: _emptySubFactionName),
-      Utopia(data, name: 'Combined Armiger Force'),
-      Utopia(data, name: 'Other Utopian Forces'),
+      Utopia.CAF(data),
+      Utopia.OUF(data),
     ];
     return Faction(FactionType.Utopia, rulesets, rulesets.first);
   }

@@ -2,12 +2,24 @@ import 'package:gearforce/data/data.dart';
 import 'package:gearforce/data/unit_filter.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/factions/faction_rule.dart';
+import 'package:gearforce/models/rules/black_talons/btat.dart';
+import 'package:gearforce/models/rules/black_talons/btit.dart';
+import 'package:gearforce/models/rules/black_talons/btrt.dart';
+import 'package:gearforce/models/rules/black_talons/btst.dart';
 import 'package:gearforce/models/rules/options/combat_group_options.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/rules/options/special_unit_filter.dart';
 
 //const String _baseRuleId = 'rule::blackTalon';
 
+/*
+  All the models in the Black Talon Model List can be used in any of the sub-lists below. There are also models in the
+  Universal Model List that may be selected as well.
+  All Black Talon forces have the following special rule:
+  * The Chosen: The force leader may purchase 1 extra CP for 2 TV.
+  * Special Operators: This force may select one assassinate and/or one raid objective regardless of its unit composition.
+  Select any remaining objectives normally.
+*/
 class BlackTalons extends RuleSet {
   BlackTalons(
     Data data, {
@@ -43,4 +55,9 @@ class BlackTalons extends RuleSet {
     ];
     return [...filters, ...super.availableUnitFilters(cgOptions)];
   }
+
+  factory BlackTalons.BTRT(Data data) => BTRT(data);
+  factory BlackTalons.BTIT(Data data) => BTIT(data);
+  factory BlackTalons.BTST(Data data) => BTST(data);
+  factory BlackTalons.BTAT(Data data) => BTAT(data);
 }
