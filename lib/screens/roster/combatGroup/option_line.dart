@@ -9,9 +9,11 @@ class OptionLine extends StatefulWidget {
     super.key,
     required this.cg,
     required this.cgOption,
+    required this.onLineUpdated,
   });
   final CombatGroup cg;
   final CombatGroupOption cgOption;
+  final void Function() onLineUpdated;
 
   @override
   State<OptionLine> createState() => _OptionLineState();
@@ -35,6 +37,7 @@ class _OptionLineState extends State<OptionLine> {
                   ? (bool? newValue) {
                       setState(() {
                         widget.cgOption.isEnabled = newValue!;
+                        widget.onLineUpdated();
                       });
                     }
                   : null),

@@ -181,7 +181,7 @@ abstract class RuleSet extends ChangeNotifier {
 
     // Check if any faction rules override the default canBeAddedToGroup check.
     // If any result is false, then the check is failed.  If all results
-    // returned are true, continue the check
+    // returned are true,return true
     final canBeAddedToGroupOverrides = allEnabledRules(cg.options)
         .where((rule) => rule.canBeAddedToGroup != null);
     final overrideValues = canBeAddedToGroupOverrides
@@ -191,6 +191,7 @@ abstract class RuleSet extends ChangeNotifier {
       if (overrideValues.any((status) => status == false)) {
         return false;
       }
+      return true;
     }
 
     final targetRole = group.role();

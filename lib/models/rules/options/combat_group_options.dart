@@ -37,6 +37,20 @@ class CombatGroupOption extends ChangeNotifier {
   final bool Function(CombatGroup?, UnitRoster?) requirementCheck;
 }
 
+bool Function(CombatGroup?, UnitRoster?) onlyOnePerCG(List<String> ids) {
+  return (CombatGroup, roster) {
+    if (CombatGroup == null) {
+      return false;
+    }
+
+    if (ids.any((id) => CombatGroup.isOptionEnabled(id))) {
+      return false;
+    }
+
+    return true;
+  };
+}
+
 bool alwaysTrueCG(CombatGroup? cg, UnitRoster? r) => true;
 bool Function(CombatGroup?, UnitRoster?) onlyOneCG(String id) {
   return (combatGroup, roster) {

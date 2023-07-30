@@ -11,7 +11,7 @@ const double _optionSectionHeight = 33;
 const int _maxVisibleOptions = 4;
 const String _optionText = 'Rules Options';
 
-class CombatGroupSettingsDialog extends StatelessWidget {
+class CombatGroupSettingsDialog extends StatefulWidget {
   const CombatGroupSettingsDialog({
     super.key,
     required this.cg,
@@ -22,8 +22,18 @@ class CombatGroupSettingsDialog extends StatelessWidget {
   final RuleSet ruleSet;
 
   @override
+  State<CombatGroupSettingsDialog> createState() =>
+      _CombatGroupSettingsDialogState();
+}
+
+class _CombatGroupSettingsDialogState extends State<CombatGroupSettingsDialog> {
+  @override
   Widget build(BuildContext context) {
-    final options = cg.options;
+    final options = widget.cg.options;
+
+    final onLineUpdate = () {
+      setState(() {});
+    };
 
     var dialog = SimpleDialog(
       clipBehavior: Clip.antiAlias,
@@ -33,16 +43,19 @@ class CombatGroupSettingsDialog extends StatelessWidget {
         child: Column(
           children: [
             Text(
-              '${cg.name} settings',
+              '${widget.cg.name} settings',
               style: TextStyle(fontSize: 24),
               maxLines: 1,
             ),
             Text(''),
-            options.isNotEmpty ? combatGroupOptions(options, cg) : Container(),
+            options.isNotEmpty
+                ? combatGroupOptions(options, widget.cg, onLineUpdate)
+                : Container(),
             Text(''),
             ElevatedButton(
               onPressed: () {
-                final optionsDialog = DeleteCombatGroupDialog(cgName: cg.name);
+                final optionsDialog =
+                    DeleteCombatGroupDialog(cgName: widget.cg.name);
 
                 Future<DeleteCGOptionResult?> futureResult =
                     showDialog<DeleteCGOptionResult>(
@@ -54,14 +67,14 @@ class CombatGroupSettingsDialog extends StatelessWidget {
                 futureResult.then((value) {
                   switch (value) {
                     case DeleteCGOptionResult.Remove:
-                      cg.roster!.removeCG(cg.name);
+                      widget.cg.roster!.removeCG(widget.cg.name);
                       Navigator.pop(context);
                       break;
                     default:
                   }
                 });
               },
-              child: Text('Delete ${cg.name}'),
+              child: Text('Delete ${widget.cg.name}'),
               style: ElevatedButton.styleFrom(
                 elevation: 12.0,
                 textStyle: const TextStyle(color: Colors.white),
@@ -89,7 +102,11 @@ class CombatGroupSettingsDialog extends StatelessWidget {
   }
 }
 
-Widget combatGroupOptions(List<CombatGroupOption> options, CombatGroup cg) {
+Widget combatGroupOptions(
+  List<CombatGroupOption> options,
+  CombatGroup cg,
+  void Function() onLineUpdated,
+) {
   if (options.isEmpty) {
     return const Center(
       child: Text(
@@ -105,17 +122,17 @@ Widget combatGroupOptions(List<CombatGroupOption> options, CombatGroup cg) {
 
   final ScrollController _scrollController = ScrollController();
 
-  return Container(
-    width: _optionSectionWidth,
-    height: _optionSectionHeight +
-        _optionSectionHeight *
-            (options.length > _maxVisibleOptions
-                ? _maxVisibleOptions
-                : options.length.toDouble()),
-    child: Column(
-      children: [
-        optionsSectionTitle(_optionText),
-        Scrollbar(
+  return Column(
+    children: [
+      optionsSectionTitle(_optionText),
+      Container(
+        width: _optionSectionWidth,
+        height: _optionSectionHeight +
+            _optionSectionHeight *
+                (options.length > _maxVisibleOptions
+                    ? _maxVisibleOptions
+                    : options.length.toDouble()),
+        child: Scrollbar(
           thumbVisibility: true,
           trackVisibility: true,
           controller: _scrollController,
@@ -128,11 +145,12 @@ Widget combatGroupOptions(List<CombatGroupOption> options, CombatGroup cg) {
               return OptionLine(
                 cg: cg,
                 cgOption: options[index],
+                onLineUpdated: onLineUpdated,
               );
             },
           ),
         ),
-      ],
-    ),
+      ),
+    ],
   );
 }
