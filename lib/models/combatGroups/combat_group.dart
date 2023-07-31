@@ -238,6 +238,10 @@ class CombatGroup extends ChangeNotifier {
 
   @override
   String toString() {
-    return 'CombatGroup: {Name: $name, PrimaryCG: $_primary, SecondaryCG: $_secondary}';
+    final result = 'CombatGroup: $name\n' +
+        '\tPrimary: $_primary\n' +
+        '\tSecondary: $_secondary';
+
+    return result;
   }
 }

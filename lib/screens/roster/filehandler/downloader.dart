@@ -8,8 +8,7 @@ const String _defaultRosterFileName = 'hg-roster';
 
 Future<void> downloadRoster(UnitRoster roster) async {
   var encodedRoster = json.encode(roster);
-  //TODO remove print when satisfied with external testing
-  print(encodedRoster);
+
   final data = utf8.encode(encodedRoster);
 
   final String fileName =
