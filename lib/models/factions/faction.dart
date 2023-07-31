@@ -20,41 +20,41 @@ class Faction {
   final RuleSet defaultSubFaction;
 
   const Faction(this.factionType, this.rulesets, this.defaultSubFaction);
-
+// TODO uncomment factions that are done or in work
   factory Faction.blackTalons(Data data) {
     final rulesets = [
       BlackTalons(data, name: _emptySubFactionName),
-      BlackTalons.BTRT(data),
-      BlackTalons.BTIT(data),
-      BlackTalons.BTST(data),
-      BlackTalons.BTAT(data),
+      //  BlackTalons.BTRT(data),
+      //  BlackTalons.BTIT(data),
+      //  BlackTalons.BTST(data),
+      //  BlackTalons.BTAT(data),
     ];
     return Faction(FactionType.BlackTalon, rulesets, rulesets.first);
   }
   factory Faction.caprice(Data data) {
     final rulesets = [
       Caprice(data, name: _emptySubFactionName),
-      Caprice.CID(data),
-      Caprice.CSE(data),
-      Caprice.LRC(data),
+      //  Caprice.CID(data),
+      //  Caprice.CSE(data),
+      //  Caprice.LRC(data),
     ];
     return Faction(FactionType.Caprice, rulesets, rulesets.first);
   }
   factory Faction.cef(Data data) {
     final rulesets = [
       CEF(data, name: _emptySubFactionName),
-      CEF.CEFFF(data),
-      CEF.CEFTF(data),
-      CEF.CEFIF(data),
+      // CEF.CEFFF(data),
+      // CEF.CEFTF(data),
+      // CEF.CEFIF(data),
     ];
     return Faction(FactionType.CEF, rulesets, rulesets.first);
   }
   factory Faction.eden(Data data) {
     final rulesets = [
       Eden(data, name: _emptySubFactionName),
-      Eden.EIF(data),
-      Eden.ENH(data),
-      Eden.AEF(data),
+      // Eden.EIF(data),
+      // Eden.ENH(data),
+      // Eden.AEF(data),
     ];
     return Faction(FactionType.Eden, rulesets, rulesets.first);
   }
@@ -71,12 +71,12 @@ class Faction {
   factory Faction.nucoal(Data data) {
     final rulesets = [
       NuCoal(data, name: _emptySubFactionName),
-      NuCoal.NSDF(data),
-      NuCoal.PAK(data),
-      NuCoal.HAPF(data),
-      NuCoal.KADA(data),
-      NuCoal.TH(data),
-      NuCoal.HCSA(data),
+      // NuCoal.NSDF(data),
+      // NuCoal.PAK(data),
+      // NuCoal.HAPF(data),
+      // NuCoal.KADA(data),
+      // NuCoal.TH(data),
+      // NuCoal.HCSA(data),
     ];
     return Faction(FactionType.NuCoal, rulesets, rulesets.first);
   }
@@ -93,18 +93,18 @@ class Faction {
     final rulesets = [
       South(data, name: _emptySubFactionName),
       South.SRA(data),
-      South.MILICIA(data),
-      South.MD(data),
-      South.ESE(data),
-      South.FHA(data),
+      // South.MILICIA(data),
+      // South.MD(data),
+      // South.ESE(data),
+      // South.FHA(data),
     ];
     return Faction(FactionType.South, rulesets, rulesets.first);
   }
   factory Faction.utopia(Data data) {
     final rulesets = [
       Utopia(data, name: _emptySubFactionName),
-      Utopia.CAF(data),
-      Utopia.OUF(data),
+      // Utopia.CAF(data),
+      // Utopia.OUF(data),
     ];
     return Faction(FactionType.Utopia, rulesets, rulesets.first);
   }
