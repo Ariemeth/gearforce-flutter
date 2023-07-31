@@ -240,6 +240,7 @@ abstract class RuleSet extends ChangeNotifier {
       CommandLevel.co => 3,
       CommandLevel.tfc => 5,
       CommandLevel.bc => 0,
+      CommandLevel.po => 0,
     };
   }
 

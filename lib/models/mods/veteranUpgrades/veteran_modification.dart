@@ -17,7 +17,7 @@ const veteranId = '$_vetIDBase::10';
 const improvedGunneryID = '$_vetIDBase::20';
 const dualGunsId = '$_vetIDBase::30';
 const eccmId = '$_vetIDBase::40';
-const brawl1Id = '$_vetIDBase::50';
+const brawler1Id = '$_vetIDBase::50';
 const brawler2Id = '$_vetIDBase::60';
 const reachId = '$_vetIDBase::70';
 const meleeUpgradeId = '$_vetIDBase::80';
@@ -31,7 +31,7 @@ final Map<String, String> _vetModNames = {
   eccmId: 'ECCM',
   improvedGunneryID: 'Improved Gunnery',
   dualGunsId: 'Dual Guns',
-  brawl1Id: 'Brawler 1',
+  brawler1Id: 'Brawler 1',
   brawler2Id: 'Brawler 2',
   reachId: 'Reach',
   meleeUpgradeId: 'Melee Weapon Upgrade',
@@ -278,13 +278,13 @@ class VeteranModification extends BaseModification {
   trait by +1 for 1 TV.
   */
   factory VeteranModification.brawler1(Unit u) {
-    final modName = _vetModNames[brawl1Id];
+    final modName = _vetModNames[brawler1Id];
     assert(modName != null);
 
     final traits = u.traits.toList();
     return VeteranModification(
-        name: modName ?? brawl1Id,
-        id: brawl1Id,
+        name: modName ?? brawler1Id,
+        id: brawler1Id,
         requirementCheck:
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
           assert(rs != null);
@@ -299,7 +299,7 @@ class VeteranModification extends BaseModification {
             return false;
           }
 
-          return rs!.veteranModCheck(u, cg!, modID: brawl1Id);
+          return rs!.veteranModCheck(u, cg!, modID: brawler1Id);
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
       ..addMod<List<Trait>>(UnitAttribute.traits, (value) {
@@ -334,7 +334,7 @@ class VeteranModification extends BaseModification {
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
           assert(rs != null);
           assert(cg != null);
-          if (u.hasMod(brawl1Id)) {
+          if (u.hasMod(brawler1Id)) {
             return false;
           }
 

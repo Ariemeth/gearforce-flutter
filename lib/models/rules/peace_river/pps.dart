@@ -246,7 +246,7 @@ final FactionRule ruleBadlandsSoup = FactionRule(
       switch (modID) {
         case improvedGunneryID:
         case dualGunsId:
-        case brawl1Id:
+        case brawler1Id:
         case brawler2Id:
         case meleeUpgradeId:
         case eccmId:

@@ -1,6 +1,7 @@
 import 'package:gearforce/models/mods/base_modification.dart';
 import 'package:gearforce/models/mods/factionUpgrades/north.dart';
 import 'package:gearforce/models/mods/factionUpgrades/peace_river.dart';
+import 'package:gearforce/models/mods/factionUpgrades/south.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/unit/unit.dart';
 
@@ -54,6 +55,12 @@ FactionModification? factionModFromId(String id, UnitRoster ur, Unit u) {
       return NorthernFactionMods.chaplain();
     case warriorMonksID:
       return NorthernFactionMods.warriorMonks(u);
+
+    // Southern Faction mods
+    case prideOfTheSouthId:
+      return SouthernFactionMods.prideOfTheSouth(u);
+    case politicalOfficerId:
+      return SouthernFactionMods.politicalOfficer();
   }
   return null;
 }
