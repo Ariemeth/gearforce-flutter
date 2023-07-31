@@ -112,9 +112,22 @@ class UnitRoster extends ChangeNotifier {
     return getLeaders(null);
   }
 
+  List<Unit> getAllUnits() {
+    final List<Unit> allUnits = [];
+    _combatGroups.entries.forEach((me) {
+      allUnits.addAll(me.value.units);
+    });
+    return allUnits;
+  }
+
   @override
   String toString() {
-    return 'Roster: {Player: $player, Force Name: $name, Faction: ${factionNotifier.value}, Sub-Faction: ${rulesetNotifer.value}}, CGs: $_combatGroups';
+    final result = '\nRoster:\n' +
+        '\tPlayer: $player \tForce Name: $name\n' +
+        '\tFaction: ${factionNotifier.value.name} \\ ${rulesetNotifer.value.name}\n' +
+        '${_combatGroups.values.join('\n')}\n\n';
+
+    return result;
   }
 
   Map<String, dynamic> toJson() => {

@@ -723,4 +723,9 @@ class Unit extends ChangeNotifier {
       'tags': this._tags
     };
   }
+
+  @override
+  String toString() {
+    return 'Unit: $name, TV: $tv, Rank: ${commandLevel.name}, Mods: $modNames';
+  }
 }

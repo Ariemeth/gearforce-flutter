@@ -224,6 +224,6 @@ class Group extends ChangeNotifier {
 
   @override
   String toString() {
-    return 'Group: {Role: $_role, Units: $_units}';
+    return 'Group: ${_role.name}, TV: ${totalTV()}, NumUnits: ${numberOfUnits()}, \n\tUnits: $_units';
   }
 }
