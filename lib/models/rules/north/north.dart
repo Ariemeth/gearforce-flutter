@@ -35,15 +35,12 @@ const String _baseRuleId = 'rule::north';
 class North extends RuleSet {
   North(
     Data data, {
-    String? description,
-    required String name,
-    List<String>? specialRules,
+    super.description,
+    required super.name,
     List<FactionRule> subFactionRules = const [],
   }) : super(
           FactionType.North,
           data,
-          name: name,
-          description: description,
           factionRules: [
             ruleTaskBuilt,
             ruleProspectors,
@@ -129,12 +126,11 @@ final FactionRule ruleProspectors = FactionRule(
     }
 
     // Check how many of the gears with climbing are in a group that does not
-    // share thier role
+    // share their role
     final unitsWithoutMatchingGroupRole = unitsWithClimber.where((u) {
       if (u.role == null) {
         return false;
       }
-      //unit.role == null ? false : unit.role!.includesRole([target]);
       return !u.role!.includesRole([u.group?.role()]);
     });
 

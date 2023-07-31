@@ -10,8 +10,9 @@ import 'package:gearforce/models/rules/south/fha.dart';
 import 'package:gearforce/models/rules/south/md.dart';
 import 'package:gearforce/models/rules/south/milicia.dart';
 import 'package:gearforce/models/rules/south/sra.dart';
+import 'package:gearforce/models/unit/role.dart';
 
-//const String _baseRuleId = 'rule::south';
+const String _baseRuleId = 'rule::south';
 
 /*
   All the models in the Southern Model List can be used in any of the sub-lists below. There are also models in the Universal
@@ -33,7 +34,7 @@ class South extends RuleSet {
           data,
           name: name,
           description: description,
-          factionRules: [],
+          factionRules: [rulePoliceState, ruleAmphibians],
           subFactionRules: subFactionRules,
         );
 
@@ -63,3 +64,107 @@ class South extends RuleSet {
   factory South.ESE(Data data) => ESE(data);
   factory South.FHA(Data data) => FHA(data);
 }
+
+final FactionRule rulePoliceState = FactionRule(
+  name: 'Police State',
+  id: '$_baseRuleId::policeState',
+  hasGroupRole: (unit, target, group) {
+    final isAllowedUnit =
+        unit.core.frame.contains('MP') && unit.faction == FactionType.South;
+    final isAllowedRole = target == RoleType.GP ||
+        target == RoleType.SK ||
+        target == RoleType.FS ||
+        target == RoleType.SO;
+
+    return isAllowedUnit && isAllowedRole ? true : null;
+  },
+  description: 'Southern MP models may be placed in GP, SK, FS or SO units.',
+);
+
+final FactionRule ruleAmphibians = FactionRule(
+  name: 'Amphibians',
+  id: '$_baseRuleId::policeState',
+  hasGroupRole: (unit, target, group) {
+    if (unit.role != null && unit.role!.includesRole([target])) {
+      return null;
+    }
+
+    final targetRoleIsCorrect = target == RoleType.GP ||
+        target == RoleType.SK ||
+        target == RoleType.FS ||
+        target == RoleType.RC ||
+        target == RoleType.SO;
+    if (!targetRoleIsCorrect) {
+      return null;
+    }
+
+    final frame = unit.core.frame;
+    if (!(frame == 'Water Viper' ||
+        (frame == 'Caiman' &&
+            (unit.name == 'Caiman' || unit.name == 'Crocodile')))) {
+      return null;
+    }
+
+    // Get the number of Water Vipers or Caimans (Caiman and Crocodile variants) entire force
+    final eligibleUnits = group.combatGroup?.roster
+        ?.getAllUnits()
+        .where((u) =>
+            u.core.frame == 'Water Viper' ||
+            (u.core.frame == 'Caiman' &&
+                (u.name == 'Caiman' || u.name == 'Crocodile')))
+        .where((u) => u != unit);
+
+    // If there are less then 2 already in the force, no need to check
+    // if they are using this rule or not
+    if (eligibleUnits == null || eligibleUnits.length < 2) {
+      return true;
+    }
+
+    // Check how many of the gears are in a group that does not
+    // share their role
+    final unitsWithoutMatchingGroupRole = eligibleUnits.where((u) {
+      if (u.role == null) {
+        return false;
+      }
+      return !u.role!.includesRole([u.group?.role()]);
+    });
+
+    // If there are less then 2 without matching group roles, no need
+    // to check if they are using this rule or not
+    if (unitsWithoutMatchingGroupRole.length < 2) {
+      return true;
+    }
+    // check how many of the remaining units can be satisfied by another rule
+    final unitsNeedingThisRule = unitsWithoutMatchingGroupRole.where((u) {
+      final g = u.group;
+      if (g == null) {
+        return false;
+      }
+      final hasGroupRoleOverrideRules = g
+          .combatGroup?.roster?.rulesetNotifer.value
+          .allEnabledRules(g.combatGroup?.options)
+          .where((rule) =>
+              rule.hasGroupRole != null && rule.id != ruleAmphibians.id);
+      if (hasGroupRoleOverrideRules == null) {
+        return false;
+      }
+      final overrideValues = hasGroupRoleOverrideRules
+          .map((rule) => rule.hasGroupRole!(unit, target, group))
+          .where((result) => result != null);
+      if (overrideValues.isNotEmpty) {
+        if (overrideValues.any((status) => status == false)) {
+          return true;
+        }
+        return false;
+      }
+      return true;
+    });
+
+    if (unitsNeedingThisRule.length < 2) {
+      return true;
+    }
+    return null;
+  },
+  description: 'Up to 2 Water Vipers, or up to 2 Caimans (Caiman variants or' +
+      ' the Crocodile variant), may be placed in GP, SK, FS, RC or SO units.',
+);

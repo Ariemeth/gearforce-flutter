@@ -112,6 +112,14 @@ class UnitRoster extends ChangeNotifier {
     return getLeaders(null);
   }
 
+  List<Unit> getAllUnits() {
+    final List<Unit> allUnits = [];
+    _combatGroups.entries.forEach((me) {
+      allUnits.addAll(me.value.units);
+    });
+    return allUnits;
+  }
+
   @override
   String toString() {
     final result = '\nRoster:\n' +
