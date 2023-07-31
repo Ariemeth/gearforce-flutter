@@ -5,7 +5,8 @@ enum CommandLevel {
   xo(_xo),
   co(_co),
   tfc(_tfc),
-  bc(_3ic);
+  bc(_3ic),
+  po(_po);
 
   final String name;
   const CommandLevel(this.name);
@@ -23,6 +24,8 @@ enum CommandLevel {
         return CommandLevel.tfc;
       case _3ic:
         return CommandLevel.bc;
+      case _po:
+        return CommandLevel.po;
       default:
         return CommandLevel.none;
     }
@@ -30,9 +33,10 @@ enum CommandLevel {
 }
 
 const String _none = 'none';
-const String _cgl = 'CGL';
-const String _2ic = '2iC';
+const String _cgl = 'CGL'; // Command Group Leader
+const String _2ic = '2iC'; // Second in Command
 const String _xo = 'XO';
 const String _co = 'CO';
 const String _tfc = 'TFC';
-const String _3ic = 'BC';
+const String _3ic = 'BC'; // Northern Battle Chaplain
+const String _po = 'PO'; // Southern Political Officer

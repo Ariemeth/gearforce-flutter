@@ -25,15 +25,12 @@ const String _baseRuleId = 'rule::south';
 class South extends RuleSet {
   South(
     Data data, {
-    String? description,
-    required String name,
-    List<String>? specialRules,
+    super.description,
+    required super.name,
     List<FactionRule> subFactionRules = const [],
   }) : super(
           FactionType.South,
           data,
-          name: name,
-          description: description,
           factionRules: [rulePoliceState, ruleAmphibians],
           subFactionRules: subFactionRules,
         );

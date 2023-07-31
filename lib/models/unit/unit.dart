@@ -265,6 +265,8 @@ class Unit extends ChangeNotifier {
         break;
       case CommandLevel.bc:
         break;
+      case CommandLevel.po:
+        break;
       case CommandLevel.cgl:
         // Only 1 cgl, tfc, co, or xo can exist within a single Combat Group
         group?.combatGroup?.getUnitWithCommand(CommandLevel.cgl)?.commandLevel =

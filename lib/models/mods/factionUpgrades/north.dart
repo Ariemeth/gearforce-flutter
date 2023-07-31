@@ -423,7 +423,7 @@ class NorthernFactionMods extends FactionModification {
       return newList;
     },
         description: 'Add Brawl:1 trait, or increase existing Brawl by 1 and' +
-            ' add a fighting staff (MVB with Reach:2)');
+            ' add a fighting staff (MVB with React, Reach:2)');
 
     return fm;
   }

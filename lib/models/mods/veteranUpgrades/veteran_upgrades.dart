@@ -30,7 +30,7 @@ VeteranModification? buildVetUpgrade(String id, Unit u, CombatGroup cg) {
       return VeteranModification.dualGuns(u);
     case eccmId:
       return VeteranModification.eccm(u);
-    case brawl1Id:
+    case brawler1Id:
       return VeteranModification.brawler1(u);
     case brawler2Id:
       return VeteranModification.brawler2(u);

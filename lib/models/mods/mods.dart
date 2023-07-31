@@ -68,8 +68,7 @@ List<Weapon> Function(List<Weapon>) createAddWeaponToList(Weapon newValue) {
   return (value) {
     var newList = new List<Weapon>.from(value);
 
-    if (!newList.any((existingWeapon) =>
-        existingWeapon.abbreviation == newValue.abbreviation)) {
+    if (!newList.any((existingWeapon) => existingWeapon == newValue)) {
       newList.add(newValue);
     }
 
