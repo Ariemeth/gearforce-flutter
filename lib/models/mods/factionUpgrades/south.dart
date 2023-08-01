@@ -4,6 +4,7 @@ import 'package:gearforce/models/mods/factionUpgrades/faction_mod.dart';
 import 'package:gearforce/models/mods/mods.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
+import 'package:gearforce/models/rules/south/md.dart' as md;
 import 'package:gearforce/models/rules/south/milicia.dart' as milicia;
 import 'package:gearforce/models/rules/south/sra.dart' as sra;
 import 'package:gearforce/models/traits/trait.dart';
@@ -17,6 +18,8 @@ const _southernIDBase = 'mod::faction::southern';
 const prideOfTheSouthId = '$_southernIDBase::10';
 const politicalOfficerId = '$_southernIDBase::20';
 const conscriptionId = '$_southernIDBase::30';
+const samuraiSpiritId = '$_southernIDBase::40';
+const metsukeId = '$_southernIDBase::50';
 
 class SouthernFactionMods extends FactionModification {
   SouthernFactionMods({
@@ -58,10 +61,10 @@ class SouthernFactionMods extends FactionModification {
       return true;
     };
 
-    final mvb = buildWeapon('LVB', hasReact: true);
-    assert(mvb != null);
+    final lvb = buildWeapon('LVB', hasReact: true);
+    assert(lvb != null);
     final vibroRapier = Weapon.fromWeapon(
-      mvb!,
+      lvb!,
       name: 'Vibro Rapier',
       addTraits: [Trait.Precise()],
     );
@@ -204,6 +207,134 @@ class SouthernFactionMods extends FactionModification {
         UnitAttribute.traits, createAddTraitToList(Trait.Conscript()),
         description: 'Adds the Conscript Trait');
 
+    return fm;
+  }
+
+/*
+  Samurai Spirit: Commanders and veterans, with the Hands trait, may purchase
+  the vibro-katana upgrade for 1 TV each. If a model takes this upgrade, it will also
+  receive the Brawl:1 trait or increase its Brawl:X trait by one. A vibro-katana is a
+  LVB (React, Precise).
+  */
+  factory SouthernFactionMods.samuraiSpirit(Unit unit) {
+    final RequirementCheck reqCheck = (
+      RuleSet? rs,
+      UnitRoster? ur,
+      CombatGroup? cg,
+      Unit u,
+    ) {
+      assert(cg != null);
+      assert(rs != null);
+
+      if (rs == null || !rs.isRuleEnabled(md.ruleSamuraiSpirit.id)) {
+        return false;
+      }
+
+      if (u.commandLevel == CommandLevel.none && !u.isVeteran) {
+        return false;
+      }
+      if (!u.traits.contains(Trait.Hands())) {
+        return false;
+      }
+
+      return true;
+    };
+
+    final lvb = buildWeapon('LVB', hasReact: true);
+    assert(lvb != null);
+    final vibroKatana = Weapon.fromWeapon(
+      lvb!,
+      name: 'Vibro Katana',
+      addTraits: [Trait.Precise()],
+    );
+
+    final fm = SouthernFactionMods(
+      name: 'Samurai Spirit',
+      requirementCheck: reqCheck,
+      id: samuraiSpiritId,
+    );
+
+    fm.addMod<int>(UnitAttribute.tv, createSimpleIntMod(1),
+        description: 'TV: +1');
+    fm.addMod<List<Weapon>>(
+        UnitAttribute.weapons, createAddWeaponToList(vibroKatana));
+    fm.addMod<List<Trait>>(UnitAttribute.traits, (value) {
+      var newList = new List<Trait>.from(value);
+
+      var newBrawl = Trait.Brawl(1);
+      if (newList.any((t) => newBrawl.name == t.name)) {
+        final existingBrawl =
+            newList.firstWhere((t) => newBrawl.name == t.name);
+        newBrawl = Trait.fromTrait(existingBrawl,
+            level: existingBrawl.level! + newBrawl.level!);
+        newList.remove(existingBrawl);
+      }
+
+      newList.add(newBrawl);
+
+      return newList;
+    },
+        description: 'Add Brawl:1 trait, or increase existing Brawl by 1 and' +
+            ' add a vibro-katana (LVB with React, Precise)');
+
+    return fm;
+  }
+
+  /*
+  MP models within one combat group may purchase the Shield+ trait
+  for 1 TV each. The Shield+ trait works just like a Shield trait but also adds +1D6
+  to defensive rolls from attacks originating from the front arc. The Shield+ trait
+  may not be stacked with cover modifiers.
+*/
+  factory SouthernFactionMods.metsuke(Unit unit) {
+    final RequirementCheck reqCheck = (
+      RuleSet? rs,
+      UnitRoster? ur,
+      CombatGroup? cg,
+      Unit u,
+    ) {
+      assert(cg != null);
+      assert(rs != null);
+
+      if (rs == null || !rs.isRuleEnabled(md.ruleMetsuke.id)) {
+        return false;
+      }
+
+      if (ur == null) {
+        return false;
+      }
+
+      if (!u.core.frame.contains('MP')) {
+        return false;
+      }
+
+      final unitsWithMod = ur
+          .unitsWithMod(metsukeId)
+          .where((unit) => unit.group?.combatGroup != cg);
+      if (unitsWithMod.isEmpty) {
+        return true;
+      }
+
+      return false;
+    };
+
+    final fm = SouthernFactionMods(
+      name: 'Metsuke',
+      requirementCheck: reqCheck,
+      id: metsukeId,
+    );
+
+    fm.addMod<int>(UnitAttribute.tv, createSimpleIntMod(-1),
+        description: 'TV: -1');
+    fm.addMod<List<Trait>>(
+        UnitAttribute.traits, createAddTraitToList(Trait.ShieldPlus()),
+        description: 'Adds the Shield+ Trait');
+    if (unit.traits.any((t) => t.name == Trait.Shield().name)) {
+      final traitToRemove =
+          unit.traits.firstWhere((t) => t.name == Trait.Shield().name);
+      fm.addMod<List<Trait>>(
+          UnitAttribute.traits, createRemoveTraitFromList(traitToRemove));
+    }
     return fm;
   }
 }

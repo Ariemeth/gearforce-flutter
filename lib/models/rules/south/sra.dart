@@ -40,17 +40,14 @@ class SRA extends South {
       : super(
           name: 'Southern Republic Army',
           subFactionRules: [
-            ruleVeteranLeaders,
+            north.ruleVeteranLeaders,
             rulePrideOfTheSouth,
             ruleAssultTroops,
             rulePoliticalOfficer,
-            ruleWellFunded,
+            umf.ruleWellFunded,
           ],
         );
 }
-
-final FactionRule ruleVeteranLeaders =
-    FactionRule.from(north.ruleVeteranLeaders);
 
 final FactionRule rulePrideOfTheSouth = FactionRule(
   name: 'Pride of the South',
@@ -97,5 +94,3 @@ final FactionRule rulePoliticalOfficer = FactionRule(
       ' commanders in the force. When there are no other commanders in the' +
       ' force, the PO will roll with a 5+ initiative skill.',
 );
-
-final FactionRule ruleWellFunded = FactionRule.from(umf.ruleWellFunded);

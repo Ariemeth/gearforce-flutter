@@ -32,15 +32,12 @@ class MILICIA extends South {
       : super(
           name: 'Military Intervention and Counter Insurgency Army',
           subFactionRules: [
-            ruleVeteranLeaders,
+            north.ruleVeteranLeaders,
             ruleConscription,
-            rulePoliticalOfficer,
+            sra.rulePoliticalOfficer,
           ],
         );
 }
-
-final FactionRule ruleVeteranLeaders =
-    FactionRule.from(north.ruleVeteranLeaders);
 
 final FactionRule ruleConscription = FactionRule(
   name: 'Conscription',
@@ -50,6 +47,3 @@ final FactionRule ruleConscription = FactionRule(
       ' non-veteran and non-duelist in the force if they do not already' +
       ' possess the trait. Reduce the TV of these models by 1 TV per action.',
 );
-
-final FactionRule rulePoliticalOfficer =
-    FactionRule.from(sra.rulePoliticalOfficer);

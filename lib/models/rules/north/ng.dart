@@ -4,6 +4,7 @@ import 'package:gearforce/models/rules/north/north.dart';
 import 'package:gearforce/models/rules/north/umf.dart' as umf;
 import 'package:gearforce/models/rules/north/wfp.dart' as wfp;
 import 'package:gearforce/models/rules/options/combat_group_options.dart';
+import 'package:gearforce/models/rules/peace_river/poc.dart' as poc;
 import 'package:gearforce/models/unit/role.dart';
 
 const String _baseRuleId = 'rule::ng';
@@ -103,7 +104,7 @@ List<String> _getPanNorthernRuleIds(String id) {
     umf.ruleLocalManufacturing.id,
     umf.ruleEWSpecialist.id,
     umf.ruleWellFunded.id,
-    umf.ruleMercenaryContract.id,
+    poc.ruleMercenaryContract.id,
     nlc.ruleChaplain.id,
     nlc.ruleWarriorMonks.id,
   ];
@@ -160,10 +161,10 @@ final FactionRule _ngWellFunded = FactionRule.from(
 );
 
 final FactionRule _ngMercContract = FactionRule.from(
-  umf.ruleMercenaryContract,
+  poc.ruleMercenaryContract,
   isEnabled: true,
   canBeToggled: true,
-  cgCheck: onlyOnePerCG(_getPanNorthernRuleIds(umf.ruleMercenaryContract.id)),
+  cgCheck: onlyOnePerCG(_getPanNorthernRuleIds(poc.ruleMercenaryContract.id)),
   combatGroupOption: () => _ngMercContract.buidCombatGroupOption(),
 );
 
