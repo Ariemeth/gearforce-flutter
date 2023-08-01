@@ -54,6 +54,9 @@ class _UnitModLineState extends State<UnitModLine> {
             maxLines: _maxUpgradeNameLines,
           ),
           ..._createModChanges(context, widget.mod, () {
+            // TODO This force notify is needed to update the options icon from
+            // red to green in the unit upgrade dialogue.  Should be able to
+            // have the options cause an update without using this force notify
             widget.unit.forceNotify();
           }),
         ],

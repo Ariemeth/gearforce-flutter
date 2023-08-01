@@ -4,7 +4,8 @@ import 'package:gearforce/models/mods/factionUpgrades/faction_mod.dart';
 import 'package:gearforce/models/mods/mods.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
-import 'package:gearforce/models/rules/south/sra.dart';
+import 'package:gearforce/models/rules/south/milicia.dart' as milicia;
+import 'package:gearforce/models/rules/south/sra.dart' as sra;
 import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/unit.dart';
@@ -15,6 +16,7 @@ import 'package:gearforce/models/weapons/weapons.dart';
 const _southernIDBase = 'mod::faction::southern';
 const prideOfTheSouthId = '$_southernIDBase::10';
 const politicalOfficerId = '$_southernIDBase::20';
+const conscriptionId = '$_southernIDBase::30';
 
 class SouthernFactionMods extends FactionModification {
   SouthernFactionMods({
@@ -42,7 +44,7 @@ class SouthernFactionMods extends FactionModification {
       assert(cg != null);
       assert(rs != null);
 
-      if (rs == null || !rs.isRuleEnabled(rulePrideOfTheSouth.id)) {
+      if (rs == null || !rs.isRuleEnabled(sra.rulePrideOfTheSouth.id)) {
         return false;
       }
 
@@ -114,7 +116,7 @@ class SouthernFactionMods extends FactionModification {
       assert(cg != null);
       assert(rs != null);
 
-      if (rs == null || !rs.isRuleEnabled(rulePoliticalOfficer.id)) {
+      if (rs == null || !rs.isRuleEnabled(sra.rulePoliticalOfficer.id)) {
         return false;
       }
 
@@ -156,6 +158,51 @@ class SouthernFactionMods extends FactionModification {
     fm.addMod(UnitAttribute.cp, createSimpleIntMod(1),
         description:
             'CP +1, Political Officers become third in command leaders');
+
+    return fm;
+  }
+/*
+  Conscription: You may add the Conscript trait to any non-commander,
+  non-veteran and non-duelist in the force if they do not already possess the trait.
+  Reduce the TV of these models by 1 TV per action.
+*/
+  factory SouthernFactionMods.conscription() {
+    final RequirementCheck reqCheck = (
+      RuleSet? rs,
+      UnitRoster? ur,
+      CombatGroup? cg,
+      Unit u,
+    ) {
+      assert(cg != null);
+      assert(rs != null);
+
+      if (rs == null || !rs.isRuleEnabled(milicia.ruleConscription.id)) {
+        return false;
+      }
+
+      if (u.isDuelist || u.isVeteran || u.commandLevel != CommandLevel.none) {
+        return false;
+      }
+
+      if ((u.traits.any((t) => t.name == Trait.Conscript().name)) &&
+          !u.hasMod(conscriptionId)) {
+        return false;
+      }
+
+      return true;
+    };
+
+    final fm = SouthernFactionMods(
+      name: 'Conscription',
+      requirementCheck: reqCheck,
+      id: conscriptionId,
+    );
+
+    fm.addMod<int>(UnitAttribute.tv, createSimpleIntMod(-1),
+        description: 'TV: -1');
+    fm.addMod<List<Trait>>(
+        UnitAttribute.traits, createAddTraitToList(Trait.Conscript()),
+        description: 'Adds the Conscript Trait');
 
     return fm;
   }

@@ -2,6 +2,7 @@ import 'package:gearforce/models/factions/faction_rule.dart';
 import 'package:gearforce/models/mods/factionUpgrades/south.dart';
 import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart';
 import 'package:gearforce/models/rules/north/umf.dart' as umf;
+import 'package:gearforce/models/rules/north/north.dart' as north;
 import 'package:gearforce/models/rules/south/south.dart';
 import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/model_type.dart';
@@ -48,18 +49,8 @@ class SRA extends South {
         );
 }
 
-final ruleVeteranLeaders = FactionRule(
-  name: 'Veteran Leaders',
-  id: '$_baseRuleId::10',
-  veteranCheckOverride: (u, cg) {
-    if (u.commandLevel != CommandLevel.none) {
-      return true;
-    }
-    return null;
-  },
-  description: 'You may purchase the Vet trait for any commander in the' +
-      ' force without counting against the normal veteran limitations',
-);
+final FactionRule ruleVeteranLeaders =
+    FactionRule.from(north.ruleVeteranLeaders);
 
 final FactionRule rulePrideOfTheSouth = FactionRule(
   name: 'Pride of the South',

@@ -304,8 +304,6 @@ class Unit extends ChangeNotifier {
 
     _commandLevel = cl;
 
-    validate(tryFix: true);
-
     notifyListeners();
   }
 
@@ -620,7 +618,6 @@ class Unit extends ChangeNotifier {
       rule.onModRemoved!(this, mod.id);
     });
 
-    validate(tryFix: true);
     notifyListeners();
   }
 
@@ -646,13 +643,17 @@ class Unit extends ChangeNotifier {
     }
 
     if (tryFix) {
-      _mods.removeWhere((mod) {
+      final modsToRemove = _mods.where((mod) {
         return !mod.requirementCheck(
           roster!.rulesetNotifer.value,
           roster,
           cg,
           this,
         );
+      }).toList();
+
+      modsToRemove.forEach((mod) {
+        removeUnitMod(mod.id);
       });
 
       _mods.forEach((m) {
@@ -663,7 +664,6 @@ class Unit extends ChangeNotifier {
           _mods[_mods.indexWhere((mod) => mod.id == updatedMod.id)];
         }
       });
-      notifyListeners();
     } else {
       _mods.forEach((mod) {
         if (!mod.requirementCheck(
@@ -677,10 +677,6 @@ class Unit extends ChangeNotifier {
                   'mod ${mod.id} does not met its requirement check during validation'));
         }
       });
-    }
-
-    if (validationErrors.isNotEmpty) {
-      notifyListeners();
     }
 
     return validationErrors;

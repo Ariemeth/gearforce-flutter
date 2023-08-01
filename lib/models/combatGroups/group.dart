@@ -73,8 +73,6 @@ class Group extends ChangeNotifier {
 
     _role = role;
 
-    validate(tryFix: true);
-
     notifyListeners();
   }
 
