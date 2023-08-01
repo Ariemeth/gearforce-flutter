@@ -2,3 +2,5 @@ Some faction rules apply to all models of that faction such as Task Built which 
 not sure this is true anymore
 
 may need to add a way to ignore all validation checks until after a roster is loaded.  
+
+add force leader to printed sheets including the unit card
