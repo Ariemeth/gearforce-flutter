@@ -417,7 +417,7 @@ class UnitRoster extends ChangeNotifier {
     }
 
     _combatGroups.forEach((key, cg) {
-      final ve = cg.validate();
+      final ve = cg.validate(tryFix: true);
       if (ve.isNotEmpty) {
         validationErrors.addAll(ve);
       }

@@ -93,7 +93,7 @@ class Faction {
     final rulesets = [
       South(data, name: _emptySubFactionName),
       South.SRA(data),
-      // South.MILICIA(data),
+      South.MILICIA(data),
       // South.MD(data),
       // South.ESE(data),
       // South.FHA(data),

@@ -1,4 +1,10 @@
+import 'package:gearforce/models/factions/faction_rule.dart';
+import 'package:gearforce/models/mods/factionUpgrades/south.dart';
+import 'package:gearforce/models/rules/north/north.dart' as north;
 import 'package:gearforce/models/rules/south/south.dart';
+import 'package:gearforce/models/rules/south/sra.dart' as sra;
+
+const String _baseRuleId = 'rule::milicia';
 
 /*
   MILICIA - Military Intervention and
@@ -25,6 +31,25 @@ class MILICIA extends South {
   MILICIA(super.data)
       : super(
           name: 'Military Intervention and Counter Insurgency Army',
-          subFactionRules: [],
+          subFactionRules: [
+            ruleVeteranLeaders,
+            ruleConscription,
+            rulePoliticalOfficer,
+          ],
         );
 }
+
+final FactionRule ruleVeteranLeaders =
+    FactionRule.from(north.ruleVeteranLeaders);
+
+final FactionRule ruleConscription = FactionRule(
+  name: 'Conscription',
+  id: '$_baseRuleId::20',
+  factionMod: (ur, cg, u) => SouthernFactionMods.conscription(),
+  description: 'You may add the Conscript trait to any non-commander,' +
+      ' non-veteran and non-duelist in the force if they do not already' +
+      ' possess the trait. Reduce the TV of these models by 1 TV per action.',
+);
+
+final FactionRule rulePoliticalOfficer =
+    FactionRule.from(sra.rulePoliticalOfficer);

@@ -96,9 +96,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
         return SingleChildScrollView(child: table);
       },
       onAccept: (Unit u) {
-        setState(() {
-          group.addUnit(Unit.from(u));
-        });
+        group.addUnit(Unit.from(u));
       },
       onWillAccept: (Unit? u) {
         if (u == null) {

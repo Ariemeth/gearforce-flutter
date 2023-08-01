@@ -61,6 +61,8 @@ FactionModification? factionModFromId(String id, UnitRoster ur, Unit u) {
       return SouthernFactionMods.prideOfTheSouth(u);
     case politicalOfficerId:
       return SouthernFactionMods.politicalOfficer();
+    case conscriptionId:
+      return SouthernFactionMods.conscription();
   }
   return null;
 }
