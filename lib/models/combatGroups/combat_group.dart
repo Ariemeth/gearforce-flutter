@@ -75,9 +75,8 @@ class CombatGroup extends ChangeNotifier {
       }
     }
     _isVeteran = value;
-    if (!value) {
-      notifyListeners();
-    }
+
+    notifyListeners();
   }
 
   bool get isEliteForce => roster != null && roster!.isEliteForce;

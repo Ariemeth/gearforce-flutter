@@ -710,6 +710,16 @@ class Trait {
     );
   }
 
+  factory Trait.ShieldPlus() {
+    return const Trait(
+      name: 'Shield+',
+      description: 'This model may reroll defense rolls if the attack' +
+          ' originated from within its front arc. Shield+ also adds +1D6 to' +
+          ' defensive rolls from attacks originating from the front arc. The' +
+          ' Shield+ trait may not be stacked with cover modifiers.',
+    );
+  }
+
   factory Trait.Silent() {
     return const Trait(
       name: 'Silent',

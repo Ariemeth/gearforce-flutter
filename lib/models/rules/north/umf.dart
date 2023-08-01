@@ -34,7 +34,7 @@ class UMF extends North {
             ruleLocalManufacturing,
             ruleEWSpecialist,
             ruleWellFunded,
-            ruleMercenaryContract,
+            poc.ruleMercenaryContract,
           ],
         );
 }
@@ -143,9 +143,4 @@ final FactionRule ruleWellFunded = FactionRule(
   factionMod: (ur, cg, u) => NorthernFactionMods.wellFunded(),
   description: 'Two models in each combat group may purchase one veteran' +
       ' upgrade without making them veterans.',
-);
-
-final FactionRule ruleMercenaryContract = FactionRule.from(
-  poc.ruleMercenaryContract,
-  id: '$_baseRuleId::mercenaryContract',
 );

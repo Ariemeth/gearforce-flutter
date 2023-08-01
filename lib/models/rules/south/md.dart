@@ -1,4 +1,9 @@
+import 'package:gearforce/models/factions/faction_rule.dart';
+import 'package:gearforce/models/mods/factionUpgrades/south.dart';
+import 'package:gearforce/models/rules/peace_river/poc.dart' as poc;
 import 'package:gearforce/models/rules/south/south.dart';
+
+const String _baseRuleId = 'rule::md';
 
 /*
   MD - Mekong Dominion
@@ -25,6 +30,51 @@ class MD extends South {
   MD(super.data)
       : super(
           name: 'Mekong Dominion',
-          subFactionRules: [],
+          subFactionRules: [
+            ruleMekongeseExcellence,
+            ruleSamuraiSpirit,
+            ruleMetsuke,
+            poc.ruleMercenaryContract,
+          ],
         );
 }
+
+final FactionRule ruleMekongeseExcellence = FactionRule(
+  name: 'Mekongese Excellence',
+  id: '$_baseRuleId::10',
+  veteranCheckOverride: (u, cg) {
+    final forceLeader = cg.roster?.selectedForceLeader;
+    if (forceLeader == null) {
+      return null;
+    }
+
+    if (forceLeader.group == u.group) {
+      return true;
+    }
+
+    return null;
+  },
+  description: 'All models in the force leader’s combat group may purchase' +
+      ' the Vet trait. This does not count against the veteran limits.',
+);
+
+final FactionRule ruleSamuraiSpirit = FactionRule(
+  name: 'Samurai Spirit',
+  id: '$_baseRuleId::20',
+  factionMod: (ur, cg, u) => SouthernFactionMods.samuraiSpirit(u),
+  description: 'Commanders and veterans, with the Hands trait, may purchase' +
+      ' the vibro-katana upgrade for 1 TV each. If a model takes this' +
+      ' upgrade, it will also receive the Brawl:1 trait or increase its' +
+      ' Brawl:X trait by one. A vibro-katana is a LVB (React, Precise).',
+);
+
+final FactionRule ruleMetsuke = FactionRule(
+  name: 'Metsuke:',
+  id: '$_baseRuleId::30',
+  factionMod: (ur, cg, u) => SouthernFactionMods.metsuke(u),
+  description: 'MP models within one combat group may purchase the Shield+' +
+      ' trait for 1 TV each. The Shield+ trait works just like a Shield trait' +
+      ' but also adds +1D6 to defensive rolls from attacks originating from' +
+      ' the front arc. The Shield+ trait may not be stacked with cover' +
+      ' modifiers.',
+);
