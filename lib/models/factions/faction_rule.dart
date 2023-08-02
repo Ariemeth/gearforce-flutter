@@ -59,7 +59,8 @@ class FactionRule extends ChangeNotifier {
   final bool Function(CombatGroup?, UnitRoster?) cgCheck;
 
   final bool? Function(UnitRoster roster, Unit u)? duelistModelCheck;
-  final int? Function(Unit u)? duelistMaxNumberOverride;
+  final int? Function(UnitRoster roster, CombatGroup cg, Unit u)?
+      duelistMaxNumberOverride;
 
   final List<CommandLevel>? Function(Unit u)? availableCommandLevelOverride;
 

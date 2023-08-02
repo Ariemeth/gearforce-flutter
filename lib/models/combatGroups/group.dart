@@ -194,6 +194,8 @@ class Group extends ChangeNotifier {
     return _units.where((u) => u.isDuelist).length;
   }
 
+  List<Unit> get duelists => _units.where((unit) => unit.isDuelist).toList();
+
   List<Validation> validate({bool tryFix = false}) {
     final List<Validation> validationErrors = [];
 

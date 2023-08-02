@@ -39,20 +39,12 @@ class South extends RuleSet {
   List<SpecialUnitFilter> availableUnitFilters(
     List<CombatGroupOption>? cgOptions,
   ) {
-    final filters = [
-      const SpecialUnitFilter(
-        text: coreName,
-        id: coreTag,
-        filters: const [
-          const UnitFilter(FactionType.South),
-          const UnitFilter(FactionType.Airstrike),
-          const UnitFilter(FactionType.Universal),
-          const UnitFilter(FactionType.Universal_TerraNova),
-          const UnitFilter(FactionType.Terrain),
-        ],
-      ),
-    ];
-    return [...filters, ...super.availableUnitFilters(cgOptions)];
+    final coreFilter = const SpecialUnitFilter(
+      text: coreName,
+      id: coreTag,
+      filters: SouthFilters,
+    );
+    return [coreFilter, ...super.availableUnitFilters(cgOptions)];
   }
 
   factory South.SRA(Data data) => SRA(data);
@@ -61,6 +53,14 @@ class South extends RuleSet {
   factory South.ESE(Data data) => ESE(data);
   factory South.FHA(Data data) => FHA(data);
 }
+
+const SouthFilters = const [
+  const UnitFilter(FactionType.South),
+  const UnitFilter(FactionType.Airstrike),
+  const UnitFilter(FactionType.Universal),
+  const UnitFilter(FactionType.Universal_TerraNova),
+  const UnitFilter(FactionType.Terrain),
+];
 
 final FactionRule rulePoliceState = FactionRule(
   name: 'Police State',

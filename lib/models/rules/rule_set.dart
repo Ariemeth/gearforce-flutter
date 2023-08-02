@@ -41,7 +41,6 @@ abstract class RuleSet extends ChangeNotifier {
   final FactionType type;
   final String? description;
   final String name;
-  final List<Unit> _unitCache = [];
   final List<FactionRule> _factionRules = [];
   final List<FactionRule> _subFactionRules = [];
 
@@ -66,7 +65,6 @@ abstract class RuleSet extends ChangeNotifier {
     });
     _factionRules.addAll(factionRules);
     _subFactionRules.addAll(subFactionRules);
-    _buildCache();
   }
 
   List<FactionRule> get allFactionRules => [
@@ -121,9 +119,12 @@ abstract class RuleSet extends ChangeNotifier {
   }
 
   List<SpecialUnitFilter> availableUnitFilters(
-      List<CombatGroupOption>? cgOptions) {
-    final availableUnitFilterRules =
-        allEnabledRules(cgOptions).where((rule) => rule.unitFilter != null);
+    List<CombatGroupOption>? cgOptions,
+  ) {
+    final availableUnitFilterRules = [];
+
+    availableUnitFilterRules.addAll(
+        allEnabledRules(cgOptions).where((rule) => rule.unitFilter != null));
 
     final List<SpecialUnitFilter> availableUnitFilters = [];
     availableUnitFilterRules.forEach((rule) {
@@ -138,29 +139,15 @@ abstract class RuleSet extends ChangeNotifier {
     List<String>? characterFilters,
     required SpecialUnitFilter specialUnitFilter,
   }) {
-    List<Unit> results = _unitCache
-        .where((unit) => specialUnitFilter.anyMatch(unit.core))
-        .toList();
-    if (results.isEmpty) {
-      _buildCache();
-      _unitCache
-          .where((unit) => specialUnitFilter.anyMatch(unit.core))
-          .toList();
-    }
-
-    if (role != null && role.isNotEmpty) {
-      results = results.where((u) {
-        if (u.role != null) {
-          return u.role!.includesRole(role);
-        }
-        return false;
-      }).toList();
-    }
-
-    if (characterFilters != null) {
-      results =
-          results.where((u) => u.core.contains(characterFilters)).toList();
-    }
+    final List<Unit> results = [];
+    data
+        .getUnitsByFilter(
+            filters: specialUnitFilter.filters,
+            roleFilter: role,
+            characterFilters: characterFilters)
+        .forEach((uc) {
+      results.add(Unit(core: uc));
+    });
 
     return results;
   }
@@ -281,7 +268,7 @@ abstract class RuleSet extends ChangeNotifier {
     return cgOptions;
   }
 
-  bool duelistCheck(UnitRoster roster, Unit u) {
+  bool duelistCheck(UnitRoster roster, CombatGroup cg, Unit u) {
     // Check if any faction rules override the default duelist check.  If any
     // result is false, then the check is failed.  If all results returned are
     // true, continue the check
@@ -306,7 +293,7 @@ abstract class RuleSet extends ChangeNotifier {
             .where((rule) => rule.duelistMaxNumberOverride != null);
     if (maxDuelistCountOverrides.isNotEmpty) {
       final countOverrideValues = maxDuelistCountOverrides
-          .map((r) => r.duelistMaxNumberOverride!(u))
+          .map((r) => r.duelistMaxNumberOverride!(roster, cg, u))
           .where((result) => result != null);
 
       int? maxOverrride;
@@ -324,7 +311,8 @@ abstract class RuleSet extends ChangeNotifier {
         maxAllowedDuelist = maxOverrride!;
       }
     }
-    return roster.duelistCount < maxAllowedDuelist;
+    return roster.duelists.where((unit) => unit != u).length <
+        maxAllowedDuelist;
   }
 
   // Ensure the target Roletype is within the Roles
@@ -499,19 +487,5 @@ abstract class RuleSet extends ChangeNotifier {
     }
 
     return (u.traits.any((trait) => trait.name == 'Vet'));
-  }
-
-  void _buildCache() {
-    availableUnitFilters(null).forEach((specialUnitFilter) {
-      data
-          .getUnitsByFilter(
-        filters: specialUnitFilter.filters,
-        roleFilter: null,
-        characterFilters: null,
-      )
-          .forEach((uc) {
-        _unitCache.add(Unit(core: uc));
-      });
-    });
   }
 }

@@ -58,10 +58,14 @@ class DuelistModification extends BaseModification {
         id: duelistId,
         requirementCheck:
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+          assert(cg != null);
           if (u.hasMod(duelistId)) {
             return true;
           }
-          if (!roster.rulesetNotifer.value.duelistCheck(roster, u)) {
+          if (cg == null) {
+            return false;
+          }
+          if (!roster.rulesetNotifer.value.duelistCheck(roster, cg, u)) {
             return false;
           }
 
