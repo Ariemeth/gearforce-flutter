@@ -41,7 +41,8 @@ class NuCoal extends RuleSet {
 
   @override
   List<SpecialUnitFilter> availableUnitFilters(
-      List<CombatGroupOption>? cgOptions) {
+    List<CombatGroupOption>? cgOptions,
+  ) {
     final filters = [
       const SpecialUnitFilter(
         text: coreName,

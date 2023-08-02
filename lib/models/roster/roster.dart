@@ -398,6 +398,14 @@ class UnitRoster extends ChangeNotifier {
     return result;
   }
 
+  List<Unit> get duelists {
+    final List<Unit> results = [];
+    _combatGroups.forEach((_, cg) {
+      results.addAll(cg.duelists);
+    });
+    return results;
+  }
+
   int totalAirstrikeCounters() {
     var total = 0;
     _combatGroups.forEach((key, cg) {

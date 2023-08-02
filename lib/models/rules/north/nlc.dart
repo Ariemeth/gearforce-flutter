@@ -79,7 +79,7 @@ final FactionRule ruleWarriorMonks = FactionRule(
 final FactionRule ruleThePride = FactionRule(
   name: 'The Pride',
   id: '$_baseRuleId::thePride',
-  duelistMaxNumberOverride: (u) => 2,
+  duelistMaxNumberOverride: (roster, cg, u) => 2,
   onModAdded: (unit, modId) {
     if (modId != duelistId) {
       return;
