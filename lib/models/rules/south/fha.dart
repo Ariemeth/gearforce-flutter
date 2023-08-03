@@ -7,7 +7,6 @@ import 'package:gearforce/models/mods/duelist/duelist_modification.dart'
 import 'package:gearforce/models/rules/options/special_unit_filter.dart';
 import 'package:gearforce/models/rules/south/milicia.dart' as milicia;
 import 'package:gearforce/models/rules/south/south.dart';
-import 'package:gearforce/screens/unitSelector/selection_filters.dart';
 
 const String _baseRuleId = 'rule::fha';
 
