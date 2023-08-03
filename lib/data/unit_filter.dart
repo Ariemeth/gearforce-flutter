@@ -33,3 +33,8 @@ bool matchPossibleDuelist(UnitCore uc) {
   return uc.type == ModelType.Gear &&
       !uc.traits.any((t) => t.name == Trait.Conscript().name);
 }
+
+/// Match all units except GREL
+bool matchNoGREL(UnitCore uc) {
+  return !uc.name.contains('GREL');
+}

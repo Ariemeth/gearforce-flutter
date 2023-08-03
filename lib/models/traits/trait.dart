@@ -348,6 +348,14 @@ class Trait {
     );
   }
 
+  factory Trait.Duelist() {
+    return const Trait(
+      name: 'Duelist',
+      description: 'A model with the Duelist trait may purchase veteran and' +
+          'duelist upgrades.  Typically only 1 per force.',
+    );
+  }
+
   factory Trait.ECM() {
     return const Trait(
       name: 'ECM',
