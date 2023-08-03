@@ -2,7 +2,8 @@ import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/mods/base_modification.dart';
 import 'package:gearforce/models/mods/modification_option.dart';
 import 'package:gearforce/models/mods/mods.dart';
-import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart';
+import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart'
+    as vetMod;
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/traits/trait.dart';
@@ -50,10 +51,8 @@ class DuelistModification extends BaseModification {
         );
 
   factory DuelistModification.makeDuelist(Unit u, UnitRoster roster) {
-    final traits = u.traits.toList();
-    final isVet =
-        traits.any((element) => element.name == 'Vet') || u.hasMod(veteranId);
-    var mod = DuelistModification(
+    final isVet = u.isVeteran;
+    final mod = DuelistModification(
         name: 'Duelist Upgrade',
         id: duelistId,
         requirementCheck:
@@ -65,18 +64,14 @@ class DuelistModification extends BaseModification {
           if (cg == null) {
             return false;
           }
-          if (!roster.rulesetNotifer.value.duelistCheck(roster, cg, u)) {
-            return false;
-          }
-
-          return !traits.any((trait) => trait.name == 'Duelist');
+          return roster.rulesetNotifer.value.duelistCheck(roster, cg, u);
         });
     mod.addMod<int>(
       UnitAttribute.tv,
       (value) {
         return createSimpleIntMod(
           u.core.traits.any((trait) => trait.name == 'Vet') ||
-                  u.hasMod(veteranId)
+                  u.hasMod(vetMod.veteranId)
               ? 0
               : 2,
         )(value);
@@ -114,6 +109,9 @@ class DuelistModification extends BaseModification {
         id: independentOperatorId,
         requirementCheck:
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+          assert(rs != null);
+          assert(ur != null);
+
           if (u.hasMod(leadByExampleId)) {
             return false;
           }
@@ -129,7 +127,7 @@ class DuelistModification extends BaseModification {
             return false;
           }
 
-          return u.isDuelist;
+          return rs!.duelistModCheck(u, cg, modID: independentOperatorId);
         })
       ..addMod(
         UnitAttribute.traits,
@@ -168,11 +166,14 @@ class DuelistModification extends BaseModification {
         id: leadByExampleId,
         requirementCheck:
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+          assert(rs != null);
+          assert(cg != null);
+
           if (u.hasMod(independentOperatorId)) {
             return false;
           }
 
-          return u.isDuelist;
+          return rs!.duelistModCheck(u, cg!, modID: leadByExampleId);
         })
       ..addMod(
         UnitAttribute.traits,
@@ -197,10 +198,13 @@ class DuelistModification extends BaseModification {
         id: advancedControlSystemId,
         requirementCheck:
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+          assert(rs != null);
+          assert(cg != null);
+
           if (u.actions != null && u.actions! >= 3) {
             return false;
           }
-          return u.isDuelist;
+          return rs!.duelistModCheck(u, cg!, modID: advancedControlSystemId);
         })
       ..addMod<int>(UnitAttribute.tv, (value) {
         if (u.armor == null) {
@@ -211,14 +215,17 @@ class DuelistModification extends BaseModification {
       }, dynamicDescription: () {
         return 'TV +${u.armor != null ? u.armor! >= 8 ? 3 : 2 : 0}';
       })
-      ..addMod<int>(UnitAttribute.actions, (value) {
-        if (value >= 3) {
-          return value;
-        }
-        return value + 1;
-      },
-          description:
-              'Gain +1 action point. All models have a maximum of 3 actions');
+      ..addMod<int>(
+        UnitAttribute.actions,
+        (value) {
+          if (value >= 3) {
+            return value;
+          }
+          return value + 1;
+        },
+        description:
+            'Gain +1 action point. All models have a maximum of 3 actions',
+      );
   }
 
   /*
@@ -229,7 +236,7 @@ class DuelistModification extends BaseModification {
   */
   factory DuelistModification.stable(Unit u) {
     final List<ModificationOption> _options = [];
-    const traitToAdd = const Trait(name: 'Stable');
+    final traitToAdd = Trait.Stable();
 
     u.weapons.forEach((weapon) {
       _options.add(ModificationOption('${weapon.toString()}'));
@@ -248,15 +255,20 @@ class DuelistModification extends BaseModification {
         },
         requirementCheck:
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
-          return u.isDuelist;
+          assert(rs != null);
+          assert(cg != null);
+          return rs!.duelistModCheck(u, cg!, modID: stableId);
         })
-      ..addMod<int>(UnitAttribute.tv, (value) {
-        return value +
-            _comboNotComboCost(modOptions.selectedOption,
-                comboCost: 3, nonComboCost: 2);
-      },
-          description:
-              'TV +2/3, Add Stable to a weapon for TV +3 for combo weapons or +2 for regular weapons')
+      ..addMod<int>(
+        UnitAttribute.tv,
+        (value) {
+          return value +
+              _comboNotComboCost(modOptions.selectedOption,
+                  comboCost: 3, nonComboCost: 2);
+        },
+        description: 'TV +2/3, Add Stable to a weapon for TV +3 for combo' +
+            ' weapons or +2 for regular weapons',
+      )
       ..addMod<List<Weapon>>(UnitAttribute.weapons, (value) {
         final newList = value.toList();
 
@@ -282,7 +294,7 @@ class DuelistModification extends BaseModification {
   */
   factory DuelistModification.precise(Unit u) {
     final List<ModificationOption> _options = [];
-    const traitToAdd = const Trait(name: 'Precise');
+    final traitToAdd = Trait.Precise();
 
     u.weapons.forEach((weapon) {
       _options.add(ModificationOption('${weapon.toString()}'));
@@ -298,7 +310,9 @@ class DuelistModification extends BaseModification {
         options: modOptions,
         requirementCheck:
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
-          return u.isDuelist;
+          assert(rs != null);
+          assert(cg != null);
+          return rs!.duelistModCheck(u, cg!, modID: preciseId);
         },
         refreshData: () {
           return DuelistModification.precise(u);
@@ -308,8 +322,8 @@ class DuelistModification extends BaseModification {
             _comboNotComboCost(modOptions.selectedOption,
                 comboCost: 2, nonComboCost: 1);
       },
-          description:
-              'TV +1/2, Add Precise to a weapon for TV +2 for combo weapons or +1 for regular weapons')
+          description: 'TV +1/2, Add Precise to a weapon for TV +2 for' +
+              ' combo weapons or +1 for regular weapons')
       ..addMod<List<Weapon>>(UnitAttribute.weapons, (value) {
         final newList = value.toList();
 
@@ -334,7 +348,7 @@ class DuelistModification extends BaseModification {
   factory DuelistModification.auto(Unit u) {
     final react = u.reactWeapons;
     final List<ModificationOption> _options = [];
-    const traitToAdd = const Trait(name: 'Auto');
+    final traitToAdd = Trait.Auto();
 
     final availableWeapons = react.where((weapon) =>
         weapon.modes.any((mode) => mode != weaponModes.Melee) ||
@@ -354,6 +368,8 @@ class DuelistModification extends BaseModification {
         options: modOptions,
         requirementCheck:
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+          assert(rs != null);
+          assert(cg != null);
           if (u.reactWeapons
               .where((weapon) =>
                   weapon.modes.any((mode) => mode != weaponModes.Melee) ||
@@ -361,7 +377,7 @@ class DuelistModification extends BaseModification {
               .isEmpty) {
             return false;
           }
-          return u.isDuelist;
+          return rs!.duelistModCheck(u, cg!, modID: autoId);
         },
         refreshData: () {
           return DuelistModification.auto(u);
@@ -400,6 +416,8 @@ class DuelistModification extends BaseModification {
         id: aceGunnerId,
         requirementCheck:
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+          assert(rs != null);
+          assert(cg != null);
           final matchingWeapons = u.weapons
               .where((weapon) => allowedWeaponMatch.hasMatch(weapon.code));
 
@@ -407,7 +425,7 @@ class DuelistModification extends BaseModification {
             return false;
           }
 
-          return u.isDuelist;
+          return rs!.duelistModCheck(u, cg!, modID: aceGunnerId);
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
       ..addMod(UnitAttribute.traits,
@@ -442,11 +460,14 @@ class DuelistModification extends BaseModification {
         id: trickShotId,
         requirementCheck:
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+          assert(rs != null);
+          assert(cg != null);
+
           if (!u.traits.any((element) => _handsMatch.hasMatch(element.name))) {
             return false;
           }
 
-          return true;
+          return rs!.duelistModCheck(u, cg!, modID: trickShotId);
         })
       ..addMod(
         UnitAttribute.tv,
@@ -468,7 +489,7 @@ class DuelistModification extends BaseModification {
   factory DuelistModification.dualMeleeWeapons(Unit u) {
     final RegExp meleeCheck = RegExp(r'(VB|CW|SG)');
     final List<ModificationOption> _options = [];
-    const traitToAdd = const Trait(name: 'Link');
+    final traitToAdd = Trait.Link();
 
     final allWeapons = u.weapons;
     allWeapons
@@ -487,7 +508,9 @@ class DuelistModification extends BaseModification {
         options: modOptions,
         requirementCheck:
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
-          return u.isDuelist;
+          assert(rs != null);
+          assert(cg != null);
+          return rs!.duelistModCheck(u, cg!, modID: dualMeleeWeaponsId);
         },
         refreshData: () {
           return DuelistModification.dualMeleeWeapons(u);
@@ -518,16 +541,19 @@ class DuelistModification extends BaseModification {
   */
   factory DuelistModification.agile() {
     final RegExp traitCheck = RegExp(r'(Agile|Lumbering)');
-    final Trait newTrait = const Trait(name: 'Agile');
+    final Trait newTrait = Trait.Agile();
     return DuelistModification(
         name: 'Agile',
         id: agileId,
         requirementCheck:
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+          assert(rs != null);
+          assert(cg != null);
+
           if (u.traits.any((trait) => traitCheck.hasMatch(trait.name))) {
             return false;
           }
-          return u.isDuelist;
+          return rs!.duelistModCheck(u, cg!, modID: agileId);
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
       ..addMod(UnitAttribute.traits, createAddTraitToList(newTrait),
@@ -542,14 +568,16 @@ class DuelistModification extends BaseModification {
   models with an armor of 8 or higher.
   */
   factory DuelistModification.shield(Unit u) {
-    final Trait newTrait = const Trait(name: 'Shield');
+    final Trait newTrait = Trait.Shield();
 
     return DuelistModification(
         name: 'Shield',
         id: shieldId,
         requirementCheck:
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
-          return u.isDuelist;
+          assert(rs != null);
+          assert(cg != null);
+          return rs!.duelistModCheck(u, cg!, modID: shieldId);
         })
       ..addMod<int>(
         UnitAttribute.tv,
@@ -598,7 +626,9 @@ class DuelistModification extends BaseModification {
         options: modOptions,
         requirementCheck:
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
-          return u.isDuelist;
+          assert(rs != null);
+          assert(cg != null);
+          return rs!.duelistModCheck(u, cg!, modID: meleeUpgradeId);
         },
         refreshData: () {
           return DuelistModification.meleeUpgrade(u);
@@ -634,10 +664,12 @@ class DuelistModification extends BaseModification {
         id: ecmId,
         requirementCheck:
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+          assert(rs != null);
+          assert(cg != null);
           if (!u.traits.any((trait) => traitCheck.hasMatch(trait.name))) {
             return false;
           }
-          return u.isDuelist;
+          return rs!.duelistModCheck(u, cg!, modID: ecmId);
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
       ..addMod<List<Trait>>(UnitAttribute.traits, (value) {

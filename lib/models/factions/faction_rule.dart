@@ -19,6 +19,7 @@ class FactionRule extends ChangeNotifier {
     this.canBeToggled = false,
     this.requirementCheck = ruleAlwaysAvailable,
     this.cgCheck = alwaysTrueCG,
+    this.duelistModCheck,
     this.duelistModelCheck,
     this.duelistMaxNumberOverride,
     this.availableCommandLevelOverride,
@@ -59,12 +60,26 @@ class FactionRule extends ChangeNotifier {
   final bool Function(CombatGroup?, UnitRoster?) cgCheck;
 
   final bool? Function(UnitRoster roster, Unit u)? duelistModelCheck;
-  final int? Function(UnitRoster roster, CombatGroup cg, Unit u)?
-      duelistMaxNumberOverride;
+
+  /// Overrides the requirement to be a duelist for a specific duelist upgrade.
+  /// Return true if the duelist upgrade can be acquired.  False if this model
+  /// absolutely should not have the upgrade (rare), or null if this rule does
+  /// not apply.
+  final bool? Function(
+    Unit u,
+    CombatGroup cg, {
+    required String modID,
+  })? duelistModCheck;
+
+  final int? Function(
+    UnitRoster roster,
+    CombatGroup cg,
+    Unit u,
+  )? duelistMaxNumberOverride;
 
   final List<CommandLevel>? Function(Unit u)? availableCommandLevelOverride;
 
-  /// Overrides the requirement to be a veteran add a specific veteran upgrade.
+  /// Overrides the requirement to be a veteran for a specific veteran upgrade.
   /// Return true if the veteran upgrade can be acquired.  False if this model
   /// absolutely should not have the upgrade (rare), or null if this rule does
   /// not apply.
@@ -214,6 +229,7 @@ class FactionRule extends ChangeNotifier {
       requirementCheck: requirementCheck != null
           ? requirementCheck
           : original.requirementCheck,
+      duelistModCheck: original.duelistModCheck,
       duelistModelCheck: original.duelistModelCheck,
       duelistMaxNumberOverride: original.duelistMaxNumberOverride,
       availableCommandLevelOverride: original.availableCommandLevelOverride,

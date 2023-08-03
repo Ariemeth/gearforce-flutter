@@ -11,6 +11,7 @@ import 'package:gearforce/models/mods/factionUpgrades/faction_mod.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/rules/options/combat_group_options.dart';
 import 'package:gearforce/models/rules/options/special_unit_filter.dart';
+import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/model_type.dart';
 import 'package:gearforce/models/unit/role.dart';
@@ -311,8 +312,30 @@ abstract class RuleSet extends ChangeNotifier {
         maxAllowedDuelist = maxOverrride!;
       }
     }
-    return roster.duelists.where((unit) => unit != u).length <
-        maxAllowedDuelist;
+    if (roster.duelists.where((unit) => unit != u).length >=
+        maxAllowedDuelist) {
+      return false;
+    }
+    return !u.traits.any((trait) => trait.name == Trait.Duelist().name);
+  }
+
+  bool duelistModCheck(Unit u, CombatGroup cg, {required String modID}) {
+    final duelistModCheckOverrides = allEnabledRules(cg.options).where((rule) =>
+        rule.duelistModCheck != null &&
+        rule.duelistModCheck!(u, cg, modID: modID) != null);
+
+    final overrideValues = duelistModCheckOverrides
+        .map((r) => r.duelistModCheck!(u, cg, modID: modID))
+        .where((result) => result != null);
+
+    if (overrideValues.isNotEmpty) {
+      if (overrideValues.any((status) => status == false)) {
+        return false;
+      }
+      return true;
+    }
+
+    return (u.traits.any((trait) => trait.name == Trait.Duelist().name));
   }
 
   // Ensure the target Roletype is within the Roles
@@ -442,9 +465,15 @@ abstract class RuleSet extends ChangeNotifier {
     return minOverrideValue;
   }
 
-  bool vetCheck(CombatGroup cg, Unit u) {
+  bool vetCheck(
+    CombatGroup cg,
+    Unit u, {
+    List<String> ruleExclusions = const [],
+  }) {
     final vetCheckOverrideRules = allEnabledRules(cg.options)
-        .where((rule) => rule.veteranCheckOverride != null);
+        .where((rule) => rule.veteranCheckOverride != null)
+        .where((rule) => !ruleExclusions.any((ruleId) => ruleId == rule.id))
+        .toList();
     if (vetCheckOverrideRules.isNotEmpty) {
       final overrideValues = vetCheckOverrideRules.map((r) {
         final result = r.veteranCheckOverride!(u, cg);

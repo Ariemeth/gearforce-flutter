@@ -96,7 +96,7 @@ class Faction {
       South.MILICIA(data),
       South.MD(data),
       South.ESE(data),
-      // South.FHA(data),
+      South.FHA(data),
     ];
     return Faction(FactionType.South, rulesets, rulesets.first);
   }
