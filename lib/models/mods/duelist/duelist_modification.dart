@@ -540,7 +540,7 @@ class DuelistModification extends BaseModification {
   trait cannot receive the Agile trait.
   */
   factory DuelistModification.agile() {
-    final RegExp traitCheck = RegExp(r'(Agile|Lumbering)');
+    final RegExp traitCheck = RegExp(r'(Lumbering)');
     final Trait newTrait = Trait.Agile();
     return DuelistModification(
         name: 'Agile',
