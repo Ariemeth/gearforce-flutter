@@ -72,7 +72,7 @@ class Faction {
     final rulesets = [
       NuCoal(data, name: _emptySubFactionName),
       NuCoal.NSDF(data),
-      // NuCoal.PAK(data),
+      NuCoal.PAK(data),
       // NuCoal.HAPF(data),
       // NuCoal.KADA(data),
       // NuCoal.TH(data),

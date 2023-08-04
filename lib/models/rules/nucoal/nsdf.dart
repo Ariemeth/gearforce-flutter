@@ -52,6 +52,7 @@ final FactionRule ruleHighSpeedLowDrag = FactionRule(
     }
     return null;
   },
-  description: 'Veteran gears may purchase the Agile trait for 1 TV each.' +
-      ' Models with the Lumbering trait may not purchase this upgrade.',
+  description:
+      'Veteran gears may purchase the Duelist Agile trait for 1 TV each.' +
+          ' Models with the Lumbering trait may not purchase this upgrade.',
 );
