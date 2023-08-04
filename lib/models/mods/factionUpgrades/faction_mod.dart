@@ -1,5 +1,6 @@
 import 'package:gearforce/models/mods/base_modification.dart';
 import 'package:gearforce/models/mods/factionUpgrades/north.dart';
+import 'package:gearforce/models/mods/factionUpgrades/nucoal.dart';
 import 'package:gearforce/models/mods/factionUpgrades/peace_river.dart';
 import 'package:gearforce/models/mods/factionUpgrades/south.dart';
 import 'package:gearforce/models/roster/roster.dart';
@@ -67,6 +68,14 @@ FactionModification? factionModFromId(String id, UnitRoster ur, Unit u) {
       return SouthernFactionMods.samuraiSpirit(u);
     case metsukeId:
       return SouthernFactionMods.metsuke(u);
+
+    // NuCoal Faction mods
+    case hoverTankCommanderId:
+      return NuCoalFactionMods.hoverTankCommander();
+    case tankJockeysId:
+      return NuCoalFactionMods.tankJockeys();
+    case somethingToProveId:
+      return NuCoalFactionMods.somethingToProve();
   }
   return null;
 }

@@ -39,8 +39,8 @@ class South extends RuleSet {
   List<SpecialUnitFilter> availableUnitFilters(
     List<CombatGroupOption>? cgOptions,
   ) {
-    final coreFilter = const SpecialUnitFilter(
-      text: coreName,
+    final coreFilter = SpecialUnitFilter(
+      text: type.name,
       id: coreTag,
       filters: SouthFilters,
     );

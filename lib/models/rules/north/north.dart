@@ -56,8 +56,8 @@ class North extends RuleSet {
     List<CombatGroupOption>? cgOptions,
   ) {
     final filters = [
-      const SpecialUnitFilter(
-        text: coreName,
+      SpecialUnitFilter(
+        text: type.name,
         id: coreTag,
         filters: const [
           const UnitFilter(FactionType.North),

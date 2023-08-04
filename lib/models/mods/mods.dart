@@ -1,11 +1,15 @@
+import 'dart:math';
+
 import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/movement.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/weapons/weapon.dart';
 
-int Function(int) createSimpleIntMod(int change) {
+int Function(int) createSimpleIntMod(int change, {int? min}) {
   return (value) {
-    return value + change;
+    final newValue = value + change;
+
+    return min != null ? max(min, newValue) : newValue;
   };
 }
 

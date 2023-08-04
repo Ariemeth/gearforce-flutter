@@ -55,8 +55,8 @@ class PeaceRiver extends RuleSet {
     List<CombatGroupOption>? cgOptions,
   ) {
     final filters = [
-      const SpecialUnitFilter(
-        text: coreName,
+      SpecialUnitFilter(
+        text: type.name,
         id: coreTag,
         filters: const [
           const UnitFilter(FactionType.PeaceRiver),
