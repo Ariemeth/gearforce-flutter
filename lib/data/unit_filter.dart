@@ -18,6 +18,11 @@ bool matchArmor8(UnitCore uc) {
   return uc.armor != null && uc.armor! <= 8;
 }
 
+/// Match units of armor 8 or lower
+bool matchArmor9(UnitCore uc) {
+  return uc.armor != null && uc.armor! <= 9;
+}
+
 /// Match units only if they are not already a Vet
 bool matchNotAVet(UnitCore uc) {
   return !uc.traits.any((t) => t.name == Trait.Vet().name);

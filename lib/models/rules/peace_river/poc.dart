@@ -79,14 +79,14 @@ final ruleSpecialIssue = FactionRule(
 final ruleECMSpecialist = FactionRule(
     name: 'ECM Specialist',
     id: '$_baseRuleId::ecmSpecialist',
-    factionMod: (ur, cg, u) => PeaceRiverFactionMods.ecmSpecialist(),
+    factionMods: (ur, cg, u) => [PeaceRiverFactionMods.ecmSpecialist()],
     description: 'One gear or strider per combat group may improve its ECM' +
         ' to ECM+ for 1 TV each.');
 
 final rulePOCOlTrusty = FactionRule(
   name: 'Ol’ Trusty',
   id: '$_baseRuleId::oltrusty',
-  factionMod: (ur, cg, u) => PeaceRiverFactionMods.olTrustyPOC(),
+  factionMods: (ur, cg, u) => [PeaceRiverFactionMods.olTrustyPOC()],
   description: 'Pit Bulls and Mustangs may increase their GU skill by' +
       ' one for 1 TV each.',
 );
@@ -94,7 +94,7 @@ final rulePOCOlTrusty = FactionRule(
 final rulePeaceOfficer = FactionRule(
     name: 'Peace Officer',
     id: '$_baseRuleId::peaceOfficer',
-    factionMod: (ur, cg, u) => PeaceRiverFactionMods.peaceOfficers(u),
+    factionMods: (ur, cg, u) => [PeaceRiverFactionMods.peaceOfficers(u)],
     description:
         'Gears from one combat group may swap their rocket packs for the' +
             ' Shield trait. If a gear does not have a rocket pack, then it' +
@@ -115,7 +115,7 @@ final ruleGSwatSniper = FactionRule(
       }
       return baseCost;
     },
-    factionMod: (ur, cg, u) => PeaceRiverFactionMods.gSWATSniper(),
+    factionMods: (ur, cg, u) => [PeaceRiverFactionMods.gSWATSniper()],
     description: 'One gear with a rifle, per combat group, may purchase the' +
         ' Improved Gunnery upgrade for 1 TV each, without being a veteran.');
 

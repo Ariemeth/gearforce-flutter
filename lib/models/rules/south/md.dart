@@ -61,7 +61,7 @@ final FactionRule ruleMekongeseExcellence = FactionRule(
 final FactionRule ruleSamuraiSpirit = FactionRule(
   name: 'Samurai Spirit',
   id: '$_baseRuleId::20',
-  factionMod: (ur, cg, u) => SouthernFactionMods.samuraiSpirit(u),
+  factionMods: (ur, cg, u) => [SouthernFactionMods.samuraiSpirit(u)],
   description: 'Commanders and veterans, with the Hands trait, may purchase' +
       ' the vibro-katana upgrade for 1 TV each. If a model takes this' +
       ' upgrade, it will also receive the Brawl:1 trait or increase its' +
@@ -71,7 +71,7 @@ final FactionRule ruleSamuraiSpirit = FactionRule(
 final FactionRule ruleMetsuke = FactionRule(
   name: 'Metsuke:',
   id: '$_baseRuleId::30',
-  factionMod: (ur, cg, u) => SouthernFactionMods.metsuke(u),
+  factionMods: (ur, cg, u) => [SouthernFactionMods.metsuke(u)],
   description: 'MP models within one combat group may purchase the Shield+' +
       ' trait for 1 TV each. The Shield+ trait works just like a Shield trait' +
       ' but also adds +1D6 to defensive rolls from attacks originating from' +

@@ -68,10 +68,12 @@ class PeaceRiverFactionMods extends FactionModification {
         name: 'E-pex', requirementCheck: reqCheck, id: e_pexID)
       ..addMod<int>(UnitAttribute.tv, createSimpleIntMod(1),
           description: 'TV: +1')
-      ..addMod<int>(UnitAttribute.ew, createSimpleIntMod(-1),
-          description: 'One ' +
-              'Peace River model within each combat group may ' +
-              'increase its EW skill by one for 1 TV each');
+      ..addMod<int>(
+        UnitAttribute.ew,
+        createSimpleIntMod(-1),
+        description: 'One Peace River model within each combat group may ' +
+            'increase its EW skill by one for 1 TV each',
+      );
   }
 
   /*

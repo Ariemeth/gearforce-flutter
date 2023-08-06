@@ -32,7 +32,7 @@ class FactionRule extends ChangeNotifier {
     this.isUnitCountWithinLimits,
     this.unitCountOverride,
     this.combatGroupOption,
-    this.factionMod,
+    this.factionMods,
     this.unitFilter,
     this.onModAdded,
     this.onModRemoved,
@@ -98,8 +98,8 @@ class FactionRule extends ChangeNotifier {
   final int? Function(CombatGroup cg, Group group, Unit unit)?
       unitCountOverride;
   final CombatGroupOption Function()? combatGroupOption;
-  final FactionModification Function(UnitRoster ur, CombatGroup cg, Unit u)?
-      factionMod;
+  final List<FactionModification> Function(
+      UnitRoster ur, CombatGroup cg, Unit u)? factionMods;
   final SpecialUnitFilter Function()? unitFilter;
 
   /// Run this function when the [modId] is added.
@@ -131,6 +131,7 @@ class FactionRule extends ChangeNotifier {
     bool canBeToggled = true,
     bool initialState = false,
     bool Function(CombatGroup?, UnitRoster?)? cgCheck,
+    bool? Function()? isEnabledOverrideCheck,
     Function()? listener,
   }) {
     final cgOption = CombatGroupOption(
@@ -141,6 +142,7 @@ class FactionRule extends ChangeNotifier {
       canBeToggled: canBeToggled,
       initialState: initialState,
       description: description,
+      isEnabledOverrideCheck: isEnabledOverrideCheck,
     );
     if (listener == null) {
       cgOption.addListener(() {
@@ -214,6 +216,7 @@ class FactionRule extends ChangeNotifier {
 
   factory FactionRule.from(
     FactionRule original, {
+    String? name,
     String? id,
     List<FactionRule>? options,
     bool? isEnabled,
@@ -221,14 +224,15 @@ class FactionRule extends ChangeNotifier {
     bool Function(List<FactionRule>)? requirementCheck,
     bool Function(CombatGroup?, UnitRoster?)? cgCheck,
     CombatGroupOption Function()? combatGroupOption,
+    String? description,
   }) {
     return FactionRule(
-      name: original.name,
+      name: name != null ? name : original.name,
       id: id != null ? id : original.id,
       options: options != null ? options : original._options?.toList(),
       isEnabled: isEnabled != null ? isEnabled : original.isEnabled,
       canBeToggled: canBeToggled != null ? canBeToggled : original.canBeToggled,
-      description: original.description,
+      description: description != null ? description : original.description,
       requirementCheck: requirementCheck != null
           ? requirementCheck
           : original.requirementCheck,
@@ -247,7 +251,7 @@ class FactionRule extends ChangeNotifier {
       combatGroupOption: combatGroupOption != null
           ? combatGroupOption
           : original.combatGroupOption,
-      factionMod: original.factionMod,
+      factionMods: original.factionMods,
       unitFilter: original.unitFilter,
       onModAdded: original.onModAdded,
       onModRemoved: original.onModRemoved,

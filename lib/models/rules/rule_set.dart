@@ -109,11 +109,11 @@ abstract class RuleSet extends ChangeNotifier {
   List<FactionModification> availableFactionMods(
       UnitRoster ur, CombatGroup cg, Unit u) {
     final availableFactionModRules =
-        allEnabledRules(cg.options).where((rule) => rule.factionMod != null);
+        allEnabledRules(cg.options).where((rule) => rule.factionMods != null);
 
     final List<FactionModification> availableFactionMods = [];
     availableFactionModRules.forEach((rule) {
-      availableFactionMods.add(rule.factionMod!(ur, cg, u));
+      availableFactionMods.addAll(rule.factionMods!(ur, cg, u));
     });
 
     return availableFactionMods;

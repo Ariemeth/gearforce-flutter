@@ -60,7 +60,7 @@ final FactionRule rulePristineAntiques = FactionRule(
 final FactionRule ruleOlTrustyWFP = FactionRule(
   name: 'Ol’ Trusty',
   id: '$_baseRuleId::olTrusty',
-  factionMod: (ur, cg, u) => NorthernFactionMods.olTrustyWFP(),
+  factionMods: (ur, cg, u) => [NorthernFactionMods.olTrustyWFP()],
   description: 'Hunters, Ferrets, Weasels, Wildcats and Bobcats may ' +
       ' improve their GU skill by one for 1 TV each. This does not include ' +
       ' Hunter XMGs.',

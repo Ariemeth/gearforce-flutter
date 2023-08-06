@@ -80,7 +80,7 @@ class North extends RuleSet {
 final ruleTaskBuilt = FactionRule(
   name: 'Task Built',
   id: '$_baseRuleId::10',
-  factionMod: (ur, cg, u) => NorthernFactionMods.taskBuilt(u),
+  factionMods: (ur, cg, u) => [NorthernFactionMods.taskBuilt(u)],
   description:
       'Each Northern gear may swap its rocket pack for a Heavy Machinegun' +
           ' (HMG) for 0 TV. Each Northern gear without a rocket pack may' +
@@ -177,7 +177,7 @@ final FactionRule ruleProspectors = FactionRule(
 final ruleHammersOfTheNorth = FactionRule(
   name: 'Hammers of the North',
   id: '$_baseRuleId::30',
-  factionMod: (ur, cg, u) => NorthernFactionMods.hammerOfTheNorth(u),
+  factionMods: (ur, cg, u) => [NorthernFactionMods.hammerOfTheNorth(u)],
   description: 'Snub cannons may be given the Precise trait for +1 TV each.',
 );
 

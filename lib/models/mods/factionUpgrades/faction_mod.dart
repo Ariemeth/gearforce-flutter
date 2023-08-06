@@ -78,6 +78,16 @@ FactionModification? factionModFromId(String id, UnitRoster ur, Unit u) {
       return NuCoalFactionMods.somethingToProve();
     case jannitePilotsId:
       return NuCoalFactionMods.jannitePilots();
+    case fastCavalryId:
+      return NuCoalFactionMods.fastCavalry();
+    case ePexId:
+      return NuCoalFactionMods.e_pex();
+    case highOctaneId:
+      return NuCoalFactionMods.highOctane();
+    case personalEquipment1Id:
+      return NuCoalFactionMods.personalEquipment(PersonalEquipment.One);
+    case personalEquipment2Id:
+      return NuCoalFactionMods.personalEquipment(PersonalEquipment.Two);
   }
   return null;
 }

@@ -45,7 +45,7 @@ class TH extends NuCoal {
 final ruleJannitePilots = FactionRule(
   name: 'Jannite Pilots',
   id: _ruleJannitePilotsId,
-  factionMod: (ur, cg, u) => NuCoalFactionMods.jannitePilots(),
+  factionMods: (ur, cg, u) => [NuCoalFactionMods.jannitePilots()],
   description: 'Veteran gears in this force with one action may upgrade to' +
       ' having two actions for +2 TV each.',
 );
