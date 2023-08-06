@@ -74,7 +74,7 @@ class Faction {
       NuCoal.NSDF(data),
       NuCoal.PAK(data),
       NuCoal.HAPF(data),
-      // NuCoal.KADA(data),
+      NuCoal.KADA(data),
       // NuCoal.TH(data),
       // NuCoal.HCSA(data),
     ];

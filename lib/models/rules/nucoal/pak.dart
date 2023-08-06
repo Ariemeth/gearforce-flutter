@@ -139,8 +139,9 @@ bool _checkForAcquiredTech(String frame) {
 }
 
 final ruleSomethingToProve = FactionRule(
-    name: 'Something to Prove',
-    id: _ruleSomethingToProveId,
-    factionMod: (ur, cg, u) => NuCoalFactionMods.somethingToProve(),
-    description:
-        'GREL infantry may increase their GU skill by one for 1 TV each.');
+  name: 'Something to Prove',
+  id: _ruleSomethingToProveId,
+  factionMod: (ur, cg, u) => NuCoalFactionMods.somethingToProve(),
+  description:
+      'GREL infantry may increase their GU skill by one for 1 TV each.',
+);

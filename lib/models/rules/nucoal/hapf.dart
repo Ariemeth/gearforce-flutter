@@ -36,29 +36,30 @@ class HAPF extends NuCoal {
 }
 
 final ruleSouthernSurplus = FactionRule(
-    name: 'Southern Surplus',
-    id: _ruleSouthernSurplusId,
-    hasGroupRole: (unit, target, group) {
-      if (unit.faction != FactionType.South) {
-        return null;
-      }
-
-      if (target == RoleType.FT || target == RoleType.SO) {
-        return false;
-      }
+  name: 'Southern Surplus',
+  id: _ruleSouthernSurplusId,
+  hasGroupRole: (unit, target, group) {
+    if (unit.faction != FactionType.South) {
       return null;
-    },
-    unitFilter: () => const SpecialUnitFilter(
-        text: 'Southern Surplus',
-        filters: [
-          UnitFilter(
-            FactionType.South,
-            matcher: _matchSouthernSurplus,
-          ),
-        ],
-        id: _ruleSouthernSurplusId),
-    description: 'This force may include models from the South in GP, SK, FS' +
-        ' and RC units, except for King Cobras and Drakes.');
+    }
+
+    if (target == RoleType.FT || target == RoleType.SO) {
+      return false;
+    }
+    return null;
+  },
+  unitFilter: () => const SpecialUnitFilter(
+      text: 'Southern Surplus',
+      filters: [
+        UnitFilter(
+          FactionType.South,
+          matcher: _matchSouthernSurplus,
+        ),
+      ],
+      id: _ruleSouthernSurplusId),
+  description: 'This force may include models from the South in GP, SK, FS' +
+      ' and RC units, except for King Cobras and Drakes.',
+);
 
 /// Match for models for the Souther Surplus rule.
 bool _matchSouthernSurplus(UnitCore uc) {

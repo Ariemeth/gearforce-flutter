@@ -38,3 +38,8 @@ bool matchPossibleDuelist(UnitCore uc) {
 bool matchNoGREL(UnitCore uc) {
   return !uc.name.contains('GREL');
 }
+
+/// Match only with Striders
+bool matchStriders(UnitCore uc) {
+  return uc.type == ModelType.Strider;
+}
