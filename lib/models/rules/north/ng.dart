@@ -123,7 +123,7 @@ final FactionRule _ngPristineAntiques = FactionRule.from(
 final FactionRule _ngOlTrusty = FactionRule.from(
   wfp.ruleOlTrustyWFP,
   isEnabled: true,
-  canBeToggled: true,
+  canBeToggled: false,
   cgCheck: onlyOnePerCG(_getPanNorthernRuleIds(wfp.ruleOlTrustyWFP.id)),
   combatGroupOption: () => _ngOlTrusty.buidCombatGroupOption(),
 );
@@ -131,7 +131,7 @@ final FactionRule _ngOlTrusty = FactionRule.from(
 final FactionRule _ngDropBears = FactionRule.from(
   wfp.ruleDropBears,
   isEnabled: true,
-  canBeToggled: true,
+  canBeToggled: false,
   cgCheck: onlyOnePerCG(_getPanNorthernRuleIds(wfp.ruleDropBears.id)),
   combatGroupOption: () => _ngDropBears.buidCombatGroupOption(),
 );
@@ -139,7 +139,7 @@ final FactionRule _ngDropBears = FactionRule.from(
 final FactionRule _ngLocalManufacturing = FactionRule.from(
   umf.ruleLocalManufacturing,
   isEnabled: true,
-  canBeToggled: true,
+  canBeToggled: false,
   cgCheck: onlyOnePerCG(_getPanNorthernRuleIds(umf.ruleLocalManufacturing.id)),
   combatGroupOption: () => _ngLocalManufacturing.buidCombatGroupOption(),
 );
@@ -147,7 +147,7 @@ final FactionRule _ngLocalManufacturing = FactionRule.from(
 final FactionRule _ngEwSpecialist = FactionRule.from(
   umf.ruleEWSpecialist,
   isEnabled: true,
-  canBeToggled: true,
+  canBeToggled: false,
   cgCheck: onlyOnePerCG(_getPanNorthernRuleIds(umf.ruleEWSpecialist.id)),
   combatGroupOption: () => _ngEwSpecialist.buidCombatGroupOption(),
 );
@@ -155,7 +155,7 @@ final FactionRule _ngEwSpecialist = FactionRule.from(
 final FactionRule _ngWellFunded = FactionRule.from(
   umf.ruleWellFunded,
   isEnabled: true,
-  canBeToggled: true,
+  canBeToggled: false,
   cgCheck: onlyOnePerCG(_getPanNorthernRuleIds(umf.ruleWellFunded.id)),
   combatGroupOption: () => _ngWellFunded.buidCombatGroupOption(),
 );
@@ -163,7 +163,7 @@ final FactionRule _ngWellFunded = FactionRule.from(
 final FactionRule _ngMercContract = FactionRule.from(
   poc.ruleMercenaryContract,
   isEnabled: true,
-  canBeToggled: true,
+  canBeToggled: false,
   cgCheck: onlyOnePerCG(_getPanNorthernRuleIds(poc.ruleMercenaryContract.id)),
   combatGroupOption: () => _ngMercContract.buidCombatGroupOption(),
 );
@@ -171,7 +171,7 @@ final FactionRule _ngMercContract = FactionRule.from(
 final FactionRule _ngChaplain = FactionRule.from(
   nlc.ruleChaplain,
   isEnabled: true,
-  canBeToggled: true,
+  canBeToggled: false,
   cgCheck: onlyOnePerCG(_getPanNorthernRuleIds(nlc.ruleChaplain.id)),
   combatGroupOption: () => _ngChaplain.buidCombatGroupOption(),
 );
@@ -179,7 +179,7 @@ final FactionRule _ngChaplain = FactionRule.from(
 final FactionRule _ngWarriorMonks = FactionRule.from(
   nlc.ruleWarriorMonks,
   isEnabled: true,
-  canBeToggled: true,
+  canBeToggled: false,
   cgCheck: onlyOnePerCG(_getPanNorthernRuleIds(nlc.ruleWarriorMonks.id)),
   combatGroupOption: () => _ngWarriorMonks.buidCombatGroupOption(),
 );
