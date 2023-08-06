@@ -107,9 +107,13 @@ final FactionRule ruleHumanistTech = FactionRule(
 
 /// Match Hetairoi, Fire Dragons or Sagittariuses
 bool _matchHumanistTech(UnitCore uc) {
-  return uc.frame == 'Sagittarius' ||
-      uc.frame == 'Fire Dragon' ||
-      uc.frame == 'Hetairoi';
+  return checkForHumanistTechUnit(uc.frame);
+}
+
+bool checkForHumanistTechUnit(String frame) {
+  return frame == 'Sagittarius' ||
+      frame == 'Fire Dragon' ||
+      frame == 'Hetairoi';
 }
 
 final FactionRule rulePortArthurKorps = FactionRule(

@@ -316,7 +316,7 @@ abstract class RuleSet extends ChangeNotifier {
         maxAllowedDuelist) {
       return false;
     }
-    return !u.traits.any((trait) => trait.name == Trait.Duelist().name);
+    return true;
   }
 
   bool duelistModCheck(Unit u, CombatGroup cg, {required String modID}) {
