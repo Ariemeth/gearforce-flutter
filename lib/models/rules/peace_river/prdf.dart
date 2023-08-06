@@ -75,14 +75,14 @@ const filterBestMenAndWomen = SpecialUnitFilter(
 final ruleOlTrusty = FactionRule(
     name: 'Ol’ Trusty',
     id: '$_baseRuleId::oltrusty',
-    factionMod: (ur, cg, u) => PeaceRiverFactionMods.olTrusty(),
+    factionMods: (ur, cg, u) => [PeaceRiverFactionMods.olTrusty()],
     description:
         'Warriors, Jackals and Spartans may increase their GU skill by one for 1 TV each. This does not include Warrior IVs.');
 
 final ruleThunderFromTheSky = FactionRule(
     name: 'Thunder from the Sky',
     id: '$_baseRuleId::thunderFromTheSky',
-    factionMod: (ur, cg, u) => PeaceRiverFactionMods.thunderFromTheSky(),
+    factionMods: (ur, cg, u) => [PeaceRiverFactionMods.thunderFromTheSky()],
     description:
         'Airstrike counters may increase their GU skill to 3+ instead of 4+ for 1 TV each.');
 
@@ -134,7 +134,7 @@ final FactionRule ruleBestMenAndWomen = FactionRule(
 final ruleEliteElements = FactionRule(
     name: 'Elite Elements',
     id: '$_baseRuleId::eliteElements',
-    factionMod: (ur, cg, u) => PeaceRiverFactionMods.eliteElements(ur),
+    factionMods: (ur, cg, u) => [PeaceRiverFactionMods.eliteElements(ur)],
     description: 'One SK unit may change their role to SO.');
 
 final ruleGhostStrike = FactionRule(

@@ -2,12 +2,11 @@ import 'package:gearforce/data/unit_filter.dart';
 import 'package:gearforce/models/factions/faction_rule.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/mods/factionUpgrades/nucoal.dart';
+import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart';
 import 'package:gearforce/models/rules/north/umf.dart' as umf;
 import 'package:gearforce/models/rules/nucoal/nucoal.dart';
 import 'package:gearforce/models/rules/options/combat_group_options.dart';
 import 'package:gearforce/models/rules/options/special_unit_filter.dart';
-import 'package:gearforce/models/rules/peace_river/peace_river.dart'
-    as peaceRiver;
 import 'package:gearforce/models/rules/south/fha.dart' as fha;
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
@@ -26,9 +25,11 @@ const String _ruleGallicManufacturingId = '$_baseRuleId::80';
 const String _ruleLicensedManufacturingId = '$_baseRuleId::90';
 const String _ruleFastCavalryId = '$_baseRuleId::100';
 const String _ruleAlliesPrinceGableId = '$_baseRuleId::110';
-const String _ruleAlliesErechAndNinevehId = '$_baseRuleId::120';
-const String _rulePersonalEquipmentId = '$_baseRuleId::130';
-const String _ruleHighOctaneId = '$_baseRuleId::140';
+const String _ruleAlliesErechAndNinevehNorthId = '$_baseRuleId::130';
+const String _ruleAlliesErechAndNinevehSouthId = '$_baseRuleId::140';
+const String _rulePersonalEquipmentId = '$_baseRuleId::150';
+const String ruleHighOctaneId = '$_baseRuleId::160';
+const String ruleEPexId = '$_baseRuleId::170';
 
 /*
   HCSA - Hardscrabble City-State Armies
@@ -241,7 +242,7 @@ final FactionRule _ruleFastCavalry = FactionRule(
     initialState: _ruleFortNeilCGOption.isEnabled,
     isEnabledOverrideCheck: () => _ruleFortNeilCGOption.isEnabled,
   ),
-  factionMod: (ur, cg, u) => NuCoalFactionMods.fastCavalry(),
+  factionMods: (ur, cg, u) => [NuCoalFactionMods.fastCavalry()],
   description: 'Sampsons in this combat group may purchase the Agile trait' +
       ' for 1 TV each.',
 );
@@ -264,7 +265,6 @@ final FactionRule rulePrinceGable = FactionRule(
 );
 final _rulePrinceGableCGOption = rulePrinceGable.buidCombatGroupOption();
 
-// TODO Implement _ruleAlliesPrinceGable
 final FactionRule _ruleAlliesPrinceGable = FactionRule(
   name: 'Allies',
   id: _ruleAlliesPrinceGableId,
@@ -274,7 +274,17 @@ final FactionRule _ruleAlliesPrinceGable = FactionRule(
     initialState: _rulePrinceGableCGOption.isEnabled,
     isEnabledOverrideCheck: () => _rulePrinceGableCGOption.isEnabled,
   ),
-  description: '',
+  unitFilter: () => const SpecialUnitFilter(
+      text: 'Allies: Prince Gable',
+      filters: [
+        UnitFilter(
+          FactionType.North,
+          matcher: matchArmor9,
+        ),
+      ],
+      id: _ruleAlliesPrinceGableId),
+  description: 'This combat group may include models from the North with an' +
+      ' armor of 9 or less.',
 );
 
 final FactionRule _ruleEwSpecialist = FactionRule.from(
@@ -287,22 +297,26 @@ final FactionRule _ruleEwSpecialist = FactionRule.from(
   ),
 );
 
-final FactionRule _ruleEPex = FactionRule.from(
-  peaceRiver.ruleEPex,
+final FactionRule _ruleEPex = FactionRule(
+  name: 'E-pex',
+  id: ruleEPexId,
   cgCheck: (_, ur) => _rulePrinceGableCGOption.isEnabled,
   combatGroupOption: () => _ruleEPex.buidCombatGroupOption(
     canBeToggled: false,
     initialState: _rulePrinceGableCGOption.isEnabled,
     isEnabledOverrideCheck: () => _rulePrinceGableCGOption.isEnabled,
   ),
+  description: 'One model in this combat group may improve its EW skill by' +
+      ' one for 1 TV.',
 );
 
 final FactionRule ruleErechAndNineveh = FactionRule(
   name: 'Erech & Nineveh',
   id: _ruleErechAndNinevehId,
   options: [
-    _ruleAlliesErechAndNineveh,
-    _rulePersonalEquipment,
+    _ruleAlliesErechAndNinevehNorth,
+    _ruleAlliesErechAndNinevehSouth,
+    rulePersonalEquipment,
     _ruleHighOctane,
   ],
   cgCheck: onlyOnePerCG(_getCityStateRuleIds(_ruleErechAndNinevehId)),
@@ -316,43 +330,118 @@ final FactionRule ruleErechAndNineveh = FactionRule(
 final _ruleErechAndNinevehCGOption =
     ruleErechAndNineveh.buidCombatGroupOption();
 
-// TODO Implement _ruleAlliesErechAndNineveh
-final FactionRule _ruleAlliesErechAndNineveh = FactionRule(
-  name: 'Allies',
-  id: _ruleAlliesErechAndNinevehId,
-  cgCheck: (_, ur) => _ruleErechAndNinevehCGOption.isEnabled,
-  combatGroupOption: () => _ruleAlliesErechAndNineveh.buidCombatGroupOption(
-    canBeToggled: false,
-    initialState: _ruleErechAndNinevehCGOption.isEnabled,
-    isEnabledOverrideCheck: () => _ruleErechAndNinevehCGOption.isEnabled,
-  ),
-  description: '',
+final FactionRule _ruleAlliesErechAndNinevehNorth = FactionRule(
+  name: 'Allies: North',
+  id: _ruleAlliesErechAndNinevehNorthId,
+  cgCheck: (_, ur) =>
+      _ruleErechAndNinevehCGOption.isEnabled &&
+      !_ruleAlliesEandNSouthCGOption.isEnabled,
+  combatGroupOption: () => _ruleAlliesEandNNorthCGOption,
+  unitFilter: () => const SpecialUnitFilter(
+      text: 'Allies: E & N North',
+      filters: [
+        UnitFilter(
+          FactionType.North,
+          matcher: matchArmor9,
+        ),
+      ],
+      id: _ruleAlliesErechAndNinevehNorthId),
+  description: 'This combat group may include models from the North' +
+      ' with an armor of 9 or less.',
+);
+final _ruleAlliesEandNNorthCGOption =
+    _ruleAlliesErechAndNinevehNorth.buidCombatGroupOption(
+  canBeToggled: true,
+  initialState: false,
+  isEnabledOverrideCheck: () {
+    return null;
+  },
 );
 
-// TODO Implement _rulePersonalEquipment
-final FactionRule _rulePersonalEquipment = FactionRule(
+final FactionRule _ruleAlliesErechAndNinevehSouth = FactionRule(
+  name: 'Allies: South',
+  id: _ruleAlliesErechAndNinevehSouthId,
+  cgCheck: (_, ur) =>
+      _ruleErechAndNinevehCGOption.isEnabled &&
+      !_ruleAlliesEandNNorthCGOption.isEnabled,
+  combatGroupOption: () => _ruleAlliesEandNSouthCGOption,
+  unitFilter: () => const SpecialUnitFilter(
+      text: 'Allies: E & N South',
+      filters: [
+        UnitFilter(
+          FactionType.South,
+          matcher: matchArmor9,
+        ),
+      ],
+      id: _ruleAlliesErechAndNinevehNorthId),
+  description: 'This combat group may include models from the South' +
+      ' with an armor of 9 or less.',
+);
+final _ruleAlliesEandNSouthCGOption =
+    _ruleAlliesErechAndNinevehSouth.buidCombatGroupOption(
+  canBeToggled: true,
+  initialState: false,
+  isEnabledOverrideCheck: () {
+    return null;
+  },
+);
+
+final FactionRule rulePersonalEquipment = FactionRule(
   name: 'Personal Equipment',
   id: _rulePersonalEquipmentId,
   cgCheck: (_, ur) => _ruleErechAndNinevehCGOption.isEnabled,
-  combatGroupOption: () => _rulePersonalEquipment.buidCombatGroupOption(
+  combatGroupOption: () => rulePersonalEquipment.buidCombatGroupOption(
     canBeToggled: false,
     initialState: _ruleErechAndNinevehCGOption.isEnabled,
     isEnabledOverrideCheck: () => _ruleErechAndNinevehCGOption.isEnabled,
   ),
-  description: '',
+  veteranModCheck: (u, cg, {required modID}) {
+    final mod1 = u.getMod(personalEquipment1Id);
+    final mod2 = u.getMod(personalEquipment2Id);
+    if (mod1 != null) {
+      final selectedVetModName = mod1.options?.selectedOption?.text;
+      if (selectedVetModName != null &&
+          modID == VeteranModification.vetModId(selectedVetModName) &&
+          VeteranModification.isVetMod(selectedVetModName)) {
+        return true;
+      }
+    }
+
+    if (mod2 != null) {
+      final selectedVetModName = mod2.options?.selectedOption?.text;
+      if (selectedVetModName != null &&
+          modID == VeteranModification.vetModId(selectedVetModName) &&
+          VeteranModification.isVetMod(selectedVetModName)) {
+        return true;
+      }
+    }
+
+    return null;
+  },
+  factionMods: (ur, cg, u) => [
+    NuCoalFactionMods.personalEquipment(
+      PersonalEquipment.One,
+    ),
+    NuCoalFactionMods.personalEquipment(
+      PersonalEquipment.Two,
+    )
+  ],
+  description: 'Two models in this combat group may purchase two veteran' +
+      ' upgrades each without being veterans.',
 );
 
-// TODO Implement _ruleHighOctane
 final FactionRule _ruleHighOctane = FactionRule(
   name: 'High Octane',
-  id: _ruleHighOctaneId,
+  id: ruleHighOctaneId,
   cgCheck: (_, ur) => _ruleErechAndNinevehCGOption.isEnabled,
   combatGroupOption: () => _ruleHighOctane.buidCombatGroupOption(
     canBeToggled: false,
     initialState: _ruleErechAndNinevehCGOption.isEnabled,
     isEnabledOverrideCheck: () => _ruleErechAndNinevehCGOption.isEnabled,
   ),
-  description: '',
+  factionMods: (ur, cg, u) => [NuCoalFactionMods.highOctane()],
+  description: 'Add +1 to the MR of any veteran gears in this combat group' +
+      ' for 1 TV each.',
 );
 
 /// Get a list of the City State rule Ids excluding the point passed in as [id].

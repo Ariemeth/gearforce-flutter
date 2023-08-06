@@ -1,14 +1,18 @@
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/mods/base_modification.dart';
 import 'package:gearforce/models/mods/factionUpgrades/faction_mod.dart';
+import 'package:gearforce/models/mods/modification_option.dart';
 import 'package:gearforce/models/mods/mods.dart';
+import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart';
 import 'package:gearforce/models/roster/roster.dart';
+import 'package:gearforce/models/rules/nucoal/hcsa.dart' as hcsa;
 import 'package:gearforce/models/rules/nucoal/pak.dart' as pak;
 import 'package:gearforce/models/rules/nucoal/th.dart' as th;
 import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/model_type.dart';
+import 'package:gearforce/models/unit/movement.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
 
@@ -18,6 +22,10 @@ const tankJockeysId = '$_factionModIdBase::20';
 const somethingToProveId = '$_factionModIdBase::30';
 const jannitePilotsId = '$_factionModIdBase::40';
 const fastCavalryId = '$_factionModIdBase::50';
+const ePexId = '$_factionModIdBase::60';
+const highOctaneId = '$_factionModIdBase::70';
+const personalEquipment1Id = '$_factionModIdBase::80';
+const personalEquipment2Id = '$_factionModIdBase::90';
 
 class NuCoalFactionMods extends FactionModification {
   NuCoalFactionMods({
@@ -224,4 +232,125 @@ class NuCoalFactionMods extends FactionModification {
 
     return fm;
   }
+
+  /*
+    E-pex: One model in this combat group may improve its EW skill by one
+    for 1 TV.
+  */
+  factory NuCoalFactionMods.e_pex() {
+    final RequirementCheck reqCheck =
+        (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+      assert(cg != null);
+      assert(rs != null);
+
+      if (rs == null || !rs.isRuleEnabled(hcsa.ruleEPexId)) {
+        return false;
+      }
+
+      return cg!.modCount(ePexId) == 0 ||
+          (cg.modCount(ePexId) == 1 && u.hasMod(ePexId));
+    };
+    return NuCoalFactionMods(
+      name: 'E-pex',
+      requirementCheck: reqCheck,
+      id: ePexId,
+    )
+      ..addMod<int>(UnitAttribute.tv, createSimpleIntMod(1),
+          description: 'TV: +1')
+      ..addMod<int>(UnitAttribute.ew, createSimpleIntMod(-1),
+          description: 'One model in this combat group may improve its EW' +
+              ' skill by one for 1 TV.');
+  }
+
+  /*
+    Add +1 to the MR of any veteran gears in this combat group for 1 TV each.
+  */
+  factory NuCoalFactionMods.highOctane() {
+    final RequirementCheck reqCheck =
+        (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+      assert(cg != null);
+      assert(rs != null);
+
+      if (rs == null || !rs.isRuleEnabled(hcsa.ruleHighOctaneId)) {
+        return false;
+      }
+
+      if (u.type != ModelType.Gear) {
+        return false;
+      }
+
+      return u.isVeteran;
+    };
+    return NuCoalFactionMods(
+      name: 'High Octane',
+      requirementCheck: reqCheck,
+      id: highOctaneId,
+    )
+      ..addMod<int>(UnitAttribute.tv, createSimpleIntMod(1),
+          description: 'TV: +1')
+      ..addMod<Movement>(UnitAttribute.movement, (currentMove) {
+        final newMove =
+            Movement(type: currentMove.type, rate: currentMove.rate + 1);
+        return newMove;
+      }, description: 'Add +1 to the MR of any veteran gears.');
+  }
+
+  /*
+    Personal Equipment: Two models in this combat group may purchase two veteran upgrades
+    each without being veterans.
+    NOTE: The rulebook just list this as a rule not an upgrade.  Making it a 
+    faction mod to make it easier to check requirements
+  */
+  factory NuCoalFactionMods.personalEquipment(PersonalEquipment pe) {
+    final RequirementCheck reqCheck = (
+      RuleSet? rs,
+      UnitRoster? ur,
+      CombatGroup? cg,
+      Unit u,
+    ) {
+      assert(cg != null);
+      assert(rs != null);
+      if (rs == null || !rs.isRuleEnabled(hcsa.rulePersonalEquipment.id)) {
+        return false;
+      }
+
+      final unitsWithMod = cg?.units.where((unit) =>
+          (unit.hasMod(personalEquipment1Id) ||
+              unit.hasMod(personalEquipment2Id)) &&
+          (unit != u));
+
+      if (unitsWithMod == null || unitsWithMod.length < 2) {
+        return true;
+      }
+      return false;
+    };
+
+    final modOptions = ModificationOption(
+      'Personal Equipment',
+      subOptions: VeteranModification.getAllVetModNames()
+          .map((n) => ModificationOption(n))
+          .toList(),
+      description:
+          'Select a Veteran upgrade that can be purchased even if this model isn\'t a veteran.',
+    );
+
+    final fm = NuCoalFactionMods(
+      name: 'Personal Equipment',
+      requirementCheck: reqCheck,
+      options: modOptions,
+      id: pe == PersonalEquipment.One
+          ? personalEquipment1Id
+          : personalEquipment2Id,
+    );
+    fm.addMod<int>(
+      UnitAttribute.tv,
+      createSimpleIntMod(0),
+      description: 'Two models in this combat group may purchase two veteran' +
+          ' upgrades each without being veterans.',
+    );
+
+    return fm;
+  }
 }
+
+enum PersonalEquipment { One, Two }

@@ -20,7 +20,7 @@ const double _cardHeight = 300.0;
 const double _cardWidth = 250.0;
 const double? _section3Height = 73.0;
 const double _combatStatsWidth = 50.0;
-const double _secondaryStatsWidth = 80.0;
+const double _secondaryStatsWidth = 85.0;
 const double _hullWidth =
     (_cardWidth - _combatStatsWidth - _secondaryStatsWidth) / 2;
 const double _standardFontSize = 12;

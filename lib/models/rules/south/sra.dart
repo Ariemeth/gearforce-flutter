@@ -52,7 +52,7 @@ class SRA extends South {
 final FactionRule rulePrideOfTheSouth = FactionRule(
   name: 'Pride of the South',
   id: '$_baseRuleId::20',
-  factionMod: (ur, cg, u) => SouthernFactionMods.prideOfTheSouth(u),
+  factionMods: (ur, cg, u) => [SouthernFactionMods.prideOfTheSouth(u)],
   description: 'Commanders and veterans, with the Hands trait, may purchase' +
       ' the vibro-rapier upgrade for 1 TV each. If a model takes this' +
       ' upgrade, it will also receive the Brawl:1 trait or increase its' +
@@ -79,7 +79,7 @@ final FactionRule ruleAssultTroops = FactionRule(
 final FactionRule rulePoliticalOfficer = FactionRule(
   name: 'Political Officer',
   id: '$_baseRuleId::40',
-  factionMod: (ur, cg, u) => SouthernFactionMods.politicalOfficer(),
+  factionMods: (ur, cg, u) => [SouthernFactionMods.politicalOfficer()],
   availableCommandLevelOverride: (u) {
     if (!u.hasMod(politicalOfficerId)) {
       return null;

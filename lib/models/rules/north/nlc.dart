@@ -49,7 +49,7 @@ class NLC extends North {
 final FactionRule ruleChaplain = FactionRule(
   name: 'Chaplain',
   id: '$_baseRuleId::chaplain',
-  factionMod: (ur, cg, u) => NorthernFactionMods.chaplain(),
+  factionMods: (ur, cg, u) => [NorthernFactionMods.chaplain()],
   availableCommandLevelOverride: (u) {
     if (!u.hasMod(chaplainID)) {
       return null;
@@ -68,7 +68,7 @@ final FactionRule ruleChaplain = FactionRule(
 final FactionRule ruleWarriorMonks = FactionRule(
   name: 'Warrior Monks',
   id: '$_baseRuleId::warriorMonks',
-  factionMod: (ur, cg, u) => NorthernFactionMods.warriorMonks(u),
+  factionMods: (ur, cg, u) => [NorthernFactionMods.warriorMonks(u)],
   description: 'Commanders and veterans, with the Hands trait, may purchase' +
       ' a fighting staff upgrade for 1 TV each. If a model takes this upgrade,' +
       ' then it will also receive the Brawl:1 trait or increase its Brawl:X' +

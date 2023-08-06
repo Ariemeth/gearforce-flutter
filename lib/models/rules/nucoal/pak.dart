@@ -57,7 +57,7 @@ class PAK extends NuCoal {
 final ruleHoverTankCommander = FactionRule(
     name: 'Hover Tank Commander',
     id: _ruleHoverTankCommanderId,
-    factionMod: (ur, cg, u) => NuCoalFactionMods.hoverTankCommander(),
+    factionMods: (ur, cg, u) => [NuCoalFactionMods.hoverTankCommander()],
     description: 'Hover Tank Commander: Any commander that is in a vehicle' +
         ' type model may improve its EW skill by one, to a maximum of 3+, for' +
         ' 1 TV each.');
@@ -65,7 +65,7 @@ final ruleHoverTankCommander = FactionRule(
 final ruleTankJockeys = FactionRule(
     name: 'Tank Jockeys',
     id: _ruleTankJockeysId,
-    factionMod: (ur, cg, u) => NuCoalFactionMods.tankJockeys(),
+    factionMods: (ur, cg, u) => [NuCoalFactionMods.tankJockeys()],
     description: 'Vehicles with the Agile trait may purchase the following' +
         ' ability for 1 TV each: Ignore the movement penalty for traveling' +
         ' through difficult terrain.');
@@ -141,7 +141,7 @@ bool _checkForAcquiredTech(String frame) {
 final ruleSomethingToProve = FactionRule(
   name: 'Something to Prove',
   id: _ruleSomethingToProveId,
-  factionMod: (ur, cg, u) => NuCoalFactionMods.somethingToProve(),
+  factionMods: (ur, cg, u) => [NuCoalFactionMods.somethingToProve()],
   description:
       'GREL infantry may increase their GU skill by one for 1 TV each.',
 );
