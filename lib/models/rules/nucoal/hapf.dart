@@ -1,4 +1,15 @@
+import 'package:gearforce/data/unit_filter.dart';
+import 'package:gearforce/models/factions/faction_rule.dart';
+import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/rules/nucoal/nucoal.dart';
+import 'package:gearforce/models/rules/options/special_unit_filter.dart';
+import 'package:gearforce/models/rules/south/fha.dart' as fha;
+import 'package:gearforce/models/unit/role.dart';
+import 'package:gearforce/models/unit/unit_core.dart';
+
+const String _baseRuleId = 'rule::hapf';
+
+const String _ruleSouthernSurplusId = '$_baseRuleId::10';
 
 /*
   HAPF - Humanist Alliance Protection Force
@@ -16,6 +27,41 @@ class HAPF extends NuCoal {
   HAPF(super.data)
       : super(
           name: 'Humanist Alliance Protection Force',
-          subFactionRules: [],
+          subFactionRules: [
+            fha.ruleWroteTheBook,
+            fha.ruleExperts,
+            ruleSouthernSurplus,
+          ],
         );
+}
+
+final ruleSouthernSurplus = FactionRule(
+    name: 'Southern Surplus',
+    id: _ruleSouthernSurplusId,
+    hasGroupRole: (unit, target, group) {
+      if (unit.faction != FactionType.South) {
+        return null;
+      }
+
+      if (target == RoleType.FT || target == RoleType.SO) {
+        return false;
+      }
+      return null;
+    },
+    unitFilter: () => const SpecialUnitFilter(
+        text: 'Southern Surplus',
+        filters: [
+          UnitFilter(
+            FactionType.South,
+            matcher: _matchSouthernSurplus,
+          ),
+        ],
+        id: _ruleSouthernSurplusId),
+    description: 'This force may include models from the South in GP, SK, FS' +
+        ' and RC units, except for King Cobras and Drakes.');
+
+/// Match for models for the Souther Surplus rule.
+bool _matchSouthernSurplus(UnitCore uc) {
+  final frame = uc.frame;
+  return frame != 'King Cobra' && frame != 'Drake';
 }
