@@ -102,7 +102,10 @@ class FactionRule extends ChangeNotifier {
       factionMod;
   final SpecialUnitFilter Function()? unitFilter;
 
+  /// Run this function when the [modId] is added.
   final Function(Unit unit, String modId)? onModAdded;
+
+  /// Run this function when the [modId] is removed.
   final Function(Unit unit, String modId)? onModRemoved;
 
   bool get isEnabled => _isEnabled;

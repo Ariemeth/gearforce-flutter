@@ -4,6 +4,7 @@ import 'package:gearforce/models/mods/factionUpgrades/faction_mod.dart';
 import 'package:gearforce/models/mods/mods.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/rules/nucoal/pak.dart' as pak;
+import 'package:gearforce/models/rules/nucoal/th.dart' as th;
 import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/command.dart';
@@ -15,6 +16,7 @@ const _factionModIdBase = 'mod::faction::nucoal';
 const hoverTankCommanderId = '$_factionModIdBase::10';
 const tankJockeysId = '$_factionModIdBase::20';
 const somethingToProveId = '$_factionModIdBase::30';
+const jannitePilotsId = '$_factionModIdBase::40';
 
 class NuCoalFactionMods extends FactionModification {
   NuCoalFactionMods({
@@ -58,7 +60,7 @@ class NuCoalFactionMods extends FactionModification {
     );
     fm.addMod<int>(UnitAttribute.tv, createSimpleIntMod(1),
         description: 'TV: +1');
-    fm.addMod<int>(UnitAttribute.ew, createSimpleIntMod(-1, min: 3),
+    fm.addMod<int>(UnitAttribute.ew, createSimpleIntMod(-1, minValue: 3),
         description: 'Hover Tank Commander: Any commander that is in a' +
             ' vehicle type model may improve its EW skill by one, to a' +
             ' maximum of 3+, for 1 TV each.');
@@ -144,8 +146,50 @@ class NuCoalFactionMods extends FactionModification {
     fm.addMod<int>(UnitAttribute.tv, createSimpleIntMod(1),
         description: 'TV: +1');
 
-    fm.addMod(UnitAttribute.gunnery, createSimpleIntMod(-1),
+    fm.addMod<int>(UnitAttribute.gunnery, createSimpleIntMod(-1),
         description: 'GREL infantry may increase their GU skill by one');
+
+    return fm;
+  }
+
+  /*
+    Veteran gears in this force with one action may upgrade to having two actions
+    for +2 TV each.
+  */
+  factory NuCoalFactionMods.jannitePilots() {
+    final RequirementCheck reqCheck =
+        (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+      assert(cg != null);
+      assert(rs != null);
+
+      if (!u.isVeteran) {
+        return false;
+      }
+
+      if (rs == null || !rs.isRuleEnabled(th.ruleJannitePilots.id)) {
+        return false;
+      }
+
+      final currentActions =
+          u.attribute<int>(UnitAttribute.actions, modIDToSkip: jannitePilotsId);
+
+      return currentActions == 1;
+    };
+
+    final fm = NuCoalFactionMods(
+      name: 'Jannite Pilots',
+      requirementCheck: reqCheck,
+      id: jannitePilotsId,
+    );
+    fm.addMod<int>(UnitAttribute.tv, createSimpleIntMod(2),
+        description: 'TV: +2');
+
+    fm.addMod<int>(
+      UnitAttribute.actions,
+      createSimpleIntMod(1),
+      description: 'Veteran gears in this force with one action may upgrade' +
+          ' to having two act',
+    );
 
     return fm;
   }

@@ -76,6 +76,8 @@ FactionModification? factionModFromId(String id, UnitRoster ur, Unit u) {
       return NuCoalFactionMods.tankJockeys();
     case somethingToProveId:
       return NuCoalFactionMods.somethingToProve();
+    case jannitePilotsId:
+      return NuCoalFactionMods.jannitePilots();
   }
   return null;
 }
