@@ -131,6 +131,7 @@ class FactionRule extends ChangeNotifier {
     bool canBeToggled = true,
     bool initialState = false,
     bool Function(CombatGroup?, UnitRoster?)? cgCheck,
+    bool? Function()? isEnabledOverrideCheck,
     Function()? listener,
   }) {
     final cgOption = CombatGroupOption(
@@ -141,6 +142,7 @@ class FactionRule extends ChangeNotifier {
       canBeToggled: canBeToggled,
       initialState: initialState,
       description: description,
+      isEnabledOverrideCheck: isEnabledOverrideCheck,
     );
     if (listener == null) {
       cgOption.addListener(() {
@@ -214,6 +216,7 @@ class FactionRule extends ChangeNotifier {
 
   factory FactionRule.from(
     FactionRule original, {
+    String? name,
     String? id,
     List<FactionRule>? options,
     bool? isEnabled,
@@ -223,7 +226,7 @@ class FactionRule extends ChangeNotifier {
     CombatGroupOption Function()? combatGroupOption,
   }) {
     return FactionRule(
-      name: original.name,
+      name: name != null ? name : original.name,
       id: id != null ? id : original.id,
       options: options != null ? options : original._options?.toList(),
       isEnabled: isEnabled != null ? isEnabled : original.isEnabled,

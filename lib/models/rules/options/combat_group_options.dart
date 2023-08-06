@@ -12,6 +12,7 @@ class CombatGroupOption extends ChangeNotifier {
     this.canBeToggled = true,
     bool initialState = false,
     this.description,
+    this.isEnabledOverrideCheck,
   }) {
     _isEnabled = initialState;
   }
@@ -21,9 +22,19 @@ class CombatGroupOption extends ChangeNotifier {
   final FactionRule factionRule;
   final bool canBeToggled;
   final String? description;
+  final bool? Function()? isEnabledOverrideCheck;
 
   late bool _isEnabled;
-  bool get isEnabled => _isEnabled;
+  bool get isEnabled {
+    if (isEnabledOverrideCheck != null) {
+      final override = isEnabledOverrideCheck!();
+      if (override != null) {
+        return override;
+      }
+    }
+    return _isEnabled;
+  }
+
   set isEnabled(bool newState) {
     if (!canBeToggled) {
       return;

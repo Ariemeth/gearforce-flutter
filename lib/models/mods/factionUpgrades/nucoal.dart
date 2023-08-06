@@ -17,6 +17,7 @@ const hoverTankCommanderId = '$_factionModIdBase::10';
 const tankJockeysId = '$_factionModIdBase::20';
 const somethingToProveId = '$_factionModIdBase::30';
 const jannitePilotsId = '$_factionModIdBase::40';
+const fastCavalryId = '$_factionModIdBase::50';
 
 class NuCoalFactionMods extends FactionModification {
   NuCoalFactionMods({
@@ -189,6 +190,36 @@ class NuCoalFactionMods extends FactionModification {
       createSimpleIntMod(1),
       description: 'Veteran gears in this force with one action may upgrade' +
           ' to having two act',
+    );
+
+    return fm;
+  }
+
+  /*
+    Sampsons in this combat group may purchase the Agile trait for 1 TV each.
+  */
+  factory NuCoalFactionMods.fastCavalry() {
+    final RequirementCheck reqCheck =
+        (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+      assert(cg != null);
+      assert(rs != null);
+
+      return u.core.frame == 'Sampson';
+    };
+
+    final fm = NuCoalFactionMods(
+      name: 'Fast Cavalry',
+      requirementCheck: reqCheck,
+      id: fastCavalryId,
+    );
+    fm.addMod<int>(UnitAttribute.tv, createSimpleIntMod(1),
+        description: 'TV: +1');
+
+    fm.addMod<List<Trait>>(
+      UnitAttribute.traits,
+      createAddTraitToList(Trait.Agile()),
+      description: 'Sampsons in this combat group may purchase the Agile' +
+          ' trait for 1 TV each.',
     );
 
     return fm;
