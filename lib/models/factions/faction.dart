@@ -24,7 +24,7 @@ class Faction {
   factory Faction.blackTalons(Data data) {
     final rulesets = [
       BlackTalons(data, name: _emptySubFactionName),
-      //  BlackTalons.BTRT(data),
+      BlackTalons.BTRT(data),
       //  BlackTalons.BTIT(data),
       //  BlackTalons.BTST(data),
       //  BlackTalons.BTAT(data),
