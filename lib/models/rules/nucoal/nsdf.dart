@@ -1,6 +1,5 @@
 import 'package:gearforce/models/factions/faction_rule.dart';
-import 'package:gearforce/models/mods/duelist/duelist_modification.dart'
-    as duelistMod;
+import 'package:gearforce/models/mods/factionUpgrades/nucoal.dart';
 import 'package:gearforce/models/rules/north/north.dart' as north;
 import 'package:gearforce/models/rules/nucoal/nucoal.dart';
 
@@ -42,17 +41,7 @@ final FactionRule ruleBaitAndSwitch = FactionRule(
 final FactionRule ruleHighSpeedLowDrag = FactionRule(
   name: 'High Speed, Low Drag',
   id: _ruleHighSpeedLowDragId,
-  duelistModCheck: (u, cg, {required modID}) {
-    if (modID != duelistMod.agileId) {
-      return null;
-    }
-
-    if (u.isVeteran) {
-      return true;
-    }
-    return null;
-  },
-  description:
-      'Veteran gears may purchase the Duelist Agile trait for 1 TV each.' +
-          ' Models with the Lumbering trait may not purchase this upgrade.',
+  factionMods: (ur, cg, u) => [NuCoalFactionMods.highSpeedLowDrag()],
+  description: 'Veteran gears may purchase the Agile trait for 1 TV each.' +
+      ' Models with the Lumbering trait may not purchase this upgrade.',
 );

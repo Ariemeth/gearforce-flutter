@@ -71,6 +71,7 @@ FactionModification? factionModFromId(String id, UnitRoster ur, Unit u) {
       return SouthernFactionMods.metsuke(u);
 
     // NuCoal Faction mods
+    case highSpeedLowDragId:
     case hoverTankCommanderId:
       return NuCoalFactionMods.hoverTankCommander();
     case tankJockeysId:
@@ -95,6 +96,10 @@ FactionModification? factionModFromId(String id, UnitRoster ur, Unit u) {
       return BlackTalonMods.theChosen();
     case theUnseenId:
       return BlackTalonMods.theUnseen();
+    case radioBlackoutId:
+      return BlackTalonMods.RadioBlackout();
+    case theTalonsId:
+      return BlackTalonMods.theTalons();
   }
   return null;
 }
