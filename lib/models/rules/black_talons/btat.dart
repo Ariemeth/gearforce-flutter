@@ -1,5 +1,8 @@
 import 'package:gearforce/models/rules/black_talons/black_talons.dart';
 
+const String _baseRuleId = 'rule::btat';
+const String _ruleId = '$_baseRuleId::10';
+
 /*
   BTAT - Black Talon Assault Team
   BTATs are some of the largest Black Talon elements in existance. Their missions also
