@@ -5,7 +5,7 @@ import 'package:gearforce/models/mods/factionUpgrades/black_talon.dart';
 import 'package:gearforce/models/rules/black_talons/black_talons.dart';
 import 'package:gearforce/models/rules/options/special_unit_filter.dart';
 
-const String _baseRuleId = 'rule::blackTalon';
+const String _baseRuleId = 'rule::btit';
 const String _ruleAlliesId = '$_baseRuleId::10';
 const String _ruleAssymetryId = '$_baseRuleId::20';
 const String _ruleRadioBlackoutId = '$_baseRuleId::30';
@@ -80,5 +80,5 @@ final FactionRule ruleTheTalons = FactionRule(
   name: 'The Talons',
   id: _ruleTheTalonsId,
   factionMods: (ur, cg, u) => [BlackTalonMods.theTalons()],
-  description: '',
+  description: 'Dark Jaguars and Dark Mambas may add +1 action for 2 TV each.',
 );

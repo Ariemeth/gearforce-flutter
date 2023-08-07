@@ -272,7 +272,7 @@ abstract class RuleSet extends ChangeNotifier {
   bool duelistCheck(UnitRoster roster, CombatGroup cg, Unit u) {
     // Check if any faction rules override the default duelist check.  If any
     // result is false, then the check is failed.  If all results returned are
-    // true, continue the check
+    // true, return true.
     final modelCheckOverrides = allEnabledRules(u.group?.combatGroup?.options)
         .where((rule) => rule.duelistModelCheck != null);
     final overrideValues = modelCheckOverrides
@@ -282,6 +282,7 @@ abstract class RuleSet extends ChangeNotifier {
       if (overrideValues.any((status) => status == false)) {
         return false;
       }
+      return true;
     } else if (u.type != ModelType.Gear) {
       return false;
     }
