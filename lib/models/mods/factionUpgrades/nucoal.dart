@@ -16,16 +16,16 @@ import 'package:gearforce/models/unit/movement.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
 
-const _factionModIdBase = 'mod::faction::nucoal';
-const hoverTankCommanderId = '$_factionModIdBase::10';
-const tankJockeysId = '$_factionModIdBase::20';
-const somethingToProveId = '$_factionModIdBase::30';
-const jannitePilotsId = '$_factionModIdBase::40';
-const fastCavalryId = '$_factionModIdBase::50';
-const ePexId = '$_factionModIdBase::60';
-const highOctaneId = '$_factionModIdBase::70';
-const personalEquipment1Id = '$_factionModIdBase::80';
-const personalEquipment2Id = '$_factionModIdBase::90';
+const _baseFactionModId = 'mod::faction::nucoal';
+const hoverTankCommanderId = '$_baseFactionModId::10';
+const tankJockeysId = '$_baseFactionModId::20';
+const somethingToProveId = '$_baseFactionModId::30';
+const jannitePilotsId = '$_baseFactionModId::40';
+const fastCavalryId = '$_baseFactionModId::50';
+const ePexId = '$_baseFactionModId::60';
+const highOctaneId = '$_baseFactionModId::70';
+const personalEquipment1Id = '$_baseFactionModId::80';
+const personalEquipment2Id = '$_baseFactionModId::90';
 
 class NuCoalFactionMods extends FactionModification {
   NuCoalFactionMods({

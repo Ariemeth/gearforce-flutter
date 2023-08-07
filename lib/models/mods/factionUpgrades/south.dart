@@ -14,12 +14,12 @@ import 'package:gearforce/models/unit/unit_attribute.dart';
 import 'package:gearforce/models/weapons/weapon.dart';
 import 'package:gearforce/models/weapons/weapons.dart';
 
-const _southernIDBase = 'mod::faction::southern';
-const prideOfTheSouthId = '$_southernIDBase::10';
-const politicalOfficerId = '$_southernIDBase::20';
-const conscriptionId = '$_southernIDBase::30';
-const samuraiSpiritId = '$_southernIDBase::40';
-const metsukeId = '$_southernIDBase::50';
+const _baseFactionModId = 'mod::faction::southern';
+const prideOfTheSouthId = '$_baseFactionModId::10';
+const politicalOfficerId = '$_baseFactionModId::20';
+const conscriptionId = '$_baseFactionModId::30';
+const samuraiSpiritId = '$_baseFactionModId::40';
+const metsukeId = '$_baseFactionModId::50';
 
 class SouthernFactionMods extends FactionModification {
   SouthernFactionMods({

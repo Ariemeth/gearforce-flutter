@@ -17,19 +17,19 @@ import 'package:gearforce/models/unit/unit_attribute.dart';
 import 'package:gearforce/models/weapons/weapon.dart';
 import 'package:gearforce/models/weapons/weapons.dart';
 
-const _peaceRiverIDBase = 'mod::faction::peace river';
+const _baseFactionModId = 'mod::faction::peace river';
 
-const e_pexID = '$_peaceRiverIDBase::10';
-const warriorEliteID = '$_peaceRiverIDBase::20';
-const crisisRespondersID = '$_peaceRiverIDBase::30';
-const laserTechID = '$_peaceRiverIDBase::40';
-const olTrustyID = '$_peaceRiverIDBase::50';
-const thunderFromTheSkyID = '$_peaceRiverIDBase::60';
-const eliteElementsID = '$_peaceRiverIDBase::70';
-const ecmSpecialistID = '$_peaceRiverIDBase::80';
-const olTrustyPOCID = '$_peaceRiverIDBase::90';
-const peaceOfficersID = '$_peaceRiverIDBase::100';
-const gSWATSniperID = '$_peaceRiverIDBase::110';
+const e_pexID = '$_baseFactionModId::10';
+const warriorEliteID = '$_baseFactionModId::20';
+const crisisRespondersID = '$_baseFactionModId::30';
+const laserTechID = '$_baseFactionModId::40';
+const olTrustyID = '$_baseFactionModId::50';
+const thunderFromTheSkyID = '$_baseFactionModId::60';
+const eliteElementsID = '$_baseFactionModId::70';
+const ecmSpecialistID = '$_baseFactionModId::80';
+const olTrustyPOCID = '$_baseFactionModId::90';
+const peaceOfficersID = '$_baseFactionModId::100';
+const gSWATSniperID = '$_baseFactionModId::110';
 
 class PeaceRiverFactionMods extends FactionModification {
   PeaceRiverFactionMods({

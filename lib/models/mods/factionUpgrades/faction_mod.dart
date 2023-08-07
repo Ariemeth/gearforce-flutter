@@ -1,4 +1,5 @@
 import 'package:gearforce/models/mods/base_modification.dart';
+import 'package:gearforce/models/mods/factionUpgrades/black_talon.dart';
 import 'package:gearforce/models/mods/factionUpgrades/north.dart';
 import 'package:gearforce/models/mods/factionUpgrades/nucoal.dart';
 import 'package:gearforce/models/mods/factionUpgrades/peace_river.dart';
@@ -88,6 +89,10 @@ FactionModification? factionModFromId(String id, UnitRoster ur, Unit u) {
       return NuCoalFactionMods.personalEquipment(PersonalEquipment.One);
     case personalEquipment2Id:
       return NuCoalFactionMods.personalEquipment(PersonalEquipment.Two);
+
+    // Black Talon mods
+    case theChosenId:
+      return BlackTalonMods.theChosen();
   }
   return null;
 }
