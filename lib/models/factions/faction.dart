@@ -25,7 +25,7 @@ class Faction {
     final rulesets = [
       BlackTalons(data, name: _emptySubFactionName),
       BlackTalons.BTRT(data),
-      //  BlackTalons.BTIT(data),
+      BlackTalons.BTIT(data),
       //  BlackTalons.BTST(data),
       //  BlackTalons.BTAT(data),
     ];

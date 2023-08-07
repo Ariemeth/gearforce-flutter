@@ -6,6 +6,7 @@ import 'package:gearforce/models/mods/mods.dart';
 import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/rules/nucoal/hcsa.dart' as hcsa;
+import 'package:gearforce/models/rules/nucoal/nsdf.dart' as nsdf;
 import 'package:gearforce/models/rules/nucoal/pak.dart' as pak;
 import 'package:gearforce/models/rules/nucoal/th.dart' as th;
 import 'package:gearforce/models/rules/rule_set.dart';
@@ -17,15 +18,16 @@ import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
 
 const _baseFactionModId = 'mod::faction::nucoal';
-const hoverTankCommanderId = '$_baseFactionModId::10';
-const tankJockeysId = '$_baseFactionModId::20';
-const somethingToProveId = '$_baseFactionModId::30';
-const jannitePilotsId = '$_baseFactionModId::40';
-const fastCavalryId = '$_baseFactionModId::50';
-const ePexId = '$_baseFactionModId::60';
-const highOctaneId = '$_baseFactionModId::70';
-const personalEquipment1Id = '$_baseFactionModId::80';
-const personalEquipment2Id = '$_baseFactionModId::90';
+const highSpeedLowDragId = '$_baseFactionModId::10';
+const hoverTankCommanderId = '$_baseFactionModId::20';
+const tankJockeysId = '$_baseFactionModId::30';
+const somethingToProveId = '$_baseFactionModId::40';
+const jannitePilotsId = '$_baseFactionModId::50';
+const fastCavalryId = '$_baseFactionModId::60';
+const ePexId = '$_baseFactionModId::70';
+const highOctaneId = '$_baseFactionModId::80';
+const personalEquipment1Id = '$_baseFactionModId::90';
+const personalEquipment2Id = '$_baseFactionModId::100';
 
 class NuCoalFactionMods extends FactionModification {
   NuCoalFactionMods({
@@ -36,6 +38,45 @@ class NuCoalFactionMods extends FactionModification {
     super.onAdd,
     super.onRemove,
   }) : super();
+
+  /*
+    Veteran gears may purchase the Agile trait for 1 TV each. Models with
+    the Lumbering trait may not purchase this upgrade.
+  */
+  factory NuCoalFactionMods.highSpeedLowDrag() {
+    final RequirementCheck reqCheck =
+        (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+      assert(cg != null);
+      assert(rs != null);
+
+      if (rs == null || !rs.isRuleEnabled(nsdf.ruleHighSpeedLowDrag.id)) {
+        return false;
+      }
+
+      if (u.traits.any((t) => t.name == Trait.Lumbering().name)) {
+        return false;
+      }
+
+      return u.isVeteran;
+    };
+
+    final fm = NuCoalFactionMods(
+      name: 'High Speed, Low Drag',
+      requirementCheck: reqCheck,
+      id: highSpeedLowDragId,
+    );
+    fm.addMod<int>(UnitAttribute.tv, createSimpleIntMod(1),
+        description: 'TV: +1');
+
+    fm.addMod<List<Trait>>(
+      UnitAttribute.traits,
+      createAddTraitToList(Trait.Agile()),
+      description: 'Veteran gears may purchase the Agile trait for 1 TV each.' +
+          ' Models with the Lumbering trait may not purchase this upgrade.',
+    );
+
+    return fm;
+  }
 
   /*
     Hover Tank Commander: Any commander that is in a vehicle type model may
