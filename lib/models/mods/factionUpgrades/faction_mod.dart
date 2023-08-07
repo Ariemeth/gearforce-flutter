@@ -93,6 +93,8 @@ FactionModification? factionModFromId(String id, UnitRoster ur, Unit u) {
     // Black Talon mods
     case theChosenId:
       return BlackTalonMods.theChosen();
+    case theUnseenId:
+      return BlackTalonMods.theUnseen();
   }
   return null;
 }

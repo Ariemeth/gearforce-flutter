@@ -499,10 +499,9 @@ class VeteranModification extends BaseModification {
     final modName = _vetModNames[improvedGunneryID];
     assert(modName != null);
 
-    final gunnery = u.gunnery;
     var modCost = u.actions != null ? u.actions! * 2 : 0;
 
-    return VeteranModification(
+    final vm = VeteranModification(
         name: modName ?? improvedGunneryID,
         id: improvedGunneryID,
         requirementCheck:
@@ -516,22 +515,25 @@ class VeteranModification extends BaseModification {
 
           modCost = rs!.modCostOverride(modCost, improvedGunneryID, u);
           return rs.veteranModCheck(u, cg!, modID: improvedGunneryID);
-        })
-      ..addMod<int>(
-        UnitAttribute.tv,
-        (value) {
-          return value + (u.actions != null ? modCost : 0);
-        },
-        dynamicDescription: () => 'TV +${u.actions != null ? modCost : 0}',
-      )
-      ..addMod<int>(
-        UnitAttribute.gunnery,
-        (value) {
-          return value - 1;
-        },
-        description:
-            'Improve this model’s gunnery skill by one for 2 TV to (${gunnery == null ? '-' : '${gunnery - 1}+'})',
-      );
+        });
+
+    vm.addMod<int>(
+      UnitAttribute.tv,
+      (value) {
+        return value + (u.actions != null ? modCost : 0);
+      },
+      description: 'TV +${u.actions != null ? modCost : 0}',
+    );
+
+    vm.addMod<int>(
+      UnitAttribute.gunnery,
+      (value) {
+        return value - 1;
+      },
+      description: 'Improve this model’s gunnery skill by one',
+    );
+
+    return vm;
   }
 
   /*

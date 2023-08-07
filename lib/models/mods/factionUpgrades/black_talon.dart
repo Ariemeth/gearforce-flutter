@@ -4,12 +4,14 @@ import 'package:gearforce/models/mods/factionUpgrades/faction_mod.dart';
 import 'package:gearforce/models/mods/mods.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/rules/black_talons/black_talons.dart';
+import 'package:gearforce/models/rules/black_talons/btrt.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
 
 const _baseFactionModId = 'mod::faction::blackTalon';
 const theChosenId = '$_baseFactionModId::10';
+const theUnseenId = '$_baseFactionModId::20';
 
 class BlackTalonMods extends FactionModification {
   BlackTalonMods({
@@ -55,6 +57,48 @@ class BlackTalonMods extends FactionModification {
     );
 
     fm.addMod(UnitAttribute.cp, createSimpleIntMod(1), description: '+1 CP');
+
+    return fm;
+  }
+
+  /*
+    Dark Cheetahs and Dark Skirmishers may add +1 action for 2 TV each.
+  */
+  factory BlackTalonMods.theUnseen() {
+    final RequirementCheck reqCheck =
+        (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+      assert(cg != null);
+      assert(rs != null);
+
+      if (rs == null || !rs.isRuleEnabled(ruleTheUnseen.id)) {
+        return false;
+      }
+
+      final frame = u.core.frame;
+      if (frame == 'Dark Cheetah' || frame == 'Dark Skirmisher') {
+        return true;
+      }
+
+      return false;
+    };
+
+    final fm = BlackTalonMods(
+      name: 'The Unseen',
+      requirementCheck: reqCheck,
+      id: theUnseenId,
+    );
+
+    fm.addMod<int>(
+      UnitAttribute.tv,
+      createSimpleIntMod(2),
+      description: 'TV: +2',
+    );
+
+    fm.addMod<int>(
+      UnitAttribute.actions,
+      createSimpleIntMod(1),
+      description: '+1 actions',
+    );
 
     return fm;
   }
