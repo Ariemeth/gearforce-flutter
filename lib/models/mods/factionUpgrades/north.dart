@@ -20,13 +20,13 @@ import 'package:gearforce/models/weapons/range.dart';
 import 'package:gearforce/models/weapons/weapon.dart';
 import 'package:gearforce/models/weapons/weapons.dart';
 
-const _northernIDBase = 'mod::faction::northern';
-const taskBuiltID = '$_northernIDBase::10';
-const hammersOfTheNorthID = '$_northernIDBase::20';
-const olTrustyWFPID = '$_northernIDBase::30';
-const wellFundedID = '$_northernIDBase::40';
-const chaplainID = '$_northernIDBase::50';
-const warriorMonksID = '$_northernIDBase::60';
+const _baseFactionModId = 'mod::faction::northern';
+const taskBuiltID = '$_baseFactionModId::10';
+const hammersOfTheNorthID = '$_baseFactionModId::20';
+const olTrustyWFPID = '$_baseFactionModId::30';
+const wellFundedID = '$_baseFactionModId::40';
+const chaplainID = '$_baseFactionModId::50';
+const warriorMonksID = '$_baseFactionModId::60';
 
 class NorthernFactionMods extends FactionModification {
   NorthernFactionMods({
