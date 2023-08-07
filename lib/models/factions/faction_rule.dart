@@ -8,6 +8,7 @@ import 'package:gearforce/models/rules/options/special_unit_filter.dart';
 import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
+import 'package:gearforce/models/weapons/weapon.dart';
 
 class FactionRule extends ChangeNotifier {
   FactionRule({
@@ -36,6 +37,7 @@ class FactionRule extends ChangeNotifier {
     this.unitFilter,
     this.onModAdded,
     this.onModRemoved,
+    this.modifyWeapon,
   }) {
     _isEnabled = isEnabled;
     _options = options;
@@ -107,6 +109,9 @@ class FactionRule extends ChangeNotifier {
 
   /// Run this function when the [modId] is removed.
   final Function(Unit unit, String modId)? onModRemoved;
+
+  /// Modify a [Weapon].
+  final Weapon Function(Weapon weapon)? modifyWeapon;
 
   bool get isEnabled => _isEnabled;
 
@@ -255,6 +260,7 @@ class FactionRule extends ChangeNotifier {
       unitFilter: original.unitFilter,
       onModAdded: original.onModAdded,
       onModRemoved: original.onModRemoved,
+      modifyWeapon: original.modifyWeapon,
       cgCheck: cgCheck != null ? cgCheck : original.cgCheck,
     );
   }

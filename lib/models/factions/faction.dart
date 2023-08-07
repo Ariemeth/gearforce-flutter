@@ -27,7 +27,7 @@ class Faction {
       BlackTalons.BTRT(data),
       BlackTalons.BTIT(data),
       BlackTalons.BTST(data),
-      //  BlackTalons.BTAT(data),
+      BlackTalons.BTAT(data),
     ];
     return Faction(FactionType.BlackTalon, rulesets, rulesets.first);
   }

@@ -33,7 +33,10 @@ class Weapon {
   final List<Trait> bonusTraits;
   final Weapon? combo;
 
+  /// Return the weapons size S, M, L
   String get size => abbreviation.substring(0, 1);
+
+  /// Return the weapons identify code SE, MG or AC
   String get code => abbreviation.substring(1);
   bool get isCombo => combo != null;
   List<Trait> get traits {

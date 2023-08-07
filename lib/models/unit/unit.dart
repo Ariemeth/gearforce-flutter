@@ -387,6 +387,24 @@ class Unit extends ChangeNotifier {
       newList = mod.applyMods(UnitAttribute.weapons, newList);
     }
 
+    final rs = group?.combatGroup?.roster?.rulesetNotifer.value;
+    if (rs != null) {
+      final weaponModifierRules =
+          rs.allEnabledRules(null).where((rule) => rule.modifyWeapon != null);
+      weaponModifierRules.forEach((rule) {
+        newList.forEach((w) {
+          final w2 = rule.modifyWeapon!(w);
+          if (w != w2) {
+            final indexToRemove = newList.indexOf(w);
+            if (indexToRemove >= 0) {
+              newList.removeAt(indexToRemove);
+              newList.insert(indexToRemove, w2);
+            }
+          }
+        });
+      });
+    }
+
     return newList;
   }
 

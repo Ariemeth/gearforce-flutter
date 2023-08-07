@@ -80,5 +80,5 @@ final FactionRule ruleTheTalons = FactionRule(
   name: 'The Talons',
   id: _ruleTheTalonsId,
   factionMods: (ur, cg, u) => [BlackTalonMods.theTalons()],
-  description: '',
+  description: 'Dark Jaguars and Dark Mambas may add +1 action for 2 TV each.',
 );
