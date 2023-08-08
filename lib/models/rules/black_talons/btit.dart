@@ -52,7 +52,9 @@ final ruleAllies = FactionRule(
       ],
       id: _ruleAlliesId),
   availableCommandLevelOverride: (u) {
-    if (u.faction != FactionType.BlackTalon) {
+    if (u.faction == FactionType.Caprice ||
+        u.faction == FactionType.Utopia ||
+        u.faction == FactionType.Eden) {
       return [];
     }
     return null;

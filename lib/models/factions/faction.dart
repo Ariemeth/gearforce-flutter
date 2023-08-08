@@ -44,8 +44,8 @@ class Faction {
     final rulesets = [
       CEF(data, name: _emptySubFactionName),
       CEF.CEFFF(data),
-      // CEF.CEFTF(data),
-      // CEF.CEFIF(data),
+      CEF.CEFTF(data),
+      CEF.CEFIF(data),
     ];
     return Faction(FactionType.CEF, rulesets, rulesets.first);
   }

@@ -16,6 +16,7 @@ import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/model_type.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
+import 'package:gearforce/models/weapons/weapon.dart';
 
 const coreName = 'None';
 const coreTag = 'none';
@@ -517,5 +518,31 @@ abstract class RuleSet extends ChangeNotifier {
     }
 
     return (u.traits.any((trait) => trait.name == 'Vet'));
+  }
+
+  /// Modifies an existing [Weapon] list based on current [FactionRule]s.
+  unitWeaponsModifier(List<Weapon> weapons) {
+    final weaponModifierRules =
+        allEnabledRules(null).where((rule) => rule.modifyWeapon != null);
+    if (weaponModifierRules.isEmpty) {
+      return;
+    }
+
+    weaponModifierRules.forEach((rule) {
+      rule.modifyWeapon!(weapons);
+    });
+  }
+
+  /// Modifies an existing [Trait] list based on current [FactionRule]s.
+  unitTraitsModifier(List<Trait> traits, Unit unit) {
+    final traitModifierRules =
+        allEnabledRules(null).where((rule) => rule.modifyTraits != null);
+    if (traitModifierRules.isEmpty) {
+      return;
+    }
+
+    traitModifierRules.forEach((rule) {
+      rule.modifyTraits!(traits, unit.core);
+    });
   }
 }
