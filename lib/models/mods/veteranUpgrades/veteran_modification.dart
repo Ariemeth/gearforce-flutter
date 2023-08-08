@@ -566,7 +566,7 @@ class VeteranModification extends BaseModification {
             'Autocannon, Frag Cannon, Flamer or Grenade ' +
             'Launcher with the React trait for 1 TV.');
 
-    return VeteranModification(
+    final vm = VeteranModification(
         name: modName ?? dualGunsId,
         id: dualGunsId,
         options: modOptions,
@@ -581,9 +581,13 @@ class VeteranModification extends BaseModification {
           }
 
           return rs!.veteranModCheck(u, cg!, modID: dualGunsId);
-        })
-      ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
-      ..addMod<List<Weapon>>(UnitAttribute.weapons, (value) {
+        });
+
+    vm.addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1');
+
+    vm.addMod<List<Weapon>>(
+      UnitAttribute.weapons,
+      (value) {
         final newList = value;
 
         if (modOptions.selectedOption != null &&
@@ -595,9 +599,12 @@ class VeteranModification extends BaseModification {
         }
         return newList;
       },
-          description: 'Add the Link trait to one Pistol, Submachine Gun, ' +
-              'Autocannon, Frag Cannon, Flamer or Grenade ' +
-              'Launcher with the React trait for 1 TV.');
+      description: 'Add the Link trait to one Pistol, Submachine Gun, ' +
+          'Autocannon, Frag Cannon, Flamer or Grenade ' +
+          'Launcher with the React trait for 1 TV.',
+    );
+
+    return vm;
   }
 
   /*
