@@ -122,9 +122,7 @@ final FactionRule ruleAlliesCaprice = FactionRule(
   },
   unitFilter: () => const SpecialUnitFilter(
       text: 'Allies: Caprice',
-      filters: [
-        UnitFilter(FactionType.Caprice),
-      ],
+      filters: [UnitFilter(FactionType.Caprice)],
       id: _ruleAlliesCapriceId),
   description: 'You may select models from Caprice for secondary units.',
 );
@@ -149,9 +147,7 @@ final FactionRule ruleAlliesUtopia = FactionRule(
   },
   unitFilter: () => const SpecialUnitFilter(
       text: 'Allies: Utopia',
-      filters: [
-        UnitFilter(FactionType.Utopia),
-      ],
+      filters: [UnitFilter(FactionType.Utopia)],
       id: _ruleAlliesUtopiaId),
   description: 'You may select models from Utopia for secondary units.',
 );
@@ -176,9 +172,7 @@ final FactionRule ruleAlliesEden = FactionRule(
   },
   unitFilter: () => const SpecialUnitFilter(
       text: 'Allies: Eden',
-      filters: [
-        UnitFilter(FactionType.Eden),
-      ],
+      filters: [UnitFilter(FactionType.Eden)],
       id: _ruleAlliesEdenId),
   description: 'You may select models from Eden for secondary units.',
 );
