@@ -1,5 +1,6 @@
 import 'package:gearforce/models/mods/base_modification.dart';
 import 'package:gearforce/models/mods/factionUpgrades/black_talon.dart';
+import 'package:gearforce/models/mods/factionUpgrades/cef.dart';
 import 'package:gearforce/models/mods/factionUpgrades/north.dart';
 import 'package:gearforce/models/mods/factionUpgrades/nucoal.dart';
 import 'package:gearforce/models/mods/factionUpgrades/peace_river.dart';
@@ -100,6 +101,16 @@ FactionModification? factionModFromId(String id, UnitRoster ur, Unit u) {
       return BlackTalonMods.RadioBlackout();
     case theTalonsId:
       return BlackTalonMods.theTalons();
+
+    // CEF mods
+    case minveraId:
+      return CEFMods.minerva();
+    case advancedInterfaceNetworkId:
+      return CEFMods.advancedInterfaceNetwork(u);
+    case valkyriesId:
+      return CEFMods.valkyries();
+    case ewDuelistsId:
+      return CEFMods.ewDuelists();
   }
   return null;
 }
