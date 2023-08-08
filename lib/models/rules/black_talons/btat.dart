@@ -1,7 +1,6 @@
 import 'package:gearforce/models/factions/faction_rule.dart';
 import 'package:gearforce/models/rules/black_talons/black_talons.dart';
 import 'package:gearforce/models/traits/trait.dart';
-import 'package:gearforce/models/weapons/weapon.dart';
 
 const String _baseRuleId = 'rule::btat';
 const String _ruleShadowWarriorsId = '$_baseRuleId::10';
@@ -45,14 +44,10 @@ final FactionRule ruleShadowWarriors = FactionRule(
 final FactionRule ruleBreachers = FactionRule(
   name: 'Breachers',
   id: _ruleBreachersId,
-  modifyWeapon: (oldWeapon) {
-    if (oldWeapon.code != 'SE') {
-      return oldWeapon;
-    }
-
-    var newWeapon = Weapon.fromWeapon(oldWeapon);
-    newWeapon.baseTraits.removeWhere((t) => Trait.Brawl(-1).isSame(t));
-    return newWeapon;
+  modifyWeapon: (weapons) {
+    weapons.where((w) => w.code == 'SE').forEach((w) {
+      w.baseTraits.removeWhere((t) => Trait.Brawl(-1).isSame(t));
+    });
   },
   description: 'Shaped Explosives (SE) for models in this force do not come' +
       ' with the Brawl:-1 trait.',

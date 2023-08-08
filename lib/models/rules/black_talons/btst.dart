@@ -48,7 +48,10 @@ final ruleAllies = FactionRule(
       ],
       id: _ruleAlliesId),
   availableCommandLevelOverride: (u) {
-    if (u.faction != FactionType.BlackTalon) {
+    if (u.faction == FactionType.North ||
+        u.faction == FactionType.South ||
+        u.faction == FactionType.PeaceRiver ||
+        u.faction == FactionType.NuCoal) {
       return [];
     }
     return null;

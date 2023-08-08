@@ -5,9 +5,11 @@ import 'package:gearforce/models/rules/options/combat_group_options.dart';
 import 'package:gearforce/models/combatGroups/group.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/rules/options/special_unit_filter.dart';
+import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
+import 'package:gearforce/models/unit/unit_core.dart';
 import 'package:gearforce/models/weapons/weapon.dart';
 
 class FactionRule extends ChangeNotifier {
@@ -38,6 +40,7 @@ class FactionRule extends ChangeNotifier {
     this.onModAdded,
     this.onModRemoved,
     this.modifyWeapon,
+    this.modifyTraits,
   }) {
     _isEnabled = isEnabled;
     _options = options;
@@ -110,8 +113,11 @@ class FactionRule extends ChangeNotifier {
   /// Run this function when the [modId] is removed.
   final Function(Unit unit, String modId)? onModRemoved;
 
-  /// Modify a [Weapon].
-  final Weapon Function(Weapon weapon)? modifyWeapon;
+  /// Modify a [Unit]'s [Weapon]s.
+  final Function(List<Weapon> weapons)? modifyWeapon;
+
+  /// Modify a [Unit]'s [Trait]s.
+  final Function(List<Trait> traits, UnitCore uc)? modifyTraits;
 
   bool get isEnabled => _isEnabled;
 
@@ -261,6 +267,7 @@ class FactionRule extends ChangeNotifier {
       onModAdded: original.onModAdded,
       onModRemoved: original.onModRemoved,
       modifyWeapon: original.modifyWeapon,
+      modifyTraits: original.modifyTraits,
       cgCheck: cgCheck != null ? cgCheck : original.cgCheck,
     );
   }

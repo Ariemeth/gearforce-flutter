@@ -25,66 +25,12 @@ import 'package:gearforce/models/unit/unit_core.dart';
 import 'package:gearforce/models/validation/validations.dart';
 import 'package:gearforce/models/weapons/weapon.dart';
 
-Map<BaseModification, Map<String, dynamic>> _loadOptionsFromJSON(
-    Map<BaseModification, Map<String, dynamic>> modsWithOptionsToLoad,
-    {bool refreshOptions = false}) {
-  /*
-      {
-        "text": "LAC",
-        "selected": null
-      }
-      ////////////////////
-      {
-        "text": "LSG",
-        "selected": {
-          "text": "LCW",
-          "selected": null
-        }
-      }
-      */
-  final Map<BaseModification, Map<String, dynamic>> failedToLoadOptions = {};
-  modsWithOptionsToLoad.forEach((modWithOptions, modOptions) {
-    final selectedOptionText = modOptions['text'];
-    final seletedOptionSelection = modOptions['selected'];
-
-    if (refreshOptions) {
-      modWithOptions = modWithOptions.refreshData();
-    }
-
-    if (selectedOptionText != null) {
-      final selectedOption =
-          modWithOptions.options!.optionByText(selectedOptionText);
-      if (selectedOption != null) {
-        modWithOptions.options!.selectedOption = selectedOption;
-        if (seletedOptionSelection != null) {
-          final subOptionText = seletedOptionSelection['text'];
-          if (subOptionText != null) {
-            final selectedSubOption =
-                selectedOption.optionByText(subOptionText);
-            if (selectedSubOption != null) {
-              selectedOption.selectedOption = selectedSubOption;
-            } else {
-              failedToLoadOptions[modWithOptions] = modOptions;
-              print('was unable to find a sub option that matches the ' +
-                  'selected text value of $subOptionText for mod ' +
-                  '${modWithOptions.id}');
-            }
-          }
-        }
-      } else {
-        failedToLoadOptions[modWithOptions] = modOptions;
-        print('was unable to find an option that matches the selected text' +
-            ' value of $selectedOptionText for mod ${modWithOptions.id}');
-      }
-    }
-  });
-
-  return failedToLoadOptions;
-}
-
 class Unit extends ChangeNotifier {
   final UnitCore core;
   Group? group;
+  CombatGroup? get combatGroup => group?.combatGroup;
+  UnitRoster? get roster => group?.combatGroup?.roster;
+  RuleSet? get ruleset => group?.combatGroup?.roster?.rulesetNotifer.value;
 
   final List<BaseModification> _mods = [];
 
@@ -96,6 +42,7 @@ class Unit extends ChangeNotifier {
   Unit({
     required this.core,
   });
+
   factory Unit.from(Unit original) {
     final newUnit = Unit(core: original.core);
     newUnit._commandLevel = original._commandLevel;
@@ -105,6 +52,7 @@ class Unit extends ChangeNotifier {
 
     return newUnit;
   }
+
   factory Unit.fromJson(
     dynamic json,
     Faction faction,
@@ -269,35 +217,34 @@ class Unit extends ChangeNotifier {
         break;
       case CommandLevel.cgl:
         // Only 1 cgl, tfc, co, or xo can exist within a single Combat Group
-        group?.combatGroup?.getUnitWithCommand(CommandLevel.cgl)?.commandLevel =
+        combatGroup?.getUnitWithCommand(CommandLevel.cgl)?.commandLevel =
             CommandLevel.none;
-        group?.combatGroup?.getUnitWithCommand(CommandLevel.tfc)?.commandLevel =
+        combatGroup?.getUnitWithCommand(CommandLevel.tfc)?.commandLevel =
             CommandLevel.none;
-        group?.combatGroup?.getUnitWithCommand(CommandLevel.co)?.commandLevel =
+        combatGroup?.getUnitWithCommand(CommandLevel.co)?.commandLevel =
             CommandLevel.none;
-        group?.combatGroup?.getUnitWithCommand(CommandLevel.xo)?.commandLevel =
+        combatGroup?.getUnitWithCommand(CommandLevel.xo)?.commandLevel =
             CommandLevel.none;
         break;
       case CommandLevel.secic:
         // only 1 second in command per combat group
-        group?.combatGroup
-            ?.getUnitWithCommand(CommandLevel.secic)
-            ?.commandLevel = CommandLevel.none;
+        combatGroup?.getUnitWithCommand(CommandLevel.secic)?.commandLevel =
+            CommandLevel.none;
         break;
       case CommandLevel.xo:
       case CommandLevel.co:
       case CommandLevel.tfc:
         // only 1 xo, co, tfc per task force
-        group?.combatGroup?.roster?.getFirstUnitWithCommand(cl)?.commandLevel =
+        combatGroup?.roster?.getFirstUnitWithCommand(cl)?.commandLevel =
             CommandLevel.cgl;
         // only 1 of xo, co, tfc, or cgl per combat group
-        group?.combatGroup?.getUnitWithCommand(CommandLevel.cgl)?.commandLevel =
+        combatGroup?.getUnitWithCommand(CommandLevel.cgl)?.commandLevel =
             CommandLevel.none;
-        group?.combatGroup?.getUnitWithCommand(CommandLevel.tfc)?.commandLevel =
+        combatGroup?.getUnitWithCommand(CommandLevel.tfc)?.commandLevel =
             CommandLevel.none;
-        group?.combatGroup?.getUnitWithCommand(CommandLevel.co)?.commandLevel =
+        combatGroup?.getUnitWithCommand(CommandLevel.co)?.commandLevel =
             CommandLevel.none;
-        group?.combatGroup?.getUnitWithCommand(CommandLevel.xo)?.commandLevel =
+        combatGroup?.getUnitWithCommand(CommandLevel.xo)?.commandLevel =
             CommandLevel.none;
         break;
     }
@@ -350,33 +297,11 @@ class Unit extends ChangeNotifier {
       .toList();
 
   List<Weapon> get reactWeapons {
-    var newList = this
-        .core
-        .weapons
-        .where((weapon) => weapon.hasReact)
-        .map((weapon) => Weapon.fromWeapon(weapon))
-        .toList();
-
-    for (var mod in this._mods) {
-      newList = mod.applyMods(UnitAttribute.weapons, newList);
-    }
-
-    return newList.where((w) => w.hasReact).toList();
+    return weapons.where((weapon) => weapon.hasReact).toList();
   }
 
   List<Weapon> get mountedWeapons {
-    var newList = this
-        .core
-        .weapons
-        .where((weapon) => !weapon.hasReact)
-        .map((weapon) => Weapon.fromWeapon(weapon))
-        .toList();
-
-    for (var mod in this._mods) {
-      newList = mod.applyMods(UnitAttribute.weapons, newList);
-    }
-
-    return newList.where((w) => !w.hasReact).toList();
+    return weapons.where((weapon) => !weapon.hasReact).toList();
   }
 
   List<Weapon> get weapons {
@@ -387,23 +312,7 @@ class Unit extends ChangeNotifier {
       newList = mod.applyMods(UnitAttribute.weapons, newList);
     }
 
-    final rs = group?.combatGroup?.roster?.rulesetNotifer.value;
-    if (rs != null) {
-      final weaponModifierRules =
-          rs.allEnabledRules(null).where((rule) => rule.modifyWeapon != null);
-      weaponModifierRules.forEach((rule) {
-        newList.forEach((w) {
-          final w2 = rule.modifyWeapon!(w);
-          if (w != w2) {
-            final indexToRemove = newList.indexOf(w);
-            if (indexToRemove >= 0) {
-              newList.removeAt(indexToRemove);
-              newList.insert(indexToRemove, w2);
-            }
-          }
-        });
-      });
-    }
+    ruleset?.unitWeaponsModifier(newList);
 
     return newList;
   }
@@ -473,14 +382,14 @@ class Unit extends ChangeNotifier {
       newList = mod.applyMods(UnitAttribute.traits, newList);
     }
 
+    ruleset?.unitTraitsModifier(newList, this);
+
     return newList;
   }
 
   int get tv {
     var value = this.core.tv;
-    value += group?.combatGroup?.roster?.rulesetNotifer.value
-            .commandTVCost(_commandLevel) ??
-        0;
+    value += ruleset?.commandTVCost(_commandLevel) ?? 0;
 
     for (var mod in this._mods) {
       value = mod.applyMods(UnitAttribute.tv, value);
@@ -553,8 +462,8 @@ class Unit extends ChangeNotifier {
       mod.onAdd!(this);
     }
 
-    final ruleOverrides = group?.combatGroup?.roster?.rulesetNotifer.value
-        .allEnabledRules(group?.combatGroup?.options)
+    final ruleOverrides = ruleset
+        ?.allEnabledRules(combatGroup?.options)
         .where((rule) => rule.onModAdded != null);
     ruleOverrides?.forEach((rule) {
       rule.onModAdded!(this, mod.id);
@@ -629,8 +538,8 @@ class Unit extends ChangeNotifier {
       mod.onRemove!(this);
     }
 
-    final ruleOverrides = group?.combatGroup?.roster?.rulesetNotifer.value
-        .allEnabledRules(group?.combatGroup?.options)
+    final ruleOverrides = ruleset
+        ?.allEnabledRules(combatGroup?.options)
         .where((rule) => rule.onModRemoved != null);
     ruleOverrides?.forEach((rule) {
       rule.onModRemoved!(this, mod.id);
@@ -744,4 +653,61 @@ class Unit extends ChangeNotifier {
   String toString() {
     return 'Unit: $name, TV: $tv, Rank: ${commandLevel.name}, Mods: $modNames';
   }
+}
+
+Map<BaseModification, Map<String, dynamic>> _loadOptionsFromJSON(
+    Map<BaseModification, Map<String, dynamic>> modsWithOptionsToLoad,
+    {bool refreshOptions = false}) {
+  /*
+      {
+        "text": "LAC",
+        "selected": null
+      }
+      ////////////////////
+      {
+        "text": "LSG",
+        "selected": {
+          "text": "LCW",
+          "selected": null
+        }
+      }
+      */
+  final Map<BaseModification, Map<String, dynamic>> failedToLoadOptions = {};
+  modsWithOptionsToLoad.forEach((modWithOptions, modOptions) {
+    final selectedOptionText = modOptions['text'];
+    final seletedOptionSelection = modOptions['selected'];
+
+    if (refreshOptions) {
+      modWithOptions = modWithOptions.refreshData();
+    }
+
+    if (selectedOptionText != null) {
+      final selectedOption =
+          modWithOptions.options!.optionByText(selectedOptionText);
+      if (selectedOption != null) {
+        modWithOptions.options!.selectedOption = selectedOption;
+        if (seletedOptionSelection != null) {
+          final subOptionText = seletedOptionSelection['text'];
+          if (subOptionText != null) {
+            final selectedSubOption =
+                selectedOption.optionByText(subOptionText);
+            if (selectedSubOption != null) {
+              selectedOption.selectedOption = selectedSubOption;
+            } else {
+              failedToLoadOptions[modWithOptions] = modOptions;
+              print('was unable to find a sub option that matches the ' +
+                  'selected text value of $subOptionText for mod ' +
+                  '${modWithOptions.id}');
+            }
+          }
+        }
+      } else {
+        failedToLoadOptions[modWithOptions] = modOptions;
+        print('was unable to find an option that matches the selected text' +
+            ' value of $selectedOptionText for mod ${modWithOptions.id}');
+      }
+    }
+  });
+
+  return failedToLoadOptions;
 }

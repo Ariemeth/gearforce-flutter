@@ -4,7 +4,7 @@ import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart'
     as vetMod;
 import 'package:gearforce/models/rules/cef/cef.dart';
 
-const String _baseRuleId = 'rule::cef';
+const String _baseRuleId = 'rule::cefff';
 const String _ruleDuelingFramesId = '$_baseRuleId::10';
 const String _ruleValkyriesId = '$_baseRuleId::20';
 const String _ruleDualLasersId = '$_baseRuleId::30';
