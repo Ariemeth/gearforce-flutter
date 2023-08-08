@@ -43,7 +43,7 @@ class Faction {
   factory Faction.cef(Data data) {
     final rulesets = [
       CEF(data, name: _emptySubFactionName),
-      // CEF.CEFFF(data),
+      CEF.CEFFF(data),
       // CEF.CEFTF(data),
       // CEF.CEFIF(data),
     ];

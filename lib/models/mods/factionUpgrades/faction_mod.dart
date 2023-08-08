@@ -109,6 +109,8 @@ FactionModification? factionModFromId(String id, UnitRoster ur, Unit u) {
       return CEFMods.advancedInterfaceNetwork(u);
     case valkyriesId:
       return CEFMods.valkyries();
+    case dualLasersId:
+      return CEFMods.dualLasers(u);
     case ewDuelistsId:
       return CEFMods.ewDuelists();
   }
