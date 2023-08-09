@@ -1,4 +1,4 @@
-import 'package:gearforce/models/factions/faction_rule.dart';
+import 'package:gearforce/models/rules/faction_rule.dart';
 import 'package:gearforce/models/rules/black_talons/black_talons.dart';
 import 'package:gearforce/models/traits/trait.dart';
 

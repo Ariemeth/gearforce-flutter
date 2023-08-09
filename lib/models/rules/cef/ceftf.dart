@@ -1,4 +1,4 @@
-import 'package:gearforce/models/factions/faction_rule.dart';
+import 'package:gearforce/models/rules/faction_rule.dart';
 import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart'
     as vetMod;
 import 'package:gearforce/models/rules/cef/cef.dart';

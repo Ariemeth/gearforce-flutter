@@ -1,7 +1,7 @@
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/data/unit_filter.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
-import 'package:gearforce/models/factions/faction_rule.dart';
+import 'package:gearforce/models/rules/faction_rule.dart';
 import 'package:gearforce/models/rules/caprice/cid.dart';
 import 'package:gearforce/models/rules/caprice/cse.dart';
 import 'package:gearforce/models/rules/caprice/lrc.dart';

@@ -1,4 +1,4 @@
-import 'package:gearforce/models/factions/faction_rule.dart';
+import 'package:gearforce/models/rules/faction_rule.dart';
 import 'package:gearforce/models/mods/duelist/duelist_modification.dart';
 import 'package:gearforce/models/mods/factionUpgrades/north.dart';
 import 'package:gearforce/models/rules/north/north.dart';

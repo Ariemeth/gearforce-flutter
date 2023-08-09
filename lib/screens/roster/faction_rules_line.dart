@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gearforce/models/factions/faction_rule.dart';
+import 'package:gearforce/models/rules/faction_rule.dart';
 
 const int _maxOptionNameLines = 2;
 

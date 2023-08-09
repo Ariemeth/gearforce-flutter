@@ -1,7 +1,7 @@
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/data/unit_filter.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
-import 'package:gearforce/models/factions/faction_rule.dart';
+import 'package:gearforce/models/rules/faction_rule.dart';
 import 'package:gearforce/models/rules/nucoal/hapf.dart';
 import 'package:gearforce/models/rules/nucoal/hcsa.dart';
 import 'package:gearforce/models/rules/nucoal/kada.dart';

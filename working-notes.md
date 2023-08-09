@@ -7,3 +7,7 @@ Maybe add a button that allows mods to be added to a unit before they are drug i
 Look into only showing unit filters that match the current combat group's rules
 
 inspect ally faction rules to make sure restrictions are correct and not being applied to universal models as well
+
+How to handle models that need special rules like the HHT-90
+
+update faction rule ids,  add core to base rules and the faction to the sublist rules

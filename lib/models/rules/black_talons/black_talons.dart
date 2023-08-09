@@ -1,7 +1,7 @@
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/data/unit_filter.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
-import 'package:gearforce/models/factions/faction_rule.dart';
+import 'package:gearforce/models/rules/faction_rule.dart';
 import 'package:gearforce/models/mods/factionUpgrades/black_talon.dart';
 import 'package:gearforce/models/rules/black_talons/btat.dart';
 import 'package:gearforce/models/rules/black_talons/btit.dart';

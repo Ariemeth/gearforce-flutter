@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gearforce/data/data.dart';
-import 'package:gearforce/models/factions/faction_rule.dart';
+import 'package:gearforce/models/rules/faction_rule.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/screens/roster/faction_rules_dialog.dart';
 import 'package:gearforce/screens/roster/select_faction.dart';
