@@ -203,6 +203,11 @@ abstract class RuleSet extends ChangeNotifier {
         return false;
       }
     }
+    final modelCheck = _checkModelRules(unit, group);
+    if (modelCheck != null && !modelCheck) {
+      return false;
+    }
+
     // if the unit is unlimited for the groups roletype you can add as many
     // as you want.
     if (isRoleTypeUnlimited(unit, targetRole, group, cg.roster)) {
@@ -546,3 +551,70 @@ abstract class RuleSet extends ChangeNotifier {
     });
   }
 }
+
+bool? _checkModelRules(Unit unit, Group group) {
+  final frame = unit.core.frame;
+  final unitsInGroup = group.allUnits().where((u) => u != unit).toList();
+
+  if (unitsInGroup.isEmpty) {
+    return true;
+  }
+
+  // deal with the overlord multi unit model
+  if (frame == _overlord) {
+    if (group.groupType == GroupType.Secondary) {
+      return false;
+    }
+    if (unitsInGroup.length > 1) {
+      return false;
+    }
+    if (unit.name == _overlordBody &&
+        unitsInGroup.any((u) => u.name == _overlordTurret)) {
+      return true;
+    }
+    if (unit.name == _overlordTurret &&
+        unitsInGroup.any((u) => u.name == _overlordBody)) {
+      return true;
+    }
+    return false;
+  }
+  if (unitsInGroup.any((u) => u.core.frame == _overlord)) {
+    return false;
+  }
+
+  // deal with the gilgamesh multi-unit model
+  if (frame == _gilgameshFront ||
+      frame == _gilgameshBack ||
+      frame == _gilgameshTurret) {
+    if (group.groupType == GroupType.Secondary) {
+      return false;
+    }
+
+    // current units in the group need to only be other parts
+    if (unitsInGroup.every((u) =>
+        u.core.frame != frame &&
+        (u.core.frame == _gilgameshFront ||
+            u.core.frame == _gilgameshBack ||
+            u.core.frame == _gilgameshTurret))) {
+      return true;
+    }
+    return false;
+  }
+
+  if (unitsInGroup.any((u) =>
+      u.core.frame == _gilgameshFront ||
+      u.core.frame == _gilgameshBack ||
+      u.core.frame == _gilgameshTurret)) {
+    return false;
+  }
+
+  return null;
+}
+
+const _overlord = 'HHT-90 Overlord';
+const _overlordBody = 'HHT-90 Overlord Body';
+const _overlordTurret = 'HHT-90 Overlord Turret';
+
+const _gilgameshFront = "Gilgamesh Front";
+const _gilgameshBack = "Gilgamesh Rear";
+const _gilgameshTurret = "Gilgamesh Turret";
