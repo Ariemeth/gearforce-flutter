@@ -3,7 +3,7 @@ import 'package:gearforce/models/mods/factionUpgrades/black_talon.dart';
 import 'package:gearforce/models/rules/black_talons/black_talons.dart';
 import 'package:gearforce/models/rules/peace_river/poc.dart' as poc;
 
-const String _baseRuleId = 'rule::btrt';
+const String _baseRuleId = 'rule::blackTalon::btrt';
 const String _ruleTheUnseenId = '$_baseRuleId::10';
 const String _ruleOperatorsId = '$_baseRuleId::20';
 const String _ruleCatchThemSleepingId = '$_baseRuleId::30';

@@ -8,8 +8,7 @@ import 'package:gearforce/models/rules/options/special_unit_filter.dart';
 import 'package:gearforce/models/rules/south/milicia.dart' as milicia;
 import 'package:gearforce/models/rules/south/south.dart';
 
-const String _baseRuleId = 'rule::fha';
-
+const String _baseRuleId = 'rule::south::fha';
 const String _ruleWroteTheBookId = '$_baseRuleId::10';
 const String _ruleExpertsId = '$_baseRuleId::20';
 const String _ruleAlliesId = '$_baseRuleId::30';

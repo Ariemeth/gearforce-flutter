@@ -9,7 +9,7 @@ import 'package:gearforce/models/rules/options/combat_group_options.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/rules/options/special_unit_filter.dart';
 
-//const String _baseRuleId = 'rule::eden';
+//const String _baseRuleId = 'rule::eden::core';
 
 /*
   All the models in the Edenite Model List can be used in any of the sub-lists below. There are also models in the Universal

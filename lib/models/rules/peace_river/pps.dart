@@ -10,12 +10,12 @@ import 'package:gearforce/models/rules/options/special_unit_filter.dart';
 
 const String _exPOC = 'Ex-POC';
 const String _exPRDF = 'Ex-PRDF';
-const String _baseRuleId = 'rule::pps';
+const String _baseRuleId = 'rule::peaceriver::pps';
 
 const String _ruleSubContractorsName = 'Sub-Contractors';
-const String _ruleSubContractorsID = '$_baseRuleId::subcontractor';
+const String _ruleSubContractorsId = '$_baseRuleId::10';
 const String _badlandsSoupName = 'Badland\'s Soup';
-const String _ruleBadlandsSoupID = '$_baseRuleId::badlandssoup';
+const String _ruleBadlandsSoupId = '$_baseRuleId::20';
 
 /*
 PPS - Paxton Private Securities
@@ -47,7 +47,7 @@ class PPS extends PeaceRiver {
 
 const filterSubContractor = SpecialUnitFilter(
   text: _ruleSubContractorsName,
-  id: _ruleSubContractorsID,
+  id: _ruleSubContractorsId,
   filters: [
     const UnitFilter(FactionType.North, matcher: matchArmor8),
     const UnitFilter(FactionType.South, matcher: matchArmor8),
@@ -240,8 +240,8 @@ final ruleExPOC = FactionRule(
 
 final FactionRule ruleBadlandsSoup = FactionRule(
     name: _badlandsSoupName,
-    id: _ruleBadlandsSoupID,
-    cgCheck: onlyOneCG(_ruleBadlandsSoupID),
+    id: _ruleBadlandsSoupId,
+    cgCheck: onlyOneCG(_ruleBadlandsSoupId),
     veteranModCheck: (u, cg, {required modID}) {
       switch (modID) {
         case improvedGunneryID:
@@ -263,8 +263,8 @@ final FactionRule ruleBadlandsSoup = FactionRule(
 
 final FactionRule ruleSubContractors = FactionRule(
     name: _ruleSubContractorsName,
-    id: _ruleSubContractorsID,
-    cgCheck: onlyOneCG(_ruleSubContractorsID),
+    id: _ruleSubContractorsId,
+    cgCheck: onlyOneCG(_ruleSubContractorsId),
     canBeAddedToGroup: (unit, group, cg) {
       return unit.armor == null || (unit.armor != null && unit.armor! <= 8);
     },

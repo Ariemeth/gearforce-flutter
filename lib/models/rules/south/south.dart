@@ -12,7 +12,9 @@ import 'package:gearforce/models/rules/south/milicia.dart';
 import 'package:gearforce/models/rules/south/sra.dart';
 import 'package:gearforce/models/unit/role.dart';
 
-const String _baseRuleId = 'rule::south';
+const _baseRuleId = 'rule::south::core';
+const _rulePoliceStateId = '$_baseRuleId::10';
+const _ruleAmphibiansId = '$_baseRuleId::20';
 
 /*
   All the models in the Southern Model List can be used in any of the sub-lists below. There are also models in the Universal
@@ -64,7 +66,7 @@ const SouthFilters = const [
 
 final FactionRule rulePoliceState = FactionRule(
   name: 'Police State',
-  id: '$_baseRuleId::policeState',
+  id: _rulePoliceStateId,
   hasGroupRole: (unit, target, group) {
     final isAllowedUnit =
         unit.core.frame.contains('MP') && unit.faction == FactionType.South;
@@ -80,7 +82,7 @@ final FactionRule rulePoliceState = FactionRule(
 
 final FactionRule ruleAmphibians = FactionRule(
   name: 'Amphibians',
-  id: '$_baseRuleId::policeState',
+  id: _ruleAmphibiansId,
   hasGroupRole: (unit, target, group) {
     if (unit.role != null && unit.role!.includesRole([target])) {
       return null;

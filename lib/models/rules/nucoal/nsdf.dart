@@ -3,7 +3,7 @@ import 'package:gearforce/models/mods/factionUpgrades/nucoal.dart';
 import 'package:gearforce/models/rules/north/north.dart' as north;
 import 'package:gearforce/models/rules/nucoal/nucoal.dart';
 
-const String _baseRuleId = 'rule::nsdf';
+const String _baseRuleId = 'rule::nucoal::nsdf';
 
 const String _ruleBaitAndSwitchId = '$_baseRuleId::10';
 const String _ruleHighSpeedLowDragId = '$_baseRuleId::20';

@@ -12,7 +12,7 @@ import 'package:gearforce/models/rules/options/combat_group_options.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/rules/options/special_unit_filter.dart';
 
-const String _baseRuleId = 'rule::caprice';
+const String _baseRuleId = 'rule::caprice::core';
 const String _ruleDuelingMountsId = '$_baseRuleId::10';
 const String _ruleCyberneticUpgradesId = '$_baseRuleId::10';
 const String _ruleAbominationsId = '$_baseRuleId::10';

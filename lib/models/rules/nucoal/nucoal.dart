@@ -14,7 +14,7 @@ import 'package:gearforce/models/rules/options/special_unit_filter.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
 
-const String _baseRuleId = 'rule::nucoal';
+const String _baseRuleId = 'rule::nucoal::core';
 
 const String _ruleHumanistTechId = '$_baseRuleId::10';
 const String _rulePortArthurKorpsId = '$_baseRuleId::20';

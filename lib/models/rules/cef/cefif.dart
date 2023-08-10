@@ -5,7 +5,7 @@ import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/model_type.dart';
 import 'package:gearforce/models/unit/role.dart';
 
-const String _baseRuleId = 'rule::cefif';
+const String _baseRuleId = 'rule::cef::cefif';
 const String _ruleTheAnvilId = '$_baseRuleId::10';
 const String _ruleAlternateApproachId = '$_baseRuleId::20';
 

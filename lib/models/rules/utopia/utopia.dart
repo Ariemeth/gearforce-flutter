@@ -8,7 +8,7 @@ import 'package:gearforce/models/rules/options/special_unit_filter.dart';
 import 'package:gearforce/models/rules/utopia/caf.dart';
 import 'package:gearforce/models/rules/utopia/ouf.dart';
 
-//const String _baseRuleId = 'rule::utopia';
+//const String _baseRuleId = 'rule::utopia::core';
 
 /*
   All the models in the Utopian Model List can be used in any of the sub-lists below. There are also models in the Universal

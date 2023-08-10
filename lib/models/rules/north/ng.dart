@@ -7,7 +7,10 @@ import 'package:gearforce/models/rules/options/combat_group_options.dart';
 import 'package:gearforce/models/rules/peace_river/poc.dart' as poc;
 import 'package:gearforce/models/unit/role.dart';
 
-const String _baseRuleId = 'rule::ng';
+const String _baseRuleId = 'rule::north::ng';
+const String _rulePanNorthernId = '$_baseRuleId::10';
+const String _ruleSurplusHuntersId = '$_baseRuleId::20';
+const String _ruleSurplusJaguarsId = '$_baseRuleId::30';
 
 /*
 NG - Norguard
@@ -38,7 +41,7 @@ class NG extends North {
 
 final FactionRule rulePanNorthern = FactionRule(
   name: 'Pan-Northern',
-  id: '$_baseRuleId::panNorthern',
+  id: _rulePanNorthernId,
   options: [
     _ngPristineAntiques,
     _ngOlTrusty,
@@ -56,7 +59,7 @@ final FactionRule rulePanNorthern = FactionRule(
 
 final FactionRule ruleSurplusHunters = FactionRule(
   name: 'Surplus Hunters',
-  id: '$_baseRuleId::surplusHunters',
+  id: _ruleSurplusHuntersId,
   hasGroupRole: (unit, target, group) {
     final frameName = unit.core.frame;
     final isAllowedUnit = frameName.toLowerCase().contains('hunter');
@@ -81,7 +84,7 @@ final FactionRule ruleSurplusHunters = FactionRule(
 
 final FactionRule ruleSurplusJaguars = FactionRule(
   name: 'Surplus Jaguars',
-  id: '$_baseRuleId::surplusJaguars',
+  id: _ruleSurplusJaguarsId,
   hasGroupRole: (unit, target, group) {
     final frameName = unit.core.frame;
     final isAllowedUnit = frameName.toLowerCase().contains('jaguar');

@@ -8,7 +8,7 @@ import 'package:gearforce/models/rules/options/special_unit_filter.dart';
 import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/model_type.dart';
 
-const String _baseRuleId = 'rule::btst';
+const String _baseRuleId = 'rule::blackTalon::btst';
 const String _ruleAlliesId = '$_baseRuleId::10';
 const String _ruleBestAndBrightestId = '$_baseRuleId::20';
 const String _ruleShowoffsId = '$_baseRuleId::30';

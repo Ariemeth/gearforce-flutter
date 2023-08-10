@@ -6,18 +6,23 @@ import 'package:gearforce/data/unit_filter.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/rules/options/special_unit_filter.dart';
 
-const PRDFSpecialRule1 =
+const String PRDFSpecialRule1 =
     'Ghost Strike: Models in one combat group using special operations ' +
         'deployment may start the game with hidden tokens if all the models ' +
         'within the combat group are placed in cover relative to at least ' +
         'one enemy model.';
 
-const _ruleBestMenAndWomenName = 'The Best Men and Women for the Job';
-const _ruleBestMenAndWomenID = '$_baseRuleId::bestmenandwomenforthejob';
+const String _ruleBestMenAndWomenName = 'The Best Men and Women for the Job';
 
-const String _baseRuleId = 'rule::prdf';
+const String _baseRuleId = 'rule::peaceriver::prdf';
+const String _ruleOlTrustyId = '$_baseRuleId::10';
+const String _ruleThunderFromTheSkyId = '$_baseRuleId::20';
+const String _ruleHighTechId = '$_baseRuleId::30';
+const String _ruleBestMenAndWomenId = '$_baseRuleId::40';
+const String _ruleEliteElementsId = '$_baseRuleId::50';
+const String _ruleGhostStrikeId = '$_baseRuleId::60';
 
-const PRDFDescription =
+const String PRDFDescription =
     'To be a soldier in the PRDF is to know a deep and abiding' +
         'hatred of Earth. CEF agents were responsible for the destruction of' +
         'Peace River City and countless lives. When this information came to ' +
@@ -64,31 +69,25 @@ class PRDF extends PeaceRiver {
         );
 }
 
-const filterBestMenAndWomen = SpecialUnitFilter(
-  text: _ruleBestMenAndWomenName,
-  id: _ruleBestMenAndWomenID,
-  filters: [
-    const UnitFilter(FactionType.BlackTalon),
-  ],
+final ruleOlTrusty = FactionRule(
+  name: 'Ol’ Trusty',
+  id: _ruleOlTrustyId,
+  factionMods: (ur, cg, u) => [PeaceRiverFactionMods.olTrusty()],
+  description: 'Warriors, Jackals and Spartans may increase their GU skill' +
+      ' by one for 1 TV each. This does not include Warrior IVs.',
 );
 
-final ruleOlTrusty = FactionRule(
-    name: 'Ol’ Trusty',
-    id: '$_baseRuleId::oltrusty',
-    factionMods: (ur, cg, u) => [PeaceRiverFactionMods.olTrusty()],
-    description:
-        'Warriors, Jackals and Spartans may increase their GU skill by one for 1 TV each. This does not include Warrior IVs.');
-
 final ruleThunderFromTheSky = FactionRule(
-    name: 'Thunder from the Sky',
-    id: '$_baseRuleId::thunderFromTheSky',
-    factionMods: (ur, cg, u) => [PeaceRiverFactionMods.thunderFromTheSky()],
-    description:
-        'Airstrike counters may increase their GU skill to 3+ instead of 4+ for 1 TV each.');
+  name: 'Thunder from the Sky',
+  id: _ruleThunderFromTheSkyId,
+  factionMods: (ur, cg, u) => [PeaceRiverFactionMods.thunderFromTheSky()],
+  description: 'Airstrike counters may increase their GU skill to 3+' +
+      ' instead of 4+ for 1 TV each.',
+);
 
 final ruleHighTech = FactionRule(
     name: 'High Tech',
-    id: '$_baseRuleId::highTech',
+    id: _ruleHighTechId,
     isRoleTypeUnlimited: (unit, target, group, roster) {
       if (group.groupType != GroupType.Primary) {
         return null;
@@ -104,7 +103,7 @@ final ruleHighTech = FactionRule(
 
 final FactionRule ruleBestMenAndWomen = FactionRule(
   name: _ruleBestMenAndWomenName,
-  id: '$_ruleBestMenAndWomenID',
+  id: _ruleBestMenAndWomenId,
   description:
       'One model in each combat group may be selected from the Black Talon model list.',
   isUnitCountWithinLimits: (cg, group, unit) {
@@ -128,17 +127,23 @@ final FactionRule ruleBestMenAndWomen = FactionRule(
       initialState: true,
     );
   },
-  unitFilter: () => filterBestMenAndWomen,
+  unitFilter: () => SpecialUnitFilter(
+    text: _ruleBestMenAndWomenName,
+    id: _ruleBestMenAndWomenId,
+    filters: [const UnitFilter(FactionType.BlackTalon)],
+  ),
 );
 
 final ruleEliteElements = FactionRule(
     name: 'Elite Elements',
-    id: '$_baseRuleId::eliteElements',
+    id: _ruleEliteElementsId,
     factionMods: (ur, cg, u) => [PeaceRiverFactionMods.eliteElements(ur)],
     description: 'One SK unit may change their role to SO.');
 
 final ruleGhostStrike = FactionRule(
     name: 'Ghost Strike',
-    id: '$_baseRuleId::ghostStrike',
-    description:
-        'Models in one combat group using special operations deployment may start the game with hidden tokens if all the models within the combat group are placed in cover relative to at least one enemy model.');
+    id: _ruleGhostStrikeId,
+    description: 'Models in one combat group using special operations' +
+        ' deployment may start the game with hidden tokens if all the models' +
+        ' within the combat group are placed in cover relative to at least' +
+        ' one enemy model.');

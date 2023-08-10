@@ -4,7 +4,8 @@ import 'package:gearforce/models/rules/north/north.dart' as north;
 import 'package:gearforce/models/rules/south/south.dart';
 import 'package:gearforce/models/rules/south/sra.dart' as sra;
 
-const String _baseRuleId = 'rule::milicia';
+const _baseRuleId = 'rule::south::milicia';
+const _ruleConscriptionId = '$_baseRuleId::10';
 
 /*
   MILICIA - Military Intervention and
@@ -41,7 +42,7 @@ class MILICIA extends South {
 
 final FactionRule ruleConscription = FactionRule(
   name: 'Conscription',
-  id: '$_baseRuleId::20',
+  id: _ruleConscriptionId,
   factionMods: (ur, cg, u) => [SouthernFactionMods.conscription()],
   description: 'You may add the Conscript trait to any non-commander,' +
       ' non-veteran and non-duelist in the force if they do not already' +

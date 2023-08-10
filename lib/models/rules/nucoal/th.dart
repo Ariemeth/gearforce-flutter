@@ -7,7 +7,7 @@ import 'package:gearforce/models/rules/nucoal/pak.dart' as pak;
 import 'package:gearforce/models/unit/model_type.dart';
 import 'package:gearforce/models/unit/role.dart';
 
-const String _baseRuleId = 'rule::th';
+const String _baseRuleId = 'rule::nucoal::th';
 
 const String _ruleJannitePilotsId = '$_baseRuleId::10';
 const String _ruleJanniteWardensId = '$_baseRuleId::20';

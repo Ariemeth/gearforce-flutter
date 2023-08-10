@@ -4,7 +4,11 @@ import 'package:gearforce/models/mods/factionUpgrades/north.dart';
 import 'package:gearforce/models/rules/north/north.dart';
 import 'package:gearforce/models/unit/command.dart';
 
-const String _baseRuleId = 'rule::nlc';
+const String _baseRuleId = 'rule::north::nlc';
+const String _ruleChaplainId = '$_baseRuleId::10';
+const String _ruleWarriorMonksId = '$_baseRuleId::20';
+const String _ruleThePrideId = '$_baseRuleId::30';
+const String _ruleDevotedId = '$_baseRuleId::40';
 
 /*
 NLC - Northern Lights Confederacy
@@ -48,7 +52,7 @@ class NLC extends North {
 
 final FactionRule ruleChaplain = FactionRule(
   name: 'Chaplain',
-  id: '$_baseRuleId::chaplain',
+  id: _ruleChaplainId,
   factionMods: (ur, cg, u) => [NorthernFactionMods.chaplain()],
   availableCommandLevelOverride: (u) {
     if (!u.hasMod(chaplainID)) {
@@ -67,7 +71,7 @@ final FactionRule ruleChaplain = FactionRule(
 
 final FactionRule ruleWarriorMonks = FactionRule(
   name: 'Warrior Monks',
-  id: '$_baseRuleId::warriorMonks',
+  id: _ruleWarriorMonksId,
   factionMods: (ur, cg, u) => [NorthernFactionMods.warriorMonks(u)],
   description: 'Commanders and veterans, with the Hands trait, may purchase' +
       ' a fighting staff upgrade for 1 TV each. If a model takes this upgrade,' +
@@ -78,7 +82,7 @@ final FactionRule ruleWarriorMonks = FactionRule(
 
 final FactionRule ruleThePride = FactionRule(
   name: 'The Pride',
-  id: '$_baseRuleId::thePride',
+  id: _ruleThePrideId,
   duelistMaxNumberOverride: (roster, cg, u) => 2,
   onModAdded: (unit, modId) {
     if (modId != duelistId) {
@@ -98,7 +102,7 @@ final FactionRule ruleThePride = FactionRule(
 
 final FactionRule ruleDevoted = FactionRule(
   name: 'Devoted',
-  id: '$_baseRuleId::devoted',
+  id: _ruleDevotedId,
   description: 'When the chaplain is targeted by a direct or indirect attack,' +
       ' a friendly monk (model with a fighting staff) within 3 inches may' +
       ' choose to be the targetinstead. Resolve the attack normally against' +
