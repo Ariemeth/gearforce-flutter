@@ -6,7 +6,7 @@ import 'package:gearforce/models/rules/options/special_unit_filter.dart';
 import 'package:gearforce/models/rules/south/south.dart';
 import 'package:gearforce/models/unit/role.dart';
 
-const String _baseRuleId = 'rule::ese';
+const String _baseRuleId = 'rule::south::ese';
 
 const String _ruleLocalManufacturingId = '$_baseRuleId::10';
 const String _rulePersonalEscortId = '$_baseRuleId::20';

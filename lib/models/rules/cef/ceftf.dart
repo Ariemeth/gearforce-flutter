@@ -4,7 +4,7 @@ import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart'
 import 'package:gearforce/models/rules/cef/cef.dart';
 import 'package:gearforce/models/unit/model_type.dart';
 
-const String _baseRuleId = 'rule::ceftf';
+const String _baseRuleId = 'rule::cef::ceftf';
 const String _ruleTheHammerId = '$_baseRuleId::10';
 const String _ruleTankJockeysId = '$_baseRuleId::20';
 const String _ruleOutridersId = '$_baseRuleId::30';

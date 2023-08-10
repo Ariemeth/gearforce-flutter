@@ -8,9 +8,14 @@ import 'package:gearforce/models/rules/peace_river/peace_river.dart';
 import 'package:gearforce/models/rules/options/special_unit_filter.dart';
 import 'package:gearforce/models/unit/role.dart';
 
-const String _baseRuleId = 'rule::poc';
+const String _baseRuleId = 'rule::peaceriver::poc';
 const String _ruleMercContractName = 'Mercenary Contract';
-const String _ruleMercContractID = '$_baseRuleId::mercenaryContract';
+const String _ruleSpecialIssueId = '$_baseRuleId::10';
+const String _ruleEcmSpecialistId = '$_baseRuleId::20';
+const String _ruleOlTrustyId = '$_baseRuleId::30';
+const String _rulePeaceOfficersId = '$_baseRuleId::40';
+const String _ruleGSwatId = '$_baseRuleId::50';
+const String _ruleMercContractId = '$_baseRuleId::60';
 
 /*
 POC - Peace Officer Corps
@@ -48,20 +53,9 @@ class POC extends PeaceRiver {
         );
 }
 
-const filterMercContract = const SpecialUnitFilter(
-  text: _ruleMercContractName,
-  id: _ruleMercContractID,
-  filters: const [
-    const UnitFilter(FactionType.North, matcher: matchArmor8),
-    const UnitFilter(FactionType.South, matcher: matchArmor8),
-    const UnitFilter(FactionType.PeaceRiver, matcher: matchArmor8),
-    const UnitFilter(FactionType.NuCoal, matcher: matchArmor8),
-  ],
-);
-
 final ruleSpecialIssue = FactionRule(
   name: 'Special Issue',
-  id: '$_baseRuleId::specialIssue',
+  id: _ruleSpecialIssueId,
   hasGroupRole: (unit, target, group) {
     if (unit.core.frame == 'Greyhound' &&
         (target == RoleType.GP ||
@@ -78,14 +72,14 @@ final ruleSpecialIssue = FactionRule(
 
 final ruleECMSpecialist = FactionRule(
     name: 'ECM Specialist',
-    id: '$_baseRuleId::ecmSpecialist',
+    id: _ruleEcmSpecialistId,
     factionMods: (ur, cg, u) => [PeaceRiverFactionMods.ecmSpecialist()],
     description: 'One gear or strider per combat group may improve its ECM' +
         ' to ECM+ for 1 TV each.');
 
 final rulePOCOlTrusty = FactionRule(
   name: 'Ol’ Trusty',
-  id: '$_baseRuleId::oltrusty',
+  id: _ruleOlTrustyId,
   factionMods: (ur, cg, u) => [PeaceRiverFactionMods.olTrustyPOC()],
   description: 'Pit Bulls and Mustangs may increase their GU skill by' +
       ' one for 1 TV each.',
@@ -93,7 +87,7 @@ final rulePOCOlTrusty = FactionRule(
 
 final rulePeaceOfficer = FactionRule(
     name: 'Peace Officer',
-    id: '$_baseRuleId::peaceOfficer',
+    id: _rulePeaceOfficersId,
     factionMods: (ur, cg, u) => [PeaceRiverFactionMods.peaceOfficers(u)],
     description:
         'Gears from one combat group may swap their rocket packs for the' +
@@ -102,7 +96,7 @@ final rulePeaceOfficer = FactionRule(
 
 final ruleGSwatSniper = FactionRule(
     name: 'G-Swat Sniper',
-    id: '$_baseRuleId::gswatSniper',
+    id: _ruleGSwatId,
     veteranModCheck: (u, cg, {required modID}) {
       if (modID == improvedGunneryID && u.hasMod(gSWATSniperID)) {
         return true;
@@ -121,15 +115,24 @@ final ruleGSwatSniper = FactionRule(
 
 final FactionRule ruleMercenaryContract = FactionRule(
   name: _ruleMercContractName,
-  id: _ruleMercContractID,
-  cgCheck: onlyOneCG(_ruleMercContractID),
+  id: _ruleMercContractId,
+  cgCheck: onlyOneCG(_ruleMercContractId),
   canBeAddedToGroup: (unit, group, cg) {
     return unit.armor == null || (unit.armor != null && unit.armor! <= 8);
   },
   combatGroupOption: () {
     return ruleMercenaryContract.buidCombatGroupOption();
   },
-  unitFilter: () => filterMercContract,
+  unitFilter: () => SpecialUnitFilter(
+    text: _ruleMercContractName,
+    id: _ruleMercContractId,
+    filters: const [
+      const UnitFilter(FactionType.North, matcher: matchArmor8),
+      const UnitFilter(FactionType.South, matcher: matchArmor8),
+      const UnitFilter(FactionType.PeaceRiver, matcher: matchArmor8),
+      const UnitFilter(FactionType.NuCoal, matcher: matchArmor8),
+    ],
+  ),
   description: 'One combat group may be made with models from North,' +
       ' South, Peace River, and NuCoal (may include a mix from all four' +
       ' factions) that have an armor of 8 or lower.',

@@ -12,7 +12,7 @@ import 'package:gearforce/models/rules/options/combat_group_options.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/rules/options/special_unit_filter.dart';
 
-const String _baseRuleId = 'rule::cef';
+const String _baseRuleId = 'rule::cef::core';
 const String _ruleMinervaId = '$_baseRuleId::10';
 const String _ruleAdvancedInterfaceNetworkId = '$_baseRuleId::20';
 const String _ruleAllies = '$_baseRuleId::30';

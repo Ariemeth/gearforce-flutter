@@ -6,7 +6,10 @@ import 'package:gearforce/models/rules/north/north.dart';
 import 'package:gearforce/models/unit/model_type.dart';
 import 'package:gearforce/models/unit/role.dart';
 
-const String _baseRuleId = 'rule::umf';
+const String _baseRuleId = 'rule::north::umf';
+const String _ruleLocalManufacturingId = '$_baseRuleId::10';
+const String _ruleEWSpecialistId = '$_baseRuleId::20';
+const String _ruleWellFundedId = '$_baseRuleId::30';
 
 /*
 UMF – United Mercantile Federation
@@ -41,7 +44,7 @@ class UMF extends North {
 
 final FactionRule ruleLocalManufacturing = FactionRule(
   name: 'Local Manufacturing',
-  id: '$_baseRuleId::localManufacturing',
+  id: _ruleLocalManufacturingId,
   hasGroupRole: (unit, target, group) {
     final isAllowedUnit =
         unit.core.frame == 'Tiger' || unit.core.frame == 'Weasel';
@@ -63,7 +66,7 @@ final FactionRule ruleLocalManufacturing = FactionRule(
 
 final FactionRule ruleEWSpecialist = FactionRule(
   name: 'EW Specialists',
-  id: '$_baseRuleId::ewSpecialist',
+  id: _ruleEWSpecialistId,
   veteranModCheck: (u, cg, {required modID}) {
     if (modID != eccmId) {
       return null;
@@ -121,7 +124,7 @@ final FactionRule ruleEWSpecialist = FactionRule(
 
 final FactionRule ruleWellFunded = FactionRule(
   name: 'Well Funded',
-  id: '$_baseRuleId::wellFunded',
+  id: _ruleWellFundedId,
   veteranModCheck: (u, cg, {required modID}) {
     final mod = u.getMod(wellFundedID);
     if (mod == null) {

@@ -11,7 +11,7 @@ import 'package:gearforce/models/rules/south/fha.dart' as fha;
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
 
-const String _baseRuleId = 'rule::hcsa';
+const String _baseRuleId = 'rule::nucoal::hcsa';
 
 const String _ruleCityStateDetachmentsId = '$_baseRuleId::10';
 const String _ruleLancePointId = '$_baseRuleId::20';

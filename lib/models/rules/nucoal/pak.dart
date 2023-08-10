@@ -7,7 +7,7 @@ import 'package:gearforce/models/rules/options/special_unit_filter.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
 
-const String _baseRuleId = 'rule::pak';
+const String _baseRuleId = 'rule::nucoal::pak';
 
 const String _ruleHoverTankCommanderId = '$_baseRuleId::10';
 const String _ruleTankJockeysId = '$_baseRuleId::20';

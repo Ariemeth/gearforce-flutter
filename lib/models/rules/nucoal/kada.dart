@@ -8,8 +8,7 @@ import 'package:gearforce/models/rules/nucoal/nucoal.dart';
 import 'package:gearforce/models/rules/options/special_unit_filter.dart';
 import 'package:gearforce/models/unit/model_type.dart';
 
-const String _baseRuleId = 'rule::kada';
-
+const String _baseRuleId = 'rule::nucoal::kada';
 const String _ruleHeroesOfTheArenaId = '$_baseRuleId::10';
 const String _ruleTheBruteId = '$_baseRuleId::20';
 const String _ruleChallengersId = '$_baseRuleId::30';

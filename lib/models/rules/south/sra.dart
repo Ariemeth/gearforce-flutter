@@ -7,7 +7,10 @@ import 'package:gearforce/models/rules/south/south.dart';
 import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/model_type.dart';
 
-const String _baseRuleId = 'rule::sra';
+const String _baseRuleId = 'rule::south::sra';
+const _rulePrideOfTheSouthId = '$_baseRuleId::10';
+const _ruleAssaultTroopsId = '$_baseRuleId::20';
+const _rulePoliticalOfficerId = '$_baseRuleId::30';
 
 /*
   SRA - Southern Republic Army
@@ -51,7 +54,7 @@ class SRA extends South {
 
 final FactionRule rulePrideOfTheSouth = FactionRule(
   name: 'Pride of the South',
-  id: '$_baseRuleId::20',
+  id: _rulePrideOfTheSouthId,
   factionMods: (ur, cg, u) => [SouthernFactionMods.prideOfTheSouth(u)],
   description: 'Commanders and veterans, with the Hands trait, may purchase' +
       ' the vibro-rapier upgrade for 1 TV each. If a model takes this' +
@@ -61,7 +64,7 @@ final FactionRule rulePrideOfTheSouth = FactionRule(
 
 final FactionRule ruleAssultTroops = FactionRule(
   name: 'Assault Troops',
-  id: '$_baseRuleId::30',
+  id: _ruleAssaultTroopsId,
   veteranModCheck: (u, cg, {required modID}) {
     if (!(modID == brawler1Id || modID == brawler2Id)) {
       return null;
@@ -78,7 +81,7 @@ final FactionRule ruleAssultTroops = FactionRule(
 
 final FactionRule rulePoliticalOfficer = FactionRule(
   name: 'Political Officer',
-  id: '$_baseRuleId::40',
+  id: _rulePoliticalOfficerId,
   factionMods: (ur, cg, u) => [SouthernFactionMods.politicalOfficer()],
   availableCommandLevelOverride: (u) {
     if (!u.hasMod(politicalOfficerId)) {

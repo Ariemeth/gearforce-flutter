@@ -7,8 +7,7 @@ import 'package:gearforce/models/rules/south/fha.dart' as fha;
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
 
-const String _baseRuleId = 'rule::hapf';
-
+const String _baseRuleId = 'rule::nucoal::hapf';
 const String _ruleSouthernSurplusId = '$_baseRuleId::10';
 
 /*

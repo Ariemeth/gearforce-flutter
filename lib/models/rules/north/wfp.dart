@@ -3,7 +3,11 @@ import 'package:gearforce/models/mods/factionUpgrades/north.dart';
 import 'package:gearforce/models/rules/north/north.dart';
 import 'package:gearforce/models/unit/role.dart';
 
-const String _baseRuleId = 'rule::wfp';
+const String _baseRuleId = 'rule::north::wfp';
+const String _rulePristineAntiquesId = '$_baseRuleId::10';
+const String _ruleOlTrustyId = '$_baseRuleId::20';
+const String _ruleDropBearsId = '$_baseRuleId::30';
+const String _ruleLiveFreeDieHardId = '$_baseRuleId::40';
 
 /*
 WFP - Western Frontier Protectorate
@@ -36,7 +40,7 @@ class WFP extends North {
 
 final FactionRule rulePristineAntiques = FactionRule(
   name: 'Pristine Antiques',
-  id: '$_baseRuleId::pristineAntiques',
+  id: _rulePristineAntiquesId,
   hasGroupRole: (unit, target, group) {
     final frameName = unit.core.frame;
     final isAllowedUnit = (frameName.toLowerCase().contains('hunter') &&
@@ -59,7 +63,7 @@ final FactionRule rulePristineAntiques = FactionRule(
 
 final FactionRule ruleOlTrustyWFP = FactionRule(
   name: 'Ol’ Trusty',
-  id: '$_baseRuleId::olTrusty',
+  id: _ruleOlTrustyId,
   factionMods: (ur, cg, u) => [NorthernFactionMods.olTrustyWFP()],
   description: 'Hunters, Ferrets, Weasels, Wildcats and Bobcats may ' +
       ' improve their GU skill by one for 1 TV each. This does not include ' +
@@ -68,14 +72,14 @@ final FactionRule ruleOlTrustyWFP = FactionRule(
 
 final FactionRule ruleDropBears = FactionRule(
   name: 'Drop Bears',
-  id: '$_baseRuleId::dropBears',
+  id: _ruleDropBearsId,
   description: 'Combat groups performing airdrop deployments are not ' +
       ' required to be placed in formation.',
 );
 
 final FactionRule ruleLiveFreeDieHard = FactionRule(
   name: 'Live Free Die Hard',
-  id: '$_baseRuleId::liveFreeDieHard',
+  id: _ruleLiveFreeDieHardId,
   description: 'Whenever a WFP commander is destroyed, immediately' +
       ' give one SP to one model in formation with the destroyed commander.' +
       ' This SP does not convert to a CP. If not used, this SP is removed' +

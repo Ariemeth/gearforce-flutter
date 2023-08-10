@@ -2,7 +2,7 @@ import 'package:gearforce/models/rules/faction_rule.dart';
 import 'package:gearforce/models/rules/black_talons/black_talons.dart';
 import 'package:gearforce/models/traits/trait.dart';
 
-const String _baseRuleId = 'rule::btat';
+const String _baseRuleId = 'rule::blackTalon::btat';
 const String _ruleShadowWarriorsId = '$_baseRuleId::10';
 const String _ruleBreachersId = '$_baseRuleId::20';
 const String _ruleDropsOfDarknessId = '$_baseRuleId::30';

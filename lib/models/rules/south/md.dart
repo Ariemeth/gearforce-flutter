@@ -3,7 +3,10 @@ import 'package:gearforce/models/mods/factionUpgrades/south.dart';
 import 'package:gearforce/models/rules/peace_river/poc.dart' as poc;
 import 'package:gearforce/models/rules/south/south.dart';
 
-const String _baseRuleId = 'rule::md';
+const _baseRuleId = 'rule::south::md';
+const _ruleMekongeseExellenceId = '$_baseRuleId::10';
+const _ruleSamuraiSpiritId = '$_baseRuleId::20';
+const _ruleMetsukeId = '$_baseRuleId::30';
 
 /*
   MD - Mekong Dominion
@@ -41,7 +44,7 @@ class MD extends South {
 
 final FactionRule ruleMekongeseExcellence = FactionRule(
   name: 'Mekongese Excellence',
-  id: '$_baseRuleId::10',
+  id: _ruleMekongeseExellenceId,
   veteranCheckOverride: (u, cg) {
     final forceLeader = cg.roster?.selectedForceLeader;
     if (forceLeader == null) {
@@ -60,7 +63,7 @@ final FactionRule ruleMekongeseExcellence = FactionRule(
 
 final FactionRule ruleSamuraiSpirit = FactionRule(
   name: 'Samurai Spirit',
-  id: '$_baseRuleId::20',
+  id: _ruleSamuraiSpiritId,
   factionMods: (ur, cg, u) => [SouthernFactionMods.samuraiSpirit(u)],
   description: 'Commanders and veterans, with the Hands trait, may purchase' +
       ' the vibro-katana upgrade for 1 TV each. If a model takes this' +
@@ -70,7 +73,7 @@ final FactionRule ruleSamuraiSpirit = FactionRule(
 
 final FactionRule ruleMetsuke = FactionRule(
   name: 'Metsuke:',
-  id: '$_baseRuleId::30',
+  id: _ruleMetsukeId,
   factionMods: (ur, cg, u) => [SouthernFactionMods.metsuke(u)],
   description: 'MP models within one combat group may purchase the Shield+' +
       ' trait for 1 TV each. The Shield+ trait works just like a Shield trait' +

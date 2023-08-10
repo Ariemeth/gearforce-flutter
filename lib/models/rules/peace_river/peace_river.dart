@@ -12,7 +12,12 @@ import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/rules/options/special_unit_filter.dart';
 import 'package:gearforce/models/unit/model_type.dart';
 
-const String _baseRuleId = 'rule::peaceriver';
+const String _baseRuleId = 'rule::peaceriver::core';
+const String _ruleEpexId = '$_baseRuleId::10';
+const String _ruleWarriorEliteId = '$_baseRuleId::20';
+const String _ruleCrisisRespondersId = '$_baseRuleId::30';
+const String _ruleLaserTechId = '$_baseRuleId::40';
+const String _ruleArchitectsId = '$_baseRuleId::50';
 
 /*
   All the models in the Peace River Model List can be used in any of the sub-lists below. There are also models in the
@@ -78,7 +83,7 @@ class PeaceRiver extends RuleSet {
 
 final ruleArchitects = FactionRule(
     name: 'Architects',
-    id: '$_baseRuleId::architects',
+    id: _ruleArchitectsId,
     duelistModelCheck: (roster, u) {
       if (u.type == ModelType.Strider) {
         return true;
@@ -89,7 +94,7 @@ final ruleArchitects = FactionRule(
 
 final ruleCrisisResponders = FactionRule(
     name: 'Crisis Responders',
-    id: '$_baseRuleId::crisisResponders',
+    id: _ruleCrisisRespondersId,
     isRoleTypeUnlimited: (unit, target, group, roster) {
       return unit.hasMod(crusaderVMod) ? true : null;
     },
@@ -112,21 +117,21 @@ final ruleCrisisResponders = FactionRule(
 
 final ruleEPex = FactionRule(
     name: 'E-pex',
-    id: '$_baseRuleId::ePex',
+    id: _ruleEpexId,
     factionMods: (ur, cg, u) => [PeaceRiverFactionMods.e_pex()],
     description:
         'One Peace River model within each combat group may increase its EW skill by one for 1 TV each.');
 
 final ruleLaserTech = FactionRule(
     name: 'Laser Tech',
-    id: '$_baseRuleId::laserTech',
+    id: _ruleLaserTechId,
     factionMods: (ur, cg, u) => [PeaceRiverFactionMods.laserTech(u)],
     description:
         'Veteran universal infantry and veteran Spitz Monowheels may upgrade their IW, IR or IS for 1 TV each. These weapons receive the Advanced trait.');
 
 final ruleWarriorElite = FactionRule(
     name: 'Warrior Elite',
-    id: '$_baseRuleId::warriorElite',
+    id: _ruleWarriorEliteId,
     factionMods: (ur, cg, u) => [PeaceRiverFactionMods.warriorElite()],
     description:
         'Any Warrior IV may be upgraded to a Warrior Elite for 1 TV each. This upgrade gives the Warrior IV a H/S of 4/2, an EW skill of 4+, and the Agile trait.');

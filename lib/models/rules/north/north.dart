@@ -16,7 +16,12 @@ import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/model_type.dart';
 import 'package:gearforce/models/unit/role.dart';
 
-const String _baseRuleId = 'rule::north';
+const String _baseRuleId = 'rule::north::core';
+const String _ruleTaskBuiltId = '$_baseRuleId::10';
+const String _ruleProspectorsId = '$_baseRuleId::20';
+const String _ruleHammersOfTheNorthId = '$_baseRuleId::30';
+const String _ruleVeteranLeadersId = '$_baseRuleId::40';
+const String _ruleDragoonSquadId = '$_baseRuleId::50';
 
 /*
   All Northern models have the following rules:
@@ -79,7 +84,7 @@ class North extends RuleSet {
 
 final ruleTaskBuilt = FactionRule(
   name: 'Task Built',
-  id: '$_baseRuleId::10',
+  id: _ruleTaskBuiltId,
   factionMods: (ur, cg, u) => [NorthernFactionMods.taskBuilt(u)],
   description:
       'Each Northern gear may swap its rocket pack for a Heavy Machinegun' +
@@ -90,7 +95,7 @@ final ruleTaskBuilt = FactionRule(
 
 final FactionRule ruleProspectors = FactionRule(
   name: 'Prospectors',
-  id: '$_baseRuleId::20',
+  id: _ruleProspectorsId,
   hasGroupRole: (unit, target, group) {
     if (unit.type != ModelType.Gear) {
       return null;
@@ -176,14 +181,14 @@ final FactionRule ruleProspectors = FactionRule(
 
 final ruleHammersOfTheNorth = FactionRule(
   name: 'Hammers of the North',
-  id: '$_baseRuleId::30',
+  id: _ruleHammersOfTheNorthId,
   factionMods: (ur, cg, u) => [NorthernFactionMods.hammerOfTheNorth(u)],
   description: 'Snub cannons may be given the Precise trait for +1 TV each.',
 );
 
 final ruleVeteranLeaders = FactionRule(
   name: 'Veteran Leaders',
-  id: '$_baseRuleId::40',
+  id: _ruleVeteranLeadersId,
   veteranCheckOverride: (u, cg) {
     if (u.commandLevel != CommandLevel.none) {
       return true;
@@ -196,7 +201,7 @@ final ruleVeteranLeaders = FactionRule(
 
 final FactionRule ruleDragoonSquad = FactionRule(
   name: 'Dragoon Squad',
-  id: '$_baseRuleId::50',
+  id: _ruleDragoonSquadId,
   cgCheck: (cg, roster) {
     if (cg?.primary.role() != RoleType.SK &&
         cg?.secondary.role() != RoleType.SK) {
