@@ -128,7 +128,8 @@ final UnitModification jan = UnitModification(name: 'Jan Upgrade')
 
 final UnitModification squad = UnitModification(name: 'Squad')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
-  ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'Squad'))
+  ..addMod(
+      UnitAttribute.name, createReplaceStringMod(old: 'Team', change: 'Squad'))
   ..addMod(UnitAttribute.hull, createSetIntMod(4), description: 'H/S 4/2')
   ..addMod(UnitAttribute.structure, createSetIntMod(2));
 

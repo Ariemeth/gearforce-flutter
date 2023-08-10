@@ -89,7 +89,12 @@ final FactionRule ruleMinvera = FactionRule(
 final FactionRule ruleAdvancedInterfaceNetwork = FactionRule(
   name: 'Advanced Interface Network (AIN)',
   id: _ruleAdvancedInterfaceNetworkId,
-  factionMods: (ur, cg, u) => [CEFMods.advancedInterfaceNetwork(u)],
+  factionMods: (ur, cg, u) => [
+    CEFMods.advancedInterfaceNetwork(
+      u,
+      FactionType.CEF,
+    )
+  ],
   description: 'Each veteran CEF frame may improve their GU skill by one for' +
       ' 1 TV times the number of Actions that the model has.',
 );

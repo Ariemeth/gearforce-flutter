@@ -74,11 +74,10 @@ class CEFMods extends FactionModification {
     return fm;
   }
 
-  /*
-    Each veteran CEF frame may improve their GU skill by one for 1 TV times the
-    number of Actions that the model has.
-  */
-  factory CEFMods.advancedInterfaceNetwork(Unit unit) {
+  ///  Each veteran [faction] frame may improve their GU skill by one for 1 TV times the
+  ///  number of Actions that the model has.
+
+  factory CEFMods.advancedInterfaceNetwork(Unit unit, FactionType faction) {
     final RequirementCheck reqCheck =
         (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       assert(cg != null);
@@ -88,9 +87,7 @@ class CEFMods extends FactionModification {
         return false;
       }
 
-      if (u.faction == FactionType.CEF &&
-          u.type == ModelType.Gear &&
-          u.isVeteran) {
+      if (u.faction == faction && u.type == ModelType.Gear && u.isVeteran) {
         return true;
       }
 
