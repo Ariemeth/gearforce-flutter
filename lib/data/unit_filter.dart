@@ -48,3 +48,8 @@ bool matchNoGREL(UnitCore uc) {
 bool matchStriders(UnitCore uc) {
   return uc.type == ModelType.Strider;
 }
+
+/// Match onlyi FLAIL units
+bool matchOnlyFlails(UnitCore uc) {
+  return uc.name.contains('FLAIL');
+}

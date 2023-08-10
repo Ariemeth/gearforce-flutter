@@ -235,6 +235,8 @@ class FactionRule extends ChangeNotifier {
     bool Function(List<FactionRule>)? requirementCheck,
     bool Function(CombatGroup?, UnitRoster?)? cgCheck,
     CombatGroupOption Function()? combatGroupOption,
+    List<FactionModification> Function(UnitRoster ur, CombatGroup cg, Unit u)?
+        factionMods,
     String? description,
   }) {
     return FactionRule(
@@ -262,7 +264,7 @@ class FactionRule extends ChangeNotifier {
       combatGroupOption: combatGroupOption != null
           ? combatGroupOption
           : original.combatGroupOption,
-      factionMods: original.factionMods,
+      factionMods: factionMods != null ? factionMods : original.factionMods,
       unitFilter: original.unitFilter,
       onModAdded: original.onModAdded,
       onModRemoved: original.onModRemoved,

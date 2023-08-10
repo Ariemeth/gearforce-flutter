@@ -1,5 +1,6 @@
 import 'package:gearforce/models/mods/base_modification.dart';
 import 'package:gearforce/models/mods/factionUpgrades/black_talon.dart';
+import 'package:gearforce/models/mods/factionUpgrades/caprice.dart';
 import 'package:gearforce/models/mods/factionUpgrades/cef.dart';
 import 'package:gearforce/models/mods/factionUpgrades/north.dart';
 import 'package:gearforce/models/mods/factionUpgrades/nucoal.dart';
@@ -106,13 +107,20 @@ FactionModification? factionModFromId(String id, UnitRoster ur, Unit u) {
     case minveraId:
       return CEFMods.minerva();
     case advancedInterfaceNetworkId:
-      return CEFMods.advancedInterfaceNetwork(u);
+      return CEFMods.advancedInterfaceNetwork(
+        u,
+        ur.factionNotifier.value.factionType,
+      );
     case valkyriesId:
       return CEFMods.valkyries();
     case dualLasersId:
       return CEFMods.dualLasers(u);
     case ewDuelistsId:
       return CEFMods.ewDuelists();
+
+    // Caprice mods
+    case cyberneticUpgradesId:
+      return CapriceMods.cyberneticUpgrades();
   }
   return null;
 }

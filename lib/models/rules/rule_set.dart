@@ -17,6 +17,7 @@ import 'package:gearforce/models/unit/model_type.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/weapons/weapon.dart';
+import 'package:gearforce/models/mods/unitUpgrades/cef.dart' as cef;
 
 const coreName = 'None';
 const coreTag = 'none';
@@ -191,12 +192,16 @@ abstract class RuleSet extends ChangeNotifier {
       return false;
     }
 
+    final modelCheckCount = _checkModelRulesCount(unit, group, cg);
+
     final isUnitAlreadyInGroup = group.allUnits().any((u) => u == unit);
     if (!isUnitAlreadyInGroup) {
       final actions = group.totalActions() + (unit.actions ?? 0);
       final maxAllowedActions = group.groupType == GroupType.Primary
           ? maxPrimaryActions
-          : maxSecondaryActions(cg.primary.totalActions());
+          : modelCheckCount != null
+              ? modelCheckCount
+              : maxSecondaryActions(cg.primary.totalActions());
       if (actions > maxAllowedActions) {
         print(
             'Unit ${unit.name} has ${unit.actions} action and cannot be added as it would increase the number of actions beyond the max allowed of $maxAllowedActions');
@@ -278,7 +283,7 @@ abstract class RuleSet extends ChangeNotifier {
   bool duelistCheck(UnitRoster roster, CombatGroup cg, Unit u) {
     // Check if any faction rules override the default duelist check.  If any
     // result is false, then the check is failed.  If all results returned are
-    // true, return true.
+    // true, continue processing
     final modelCheckOverrides = allEnabledRules(u.group?.combatGroup?.options)
         .where((rule) => rule.duelistModelCheck != null);
     final overrideValues = modelCheckOverrides
@@ -288,7 +293,6 @@ abstract class RuleSet extends ChangeNotifier {
       if (overrideValues.any((status) => status == false)) {
         return false;
       }
-      return true;
     } else if (u.type != ModelType.Gear) {
       return false;
     }
@@ -618,3 +622,22 @@ const _overlordTurret = 'HHT-90 Overlord Turret';
 const _gilgameshFront = "Gilgamesh Front";
 const _gilgameshBack = "Gilgamesh Rear";
 const _gilgameshTurret = "Gilgamesh Turret";
+
+int? _checkModelRulesCount(Unit unit, Group group, CombatGroup cg) {
+  // handle the extra GREL allowed in a secondary if the primary is the HHT-90
+  // Overlord
+  if (unit.core.frame == 'GREL' && group.groupType == GroupType.Secondary) {
+    if (!group
+        .allUnits()
+        .every((u) => u.core.frame == 'GREL' && u.hasMod(cef.squad.id))) {
+      return null;
+    }
+
+    if (cg.primary.allUnits().any((u) => u.core.frame == _overlord) &&
+        group.numberOfUnits() >= 3) {
+      unit.addUnitMod(cef.squad);
+      return 4;
+    }
+  }
+  return null;
+}
