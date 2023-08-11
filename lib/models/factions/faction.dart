@@ -36,7 +36,7 @@ class Faction {
       Caprice(data, name: _emptySubFactionName),
       Caprice.CID(data),
       Caprice.CSE(data),
-      //  Caprice.LRC(data),
+      Caprice.LRC(data),
     ];
     return Faction(FactionType.Caprice, rulesets, rulesets.first);
   }
