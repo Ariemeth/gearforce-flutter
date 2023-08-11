@@ -8,7 +8,7 @@ import 'package:gearforce/models/rules/options/special_unit_filter.dart';
 import 'package:gearforce/models/unit/model_type.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
 
-const String _baseRuleId = 'rule::caprice::cid';
+const String _baseRuleId = 'rule::caprice::cse';
 const String _ruleTheBestWayToMakeMoneyId = '$_baseRuleId::10';
 const String _ruleAlliesId = '$_baseRuleId::20';
 const String _ruleAlliesCEFId = '$_baseRuleId::30';
