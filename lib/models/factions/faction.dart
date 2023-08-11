@@ -34,7 +34,7 @@ class Faction {
   factory Faction.caprice(Data data) {
     final rulesets = [
       Caprice(data, name: _emptySubFactionName),
-      //  Caprice.CID(data),
+      Caprice.CID(data),
       //  Caprice.CSE(data),
       //  Caprice.LRC(data),
     ];
