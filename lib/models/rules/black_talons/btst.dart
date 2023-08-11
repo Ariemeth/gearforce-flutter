@@ -88,19 +88,14 @@ final FactionRule ruleShowoffs = FactionRule(
     }
     return null;
   },
-  duelistModelCheck: (roster, u) {
+  duelistMaxNumberOverride: (roster, cg, u) {
     if (u.type != ModelType.Gear) {
       return null;
     }
+    final numOtherDuelist = cg.units.where((unit) => unit != u).length;
 
-    final cg = u.group?.combatGroup;
-    if (cg == null) {
-      return null;
-    }
-
-    final duelistCount = cg.duelists.where((unit) => unit != u).length;
-    if (duelistCount == 0) {
-      return true;
+    if (numOtherDuelist == 0) {
+      return roster.duelistCount + 1;
     }
 
     return null;

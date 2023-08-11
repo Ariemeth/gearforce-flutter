@@ -1,4 +1,21 @@
+import 'package:gearforce/data/unit_filter.dart';
+import 'package:gearforce/models/combatGroups/group.dart';
+import 'package:gearforce/models/factions/faction_type.dart';
+import 'package:gearforce/models/mods/duelist/duelist_modification.dart'
+    as duelistMod;
 import 'package:gearforce/models/rules/caprice/caprice.dart';
+import 'package:gearforce/models/rules/faction_rule.dart';
+import 'package:gearforce/models/rules/options/special_unit_filter.dart';
+import 'package:gearforce/models/unit/model_type.dart';
+
+const String _baseRuleId = 'rule::caprice::lrc';
+const String _ruleHeroesOfTheResistanceId = '$_baseRuleId::10';
+const String _ruleAlliesId = '$_baseRuleId::20';
+const String _ruleAlliesBlackTalonId = '$_baseRuleId::30';
+const String _ruleAlliesUtopiaId = '$_baseRuleId::40';
+const String _ruleAlliesEdenId = '$_baseRuleId::50';
+const String _ruleAmbushId = '$_baseRuleId::60';
+const String _ruleEliminationId = '$_baseRuleId::70';
 
 /*
   LRC - Liberati Resistance Cell
@@ -21,6 +38,142 @@ class LRC extends Caprice {
   LRC(super.data)
       : super(
           name: 'Liberati Resistance Cell',
-          subFactionRules: [],
+          subFactionRules: [ruleHeroesOfTheResistance, ruleAllies],
         );
 }
+
+final FactionRule ruleHeroesOfTheResistance = FactionRule(
+  name: 'Heroes of the Resistance',
+  id: _ruleHeroesOfTheResistanceId,
+  duelistModCheck: (u, cg, {required modID}) {
+    if (modID == duelistMod.independentOperatorId) {
+      return false;
+    }
+    return null;
+  },
+  duelistMaxNumberOverride: (roster, cg, u) {
+    if (u.type != ModelType.Gear) {
+      return null;
+    }
+    final numOtherDuelist = cg.units.where((unit) => unit != u).length;
+
+    if (numOtherDuelist == 0) {
+      return roster.duelistCount + 1;
+    }
+
+    return null;
+  },
+  description: 'One gear in each combat group may be a duelist. This force' +
+      ' cannot use the Independent Operator rule for duelists.',
+);
+
+final FactionRule ruleAllies = FactionRule(
+  name: 'Allies',
+  id: _ruleAlliesId,
+  options: [
+    _ruleAllyBlackTalon,
+    _ruleAllyUtopia,
+    _ruleAllyEden,
+  ],
+  description: 'You may select models from the Black Talon, Utopia or' +
+      ' Eden to place into your secondary units.',
+);
+
+final FactionRule _ruleAllyBlackTalon = FactionRule(
+  name: 'Black Talon',
+  id: _ruleAlliesBlackTalonId,
+  isEnabled: false,
+  canBeToggled: true,
+  requirementCheck: FactionRule.thereCanBeOnlyOne([
+    _ruleAlliesUtopiaId,
+    _ruleAlliesEdenId,
+  ]),
+  canBeAddedToGroup: (unit, group, cg) {
+    if (group.groupType == GroupType.Secondary) {
+      return null;
+    }
+
+    if (unit.faction == FactionType.BlackTalon) {
+      return false;
+    }
+
+    return null;
+  },
+  unitFilter: () => const SpecialUnitFilter(
+      text: 'Allies: Black Talon',
+      filters: [UnitFilter(FactionType.BlackTalon)],
+      id: _ruleAlliesBlackTalonId),
+  description: 'You may select models from the Black Talon to place into your' +
+      ' secondary units.',
+);
+
+final FactionRule _ruleAllyUtopia = FactionRule(
+  name: 'Utopia',
+  id: _ruleAlliesUtopiaId,
+  isEnabled: false,
+  canBeToggled: true,
+  requirementCheck: FactionRule.thereCanBeOnlyOne([
+    _ruleAlliesBlackTalonId,
+    _ruleAlliesEdenId,
+  ]),
+  canBeAddedToGroup: (unit, group, cg) {
+    if (group.groupType == GroupType.Secondary) {
+      return null;
+    }
+
+    if (unit.faction == FactionType.Utopia) {
+      return false;
+    }
+
+    return null;
+  },
+  unitFilter: () => const SpecialUnitFilter(
+      text: 'Allies: Utopia',
+      filters: [UnitFilter(FactionType.Utopia)],
+      id: _ruleAlliesUtopiaId),
+  description: 'You may select models from the Utopia to place into your' +
+      ' secondary units.',
+);
+
+final FactionRule _ruleAllyEden = FactionRule(
+  name: 'Eden',
+  id: _ruleAlliesEdenId,
+  isEnabled: false,
+  canBeToggled: true,
+  requirementCheck: FactionRule.thereCanBeOnlyOne([
+    _ruleAlliesBlackTalonId,
+    _ruleAlliesUtopiaId,
+  ]),
+  canBeAddedToGroup: (unit, group, cg) {
+    if (group.groupType == GroupType.Secondary) {
+      return null;
+    }
+
+    if (unit.faction == FactionType.Eden) {
+      return false;
+    }
+
+    return null;
+  },
+  unitFilter: () => const SpecialUnitFilter(
+      text: 'Allies: Eden',
+      filters: [UnitFilter(FactionType.Eden)],
+      id: _ruleAlliesEdenId),
+  description: 'You may select models from the Eden to place into your' +
+      ' secondary units.',
+);
+
+final FactionRule ruleAmbush = FactionRule(
+  name: 'Ambushh',
+  id: _ruleAmbushId,
+  description: 'One combat group may use the special operations deployment' +
+      ' regardless of their primary unit’s role.',
+);
+
+final FactionRule ruleElimination = FactionRule(
+  name: 'Elimination',
+  id: _ruleEliminationId,
+  description: 'One objective selected for this force may be the assassinate' +
+      ' objective, regardless of whether this force has the SO role as one of' +
+      ' their primary unit’s roles. Select any remaining objectives normally.',
+);
