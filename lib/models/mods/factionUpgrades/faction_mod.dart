@@ -2,6 +2,7 @@ import 'package:gearforce/models/mods/base_modification.dart';
 import 'package:gearforce/models/mods/factionUpgrades/black_talon.dart';
 import 'package:gearforce/models/mods/factionUpgrades/caprice.dart';
 import 'package:gearforce/models/mods/factionUpgrades/cef.dart';
+import 'package:gearforce/models/mods/factionUpgrades/eden.dart';
 import 'package:gearforce/models/mods/factionUpgrades/north.dart';
 import 'package:gearforce/models/mods/factionUpgrades/nucoal.dart';
 import 'package:gearforce/models/mods/factionUpgrades/peace_river.dart';
@@ -123,6 +124,10 @@ FactionModification? factionModFromId(String id, UnitRoster ur, Unit u) {
       return CapriceMods.cyberneticUpgrades();
     case meleeSpecialistsId:
       return CapriceMods.meleeSpecialists(u);
+
+    // Eden mods
+    case lancersId:
+      return EdenMods.lancers(u);
   }
   return null;
 }
