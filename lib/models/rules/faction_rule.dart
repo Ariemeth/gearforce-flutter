@@ -28,6 +28,7 @@ class FactionRule extends ChangeNotifier {
     this.availableCommandLevelOverride,
     this.veteranModCheck,
     this.veteranCheckOverride,
+    this.veteranCGCountOverride,
     this.modCostOverride,
     this.canBeAddedToGroup,
     this.hasGroupRole,
@@ -91,6 +92,7 @@ class FactionRule extends ChangeNotifier {
   final bool? Function(Unit u, CombatGroup cg, {required String modID})?
       veteranModCheck;
   final bool? Function(Unit u, CombatGroup cg)? veteranCheckOverride;
+  final int? Function(UnitRoster ur, CombatGroup cg)? veteranCGCountOverride;
   final int Function(int baseCost, String modID, Unit u)? modCostOverride;
 
   final bool? Function(Unit unit, Group group, CombatGroup cg)?
@@ -255,6 +257,7 @@ class FactionRule extends ChangeNotifier {
       availableCommandLevelOverride: original.availableCommandLevelOverride,
       veteranModCheck: original.veteranModCheck,
       veteranCheckOverride: original.veteranCheckOverride,
+      veteranCGCountOverride: original.veteranCGCountOverride,
       modCostOverride: original.modCostOverride,
       canBeAddedToGroup: original.canBeAddedToGroup,
       hasGroupRole: original.hasGroupRole,

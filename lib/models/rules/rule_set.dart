@@ -510,6 +510,31 @@ abstract class RuleSet extends ChangeNotifier {
     return cg.isVeteran;
   }
 
+  int maxVetGroups(
+    UnitRoster ur,
+    CombatGroup cg,
+  ) {
+    var count = 1;
+    final vetCGCountOverrideRules = allEnabledRules(cg.options)
+        .where((rule) => rule.veteranCGCountOverride != null);
+    if (vetCGCountOverrideRules.isNotEmpty) {
+      int? overrideCount = 0;
+      vetCGCountOverrideRules
+          .map((r) => r.veteranCGCountOverride!(ur, cg))
+          .forEach((result) {
+        if (result != null) {
+          overrideCount =
+              max(overrideCount == null ? 0 : overrideCount!, result);
+        }
+      });
+      if (overrideCount != null) {
+        count = overrideCount!;
+      }
+    }
+
+    return count;
+  }
+
   bool veteranModCheck(Unit u, CombatGroup cg, {required String modID}) {
     final vetModCheckOverrides = allEnabledRules(cg.options).where((rule) =>
         rule.veteranModCheck != null &&
