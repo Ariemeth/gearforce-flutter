@@ -70,7 +70,12 @@ class CombatGroup extends ChangeNotifier {
       return;
     }
     if (value) {
-      if ((roster != null && roster!.getCGs().any((cg) => cg._isVeteran))) {
+      final vetGroupCount =
+          roster?.getCGs().where((cg) => cg._isVeteran).length;
+      if (vetGroupCount != null &&
+          roster != null &&
+          vetGroupCount >=
+              roster!.rulesetNotifer.value.maxVetGroups(roster!, this)) {
         return;
       }
     }

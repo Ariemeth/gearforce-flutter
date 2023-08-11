@@ -11,3 +11,10 @@ inspect ally faction rules to make sure restrictions are correct and not being a
 How to handle models that need special rules like the HHT-90
 
 update faction rule ids,  add core to base rules and the faction to the sublist rules
+
+the following rules may need to be changed to work on models of the faction not just a faction force
+* North: Task Built
+* CEF: Minverva, Advanced Interface Network
+* Caprice: Dueling Mounts, Advanced Interface Network, Cybernetic Upgrades
+* Utopia: Drone Matrix, Manual Control, Drone Hacking, Expendable
+* Eden: Lancers, Joust You Say?
