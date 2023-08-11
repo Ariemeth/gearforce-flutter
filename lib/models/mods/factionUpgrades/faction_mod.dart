@@ -121,6 +121,8 @@ FactionModification? factionModFromId(String id, UnitRoster ur, Unit u) {
     // Caprice mods
     case cyberneticUpgradesId:
       return CapriceMods.cyberneticUpgrades();
+    case meleeSpecialistsId:
+      return CapriceMods.meleeSpecialists(u);
   }
   return null;
 }
