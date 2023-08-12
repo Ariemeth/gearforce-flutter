@@ -40,6 +40,10 @@ class UtopiaMods extends FactionModification {
         return false;
       }
 
+      if (!cg!.isOptionEnabled(ruleRecceTroupe.id)) {
+        return false;
+      }
+
       if (u.core.frame == 'Recce Armiger') {
         return true;
       }
@@ -77,6 +81,9 @@ class UtopiaMods extends FactionModification {
       assert(rs != null);
 
       if (rs == null || !rs.isRuleEnabled(ruleSilentAssault.id)) {
+        return false;
+      }
+      if (!cg!.isOptionEnabled(ruleRecceTroupe.id)) {
         return false;
       }
 
@@ -118,6 +125,10 @@ class UtopiaMods extends FactionModification {
       assert(rs != null);
 
       if (rs == null || !rs.isRuleEnabled(ruleWrathOfTheDemigods.id)) {
+        return false;
+      }
+
+      if (!cg!.isOptionEnabled(ruleSupportTroupe.id)) {
         return false;
       }
 
@@ -183,6 +194,10 @@ class UtopiaMods extends FactionModification {
         return false;
       }
 
+      if (!cg!.isOptionEnabled(ruleSupportTroupe.id)) {
+        return false;
+      }
+
       if (u.core.frame == 'Support N-KIDU') {
         return true;
       }
@@ -220,6 +235,10 @@ class UtopiaMods extends FactionModification {
       assert(rs != null);
 
       if (rs == null || !rs.isRuleEnabled(ruleWhoDares.id)) {
+        return false;
+      }
+
+      if (!cg!.isOptionEnabled(ruleCommandoTroupe.id)) {
         return false;
       }
 

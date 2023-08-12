@@ -189,42 +189,26 @@ final FactionRule ruleRecceTroupe = FactionRule(
   id: _ruleRecceTroupeId,
   options: [ruleQuietDeath, ruleSilentAssault],
   cgCheck: onlyOnePerCG(_getTroupeRuleIds(_ruleRecceTroupeId)),
-  combatGroupOption: () => [_ruleRecceTroupeCGOption],
+  combatGroupOption: () => [ruleRecceTroupe.buidCombatGroupOption()],
+  factionMods: (ur, cg, u) => [
+    UtopiaMods.quietDeath(),
+    UtopiaMods.silentAssault(),
+  ],
   description: 'Quiet Death: Recce Armigers may purchase the React+ trait for' +
       ' 1 TV each.\n' +
       'Silent Assault: Recce N-KIDUs may increase their EW skill by one for 1' +
       ' TV each.',
 );
 
-final _ruleRecceTroupeCGOption = ruleRecceTroupe.buidCombatGroupOption();
-
 final FactionRule ruleQuietDeath = FactionRule(
   name: 'Quiet Death',
   id: _ruleQuietDeathId,
-  cgCheck: (_, ur) => _ruleRecceTroupeCGOption.isEnabled,
-  combatGroupOption: () => [
-    ruleQuietDeath.buidCombatGroupOption(
-      canBeToggled: false,
-      initialState: _ruleRecceTroupeCGOption.isEnabled,
-      isEnabledOverrideCheck: () => _ruleRecceTroupeCGOption.isEnabled,
-    )
-  ],
-  factionMods: (ur, cg, u) => [UtopiaMods.quietDeath()],
   description: 'Recce Armigers may purchase the React+ trait for 1 TV each.',
 );
 
 final FactionRule ruleSilentAssault = FactionRule(
   name: 'Silent Assault',
   id: _ruleSilentAssaultId,
-  cgCheck: (_, ur) => _ruleRecceTroupeCGOption.isEnabled,
-  combatGroupOption: () => [
-    ruleSilentAssault.buidCombatGroupOption(
-      canBeToggled: false,
-      initialState: _ruleRecceTroupeCGOption.isEnabled,
-      isEnabledOverrideCheck: () => _ruleRecceTroupeCGOption.isEnabled,
-    )
-  ],
-  factionMods: (ur, cg, u) => [UtopiaMods.silentAssault()],
   description:
       'Recce N-KIDUs may increase their EW skill by one for 1 TV each.',
 );
@@ -235,27 +219,20 @@ final FactionRule ruleSupportTroupe = FactionRule(
   id: _ruleSupportTroupeId,
   options: [ruleWrathOfTheDemigods, ruleNotSoSilentAssault],
   cgCheck: onlyOnePerCG(_getTroupeRuleIds(_ruleSupportTroupeId)),
-  combatGroupOption: () => [_ruleSupportTroupeCGOption],
+  combatGroupOption: () => [ruleSupportTroupe.buidCombatGroupOption()],
+  factionMods: (ur, cg, u) => [
+    UtopiaMods.wrathOfTheDemigods(),
+    UtopiaMods.notSoSilentAssault(),
+  ],
   description: 'Wrath of the Demigods: Each Support Armiger may upgrade their' +
       ' MRP with both the Precise trait and the Guided trait for 1 TV total.\n' +
       'Not So Silent Assault: Support N-KIDUs may increase their GU skill by' +
       ' one for 1 TV each.',
 );
 
-final _ruleSupportTroupeCGOption = ruleSupportTroupe.buidCombatGroupOption();
-
 final FactionRule ruleWrathOfTheDemigods = FactionRule(
   name: 'Wrath of the Demigods',
   id: _ruleWrathOfTheDemigodsId,
-  cgCheck: (_, ur) => _ruleSupportTroupeCGOption.isEnabled,
-  combatGroupOption: () => [
-    ruleWrathOfTheDemigods.buidCombatGroupOption(
-      canBeToggled: false,
-      initialState: _ruleSupportTroupeCGOption.isEnabled,
-      isEnabledOverrideCheck: () => _ruleSupportTroupeCGOption.isEnabled,
-    )
-  ],
-  factionMods: (ur, cg, u) => [UtopiaMods.wrathOfTheDemigods()],
   description: 'Each Support Armiger may upgrade their MRP with both the' +
       ' Precise trait and the Guided trait for 1 TV total.',
 );
@@ -263,15 +240,6 @@ final FactionRule ruleWrathOfTheDemigods = FactionRule(
 final FactionRule ruleNotSoSilentAssault = FactionRule(
   name: 'Not So Silent Assault',
   id: _ruleNotSoSilentAssaultId,
-  cgCheck: (_, ur) => _ruleSupportTroupeCGOption.isEnabled,
-  combatGroupOption: () => [
-    ruleNotSoSilentAssault.buidCombatGroupOption(
-      canBeToggled: false,
-      initialState: _ruleSupportTroupeCGOption.isEnabled,
-      isEnabledOverrideCheck: () => _ruleSupportTroupeCGOption.isEnabled,
-    )
-  ],
-  factionMods: (ur, cg, u) => [UtopiaMods.notSoSilentAssault()],
   description:
       'Support N-KIDUs may increase their GU skill by one for 1 TV each.',
 );
@@ -282,24 +250,14 @@ final FactionRule ruleCommandoTroupe = FactionRule(
   id: _ruleCommandoTroupeId,
   options: [ruleWhoDares],
   cgCheck: onlyOnePerCG(_getTroupeRuleIds(_ruleCommandoTroupeId)),
-  combatGroupOption: () => [_ruleCommandoTroupeCGOption],
+  combatGroupOption: () => [ruleCommandoTroupe.buidCombatGroupOption()],
+  factionMods: (ur, cg, u) => [UtopiaMods.whoDares()],
   description: 'Who Dares: Commando Armigers may add +1 action for 2 TV each.',
 );
-
-final _ruleCommandoTroupeCGOption = ruleCommandoTroupe.buidCombatGroupOption();
 
 final FactionRule ruleWhoDares = FactionRule(
   name: 'Who Dares',
   id: _ruleWhoDaresId,
-  cgCheck: (_, ur) => _ruleCommandoTroupeCGOption.isEnabled,
-  combatGroupOption: () => [
-    ruleWhoDares.buidCombatGroupOption(
-      canBeToggled: false,
-      initialState: _ruleCommandoTroupeCGOption.isEnabled,
-      isEnabledOverrideCheck: () => _ruleCommandoTroupeCGOption.isEnabled,
-    )
-  ],
-  factionMods: (ur, cg, u) => [UtopiaMods.whoDares()],
   description: 'Commando Armigers may add +1 action for 2 TV each.',
 );
 
@@ -314,28 +272,7 @@ final FactionRule ruleGilgameshTroupe = FactionRule(
     final onlyOne = onlyOneCG(_ruleGilgameshTroupeId)(cg, ur);
     return onePerCGcheck && onlyOne;
   },
-  combatGroupOption: () => [_ruleGilgameshTroupeCGOption],
-  description: 'The Divine Brother: This combat group must use a Gilgamesh.' +
-      ' The Gilgamesh must be the force leader.\n' +
-      'The Brother’s Friends: The Gilgamesh may spend 1 CP to issue a special' +
-      ' order that removes the Conscript trait from all N-KIDUs within any' +
-      ' one combat group during their activation.',
-);
-
-final _ruleGilgameshTroupeCGOption =
-    ruleGilgameshTroupe.buidCombatGroupOption();
-
-final FactionRule _ruleTheDivineBrother = FactionRule(
-  name: 'The Divine Brother',
-  id: _ruleTheDevineBrotherId,
-  cgCheck: (_, ur) => _ruleGilgameshTroupeCGOption.isEnabled,
-  combatGroupOption: () => [
-    _ruleTheDivineBrother.buidCombatGroupOption(
-      canBeToggled: false,
-      initialState: _ruleGilgameshTroupeCGOption.isEnabled,
-      isEnabledOverrideCheck: () => _ruleGilgameshTroupeCGOption.isEnabled,
-    )
-  ],
+  combatGroupOption: () => [ruleGilgameshTroupe.buidCombatGroupOption()],
   canBeAddedToGroup: (unit, group, cg) {
     if (group.role() != RoleType.FS) {
       return false;
@@ -343,20 +280,22 @@ final FactionRule _ruleTheDivineBrother = FactionRule(
     return unit.core.frame.contains('Gilgamesh');
   },
   description: 'The Divine Brother: This combat group must use a Gilgamesh.' +
+      ' The Gilgamesh must be the force leader.\n' +
+      'The Brother’s Friends: The Gilgamesh may spend 1 CP to issue a special' +
+      ' order that removes the Conscript trait from all N-KIDUs within any' +
+      ' one combat group during their activation.',
+);
+
+final FactionRule _ruleTheDivineBrother = FactionRule(
+  name: 'The Divine Brother',
+  id: _ruleTheDevineBrotherId,
+  description: 'The Divine Brother: This combat group must use a Gilgamesh.' +
       ' The Gilgamesh must be the force leader.',
 );
 
 final FactionRule _ruleTheBrothersFriends = FactionRule(
   name: 'The Brother’s Friends',
   id: _ruleTheBrothersFriendsId,
-  cgCheck: (_, ur) => _ruleGilgameshTroupeCGOption.isEnabled,
-  combatGroupOption: () => [
-    _ruleTheBrothersFriends.buidCombatGroupOption(
-      canBeToggled: false,
-      initialState: _ruleGilgameshTroupeCGOption.isEnabled,
-      isEnabledOverrideCheck: () => _ruleGilgameshTroupeCGOption.isEnabled,
-    )
-  ],
   description: 'The Gilgamesh may spend 1 CP to issue a special order that' +
       ' removes the Conscript trait from all N-KIDUs within any one combat' +
       ' group during their activation.',
