@@ -275,7 +275,7 @@ abstract class RuleSet extends ChangeNotifier {
 
     final List<CombatGroupOption> cgOptions = [];
     availableCombatOptionRules.forEach((rule) {
-      cgOptions.add(rule.combatGroupOption!());
+      cgOptions.addAll(rule.combatGroupOption!());
     });
     return cgOptions;
   }
