@@ -124,6 +124,6 @@ final FactionRule ruleAbominations = FactionRule(
       ],
       id: _ruleAbominationsId),
   cgCheck: onlyOneCG(_ruleAbominationsId),
-  combatGroupOption: () => ruleAbominations.buidCombatGroupOption(),
+  combatGroupOption: () => [ruleAbominations.buidCombatGroupOption()],
   description: 'One combat group may include FLAILs from the CEF.',
 );

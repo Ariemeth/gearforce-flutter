@@ -169,12 +169,9 @@ final FactionRule _allyNorth = FactionRule(
     _ruleAllyPeaceRiverId,
     _ruleAllyNuCoalId,
   ]),
-  combatGroupOption: () {
-    return _allyNorth.buidCombatGroupOption(
-      canBeToggled: false,
-      initialState: true,
-    );
-  },
+  combatGroupOption: () => [
+    _allyNorth.buidCombatGroupOption(canBeToggled: false, initialState: true)
+  ],
   unitFilter: () => const SpecialUnitFilter(
       text: 'Ally: North',
       filters: [
@@ -197,12 +194,12 @@ final FactionRule _allyPeaceRiver = FactionRule(
     _ruleAllyNorthId,
     _ruleAllyNuCoalId,
   ]),
-  combatGroupOption: () {
-    return _allyPeaceRiver.buidCombatGroupOption(
+  combatGroupOption: () => [
+    _allyPeaceRiver.buidCombatGroupOption(
       canBeToggled: false,
       initialState: true,
-    );
-  },
+    )
+  ],
   unitFilter: () => const SpecialUnitFilter(
       text: 'Ally: Peace River',
       filters: [
@@ -225,12 +222,9 @@ final FactionRule _allyNuCoal = FactionRule(
     _ruleAllyNorthId,
     _ruleAllyPeaceRiverId,
   ]),
-  combatGroupOption: () {
-    return _allyNuCoal.buidCombatGroupOption(
-      canBeToggled: false,
-      initialState: true,
-    );
-  },
+  combatGroupOption: () => [
+    _allyNuCoal.buidCombatGroupOption(canBeToggled: false, initialState: true)
+  ],
   unitFilter: () => const SpecialUnitFilter(
       text: 'Ally: NuCoal',
       filters: [

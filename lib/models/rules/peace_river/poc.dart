@@ -120,9 +120,7 @@ final FactionRule ruleMercenaryContract = FactionRule(
   canBeAddedToGroup: (unit, group, cg) {
     return unit.armor == null || (unit.armor != null && unit.armor! <= 8);
   },
-  combatGroupOption: () {
-    return ruleMercenaryContract.buidCombatGroupOption();
-  },
+  combatGroupOption: () => [ruleMercenaryContract.buidCombatGroupOption()],
   unitFilter: () => SpecialUnitFilter(
     text: _ruleMercContractName,
     id: _ruleMercContractId,

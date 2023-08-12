@@ -98,7 +98,7 @@ final FactionRule ruleLancePoint = FactionRule(
   id: _ruleLancePointId,
   options: [_ruleAlliesLancePoint, _rulePathfinder],
   cgCheck: onlyOnePerCG(_getCityStateRuleIds(_ruleLancePointId)),
-  combatGroupOption: () => _ruleLancePointCGOption,
+  combatGroupOption: () => [_ruleLancePointCGOption],
   description: 'A fast-growing city-state, Lance Point is an oil boom town' +
       ' currently occupied by Southern forces. Time will tell if the presence' +
       ' of these ‘Observers’ will become a permanent feature of the situation' +
@@ -111,11 +111,13 @@ final FactionRule _ruleAlliesLancePoint = FactionRule(
   name: 'Allies',
   id: _ruleAlliesLancePointId,
   cgCheck: (_, ur) => _ruleLancePointCGOption.isEnabled,
-  combatGroupOption: () => _ruleAlliesLancePoint.buidCombatGroupOption(
-    canBeToggled: false,
-    initialState: _ruleLancePointCGOption.isEnabled,
-    isEnabledOverrideCheck: () => _ruleLancePointCGOption.isEnabled,
-  ),
+  combatGroupOption: () => [
+    _ruleAlliesLancePoint.buidCombatGroupOption(
+      canBeToggled: false,
+      initialState: _ruleLancePointCGOption.isEnabled,
+      isEnabledOverrideCheck: () => _ruleLancePointCGOption.isEnabled,
+    )
+  ],
   unitFilter: () => const SpecialUnitFilter(
       text: 'Allies: Lance Point',
       filters: [
@@ -133,11 +135,13 @@ final FactionRule _rulePathfinder = FactionRule(
   name: 'Pathfinder',
   id: _rulePathfinderId,
   cgCheck: (_, ur) => _ruleLancePointCGOption.isEnabled,
-  combatGroupOption: () => _rulePathfinder.buidCombatGroupOption(
-    canBeToggled: false,
-    initialState: _ruleLancePointCGOption.isEnabled,
-    isEnabledOverrideCheck: () => _ruleLancePointCGOption.isEnabled,
-  ),
+  combatGroupOption: () => [
+    _rulePathfinder.buidCombatGroupOption(
+      canBeToggled: false,
+      initialState: _ruleLancePointCGOption.isEnabled,
+      isEnabledOverrideCheck: () => _ruleLancePointCGOption.isEnabled,
+    )
+  ],
   description: 'If this combat group is composed entirely of gears, then it' +
       ' may use the recon special deployment option.',
 );
@@ -152,7 +156,7 @@ final FactionRule ruleFortNeil = FactionRule(
     _ruleFastCavalry,
   ],
   cgCheck: onlyOnePerCG(_getCityStateRuleIds(_ruleFortNeilId)),
-  combatGroupOption: () => _ruleFortNeilCGOption,
+  combatGroupOption: () => [_ruleFortNeilCGOption],
   description: 'An industrial hub that has spearheaded many of the new' +
       ' developments of the Gallic series of gears. In addition, the Sampson' +
       ' hover APC was developed by Fort Neil engineers. Formations of' +
@@ -164,11 +168,13 @@ final FactionRule _ruleGallicManufacturing = FactionRule(
   name: 'Gallic Manufacturing',
   id: _ruleGallicManufacturingId,
   cgCheck: (_, ur) => _ruleFortNeilCGOption.isEnabled,
-  combatGroupOption: () => _ruleGallicManufacturing.buidCombatGroupOption(
-    canBeToggled: false,
-    initialState: _ruleFortNeilCGOption.isEnabled,
-    isEnabledOverrideCheck: () => _ruleFortNeilCGOption.isEnabled,
-  ),
+  combatGroupOption: () => [
+    _ruleGallicManufacturing.buidCombatGroupOption(
+      canBeToggled: false,
+      initialState: _ruleFortNeilCGOption.isEnabled,
+      isEnabledOverrideCheck: () => _ruleFortNeilCGOption.isEnabled,
+    )
+  ],
   hasGroupRole: (unit, target, group) {
     final frame = unit.core.frame;
     if (!(frame == 'Chasseur' || frame == 'Chasseur Mk2')) {
@@ -190,11 +196,13 @@ final FactionRule _ruleLicensedManufacturing = FactionRule(
   name: 'Licensed Manufacturing',
   id: _ruleLicensedManufacturingId,
   cgCheck: (_, ur) => _ruleFortNeilCGOption.isEnabled,
-  combatGroupOption: () => _ruleLicensedManufacturing.buidCombatGroupOption(
-    canBeToggled: false,
-    initialState: _ruleFortNeilCGOption.isEnabled,
-    isEnabledOverrideCheck: () => _ruleFortNeilCGOption.isEnabled,
-  ),
+  combatGroupOption: () => [
+    _ruleLicensedManufacturing.buidCombatGroupOption(
+      canBeToggled: false,
+      initialState: _ruleFortNeilCGOption.isEnabled,
+      isEnabledOverrideCheck: () => _ruleFortNeilCGOption.isEnabled,
+    )
+  ],
   unitFilter: () => const SpecialUnitFilter(
       text: 'Licensed Manufacturing',
       filters: [
@@ -226,22 +234,26 @@ final FactionRule _ruleTestPilots = FactionRule.from(
   fha.ruleWroteTheBook,
   name: 'Test Pilots',
   cgCheck: (_, ur) => _ruleFortNeilCGOption.isEnabled,
-  combatGroupOption: () => _ruleTestPilots.buidCombatGroupOption(
-    canBeToggled: false,
-    initialState: _ruleFortNeilCGOption.isEnabled,
-    isEnabledOverrideCheck: () => _ruleFortNeilCGOption.isEnabled,
-  ),
+  combatGroupOption: () => [
+    _ruleTestPilots.buidCombatGroupOption(
+      canBeToggled: false,
+      initialState: _ruleFortNeilCGOption.isEnabled,
+      isEnabledOverrideCheck: () => _ruleFortNeilCGOption.isEnabled,
+    )
+  ],
 );
 
 final FactionRule _ruleFastCavalry = FactionRule(
   name: 'Fast Cavalry',
   id: _ruleFastCavalryId,
   cgCheck: (_, ur) => _ruleFortNeilCGOption.isEnabled,
-  combatGroupOption: () => _ruleFastCavalry.buidCombatGroupOption(
-    canBeToggled: false,
-    initialState: _ruleFortNeilCGOption.isEnabled,
-    isEnabledOverrideCheck: () => _ruleFortNeilCGOption.isEnabled,
-  ),
+  combatGroupOption: () => [
+    _ruleFastCavalry.buidCombatGroupOption(
+      canBeToggled: false,
+      initialState: _ruleFortNeilCGOption.isEnabled,
+      isEnabledOverrideCheck: () => _ruleFortNeilCGOption.isEnabled,
+    )
+  ],
   factionMods: (ur, cg, u) => [NuCoalFactionMods.fastCavalry()],
   description: 'Sampsons in this combat group may purchase the Agile trait' +
       ' for 1 TV each.',
@@ -256,7 +268,7 @@ final FactionRule rulePrinceGable = FactionRule(
     _ruleEPex,
   ],
   cgCheck: onlyOnePerCG(_getCityStateRuleIds(_rulePrinceGableId)),
-  combatGroupOption: () => _rulePrinceGableCGOption,
+  combatGroupOption: () => [_rulePrinceGableCGOption],
   description: 'This is the home to the manufacturer of the Jerboa, Verton' +
       ' Tech, which got its own start as a rally gear company. Because the' +
       ' city’s infrastructure is rather advanced, especially for the' +
@@ -269,11 +281,13 @@ final FactionRule _ruleAlliesPrinceGable = FactionRule(
   name: 'Allies',
   id: _ruleAlliesPrinceGableId,
   cgCheck: (_, ur) => _rulePrinceGableCGOption.isEnabled,
-  combatGroupOption: () => _ruleAlliesPrinceGable.buidCombatGroupOption(
-    canBeToggled: false,
-    initialState: _rulePrinceGableCGOption.isEnabled,
-    isEnabledOverrideCheck: () => _rulePrinceGableCGOption.isEnabled,
-  ),
+  combatGroupOption: () => [
+    _ruleAlliesPrinceGable.buidCombatGroupOption(
+      canBeToggled: false,
+      initialState: _rulePrinceGableCGOption.isEnabled,
+      isEnabledOverrideCheck: () => _rulePrinceGableCGOption.isEnabled,
+    )
+  ],
   unitFilter: () => const SpecialUnitFilter(
       text: 'Allies: Prince Gable',
       filters: [
@@ -290,22 +304,26 @@ final FactionRule _ruleAlliesPrinceGable = FactionRule(
 final FactionRule _ruleEwSpecialist = FactionRule.from(
   umf.ruleEWSpecialist,
   cgCheck: (_, ur) => _rulePrinceGableCGOption.isEnabled,
-  combatGroupOption: () => _ruleEwSpecialist.buidCombatGroupOption(
-    canBeToggled: false,
-    initialState: _rulePrinceGableCGOption.isEnabled,
-    isEnabledOverrideCheck: () => _rulePrinceGableCGOption.isEnabled,
-  ),
+  combatGroupOption: () => [
+    _ruleEwSpecialist.buidCombatGroupOption(
+      canBeToggled: false,
+      initialState: _rulePrinceGableCGOption.isEnabled,
+      isEnabledOverrideCheck: () => _rulePrinceGableCGOption.isEnabled,
+    )
+  ],
 );
 
 final FactionRule _ruleEPex = FactionRule(
   name: 'E-pex',
   id: ruleEPexId,
   cgCheck: (_, ur) => _rulePrinceGableCGOption.isEnabled,
-  combatGroupOption: () => _ruleEPex.buidCombatGroupOption(
-    canBeToggled: false,
-    initialState: _rulePrinceGableCGOption.isEnabled,
-    isEnabledOverrideCheck: () => _rulePrinceGableCGOption.isEnabled,
-  ),
+  combatGroupOption: () => [
+    _ruleEPex.buidCombatGroupOption(
+      canBeToggled: false,
+      initialState: _rulePrinceGableCGOption.isEnabled,
+      isEnabledOverrideCheck: () => _rulePrinceGableCGOption.isEnabled,
+    )
+  ],
   description: 'One model in this combat group may improve its EW skill by' +
       ' one for 1 TV.',
 );
@@ -320,7 +338,7 @@ final FactionRule ruleErechAndNineveh = FactionRule(
     _ruleHighOctane,
   ],
   cgCheck: onlyOnePerCG(_getCityStateRuleIds(_ruleErechAndNinevehId)),
-  combatGroupOption: () => _ruleErechAndNinevehCGOption,
+  combatGroupOption: () => [_ruleErechAndNinevehCGOption],
   description: 'The Twin Cities have vast wealth, enough to host several' +
       ' private military contractors each. When not on active duty, the' +
       ' citizens and soldiers spend a lot of their time participating in' +
@@ -336,7 +354,7 @@ final FactionRule _ruleAlliesErechAndNinevehNorth = FactionRule(
   cgCheck: (_, ur) =>
       _ruleErechAndNinevehCGOption.isEnabled &&
       !_ruleAlliesEandNSouthCGOption.isEnabled,
-  combatGroupOption: () => _ruleAlliesEandNNorthCGOption,
+  combatGroupOption: () => [_ruleAlliesEandNNorthCGOption],
   unitFilter: () => const SpecialUnitFilter(
       text: 'Allies: E & N North',
       filters: [
@@ -364,7 +382,7 @@ final FactionRule _ruleAlliesErechAndNinevehSouth = FactionRule(
   cgCheck: (_, ur) =>
       _ruleErechAndNinevehCGOption.isEnabled &&
       !_ruleAlliesEandNNorthCGOption.isEnabled,
-  combatGroupOption: () => _ruleAlliesEandNSouthCGOption,
+  combatGroupOption: () => [_ruleAlliesEandNSouthCGOption],
   unitFilter: () => const SpecialUnitFilter(
       text: 'Allies: E & N South',
       filters: [
@@ -390,11 +408,13 @@ final FactionRule rulePersonalEquipment = FactionRule(
   name: 'Personal Equipment',
   id: _rulePersonalEquipmentId,
   cgCheck: (_, ur) => _ruleErechAndNinevehCGOption.isEnabled,
-  combatGroupOption: () => rulePersonalEquipment.buidCombatGroupOption(
-    canBeToggled: false,
-    initialState: _ruleErechAndNinevehCGOption.isEnabled,
-    isEnabledOverrideCheck: () => _ruleErechAndNinevehCGOption.isEnabled,
-  ),
+  combatGroupOption: () => [
+    rulePersonalEquipment.buidCombatGroupOption(
+      canBeToggled: false,
+      initialState: _ruleErechAndNinevehCGOption.isEnabled,
+      isEnabledOverrideCheck: () => _ruleErechAndNinevehCGOption.isEnabled,
+    )
+  ],
   veteranModCheck: (u, cg, {required modID}) {
     final mod1 = u.getMod(personalEquipment1Id);
     final mod2 = u.getMod(personalEquipment2Id);
@@ -434,11 +454,13 @@ final FactionRule _ruleHighOctane = FactionRule(
   name: 'High Octane',
   id: ruleHighOctaneId,
   cgCheck: (_, ur) => _ruleErechAndNinevehCGOption.isEnabled,
-  combatGroupOption: () => _ruleHighOctane.buidCombatGroupOption(
-    canBeToggled: false,
-    initialState: _ruleErechAndNinevehCGOption.isEnabled,
-    isEnabledOverrideCheck: () => _ruleErechAndNinevehCGOption.isEnabled,
-  ),
+  combatGroupOption: () => [
+    _ruleHighOctane.buidCombatGroupOption(
+      canBeToggled: false,
+      initialState: _ruleErechAndNinevehCGOption.isEnabled,
+      isEnabledOverrideCheck: () => _ruleErechAndNinevehCGOption.isEnabled,
+    )
+  ],
   factionMods: (ur, cg, u) => [NuCoalFactionMods.highOctane()],
   description: 'Add +1 to the MR of any veteran gears in this combat group' +
       ' for 1 TV each.',

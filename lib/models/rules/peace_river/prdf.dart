@@ -121,12 +121,12 @@ final FactionRule ruleBestMenAndWomen = FactionRule(
   isRoleTypeUnlimited: (unit, target, group, roster) {
     return unit.faction == FactionType.BlackTalon ? false : null;
   },
-  combatGroupOption: () {
-    return ruleBestMenAndWomen.buidCombatGroupOption(
+  combatGroupOption: () => [
+    ruleBestMenAndWomen.buidCombatGroupOption(
       canBeToggled: false,
       initialState: true,
-    );
-  },
+    )
+  ],
   unitFilter: () => SpecialUnitFilter(
     text: _ruleBestMenAndWomenName,
     id: _ruleBestMenAndWomenId,

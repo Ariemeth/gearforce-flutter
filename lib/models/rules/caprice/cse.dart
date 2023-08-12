@@ -171,7 +171,7 @@ final FactionRule ruleAppropriations = FactionRule(
       ],
       id: _ruleAppropriationsId),
   cgCheck: onlyOneCG(_ruleAppropriationsId),
-  combatGroupOption: () => ruleAppropriations.buidCombatGroupOption(),
+  combatGroupOption: () => [ruleAppropriations.buidCombatGroupOption()],
   description: 'This force may have one primary unit composed of CEF frames,' +
       ' Utopian APEs or Eden golems. The CEF Minerva upgrade cannot be' +
       ' selected. These models may be mixed with Caprician models or each' +
