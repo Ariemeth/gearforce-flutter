@@ -334,6 +334,12 @@ class VeteranModification extends BaseModification {
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
           assert(rs != null);
           assert(cg != null);
+          if (!(u.type == ModelType.Infantry ||
+              u.type == ModelType.Cavalry ||
+              u.type == ModelType.Gear ||
+              u.type == ModelType.Strider)) {
+            return false;
+          }
           if (u.hasMod(brawler1Id)) {
             return false;
           }

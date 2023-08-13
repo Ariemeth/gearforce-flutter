@@ -18,3 +18,5 @@ the following rules may need to be changed to work on models of the faction not 
 * Caprice: Dueling Mounts, Advanced Interface Network, Cybernetic Upgrades
 * Utopia: Drone Matrix, Manual Control, Drone Hacking, Expendable
 * Eden: Lancers, Joust You Say?
+
+After figuring out the model rules above, update Utopia CAF and OUF rules that restrict CEF model rules

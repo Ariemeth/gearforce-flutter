@@ -32,6 +32,22 @@ const shieldId = '$_duelistIDBase::120';
 const agileId = '$_duelistIDBase::130';
 const ecmId = '$_duelistIDBase::140';
 
+final Map<String, String> _duelistModNames = {
+  independentOperatorId: 'Independent Operator',
+  leadByExampleId: 'Lead by Example',
+  advancedControlSystemId: 'Advanced Control System',
+  stableId: 'Stable',
+  preciseId: 'Precise',
+  autoId: 'Auto',
+  aceGunnerId: 'Ace Gunner',
+  trickShotId: 'Trick Shot',
+  meleeUpgradeId: 'Duelist Melee Upgrade',
+  dualMeleeWeaponsId: 'Dual Melee Weapons',
+  shieldId: 'Shield',
+  agileId: 'Agile',
+  ecmId: 'ECM',
+};
+
 final RegExp _handsMatch = RegExp(r'^Hands', caseSensitive: false);
 
 class DuelistModification extends BaseModification {
@@ -49,6 +65,16 @@ class DuelistModification extends BaseModification {
           refreshData: refreshData,
           modType: ModificationType.duelist,
         );
+
+  /// Checks if the [modId] is that of a Duelist Upgrade mod.  This will work
+  /// if this [modId] is either an ID of a Duelist Upgrade mod, or the name
+  /// of a Duelist Upgrade mod.
+  static bool isDuelistMod(String modId) {
+    if (modId.startsWith(_duelistIDBase)) {
+      return _duelistModNames.keys.contains(modId);
+    }
+    return _duelistModNames.values.contains(modId);
+  }
 
   factory DuelistModification.makeDuelist(Unit u, UnitRoster roster) {
     final isVet = u.isVeteran;
@@ -104,8 +130,11 @@ class DuelistModification extends BaseModification {
   However, they may be upgraded to a XO, CO, or TFC.
 */
   factory DuelistModification.independentOperator(Unit u, CombatGroup cg) {
+    final modName = _duelistModNames[independentOperatorId];
+    assert(modName != null);
+
     return DuelistModification(
-        name: 'Independent Operator',
+        name: modName ?? independentOperatorId,
         id: independentOperatorId,
         requirementCheck:
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
@@ -161,8 +190,11 @@ class DuelistModification extends BaseModification {
   is removed during cleanup.
 */
   factory DuelistModification.leadByExample(Unit u, UnitRoster roster) {
+    final modName = _duelistModNames[leadByExampleId];
+    assert(modName != null);
+
     return DuelistModification(
-        name: 'Lead by Example',
+        name: modName ?? leadByExampleId,
         id: leadByExampleId,
         requirementCheck:
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
@@ -193,8 +225,11 @@ class DuelistModification extends BaseModification {
   more than 3 action points.
   */
   factory DuelistModification.advancedControlSystem(Unit u) {
+    final modName = _duelistModNames[advancedControlSystemId];
+    assert(modName != null);
+
     return DuelistModification(
-        name: 'Advanced Control System',
+        name: modName ?? advancedControlSystemId,
         id: advancedControlSystemId,
         requirementCheck:
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
@@ -235,6 +270,9 @@ class DuelistModification extends BaseModification {
   > Or, add the Stable trait to a combo weapon for 3 TV.
   */
   factory DuelistModification.stable(Unit u) {
+    final modName = _duelistModNames[stableId];
+    assert(modName != null);
+
     final List<ModificationOption> _options = [];
     final traitToAdd = Trait.Stable();
 
@@ -247,7 +285,7 @@ class DuelistModification extends BaseModification {
         description: 'Choose a weapon to gain the Stable trait.');
 
     final mod = DuelistModification(
-        name: 'Stable',
+        name: modName ?? stableId,
         id: stableId,
         options: modOptions,
         refreshData: () {
@@ -293,6 +331,9 @@ class DuelistModification extends BaseModification {
   > Or, add the Precise trait to a combo weapon for 2 TV.
   */
   factory DuelistModification.precise(Unit u) {
+    final modName = _duelistModNames[preciseId];
+    assert(modName != null);
+
     final List<ModificationOption> _options = [];
     final traitToAdd = Trait.Precise();
 
@@ -305,7 +346,7 @@ class DuelistModification extends BaseModification {
         description: 'Choose a weapon to gain the Precise trait.');
 
     final mod = DuelistModification(
-        name: 'Precise',
+        name: modName ?? preciseId,
         id: preciseId,
         options: modOptions,
         requirementCheck:
@@ -346,6 +387,9 @@ class DuelistModification extends BaseModification {
   combo weapon, that has the React trait for 1 TV.
   */
   factory DuelistModification.auto(Unit u) {
+    final modName = _duelistModNames[autoId];
+    assert(modName != null);
+
     final react = u.reactWeapons;
     final List<ModificationOption> _options = [];
     final traitToAdd = Trait.Auto();
@@ -363,7 +407,7 @@ class DuelistModification extends BaseModification {
         description: 'Choose an available weapon to have the Auto trait added');
 
     return DuelistModification(
-        name: 'Auto',
+        name: modName ?? autoId,
         id: autoId,
         options: modOptions,
         requirementCheck:
@@ -410,9 +454,12 @@ class DuelistModification extends BaseModification {
   attacks against multiple models.
   */
   factory DuelistModification.aceGunner(Unit u) {
+    final modName = _duelistModNames[aceGunnerId];
+    assert(modName != null);
+
     final RegExp allowedWeaponMatch = RegExp(r'(AC)');
     return DuelistModification(
-        name: 'Ace Gunner',
+        name: modName ?? aceGunnerId,
         id: aceGunnerId,
         requirementCheck:
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
@@ -449,6 +496,9 @@ class DuelistModification extends BaseModification {
   as having two of the same weapon, one in each hand.
   */
   factory DuelistModification.trickShot(Unit u) {
+    final modName = _duelistModNames[trickShotId];
+    assert(modName != null);
+
     final range = Range(0, 24, 48);
     final trickPistol = Weapon.fromWeapon(
       buildWeapon('LP (Link Split)', hasReact: true)!,
@@ -456,7 +506,7 @@ class DuelistModification extends BaseModification {
     );
 
     return DuelistModification(
-        name: 'Trick Shot',
+        name: modName ?? trickShotId,
         id: trickShotId,
         requirementCheck:
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
@@ -487,6 +537,9 @@ class DuelistModification extends BaseModification {
   spike gun for 1 TV.
   */
   factory DuelistModification.dualMeleeWeapons(Unit u) {
+    final modName = _duelistModNames[dualMeleeWeaponsId];
+    assert(modName != null);
+
     final RegExp meleeCheck = RegExp(r'(VB|CW|SG)');
     final List<ModificationOption> _options = [];
     final traitToAdd = Trait.Link();
@@ -503,7 +556,7 @@ class DuelistModification extends BaseModification {
         description: 'Choose a melee weapon to have the Link trait added');
 
     return DuelistModification(
-        name: 'Dual Melee Weapons',
+        name: modName ?? dualMeleeWeaponsId,
         id: dualMeleeWeaponsId,
         options: modOptions,
         requirementCheck:
@@ -540,10 +593,13 @@ class DuelistModification extends BaseModification {
   trait cannot receive the Agile trait.
   */
   factory DuelistModification.agile() {
+    final modName = _duelistModNames[agileId];
+    assert(modName != null);
+
     final RegExp traitCheck = RegExp(r'(Lumbering)');
     final Trait newTrait = Trait.Agile();
     return DuelistModification(
-        name: 'Agile',
+        name: modName ?? agileId,
         id: agileId,
         requirementCheck:
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
@@ -568,10 +624,13 @@ class DuelistModification extends BaseModification {
   models with an armor of 8 or higher.
   */
   factory DuelistModification.shield(Unit u) {
+    final modName = _duelistModNames[shieldId];
+    assert(modName != null);
+
     final Trait newTrait = Trait.Shield();
 
     return DuelistModification(
-        name: 'Shield',
+        name: modName ?? shieldId,
         id: shieldId,
         requirementCheck:
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
@@ -610,6 +669,9 @@ class DuelistModification extends BaseModification {
   > MCW (React, Demo:4)
   */
   factory DuelistModification.meleeUpgrade(Unit u) {
+    final modName = _duelistModNames[meleeUpgradeId];
+    assert(modName != null);
+
     final weaponOption1 = buildWeapon('MVB', hasReact: true);
     final weaponOption2 = buildWeapon('MCW (Demo:4)', hasReact: true);
 
@@ -621,7 +683,7 @@ class DuelistModification extends BaseModification {
         description: 'Choose a weapon to add');
 
     return DuelistModification(
-        name: 'Duelist Melee Upgrade',
+        name: modName ?? meleeUpgradeId,
         id: meleeUpgradeId,
         options: modOptions,
         requirementCheck:
@@ -658,9 +720,12 @@ class DuelistModification extends BaseModification {
   ECM+ for 1 TV.
   */
   factory DuelistModification.ecm() {
+    final modName = _duelistModNames[ecmId];
+    assert(modName != null);
+
     final RegExp traitCheck = RegExp(r'^ECM$', caseSensitive: false);
     return DuelistModification(
-        name: 'ECM',
+        name: modName ?? ecmId,
         id: ecmId,
         requirementCheck:
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
