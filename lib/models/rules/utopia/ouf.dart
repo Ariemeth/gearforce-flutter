@@ -10,7 +10,7 @@ import 'package:gearforce/models/rules/options/combat_group_options.dart';
 import 'package:gearforce/models/rules/options/special_unit_filter.dart';
 import 'package:gearforce/models/rules/utopia/utopia.dart';
 
-const String _baseRuleId = 'rule::utopia::caf';
+const String _baseRuleId = 'rule::utopia::ouf';
 const String _ruleGreenwayCausticsId = '$_baseRuleId::10';
 const String _ruleAlliesId = '$_baseRuleId::20';
 const String _ruleAlliesCEFId = '$_baseRuleId::30';
