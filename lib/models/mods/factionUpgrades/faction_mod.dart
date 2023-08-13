@@ -137,10 +137,20 @@ FactionModification? factionModFromId(String id, UnitRoster ur, Unit u) {
       return UtopiaMods.notSoSilentAssault();
     case whoDaresId:
       return UtopiaMods.whoDares();
+    case greenwayCausticsId:
+      return UtopiaMods.greenwayCaustics();
+    case naiExperimentsId:
+      return UtopiaMods.naiExperiments();
+    case frankNKiduId:
+      return UtopiaMods.frankNKidu();
 
     // Eden mods
     case lancersId:
       return EdenMods.lancers(u);
+    case wellSupportedId:
+      return EdenMods.wellSupported();
+    case isharaId:
+      return EdenMods.ishara(u);
   }
   return null;
 }
