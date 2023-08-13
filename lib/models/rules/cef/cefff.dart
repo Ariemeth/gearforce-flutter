@@ -73,5 +73,6 @@ final FactionRule ruleEWDuelists = FactionRule(
   name: 'EW Duelists',
   id: _ruleEWDuelistsId,
   factionMods: (ur, cg, u) => [CEFMods.ewDuelists()],
-  description: '',
+  description: 'Each duelist frame may purchase the ECM trait and the' +
+      ' Sensors:36 trait for 1 TV total.',
 );
