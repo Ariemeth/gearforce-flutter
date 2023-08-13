@@ -313,8 +313,12 @@ class UnitRoster extends ChangeNotifier {
 
   CombatGroup? activeCG() => _combatGroups[_activeCG];
   void setActiveCG(String name) {
+    if (name == _activeCG) {
+      return;
+    }
     if (_combatGroups.containsKey(name)) {
       _activeCG = name;
+      notifyListeners();
     }
   }
 

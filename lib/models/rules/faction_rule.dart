@@ -104,10 +104,11 @@ class FactionRule extends ChangeNotifier {
       isUnitCountWithinLimits;
   final int? Function(CombatGroup cg, Group group, Unit unit)?
       unitCountOverride;
-  final CombatGroupOption Function()? combatGroupOption;
+  final List<CombatGroupOption> Function()? combatGroupOption;
   final List<FactionModification> Function(
       UnitRoster ur, CombatGroup cg, Unit u)? factionMods;
-  final SpecialUnitFilter Function()? unitFilter;
+  final SpecialUnitFilter? Function(List<CombatGroupOption>? cgOptions)?
+      unitFilter;
 
   /// Run this function when the [modId] is added.
   final Function(Unit unit, String modId)? onModAdded;
@@ -236,7 +237,7 @@ class FactionRule extends ChangeNotifier {
     bool? canBeToggled,
     bool Function(List<FactionRule>)? requirementCheck,
     bool Function(CombatGroup?, UnitRoster?)? cgCheck,
-    CombatGroupOption Function()? combatGroupOption,
+    List<CombatGroupOption> Function()? combatGroupOption,
     List<FactionModification> Function(UnitRoster ur, CombatGroup cg, Unit u)?
         factionMods,
     String? description,

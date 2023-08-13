@@ -7,6 +7,7 @@ import 'package:gearforce/models/mods/factionUpgrades/north.dart';
 import 'package:gearforce/models/mods/factionUpgrades/nucoal.dart';
 import 'package:gearforce/models/mods/factionUpgrades/peace_river.dart';
 import 'package:gearforce/models/mods/factionUpgrades/south.dart';
+import 'package:gearforce/models/mods/factionUpgrades/utopia.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/unit/unit.dart';
 
@@ -124,6 +125,18 @@ FactionModification? factionModFromId(String id, UnitRoster ur, Unit u) {
       return CapriceMods.cyberneticUpgrades();
     case meleeSpecialistsId:
       return CapriceMods.meleeSpecialists(u);
+
+    // Utopia mods
+    case quietDeathId:
+      return UtopiaMods.quietDeath();
+    case silentAssaultId:
+      return UtopiaMods.silentAssault();
+    case wrathOfTheDemigodsId:
+      return UtopiaMods.wrathOfTheDemigods();
+    case notSoSilentAssaultId:
+      return UtopiaMods.notSoSilentAssault();
+    case whoDaresId:
+      return UtopiaMods.whoDares();
 
     // Eden mods
     case lancersId:

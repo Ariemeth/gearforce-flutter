@@ -33,7 +33,6 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
   @override
   Widget build(BuildContext context) {
     final cg = widget.getOwnCG();
-    widget.roster.setActiveCG(widget.name);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

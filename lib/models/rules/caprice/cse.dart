@@ -89,7 +89,7 @@ final FactionRule _ruleAllyCEF = FactionRule(
 
     return null;
   },
-  unitFilter: () => const SpecialUnitFilter(
+  unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Allies: CEF',
       filters: [UnitFilter(FactionType.CEF)],
       id: _ruleAlliesCEFId),
@@ -117,7 +117,7 @@ final FactionRule _ruleAllyUtopia = FactionRule(
 
     return null;
   },
-  unitFilter: () => const SpecialUnitFilter(
+  unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Allies: Utopia',
       filters: [UnitFilter(FactionType.Utopia)],
       id: _ruleAlliesUtopiaId),
@@ -145,7 +145,7 @@ final FactionRule _ruleAllyEden = FactionRule(
 
     return null;
   },
-  unitFilter: () => const SpecialUnitFilter(
+  unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Allies: Eden',
       filters: [UnitFilter(FactionType.Eden)],
       id: _ruleAlliesEdenId),
@@ -162,7 +162,7 @@ final FactionRule ruleAppropriations = FactionRule(
     }
     return group.groupType == GroupType.Primary;
   },
-  unitFilter: () => const SpecialUnitFilter(
+  unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Appropriations',
       filters: [
         UnitFilter(FactionType.CEF, matcher: _matchForAppropriations),
@@ -171,7 +171,7 @@ final FactionRule ruleAppropriations = FactionRule(
       ],
       id: _ruleAppropriationsId),
   cgCheck: onlyOneCG(_ruleAppropriationsId),
-  combatGroupOption: () => ruleAppropriations.buidCombatGroupOption(),
+  combatGroupOption: () => [ruleAppropriations.buidCombatGroupOption()],
   description: 'This force may have one primary unit composed of CEF frames,' +
       ' Utopian APEs or Eden golems. The CEF Minerva upgrade cannot be' +
       ' selected. These models may be mixed with Caprician models or each' +

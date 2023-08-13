@@ -133,7 +133,7 @@ final FactionRule rulePersonalEscort = FactionRule(
     }
     return null;
   },
-  unitFilter: () => personalEscortFilter,
+  unitFilter: (cgOptions) => personalEscortFilter,
   description: 'The force leader’s combat group may include a duelist in' +
       ' addition to any other duelist this force may have. This duelist model' +
       ' may be chosen from the North, South, Peace River or NuCoal model' +
@@ -169,13 +169,10 @@ final FactionRule _allyNorth = FactionRule(
     _ruleAllyPeaceRiverId,
     _ruleAllyNuCoalId,
   ]),
-  combatGroupOption: () {
-    return _allyNorth.buidCombatGroupOption(
-      canBeToggled: false,
-      initialState: true,
-    );
-  },
-  unitFilter: () => const SpecialUnitFilter(
+  combatGroupOption: () => [
+    _allyNorth.buidCombatGroupOption(canBeToggled: false, initialState: true)
+  ],
+  unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Ally: North',
       filters: [
         UnitFilter(
@@ -197,13 +194,13 @@ final FactionRule _allyPeaceRiver = FactionRule(
     _ruleAllyNorthId,
     _ruleAllyNuCoalId,
   ]),
-  combatGroupOption: () {
-    return _allyPeaceRiver.buidCombatGroupOption(
+  combatGroupOption: () => [
+    _allyPeaceRiver.buidCombatGroupOption(
       canBeToggled: false,
       initialState: true,
-    );
-  },
-  unitFilter: () => const SpecialUnitFilter(
+    )
+  ],
+  unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Ally: Peace River',
       filters: [
         UnitFilter(
@@ -225,13 +222,10 @@ final FactionRule _allyNuCoal = FactionRule(
     _ruleAllyNorthId,
     _ruleAllyPeaceRiverId,
   ]),
-  combatGroupOption: () {
-    return _allyNuCoal.buidCombatGroupOption(
-      canBeToggled: false,
-      initialState: true,
-    );
-  },
-  unitFilter: () => const SpecialUnitFilter(
+  combatGroupOption: () => [
+    _allyNuCoal.buidCombatGroupOption(canBeToggled: false, initialState: true)
+  ],
+  unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Ally: NuCoal',
       filters: [
         UnitFilter(

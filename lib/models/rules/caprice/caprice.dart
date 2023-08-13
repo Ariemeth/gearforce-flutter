@@ -114,7 +114,7 @@ final FactionRule ruleCyberneticUpgrades = FactionRule(
 final FactionRule ruleAbominations = FactionRule(
   name: 'Abominations',
   id: _ruleAbominationsId,
-  unitFilter: () => const SpecialUnitFilter(
+  unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Abominations',
       filters: [
         UnitFilter(
@@ -124,6 +124,6 @@ final FactionRule ruleAbominations = FactionRule(
       ],
       id: _ruleAbominationsId),
   cgCheck: onlyOneCG(_ruleAbominationsId),
-  combatGroupOption: () => ruleAbominations.buidCombatGroupOption(),
+  combatGroupOption: () => [ruleAbominations.buidCombatGroupOption()],
   description: 'One combat group may include FLAILs from the CEF.',
 );

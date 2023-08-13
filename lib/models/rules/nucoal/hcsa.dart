@@ -3,11 +3,10 @@ import 'package:gearforce/models/rules/faction_rule.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/mods/factionUpgrades/nucoal.dart';
 import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart';
-import 'package:gearforce/models/rules/north/umf.dart' as umf;
 import 'package:gearforce/models/rules/nucoal/nucoal.dart';
 import 'package:gearforce/models/rules/options/combat_group_options.dart';
 import 'package:gearforce/models/rules/options/special_unit_filter.dart';
-import 'package:gearforce/models/rules/south/fha.dart' as fha;
+import 'package:gearforce/models/unit/model_type.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
 
@@ -23,13 +22,15 @@ const String _ruleAlliesLancePointId = '$_baseRuleId::60';
 const String _rulePathfinderId = '$_baseRuleId::70';
 const String _ruleGallicManufacturingId = '$_baseRuleId::80';
 const String _ruleLicensedManufacturingId = '$_baseRuleId::90';
-const String _ruleFastCavalryId = '$_baseRuleId::100';
-const String _ruleAlliesPrinceGableId = '$_baseRuleId::110';
-const String _ruleAlliesErechAndNinevehNorthId = '$_baseRuleId::130';
-const String _ruleAlliesErechAndNinevehSouthId = '$_baseRuleId::140';
-const String _rulePersonalEquipmentId = '$_baseRuleId::150';
-const String ruleHighOctaneId = '$_baseRuleId::160';
-const String ruleEPexId = '$_baseRuleId::170';
+const String _ruleTestPilotsId = '$_baseRuleId::100';
+const String _ruleFastCavalryId = '$_baseRuleId::110';
+const String _ruleAlliesPrinceGableId = '$_baseRuleId::120';
+const String _ruleEwSpecialistsId = '$_baseRuleId::130';
+const String _ruleAlliesErechAndNinevehNorthId = '$_baseRuleId::140';
+const String _ruleAlliesErechAndNinevehSouthId = '$_baseRuleId::150';
+const String _rulePersonalEquipmentId = '$_baseRuleId::160';
+const String _ruleHighOctaneId = '$_baseRuleId::170';
+const String _ruleEPexId = '$_baseRuleId::180';
 
 /*
   HCSA - Hardscrabble City-State Armies
@@ -98,25 +99,8 @@ final FactionRule ruleLancePoint = FactionRule(
   id: _ruleLancePointId,
   options: [_ruleAlliesLancePoint, _rulePathfinder],
   cgCheck: onlyOnePerCG(_getCityStateRuleIds(_ruleLancePointId)),
-  combatGroupOption: () => _ruleLancePointCGOption,
-  description: 'A fast-growing city-state, Lance Point is an oil boom town' +
-      ' currently occupied by Southern forces. Time will tell if the presence' +
-      ' of these ‘Observers’ will become a permanent feature of the situation' +
-      ' in Lance Point.',
-);
-
-final _ruleLancePointCGOption = ruleLancePoint.buidCombatGroupOption();
-
-final FactionRule _ruleAlliesLancePoint = FactionRule(
-  name: 'Allies',
-  id: _ruleAlliesLancePointId,
-  cgCheck: (_, ur) => _ruleLancePointCGOption.isEnabled,
-  combatGroupOption: () => _ruleAlliesLancePoint.buidCombatGroupOption(
-    canBeToggled: false,
-    initialState: _ruleLancePointCGOption.isEnabled,
-    isEnabledOverrideCheck: () => _ruleLancePointCGOption.isEnabled,
-  ),
-  unitFilter: () => const SpecialUnitFilter(
+  combatGroupOption: () => [ruleLancePoint.buidCombatGroupOption()],
+  unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Allies: Lance Point',
       filters: [
         UnitFilter(
@@ -124,7 +108,16 @@ final FactionRule _ruleAlliesLancePoint = FactionRule(
           matcher: matchArmor9,
         ),
       ],
-      id: _ruleAlliesLancePointId),
+      id: _ruleLancePointId),
+  description: 'A fast-growing city-state, Lance Point is an oil boom town' +
+      ' currently occupied by Southern forces. Time will tell if the presence' +
+      ' of these ‘Observers’ will become a permanent feature of the situation' +
+      ' in Lance Point.',
+);
+
+final FactionRule _ruleAlliesLancePoint = FactionRule(
+  name: 'Allies',
+  id: _ruleAlliesLancePointId,
   description: 'This combat group may include models from the South with an' +
       ' armor of 9 or less.',
 );
@@ -132,12 +125,6 @@ final FactionRule _ruleAlliesLancePoint = FactionRule(
 final FactionRule _rulePathfinder = FactionRule(
   name: 'Pathfinder',
   id: _rulePathfinderId,
-  cgCheck: (_, ur) => _ruleLancePointCGOption.isEnabled,
-  combatGroupOption: () => _rulePathfinder.buidCombatGroupOption(
-    canBeToggled: false,
-    initialState: _ruleLancePointCGOption.isEnabled,
-    isEnabledOverrideCheck: () => _ruleLancePointCGOption.isEnabled,
-  ),
   description: 'If this combat group is composed entirely of gears, then it' +
       ' may use the recon special deployment option.',
 );
@@ -149,26 +136,10 @@ final FactionRule ruleFortNeil = FactionRule(
     _ruleGallicManufacturing,
     _ruleLicensedManufacturing,
     _ruleTestPilots,
-    _ruleFastCavalry,
+    ruleFastCavalry,
   ],
   cgCheck: onlyOnePerCG(_getCityStateRuleIds(_ruleFortNeilId)),
-  combatGroupOption: () => _ruleFortNeilCGOption,
-  description: 'An industrial hub that has spearheaded many of the new' +
-      ' developments of the Gallic series of gears. In addition, the Sampson' +
-      ' hover APC was developed by Fort Neil engineers. Formations of' +
-      ' Sampsons are common in Fort Neil regiments and the local rally scene.',
-);
-final _ruleFortNeilCGOption = ruleFortNeil.buidCombatGroupOption();
-
-final FactionRule _ruleGallicManufacturing = FactionRule(
-  name: 'Gallic Manufacturing',
-  id: _ruleGallicManufacturingId,
-  cgCheck: (_, ur) => _ruleFortNeilCGOption.isEnabled,
-  combatGroupOption: () => _ruleGallicManufacturing.buidCombatGroupOption(
-    canBeToggled: false,
-    initialState: _ruleFortNeilCGOption.isEnabled,
-    isEnabledOverrideCheck: () => _ruleFortNeilCGOption.isEnabled,
-  ),
+  combatGroupOption: () => [ruleFortNeil.buidCombatGroupOption()],
   hasGroupRole: (unit, target, group) {
     final frame = unit.core.frame;
     if (!(frame == 'Chasseur' || frame == 'Chasseur Mk2')) {
@@ -182,20 +153,7 @@ final FactionRule _ruleGallicManufacturing = FactionRule(
     }
     return null;
   },
-  description: 'Chasseurs and Chasseur MK2s may be placed in GP, SK, FS or RC' +
-      ' units.',
-);
-
-final FactionRule _ruleLicensedManufacturing = FactionRule(
-  name: 'Licensed Manufacturing',
-  id: _ruleLicensedManufacturingId,
-  cgCheck: (_, ur) => _ruleFortNeilCGOption.isEnabled,
-  combatGroupOption: () => _ruleLicensedManufacturing.buidCombatGroupOption(
-    canBeToggled: false,
-    initialState: _ruleFortNeilCGOption.isEnabled,
-    isEnabledOverrideCheck: () => _ruleFortNeilCGOption.isEnabled,
-  ),
-  unitFilter: () => const SpecialUnitFilter(
+  unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Licensed Manufacturing',
       filters: [
         UnitFilter(
@@ -207,7 +165,42 @@ final FactionRule _ruleLicensedManufacturing = FactionRule(
           matcher: _matchSidewinders,
         ),
       ],
-      id: _ruleLicensedManufacturingId),
+      id: _ruleFortNeilId),
+  veteranCheckOverride: (u, cg) {
+    if (cg.isVeteran) {
+      return null;
+    }
+
+    if (cg.roster?.rulesetNotifer.value == null) {
+      return null;
+    }
+    final vetsNeedingRule = cg.veterans.where((unit) =>
+        !cg.roster!.rulesetNotifer.value
+            .vetCheck(cg, u, ruleExclusions: [_ruleFortNeilId]) &&
+        unit != u);
+
+    if (vetsNeedingRule.length < 2) {
+      return true;
+    }
+    return null;
+  },
+  factionMods: (ur, cg, u) => [NuCoalFactionMods.fastCavalry()],
+  description: 'An industrial hub that has spearheaded many of the new' +
+      ' developments of the Gallic series of gears. In addition, the Sampson' +
+      ' hover APC was developed by Fort Neil engineers. Formations of' +
+      ' Sampsons are common in Fort Neil regiments and the local rally scene.',
+);
+
+final FactionRule _ruleGallicManufacturing = FactionRule(
+  name: 'Gallic Manufacturing',
+  id: _ruleGallicManufacturingId,
+  description: 'Chasseurs and Chasseur MK2s may be placed in GP, SK, FS or RC' +
+      ' units.',
+);
+
+final FactionRule _ruleLicensedManufacturing = FactionRule(
+  name: 'Licensed Manufacturing',
+  id: _ruleLicensedManufacturingId,
   description: 'This combat group may include Sidewinders from the South, and' +
       ' Ferrets from the North.',
 );
@@ -222,27 +215,15 @@ bool _matchSidewinders(UnitCore uc) {
   return uc.frame == 'Sidewinder';
 }
 
-final FactionRule _ruleTestPilots = FactionRule.from(
-  fha.ruleWroteTheBook,
-  name: 'Test Pilots',
-  cgCheck: (_, ur) => _ruleFortNeilCGOption.isEnabled,
-  combatGroupOption: () => _ruleTestPilots.buidCombatGroupOption(
-    canBeToggled: false,
-    initialState: _ruleFortNeilCGOption.isEnabled,
-    isEnabledOverrideCheck: () => _ruleFortNeilCGOption.isEnabled,
-  ),
-);
+final FactionRule _ruleTestPilots = FactionRule(
+    name: 'Test Pilots',
+    id: _ruleTestPilotsId,
+    description: 'Two models in this combat group may purchase the Vet trait' +
+        ' without counting against the veteran limitations.');
 
-final FactionRule _ruleFastCavalry = FactionRule(
+final FactionRule ruleFastCavalry = FactionRule(
   name: 'Fast Cavalry',
   id: _ruleFastCavalryId,
-  cgCheck: (_, ur) => _ruleFortNeilCGOption.isEnabled,
-  combatGroupOption: () => _ruleFastCavalry.buidCombatGroupOption(
-    canBeToggled: false,
-    initialState: _ruleFortNeilCGOption.isEnabled,
-    isEnabledOverrideCheck: () => _ruleFortNeilCGOption.isEnabled,
-  ),
-  factionMods: (ur, cg, u) => [NuCoalFactionMods.fastCavalry()],
   description: 'Sampsons in this combat group may purchase the Agile trait' +
       ' for 1 TV each.',
 );
@@ -253,28 +234,12 @@ final FactionRule rulePrinceGable = FactionRule(
   options: [
     _ruleAlliesPrinceGable,
     _ruleEwSpecialist,
-    _ruleEPex,
+    ruleEPex,
   ],
   cgCheck: onlyOnePerCG(_getCityStateRuleIds(_rulePrinceGableId)),
-  combatGroupOption: () => _rulePrinceGableCGOption,
-  description: 'This is the home to the manufacturer of the Jerboa, Verton' +
-      ' Tech, which got its own start as a rally gear company. Because the' +
-      ' city’s infrastructure is rather advanced, especially for the' +
-      ' Badlands, many refugees and tech companies have made their way to' +
-      ' this city-state.',
-);
-final _rulePrinceGableCGOption = rulePrinceGable.buidCombatGroupOption();
-
-final FactionRule _ruleAlliesPrinceGable = FactionRule(
-  name: 'Allies',
-  id: _ruleAlliesPrinceGableId,
-  cgCheck: (_, ur) => _rulePrinceGableCGOption.isEnabled,
-  combatGroupOption: () => _ruleAlliesPrinceGable.buidCombatGroupOption(
-    canBeToggled: false,
-    initialState: _rulePrinceGableCGOption.isEnabled,
-    isEnabledOverrideCheck: () => _rulePrinceGableCGOption.isEnabled,
-  ),
-  unitFilter: () => const SpecialUnitFilter(
+  combatGroupOption: () => [rulePrinceGable.buidCombatGroupOption()],
+  factionMods: (ur, cg, u) => [NuCoalFactionMods.e_pex()],
+  unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Allies: Prince Gable',
       filters: [
         UnitFilter(
@@ -282,30 +247,82 @@ final FactionRule _ruleAlliesPrinceGable = FactionRule(
           matcher: matchArmor9,
         ),
       ],
-      id: _ruleAlliesPrinceGableId),
+      id: _rulePrinceGableId),
+  veteranModCheck: (u, cg, {required modID}) {
+    if (modID != eccmId) {
+      return null;
+    }
+    if (!(u.type == ModelType.Gear ||
+        u.type == ModelType.Strider ||
+        u.type == ModelType.Vehicle)) {
+      return null;
+    }
+
+    // Since only 1 model in a combat group can use this, need to check for any
+    // other models in the cg that have the vet upgrade eccm and check to see if
+    // the only way they can have that upgrade is by use of this rule.
+    final unitsWithUpgrade = cg
+        .unitsWithMod(eccmId)
+        .where((unit) => unit != u)
+        .where((unit) => !unit.isVeteran);
+    if (unitsWithUpgrade.isEmpty) {
+      return true;
+    }
+
+    final unitsNeedingThisRule = unitsWithUpgrade.where((unit) {
+      final g = unit.group;
+      if (g == null) {
+        return false;
+      }
+      final vetModCheckOverrideRules = cg.roster?.rulesetNotifer.value
+          .allEnabledRules(cg.options)
+          .where((rule) =>
+              rule.veteranModCheck != null && rule.id != rulePrinceGable.id);
+      if (vetModCheckOverrideRules == null) {
+        return false;
+      }
+      final overrideValues = vetModCheckOverrideRules
+          .map((rule) => rule.veteranModCheck!(u, cg, modID: modID))
+          .where((result) => result != null);
+      if (overrideValues.isNotEmpty) {
+        if (overrideValues.any((status) => status == false)) {
+          return true;
+        }
+        return false;
+      }
+      return true;
+    });
+
+    if (unitsNeedingThisRule.isEmpty) {
+      return true;
+    }
+
+    return null;
+  },
+  description: 'This is the home to the manufacturer of the Jerboa, Verton' +
+      ' Tech, which got its own start as a rally gear company. Because the' +
+      ' city’s infrastructure is rather advanced, especially for the' +
+      ' Badlands, many refugees and tech companies have made their way to' +
+      ' this city-state.',
+);
+
+final FactionRule _ruleAlliesPrinceGable = FactionRule(
+  name: 'Allies',
+  id: _ruleAlliesPrinceGableId,
   description: 'This combat group may include models from the North with an' +
       ' armor of 9 or less.',
 );
 
-final FactionRule _ruleEwSpecialist = FactionRule.from(
-  umf.ruleEWSpecialist,
-  cgCheck: (_, ur) => _rulePrinceGableCGOption.isEnabled,
-  combatGroupOption: () => _ruleEwSpecialist.buidCombatGroupOption(
-    canBeToggled: false,
-    initialState: _rulePrinceGableCGOption.isEnabled,
-    isEnabledOverrideCheck: () => _rulePrinceGableCGOption.isEnabled,
-  ),
+final FactionRule _ruleEwSpecialist = FactionRule(
+  name: 'EW Specialists',
+  id: _ruleEwSpecialistsId,
+  description: 'One gear, strider, or vehicle in this combat group may' +
+      ' purchase the ECCM veteran upgrade without being a veteran.',
 );
 
-final FactionRule _ruleEPex = FactionRule(
+final FactionRule ruleEPex = FactionRule(
   name: 'E-pex',
-  id: ruleEPexId,
-  cgCheck: (_, ur) => _rulePrinceGableCGOption.isEnabled,
-  combatGroupOption: () => _ruleEPex.buidCombatGroupOption(
-    canBeToggled: false,
-    initialState: _rulePrinceGableCGOption.isEnabled,
-    isEnabledOverrideCheck: () => _rulePrinceGableCGOption.isEnabled,
-  ),
+  id: _ruleEPexId,
   description: 'One model in this combat group may improve its EW skill by' +
       ' one for 1 TV.',
 );
@@ -317,84 +334,40 @@ final FactionRule ruleErechAndNineveh = FactionRule(
     _ruleAlliesErechAndNinevehNorth,
     _ruleAlliesErechAndNinevehSouth,
     rulePersonalEquipment,
-    _ruleHighOctane,
+    ruleHighOctane,
   ],
   cgCheck: onlyOnePerCG(_getCityStateRuleIds(_ruleErechAndNinevehId)),
-  combatGroupOption: () => _ruleErechAndNinevehCGOption,
-  description: 'The Twin Cities have vast wealth, enough to host several' +
-      ' private military contractors each. When not on active duty, the' +
-      ' citizens and soldiers spend a lot of their time participating in' +
-      ' races, wagering their fuel allowances and even their lives on the' +
-      ' outcomes.',
-);
-final _ruleErechAndNinevehCGOption =
-    ruleErechAndNineveh.buidCombatGroupOption();
+  combatGroupOption: () {
+    final mainOption = ruleErechAndNineveh.buidCombatGroupOption();
+    final north = _ruleAlliesErechAndNinevehNorth.buidCombatGroupOption(
+      canBeToggled: true,
+      initialState: false,
+      isEnabledOverrideCheck: () {
+        if (!mainOption.isEnabled) {
+          return false;
+        }
+        return null;
+      },
+    );
 
-final FactionRule _ruleAlliesErechAndNinevehNorth = FactionRule(
-  name: 'Allies: North',
-  id: _ruleAlliesErechAndNinevehNorthId,
-  cgCheck: (_, ur) =>
-      _ruleErechAndNinevehCGOption.isEnabled &&
-      !_ruleAlliesEandNSouthCGOption.isEnabled,
-  combatGroupOption: () => _ruleAlliesEandNNorthCGOption,
-  unitFilter: () => const SpecialUnitFilter(
-      text: 'Allies: E & N North',
-      filters: [
-        UnitFilter(
-          FactionType.North,
-          matcher: matchArmor9,
-        ),
-      ],
-      id: _ruleAlliesErechAndNinevehNorthId),
-  description: 'This combat group may include models from the North' +
-      ' with an armor of 9 or less.',
-);
-final _ruleAlliesEandNNorthCGOption =
-    _ruleAlliesErechAndNinevehNorth.buidCombatGroupOption(
-  canBeToggled: true,
-  initialState: false,
-  isEnabledOverrideCheck: () {
-    return null;
+    final south = _ruleAlliesErechAndNinevehSouth.buidCombatGroupOption(
+      canBeToggled: true,
+      initialState: false,
+      isEnabledOverrideCheck: () {
+        if (!mainOption.isEnabled) {
+          return false;
+        }
+        return null;
+      },
+    );
+
+    return [mainOption, north, south];
   },
-);
-
-final FactionRule _ruleAlliesErechAndNinevehSouth = FactionRule(
-  name: 'Allies: South',
-  id: _ruleAlliesErechAndNinevehSouthId,
-  cgCheck: (_, ur) =>
-      _ruleErechAndNinevehCGOption.isEnabled &&
-      !_ruleAlliesEandNNorthCGOption.isEnabled,
-  combatGroupOption: () => _ruleAlliesEandNSouthCGOption,
-  unitFilter: () => const SpecialUnitFilter(
-      text: 'Allies: E & N South',
-      filters: [
-        UnitFilter(
-          FactionType.South,
-          matcher: matchArmor9,
-        ),
-      ],
-      id: _ruleAlliesErechAndNinevehNorthId),
-  description: 'This combat group may include models from the South' +
-      ' with an armor of 9 or less.',
-);
-final _ruleAlliesEandNSouthCGOption =
-    _ruleAlliesErechAndNinevehSouth.buidCombatGroupOption(
-  canBeToggled: true,
-  initialState: false,
-  isEnabledOverrideCheck: () {
-    return null;
-  },
-);
-
-final FactionRule rulePersonalEquipment = FactionRule(
-  name: 'Personal Equipment',
-  id: _rulePersonalEquipmentId,
-  cgCheck: (_, ur) => _ruleErechAndNinevehCGOption.isEnabled,
-  combatGroupOption: () => rulePersonalEquipment.buidCombatGroupOption(
-    canBeToggled: false,
-    initialState: _ruleErechAndNinevehCGOption.isEnabled,
-    isEnabledOverrideCheck: () => _ruleErechAndNinevehCGOption.isEnabled,
-  ),
+  factionMods: (ur, cg, u) => [
+    NuCoalFactionMods.personalEquipment(PersonalEquipment.One),
+    NuCoalFactionMods.personalEquipment(PersonalEquipment.Two),
+    NuCoalFactionMods.highOctane(),
+  ],
   veteranModCheck: (u, cg, {required modID}) {
     final mod1 = u.getMod(personalEquipment1Id);
     final mod2 = u.getMod(personalEquipment2Id);
@@ -418,28 +391,97 @@ final FactionRule rulePersonalEquipment = FactionRule(
 
     return null;
   },
-  factionMods: (ur, cg, u) => [
-    NuCoalFactionMods.personalEquipment(
-      PersonalEquipment.One,
-    ),
-    NuCoalFactionMods.personalEquipment(
-      PersonalEquipment.Two,
-    )
-  ],
+  unitFilter: (cgOptions) {
+    if (cgOptions == null) {
+      return null;
+    }
+    if (cgOptions.any((o) => o.id == _north.id && o.isEnabled)) {
+      return _north;
+    }
+    if (cgOptions.any((o) => o.id == _south.id && o.isEnabled)) {
+      return _south;
+    }
+    return null;
+  },
+  description: 'The Twin Cities have vast wealth, enough to host several' +
+      ' private military contractors each. When not on active duty, the' +
+      ' citizens and soldiers spend a lot of their time participating in' +
+      ' races, wagering their fuel allowances and even their lives on the' +
+      ' outcomes.',
+);
+
+const _north = const SpecialUnitFilter(
+    text: 'Allies: E & N North',
+    filters: [
+      UnitFilter(
+        FactionType.North,
+        matcher: matchArmor9,
+      ),
+    ],
+    id: _ruleAlliesErechAndNinevehNorthId);
+
+const _south = const SpecialUnitFilter(
+    text: 'Allies: E & N South',
+    filters: [
+      UnitFilter(
+        FactionType.South,
+        matcher: matchArmor9,
+      ),
+    ],
+    id: _ruleAlliesErechAndNinevehSouthId);
+
+final FactionRule _ruleAlliesErechAndNinevehNorth = FactionRule(
+  name: '  Allies: North',
+  id: _ruleAlliesErechAndNinevehNorthId,
+  cgCheck: (cg, ur) {
+    if (cg == null) {
+      return false;
+    }
+    final cityStateEnabled =
+        cg.options.any((o) => o.id == _ruleErechAndNinevehId && o.isEnabled);
+    if (!cityStateEnabled) {
+      return false;
+    }
+    final southEnabled = cg.options
+        .any((o) => o.id == _ruleAlliesErechAndNinevehSouthId && o.isEnabled);
+
+    return !southEnabled;
+  },
+  description: 'This combat group may include models from the North' +
+      ' with an armor of 9 or less.',
+);
+
+final FactionRule _ruleAlliesErechAndNinevehSouth = FactionRule(
+  name: '  Allies: South',
+  id: _ruleAlliesErechAndNinevehSouthId,
+  cgCheck: (cg, ur) {
+    if (cg == null) {
+      return false;
+    }
+    final cityStateEnabled =
+        cg.options.any((o) => o.id == _ruleErechAndNinevehId && o.isEnabled);
+    if (!cityStateEnabled) {
+      return false;
+    }
+    final northEnabled = cg.options
+        .any((o) => o.id == _ruleAlliesErechAndNinevehNorthId && o.isEnabled);
+
+    return !northEnabled;
+  },
+  description: 'This combat group may include models from the South' +
+      ' with an armor of 9 or less.',
+);
+
+final FactionRule rulePersonalEquipment = FactionRule(
+  name: 'Personal Equipment',
+  id: _rulePersonalEquipmentId,
   description: 'Two models in this combat group may purchase two veteran' +
       ' upgrades each without being veterans.',
 );
 
-final FactionRule _ruleHighOctane = FactionRule(
+final FactionRule ruleHighOctane = FactionRule(
   name: 'High Octane',
-  id: ruleHighOctaneId,
-  cgCheck: (_, ur) => _ruleErechAndNinevehCGOption.isEnabled,
-  combatGroupOption: () => _ruleHighOctane.buidCombatGroupOption(
-    canBeToggled: false,
-    initialState: _ruleErechAndNinevehCGOption.isEnabled,
-    isEnabledOverrideCheck: () => _ruleErechAndNinevehCGOption.isEnabled,
-  ),
-  factionMods: (ur, cg, u) => [NuCoalFactionMods.highOctane()],
+  id: _ruleHighOctaneId,
   description: 'Add +1 to the MR of any veteran gears in this combat group' +
       ' for 1 TV each.',
 );

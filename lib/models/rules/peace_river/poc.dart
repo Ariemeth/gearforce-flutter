@@ -9,7 +9,6 @@ import 'package:gearforce/models/rules/options/special_unit_filter.dart';
 import 'package:gearforce/models/unit/role.dart';
 
 const String _baseRuleId = 'rule::peaceriver::poc';
-const String _ruleMercContractName = 'Mercenary Contract';
 const String _ruleSpecialIssueId = '$_baseRuleId::10';
 const String _ruleEcmSpecialistId = '$_baseRuleId::20';
 const String _ruleOlTrustyId = '$_baseRuleId::30';
@@ -114,17 +113,15 @@ final ruleGSwatSniper = FactionRule(
         ' Improved Gunnery upgrade for 1 TV each, without being a veteran.');
 
 final FactionRule ruleMercenaryContract = FactionRule(
-  name: _ruleMercContractName,
+  name: 'Mercenary Contract',
   id: _ruleMercContractId,
   cgCheck: onlyOneCG(_ruleMercContractId),
   canBeAddedToGroup: (unit, group, cg) {
     return unit.armor == null || (unit.armor != null && unit.armor! <= 8);
   },
-  combatGroupOption: () {
-    return ruleMercenaryContract.buidCombatGroupOption();
-  },
-  unitFilter: () => SpecialUnitFilter(
-    text: _ruleMercContractName,
+  combatGroupOption: () => [ruleMercenaryContract.buidCombatGroupOption()],
+  unitFilter: (cgOptions) => const SpecialUnitFilter(
+    text: 'Mercenary Contract',
     id: _ruleMercContractId,
     filters: const [
       const UnitFilter(FactionType.North, matcher: matchArmor8),

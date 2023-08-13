@@ -20,7 +20,7 @@ class Faction {
   final RuleSet defaultSubFaction;
 
   const Faction(this.factionType, this.rulesets, this.defaultSubFaction);
-// TODO uncomment factions that are done or in work
+
   factory Faction.blackTalons(Data data) {
     final rulesets = [
       BlackTalons(data, name: _emptySubFactionName),
@@ -52,6 +52,7 @@ class Faction {
   factory Faction.eden(Data data) {
     final rulesets = [
       Eden(data, name: _emptySubFactionName),
+      // TODO uncomment Eden factions that are done or in work
       // Eden.EIF(data),
       // Eden.ENH(data),
       // Eden.AEF(data),
@@ -103,7 +104,8 @@ class Faction {
   factory Faction.utopia(Data data) {
     final rulesets = [
       Utopia(data, name: _emptySubFactionName),
-      // Utopia.CAF(data),
+      // TODO uncomment Utopia factions that are done or in work
+      Utopia.CAF(data),
       // Utopia.OUF(data),
     ];
     return Faction(FactionType.Utopia, rulesets, rulesets.first);

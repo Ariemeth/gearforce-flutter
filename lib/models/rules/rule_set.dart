@@ -124,14 +124,17 @@ abstract class RuleSet extends ChangeNotifier {
   List<SpecialUnitFilter> availableUnitFilters(
     List<CombatGroupOption>? cgOptions,
   ) {
-    final availableUnitFilterRules = [];
+    final List<FactionRule> availableUnitFilterRules = [];
 
     availableUnitFilterRules.addAll(
         allEnabledRules(cgOptions).where((rule) => rule.unitFilter != null));
 
     final List<SpecialUnitFilter> availableUnitFilters = [];
     availableUnitFilterRules.forEach((rule) {
-      availableUnitFilters.add(rule.unitFilter!());
+      final filter = rule.unitFilter!(cgOptions);
+      if (filter != null) {
+        availableUnitFilters.add(filter);
+      }
     });
 
     return availableUnitFilters;
@@ -275,7 +278,7 @@ abstract class RuleSet extends ChangeNotifier {
 
     final List<CombatGroupOption> cgOptions = [];
     availableCombatOptionRules.forEach((rule) {
-      cgOptions.add(rule.combatGroupOption!());
+      cgOptions.addAll(rule.combatGroupOption!());
     });
     return cgOptions;
   }

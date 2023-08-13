@@ -214,9 +214,7 @@ final FactionRule ruleDragoonSquad = FactionRule(
 
     return true;
   },
-  combatGroupOption: () {
-    return ruleDragoonSquad.buidCombatGroupOption();
-  },
+  combatGroupOption: () => [ruleDragoonSquad.buidCombatGroupOption()],
   veteranCheckOverride: (u, cg) {
     if (u.group?.role() != RoleType.SK) {
       return null;

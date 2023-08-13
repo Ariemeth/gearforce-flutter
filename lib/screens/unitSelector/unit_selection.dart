@@ -40,10 +40,11 @@ class _UnitSelectionState extends State<UnitSelection> {
     // ruleset.
     if (_specialUnitFilter == null ||
         !roster.rulesetNotifer.value
-            .availableUnitFilters(null)
+            .availableUnitFilters(roster.activeCG()?.options)
             .contains(_specialUnitFilter)) {
-      _specialUnitFilter =
-          roster.rulesetNotifer.value.availableUnitFilters(null).first;
+      _specialUnitFilter = roster.rulesetNotifer.value
+          .availableUnitFilters(roster.activeCG()?.options)
+          .first;
     }
 
     return Column(

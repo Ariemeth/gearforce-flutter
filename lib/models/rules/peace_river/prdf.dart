@@ -12,8 +12,6 @@ const String PRDFSpecialRule1 =
         'within the combat group are placed in cover relative to at least ' +
         'one enemy model.';
 
-const String _ruleBestMenAndWomenName = 'The Best Men and Women for the Job';
-
 const String _baseRuleId = 'rule::peaceriver::prdf';
 const String _ruleOlTrustyId = '$_baseRuleId::10';
 const String _ruleThunderFromTheSkyId = '$_baseRuleId::20';
@@ -102,7 +100,7 @@ final ruleHighTech = FactionRule(
         'Models with weapons that have the Advanced or Guided traits have unlimited availability for all primary units.');
 
 final FactionRule ruleBestMenAndWomen = FactionRule(
-  name: _ruleBestMenAndWomenName,
+  name: 'The Best Men and Women for the Job',
   id: _ruleBestMenAndWomenId,
   description:
       'One model in each combat group may be selected from the Black Talon model list.',
@@ -121,17 +119,16 @@ final FactionRule ruleBestMenAndWomen = FactionRule(
   isRoleTypeUnlimited: (unit, target, group, roster) {
     return unit.faction == FactionType.BlackTalon ? false : null;
   },
-  combatGroupOption: () {
-    return ruleBestMenAndWomen.buidCombatGroupOption(
+  combatGroupOption: () => [
+    ruleBestMenAndWomen.buidCombatGroupOption(
       canBeToggled: false,
       initialState: true,
-    );
-  },
-  unitFilter: () => SpecialUnitFilter(
-    text: _ruleBestMenAndWomenName,
-    id: _ruleBestMenAndWomenId,
-    filters: [const UnitFilter(FactionType.BlackTalon)],
-  ),
+    )
+  ],
+  unitFilter: (cgOptions) => const SpecialUnitFilter(
+      text: 'The Best Men and Women for the Job',
+      filters: [const UnitFilter(FactionType.BlackTalon)],
+      id: _ruleBestMenAndWomenId),
 );
 
 final ruleEliteElements = FactionRule(

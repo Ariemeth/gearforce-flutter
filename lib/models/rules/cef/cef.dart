@@ -125,7 +125,7 @@ final FactionRule ruleAlliesCaprice = FactionRule(
     }
     return null;
   },
-  unitFilter: () => const SpecialUnitFilter(
+  unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Allies: Caprice',
       filters: [UnitFilter(FactionType.Caprice)],
       id: _ruleAlliesCapriceId),
@@ -150,7 +150,7 @@ final FactionRule ruleAlliesUtopia = FactionRule(
     }
     return null;
   },
-  unitFilter: () => const SpecialUnitFilter(
+  unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Allies: Utopia',
       filters: [UnitFilter(FactionType.Utopia)],
       id: _ruleAlliesUtopiaId),
@@ -175,7 +175,7 @@ final FactionRule ruleAlliesEden = FactionRule(
     }
     return null;
   },
-  unitFilter: () => const SpecialUnitFilter(
+  unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Allies: Eden',
       filters: [UnitFilter(FactionType.Eden)],
       id: _ruleAlliesEdenId),
