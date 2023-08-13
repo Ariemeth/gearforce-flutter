@@ -43,7 +43,7 @@ class BTIT extends BlackTalons {
 final ruleAllies = FactionRule(
   name: 'Allies',
   id: _ruleAlliesId,
-  unitFilter: () => const SpecialUnitFilter(
+  unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Allies',
       filters: [
         UnitFilter(FactionType.Caprice),

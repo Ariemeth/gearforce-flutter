@@ -114,7 +114,7 @@ final FactionRule ruleCyberneticUpgrades = FactionRule(
 final FactionRule ruleAbominations = FactionRule(
   name: 'Abominations',
   id: _ruleAbominationsId,
-  unitFilter: () => const SpecialUnitFilter(
+  unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Abominations',
       filters: [
         UnitFilter(

@@ -253,6 +253,14 @@ class NuCoalFactionMods extends FactionModification {
       assert(cg != null);
       assert(rs != null);
 
+      if (rs == null || !rs.isRuleEnabled(hcsa.ruleFastCavalry.id)) {
+        return false;
+      }
+
+      if (!cg!.isOptionEnabled(hcsa.ruleFortNeil.id)) {
+        return false;
+      }
+
       return u.core.frame == 'Sampson';
     };
 
@@ -284,11 +292,15 @@ class NuCoalFactionMods extends FactionModification {
       assert(cg != null);
       assert(rs != null);
 
-      if (rs == null || !rs.isRuleEnabled(hcsa.ruleEPexId)) {
+      if (rs == null || !rs.isRuleEnabled(hcsa.ruleEPex.id)) {
         return false;
       }
 
-      return cg!.modCount(ePexId) == 0 ||
+      if (!cg!.isOptionEnabled(hcsa.rulePrinceGable.id)) {
+        return false;
+      }
+
+      return cg.modCount(ePexId) == 0 ||
           (cg.modCount(ePexId) == 1 && u.hasMod(ePexId));
     };
     return NuCoalFactionMods(
@@ -312,7 +324,11 @@ class NuCoalFactionMods extends FactionModification {
       assert(cg != null);
       assert(rs != null);
 
-      if (rs == null || !rs.isRuleEnabled(hcsa.ruleHighOctaneId)) {
+      if (rs == null || !rs.isRuleEnabled(hcsa.ruleHighOctane.id)) {
+        return false;
+      }
+
+      if (!cg!.isOptionEnabled(hcsa.ruleErechAndNineveh.id)) {
         return false;
       }
 
@@ -339,7 +355,7 @@ class NuCoalFactionMods extends FactionModification {
   /*
     Personal Equipment: Two models in this combat group may purchase two veteran upgrades
     each without being veterans.
-    NOTE: The rulebook just list this as a rule not an upgrade.  Making it a 
+    NOTE: The rulebook just lists this as a rule not an upgrade.  Making it a 
     faction mod to make it easier to check requirements
   */
   factory NuCoalFactionMods.personalEquipment(PersonalEquipment pe) {
@@ -355,12 +371,16 @@ class NuCoalFactionMods extends FactionModification {
         return false;
       }
 
-      final unitsWithMod = cg?.units.where((unit) =>
+      if (!cg!.isOptionEnabled(hcsa.ruleErechAndNineveh.id)) {
+        return false;
+      }
+
+      final unitsWithMod = cg.units.where((unit) =>
           (unit.hasMod(personalEquipment1Id) ||
               unit.hasMod(personalEquipment2Id)) &&
           (unit != u));
 
-      if (unitsWithMod == null || unitsWithMod.length < 2) {
+      if (unitsWithMod.length < 2) {
         return true;
       }
       return false;

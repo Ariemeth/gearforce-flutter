@@ -125,7 +125,7 @@ final FactionRule ruleBestMenAndWomen = FactionRule(
       initialState: true,
     )
   ],
-  unitFilter: () => const SpecialUnitFilter(
+  unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'The Best Men and Women for the Job',
       filters: [const UnitFilter(FactionType.BlackTalon)],
       id: _ruleBestMenAndWomenId),

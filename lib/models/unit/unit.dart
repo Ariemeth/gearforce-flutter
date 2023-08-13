@@ -61,7 +61,7 @@ class Unit extends ChangeNotifier {
     UnitRoster roster,
   ) {
     final List<Unit> core = [];
-    ruleset.availableUnitFilters(null).forEach((sfilter) {
+    ruleset.availableUnitFilters(cg?.options).forEach((sfilter) {
       core.addAll(ruleset.availableUnits(specialUnitFilter: sfilter));
     });
     final variant = json['variant'] as String;

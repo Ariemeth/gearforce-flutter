@@ -89,7 +89,7 @@ final FactionRule _ruleAllyCEF = FactionRule(
 
     return null;
   },
-  unitFilter: () => const SpecialUnitFilter(
+  unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Allies: CEF',
       filters: [UnitFilter(FactionType.CEF)],
       id: _ruleAlliesCEFId),
@@ -117,7 +117,7 @@ final FactionRule _ruleAllyUtopia = FactionRule(
 
     return null;
   },
-  unitFilter: () => const SpecialUnitFilter(
+  unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Allies: Utopia',
       filters: [UnitFilter(FactionType.Utopia)],
       id: _ruleAlliesUtopiaId),
@@ -145,7 +145,7 @@ final FactionRule _ruleAllyEden = FactionRule(
 
     return null;
   },
-  unitFilter: () => const SpecialUnitFilter(
+  unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Allies: Eden',
       filters: [UnitFilter(FactionType.Eden)],
       id: _ruleAlliesEdenId),
@@ -162,7 +162,7 @@ final FactionRule ruleAppropriations = FactionRule(
     }
     return group.groupType == GroupType.Primary;
   },
-  unitFilter: () => const SpecialUnitFilter(
+  unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Appropriations',
       filters: [
         UnitFilter(FactionType.CEF, matcher: _matchForAppropriations),

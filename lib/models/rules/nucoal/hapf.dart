@@ -47,7 +47,7 @@ final ruleSouthernSurplus = FactionRule(
     }
     return null;
   },
-  unitFilter: () => const SpecialUnitFilter(
+  unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Southern Surplus',
       filters: [
         UnitFilter(

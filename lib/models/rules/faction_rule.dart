@@ -107,7 +107,8 @@ class FactionRule extends ChangeNotifier {
   final List<CombatGroupOption> Function()? combatGroupOption;
   final List<FactionModification> Function(
       UnitRoster ur, CombatGroup cg, Unit u)? factionMods;
-  final SpecialUnitFilter Function()? unitFilter;
+  final SpecialUnitFilter? Function(List<CombatGroupOption>? cgOptions)?
+      unitFilter;
 
   /// Run this function when the [modId] is added.
   final Function(Unit unit, String modId)? onModAdded;

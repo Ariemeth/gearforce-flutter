@@ -87,7 +87,7 @@ final ruleAllies = FactionRule(
       }
       return false;
     },
-    unitFilter: () => const SpecialUnitFilter(
+    unitFilter: (cgOptions) => const SpecialUnitFilter(
         text: 'Allies',
         filters: [
           UnitFilter(
@@ -108,7 +108,7 @@ final ruleAllies = FactionRule(
 final ruleAcquiredTech = FactionRule(
     name: 'Acquired Tech',
     id: _ruleAcquiredTechId,
-    unitFilter: () => const SpecialUnitFilter(
+    unitFilter: (cgOptions) => const SpecialUnitFilter(
         text: 'Acquired Tech',
         filters: [
           UnitFilter(

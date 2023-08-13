@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/roster/roster.dart';
@@ -61,11 +63,11 @@ class _CombatGroupsDisplayState extends State<CombatGroupsDisplay>
               }
               tabController.addListener(
                 () {
-                  if (tabController.index != 0 &&
-                      tabController.index == tabs.length - 1) {
-                    tabController
-                        .animateTo(tabs.length > 1 ? tabs.length - 2 : 0);
-                  }
+                  var tabIndex = tabController.index;
+                  tabIndex = max(tabIndex, 0);
+                  tabIndex = min(tabIndex, tabs.length - 1);
+                  tabController.animateTo(tabIndex);
+                  roster.setActiveCG(roster.getCGs()[tabIndex].name);
                 },
               );
 

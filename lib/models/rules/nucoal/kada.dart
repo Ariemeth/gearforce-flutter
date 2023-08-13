@@ -70,7 +70,7 @@ final ruleHeroesOfTheArena = FactionRule(
     }
     return null;
   },
-  unitFilter: () => const SpecialUnitFilter(
+  unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Heroes of the Arena',
       filters: [
         UnitFilter(
@@ -110,7 +110,7 @@ final ruleTheBrute = FactionRule(
         .length;
     return anyOtherStriderDuelist <= 0;
   },
-  unitFilter: () => const SpecialUnitFilter(
+  unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'The Brute',
       filters: [
         UnitFilter(

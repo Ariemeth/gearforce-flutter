@@ -92,7 +92,7 @@ final FactionRule ruleHumanistTech = FactionRule(
 
     return true;
   },
-  unitFilter: () => const SpecialUnitFilter(
+  unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Humanist Tech',
       filters: [
         UnitFilter(
@@ -137,7 +137,7 @@ final FactionRule rulePortArthurKorps = FactionRule(
 
     return false;
   },
-  unitFilter: () => const SpecialUnitFilter(
+  unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Port Arthur Korps',
       filters: [
         UnitFilter(

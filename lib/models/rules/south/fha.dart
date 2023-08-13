@@ -109,7 +109,7 @@ final FactionRule ruleAllies = FactionRule(
     }
     return false;
   },
-  unitFilter: () => const SpecialUnitFilter(
+  unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Allies',
       filters: [
         UnitFilter(

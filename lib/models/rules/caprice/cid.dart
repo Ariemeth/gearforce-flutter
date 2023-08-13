@@ -103,7 +103,7 @@ final FactionRule _ruleAllyCEF = FactionRule(
 
     return null;
   },
-  unitFilter: () => const SpecialUnitFilter(
+  unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Allies: CEF',
       filters: [UnitFilter(FactionType.CEF)],
       id: _ruleAlliesCEFId),
@@ -132,7 +132,7 @@ final FactionRule _ruleAllyBlackTalon = FactionRule(
 
     return null;
   },
-  unitFilter: () => const SpecialUnitFilter(
+  unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Allies: Black Talon',
       filters: [UnitFilter(FactionType.BlackTalon)],
       id: _ruleAlliesBlackTalonId),
@@ -161,7 +161,7 @@ final FactionRule _ruleAllyUtopia = FactionRule(
 
     return null;
   },
-  unitFilter: () => const SpecialUnitFilter(
+  unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Allies: Utopia',
       filters: [UnitFilter(FactionType.Utopia)],
       id: _ruleAlliesUtopiaId),
@@ -190,7 +190,7 @@ final FactionRule _ruleAllyEden = FactionRule(
 
     return null;
   },
-  unitFilter: () => const SpecialUnitFilter(
+  unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Allies: Eden',
       filters: [UnitFilter(FactionType.Eden)],
       id: _ruleAlliesEdenId),
