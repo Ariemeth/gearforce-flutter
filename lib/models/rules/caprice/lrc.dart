@@ -55,7 +55,7 @@ final FactionRule ruleHeroesOfTheResistance = FactionRule(
     if (u.type != ModelType.Gear) {
       return null;
     }
-    final numOtherDuelist = cg.units.where((unit) => unit != u).length;
+    final numOtherDuelist = cg.duelists.where((unit) => unit != u).length;
 
     if (numOtherDuelist == 0) {
       return roster.duelistCount + 1;
