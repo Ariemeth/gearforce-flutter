@@ -145,7 +145,7 @@ final FactionRule _ruleAllyCaprice = FactionRule(
       text: 'Allies: Caprice',
       filters: [UnitFilter(FactionType.Caprice)],
       id: _ruleAlliesCapriceId),
-  description: 'You may select models from the Utopia to place into your' +
+  description: 'You may select models from the Caprice to place into your' +
       ' secondary units.',
 );
 

@@ -104,9 +104,8 @@ class Faction {
   factory Faction.utopia(Data data) {
     final rulesets = [
       Utopia(data, name: _emptySubFactionName),
-      // TODO uncomment Utopia factions that are done or in work
       Utopia.CAF(data),
-      // Utopia.OUF(data),
+      Utopia.OUF(data),
     ];
     return Faction(FactionType.Utopia, rulesets, rulesets.first);
   }
