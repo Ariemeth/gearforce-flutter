@@ -4,6 +4,7 @@ import 'package:gearforce/models/mods/base_modification.dart';
 import 'package:gearforce/models/mods/factionUpgrades/faction_mod.dart';
 import 'package:gearforce/models/mods/modification_option.dart';
 import 'package:gearforce/models/mods/mods.dart';
+import 'package:gearforce/models/mods/unitUpgrades/universal.dart';
 import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/rules/eden/aef.dart';
@@ -388,7 +389,11 @@ class EdenMods extends FactionModification {
         return false;
       }
 
-      return true;
+      if (u.hasMod(frogmen.id)) {
+        return true;
+      }
+
+      return false;
     };
 
     final fm = EdenMods(

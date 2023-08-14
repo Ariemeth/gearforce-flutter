@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/combatGroups/group.dart';
+import 'package:gearforce/models/rules/faction_model_rules.dart';
 import 'package:gearforce/models/rules/faction_rule.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/mods/duelist/duelist_modification.dart';
@@ -73,9 +74,27 @@ abstract class RuleSet extends ChangeNotifier {
   List<FactionRule> get allFactionRules => [
         ...factionRules,
         ...subFactionRules,
+        ...modelFactionRules,
       ];
   List<FactionRule> get factionRules => _factionRules.toList();
   List<FactionRule> get subFactionRules => _subFactionRules.toList();
+  List<FactionRule> get modelFactionRules {
+    final rules = [...factionRules, ...subFactionRules]
+        .where((rule) => rule.unitFactions != null)
+        .toList();
+    final List<FactionType> factions = [this.type];
+    rules.forEach((rule) {
+      final newFactions = rule.unitFactions!();
+      factions.addAll(newFactions.where((f) => !factions.any((f2) => f2 == f)));
+    });
+    // TODO remove debug print
+    print(factions);
+    final List<FactionRule> results = [];
+    factions.forEach((ft) {
+      results.addAll(GetModelFactionRules(ft));
+    });
+    return results;
+  }
 
   int get maxPrimaryActions => _maxPrimaryActions;
   int get minPrimaryActions => _minPrimaryActions;
@@ -89,7 +108,10 @@ abstract class RuleSet extends ChangeNotifier {
   FactionRule? findFactionRule(String ruleName) =>
       FactionRule.findRule(allFactionRules, ruleName);
 
-  List<FactionRule> allEnabledRules(List<CombatGroupOption>? cgOptions) {
+  List<FactionRule> allEnabledRules(
+    List<CombatGroupOption>? cgOptions, {
+    bool includeModelRules = true,
+  }) {
     final enabledAvailableRules =
         FactionRule.enabledRules(allFactionRules).toList();
 

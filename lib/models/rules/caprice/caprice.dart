@@ -11,6 +11,7 @@ import 'package:gearforce/models/rules/caprice/lrc.dart';
 import 'package:gearforce/models/rules/options/combat_group_options.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/rules/options/special_unit_filter.dart';
+import 'package:gearforce/models/unit/model_type.dart';
 
 const String _baseRuleId = 'rule::caprice::core';
 const String _ruleDuelingMountsId = '$_baseRuleId::10';
@@ -43,9 +44,6 @@ class Caprice extends RuleSet {
           name: name,
           description: description,
           factionRules: [
-            ruleDuelingMounts,
-            ruleAdvancedInterfaceNetworks,
-            ruleCyberneticUpgrades,
             ruleAbominations,
           ],
           subFactionRules: subFactionRules,
@@ -98,9 +96,14 @@ final FactionRule ruleDuelingMounts = FactionRule(
 
 final FactionRule ruleAdvancedInterfaceNetworks = FactionRule.from(
   cef.ruleAdvancedInterfaceNetwork,
-  factionMods: (ur, cg, u) => [
-    CEFMods.advancedInterfaceNetwork(u, FactionType.Caprice),
-  ],
+  factionMods: (ur, cg, u) {
+    if (u.faction == FactionType.CEF &&
+        u.type == ModelType.Gear &&
+        u.isVeteran) {
+      return [CEFMods.advancedInterfaceNetwork(u, FactionType.Caprice)];
+    }
+    return [];
+  },
 );
 
 final FactionRule ruleCyberneticUpgrades = FactionRule(
