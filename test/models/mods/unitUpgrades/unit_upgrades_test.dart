@@ -4,11 +4,10 @@ import 'package:gearforce/models/unit/unit_attribute.dart';
 import 'package:test/test.dart';
 
 void main() {
-  test('ensure headhunter mod adds prefix to value', () {
+  test('ensure headhunter mod replaces the name Hunter', () {
     final mod = headHunter;
-    const testName = "test";
-    expect(mod.applyMods(UnitAttribute.name, testName),
-        equals('Headhunter $testName'));
+    const testName = "Hunter";
+    expect(mod.applyMods(UnitAttribute.name, testName), equals('Headhunter'));
   });
 
   test('test headhunter mod sets ew to 5', () {
