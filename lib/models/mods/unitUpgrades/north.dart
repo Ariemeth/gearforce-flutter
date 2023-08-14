@@ -10,7 +10,11 @@ import 'package:gearforce/models/weapons/weapons.dart';
 
 final UnitModification headHunter = UnitModification(name: 'Headhunter Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
-  ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Headhunter'))
+  //..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Headhunter'))
+  ..addMod(
+    UnitAttribute.name,
+    createReplaceStringMod(change: 'Headhunter', old: 'Hunter'),
+  )
   ..addMod(UnitAttribute.ew, createSetIntMod(5), description: 'EW 5+')
   ..addMod(
     UnitAttribute.traits,
