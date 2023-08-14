@@ -151,6 +151,12 @@ FactionModification? factionModFromId(String id, UnitRoster ur, Unit u) {
       return EdenMods.wellSupported();
     case isharaId:
       return EdenMods.ishara(u);
+    case expertMarksmenId:
+      return EdenMods.expertMarksmen();
+    case freebladeId:
+      return EdenMods.freeblade();
+    case waterBornId:
+      return EdenMods.waterBorn();
   }
   return null;
 }

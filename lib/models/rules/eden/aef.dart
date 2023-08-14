@@ -1,4 +1,20 @@
+import 'package:gearforce/models/factions/faction_type.dart';
+import 'package:gearforce/models/mods/duelist/duelist_modification.dart'
+    as duelistMod;
+import 'package:gearforce/models/mods/factionUpgrades/eden.dart';
+import 'package:gearforce/models/mods/unitUpgrades/universal.dart';
 import 'package:gearforce/models/rules/eden/eden.dart';
+import 'package:gearforce/models/rules/eden/eif.dart' as eif;
+import 'package:gearforce/models/rules/eden/enh.dart' as enh;
+import 'package:gearforce/models/rules/faction_rule.dart';
+import 'package:gearforce/models/rules/north/north.dart' as north;
+import 'package:gearforce/models/unit/model_type.dart';
+
+const String _baseRuleId = 'rule::eden::aef';
+const String _ruleImprovisoId = '$_baseRuleId::10';
+const String _ruleSelfMadeId = '$_baseRuleId::20';
+const String _ruleWaterBornId = '$_baseRuleId::30';
+const String _ruleFreebladeId = '$_baseRuleId::40';
 
 /*
   AEF – Ad-Hoc Edenite Force
@@ -18,6 +34,174 @@ class AEF extends Eden {
   AEF(super.data)
       : super(
           name: 'Ad-Hoc Edenite Force',
-          subFactionRules: [],
+          subFactionRules: [
+            ruleImproviso,
+            ruleSelfMade,
+            ruleWaterBorn,
+            ruleFreeblade,
+          ],
         );
 }
+
+final FactionRule ruleImproviso = FactionRule(
+  name: 'Improviso',
+  id: _ruleImprovisoId,
+  options: [
+    FactionRule.from(
+      enh.ruleChampions,
+      isEnabled: false,
+      canBeToggled: true,
+      requirementCheck: FactionRule.thereCanBeOnlyOne(
+        [
+          enh.ruleIshara.id,
+          enh.ruleWellSupported.id,
+          enh.ruleAssertion.id,
+          north.ruleVeteranLeaders.id,
+          eif.ruleExpertMarksmen.id,
+          eif.ruleEquity.id,
+        ],
+      ),
+    ),
+    FactionRule.from(enh.ruleIshara,
+        isEnabled: false,
+        canBeToggled: true,
+        requirementCheck: FactionRule.thereCanBeOnlyOne(
+          [
+            enh.ruleChampions.id,
+            enh.ruleWellSupported.id,
+            enh.ruleAssertion.id,
+            north.ruleVeteranLeaders.id,
+            eif.ruleExpertMarksmen.id,
+            eif.ruleEquity.id,
+          ],
+        )),
+    FactionRule.from(enh.ruleWellSupported,
+        isEnabled: false,
+        canBeToggled: true,
+        requirementCheck: FactionRule.thereCanBeOnlyOne(
+          [
+            enh.ruleChampions.id,
+            enh.ruleIshara.id,
+            enh.ruleAssertion.id,
+            north.ruleVeteranLeaders.id,
+            eif.ruleExpertMarksmen.id,
+            eif.ruleEquity.id,
+          ],
+        )),
+    FactionRule.from(enh.ruleAssertion,
+        isEnabled: false,
+        canBeToggled: true,
+        requirementCheck: FactionRule.thereCanBeOnlyOne(
+          [
+            enh.ruleChampions.id,
+            enh.ruleIshara.id,
+            enh.ruleWellSupported.id,
+            north.ruleVeteranLeaders.id,
+            eif.ruleExpertMarksmen.id,
+            eif.ruleEquity.id,
+          ],
+        )),
+    FactionRule.from(north.ruleVeteranLeaders,
+        isEnabled: false,
+        canBeToggled: true,
+        requirementCheck: FactionRule.thereCanBeOnlyOne(
+          [
+            enh.ruleChampions.id,
+            enh.ruleIshara.id,
+            enh.ruleWellSupported.id,
+            enh.ruleAssertion.id,
+            eif.ruleExpertMarksmen.id,
+            eif.ruleEquity.id,
+          ],
+        )),
+    FactionRule.from(eif.ruleExpertMarksmen,
+        isEnabled: false,
+        canBeToggled: true,
+        requirementCheck: FactionRule.thereCanBeOnlyOne(
+          [
+            enh.ruleChampions.id,
+            enh.ruleIshara.id,
+            enh.ruleWellSupported.id,
+            enh.ruleAssertion.id,
+            north.ruleVeteranLeaders.id,
+            eif.ruleEquity.id,
+          ],
+        )),
+    FactionRule.from(eif.ruleEquity,
+        isEnabled: false,
+        canBeToggled: true,
+        requirementCheck: FactionRule.thereCanBeOnlyOne(
+          [
+            enh.ruleChampions.id,
+            enh.ruleIshara.id,
+            enh.ruleWellSupported.id,
+            enh.ruleAssertion.id,
+            north.ruleVeteranLeaders.id,
+            eif.ruleExpertMarksmen.id,
+          ],
+        )),
+  ],
+  description: 'Select one upgrade option from EIF or ENH.',
+);
+
+final FactionRule ruleSelfMade = FactionRule(
+  name: 'Self-Made',
+  id: _ruleSelfMadeId,
+  duelistModCheck: (u, cg, {required modID}) {
+    if (!(modID == duelistMod.meleeUpgradeId ||
+        modID == duelistMod.dualMeleeWeaponsId ||
+        modID == duelistMod.shieldId)) {
+      return null;
+    }
+
+    if (u.faction != FactionType.Eden) {
+      return null;
+    }
+
+    if (u.type != ModelType.Gear) {
+      return null;
+    }
+
+    if (u.isVeteran) {
+      return true;
+    }
+    return null;
+  },
+  description: 'Veteran golems may purchase the following duelist upgrades' +
+      ' without being duelists; Duelist Melee Upgrade, Dual Melee Weapons' +
+      ' and Shield.',
+);
+
+final FactionRule ruleWaterBorn = FactionRule(
+  name: 'Water-Born',
+  id: _ruleWaterBornId,
+  onModAdded: (unit, modId) {
+    if (modId != frogmen.id) {
+      return;
+    }
+    if (unit.type != ModelType.Infantry) {
+      return;
+    }
+    unit.addUnitMod(EdenMods.waterBorn());
+  },
+  onModRemoved: (unit, modId) {
+    if (modId != frogmen.id) {
+      return;
+    }
+    if (unit.type != ModelType.Infantry) {
+      return;
+    }
+    unit.removeUnitMod(waterBornId);
+  },
+  description:
+      'Infantry that receive the Frogmen upgrade also receive a GU of 3+.',
+);
+
+final FactionRule ruleFreeblade = FactionRule(
+  name: 'Freeblade',
+  id: _ruleFreebladeId,
+  factionMods: (ur, cg, u) => [EdenMods.freeblade()],
+  description: 'Constable and Man at Arm Golems may take the Conscript' +
+      ' trait for -1 TV. Commanders, veterans and duelists may not take this' +
+      ' upgrade.',
+);

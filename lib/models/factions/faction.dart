@@ -52,10 +52,9 @@ class Faction {
   factory Faction.eden(Data data) {
     final rulesets = [
       Eden(data, name: _emptySubFactionName),
-      // TODO uncomment Eden factions that are done or in work
-      // Eden.EIF(data),
+      Eden.EIF(data),
       Eden.ENH(data),
-      // Eden.AEF(data),
+      Eden.AEF(data),
     ];
     return Faction(FactionType.Eden, rulesets, rulesets.first);
   }
@@ -109,6 +108,8 @@ class Faction {
     ];
     return Faction(FactionType.Utopia, rulesets, rulesets.first);
   }
+
+  // TODO add leagueless
 
   factory Faction.fromType(FactionType faction, Data data) {
     switch (faction) {

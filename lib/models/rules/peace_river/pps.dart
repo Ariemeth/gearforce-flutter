@@ -16,6 +16,8 @@ const String _ruleSubContractorsName = 'Sub-Contractors';
 const String _ruleSubContractorsId = '$_baseRuleId::10';
 const String _badlandsSoupName = 'Badland\'s Soup';
 const String _ruleBadlandsSoupId = '$_baseRuleId::20';
+const String _ruleExPRDFId = '$_baseRuleId::30';
+const String _ruleExPOCId = '$_baseRuleId::40';
 
 /*
 PPS - Paxton Private Securities
@@ -58,7 +60,7 @@ const filterSubContractor = SpecialUnitFilter(
 
 final ruleExPRDF = FactionRule(
     name: _exPRDF,
-    id: '$_baseRuleId::exPRDF',
+    id: _ruleExPRDFId,
     description: 'Choose any one rule from the PRDF.',
     options: [
       FactionRule.from(
@@ -149,7 +151,7 @@ final ruleExPRDF = FactionRule(
 
 final ruleExPOC = FactionRule(
     name: _exPOC,
-    id: '$_baseRuleId::exPOC',
+    id: _ruleExPOCId,
     description: 'Choose any one rule from the POC.',
     options: [
       FactionRule.from(

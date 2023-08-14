@@ -6,10 +6,13 @@ import 'package:gearforce/models/mods/modification_option.dart';
 import 'package:gearforce/models/mods/mods.dart';
 import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart';
 import 'package:gearforce/models/roster/roster.dart';
+import 'package:gearforce/models/rules/eden/aef.dart';
 import 'package:gearforce/models/rules/eden/eden.dart';
+import 'package:gearforce/models/rules/eden/eif.dart';
 import 'package:gearforce/models/rules/eden/enh.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/traits/trait.dart';
+import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/model_type.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
@@ -22,6 +25,9 @@ const _baseFactionModId = 'mod::faction::eden';
 const lancersId = '$_baseFactionModId::10';
 const wellSupportedId = '$_baseFactionModId::20';
 const isharaId = '$_baseFactionModId::30';
+const expertMarksmenId = '$_baseFactionModId::40';
+const waterBornId = '$_baseFactionModId::50';
+const freebladeId = '$_baseFactionModId::60';
 
 class EdenMods extends FactionModification {
   EdenMods({
@@ -255,6 +261,146 @@ class EdenMods extends FactionModification {
         description: 'Golems may have their melee weapon upgraded to a' +
             ' halberd (MVB with React, Reach:2). Add Brawl:1 trait, or' +
             ' increase existing Brawl by 1');
+
+    return fm;
+  }
+
+  /*
+    Each golem with a rifle may increase their GU skill by one for 1 TV.
+  */
+  factory EdenMods.expertMarksmen() {
+    final RequirementCheck reqCheck = (
+      RuleSet? rs,
+      UnitRoster? ur,
+      CombatGroup? cg,
+      Unit u,
+    ) {
+      assert(cg != null);
+      assert(rs != null);
+      if (rs == null || !rs.isRuleEnabled(ruleExpertMarksmen.id)) {
+        return false;
+      }
+
+      if (u.faction != FactionType.Eden || u.type != ModelType.Gear) {
+        return false;
+      }
+
+      if (u.weapons.any((w) => w.code == 'RF')) {
+        return true;
+      }
+
+      return false;
+    };
+
+    final fm = EdenMods(
+      name: 'Expert Marksmen',
+      requirementCheck: reqCheck,
+      id: expertMarksmenId,
+    );
+    fm.addMod<int>(
+      UnitAttribute.tv,
+      createSimpleIntMod(1),
+      description: 'TV: +1',
+    );
+
+    fm.addMod<int>(
+      UnitAttribute.gunnery,
+      createSimpleIntMod(-1),
+      description: 'Each golem with a rifle may increase their GU skill by one',
+    );
+
+    return fm;
+  }
+
+  /*
+    Constable and Man at Arm Golems may take the Conscript trait for -1 TV.
+    Commanders, veterans and duelists may not take this upgrade.
+  */
+  factory EdenMods.freeblade() {
+    final RequirementCheck reqCheck = (
+      RuleSet? rs,
+      UnitRoster? ur,
+      CombatGroup? cg,
+      Unit u,
+    ) {
+      assert(cg != null);
+      assert(rs != null);
+      if (rs == null || !rs.isRuleEnabled(ruleFreeblade.id)) {
+        return false;
+      }
+
+      if (u.type != ModelType.Gear) {
+        return false;
+      }
+
+      if (!(u.core.frame == 'Constable' || u.core.frame == 'Man at Arms')) {
+        return false;
+      }
+
+      if (u.commandLevel != CommandLevel.none) {
+        return false;
+      }
+
+      if (u.isVeteran || u.isDuelist) {
+        return false;
+      }
+
+      return true;
+    };
+
+    final fm = EdenMods(
+      name: 'Freeblade',
+      requirementCheck: reqCheck,
+      id: freebladeId,
+    );
+    fm.addMod<int>(
+      UnitAttribute.tv,
+      createSimpleIntMod(-1),
+      description: 'TV: -1',
+    );
+
+    fm.addMod<List<Trait>>(
+      UnitAttribute.traits,
+      createAddTraitToList(Trait.Conscript()),
+      description: '+Conscript',
+    );
+
+    return fm;
+  }
+
+  /*
+    Infantry that receive the Frogmen upgrade also receive a GU of 3+.
+  */
+  factory EdenMods.waterBorn() {
+    final RequirementCheck reqCheck = (
+      RuleSet? rs,
+      UnitRoster? ur,
+      CombatGroup? cg,
+      Unit u,
+    ) {
+      assert(cg != null);
+      assert(rs != null);
+      if (rs == null || !rs.isRuleEnabled(ruleWaterBorn.id)) {
+        return false;
+      }
+
+      if (u.type != ModelType.Infantry) {
+        return false;
+      }
+
+      return true;
+    };
+
+    final fm = EdenMods(
+      name: 'Water-Born',
+      requirementCheck: reqCheck,
+      id: waterBornId,
+    );
+
+    fm.addMod<int>(
+      UnitAttribute.gunnery,
+      createSetIntMod(3),
+    );
 
     return fm;
   }
