@@ -4,6 +4,7 @@ import 'package:gearforce/models/rules/black_talons/black_talons.dart';
 import 'package:gearforce/models/rules/caprice/caprice.dart';
 import 'package:gearforce/models/rules/cef/cef.dart';
 import 'package:gearforce/models/rules/eden/eden.dart';
+import 'package:gearforce/models/rules/leagueless/leagueless.dart';
 import 'package:gearforce/models/rules/north/north.dart';
 import 'package:gearforce/models/rules/nucoal/nucoal.dart';
 import 'package:gearforce/models/rules/peace_river/peace_river.dart';
@@ -109,7 +110,16 @@ class Faction {
     return Faction(FactionType.Utopia, rulesets, rulesets.first);
   }
 
-  // TODO add leagueless
+  factory Faction.leagueless(Data data) {
+    final rulesets = [
+      Leagueless.North(data),
+      Leagueless.South(data),
+      Leagueless.PeaceRiver(data),
+      Leagueless.NuCoal(data),
+    ];
+
+    return Faction(FactionType.Leagueless, rulesets, rulesets.first);
+  }
 
   factory Faction.fromType(FactionType faction, Data data) {
     switch (faction) {
@@ -121,6 +131,8 @@ class Faction {
         return Faction.peaceRiver(data);
       case FactionType.NuCoal:
         return Faction.nucoal(data);
+      case FactionType.Leagueless:
+        return Faction.leagueless(data);
       case FactionType.CEF:
         return Faction.cef(data);
       case FactionType.Caprice:

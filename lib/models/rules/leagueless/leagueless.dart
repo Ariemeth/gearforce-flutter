@@ -1,9 +1,19 @@
 import 'package:gearforce/data/data.dart';
+import 'package:gearforce/data/unit_filter.dart';
 import 'package:gearforce/models/rules/faction_rule.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/rules/options/combat_group_options.dart';
 import 'package:gearforce/models/rules/options/special_unit_filter.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
+import 'package:gearforce/models/traits/trait.dart';
+
+const String _baseRuleId = 'rule::leagueless::core';
+const String _ruleJudiciousId = '$_baseRuleId::10';
+const String _ruleTheSourceId = '$_baseRuleId::20';
+const String _ruleTheSourceNorthId = '$_baseRuleId::30';
+const String _ruleTheSourceSouthId = '$_baseRuleId::40';
+const String _ruleTheSourcePeaceRiverId = '$_baseRuleId::50';
+const String _ruleTheSourceNuCoalId = '$_baseRuleId::60';
 
 /*
   Leagueless Sub-Lists
@@ -59,30 +69,285 @@ import 'package:gearforce/models/rules/rule_set.dart';
 class Leagueless extends RuleSet {
   Leagueless(
     Data data, {
-    String? description,
-    required String name,
+    super.description,
+    required super.name,
+    required List<FactionRule> factionRules,
     List<String>? specialRules,
-    List<FactionRule> subFactionRules = const [],
+    super.subFactionRules = const [],
   }) : super(
-          FactionType.Universal,
+          FactionType.Leagueless,
           data,
-          name: name,
-          description: description,
-          factionRules: [],
-          subFactionRules: subFactionRules,
+          factionRules: [ruleJudicious, ...factionRules],
         );
 
   @override
   List<SpecialUnitFilter> availableUnitFilters(
     List<CombatGroupOption>? cgOptions,
   ) {
-    final filters = [
-      SpecialUnitFilter(
-        text: type.name,
-        id: coreTag,
-        filters: const [],
-      )
-    ];
-    return [...filters, ...super.availableUnitFilters(cgOptions)];
+    return [...super.availableUnitFilters(cgOptions)];
   }
+
+  factory Leagueless.North(Data data) => SourceNorth(data);
+  factory Leagueless.South(Data data) => SourceSouth(data);
+  factory Leagueless.PeaceRiver(Data data) => SourcePeaceRiver(data);
+  factory Leagueless.NuCoal(Data data) => SourceNuCoal(data);
+}
+
+const _baseFilters = const [
+  const UnitFilter(FactionType.Universal),
+  const UnitFilter(FactionType.Universal_TerraNova),
+  const UnitFilter(FactionType.Terrain),
+  const UnitFilter(FactionType.Airstrike),
+];
+
+class SourceNorth extends Leagueless {
+  SourceNorth(super.data)
+      : super(
+          name: 'Source: North',
+          factionRules: [
+            FactionRule.from(
+              ruleTheSourceNorth,
+              isEnabled: true,
+              canBeToggled: false,
+              unitFilter: (cgOptions) => null,
+            )
+          ],
+          subFactionRules: [buildTheSource(FactionType.North)],
+        );
+  @override
+  List<SpecialUnitFilter> availableUnitFilters(
+    List<CombatGroupOption>? cgOptions,
+  ) {
+    final filter = SpecialUnitFilter(
+      text: 'Source: North',
+      id: coreTag,
+      filters: const [
+        const UnitFilter(FactionType.North),
+        ..._baseFilters,
+      ],
+    );
+    return [filter, ...super.availableUnitFilters(cgOptions)];
+  }
+}
+
+class SourceSouth extends Leagueless {
+  SourceSouth(super.data)
+      : super(
+          name: 'Source: South',
+          factionRules: [
+            FactionRule.from(
+              ruleTheSourceSouth,
+              isEnabled: true,
+              canBeToggled: false,
+              unitFilter: (cgOptions) => null,
+            )
+          ],
+          subFactionRules: [buildTheSource(FactionType.South)],
+        );
+
+  @override
+  List<SpecialUnitFilter> availableUnitFilters(
+    List<CombatGroupOption>? cgOptions,
+  ) {
+    final filter = SpecialUnitFilter(
+      text: 'Source: South',
+      id: coreTag,
+      filters: const [
+        const UnitFilter(FactionType.South),
+        ..._baseFilters,
+      ],
+    );
+    return [filter, ...super.availableUnitFilters(cgOptions)];
+  }
+}
+
+class SourcePeaceRiver extends Leagueless {
+  SourcePeaceRiver(super.data)
+      : super(
+          name: 'Source: Peace River',
+          factionRules: [
+            FactionRule.from(
+              ruleTheSourcePeaceRiver,
+              isEnabled: true,
+              canBeToggled: false,
+              unitFilter: (cgOptions) => null,
+            )
+          ],
+          subFactionRules: [buildTheSource(FactionType.PeaceRiver)],
+        );
+
+  @override
+  List<SpecialUnitFilter> availableUnitFilters(
+    List<CombatGroupOption>? cgOptions,
+  ) {
+    final filter = SpecialUnitFilter(
+      text: 'Source: Peace River',
+      id: coreTag,
+      filters: const [
+        const UnitFilter(FactionType.PeaceRiver),
+        ..._baseFilters,
+      ],
+    );
+    return [filter, ...super.availableUnitFilters(cgOptions)];
+  }
+}
+
+class SourceNuCoal extends Leagueless {
+  SourceNuCoal(super.data)
+      : super(
+          name: 'Source: NuCoal',
+          factionRules: [
+            FactionRule.from(
+              ruleTheSourceNuCoal,
+              isEnabled: true,
+              canBeToggled: false,
+              unitFilter: (cgOptions) => null,
+            )
+          ],
+          subFactionRules: [buildTheSource(FactionType.NuCoal)],
+        );
+
+  @override
+  List<SpecialUnitFilter> availableUnitFilters(
+    List<CombatGroupOption>? cgOptions,
+  ) {
+    final filter = SpecialUnitFilter(
+      text: 'Source: NuCoal',
+      id: coreTag,
+      filters: const [
+        const UnitFilter(FactionType.NuCoal),
+        ..._baseFilters,
+      ],
+    );
+    return [filter, ...super.availableUnitFilters(cgOptions)];
+  }
+}
+
+final ruleJudicious = FactionRule(
+  name: 'Judicious',
+  id: _ruleJudiciousId,
+  canBeAddedToGroup: (unit, group, cg) {
+    if (unit.isDuelist) {
+      return null;
+    }
+    if (unit.core.traits.any((t) => Trait.Vet().isSameType(t))) {
+      return cg.isVeteran;
+    }
+    return null;
+  },
+  description: 'Non-duelist models that come with the Vet trait on their' +
+      ' profile may only be placed in veteran combat groups. This also' +
+      ' applies to any and all upgrade options.',
+);
+
+FactionRule buildTheSource(FactionType sourceFaction) {
+  final rules = [
+    ruleTheSourceNorth,
+    ruleTheSourceSouth,
+    ruleTheSourcePeaceRiver,
+    ruleTheSourceNuCoal,
+  ];
+  switch (sourceFaction) {
+    case FactionType.North:
+      rules.remove(ruleTheSourceNorth);
+      break;
+    case FactionType.South:
+      rules.remove(ruleTheSourceSouth);
+      break;
+    case FactionType.PeaceRiver:
+      rules.remove(ruleTheSourcePeaceRiver);
+      break;
+    case FactionType.NuCoal:
+      rules.remove(ruleTheSourceNuCoal);
+      break;
+    default:
+  }
+
+  return FactionRule(
+      name: 'Additional Source',
+      id: _ruleTheSourceId,
+      options: rules,
+      description: 'Select an additional source faction');
+}
+
+final ruleTheSourceNorth = FactionRule(
+  name: 'Source: North',
+  id: _ruleTheSourceNorthId,
+  isEnabled: false,
+  canBeToggled: true,
+  requirementCheck: _onlyThreeUpgrades(_ruleTheSourceNorthId),
+  unitFilter: (cgOptions) => const SpecialUnitFilter(
+    text: 'Source: North',
+    id: _ruleTheSourceNorthId,
+    filters: const [const UnitFilter(FactionType.North)],
+  ),
+  description: 'Select models from the North',
+);
+
+final ruleTheSourceSouth = FactionRule(
+  name: 'Source: South',
+  id: _ruleTheSourceSouthId,
+  isEnabled: false,
+  canBeToggled: true,
+  requirementCheck: _onlyThreeUpgrades(_ruleTheSourceSouthId),
+  unitFilter: (cgOptions) => const SpecialUnitFilter(
+    text: 'Source: South',
+    id: _ruleTheSourceSouthId,
+    filters: const [const UnitFilter(FactionType.South)],
+  ),
+  description: 'Select models from the South',
+);
+
+final ruleTheSourcePeaceRiver = FactionRule(
+  name: 'Source: Peace River',
+  id: _ruleTheSourcePeaceRiverId,
+  isEnabled: false,
+  canBeToggled: true,
+  requirementCheck: _onlyThreeUpgrades(_ruleTheSourcePeaceRiverId),
+  unitFilter: (cgOptions) => const SpecialUnitFilter(
+    text: 'Source: Peace River',
+    id: _ruleTheSourcePeaceRiverId,
+    filters: const [const UnitFilter(FactionType.PeaceRiver)],
+  ),
+  description: 'Select models from Peace River',
+);
+
+final ruleTheSourceNuCoal = FactionRule(
+  name: 'Source: NuCoal',
+  id: _ruleTheSourceNuCoalId,
+  isEnabled: false,
+  canBeToggled: true,
+  requirementCheck: _onlyThreeUpgrades(_ruleTheSourceNuCoalId),
+  unitFilter: (cgOptions) => const SpecialUnitFilter(
+    text: 'Source: NuCoal',
+    id: _ruleTheSourceNuCoalId,
+    filters: const [const UnitFilter(FactionType.NuCoal)],
+  ),
+  description: 'Select models from NuCoal',
+);
+
+bool Function(List<FactionRule> rules) _onlyThreeUpgrades(String excludedId) {
+  return (List<FactionRule> rules) {
+    return _numberOfEnabledRules(excludedId) < 3;
+  };
+}
+
+int _numberOfEnabledRules(String excludedId) {
+  int count = 0;
+
+  count += _ruleCount(ruleTheSourceNorth, excludedId);
+  count += _ruleCount(ruleTheSourceSouth, excludedId);
+  count += _ruleCount(ruleTheSourcePeaceRiver, excludedId);
+  count += _ruleCount(ruleTheSourceNuCoal, excludedId);
+
+  // one source is free, so remove 1 from the count if multiple are enabled
+  if (count > 1) {
+    count = count - 1;
+  }
+
+  return count;
+}
+
+int _ruleCount(FactionRule rule, String excludedId) {
+  return rule.isEnabled && rule.id != excludedId ? 1 : 0;
 }

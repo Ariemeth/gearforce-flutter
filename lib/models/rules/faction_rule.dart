@@ -240,6 +240,7 @@ class FactionRule extends ChangeNotifier {
     List<CombatGroupOption> Function()? combatGroupOption,
     List<FactionModification> Function(UnitRoster ur, CombatGroup cg, Unit u)?
         factionMods,
+    SpecialUnitFilter? Function(List<CombatGroupOption>? cgOptions)? unitFilter,
     String? description,
   }) {
     return FactionRule(
@@ -269,7 +270,7 @@ class FactionRule extends ChangeNotifier {
           ? combatGroupOption
           : original.combatGroupOption,
       factionMods: factionMods != null ? factionMods : original.factionMods,
-      unitFilter: original.unitFilter,
+      unitFilter: unitFilter != null ? unitFilter : original.unitFilter,
       onModAdded: original.onModAdded,
       onModRemoved: original.onModRemoved,
       modifyWeapon: original.modifyWeapon,

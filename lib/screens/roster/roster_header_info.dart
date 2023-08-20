@@ -121,10 +121,19 @@ class RosterHeaderInfo extends StatelessWidget {
                   context, roster.rulesetNotifer.value.factionRules, true)
             },
             icon: Icon(
-              roster.rulesetNotifer.value.factionRules.any((r) =>
-                      r.canBeToggled || r.options != null
-                          ? r.options!.any((o) => o.canBeToggled)
-                          : false)
+              roster.rulesetNotifer.value.factionRules.any(
+                (r) {
+                  if (!r.canBeToggled) {
+                    return false;
+                  }
+
+                  final options = r.options;
+                  if (options == null) {
+                    return false;
+                  }
+                  return r.options!.any((o) => o.canBeToggled);
+                },
+              )
                   ? _editableSettingsIcon
                   : _settingsIcon,
               color: Colors.green,
