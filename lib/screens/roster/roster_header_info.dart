@@ -131,7 +131,7 @@ class RosterHeaderInfo extends StatelessWidget {
                   if (options == null) {
                     return false;
                   }
-                  return r.options!.any((o) => o.canBeToggled);
+                  return options.any((o) => o.canBeToggled);
                 },
               )
                   ? _editableSettingsIcon
@@ -169,10 +169,19 @@ class RosterHeaderInfo extends StatelessWidget {
               )
             },
             icon: Icon(
-              roster.rulesetNotifer.value.subFactionRules.any((r) =>
-                      r.canBeToggled || r.options != null
-                          ? r.options!.any((o) => o.canBeToggled)
-                          : false)
+              roster.rulesetNotifer.value.subFactionRules.any(
+                (r) {
+                  if (!r.canBeToggled) {
+                    return false;
+                  }
+
+                  final options = r.options;
+                  if (options == null) {
+                    return false;
+                  }
+                  return options.any((o) => o.canBeToggled);
+                },
+              )
                   ? _editableSettingsIcon
                   : _settingsIcon,
               color: Colors.green,

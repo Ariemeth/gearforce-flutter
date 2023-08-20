@@ -2,6 +2,7 @@ import 'package:gearforce/data/data.dart';
 import 'package:gearforce/data/unit_filter.dart';
 import 'package:gearforce/models/rules/faction_rule.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
+import 'package:gearforce/models/rules/north/north.dart' as north;
 import 'package:gearforce/models/rules/options/combat_group_options.dart';
 import 'package:gearforce/models/rules/options/special_unit_filter.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
@@ -14,6 +15,15 @@ const String _ruleTheSourceNorthId = '$_baseRuleId::30';
 const String _ruleTheSourceSouthId = '$_baseRuleId::40';
 const String _ruleTheSourcePeaceRiverId = '$_baseRuleId::50';
 const String _ruleTheSourceNuCoalId = '$_baseRuleId::60';
+const String _ruleNorthernInfluenceId = '$_baseRuleId::70';
+const String _ruleSouthernInfluenceId = '$_baseRuleId::80';
+const String _ruleProtectorateSponsoredId = '$_baseRuleId::90';
+
+final List<FactionRule> _rules = [rulesNorthernInfluence];
+final List<FactionRule> _onlyThreeAllowedRules = [
+  buildTheSource(FactionType.None),
+  ..._northerInfluenceRules,
+];
 
 /*
   Leagueless Sub-Lists
@@ -73,11 +83,12 @@ class Leagueless extends RuleSet {
     required super.name,
     required List<FactionRule> factionRules,
     List<String>? specialRules,
-    super.subFactionRules = const [],
+    List<FactionRule> subFactionRules = const [],
   }) : super(
           FactionType.Leagueless,
           data,
           factionRules: [ruleJudicious, ...factionRules],
+          subFactionRules: [...subFactionRules, ..._rules],
         );
 
   @override
@@ -112,7 +123,7 @@ class SourceNorth extends Leagueless {
               unitFilter: (cgOptions) => null,
             )
           ],
-          subFactionRules: [buildTheSource(FactionType.North)],
+          subFactionRules: [_northernSourcesRules],
         );
   @override
   List<SpecialUnitFilter> availableUnitFilters(
@@ -130,6 +141,8 @@ class SourceNorth extends Leagueless {
   }
 }
 
+final _northernSourcesRules = buildTheSource(FactionType.North);
+
 class SourceSouth extends Leagueless {
   SourceSouth(super.data)
       : super(
@@ -142,7 +155,7 @@ class SourceSouth extends Leagueless {
               unitFilter: (cgOptions) => null,
             )
           ],
-          subFactionRules: [buildTheSource(FactionType.South)],
+          subFactionRules: [_southernSourcesRules],
         );
 
   @override
@@ -161,6 +174,8 @@ class SourceSouth extends Leagueless {
   }
 }
 
+final _southernSourcesRules = buildTheSource(FactionType.South);
+
 class SourcePeaceRiver extends Leagueless {
   SourcePeaceRiver(super.data)
       : super(
@@ -173,7 +188,7 @@ class SourcePeaceRiver extends Leagueless {
               unitFilter: (cgOptions) => null,
             )
           ],
-          subFactionRules: [buildTheSource(FactionType.PeaceRiver)],
+          subFactionRules: [_peaceRiverSourcesRules],
         );
 
   @override
@@ -192,6 +207,8 @@ class SourcePeaceRiver extends Leagueless {
   }
 }
 
+final _peaceRiverSourcesRules = buildTheSource(FactionType.PeaceRiver);
+
 class SourceNuCoal extends Leagueless {
   SourceNuCoal(super.data)
       : super(
@@ -204,7 +221,7 @@ class SourceNuCoal extends Leagueless {
               unitFilter: (cgOptions) => null,
             )
           ],
-          subFactionRules: [buildTheSource(FactionType.NuCoal)],
+          subFactionRules: [_nuCoalSourcesRules],
         );
 
   @override
@@ -222,6 +239,8 @@ class SourceNuCoal extends Leagueless {
     return [filter, ...super.availableUnitFilters(cgOptions)];
   }
 }
+
+final _nuCoalSourcesRules = buildTheSource(FactionType.NuCoal);
 
 final ruleJudicious = FactionRule(
   name: 'Judicious',
@@ -265,8 +284,21 @@ FactionRule buildTheSource(FactionType sourceFaction) {
 
   return FactionRule(
       name: 'Additional Source',
+      isEnabled: false,
+      canBeToggled: true,
       id: _ruleTheSourceId,
       options: rules,
+      onEnabled: () {
+        rules.forEach((rule) {
+          rule.canBeToggled = true;
+        });
+      },
+      onDisabled: () {
+        rules.forEach((rule) {
+          rule.disable();
+          rule.canBeToggled = false;
+        });
+      },
       description: 'Select an additional source faction');
 }
 
@@ -274,7 +306,7 @@ final ruleTheSourceNorth = FactionRule(
   name: 'Source: North',
   id: _ruleTheSourceNorthId,
   isEnabled: false,
-  canBeToggled: true,
+  canBeToggled: false,
   requirementCheck: _onlyThreeUpgrades(_ruleTheSourceNorthId),
   unitFilter: (cgOptions) => const SpecialUnitFilter(
     text: 'Source: North',
@@ -288,7 +320,7 @@ final ruleTheSourceSouth = FactionRule(
   name: 'Source: South',
   id: _ruleTheSourceSouthId,
   isEnabled: false,
-  canBeToggled: true,
+  canBeToggled: false,
   requirementCheck: _onlyThreeUpgrades(_ruleTheSourceSouthId),
   unitFilter: (cgOptions) => const SpecialUnitFilter(
     text: 'Source: South',
@@ -302,7 +334,7 @@ final ruleTheSourcePeaceRiver = FactionRule(
   name: 'Source: Peace River',
   id: _ruleTheSourcePeaceRiverId,
   isEnabled: false,
-  canBeToggled: true,
+  canBeToggled: false,
   requirementCheck: _onlyThreeUpgrades(_ruleTheSourcePeaceRiverId),
   unitFilter: (cgOptions) => const SpecialUnitFilter(
     text: 'Source: Peace River',
@@ -316,7 +348,7 @@ final ruleTheSourceNuCoal = FactionRule(
   name: 'Source: NuCoal',
   id: _ruleTheSourceNuCoalId,
   isEnabled: false,
-  canBeToggled: true,
+  canBeToggled: false,
   requirementCheck: _onlyThreeUpgrades(_ruleTheSourceNuCoalId),
   unitFilter: (cgOptions) => const SpecialUnitFilter(
     text: 'Source: NuCoal',
@@ -326,28 +358,96 @@ final ruleTheSourceNuCoal = FactionRule(
   description: 'Select models from NuCoal',
 );
 
+final rulesNorthernInfluence = FactionRule(
+  name: 'Northern Influence',
+  id: _ruleNorthernInfluenceId,
+  isEnabled: false,
+  canBeToggled: true,
+  requirementCheck: _onlyThreeUpgrades(_ruleNorthernInfluenceId),
+  options: _northerInfluenceRules,
+  onEnabled: () {
+    _northerInfluenceRules.forEach((rule) {
+      rule.canBeToggled = true;
+    });
+  },
+  onDisabled: () {
+    _northerInfluenceRules.forEach((rule) {
+      rule.disable();
+      rule.canBeToggled = false;
+    });
+  },
+  description: 'Requires the North as a Source. If selected, Southern' +
+      ' Influence and Protectorate Sponsored cannot be selected. Select one' +
+      ' faction upgrade from the North’s faction upgrades. This option may be' +
+      ' selected twice in order to gain a second option from the North.',
+);
+
+final List<FactionRule> _northerInfluenceRules = [
+  FactionRule.from(
+    north.ruleProspectors,
+    isEnabled: false,
+    canBeToggled: false,
+    requirementCheck: (factionRules) =>
+        _onlyOne(_northerInfluenceRules, north.ruleProspectors.id) &&
+        _onlyThreeUpgrades(north.ruleProspectors.id)(factionRules) &&
+        north.ruleProspectors.requirementCheck(factionRules),
+  ),
+  FactionRule.from(
+    north.ruleHammersOfTheNorth,
+    isEnabled: false,
+    canBeToggled: false,
+    requirementCheck: (factionRules) =>
+        _onlyOne(_northerInfluenceRules, north.ruleHammersOfTheNorth.id) &&
+        _onlyThreeUpgrades(north.ruleHammersOfTheNorth.id)(factionRules) &&
+        north.ruleHammersOfTheNorth.requirementCheck(factionRules),
+  ),
+  FactionRule.from(
+    north.ruleVeteranLeaders,
+    isEnabled: false,
+    canBeToggled: false,
+    requirementCheck: (factionRules) =>
+        _onlyOne(_northerInfluenceRules, north.ruleVeteranLeaders.id) &&
+        _onlyThreeUpgrades(north.ruleVeteranLeaders.id)(factionRules) &&
+        north.ruleVeteranLeaders.requirementCheck(factionRules),
+  ),
+  FactionRule.from(
+    north.ruleDragoonSquad,
+    isEnabled: false,
+    canBeToggled: false,
+    requirementCheck: (factionRules) =>
+        _onlyOne(_northerInfluenceRules, north.ruleDragoonSquad.id) &&
+        _onlyThreeUpgrades(north.ruleDragoonSquad.id)(factionRules) &&
+        north.ruleDragoonSquad.requirementCheck(factionRules),
+  ),
+];
+
+bool _onlyOne(List<FactionRule> rules, String excludeId) {
+  int count = 0;
+  rules.forEach((rule) {
+    if (rule.isEnabled && rule.id != excludeId) {
+      count++;
+    }
+  });
+  return count < 2;
+}
+
 bool Function(List<FactionRule> rules) _onlyThreeUpgrades(String excludedId) {
   return (List<FactionRule> rules) {
-    return _numberOfEnabledRules(excludedId) < 3;
+    final ruleCount = (FactionRule rule, String excludedId) {
+      return rule.isEnabled && rule.id != excludedId ? 1 : 0;
+    };
+
+    int count = 0;
+
+    count += ruleCount(ruleTheSourceNorth, excludedId);
+    count += ruleCount(ruleTheSourceSouth, excludedId);
+    count += ruleCount(ruleTheSourcePeaceRiver, excludedId);
+    count += ruleCount(ruleTheSourceNuCoal, excludedId);
+
+    _onlyThreeAllowedRules.forEach((rule) {
+      count += ruleCount(rule, excludedId);
+    });
+
+    return count < 3;
   };
-}
-
-int _numberOfEnabledRules(String excludedId) {
-  int count = 0;
-
-  count += _ruleCount(ruleTheSourceNorth, excludedId);
-  count += _ruleCount(ruleTheSourceSouth, excludedId);
-  count += _ruleCount(ruleTheSourcePeaceRiver, excludedId);
-  count += _ruleCount(ruleTheSourceNuCoal, excludedId);
-
-  // one source is free, so remove 1 from the count if multiple are enabled
-  if (count > 1) {
-    count = count - 1;
-  }
-
-  return count;
-}
-
-int _ruleCount(FactionRule rule, String excludedId) {
-  return rule.isEnabled && rule.id != excludedId ? 1 : 0;
 }
