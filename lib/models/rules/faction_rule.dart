@@ -42,6 +42,8 @@ class FactionRule extends ChangeNotifier {
     this.onModRemoved,
     this.modifyWeapon,
     this.modifyTraits,
+    this.onEnabled,
+    this.onDisabled,
   }) {
     _isEnabled = isEnabled;
     _options = options;
@@ -61,7 +63,7 @@ class FactionRule extends ChangeNotifier {
   late final List<FactionRule>? _options;
   final String description;
   late bool _isEnabled;
-  final bool canBeToggled;
+  bool canBeToggled;
   final bool Function(List<FactionRule>) requirementCheck;
   final bool Function(CombatGroup?, UnitRoster?) cgCheck;
 
@@ -122,7 +124,23 @@ class FactionRule extends ChangeNotifier {
   /// Modify a [Unit]'s [Trait]s.
   final Function(List<Trait> traits, UnitCore uc)? modifyTraits;
 
+  /// Called with the [FactionRule] is enabled.
+  final Function()? onEnabled;
+
+  /// Called with the [FactionRule] is disabled.
+  final Function()? onDisabled;
+
   bool get isEnabled => _isEnabled;
+
+  void disable() {
+    if (!_isEnabled) {
+      return;
+    }
+    _isEnabled = false;
+    if (onDisabled != null) {
+      onDisabled!();
+    }
+  }
 
   void setIsEnabled(bool value, List<FactionRule> rules) {
     // If the value isn't being changed or the value cannot be changed do nothing
@@ -137,6 +155,12 @@ class FactionRule extends ChangeNotifier {
     }
 
     _isEnabled = value;
+
+    if (value && onEnabled != null) {
+      onEnabled!();
+    } else if (!value && onDisabled != null) {
+      onDisabled!();
+    }
 
     notifyListeners();
   }
@@ -228,20 +252,22 @@ class FactionRule extends ChangeNotifier {
     };
   }
 
-  factory FactionRule.from(
-    FactionRule original, {
-    String? name,
-    String? id,
-    List<FactionRule>? options,
-    bool? isEnabled,
-    bool? canBeToggled,
-    bool Function(List<FactionRule>)? requirementCheck,
-    bool Function(CombatGroup?, UnitRoster?)? cgCheck,
-    List<CombatGroupOption> Function()? combatGroupOption,
-    List<FactionModification> Function(UnitRoster ur, CombatGroup cg, Unit u)?
-        factionMods,
-    String? description,
-  }) {
+  factory FactionRule.from(FactionRule original,
+      {String? name,
+      String? id,
+      List<FactionRule>? options,
+      bool? isEnabled,
+      bool? canBeToggled,
+      bool Function(List<FactionRule>)? requirementCheck,
+      bool Function(CombatGroup?, UnitRoster?)? cgCheck,
+      List<CombatGroupOption> Function()? combatGroupOption,
+      List<FactionModification> Function(UnitRoster ur, CombatGroup cg, Unit u)?
+          factionMods,
+      SpecialUnitFilter? Function(List<CombatGroupOption>? cgOptions)?
+          unitFilter,
+      String? description,
+      Function()? onEnabled,
+      Function()? onDisabled}) {
     return FactionRule(
       name: name != null ? name : original.name,
       id: id != null ? id : original.id,
@@ -269,11 +295,13 @@ class FactionRule extends ChangeNotifier {
           ? combatGroupOption
           : original.combatGroupOption,
       factionMods: factionMods != null ? factionMods : original.factionMods,
-      unitFilter: original.unitFilter,
+      unitFilter: unitFilter != null ? unitFilter : original.unitFilter,
       onModAdded: original.onModAdded,
       onModRemoved: original.onModRemoved,
       modifyWeapon: original.modifyWeapon,
       modifyTraits: original.modifyTraits,
+      onEnabled: onEnabled != null ? onEnabled : original.onEnabled,
+      onDisabled: onDisabled != null ? onDisabled : original.onDisabled,
       cgCheck: cgCheck != null ? cgCheck : original.cgCheck,
     );
   }

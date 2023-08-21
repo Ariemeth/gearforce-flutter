@@ -23,6 +23,9 @@ class FactionRulesLine extends StatefulWidget {
 class _FactionRulesLineState extends State<FactionRulesLine> {
   @override
   Widget build(BuildContext context) {
+    final upgrade = widget.upgrade;
+    final meetsReqs = upgrade.requirementCheck(widget.rules);
+    final canBeToggled = upgrade.canBeToggled && meetsReqs;
     return Row(
       children: [
         widget.leftOffset > 0.0
@@ -31,26 +34,23 @@ class _FactionRulesLineState extends State<FactionRulesLine> {
               )
             : Container(),
         Checkbox(
-            value: widget.upgrade.isEnabled,
-            onChanged: widget.upgrade.canBeToggled &&
-                    widget.upgrade.requirementCheck(widget.rules)
+            value: upgrade.isEnabled,
+            onChanged: canBeToggled
                 ? (bool? newValue) {
                     setState(() {
-                      widget.upgrade.setIsEnabled(newValue!, widget.rules);
+                      upgrade.setIsEnabled(newValue!, widget.rules);
                       widget.notifyParent();
                     });
                   }
                 : null),
         Tooltip(
           child: Text(
-            '${widget.upgrade.name} ',
+            '${upgrade.name} ',
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w600,
               fontStyle: FontStyle.normal,
-              decoration: widget.upgrade.requirementCheck(widget.rules)
-                  ? null
-                  : TextDecoration.lineThrough,
+              decoration: meetsReqs ? null : TextDecoration.lineThrough,
             ),
             maxLines: _maxOptionNameLines,
           ),
@@ -59,7 +59,7 @@ class _FactionRulesLineState extends State<FactionRulesLine> {
             child: Container(
               constraints: const BoxConstraints(maxWidth: 250.0),
               child: Text(
-                widget.upgrade.description,
+                upgrade.description,
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.normal,

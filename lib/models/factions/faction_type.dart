@@ -3,6 +3,7 @@ enum FactionType {
   South('South'),
   PeaceRiver('Peace River'),
   NuCoal('NuCoal'),
+  Leagueless('Leagueless'),
   CEF('CEF'),
   Caprice('Caprice'),
   Utopia('Utopia'),

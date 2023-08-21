@@ -118,13 +118,26 @@ class RosterHeaderInfo extends StatelessWidget {
           IconButton(
             onPressed: () => {
               _showSettingsDialog(
-                  context, roster.rulesetNotifer.value.factionRules, true)
+                context,
+                roster.rulesetNotifer.value.factionRules,
+                roster,
+                true,
+              )
             },
             icon: Icon(
-              roster.rulesetNotifer.value.factionRules.any((r) =>
-                      r.canBeToggled || r.options != null
-                          ? r.options!.any((o) => o.canBeToggled)
-                          : false)
+              roster.rulesetNotifer.value.factionRules.any(
+                (r) {
+                  if (!r.canBeToggled) {
+                    return false;
+                  }
+
+                  final options = r.options;
+                  if (options == null) {
+                    return false;
+                  }
+                  return options.any((o) => o.canBeToggled);
+                },
+              )
                   ? _editableSettingsIcon
                   : _settingsIcon,
               color: Colors.green,
@@ -156,14 +169,24 @@ class RosterHeaderInfo extends StatelessWidget {
               _showSettingsDialog(
                 context,
                 roster.rulesetNotifer.value.subFactionRules,
+                roster,
                 false,
               )
             },
             icon: Icon(
-              roster.rulesetNotifer.value.subFactionRules.any((r) =>
-                      r.canBeToggled || r.options != null
-                          ? r.options!.any((o) => o.canBeToggled)
-                          : false)
+              roster.rulesetNotifer.value.subFactionRules.any(
+                (r) {
+                  if (!r.canBeToggled) {
+                    return false;
+                  }
+
+                  final options = r.options;
+                  if (options == null) {
+                    return false;
+                  }
+                  return options.any((o) => o.canBeToggled);
+                },
+              )
                   ? _editableSettingsIcon
                   : _settingsIcon,
               color: Colors.green,
@@ -202,10 +225,11 @@ class RosterHeaderInfo extends StatelessWidget {
     );
   }
 
-  void _showSettingsDialog(
-      BuildContext context, List<FactionRule> upgrades, bool isCore) {
+  void _showSettingsDialog(BuildContext context, List<FactionRule> upgrades,
+      UnitRoster roster, bool isCore) {
     final settingsDialog = FactionRulesDialog(
       upgrades: upgrades,
+      roster: roster,
       isCore: isCore,
     );
     showDialog(

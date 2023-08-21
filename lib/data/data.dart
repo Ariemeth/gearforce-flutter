@@ -143,6 +143,7 @@ class Data {
       Faction.caprice(this),
       Faction.cef(this),
       Faction.eden(this),
+      Faction.leagueless(this),
       Faction.north(this),
       Faction.nucoal(this),
       Faction.peaceRiver(this),

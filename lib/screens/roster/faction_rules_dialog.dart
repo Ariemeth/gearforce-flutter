@@ -1,19 +1,25 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/rules/faction_rule.dart';
 import 'package:gearforce/screens/roster/faction_rules_line.dart';
 
 const double _optionSectionWidth = 400;
 const double _optionSectionHeight = 33;
+const int _maxItemsToDisplay = 10;
 
 class FactionRulesDialog extends StatefulWidget {
   const FactionRulesDialog({
     super.key,
     required this.upgrades,
+    required this.roster,
     this.isCore = true,
   });
 
   final List<FactionRule> upgrades;
   final bool isCore;
+  final UnitRoster roster;
 
   @override
   State<FactionRulesDialog> createState() => _FactionRulesDialogState();
@@ -36,7 +42,8 @@ class _FactionRulesDialogState extends State<FactionRulesDialog> {
               maxLines: 1,
             ),
             Text(''),
-            _factionOptions(widget.upgrades, widget.isCore, _refresh),
+            _factionOptions(
+                widget.upgrades, widget.roster, widget.isCore, _refresh),
             Text(''),
             SimpleDialogOption(
               onPressed: () {
@@ -63,7 +70,11 @@ class _FactionRulesDialogState extends State<FactionRulesDialog> {
 }
 
 Widget _factionOptions(
-    List<FactionRule> upgrades, bool isCore, Function() notifyParent) {
+  List<FactionRule> upgrades,
+  UnitRoster roster,
+  bool isCore,
+  Function() notifyParent,
+) {
   if (upgrades.isEmpty) {
     return const Text('No Faction Rules');
   }
@@ -72,7 +83,8 @@ Widget _factionOptions(
 
   return Container(
     width: _optionSectionWidth,
-    height: _optionSectionHeight + _optionSectionHeight * upgrades.length,
+    height: _optionSectionHeight +
+        _optionSectionHeight * min(upgrades.length, _maxItemsToDisplay),
     child: Column(
       children: [
         Expanded(
@@ -91,14 +103,19 @@ Widget _factionOptions(
                     children: [
                       FactionRulesLine(
                         upgrade: option,
-                        rules: upgrades,
+                        rules: isCore
+                            ? upgrades
+                            : roster.rulesetNotifer.value.allFactionRules,
                         notifyParent: notifyParent,
                       ),
                       ...option.options!
                           .map((o) => FactionRulesLine(
                                 upgrade: o,
                                 leftOffset: 25.0,
-                                rules: upgrades,
+                                rules: isCore
+                                    ? upgrades
+                                    : roster
+                                        .rulesetNotifer.value.allFactionRules,
                                 notifyParent: notifyParent,
                               ))
                           .toList()
@@ -107,7 +124,9 @@ Widget _factionOptions(
                 } else {
                   return FactionRulesLine(
                     upgrade: option,
-                    rules: upgrades,
+                    rules: isCore
+                        ? upgrades
+                        : roster.rulesetNotifer.value.allFactionRules,
                     notifyParent: notifyParent,
                   );
                 }
