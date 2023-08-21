@@ -61,6 +61,7 @@ class UnitRoster extends ChangeNotifier {
       }
 
       rulesetNotifer.value.addListener(rulesetListener);
+      validate(rulesetNotifer.value);
       notifyListeners();
     });
 
@@ -421,6 +422,16 @@ class UnitRoster extends ChangeNotifier {
 
   List<Validation> validate(RuleSet ruleset) {
     final List<Validation> validationErrors = [];
+
+    final allRules = ruleset.allFactionRules;
+    allRules.forEach((rule) {
+      if (rule.isEnabled && !rule.requirementCheck(allRules)) {
+        validationErrors.add(
+            Validation(issue: 'Rule ${rule.name} fails requirement check'));
+        print('Disabling rule ${rule.name}');
+        rule.setIsEnabled(false, allRules);
+      }
+    });
 
     final forceLeaders = availableForceLeaders();
     if (!forceLeaders.any((unit) => unit == selectedForceLeader)) {

@@ -118,7 +118,11 @@ class RosterHeaderInfo extends StatelessWidget {
           IconButton(
             onPressed: () => {
               _showSettingsDialog(
-                  context, roster.rulesetNotifer.value.factionRules, true)
+                context,
+                roster.rulesetNotifer.value.factionRules,
+                roster,
+                true,
+              )
             },
             icon: Icon(
               roster.rulesetNotifer.value.factionRules.any(
@@ -165,6 +169,7 @@ class RosterHeaderInfo extends StatelessWidget {
               _showSettingsDialog(
                 context,
                 roster.rulesetNotifer.value.subFactionRules,
+                roster,
                 false,
               )
             },
@@ -220,10 +225,11 @@ class RosterHeaderInfo extends StatelessWidget {
     );
   }
 
-  void _showSettingsDialog(
-      BuildContext context, List<FactionRule> upgrades, bool isCore) {
+  void _showSettingsDialog(BuildContext context, List<FactionRule> upgrades,
+      UnitRoster roster, bool isCore) {
     final settingsDialog = FactionRulesDialog(
       upgrades: upgrades,
+      roster: roster,
       isCore: isCore,
     );
     showDialog(

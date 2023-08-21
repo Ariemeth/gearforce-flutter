@@ -3,9 +3,12 @@ import 'package:gearforce/data/unit_filter.dart';
 import 'package:gearforce/models/rules/faction_rule.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/rules/north/north.dart' as north;
+import 'package:gearforce/models/rules/peace_river/peace_river.dart'
+    as peaceRiver;
 import 'package:gearforce/models/rules/options/combat_group_options.dart';
 import 'package:gearforce/models/rules/options/special_unit_filter.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
+import 'package:gearforce/models/rules/south/south.dart' as south;
 import 'package:gearforce/models/traits/trait.dart';
 
 const String _baseRuleId = 'rule::leagueless::core';
@@ -19,10 +22,16 @@ const String _ruleNorthernInfluenceId = '$_baseRuleId::70';
 const String _ruleSouthernInfluenceId = '$_baseRuleId::80';
 const String _ruleProtectorateSponsoredId = '$_baseRuleId::90';
 
-final List<FactionRule> _rules = [rulesNorthernInfluence];
+final List<FactionRule> _rules = [
+  rulesNorthernInfluence,
+  rulesSouthernInfluence,
+  rulesProtectorateSponsoredInfluence,
+];
 final List<FactionRule> _onlyThreeAllowedRules = [
   buildTheSource(FactionType.None),
-  ..._northerInfluenceRules,
+  ..._northernInfluenceRules,
+  ..._southernInfluenceRules,
+  ..._protectorateSponsoredRules,
 ];
 
 /*
@@ -302,7 +311,7 @@ FactionRule buildTheSource(FactionType sourceFaction) {
       description: 'Select an additional source faction');
 }
 
-final ruleTheSourceNorth = FactionRule(
+final FactionRule ruleTheSourceNorth = FactionRule(
   name: 'Source: North',
   id: _ruleTheSourceNorthId,
   isEnabled: false,
@@ -313,10 +322,13 @@ final ruleTheSourceNorth = FactionRule(
     id: _ruleTheSourceNorthId,
     filters: const [const UnitFilter(FactionType.North)],
   ),
+  onDisabled: () {
+    rulesNorthernInfluence.disable();
+  },
   description: 'Select models from the North',
 );
 
-final ruleTheSourceSouth = FactionRule(
+final FactionRule ruleTheSourceSouth = FactionRule(
   name: 'Source: South',
   id: _ruleTheSourceSouthId,
   isEnabled: false,
@@ -327,10 +339,13 @@ final ruleTheSourceSouth = FactionRule(
     id: _ruleTheSourceSouthId,
     filters: const [const UnitFilter(FactionType.South)],
   ),
+  onDisabled: () {
+    rulesSouthernInfluence.disable();
+  },
   description: 'Select models from the South',
 );
 
-final ruleTheSourcePeaceRiver = FactionRule(
+final FactionRule ruleTheSourcePeaceRiver = FactionRule(
   name: 'Source: Peace River',
   id: _ruleTheSourcePeaceRiverId,
   isEnabled: false,
@@ -341,10 +356,13 @@ final ruleTheSourcePeaceRiver = FactionRule(
     id: _ruleTheSourcePeaceRiverId,
     filters: const [const UnitFilter(FactionType.PeaceRiver)],
   ),
+  onDisabled: () {
+    rulesProtectorateSponsoredInfluence.disable();
+  },
   description: 'Select models from Peace River',
 );
 
-final ruleTheSourceNuCoal = FactionRule(
+final FactionRule ruleTheSourceNuCoal = FactionRule(
   name: 'Source: NuCoal',
   id: _ruleTheSourceNuCoalId,
   isEnabled: false,
@@ -358,20 +376,24 @@ final ruleTheSourceNuCoal = FactionRule(
   description: 'Select models from NuCoal',
 );
 
-final rulesNorthernInfluence = FactionRule(
+final FactionRule rulesNorthernInfluence = FactionRule(
   name: 'Northern Influence',
   id: _ruleNorthernInfluenceId,
   isEnabled: false,
   canBeToggled: true,
-  requirementCheck: _onlyThreeUpgrades(_ruleNorthernInfluenceId),
-  options: _northerInfluenceRules,
+  requirementCheck: (factionRules) =>
+      FactionRule.isRuleEnabled(factionRules, ruleTheSourceNorth.id) &&
+      !rulesSouthernInfluence.isEnabled &&
+      !rulesProtectorateSponsoredInfluence.isEnabled &&
+      _onlyThreeUpgrades(_ruleNorthernInfluenceId)(factionRules),
+  options: _northernInfluenceRules,
   onEnabled: () {
-    _northerInfluenceRules.forEach((rule) {
+    _northernInfluenceRules.forEach((rule) {
       rule.canBeToggled = true;
     });
   },
   onDisabled: () {
-    _northerInfluenceRules.forEach((rule) {
+    _northernInfluenceRules.forEach((rule) {
       rule.disable();
       rule.canBeToggled = false;
     });
@@ -382,13 +404,13 @@ final rulesNorthernInfluence = FactionRule(
       ' selected twice in order to gain a second option from the North.',
 );
 
-final List<FactionRule> _northerInfluenceRules = [
+final List<FactionRule> _northernInfluenceRules = [
   FactionRule.from(
     north.ruleProspectors,
     isEnabled: false,
     canBeToggled: false,
     requirementCheck: (factionRules) =>
-        _onlyOne(_northerInfluenceRules, north.ruleProspectors.id) &&
+        _onlyOne(_northernInfluenceRules, north.ruleProspectors.id) &&
         _onlyThreeUpgrades(north.ruleProspectors.id)(factionRules) &&
         north.ruleProspectors.requirementCheck(factionRules),
   ),
@@ -397,7 +419,7 @@ final List<FactionRule> _northerInfluenceRules = [
     isEnabled: false,
     canBeToggled: false,
     requirementCheck: (factionRules) =>
-        _onlyOne(_northerInfluenceRules, north.ruleHammersOfTheNorth.id) &&
+        _onlyOne(_northernInfluenceRules, north.ruleHammersOfTheNorth.id) &&
         _onlyThreeUpgrades(north.ruleHammersOfTheNorth.id)(factionRules) &&
         north.ruleHammersOfTheNorth.requirementCheck(factionRules),
   ),
@@ -406,7 +428,7 @@ final List<FactionRule> _northerInfluenceRules = [
     isEnabled: false,
     canBeToggled: false,
     requirementCheck: (factionRules) =>
-        _onlyOne(_northerInfluenceRules, north.ruleVeteranLeaders.id) &&
+        _onlyOne(_northernInfluenceRules, north.ruleVeteranLeaders.id) &&
         _onlyThreeUpgrades(north.ruleVeteranLeaders.id)(factionRules) &&
         north.ruleVeteranLeaders.requirementCheck(factionRules),
   ),
@@ -415,9 +437,135 @@ final List<FactionRule> _northerInfluenceRules = [
     isEnabled: false,
     canBeToggled: false,
     requirementCheck: (factionRules) =>
-        _onlyOne(_northerInfluenceRules, north.ruleDragoonSquad.id) &&
+        _onlyOne(_northernInfluenceRules, north.ruleDragoonSquad.id) &&
         _onlyThreeUpgrades(north.ruleDragoonSquad.id)(factionRules) &&
         north.ruleDragoonSquad.requirementCheck(factionRules),
+  ),
+];
+
+final FactionRule rulesSouthernInfluence = FactionRule(
+  name: 'Southern Influence',
+  id: _ruleSouthernInfluenceId,
+  isEnabled: false,
+  canBeToggled: true,
+  requirementCheck: (factionRules) =>
+      FactionRule.isRuleEnabled(factionRules, ruleTheSourceSouth.id) &&
+      !rulesNorthernInfluence.isEnabled &&
+      !rulesProtectorateSponsoredInfluence.isEnabled &&
+      _onlyThreeUpgrades(_ruleSouthernInfluenceId)(factionRules),
+  options: _southernInfluenceRules,
+  onEnabled: () {
+    _southernInfluenceRules.forEach((rule) {
+      rule.canBeToggled = true;
+    });
+  },
+  onDisabled: () {
+    _southernInfluenceRules.forEach((rule) {
+      rule.disable();
+      rule.canBeToggled = false;
+    });
+  },
+  description: 'Requires the South as a Source. If selected, Northern' +
+      ' Influence and Protectorate Sponsored cannot be selected. Select one' +
+      ' faction upgrade from the South’s faction upgrades. This option may be' +
+      ' selected twice in order to gain a second option from the South.',
+);
+
+final List<FactionRule> _southernInfluenceRules = [
+  FactionRule.from(
+    south.rulePoliceState,
+    isEnabled: false,
+    canBeToggled: false,
+    requirementCheck: (factionRules) =>
+        _onlyOne(_southernInfluenceRules, south.rulePoliceState.id) &&
+        _onlyThreeUpgrades(south.rulePoliceState.id)(factionRules) &&
+        south.rulePoliceState.requirementCheck(factionRules),
+  ),
+  FactionRule.from(
+    south.ruleAmphibians,
+    isEnabled: false,
+    canBeToggled: false,
+    requirementCheck: (factionRules) =>
+        _onlyOne(_southernInfluenceRules, south.ruleAmphibians.id) &&
+        _onlyThreeUpgrades(south.ruleAmphibians.id)(factionRules) &&
+        south.ruleAmphibians.requirementCheck(factionRules),
+  ),
+];
+
+final rulesProtectorateSponsoredInfluence = FactionRule(
+  name: 'Protectorate Sponsored',
+  id: _ruleProtectorateSponsoredId,
+  isEnabled: false,
+  canBeToggled: true,
+  requirementCheck: (factionRules) =>
+      FactionRule.isRuleEnabled(factionRules, ruleTheSourcePeaceRiver.id) &&
+      !rulesNorthernInfluence.isEnabled &&
+      !rulesSouthernInfluence.isEnabled &&
+      _onlyThreeUpgrades(_ruleProtectorateSponsoredId)(factionRules),
+  options: _protectorateSponsoredRules,
+  onEnabled: () {
+    _protectorateSponsoredRules.forEach((rule) {
+      rule.canBeToggled = true;
+    });
+  },
+  onDisabled: () {
+    _protectorateSponsoredRules.forEach((rule) {
+      rule.disable();
+      rule.canBeToggled = false;
+    });
+  },
+  description: 'Requires Peace River as a Source. If selected, Northern' +
+      ' Influence and Southern Influence cannot be selected. Select one' +
+      ' faction upgrade from Peace River’s faction upgrades. This option may' +
+      ' be selected twice in order to gain a second option from Peace River.',
+);
+
+final List<FactionRule> _protectorateSponsoredRules = [
+  FactionRule.from(
+    peaceRiver.ruleEPex,
+    isEnabled: false,
+    canBeToggled: false,
+    requirementCheck: (factionRules) =>
+        _onlyOne(_protectorateSponsoredRules, peaceRiver.ruleEPex.id) &&
+        _onlyThreeUpgrades(peaceRiver.ruleEPex.id)(factionRules) &&
+        peaceRiver.ruleEPex.requirementCheck(factionRules),
+  ),
+  FactionRule.from(
+    peaceRiver.ruleWarriorElite,
+    isEnabled: false,
+    canBeToggled: false,
+    requirementCheck: (factionRules) =>
+        _onlyOne(_protectorateSponsoredRules, peaceRiver.ruleWarriorElite.id) &&
+        _onlyThreeUpgrades(peaceRiver.ruleWarriorElite.id)(factionRules) &&
+        peaceRiver.ruleWarriorElite.requirementCheck(factionRules),
+  ),
+  FactionRule.from(
+    peaceRiver.ruleCrisisResponders,
+    isEnabled: false,
+    canBeToggled: false,
+    requirementCheck: (factionRules) =>
+        _onlyOne(
+            _protectorateSponsoredRules, peaceRiver.ruleCrisisResponders.id) &&
+        _onlyThreeUpgrades(peaceRiver.ruleCrisisResponders.id)(factionRules) &&
+        peaceRiver.ruleCrisisResponders.requirementCheck(factionRules),
+  ),
+  FactionRule.from(
+    peaceRiver.ruleLaserTech,
+    isEnabled: false,
+    canBeToggled: false,
+    requirementCheck: (factionRules) =>
+        _onlyOne(_protectorateSponsoredRules, peaceRiver.ruleLaserTech.id) &&
+        _onlyThreeUpgrades(peaceRiver.ruleLaserTech.id)(factionRules) &&
+        peaceRiver.ruleLaserTech.requirementCheck(factionRules),
+  ),
+  FactionRule.from(
+    peaceRiver.ruleArchitects,
+    isEnabled: false,
+    canBeToggled: false,
+    requirementCheck: (factionRules) =>
+        _onlyOne(_protectorateSponsoredRules, peaceRiver.ruleArchitects.id) &&
+        _onlyThreeUpgrades(peaceRiver.ruleArchitects.id)(factionRules) &&
+        peaceRiver.ruleArchitects.requirementCheck(factionRules),
   ),
 ];
 
