@@ -147,8 +147,10 @@ class NorthernFactionMods extends FactionModification {
       assert(cg != null);
       assert(rs != null);
 
-      final snubCannons = u.weapons.where(
-          (w) => w.code == 'SC' && !w.traits.any((t) => t.name == 'Precise'));
+      if (!ruleHammersOfTheNorth.isEnabled) {
+        return false;
+      }
+      final snubCannons = u.weapons.where((w) => w.code == 'SC');
       if (snubCannons.isEmpty) {
         return false;
       }

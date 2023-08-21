@@ -362,7 +362,8 @@ class NuCoalFactionMods extends FactionModification {
     NOTE: The rulebook just lists this as a rule not an upgrade.  Making it a 
     faction mod to make it easier to check requirements
   */
-  factory NuCoalFactionMods.personalEquipment(PersonalEquipment pe) {
+  factory NuCoalFactionMods.personalEquipment(PersonalEquipment pe,
+      {String? ruleId, String? optionId}) {
     final RequirementCheck reqCheck = (
       RuleSet? rs,
       UnitRoster? ur,
@@ -371,14 +372,19 @@ class NuCoalFactionMods extends FactionModification {
     ) {
       assert(cg != null);
       assert(rs != null);
-      if (rs == null || !rs.isRuleEnabled(hcsa.rulePersonalEquipment.id)) {
+      if (rs == null ||
+          !rs.isRuleEnabled(ruleId ?? hcsa.rulePersonalEquipment.id)) {
         return false;
       }
 
-      if (!cg!.isOptionEnabled(hcsa.ruleErechAndNineveh.id)) {
+      if (optionId == null &&
+          !cg!.isOptionEnabled(optionId ?? hcsa.ruleErechAndNineveh.id)) {
         return false;
       }
 
+      if (cg == null) {
+        return false;
+      }
       final unitsWithMod = cg.units.where((unit) =>
           (unit.hasMod(personalEquipment1Id) ||
               unit.hasMod(personalEquipment2Id)) &&

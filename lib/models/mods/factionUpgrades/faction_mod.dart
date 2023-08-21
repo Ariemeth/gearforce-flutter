@@ -3,6 +3,7 @@ import 'package:gearforce/models/mods/factionUpgrades/black_talon.dart';
 import 'package:gearforce/models/mods/factionUpgrades/caprice.dart';
 import 'package:gearforce/models/mods/factionUpgrades/cef.dart';
 import 'package:gearforce/models/mods/factionUpgrades/eden.dart';
+import 'package:gearforce/models/mods/factionUpgrades/leagueless.dart';
 import 'package:gearforce/models/mods/factionUpgrades/north.dart';
 import 'package:gearforce/models/mods/factionUpgrades/nucoal.dart';
 import 'package:gearforce/models/mods/factionUpgrades/peace_river.dart';
@@ -76,6 +77,7 @@ FactionModification? factionModFromId(String id, UnitRoster ur, Unit u) {
 
     // NuCoal Faction mods
     case highSpeedLowDragId:
+      return NuCoalFactionMods.highSpeedLowDrag();
     case hoverTankCommanderId:
       return NuCoalFactionMods.hoverTankCommander();
     case tankJockeysId:
@@ -157,6 +159,14 @@ FactionModification? factionModFromId(String id, UnitRoster ur, Unit u) {
       return EdenMods.freeblade();
     case waterBornId:
       return EdenMods.waterBorn();
+
+    // Leagueless mods
+    case olRustyId:
+      LeaguelessFactionMods.olRusty();
+    case discountsId:
+      LeaguelessFactionMods.discounts(u);
+    case localHeroId:
+      LeaguelessFactionMods.localHero();
   }
   return null;
 }

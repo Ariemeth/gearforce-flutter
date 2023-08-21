@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/rules/faction_rule.dart';
@@ -5,6 +7,7 @@ import 'package:gearforce/screens/roster/faction_rules_line.dart';
 
 const double _optionSectionWidth = 400;
 const double _optionSectionHeight = 33;
+const int _maxItemsToDisplay = 10;
 
 class FactionRulesDialog extends StatefulWidget {
   const FactionRulesDialog({
@@ -80,7 +83,8 @@ Widget _factionOptions(
 
   return Container(
     width: _optionSectionWidth,
-    height: _optionSectionHeight + _optionSectionHeight * upgrades.length,
+    height: _optionSectionHeight +
+        _optionSectionHeight * min(upgrades.length, _maxItemsToDisplay),
     child: Column(
       children: [
         Expanded(

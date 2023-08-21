@@ -1,15 +1,22 @@
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/data/unit_filter.dart';
 import 'package:gearforce/models/combatGroups/group.dart';
+import 'package:gearforce/models/mods/factionUpgrades/leagueless.dart';
 import 'package:gearforce/models/mods/factionUpgrades/nucoal.dart';
+import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart';
+import 'package:gearforce/models/rules/black_talons/btrt.dart' as btrt;
 import 'package:gearforce/models/rules/faction_rule.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/rules/north/north.dart' as north;
+import 'package:gearforce/models/rules/nucoal/th.dart' as th;
 import 'package:gearforce/models/rules/peace_river/peace_river.dart'
     as peaceRiver;
 import 'package:gearforce/models/rules/options/combat_group_options.dart';
 import 'package:gearforce/models/rules/options/special_unit_filter.dart';
+import 'package:gearforce/models/rules/peace_river/pps.dart' as pps;
+import 'package:gearforce/models/rules/peace_river/prdf.dart' as prdf;
 import 'package:gearforce/models/rules/rule_set.dart';
+import 'package:gearforce/models/rules/south/milicia.dart' as milicia;
 import 'package:gearforce/models/rules/south/south.dart' as south;
 import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/role.dart';
@@ -29,6 +36,12 @@ const String _ruleExpertSalvagersId = '$_baseRuleId::100';
 const String _ruleStrippedId = '$_baseRuleId::110';
 const String _ruleWeCameFromTheDesertId = '$_baseRuleId::120';
 const String _rulePurplePowerId = '$_baseRuleId::130';
+const String _rulePersonalEquipmentId = '$_baseRuleId::140';
+const String _ruleLocalHeroId = '$_baseRuleId::150';
+const String _ruleOlRustyId = '$_baseRuleId::160';
+const String _ruleDiscountsId = '$_baseRuleId::170';
+const String _ruleLocalKnowledgeId = '$_baseRuleId::180';
+const String _ruleShadowWarriorsId = '$_baseRuleId::190';
 
 final List<FactionRule> _rules = [
   rulesNorthernInfluence,
@@ -38,6 +51,18 @@ final List<FactionRule> _rules = [
   ruleStripped,
   ruleWeCameFromTheDesert,
   rulePurplePowered,
+  _ruleVetLeaders,
+  _ruleBadlandsSoup,
+  _rulePersonalEquipment,
+  _ruleThunderFromTheSky,
+  _ruleConscription,
+  ruleLocalHero,
+  ruleOlRusty,
+  ruleDiscounts,
+  _ruleLocalKnowledge,
+  _ruleShadowWarriors,
+  _ruleOperators,
+  _ruleJannitePilots,
 ];
 final List<FactionRule> _onlyThreeAllowedRules = [
   buildTheSource(FactionType.None),
@@ -48,6 +73,18 @@ final List<FactionRule> _onlyThreeAllowedRules = [
   ruleStripped,
   ruleWeCameFromTheDesert,
   rulePurplePowered,
+  _ruleVetLeaders,
+  _ruleBadlandsSoup,
+  _rulePersonalEquipment,
+  _ruleThunderFromTheSky,
+  _ruleConscription,
+  ruleLocalHero,
+  ruleOlRusty,
+  ruleDiscounts,
+  _ruleLocalKnowledge,
+  _ruleShadowWarriors,
+  _ruleOperators,
+  _ruleJannitePilots,
 ];
 
 /*
@@ -768,13 +805,127 @@ bool matchPurplePowered(UnitCore uc) {
   return uc.frame == 'Hoverbike GREL' || uc.frame == 'GREL';
 }
 
-/* TODO remove me
-final rule = FactionRule(
-  name: '',
-  id: '',
-  description: '',
+final FactionRule _rulePersonalEquipment = FactionRule(
+  name: 'Personal Equipment',
+  id: _rulePersonalEquipmentId,
+  isEnabled: false,
+  canBeToggled: true,
+  requirementCheck: (factionRules) =>
+      _onlyThreeUpgrades(_rulePersonalEquipmentId)(factionRules),
+  factionMods: (ur, cg, u) => [
+    NuCoalFactionMods.personalEquipment(
+      PersonalEquipment.One,
+      ruleId: _rulePersonalEquipmentId,
+      optionId: '',
+    ),
+    NuCoalFactionMods.personalEquipment(
+      PersonalEquipment.Two,
+      ruleId: _rulePersonalEquipmentId,
+      optionId: '',
+    ),
+  ],
+  veteranModCheck: (u, cg, {required modID}) {
+    final mod1 = u.getMod(personalEquipment1Id);
+    final mod2 = u.getMod(personalEquipment2Id);
+    if (mod1 != null) {
+      final selectedVetModName = mod1.options?.selectedOption?.text;
+      if (selectedVetModName != null &&
+          modID == VeteranModification.vetModId(selectedVetModName) &&
+          VeteranModification.isVetMod(selectedVetModName)) {
+        return true;
+      }
+    }
+
+    if (mod2 != null) {
+      final selectedVetModName = mod2.options?.selectedOption?.text;
+      if (selectedVetModName != null &&
+          modID == VeteranModification.vetModId(selectedVetModName) &&
+          VeteranModification.isVetMod(selectedVetModName)) {
+        return true;
+      }
+    }
+
+    return null;
+  },
+  description: 'Two models in this combat group may purchase two veteran' +
+      ' upgrades each without being veterans.',
 );
-*/
+
+FactionRule ruleLocalHero = FactionRule(
+  name: 'Local Hero',
+  id: _ruleLocalHeroId,
+  isEnabled: false,
+  canBeToggled: true,
+  requirementCheck: _onlyThreeUpgrades(_ruleLocalHeroId),
+  factionMods: (ur, cg, u) => [LeaguelessFactionMods.localHero()],
+  description: 'For 1 TV, upgrade one infantry, cavalry or gear with the' +
+      ' following ability: Models with the Conscript trait that are in' +
+      ' formation with this model are considered to be in formation with a' +
+      ' commander. This model also uses the Lead by Example duelist rule' +
+      ' without being a duelist.',
+);
+
+FactionRule ruleOlRusty = FactionRule(
+  name: 'Ol’ Rusty',
+  id: _ruleOlRustyId,
+  isEnabled: false,
+  canBeToggled: true,
+  requirementCheck: _onlyThreeUpgrades(_ruleOlRustyId),
+  factionMods: (ur, cg, u) => [LeaguelessFactionMods.olRusty()],
+  description: 'Reduce the cost of any gear or strider in one combat group by' +
+      ' -1 TV each (to a minimum of 2 TV). But their Hull (H) is reduced by' +
+      ' -1 and their Structure (S) is increased by +1. I.e., a H/S of 4/2' +
+      ' will become a 3/3.',
+);
+
+FactionRule ruleDiscounts = FactionRule(
+  name: 'Discounts',
+  id: _ruleDiscountsId,
+  isEnabled: false,
+  canBeToggled: true,
+  requirementCheck: _onlyThreeUpgrades(_ruleDiscountsId),
+  factionMods: (ur, cg, u) => [LeaguelessFactionMods.discounts(u)],
+  description: 'Vehicles with an LLC may replace the LLC with a HAC for -1' +
+      ' TV each.',
+);
+
+FactionRule _ruleLocalKnowledge = FactionRule(
+  name: 'Local Knowledge',
+  id: _ruleLocalKnowledgeId,
+  isEnabled: false,
+  canBeToggled: true,
+  requirementCheck: _onlyThreeUpgrades(_ruleLocalKnowledgeId),
+  description: 'One combat group may use the recon special deployment option.',
+);
+
+FactionRule _ruleShadowWarriors = FactionRule(
+  name: 'Shadow Warriors',
+  id: _ruleShadowWarriorsId,
+  isEnabled: false,
+  canBeToggled: true,
+  requirementCheck: _onlyThreeUpgrades(_ruleShadowWarriorsId),
+  description: 'Models that start the game in area terrain gain a hidden' +
+      ' token at the start of the first round.',
+);
+
+final _ruleVetLeaders = _buildRuleFromOther(north.ruleVeteranLeaders);
+final _ruleBadlandsSoup = _buildRuleFromOther(pps.ruleBadlandsSoup);
+final _ruleThunderFromTheSky = _buildRuleFromOther(prdf.ruleThunderFromTheSky);
+final _ruleConscription = _buildRuleFromOther(milicia.ruleConscription);
+final _ruleOperators = _buildRuleFromOther(btrt.ruleOperators);
+final _ruleJannitePilots = _buildRuleFromOther(th.ruleJannitePilots);
+
+FactionRule _buildRuleFromOther(FactionRule rule) {
+  return FactionRule.from(
+    rule,
+    isEnabled: false,
+    canBeToggled: true,
+    requirementCheck: (factionRules) =>
+        _onlyThreeUpgrades(rule.id)(factionRules) &&
+        rule.requirementCheck(factionRules),
+  );
+}
+
 bool _onlyOne(List<FactionRule> rules, String excludeId) {
   int count = 0;
   rules.forEach((rule) {
