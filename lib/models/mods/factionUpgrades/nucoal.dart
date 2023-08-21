@@ -167,7 +167,10 @@ class NuCoalFactionMods extends FactionModification {
     Something to Prove: GREL infantry may increase their GU skill by one for 1
      TV each.
   */
-  factory NuCoalFactionMods.somethingToProve() {
+  factory NuCoalFactionMods.somethingToProve({
+    String name = 'Something To Prove',
+    String? ruleId,
+  }) {
     final RequirementCheck reqCheck =
         (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       assert(cg != null);
@@ -181,7 +184,8 @@ class NuCoalFactionMods extends FactionModification {
         return false;
       }
 
-      if (rs == null || !rs.isRuleEnabled(pak.ruleSomethingToProve.id)) {
+      if (rs == null ||
+          !rs.isRuleEnabled(ruleId ?? pak.ruleSomethingToProve.id)) {
         return false;
       }
 
@@ -189,7 +193,7 @@ class NuCoalFactionMods extends FactionModification {
     };
 
     final fm = NuCoalFactionMods(
-      name: 'Something To Prove',
+      name: name,
       requirementCheck: reqCheck,
       id: somethingToProveId,
     );

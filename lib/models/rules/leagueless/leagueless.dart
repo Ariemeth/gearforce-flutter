@@ -1,6 +1,7 @@
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/data/unit_filter.dart';
 import 'package:gearforce/models/combatGroups/group.dart';
+import 'package:gearforce/models/mods/factionUpgrades/nucoal.dart';
 import 'package:gearforce/models/rules/faction_rule.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/rules/north/north.dart' as north;
@@ -11,6 +12,8 @@ import 'package:gearforce/models/rules/options/special_unit_filter.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/rules/south/south.dart' as south;
 import 'package:gearforce/models/traits/trait.dart';
+import 'package:gearforce/models/unit/role.dart';
+import 'package:gearforce/models/unit/unit_core.dart';
 
 const String _baseRuleId = 'rule::leagueless::core';
 const String _ruleJudiciousId = '$_baseRuleId::10';
@@ -23,15 +26,18 @@ const String _ruleNorthernInfluenceId = '$_baseRuleId::70';
 const String _ruleSouthernInfluenceId = '$_baseRuleId::80';
 const String _ruleProtectorateSponsoredId = '$_baseRuleId::90';
 const String _ruleExpertSalvagersId = '$_baseRuleId::100';
-//const String _ruleStrippedId = '$_baseRuleId::110';
-//const String _ruleWeCameFromTheDesertId = '$_baseRuleId::120';
-//const String _rulePurplePowerId = '$_baseRuleId::130';
+const String _ruleStrippedId = '$_baseRuleId::110';
+const String _ruleWeCameFromTheDesertId = '$_baseRuleId::120';
+const String _rulePurplePowerId = '$_baseRuleId::130';
 
 final List<FactionRule> _rules = [
   rulesNorthernInfluence,
   rulesSouthernInfluence,
   rulesProtectorateSponsoredInfluence,
   ruleExpertSalvagers,
+  ruleStripped,
+  ruleWeCameFromTheDesert,
+  rulePurplePowered,
 ];
 final List<FactionRule> _onlyThreeAllowedRules = [
   buildTheSource(FactionType.None),
@@ -39,6 +45,9 @@ final List<FactionRule> _onlyThreeAllowedRules = [
   ..._southernInfluenceRules,
   ..._protectorateSponsoredRules,
   ruleExpertSalvagers,
+  ruleStripped,
+  ruleWeCameFromTheDesert,
+  rulePurplePowered,
 ];
 
 /*
@@ -605,31 +614,27 @@ final ruleExpertSalvagers = FactionRule(
   id: _ruleExpertSalvagersId,
   isEnabled: false,
   canBeToggled: true,
-  requirementCheck: (factionRules) =>
-      _onlyThreeUpgrades(_ruleExpertSalvagersId)(factionRules),
+  requirementCheck: _onlyThreeUpgrades(_ruleExpertSalvagersId),
   canBeAddedToGroup: (unit, group, cg) {
     final rs = cg.roster?.rulesetNotifer.value;
     if (rs == null) {
       return null;
     }
-    final otherCanAddRules = rs.allEnabledRules(cg.options).where((rule) =>
-        rule.canBeAddedToGroup != null && rule.id != _ruleExpertSalvagersId);
 
-    if (otherCanAddRules.isNotEmpty) {
-      final results = [];
-      otherCanAddRules.forEach((rule) {
-        final result = rule.canBeAddedToGroup!(unit, group, cg);
-        if (result != null) {
-          results.add(result);
-        }
-      });
+    // Ignore models from the rule Stripped
+    if (ruleStripped.isEnabled && matchStripped(unit.core)) {
+      return null;
+    }
 
-      if (results.isNotEmpty) {
-        if (results.any((r) => !r)) {
-          return false;
-        }
-        return true;
-      }
+    // Ignore models from the rule We Came From The Desert
+    if (ruleWeCameFromTheDesert.isEnabled &&
+        matchWeCameFromTheDesert(unit.core)) {
+      return null;
+    }
+
+    // Ignore models from the rule Purple Powered
+    if (rulePurplePowered.isEnabled && matchPurplePowered(unit.core)) {
+      return null;
     }
 
     final gt = group.groupType;
@@ -677,6 +682,91 @@ final ruleExpertSalvagers = FactionRule(
   description: 'Secondary units may have a mix of models from the North,' +
       ' South, Peace River and NuCoal.',
 );
+
+final ruleStripped = FactionRule(
+  name: 'Stripped',
+  id: _ruleStrippedId,
+  isEnabled: false,
+  canBeToggled: true,
+  requirementCheck: _onlyThreeUpgrades(_ruleStrippedId),
+  hasGroupRole: (unit, target, group) {
+    if (target == RoleType.FT) {
+      return null;
+    }
+
+    if ((unit.faction == FactionType.North ||
+            unit.faction == FactionType.South) &&
+        matchStripped(unit.core)) {
+      return true;
+    }
+    return null;
+  },
+  unitFilter: (cgOptions) {
+    return const SpecialUnitFilter(
+      text: 'Stripped',
+      id: _ruleStrippedId,
+      filters: const [
+        const UnitFilter(FactionType.North, matcher: matchStripped),
+        const UnitFilter(FactionType.South, matcher: matchStripped),
+      ],
+    );
+  },
+  description: 'Stripped-Down Hunters and Jagers may be included in this' +
+      ' force and placed in GP, SK, FS, RC or SO units.',
+);
+
+final ruleWeCameFromTheDesert = FactionRule(
+  name: 'We Came From the Desert',
+  id: _ruleWeCameFromTheDesertId,
+  isEnabled: false,
+  canBeToggled: true,
+  requirementCheck: _onlyThreeUpgrades(_ruleWeCameFromTheDesertId),
+  unitFilter: (cgOptions) {
+    return const SpecialUnitFilter(
+      text: 'We Came From the Desert',
+      id: _ruleWeCameFromTheDesertId,
+      filters: const [
+        const UnitFilter(FactionType.NuCoal, matcher: matchWeCameFromTheDesert),
+      ],
+    );
+  },
+  description: 'En Koreshi and Sandriders may be included in this force.',
+);
+
+/// Match units for the rule We Came From the Desert
+bool matchWeCameFromTheDesert(UnitCore uc) {
+  return uc.frame == 'Sandrider' || uc.frame == 'En Koreshi';
+}
+
+final rulePurplePowered = FactionRule(
+  name: 'Purple Powered',
+  id: _rulePurplePowerId,
+  isEnabled: false,
+  canBeToggled: true,
+  requirementCheck: _onlyThreeUpgrades(_rulePurplePowerId),
+  unitFilter: (cgOptions) {
+    return const SpecialUnitFilter(
+      text: 'Purple Powered',
+      id: _rulePurplePowerId,
+      filters: const [
+        const UnitFilter(FactionType.NuCoal, matcher: matchPurplePowered),
+      ],
+    );
+  },
+  factionMods: (ur, cg, u) => [
+    NuCoalFactionMods.somethingToProve(
+      name: 'Purple Powered',
+      ruleId: _rulePurplePowerId,
+    )
+  ],
+  description: 'GREL infantry and Hoverbike GREL may be included in this' +
+      ' force. GREL infantry may increase their GU skill by one for 1 TV each.',
+);
+
+/// Match units for the rule Purple Powered
+bool matchPurplePowered(UnitCore uc) {
+  return uc.frame == 'Hoverbike GREL' || uc.frame == 'GREL';
+}
 
 /* TODO remove me
 final rule = FactionRule(

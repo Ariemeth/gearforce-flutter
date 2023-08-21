@@ -108,8 +108,6 @@ Widget _factionOptions(
                           .map((o) => FactionRulesLine(
                                 upgrade: o,
                                 leftOffset: 25.0,
-                                // TODO This is just either subfaction rules or faction rules
-                                // consider passing in all rules
                                 rules: isCore
                                     ? upgrades
                                     : roster
