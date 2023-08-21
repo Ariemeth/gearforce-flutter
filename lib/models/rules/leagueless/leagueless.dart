@@ -1,5 +1,6 @@
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/data/unit_filter.dart';
+import 'package:gearforce/models/combatGroups/group.dart';
 import 'package:gearforce/models/rules/faction_rule.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/rules/north/north.dart' as north;
@@ -21,17 +22,23 @@ const String _ruleTheSourceNuCoalId = '$_baseRuleId::60';
 const String _ruleNorthernInfluenceId = '$_baseRuleId::70';
 const String _ruleSouthernInfluenceId = '$_baseRuleId::80';
 const String _ruleProtectorateSponsoredId = '$_baseRuleId::90';
+const String _ruleExpertSalvagersId = '$_baseRuleId::100';
+//const String _ruleStrippedId = '$_baseRuleId::110';
+//const String _ruleWeCameFromTheDesertId = '$_baseRuleId::120';
+//const String _rulePurplePowerId = '$_baseRuleId::130';
 
 final List<FactionRule> _rules = [
   rulesNorthernInfluence,
   rulesSouthernInfluence,
   rulesProtectorateSponsoredInfluence,
+  ruleExpertSalvagers,
 ];
 final List<FactionRule> _onlyThreeAllowedRules = [
   buildTheSource(FactionType.None),
   ..._northernInfluenceRules,
   ..._southernInfluenceRules,
   ..._protectorateSponsoredRules,
+  ruleExpertSalvagers,
 ];
 
 /*
@@ -381,11 +388,19 @@ final FactionRule rulesNorthernInfluence = FactionRule(
   id: _ruleNorthernInfluenceId,
   isEnabled: false,
   canBeToggled: true,
-  requirementCheck: (factionRules) =>
-      FactionRule.isRuleEnabled(factionRules, ruleTheSourceNorth.id) &&
-      !rulesSouthernInfluence.isEnabled &&
-      !rulesProtectorateSponsoredInfluence.isEnabled &&
-      _onlyThreeUpgrades(_ruleNorthernInfluenceId)(factionRules),
+  requirementCheck: (factionRules) {
+    final isValid =
+        FactionRule.isRuleEnabled(factionRules, ruleTheSourceNorth.id) &&
+            !rulesSouthernInfluence.isEnabled &&
+            !rulesProtectorateSponsoredInfluence.isEnabled &&
+            (_onlyThreeUpgrades(_ruleNorthernInfluenceId)(factionRules) ||
+                _northernInfluenceRules.any((rule) => rule.isEnabled));
+
+    if (!isValid) {
+      rulesNorthernInfluence.disable();
+    }
+    return isValid;
+  },
   options: _northernInfluenceRules,
   onEnabled: () {
     _northernInfluenceRules.forEach((rule) {
@@ -448,11 +463,19 @@ final FactionRule rulesSouthernInfluence = FactionRule(
   id: _ruleSouthernInfluenceId,
   isEnabled: false,
   canBeToggled: true,
-  requirementCheck: (factionRules) =>
-      FactionRule.isRuleEnabled(factionRules, ruleTheSourceSouth.id) &&
-      !rulesNorthernInfluence.isEnabled &&
-      !rulesProtectorateSponsoredInfluence.isEnabled &&
-      _onlyThreeUpgrades(_ruleSouthernInfluenceId)(factionRules),
+  requirementCheck: (factionRules) {
+    final isValid =
+        FactionRule.isRuleEnabled(factionRules, ruleTheSourceSouth.id) &&
+            !rulesNorthernInfluence.isEnabled &&
+            !rulesProtectorateSponsoredInfluence.isEnabled &&
+            (_onlyThreeUpgrades(_ruleSouthernInfluenceId)(factionRules) ||
+                _southernInfluenceRules.any((rule) => rule.isEnabled));
+
+    if (!isValid) {
+      rulesSouthernInfluence.disable();
+    }
+    return isValid;
+  },
   options: _southernInfluenceRules,
   onEnabled: () {
     _southernInfluenceRules.forEach((rule) {
@@ -492,16 +515,24 @@ final List<FactionRule> _southernInfluenceRules = [
   ),
 ];
 
-final rulesProtectorateSponsoredInfluence = FactionRule(
+final FactionRule rulesProtectorateSponsoredInfluence = FactionRule(
   name: 'Protectorate Sponsored',
   id: _ruleProtectorateSponsoredId,
   isEnabled: false,
   canBeToggled: true,
-  requirementCheck: (factionRules) =>
-      FactionRule.isRuleEnabled(factionRules, ruleTheSourcePeaceRiver.id) &&
-      !rulesNorthernInfluence.isEnabled &&
-      !rulesSouthernInfluence.isEnabled &&
-      _onlyThreeUpgrades(_ruleProtectorateSponsoredId)(factionRules),
+  requirementCheck: (factionRules) {
+    final isValid =
+        FactionRule.isRuleEnabled(factionRules, ruleTheSourcePeaceRiver.id) &&
+            !rulesNorthernInfluence.isEnabled &&
+            !rulesSouthernInfluence.isEnabled &&
+            (_onlyThreeUpgrades(_ruleProtectorateSponsoredId)(factionRules) ||
+                _protectorateSponsoredRules.any((rule) => rule.isEnabled));
+
+    if (!isValid) {
+      rulesProtectorateSponsoredInfluence.disable();
+    }
+    return isValid;
+  },
   options: _protectorateSponsoredRules,
   onEnabled: () {
     _protectorateSponsoredRules.forEach((rule) {
@@ -569,6 +600,91 @@ final List<FactionRule> _protectorateSponsoredRules = [
   ),
 ];
 
+final ruleExpertSalvagers = FactionRule(
+  name: 'Expert Salvagers',
+  id: _ruleExpertSalvagersId,
+  isEnabled: false,
+  canBeToggled: true,
+  requirementCheck: (factionRules) =>
+      _onlyThreeUpgrades(_ruleExpertSalvagersId)(factionRules),
+  canBeAddedToGroup: (unit, group, cg) {
+    final rs = cg.roster?.rulesetNotifer.value;
+    if (rs == null) {
+      return null;
+    }
+    final otherCanAddRules = rs.allEnabledRules(cg.options).where((rule) =>
+        rule.canBeAddedToGroup != null && rule.id != _ruleExpertSalvagersId);
+
+    if (otherCanAddRules.isNotEmpty) {
+      final results = [];
+      otherCanAddRules.forEach((rule) {
+        final result = rule.canBeAddedToGroup!(unit, group, cg);
+        if (result != null) {
+          results.add(result);
+        }
+      });
+
+      if (results.isNotEmpty) {
+        if (results.any((r) => !r)) {
+          return false;
+        }
+        return true;
+      }
+    }
+
+    final gt = group.groupType;
+    switch (unit.faction) {
+      case FactionType.North:
+        if (!rs.isRuleEnabled(ruleTheSourceNorth.id) &&
+            gt == GroupType.Primary) {
+          return false;
+        }
+        break;
+      case FactionType.South:
+        if (!rs.isRuleEnabled(ruleTheSourceSouth.id) &&
+            gt == GroupType.Primary) {
+          return false;
+        }
+        break;
+      case FactionType.PeaceRiver:
+        if (!rs.isRuleEnabled(ruleTheSourcePeaceRiver.id) &&
+            gt == GroupType.Primary) {
+          return false;
+        }
+        break;
+      case FactionType.NuCoal:
+        if (!rs.isRuleEnabled(ruleTheSourceNuCoal.id) &&
+            gt == GroupType.Primary) {
+          return false;
+        }
+        break;
+      default:
+    }
+    return null;
+  },
+  unitFilter: (cgOptions) {
+    return const SpecialUnitFilter(
+      text: 'Expert Salvagers',
+      id: _ruleExpertSalvagersId,
+      filters: const [
+        const UnitFilter(FactionType.North),
+        const UnitFilter(FactionType.South),
+        const UnitFilter(FactionType.PeaceRiver),
+        const UnitFilter(FactionType.NuCoal),
+      ],
+    );
+  },
+  description: 'Secondary units may have a mix of models from the North,' +
+      ' South, Peace River and NuCoal.',
+);
+
+/* TODO remove me
+final rule = FactionRule(
+  name: '',
+  id: '',
+  description: '',
+);
+*/
 bool _onlyOne(List<FactionRule> rules, String excludeId) {
   int count = 0;
   rules.forEach((rule) {
