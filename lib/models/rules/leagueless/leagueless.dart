@@ -1,18 +1,18 @@
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/data/unit_filter.dart';
 import 'package:gearforce/models/combatGroups/group.dart';
+import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/mods/factionUpgrades/leagueless.dart';
 import 'package:gearforce/models/mods/factionUpgrades/nucoal.dart';
 import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart';
 import 'package:gearforce/models/rules/black_talons/btrt.dart' as btrt;
 import 'package:gearforce/models/rules/faction_rule.dart';
-import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/rules/north/north.dart' as north;
 import 'package:gearforce/models/rules/nucoal/th.dart' as th;
-import 'package:gearforce/models/rules/peace_river/peace_river.dart'
-    as peaceRiver;
 import 'package:gearforce/models/rules/options/combat_group_options.dart';
 import 'package:gearforce/models/rules/options/special_unit_filter.dart';
+import 'package:gearforce/models/rules/peace_river/peace_river.dart'
+    as peaceRiver;
 import 'package:gearforce/models/rules/peace_river/pps.dart' as pps;
 import 'package:gearforce/models/rules/peace_river/prdf.dart' as prdf;
 import 'package:gearforce/models/rules/rule_set.dart';
