@@ -47,7 +47,6 @@ class North extends RuleSet {
           FactionType.North,
           data,
           factionRules: [
-            ruleTaskBuilt,
             ruleProspectors,
             ruleHammersOfTheNorth,
             ruleVeteranLeaders,
@@ -85,7 +84,18 @@ class North extends RuleSet {
 final ruleTaskBuilt = FactionRule(
   name: 'Task Built',
   id: _ruleTaskBuiltId,
-  factionMods: (ur, cg, u) => [NorthernFactionMods.taskBuilt(u)],
+  factionMods: (ur, cg, u) {
+    final isNorthernGear =
+        u.faction == FactionType.North && u.type == ModelType.Gear;
+    final isOtherAcceptable = u.core.name == 'Bricklayer' ||
+        u.core.name == 'Engineering Grizzly' ||
+        u.core.name == 'Camel Truck*' ||
+        u.core.name == 'Stinger';
+    if (isNorthernGear || isOtherAcceptable) {
+      return [NorthernFactionMods.taskBuilt(u)];
+    }
+    return [];
+  },
   description:
       'Each Northern gear may swap its rocket pack for a Heavy Machinegun' +
           ' (HMG) for 0 TV. Each Northern gear without a rocket pack may' +

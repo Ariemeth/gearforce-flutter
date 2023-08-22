@@ -79,6 +79,11 @@ Widget _factionOptions(
     return const Text('No Faction Rules');
   }
 
+  final rules = isCore
+      ? upgrades
+      : roster.rulesetNotifer.value
+          .allFactionRules(factions: roster.allModelFactions());
+
   final _scrollController = ScrollController();
 
   return Container(
@@ -103,19 +108,14 @@ Widget _factionOptions(
                     children: [
                       FactionRulesLine(
                         upgrade: option,
-                        rules: isCore
-                            ? upgrades
-                            : roster.rulesetNotifer.value.allFactionRules,
+                        rules: rules,
                         notifyParent: notifyParent,
                       ),
                       ...option.options!
                           .map((o) => FactionRulesLine(
                                 upgrade: o,
                                 leftOffset: 25.0,
-                                rules: isCore
-                                    ? upgrades
-                                    : roster
-                                        .rulesetNotifer.value.allFactionRules,
+                                rules: rules,
                                 notifyParent: notifyParent,
                               ))
                           .toList()
@@ -124,9 +124,7 @@ Widget _factionOptions(
                 } else {
                   return FactionRulesLine(
                     upgrade: option,
-                    rules: isCore
-                        ? upgrades
-                        : roster.rulesetNotifer.value.allFactionRules,
+                    rules: rules,
                     notifyParent: notifyParent,
                   );
                 }

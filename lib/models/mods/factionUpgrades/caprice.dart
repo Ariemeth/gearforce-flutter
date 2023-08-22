@@ -40,10 +40,7 @@ class CapriceMods extends FactionModification {
         return false;
       }
 
-      if ((u.faction == FactionType.Universal ||
-              u.faction == FactionType.Universal_TerraNova ||
-              u.faction == FactionType.Universal_Non_TerraNova) &&
-          u.type == ModelType.Infantry) {
+      if (u.faction == FactionType.Universal && u.type == ModelType.Infantry) {
         return u.isVeteran;
       }
 

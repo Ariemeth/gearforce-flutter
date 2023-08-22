@@ -11,11 +11,12 @@ import 'package:gearforce/models/rules/caprice/lrc.dart';
 import 'package:gearforce/models/rules/options/combat_group_options.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/rules/options/special_unit_filter.dart';
+import 'package:gearforce/models/unit/model_type.dart';
 
 const String _baseRuleId = 'rule::caprice::core';
 const String _ruleDuelingMountsId = '$_baseRuleId::10';
-const String _ruleCyberneticUpgradesId = '$_baseRuleId::10';
-const String _ruleAbominationsId = '$_baseRuleId::10';
+const String _ruleCyberneticUpgradesId = '$_baseRuleId::20';
+const String _ruleAbominationsId = '$_baseRuleId::30';
 
 /*
   All the models in the Caprician Model List can be used in any of the sub-lists below. There are also models in the
@@ -43,9 +44,6 @@ class Caprice extends RuleSet {
           name: name,
           description: description,
           factionRules: [
-            ruleDuelingMounts,
-            ruleAdvancedInterfaceNetworks,
-            ruleCyberneticUpgrades,
             ruleAbominations,
           ],
           subFactionRules: subFactionRules,
@@ -98,15 +96,23 @@ final FactionRule ruleDuelingMounts = FactionRule(
 
 final FactionRule ruleAdvancedInterfaceNetworks = FactionRule.from(
   cef.ruleAdvancedInterfaceNetwork,
-  factionMods: (ur, cg, u) => [
-    CEFMods.advancedInterfaceNetwork(u, FactionType.Caprice),
-  ],
+  factionMods: (ur, cg, u) {
+    if (u.faction == FactionType.Caprice && u.type == ModelType.Gear) {
+      return [CEFMods.advancedInterfaceNetwork(u, FactionType.Caprice)];
+    }
+    return [];
+  },
 );
 
 final FactionRule ruleCyberneticUpgrades = FactionRule(
   name: 'Cybernetic Upgrades',
   id: _ruleCyberneticUpgradesId,
-  factionMods: (ur, cg, u) => [CapriceMods.cyberneticUpgrades()],
+  factionMods: (ur, cg, u) {
+    if ((u.faction == FactionType.Universal && u.type == ModelType.Infantry)) {
+      return [CapriceMods.cyberneticUpgrades()];
+    }
+    return [];
+  },
   description: 'Each veteran universal infantry may add the following bonuses' +
       ' for 1 TV total; +1 Armor, +1 GU and the Climber trait.',
 );

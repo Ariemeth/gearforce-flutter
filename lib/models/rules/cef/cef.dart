@@ -11,6 +11,7 @@ import 'package:gearforce/models/rules/north/north.dart' as north;
 import 'package:gearforce/models/rules/options/combat_group_options.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/rules/options/special_unit_filter.dart';
+import 'package:gearforce/models/unit/model_type.dart';
 
 const String _baseRuleId = 'rule::cef::core';
 const String _ruleMinervaId = '$_baseRuleId::10';
@@ -44,8 +45,6 @@ class CEF extends RuleSet {
           FactionType.CEF,
           data,
           factionRules: [
-            ruleMinvera,
-            ruleAdvancedInterfaceNetwork,
             north.ruleVeteranLeaders,
             ruleAllies,
           ],
@@ -81,7 +80,12 @@ class CEF extends RuleSet {
 final FactionRule ruleMinvera = FactionRule(
   name: 'Minerva',
   id: _ruleMinervaId,
-  factionMods: (ur, cg, u) => [CEFMods.minerva()],
+  factionMods: (ur, cg, u) {
+    if (u.faction == FactionType.CEF && u.type == ModelType.Gear) {
+      return [CEFMods.minerva()];
+    }
+    return [];
+  },
   description: 'CEF frames may choose to have a Minerva class GREL as a pilot' +
       ' for 1 TV each. This will improve the PI skill of that frame by one.',
 );
@@ -89,12 +93,12 @@ final FactionRule ruleMinvera = FactionRule(
 final FactionRule ruleAdvancedInterfaceNetwork = FactionRule(
   name: 'Advanced Interface Network (AIN)',
   id: _ruleAdvancedInterfaceNetworkId,
-  factionMods: (ur, cg, u) => [
-    CEFMods.advancedInterfaceNetwork(
-      u,
-      FactionType.CEF,
-    )
-  ],
+  factionMods: (ur, cg, u) {
+    if (u.faction == FactionType.CEF && u.type == ModelType.Gear) {
+      return [CEFMods.advancedInterfaceNetwork(u, FactionType.CEF)];
+    }
+    return [];
+  },
   description: 'Each veteran CEF frame may improve their GU skill by one for' +
       ' 1 TV times the number of Actions that the model has.',
 );

@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/combatGroups/group.dart';
+import 'package:gearforce/models/rules/faction_model_rules.dart';
 import 'package:gearforce/models/rules/faction_rule.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/mods/duelist/duelist_modification.dart';
@@ -70,9 +71,14 @@ abstract class RuleSet extends ChangeNotifier {
     _subFactionRules.addAll(subFactionRules);
   }
 
-  List<FactionRule> get allFactionRules => [
+  List<FactionRule> allFactionRules({
+    Unit? unit = null,
+    List<FactionType>? factions = null,
+  }) =>
+      [
         ...factionRules,
         ...subFactionRules,
+        ...GetModelFactionRules(unit, factions),
       ];
   List<FactionRule> get factionRules => _factionRules.toList();
   List<FactionRule> get subFactionRules => _subFactionRules.toList();
@@ -84,14 +90,18 @@ abstract class RuleSet extends ChangeNotifier {
       min((primaryActions / 2).ceil(), _maxSecondaryActions);
 
   bool isRuleEnabled(String ruleName) =>
-      FactionRule.isRuleEnabled(allFactionRules, ruleName);
+      FactionRule.isRuleEnabled(allFactionRules(), ruleName);
 
   FactionRule? findFactionRule(String ruleName) =>
-      FactionRule.findRule(allFactionRules, ruleName);
+      FactionRule.findRule(allFactionRules(), ruleName);
 
-  List<FactionRule> allEnabledRules(List<CombatGroupOption>? cgOptions) {
+  List<FactionRule> allEnabledRules(
+    List<CombatGroupOption>? cgOptions, {
+    bool includeModelRules = true,
+    Unit? unit = null,
+  }) {
     final enabledAvailableRules =
-        FactionRule.enabledRules(allFactionRules).toList();
+        FactionRule.enabledRules(allFactionRules(unit: unit)).toList();
 
     if (cgOptions == null || cgOptions.isEmpty) {
       return enabledAvailableRules;
@@ -110,8 +120,9 @@ abstract class RuleSet extends ChangeNotifier {
 
   List<FactionModification> availableFactionMods(
       UnitRoster ur, CombatGroup cg, Unit u) {
+    final enabledRules = allEnabledRules(cg.options, unit: u).toList();
     final availableFactionModRules =
-        allEnabledRules(cg.options).where((rule) => rule.factionMods != null);
+        enabledRules.where((rule) => rule.factionMods != null).toList();
 
     final List<FactionModification> availableFactionMods = [];
     availableFactionModRules.forEach((rule) {
