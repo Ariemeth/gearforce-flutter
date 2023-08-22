@@ -226,7 +226,14 @@ pw.Widget _buildUnitsContentTable(pw.Font font, List<Unit> units) {
           case 1:
             return '${unit.modNamesWithCost.join(', ')}';
           case 2:
-            return '${unit.commandLevel == CommandLevel.none ? '-' : unit.commandLevel.name}';
+            if (unit.commandLevel == CommandLevel.none) {
+              return '-';
+            }
+            final isForceleader = unit.roster?.selectedForceLeader == unit;
+            if (isForceleader) {
+              return '${unit.commandLevel.name}**';
+            }
+            return '${unit.commandLevel.name}';
           case 3:
             return '${unit.commandLevel == CommandLevel.none ? unit.skillPoints : unit.commandPoints}';
           case 4:
