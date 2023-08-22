@@ -41,6 +41,14 @@ class CEFMods extends FactionModification {
       assert(cg != null);
       assert(rs != null);
 
+      if (cg == null) {
+        return false;
+      }
+      final modOverride = rs?.modCheck(u, cg, modID: minveraId);
+      if (modOverride != null) {
+        return modOverride;
+      }
+
       if (rs == null || !rs.isRuleEnabled(ruleMinvera.id)) {
         return false;
       }
@@ -76,12 +84,20 @@ class CEFMods extends FactionModification {
 
   ///  Each veteran [faction] frame may improve their GU skill by one for 1 TV times the
   ///  number of Actions that the model has.
-
   factory CEFMods.advancedInterfaceNetwork(Unit unit, FactionType faction) {
     final RequirementCheck reqCheck =
         (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       assert(cg != null);
       assert(rs != null);
+
+      if (cg == null) {
+        return false;
+      }
+      final modOverride =
+          rs?.modCheck(u, cg, modID: advancedInterfaceNetworkId);
+      if (modOverride != null) {
+        return modOverride;
+      }
 
       if (rs == null || !rs.isRuleEnabled(ruleAdvancedInterfaceNetwork.id)) {
         return false;
