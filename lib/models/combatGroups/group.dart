@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/factions/faction.dart';
+import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/traits/trait.dart';
@@ -76,10 +77,22 @@ class Group extends ChangeNotifier {
     notifyListeners();
   }
 
-  Validation? _addUnit(Unit unit) {
+  List<Validation>? _addUnit(Unit unit) {
     if (_units.contains(unit)) {
-      return Validation(
-          issue: 'Unit ${unit.name} is already in $groupType in $combatGroup');
+      return [
+        Validation(
+            issue: 'Unit ${unit.name} is already in $groupType in $combatGroup')
+      ];
+    }
+
+    // Check if the unit is part of a vet group and if so make sure all
+    // units are vets.
+    final isInVetGroup = combatGroup?.isVeteran;
+    if (isInVetGroup != null && isInVetGroup && !unit.isVeteran) {
+      final e = validateVetStatus(unit, tryFix: true);
+      if (e.isNotEmpty) {
+        return e;
+      }
     }
 
     _units.add(unit
@@ -93,7 +106,7 @@ class Group extends ChangeNotifier {
   void addUnit(Unit unit) {
     final errors = _addUnit(unit);
     if (errors != null) {
-      print(errors.issue);
+      print(errors.toString());
     } else {
       if (unit.group == null) {
         unit.group = this;
@@ -198,6 +211,33 @@ class Group extends ChangeNotifier {
 
   List<Unit> get veterans => _units.where((unit) => unit.isVeteran).toList();
 
+  List<Validation> validateVetStatus(Unit u, {bool tryFix = false}) {
+    if (u.type == ModelType.Drone ||
+        u.type == ModelType.Terrain ||
+        u.type == ModelType.AreaTerrain ||
+        u.isVeteran) {
+      return [];
+    }
+
+    final makeVet = VeteranModification.makeVet(u, combatGroup!);
+    if (makeVet.requirementCheck(this.combatGroup?.roster?.rulesetNotifer.value,
+        combatGroup?.roster, combatGroup, u)) {
+      u.addUnitMod(makeVet);
+      return [];
+    }
+
+    if (tryFix) {
+      _units.remove(u);
+    }
+
+    return [
+      Validation(
+        issue: 'Unit ${u.name} can not be a vet and the combatgroup' +
+            ' is a veteren CG',
+      )
+    ];
+  }
+
   List<Validation> validate({bool tryFix = false}) {
     final List<Validation> validationErrors = [];
 
@@ -210,7 +250,17 @@ class Group extends ChangeNotifier {
 
     if (combatGroup != null && combatGroup!.roster != null) {
       final tempList = _units.toList(growable: false);
-      tempList.reversed.forEach((u) {
+      tempList.forEach((u) {
+        // Check if the unit is part of a vet group and if so make sure all
+        // units are vets.
+        final isInVetGroup = combatGroup?.isVeteran;
+        if (isInVetGroup != null && isInVetGroup && !u.isVeteran) {
+          final e = validateVetStatus(u, tryFix: tryFix);
+          if (e.isNotEmpty) {
+            validationErrors.addAll(e);
+            return;
+          }
+        }
         if (!combatGroup!.roster!.rulesetNotifer.value
             .canBeAddedToGroup(u, this, combatGroup!)) {
           validationErrors.add(Validation(
