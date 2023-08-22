@@ -46,12 +46,7 @@ class Utopia extends RuleSet {
           data,
           name: name,
           description: description,
-          factionRules: [
-            ruleDroneMatrix,
-            ruleManualControl,
-            ruleDroneHacking,
-            ruleExpendable,
-          ],
+          factionRules: [],
           subFactionRules: subFactionRules,
         );
 

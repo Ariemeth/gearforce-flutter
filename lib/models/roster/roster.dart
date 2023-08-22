@@ -420,10 +420,21 @@ class UnitRoster extends ChangeNotifier {
     return total;
   }
 
+  List<FactionType> allModelFactions() {
+    final List<FactionType> results = [];
+    getAllUnits().forEach((unit) {
+      final f = unit.faction;
+      if (!results.any((r) => r == f)) {
+        results.add(f);
+      }
+    });
+    return results;
+  }
+
   List<Validation> validate(RuleSet ruleset) {
     final List<Validation> validationErrors = [];
 
-    final allRules = ruleset.allFactionRules;
+    final allRules = ruleset.allFactionRules(factions: allModelFactions());
     allRules.forEach((rule) {
       if (rule.isEnabled && !rule.requirementCheck(allRules)) {
         validationErrors.add(

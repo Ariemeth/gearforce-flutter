@@ -94,9 +94,7 @@ final FactionRule ruleAdvancedInterfaceNetwork = FactionRule(
   name: 'Advanced Interface Network (AIN)',
   id: _ruleAdvancedInterfaceNetworkId,
   factionMods: (ur, cg, u) {
-    if (u.faction == FactionType.CEF &&
-        u.type == ModelType.Gear &&
-        u.isVeteran) {
+    if (u.faction == FactionType.CEF && u.type == ModelType.Gear) {
       return [CEFMods.advancedInterfaceNetwork(u, FactionType.CEF)];
     }
     return [];

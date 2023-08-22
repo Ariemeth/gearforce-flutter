@@ -1,6 +1,5 @@
 import 'package:flutter/widgets.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
-import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/mods/factionUpgrades/faction_mod.dart';
 import 'package:gearforce/models/rules/options/combat_group_options.dart';
 import 'package:gearforce/models/combatGroups/group.dart';
@@ -45,7 +44,6 @@ class FactionRule extends ChangeNotifier {
     this.modifyTraits,
     this.onEnabled,
     this.onDisabled,
-    this.unitFactions,
   }) {
     _isEnabled = isEnabled;
     _options = options;
@@ -131,7 +129,6 @@ class FactionRule extends ChangeNotifier {
 
   /// Called with the [FactionRule] is disabled.
   final Function()? onDisabled;
-  final List<FactionType> Function()? unitFactions;
 
   bool get isEnabled => _isEnabled;
 
@@ -305,7 +302,6 @@ class FactionRule extends ChangeNotifier {
       modifyTraits: original.modifyTraits,
       onEnabled: onEnabled != null ? onEnabled : original.onEnabled,
       onDisabled: onDisabled != null ? onDisabled : original.onDisabled,
-      unitFactions: original.unitFactions,
       cgCheck: cgCheck != null ? cgCheck : original.cgCheck,
     );
   }

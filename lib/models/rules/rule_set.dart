@@ -71,30 +71,17 @@ abstract class RuleSet extends ChangeNotifier {
     _subFactionRules.addAll(subFactionRules);
   }
 
-  List<FactionRule> get allFactionRules => [
+  List<FactionRule> allFactionRules({
+    Unit? unit = null,
+    List<FactionType>? factions = null,
+  }) =>
+      [
         ...factionRules,
         ...subFactionRules,
-        ...modelFactionRules,
+        ...GetModelFactionRules(unit, factions),
       ];
   List<FactionRule> get factionRules => _factionRules.toList();
   List<FactionRule> get subFactionRules => _subFactionRules.toList();
-  List<FactionRule> get modelFactionRules {
-    final rules = [...factionRules, ...subFactionRules]
-        .where((rule) => rule.unitFactions != null)
-        .toList();
-    final List<FactionType> factions = [this.type];
-    rules.forEach((rule) {
-      final newFactions = rule.unitFactions!();
-      factions.addAll(newFactions.where((f) => !factions.any((f2) => f2 == f)));
-    });
-    // TODO remove debug print
-    print(factions);
-    final List<FactionRule> results = [];
-    factions.forEach((ft) {
-      results.addAll(GetModelFactionRules(ft));
-    });
-    return results;
-  }
 
   int get maxPrimaryActions => _maxPrimaryActions;
   int get minPrimaryActions => _minPrimaryActions;
@@ -103,17 +90,18 @@ abstract class RuleSet extends ChangeNotifier {
       min((primaryActions / 2).ceil(), _maxSecondaryActions);
 
   bool isRuleEnabled(String ruleName) =>
-      FactionRule.isRuleEnabled(allFactionRules, ruleName);
+      FactionRule.isRuleEnabled(allFactionRules(), ruleName);
 
   FactionRule? findFactionRule(String ruleName) =>
-      FactionRule.findRule(allFactionRules, ruleName);
+      FactionRule.findRule(allFactionRules(), ruleName);
 
   List<FactionRule> allEnabledRules(
     List<CombatGroupOption>? cgOptions, {
     bool includeModelRules = true,
+    Unit? unit = null,
   }) {
     final enabledAvailableRules =
-        FactionRule.enabledRules(allFactionRules).toList();
+        FactionRule.enabledRules(allFactionRules(unit: unit)).toList();
 
     if (cgOptions == null || cgOptions.isEmpty) {
       return enabledAvailableRules;
@@ -132,8 +120,9 @@ abstract class RuleSet extends ChangeNotifier {
 
   List<FactionModification> availableFactionMods(
       UnitRoster ur, CombatGroup cg, Unit u) {
+    final enabledRules = allEnabledRules(cg.options, unit: u).toList();
     final availableFactionModRules =
-        allEnabledRules(cg.options).where((rule) => rule.factionMods != null);
+        enabledRules.where((rule) => rule.factionMods != null).toList();
 
     final List<FactionModification> availableFactionMods = [];
     availableFactionModRules.forEach((rule) {

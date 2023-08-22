@@ -15,8 +15,8 @@ import 'package:gearforce/models/unit/model_type.dart';
 
 const String _baseRuleId = 'rule::caprice::core';
 const String _ruleDuelingMountsId = '$_baseRuleId::10';
-const String _ruleCyberneticUpgradesId = '$_baseRuleId::10';
-const String _ruleAbominationsId = '$_baseRuleId::10';
+const String _ruleCyberneticUpgradesId = '$_baseRuleId::20';
+const String _ruleAbominationsId = '$_baseRuleId::30';
 
 /*
   All the models in the Caprician Model List can be used in any of the sub-lists below. There are also models in the
@@ -97,9 +97,7 @@ final FactionRule ruleDuelingMounts = FactionRule(
 final FactionRule ruleAdvancedInterfaceNetworks = FactionRule.from(
   cef.ruleAdvancedInterfaceNetwork,
   factionMods: (ur, cg, u) {
-    if (u.faction == FactionType.CEF &&
-        u.type == ModelType.Gear &&
-        u.isVeteran) {
+    if (u.faction == FactionType.Caprice && u.type == ModelType.Gear) {
       return [CEFMods.advancedInterfaceNetwork(u, FactionType.Caprice)];
     }
     return [];
@@ -109,7 +107,12 @@ final FactionRule ruleAdvancedInterfaceNetworks = FactionRule.from(
 final FactionRule ruleCyberneticUpgrades = FactionRule(
   name: 'Cybernetic Upgrades',
   id: _ruleCyberneticUpgradesId,
-  factionMods: (ur, cg, u) => [CapriceMods.cyberneticUpgrades()],
+  factionMods: (ur, cg, u) {
+    if ((u.faction == FactionType.Universal && u.type == ModelType.Infantry)) {
+      return [CapriceMods.cyberneticUpgrades()];
+    }
+    return [];
+  },
   description: 'Each veteran universal infantry may add the following bonuses' +
       ' for 1 TV total; +1 Armor, +1 GU and the Climber trait.',
 );

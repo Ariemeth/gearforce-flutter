@@ -44,7 +44,7 @@ class Eden extends RuleSet {
           data,
           name: name,
           description: description,
-          factionRules: [ruleLancers, ruleJoustYouSay, ruleAllies],
+          factionRules: [ruleAllies],
           subFactionRules: subFactionRules,
         );
 
