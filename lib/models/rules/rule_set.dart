@@ -363,6 +363,26 @@ abstract class RuleSet extends ChangeNotifier {
     return (u.traits.any((trait) => trait.name == Trait.Duelist().name));
   }
 
+  /// Override a mods requirement check.  Check mod before using to ensure
+  /// the mod supports this check.
+  bool? modCheck(Unit u, CombatGroup cg, {required String modID}) {
+    final modCheckOverrides = allEnabledRules(cg.options)
+        .where((rule) => rule.modCheckOverride != null);
+
+    final overrideValues = modCheckOverrides
+        .map((r) => r.modCheckOverride!(u, cg, modID: modID))
+        .where((result) => result != null);
+
+    if (overrideValues.isNotEmpty) {
+      if (overrideValues.any((status) => status == false)) {
+        return false;
+      }
+      return true;
+    }
+
+    return null;
+  }
+
   // Ensure the target Roletype is within the Roles
   bool hasGroupRole(Unit unit, RoleType target, Group group) {
     final hasGroupRoleOverrides = allEnabledRules(group.combatGroup?.options)

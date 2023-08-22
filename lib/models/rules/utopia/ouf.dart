@@ -2,6 +2,7 @@ import 'package:gearforce/data/unit_filter.dart';
 import 'package:gearforce/models/combatGroups/group.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/mods/duelist/duelist_modification.dart';
+import 'package:gearforce/models/mods/factionUpgrades/cef.dart' as cefMods;
 import 'package:gearforce/models/mods/factionUpgrades/utopia.dart';
 import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart';
 import 'package:gearforce/models/rules/faction_rule.dart';
@@ -206,6 +207,13 @@ final FactionRule ruleNAIExperiements = FactionRule(
         const UnitFilter(FactionType.CEF, matcher: matchOnlyGears)
       ]),
   factionMods: (ur, cg, u) => [UtopiaMods.naiExperiments()],
+  modCheckOverride: (u, cg, {required modID}) {
+    if (modID == cefMods.minveraId ||
+        modID == cefMods.advancedInterfaceNetworkId) {
+      return false;
+    }
+    return null;
+  },
   description: 'This force may include CEF frames regardless of any allies' +
       ' chosen. CEF frames may add the Conscript trait for -1 TV. The CEF’s' +
       ' Minerva and Advanced Interface Network upgrades cannot be selected.' +
