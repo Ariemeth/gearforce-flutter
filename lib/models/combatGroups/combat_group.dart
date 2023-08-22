@@ -88,7 +88,7 @@ class CombatGroup extends ChangeNotifier {
 
   bool get isEliteForce => roster != null && roster!.isEliteForce;
   set isEliteForce(bool newValue) {
-    if (!newValue && !_isVeteran) {
+    if (newValue != _isVeteran || !newValue) {
       notifyListeners();
     }
   }
