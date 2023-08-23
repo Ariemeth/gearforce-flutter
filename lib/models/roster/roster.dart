@@ -11,7 +11,7 @@ import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/validation/validations.dart';
 
 const _currentRosterVersion = 2;
-const _currentRulesVersion = '3.1';
+const _currentRulesVersion = '3.1 - May 2022';
 
 class UnitRoster extends ChangeNotifier {
   String? player;
@@ -222,7 +222,7 @@ class UnitRoster extends ChangeNotifier {
 
     try {
       final leaderJson = json['forceLeader'];
-      if (leaderJson != null) {
+      if (leaderJson != null && leaderJson['unit'] != null) {
         final leader = ur.availableForceLeaders().firstWhere((unit) {
           final unitName = leaderJson['unit'] as String;
           final groupName = leaderJson['group'] as String;

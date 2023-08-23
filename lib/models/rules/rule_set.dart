@@ -485,9 +485,15 @@ abstract class RuleSet extends ChangeNotifier {
       return true;
     }
 
-    return unit.type == ModelType.AirstrikeCounter
-        ? count < _maxNumberAirstrikes
-        : count < _maxNumberModels;
+    if (unit.type == ModelType.AirstrikeCounter) {
+      return count < _maxNumberAirstrikes;
+    }
+
+    if (group.groupType == GroupType.Primary) {
+      return count < _maxNumberModels;
+    }
+
+    return count < 1;
   }
 
   int modCostOverride(int baseCost, String modID, Unit u) {

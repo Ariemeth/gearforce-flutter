@@ -36,7 +36,7 @@ pw.Widget buildRosterHeader(pw.Font font, UnitRoster roster) {
                 children: [
                   pw.Container(
                     child: pw.Text(
-                      '${roster.player != null ? roster.player : ''}',
+                      '${roster.player ?? ' '}',
                       style: standardTextStyle,
                       maxLines: 1,
                       overflow: pw.TextOverflow.clip,
@@ -61,7 +61,7 @@ pw.Widget buildRosterHeader(pw.Font font, UnitRoster roster) {
                 children: [
                   pw.Container(
                     child: pw.Text(
-                      '${roster.name != null ? roster.name : ''}',
+                      '${roster.name ?? ' '}',
                       style: standardTextStyle,
                       maxLines: 1,
                       overflow: pw.TextOverflow.clip,
@@ -87,9 +87,8 @@ pw.Widget buildRosterHeader(pw.Font font, UnitRoster roster) {
         child: pw.Column(
           children: [
             pw.Container(
-              //   alignment: pw.Alignment.topRight,
               child: pw.Text(
-                '${roster.factionNotifier.value.name} / ${roster.rulesetNotifer.value}',
+                '${roster.factionNotifier.value.name} ${roster.rulesetNotifer.value.name != '' ? '/' : ''} ${roster.rulesetNotifer.value.name}',
                 style: standardTextStyle,
                 maxLines: 2,
                 overflow: pw.TextOverflow.clip,
