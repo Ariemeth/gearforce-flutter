@@ -418,6 +418,8 @@ class Unit extends ChangeNotifier {
     }
 
     if (commandLevel != CommandLevel.none) {
+      // all commanders get 1 base cp
+      cp = cp + 1;
       cp = cp + _calculateSkillPoints();
     }
 

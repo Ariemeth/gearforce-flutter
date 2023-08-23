@@ -35,11 +35,12 @@ Future<Uint8List> buildPdf(PdfPageFormat format, UnitRoster roster,
   // Create the Pdf document
   final pw.Document doc = pw.Document();
   final font = await PdfGoogleFonts.nunitoRegular();
+  final pageTheme = await _myPageTheme(format);
 
   // Add record sheet summary
   doc.addPage(
     pw.MultiPage(
-        pageFormat: format,
+        pageTheme: pageTheme,
         build: (pw.Context context) {
           return buildRecordSheet(font, roster);
         },
@@ -53,9 +54,7 @@ Future<Uint8List> buildPdf(PdfPageFormat format, UnitRoster roster,
 
   // Add unit cards, they should be aligned in a 3 x 3 layout on each page
   doc.addPage(pw.MultiPage(
-    // center left/right
-    crossAxisAlignment: pw.CrossAxisAlignment.center,
-    pageFormat: format,
+    pageTheme: pageTheme,
     build: (pw.Context context) {
       return cardRows;
     },
@@ -144,11 +143,7 @@ List<pw.Widget> _buildCardRows(List<pw.Widget> unitCards) {
 
 Future<void> downloadPDF(UnitRoster roster, {required String version}) async {
   final pdf = await buildPdf(
-    PdfPageFormat.letter.copyWith(
-        marginLeft: _leftRightPageMargins,
-        marginRight: _leftRightPageMargins,
-        marginTop: _topPageMargins,
-        marginBottom: _bottomPageMargins),
+    PdfPageFormat.letter,
     roster,
     version: version,
   );
@@ -167,4 +162,22 @@ Future<void> downloadPDF(UnitRoster roster, {required String version}) async {
   );
 
   await textFile.saveTo(saveLocation.path);
+}
+
+Future<pw.PageTheme> _myPageTheme(PdfPageFormat format) async {
+  final updatedFormat = format.copyWith(
+    marginLeft: _leftRightPageMargins,
+    marginRight: _leftRightPageMargins,
+    marginTop: _topPageMargins,
+    marginBottom: _bottomPageMargins,
+  );
+
+  return pw.PageTheme(
+    pageFormat: updatedFormat,
+    theme: pw.ThemeData.withFont(
+      base: await PdfGoogleFonts.openSansRegular(),
+      bold: await PdfGoogleFonts.openSansBold(),
+      icons: await PdfGoogleFonts.materialIcons(),
+    ),
+  );
 }

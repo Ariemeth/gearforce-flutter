@@ -402,6 +402,24 @@ String _cheapHS(int? num) {
   return r;
 }
 
+// pw.Row _hullStructure(int? num) {
+//   if (num == null || num == 0) {
+//     return pw.Row();
+//   }
+//   final List<pw.Widget> icons = [];
+//   const boxIconData = const pw.IconData(57688);
+//   const blah = Icon(Icons.check_box_outline_blank);
+
+//   for (var i = 0; i < num; i++) {
+//     final boxIcon = pw.Icon(boxIconData, size: 16);
+//     icons.add(boxIcon);
+//   }
+
+//   final result = pw.Row(children: []);
+
+//   return result;
+// }
+
 pw.Widget _buildTraitsSection(pw.Font font, List<Trait> traits) {
   return pw.Container(
     child: pw.Text(traits.join(', '),
