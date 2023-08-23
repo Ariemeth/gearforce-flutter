@@ -11,8 +11,12 @@ import 'package:printing/printing.dart';
 const String _defaultRosterFileName = 'hg-roster';
 const String _webURL = 'https://gf.metadiversions.com';
 
-const double _pageMargins = 36.0;
-const double _unitCardMargins = 5.0;
+const double _leftRightPageMargins = PdfPageFormat.inch / 8.0;
+const double _topPageMargins = PdfPageFormat.inch / 6.0;
+const double _bottomPageMargins = PdfPageFormat.inch / 6.0;
+const double _unitCardMargins = 5.0 / 2.0;
+const pw.EdgeInsets _footerMargin =
+    const pw.EdgeInsets.only(top: PdfPageFormat.inch / 18.0);
 
 Future<bool> printPDF(UnitRoster roster, {required String version}) async {
   // This is where we print the document
@@ -41,21 +45,23 @@ Future<Uint8List> buildPdf(PdfPageFormat format, UnitRoster roster,
           return buildRecordSheet(font, roster);
         },
         footer: (pw.Context context) {
-          return _buildFooter(context, version);
+          return _buildFooter(context, version, roster.rulesVersion);
         }),
   );
 
   final unitCards = buildUnitCards(font, roster, version: version);
-  List<pw.Widget> cardRows = _buildCardRow(unitCards);
+  List<pw.Widget> cardRows = _buildCardRows(unitCards);
 
-  // Add unit cards, they should be aligned in a 2 x 2 layout on each page
+  // Add unit cards, they should be aligned in a 3 x 3 layout on each page
   doc.addPage(pw.MultiPage(
+    // center left/right
+    crossAxisAlignment: pw.CrossAxisAlignment.center,
     pageFormat: format,
     build: (pw.Context context) {
       return cardRows;
     },
     footer: (pw.Context context) {
-      return _buildFooter(context, version);
+      return _buildFooter(context, version, roster.rulesVersion);
     },
   ));
 
@@ -63,7 +69,8 @@ Future<Uint8List> buildPdf(PdfPageFormat format, UnitRoster roster,
   return doc.save();
 }
 
-pw.Widget _buildFooter(pw.Context context, String version) {
+pw.Widget _buildFooter(
+    pw.Context context, String version, String rulesVersion) {
   final footerStyle = pw.Theme.of(context)
       .defaultTextStyle
       .copyWith(color: PdfColors.grey, fontSize: 10);
@@ -73,15 +80,18 @@ pw.Widget _buildFooter(pw.Context context, String version) {
     children: [
       pw.Container(
         alignment: pw.Alignment.centerLeft,
-        margin: const pw.EdgeInsets.only(top: 1.0 * PdfPageFormat.cm),
-        child: pw.Text(
-          'Created using Gearforce version: $version\n$_webURL',
-          style: footerStyle,
-        ),
+        margin: _footerMargin,
+        child: pw.Text('Rules: $rulesVersion', style: footerStyle),
+      ),
+      pw.Container(
+        alignment: pw.Alignment.center,
+        margin: _footerMargin,
+        child: pw.Text('Created using Gearforce v$version  $_webURL',
+            style: footerStyle),
       ),
       pw.Container(
         alignment: pw.Alignment.centerRight,
-        margin: const pw.EdgeInsets.only(top: 1.0 * PdfPageFormat.cm),
+        margin: _footerMargin,
         child: pw.Text(
           'Page ${context.pageNumber} of ${context.pagesCount}',
           style: footerStyle,
@@ -91,7 +101,7 @@ pw.Widget _buildFooter(pw.Context context, String version) {
   );
 }
 
-List<pw.Widget> _buildCardRow(List<pw.Widget> unitCards) {
+List<pw.Widget> _buildCardRows(List<pw.Widget> unitCards) {
   final List<pw.Widget> cardRows = [];
 
   for (var i = 0; i < unitCards.length; i++) {
@@ -99,8 +109,19 @@ List<pw.Widget> _buildCardRow(List<pw.Widget> unitCards) {
       padding: pw.EdgeInsets.all(_unitCardMargins),
       child: unitCards[i],
     );
+
+    pw.Widget? middleCard;
+    var nextCardIndex = i + 1;
+    if (nextCardIndex < unitCards.length) {
+      middleCard = pw.Padding(
+        padding: pw.EdgeInsets.all(_unitCardMargins),
+        child: unitCards[nextCardIndex],
+      );
+      i++;
+    }
+
     pw.Widget? rightCard;
-    final nextCardIndex = i + 1;
+    nextCardIndex = nextCardIndex + 1;
     if (nextCardIndex < unitCards.length) {
       rightCard = pw.Padding(
         padding: pw.EdgeInsets.all(_unitCardMargins),
@@ -110,8 +131,10 @@ List<pw.Widget> _buildCardRow(List<pw.Widget> unitCards) {
     }
     cardRows.add(
       pw.Row(
+        mainAxisAlignment: pw.MainAxisAlignment.center,
         children: [
           leftCard,
+          middleCard ?? pw.Container(),
           rightCard ?? pw.Container(),
         ],
       ),
@@ -123,10 +146,10 @@ List<pw.Widget> _buildCardRow(List<pw.Widget> unitCards) {
 Future<void> downloadPDF(UnitRoster roster, {required String version}) async {
   final pdf = await buildPdf(
     PdfPageFormat.letter.copyWith(
-        marginLeft: _pageMargins,
-        marginRight: _pageMargins,
-        marginTop: _pageMargins,
-        marginBottom: _pageMargins),
+        marginLeft: _leftRightPageMargins,
+        marginRight: _leftRightPageMargins,
+        marginTop: _topPageMargins,
+        marginBottom: _bottomPageMargins),
     roster,
     version: version,
   );
