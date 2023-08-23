@@ -125,15 +125,6 @@ pw.Widget _buildFirstSection(pw.Font font, Unit u) {
           textAlign: pw.TextAlign.center,
         ),
       ),
-      pw.Text(
-        u.commandLevel != CommandLevel.none ? u.commandLevel.name : '',
-        style: pw.TextStyle(
-          fontSize: _nameFontSize,
-          font: font,
-          fontWeight: pw.FontWeight.bold,
-        ),
-        textAlign: pw.TextAlign.right,
-      ),
     ]),
     decoration: pw.BoxDecoration(
       border: pw.Border(
