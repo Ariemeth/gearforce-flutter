@@ -12,11 +12,10 @@ const String _defaultRosterFileName = 'hg-roster';
 const String _webURL = 'https://gf.metadiversions.com';
 
 const double _leftRightPageMargins = PdfPageFormat.inch / 8.0;
-const double _topPageMargins = PdfPageFormat.inch / 6.0;
-const double _bottomPageMargins = PdfPageFormat.inch / 6.0;
+const double _topPageMargins = PdfPageFormat.inch / 32;
+const double _bottomPageMargins = PdfPageFormat.inch / 28;
 const double _unitCardMargins = 5.0 / 2.0;
-const pw.EdgeInsets _footerMargin =
-    const pw.EdgeInsets.only(top: PdfPageFormat.inch / 18.0);
+const pw.EdgeInsets _footerMargin = const pw.EdgeInsets.only(top: 0);
 
 Future<bool> printPDF(UnitRoster roster, {required String version}) async {
   // This is where we print the document
