@@ -291,7 +291,9 @@ pw.Widget _buildSecondaryStatBlock(pw.Font font, Unit u) {
     pw.Padding(
       padding: pw.EdgeInsets.only(left: 2.0),
       child: pw.Text(
-        u.commandLevel == CommandLevel.none ? ' - ' : u.commandLevel.name,
+        u.commandLevel == CommandLevel.none
+            ? ' - '
+            : '${u.commandLevel.name}${u.roster?.selectedForceLeader == u ? '**' : ''}',
         style: textStyle,
         textAlign: pw.TextAlign.left,
       ),

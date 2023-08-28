@@ -75,7 +75,8 @@ class _UnitSelectionState extends State<UnitSelection> {
         Padding(
           padding: const EdgeInsets.all(2.0),
           child: Text(
-              'Drag desired units below into CG Primary and Secondary areas on the left.'),
+            'Drag desired units below into CG Primary and Secondary areas on the left.',
+          ),
         ),
         Expanded(
           child: Scrollbar(
