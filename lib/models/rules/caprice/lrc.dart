@@ -101,7 +101,7 @@ final FactionRule _ruleAllyBlackTalon = FactionRule(
   },
   unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Allies: Black Talon',
-      filters: [UnitFilter(FactionType.BlackTalon)],
+      filters: [const UnitFilter(FactionType.BlackTalon)],
       id: _ruleAlliesBlackTalonId),
   description: 'You may select models from the Black Talon to place into your' +
       ' secondary units.',
@@ -129,7 +129,7 @@ final FactionRule _ruleAllyUtopia = FactionRule(
   },
   unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Allies: Utopia',
-      filters: [UnitFilter(FactionType.Utopia)],
+      filters: [const UnitFilter(FactionType.Utopia)],
       id: _ruleAlliesUtopiaId),
   description: 'You may select models from the Utopia to place into your' +
       ' secondary units.',
@@ -157,14 +157,14 @@ final FactionRule _ruleAllyEden = FactionRule(
   },
   unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Allies: Eden',
-      filters: [UnitFilter(FactionType.Eden)],
+      filters: [const UnitFilter(FactionType.Eden)],
       id: _ruleAlliesEdenId),
   description: 'You may select models from the Eden to place into your' +
       ' secondary units.',
 );
 
 final FactionRule ruleAmbush = FactionRule(
-  name: 'Ambushh',
+  name: 'Ambush',
   id: _ruleAmbushId,
   description: 'One combat group may use the special operations deployment' +
       ' regardless of their primary unit’s role.',

@@ -89,6 +89,7 @@ class _UnitSelectionState extends State<UnitSelection> {
               primary: false,
               child: Scrollbar(
                 thumbVisibility: true,
+                trackVisibility: true,
                 interactive: true,
                 controller: hScrollController,
                 child: SingleChildScrollView(

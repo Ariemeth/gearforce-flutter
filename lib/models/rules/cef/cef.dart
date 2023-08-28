@@ -2,6 +2,7 @@ import 'package:gearforce/data/data.dart';
 import 'package:gearforce/data/unit_filter.dart';
 import 'package:gearforce/models/combatGroups/group.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
+import 'package:gearforce/models/mods/factionUpgrades/caprice.dart' as caprice;
 import 'package:gearforce/models/rules/faction_rule.dart';
 import 'package:gearforce/models/mods/factionUpgrades/cef.dart';
 import 'package:gearforce/models/rules/cef/cefff.dart';
@@ -129,9 +130,23 @@ final FactionRule ruleAlliesCaprice = FactionRule(
     }
     return null;
   },
+  modCheckOverride: (u, cg, {required modID}) {
+    if (modID == caprice.cyberneticUpgradesId &&
+        u.group?.groupType == GroupType.Primary) {
+      return false;
+    }
+    return null;
+  },
   unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Allies: Caprice',
-      filters: [UnitFilter(FactionType.Caprice)],
+      filters: [
+        const UnitFilter(FactionType.Caprice),
+        const UnitFilter(
+          FactionType.Universal,
+          matcher: matchInfantry,
+          factionOverride: FactionType.Caprice,
+        )
+      ],
       id: _ruleAlliesCapriceId),
   description: 'You may select models from Caprice for secondary units.',
 );
@@ -156,7 +171,7 @@ final FactionRule ruleAlliesUtopia = FactionRule(
   },
   unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Allies: Utopia',
-      filters: [UnitFilter(FactionType.Utopia)],
+      filters: [const UnitFilter(FactionType.Utopia)],
       id: _ruleAlliesUtopiaId),
   description: 'You may select models from Utopia for secondary units.',
 );
@@ -181,7 +196,7 @@ final FactionRule ruleAlliesEden = FactionRule(
   },
   unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Allies: Eden',
-      filters: [UnitFilter(FactionType.Eden)],
+      filters: [const UnitFilter(FactionType.Eden)],
       id: _ruleAlliesEdenId),
   description: 'You may select models from Eden for secondary units.',
 );

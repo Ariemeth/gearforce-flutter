@@ -5,8 +5,13 @@ import 'package:gearforce/models/unit/unit_core.dart';
 
 class UnitFilter {
   final FactionType faction;
+  final FactionType? factionOverride;
   final bool Function(UnitCore uc) matcher;
-  const UnitFilter(this.faction, {this.matcher = matchAll});
+  const UnitFilter(
+    this.faction, {
+    this.matcher = matchAll,
+    this.factionOverride = null,
+  });
   bool isMatch(UnitCore uc) => uc.faction == faction && matcher(uc);
 }
 
@@ -57,4 +62,9 @@ bool matchOnlyFlails(UnitCore uc) {
 /// Match Stripped-Down units
 bool matchStripped(UnitCore uc) {
   return uc.frame.startsWith('Stripped-Down');
+}
+
+/// Match Infantry units
+bool matchInfantry(UnitCore uc) {
+  return uc.type == ModelType.Infantry;
 }

@@ -2,6 +2,7 @@ import 'package:gearforce/data/data.dart';
 import 'package:gearforce/data/unit_filter.dart';
 import 'package:gearforce/models/combatGroups/group.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
+import 'package:gearforce/models/mods/factionUpgrades/caprice.dart' as caprice;
 import 'package:gearforce/models/mods/factionUpgrades/eden.dart';
 import 'package:gearforce/models/rules/faction_rule.dart';
 import 'package:gearforce/models/rules/eden/aef.dart';
@@ -132,7 +133,7 @@ final FactionRule _ruleAllyCEF = FactionRule(
   },
   unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Allies: CEF',
-      filters: [UnitFilter(FactionType.CEF)],
+      filters: [const UnitFilter(FactionType.CEF)],
       id: _ruleAlliesCEFId),
   description:
       'You may select models from CEF to place into your secondary units.',
@@ -161,7 +162,7 @@ final FactionRule _ruleAllyBlackTalon = FactionRule(
   },
   unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Allies: Black Talon',
-      filters: [UnitFilter(FactionType.BlackTalon)],
+      filters: [const UnitFilter(FactionType.BlackTalon)],
       id: _ruleAlliesBlackTalonId),
   description: 'You may select models from Black Talon to place into' +
       ' your secondary units.',
@@ -190,14 +191,14 @@ final FactionRule _ruleAllyUtopia = FactionRule(
   },
   unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Allies: Utopia',
-      filters: [UnitFilter(FactionType.Utopia)],
+      filters: [const UnitFilter(FactionType.Utopia)],
       id: _ruleAlliesUtopiaId),
   description: 'You may select models from Utopia to place into your' +
       ' secondary units.',
 );
 
 final FactionRule _ruleAllyCaprice = FactionRule(
-  name: 'Eden',
+  name: 'Caprice',
   id: _ruleAlliesCapriceId,
   isEnabled: false,
   canBeToggled: true,
@@ -211,15 +212,29 @@ final FactionRule _ruleAllyCaprice = FactionRule(
       return null;
     }
 
-    if (unit.faction == FactionType.Eden) {
+    if (unit.faction == FactionType.Caprice) {
       return false;
     }
 
     return null;
   },
+  modCheckOverride: (u, cg, {required modID}) {
+    if (modID == caprice.cyberneticUpgradesId &&
+        u.group?.groupType == GroupType.Primary) {
+      return false;
+    }
+    return null;
+  },
   unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Allies: Caprice',
-      filters: [UnitFilter(FactionType.Caprice)],
+      filters: [
+        const UnitFilter(FactionType.Caprice),
+        const UnitFilter(
+          FactionType.Universal,
+          matcher: matchInfantry,
+          factionOverride: FactionType.Caprice,
+        )
+      ],
       id: _ruleAlliesCapriceId),
   description: 'You may select models from Caprice to place into your' +
       ' secondary units.',

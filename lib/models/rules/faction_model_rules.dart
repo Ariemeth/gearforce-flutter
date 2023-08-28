@@ -40,7 +40,11 @@ List<FactionRule> GetModelFactionRulesByFaction(FactionType? faction) {
     case FactionType.CEF:
       return [cef.ruleMinvera, cef.ruleAdvancedInterfaceNetwork];
     case FactionType.Caprice:
-      return [caprice.ruleDuelingMounts, caprice.ruleAdvancedInterfaceNetworks];
+      return [
+        caprice.ruleDuelingMounts,
+        caprice.ruleAdvancedInterfaceNetworks,
+        caprice.ruleCyberneticUpgrades,
+      ];
     case FactionType.Utopia:
       return [
         utopia.ruleDroneMatrix,
