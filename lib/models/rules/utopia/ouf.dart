@@ -2,6 +2,8 @@ import 'package:gearforce/data/unit_filter.dart';
 import 'package:gearforce/models/combatGroups/group.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/mods/duelist/duelist_modification.dart';
+import 'package:gearforce/models/mods/factionUpgrades/caprice.dart'
+    as capriceMods;
 import 'package:gearforce/models/mods/factionUpgrades/cef.dart' as cefMods;
 import 'package:gearforce/models/mods/factionUpgrades/utopia.dart';
 import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart';
@@ -104,7 +106,7 @@ final FactionRule _ruleAllyCEF = FactionRule(
   },
   unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Allies: CEF',
-      filters: [UnitFilter(FactionType.CEF)],
+      filters: [const UnitFilter(FactionType.CEF)],
       id: _ruleAlliesCEFId),
   description: 'You may select models from the CEF to place into your' +
       ' secondary units.',
@@ -133,7 +135,7 @@ final FactionRule _ruleAllyBlackTalon = FactionRule(
   },
   unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Allies: Black Talon',
-      filters: [UnitFilter(FactionType.BlackTalon)],
+      filters: [const UnitFilter(FactionType.BlackTalon)],
       id: _ruleAlliesBlackTalonId),
   description: 'You may select models from the Black Talon to place into your' +
       ' secondary units.',
@@ -160,9 +162,23 @@ final FactionRule _ruleAllyCaprice = FactionRule(
 
     return null;
   },
+  modCheckOverride: (u, cg, {required modID}) {
+    if (modID == capriceMods.cyberneticUpgradesId &&
+        u.group?.groupType == GroupType.Primary) {
+      return false;
+    }
+    return null;
+  },
   unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Allies: Caprice',
-      filters: [UnitFilter(FactionType.Caprice)],
+      filters: [
+        const UnitFilter(FactionType.Caprice),
+        const UnitFilter(
+          FactionType.Universal,
+          matcher: matchInfantry,
+          factionOverride: FactionType.Caprice,
+        )
+      ],
       id: _ruleAlliesCapriceId),
   description: 'You may select models from the Caprice to place into your' +
       ' secondary units.',
@@ -191,7 +207,7 @@ final FactionRule _ruleAllyEden = FactionRule(
   },
   unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Allies: Eden',
-      filters: [UnitFilter(FactionType.Eden)],
+      filters: [const UnitFilter(FactionType.Eden)],
       id: _ruleAlliesEdenId),
   description: 'You may select models from the Eden to place into your' +
       ' secondary units.',

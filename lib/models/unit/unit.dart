@@ -38,6 +38,8 @@ class Unit extends ChangeNotifier {
 
   CommandLevel _commandLevel = CommandLevel.none;
 
+  FactionType? factionOverride = null;
+
   List<String> _special = [];
   Unit({
     required this.core,
@@ -49,6 +51,7 @@ class Unit extends ChangeNotifier {
     original._mods.forEach((m) => newUnit.addUnitMod(m));
     newUnit._special = original.special;
     original._tags.forEach((t) => newUnit.addTag(t));
+    newUnit.factionOverride = original.factionOverride;
 
     return newUnit;
   }
@@ -68,6 +71,15 @@ class Unit extends ChangeNotifier {
     Unit u = Unit.from(core.firstWhere((unit) => unit.core.name == variant));
 
     u._commandLevel = CommandLevel.fromString(json['command']);
+
+    final factionOver = json['factionOverride'];
+    if (factionOver != null) {
+      try {
+        u.factionOverride = FactionType.fromName(factionOver);
+      } catch (e) {
+        print('Unable to parse faction override [$factionOver], $e');
+      }
+    }
 
     Map<BaseModification, Map<String, dynamic>> modsWithOptions = {};
 
@@ -408,7 +420,11 @@ class Unit extends ChangeNotifier {
     return value;
   }
 
-  FactionType get faction => core.faction;
+  FactionType get faction {
+    var value = this.core.faction;
+
+    return factionOverride ?? value;
+  }
 
   int get commandPoints {
     var cp = 0;
@@ -647,7 +663,8 @@ class Unit extends ChangeNotifier {
       'variant': core.name,
       'mods': mods,
       'command': _commandLevel.name,
-      'tags': this._tags
+      'tags': this._tags,
+      'factionOverride': factionOverride?.toString()
     };
   }
 

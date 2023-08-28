@@ -43,8 +43,9 @@ class CapriceMods extends FactionModification {
       if (ur == null) {
         return false;
       }
-      if (ur.factionNotifier.value == FactionType.Caprice &&
-          u.faction == FactionType.Universal &&
+      if ((u.faction == FactionType.Universal ||
+              u.faction == FactionType.Caprice) &&
+          u.core.faction == FactionType.Universal &&
           u.type == ModelType.Infantry) {
         return u.isVeteran;
       }

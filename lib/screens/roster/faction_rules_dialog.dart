@@ -8,6 +8,7 @@ import 'package:gearforce/screens/roster/faction_rules_line.dart';
 const double _optionSectionWidth = 400;
 const double _optionSectionHeight = 33;
 const int _maxItemsToDisplay = 10;
+const int _minItemsToDisplay = 4;
 
 class FactionRulesDialog extends StatefulWidget {
   const FactionRulesDialog({
@@ -89,7 +90,8 @@ Widget _factionOptions(
   return Container(
     width: _optionSectionWidth,
     height: _optionSectionHeight +
-        _optionSectionHeight * min(upgrades.length, _maxItemsToDisplay),
+        _optionSectionHeight *
+            min(max(upgrades.length, _minItemsToDisplay), _maxItemsToDisplay),
     child: Column(
       children: [
         Expanded(

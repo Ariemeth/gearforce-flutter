@@ -46,9 +46,14 @@ final ruleAllies = FactionRule(
   unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Allies',
       filters: [
-        UnitFilter(FactionType.Caprice),
-        UnitFilter(FactionType.Utopia),
-        UnitFilter(FactionType.Eden),
+        const UnitFilter(FactionType.Caprice),
+        const UnitFilter(FactionType.Utopia),
+        const UnitFilter(FactionType.Eden),
+        const UnitFilter(
+          FactionType.Universal,
+          matcher: matchInfantry,
+          factionOverride: FactionType.Caprice,
+        )
       ],
       id: _ruleAlliesId),
   availableCommandLevelOverride: (u) {

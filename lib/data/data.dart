@@ -5,6 +5,7 @@ import 'package:gearforce/models/factions/faction.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/unit/frame.dart';
 import 'package:gearforce/models/unit/role.dart';
+import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
 
 const Map<FactionType, String> _factionUnitFiles = {
@@ -82,7 +83,7 @@ class Data {
     return results;
   }
 
-  List<UnitCore> getUnitsByFilter({
+  List<Unit> getUnitsByFilter({
     required List<UnitFilter> filters,
     List<RoleType>? roleFilter,
     List<String>? characterFilters,
@@ -91,12 +92,16 @@ class Data {
       return [];
     }
 
-    List<UnitCore> results = [];
+    List<Unit> results = [];
 
     filters.forEach((filter) {
       final frames = _factionFrames[filter.faction];
       frames?.forEach((frame) {
-        results.addAll(frame.variants.where((uc) => filter.matcher(uc)));
+        final units = frame.variants
+            .where((uc) => filter.matcher(uc))
+            .map((u) => Unit(core: u)..factionOverride = filter.factionOverride)
+            .toList();
+        results.addAll(units);
       });
     });
 
@@ -111,7 +116,8 @@ class Data {
     }
 
     if (characterFilters != null) {
-      results = results.where((uc) => uc.contains(characterFilters)).toList();
+      results =
+          results.where((uc) => uc.core.contains(characterFilters)).toList();
     }
 
     return results;

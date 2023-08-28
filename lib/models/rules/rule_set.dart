@@ -162,8 +162,8 @@ abstract class RuleSet extends ChangeNotifier {
             filters: specialUnitFilter.filters,
             roleFilter: role,
             characterFilters: characterFilters)
-        .forEach((uc) {
-      results.add(Unit(core: uc));
+        .forEach((u) {
+      results.add(u);
     });
 
     return results;

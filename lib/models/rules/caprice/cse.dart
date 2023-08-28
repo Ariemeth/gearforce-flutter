@@ -91,7 +91,7 @@ final FactionRule _ruleAllyCEF = FactionRule(
   },
   unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Allies: CEF',
-      filters: [UnitFilter(FactionType.CEF)],
+      filters: [const UnitFilter(FactionType.CEF)],
       id: _ruleAlliesCEFId),
   description: 'You may select models from the CEF to place into your' +
       ' secondary units.',
@@ -119,7 +119,7 @@ final FactionRule _ruleAllyUtopia = FactionRule(
   },
   unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Allies: Utopia',
-      filters: [UnitFilter(FactionType.Utopia)],
+      filters: [const UnitFilter(FactionType.Utopia)],
       id: _ruleAlliesUtopiaId),
   description: 'You may select models from the Utopia to place into your' +
       ' secondary units.',
@@ -147,7 +147,7 @@ final FactionRule _ruleAllyEden = FactionRule(
   },
   unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Allies: Eden',
-      filters: [UnitFilter(FactionType.Eden)],
+      filters: [const UnitFilter(FactionType.Eden)],
       id: _ruleAlliesEdenId),
   description: 'You may select models from the Eden to place into your' +
       ' secondary units.',
