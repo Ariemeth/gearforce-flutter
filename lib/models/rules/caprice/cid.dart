@@ -61,8 +61,8 @@ final FactionRule ruleCommandersInvestment = FactionRule(
     }
     return false;
   },
-  description: 'You may select models from the CEF, Black Talon, Utopia or' +
-      ' Eden (pick one) to place into your secondary units.',
+  description: 'The force leader’s model may be placed in GP, SK, FS, RC,' +
+      ' or SO units, regardless of the model’s available roles.',
 );
 
 final FactionRule ruleAllies = FactionRule(

@@ -108,7 +108,9 @@ final FactionRule ruleCyberneticUpgrades = FactionRule(
   name: 'Cybernetic Upgrades',
   id: _ruleCyberneticUpgradesId,
   factionMods: (ur, cg, u) {
-    if ((u.faction == FactionType.Universal && u.type == ModelType.Infantry)) {
+    if ((ur.factionNotifier.value == FactionType.Caprice &&
+        u.faction == FactionType.Universal &&
+        u.type == ModelType.Infantry)) {
       return [CapriceMods.cyberneticUpgrades()];
     }
     return [];

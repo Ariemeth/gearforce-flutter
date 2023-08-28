@@ -85,7 +85,7 @@ final ruleArchitects = FactionRule(
     name: 'Architects',
     id: _ruleArchitectsId,
     duelistModelCheck: (roster, u) {
-      if (u.type == ModelType.Strider) {
+      if (u.faction == FactionType.PeaceRiver && u.type == ModelType.Strider) {
         return true;
       }
       return null;
