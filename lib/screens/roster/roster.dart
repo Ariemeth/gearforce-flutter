@@ -2,11 +2,10 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/roster/roster.dart';
-import 'package:gearforce/screens/roster/combatGroup/combat_groups_display.dart';
 import 'package:gearforce/screens/roster/filehandler/downloader.dart';
 import 'package:gearforce/screens/roster/filehandler/uploader.dart';
 import 'package:gearforce/screens/roster/pdf/pdf.dart';
-import 'package:gearforce/screens/roster/roster_header_info.dart';
+import 'package:gearforce/screens/roster/roster_display.dart';
 import 'package:gearforce/screens/unitSelector/unit_selection.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -14,7 +13,7 @@ import 'package:url_launcher/url_launcher_string.dart';
 const double _leftPanelWidth = 670.0;
 const double _titleHeight = 40.0;
 const double _menuTitleHeight = 50.0;
-const String _version = '0.87.0';
+const String _version = '0.88.0';
 const String _bugEmailAddress = 'gearforce@metadiversions.com';
 const String _dp9URL = 'https://www.dp9.com/';
 const String _sourceCodeURL = 'https://github.com/Ariemeth/gearforce-flutter';
@@ -28,6 +27,7 @@ class RosterWidget extends StatefulWidget {
 
   final String? title;
   final Data data;
+  final hScrollController = ScrollController();
 
   @override
   _RosterWidgetState createState() => _RosterWidgetState();
@@ -45,6 +45,7 @@ class _RosterWidgetState extends State<RosterWidget> {
   @override
   Widget build(BuildContext context) {
     final data = context.watch<Data>();
+
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -60,24 +61,21 @@ class _RosterWidgetState extends State<RosterWidget> {
       ),
       body: ChangeNotifierProvider(
         create: (_) => roster,
-        child: Row(
-          children: [
-            SizedBox(
-              width: _leftPanelWidth,
-              child: Column(
-                children: [
-                  RosterHeaderInfo(),
-                  CombatGroupsDisplay(),
-                ],
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-              ),
+        child: Scrollbar(
+          controller: widget.hScrollController,
+          thumbVisibility: true,
+          trackVisibility: true,
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            controller: widget.hScrollController,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                RosterDisplay(width: _leftPanelWidth, height: 1000),
+                UnitSelection(),
+              ],
             ),
-            Expanded(
-              child: UnitSelection(),
-              flex: 2,
-            ),
-          ],
+          ),
         ),
       ),
       drawer: Drawer(

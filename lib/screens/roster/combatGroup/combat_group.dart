@@ -10,6 +10,8 @@ import 'package:gearforce/screens/roster/combatGroup/group_header.dart';
 import 'package:gearforce/screens/upgrades/unit_upgrade_button.dart';
 import 'package:gearforce/widgets/unit_text_cell.dart';
 
+const double _sectionheight = 320;
+
 class CombatGroupWidget extends StatefulWidget {
   CombatGroupWidget(this.data, this.roster, {required this.name});
 
@@ -41,7 +43,8 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
           group: cg.primary,
           roster: widget.roster,
         ),
-        Expanded(
+        SizedBox(
+          height: _sectionheight,
           child: _generateTable(
             context: context,
             group: cg.primary,
@@ -53,7 +56,8 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
           cg: cg,
           group: cg.secondary,
         ),
-        Expanded(
+        SizedBox(
+          height: _sectionheight,
           child: _generateTable(
             context: context,
             group: cg.secondary,

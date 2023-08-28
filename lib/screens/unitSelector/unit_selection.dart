@@ -32,7 +32,6 @@ class _UnitSelectionState extends State<UnitSelection> {
   @override
   Widget build(BuildContext context) {
     final roster = context.watch<UnitRoster>();
-    final hScrollController = ScrollController();
     final vScrollController = ScrollController();
 
     // Populate the dropdown with the first filter if it hasn't already been set
@@ -87,21 +86,10 @@ class _UnitSelectionState extends State<UnitSelection> {
             child: SingleChildScrollView(
               controller: vScrollController,
               primary: false,
-              child: Scrollbar(
-                thumbVisibility: true,
-                trackVisibility: true,
-                interactive: true,
-                controller: hScrollController,
-                child: SingleChildScrollView(
-                  controller: hScrollController,
-                  primary: false,
-                  scrollDirection: Axis.horizontal,
-                  child: SelectionList(
-                    roleFilters: widget._roleFilter,
-                    filter: _filter,
-                    specialUnitFilter: _specialUnitFilter!,
-                  ),
-                ),
+              child: SelectionList(
+                roleFilters: widget._roleFilter,
+                filter: _filter,
+                specialUnitFilter: _specialUnitFilter!,
               ),
             ),
           ),
