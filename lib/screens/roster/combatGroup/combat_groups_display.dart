@@ -49,29 +49,31 @@ class _CombatGroupsDisplayState extends State<CombatGroupsDisplay>
         ),
       ));
 
-    return Expanded(
+    return Container(
       child: DefaultTabController(
-          length: tabs.length,
-          child: Builder(
-            builder: (BuildContext context) {
-              final TabController tabController =
-                  DefaultTabController.of(context);
+        length: tabs.length,
+        child: Builder(
+          builder: (BuildContext context) {
+            final TabController tabController =
+                DefaultTabController.of(context);
 
-              if (tabController.index != 0 &&
-                  tabController.index == tabs.length - 1) {
-                tabController.animateTo(tabs.length > 1 ? tabs.length - 2 : 0);
-              }
-              tabController.addListener(
-                () {
-                  var tabIndex = tabController.index;
-                  tabIndex = max(tabIndex, 0);
-                  tabIndex = min(tabIndex, tabs.length - 1);
-                  tabController.animateTo(tabIndex);
-                  roster.setActiveCG(roster.getCGs()[tabIndex].name);
-                },
-              );
+            if (tabController.index != 0 &&
+                tabController.index == tabs.length - 1) {
+              tabController.animateTo(tabs.length > 1 ? tabs.length - 2 : 0);
+            }
+            tabController.addListener(
+              () {
+                var tabIndex = tabController.index;
+                tabIndex = max(tabIndex, 0);
+                tabIndex = min(tabIndex, tabs.length - 1);
+                tabController.animateTo(tabIndex);
+                roster.setActiveCG(roster.getCGs()[tabIndex].name);
+              },
+            );
 
-              return Scaffold(
+            return Flexible(
+              fit: FlexFit.loose,
+              child: Scaffold(
                 primary: false,
                 appBar: PreferredSize(
                   preferredSize: Size.fromHeight(_tabBarHeight),
@@ -83,19 +85,26 @@ class _CombatGroupsDisplayState extends State<CombatGroupsDisplay>
                     labelPadding: EdgeInsets.zero,
                   ),
                 ),
-                body: TabBarView(controller: tabController, children: [
-                  ...roster
-                      .getCGs()
-                      .map((e) => CombatGroupWidget(data, roster, name: e.name))
-                      .toList(),
-                  Center(
-                    child: Text(
-                        'Should not be here!\nClick on any of the existing combat group tabs to go back'),
-                  ),
-                ]),
-              );
-            },
-          )),
+                body: TabBarView(
+                  controller: tabController,
+                  physics: NeverScrollableScrollPhysics(),
+                  children: [
+                    ...roster
+                        .getCGs()
+                        .map((e) =>
+                            CombatGroupWidget(data, roster, name: e.name))
+                        .toList(),
+                    Center(
+                      child: Text(
+                          'Should not be here!\nClick on any of the existing combat group tabs to go back'),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        ),
+      ),
     );
   }
 }
