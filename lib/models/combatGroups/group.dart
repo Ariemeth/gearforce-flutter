@@ -95,11 +95,12 @@ class Group extends ChangeNotifier {
       }
     }
 
-    _units.add(unit
-      ..group = this
-      ..addListener(() {
-        notifyListeners();
-      }));
+    unit.group = this;
+    unit.addListener(() {
+      notifyListeners();
+    });
+
+    _units.add(unit);
     return null;
   }
 
