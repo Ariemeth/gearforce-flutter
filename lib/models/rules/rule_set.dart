@@ -24,6 +24,7 @@ const coreName = 'None';
 const coreTag = 'none';
 const _maxPrimaryActions = 6;
 const _minPrimaryActions = 4;
+const _minSecondaryActions = 2;
 const _maxSecondaryActions = 3;
 const _maxNumberModels = 2;
 const _maxNumberAirstrikes = 4;
@@ -86,8 +87,9 @@ abstract class RuleSet extends ChangeNotifier {
   int get maxPrimaryActions => _maxPrimaryActions;
   int get minPrimaryActions => _minPrimaryActions;
 
-  int maxSecondaryActions(int primaryActions) =>
-      min((primaryActions / 2).ceil(), _maxSecondaryActions);
+  int maxSecondaryActions(int primaryActions) => min(
+      max(_minSecondaryActions, (primaryActions / 2).ceil()),
+      _maxSecondaryActions);
 
   bool isRuleEnabled(String ruleName) =>
       FactionRule.isRuleEnabled(allFactionRules(), ruleName);
