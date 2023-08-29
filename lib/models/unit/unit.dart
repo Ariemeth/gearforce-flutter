@@ -220,6 +220,8 @@ class Unit extends ChangeNotifier {
     if (_commandLevel == cl) {
       return;
     }
+    // Note: Setting the command level on other units directly using prviate
+    // fields to prevent the notifier from running.
     switch (cl) {
       case CommandLevel.none:
         break;
@@ -229,34 +231,34 @@ class Unit extends ChangeNotifier {
         break;
       case CommandLevel.cgl:
         // Only 1 cgl, tfc, co, or xo can exist within a single Combat Group
-        combatGroup?.getUnitWithCommand(CommandLevel.cgl)?.commandLevel =
+        combatGroup?.getUnitWithCommand(CommandLevel.cgl)?._commandLevel =
             CommandLevel.none;
-        combatGroup?.getUnitWithCommand(CommandLevel.tfc)?.commandLevel =
+        combatGroup?.getUnitWithCommand(CommandLevel.tfc)?._commandLevel =
             CommandLevel.none;
-        combatGroup?.getUnitWithCommand(CommandLevel.co)?.commandLevel =
+        combatGroup?.getUnitWithCommand(CommandLevel.co)?._commandLevel =
             CommandLevel.none;
-        combatGroup?.getUnitWithCommand(CommandLevel.xo)?.commandLevel =
+        combatGroup?.getUnitWithCommand(CommandLevel.xo)?._commandLevel =
             CommandLevel.none;
         break;
       case CommandLevel.secic:
         // only 1 second in command per combat group
-        combatGroup?.getUnitWithCommand(CommandLevel.secic)?.commandLevel =
+        combatGroup?.getUnitWithCommand(CommandLevel.secic)?._commandLevel =
             CommandLevel.none;
         break;
       case CommandLevel.xo:
       case CommandLevel.co:
       case CommandLevel.tfc:
         // only 1 xo, co, tfc per task force
-        combatGroup?.roster?.getFirstUnitWithCommand(cl)?.commandLevel =
+        combatGroup?.roster?.getFirstUnitWithCommand(cl)?._commandLevel =
             CommandLevel.cgl;
         // only 1 of xo, co, tfc, or cgl per combat group
-        combatGroup?.getUnitWithCommand(CommandLevel.cgl)?.commandLevel =
+        combatGroup?.getUnitWithCommand(CommandLevel.cgl)?._commandLevel =
             CommandLevel.none;
-        combatGroup?.getUnitWithCommand(CommandLevel.tfc)?.commandLevel =
+        combatGroup?.getUnitWithCommand(CommandLevel.tfc)?._commandLevel =
             CommandLevel.none;
-        combatGroup?.getUnitWithCommand(CommandLevel.co)?.commandLevel =
+        combatGroup?.getUnitWithCommand(CommandLevel.co)?._commandLevel =
             CommandLevel.none;
-        combatGroup?.getUnitWithCommand(CommandLevel.xo)?.commandLevel =
+        combatGroup?.getUnitWithCommand(CommandLevel.xo)?._commandLevel =
             CommandLevel.none;
         break;
     }

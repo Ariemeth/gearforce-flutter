@@ -225,7 +225,48 @@ class CombatGroup extends ChangeNotifier {
       validationErrors.addAll(pve);
     }
 
+    // make sure there is at least a CGL in the CG
+    final highRank = _highestCommandLevel();
+    if (highRank < CommandLevel.cgl) {
+      _tryEnsureCommander(tryFix: tryFix);
+    }
+
     return validationErrors;
+  }
+
+  void _tryEnsureCommander({bool tryFix = false}) {
+    if (!tryFix) {
+      return;
+    }
+
+    final rs = roster?.rulesetNotifer.value;
+    if (rs == null) {
+      return;
+    }
+
+    final allNonLeaders = getLeaders(CommandLevel.none)
+        .where((unit) => rs.canBeCommand(unit))
+        .toList();
+    if (allNonLeaders.isEmpty) {
+      return;
+    }
+
+    allNonLeaders.first.commandLevel = CommandLevel.cgl;
+  }
+
+  CommandLevel _highestCommandLevel() {
+    final leaders = getLeaders(null);
+    if (leaders.isEmpty) {
+      return CommandLevel.none;
+    }
+
+    var highRank = CommandLevel.none;
+
+    leaders.forEach((unit) {
+      highRank = CommandLevel.GreaterOne(highRank, unit.commandLevel);
+    });
+
+    return highRank;
   }
 
   void _resetOptions() {
