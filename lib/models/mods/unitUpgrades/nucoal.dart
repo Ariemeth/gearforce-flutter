@@ -6,6 +6,7 @@ import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
+import 'package:gearforce/models/weapons/weapon.dart';
 import 'package:gearforce/models/weapons/weapons.dart';
 
 final UnitModification cv = UnitModification(name: 'CV Upgrade')
@@ -36,7 +37,12 @@ final UnitModification cuirassierCv = UnitModification(name: 'CV Upgrade')
 final UnitModification fragCannon = UnitModification(
     name: 'Frag Cannon Upgrade',
     requirementCheck: (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
-      return u.reactWeapons.any((w) => w.abbreviation == 'MRF');
+      final hasMRF = u
+          .attribute<List<Weapon>>(UnitAttribute.weapons,
+              modIDToSkip: fragCannon.id)
+          .any((w) => w.abbreviation == 'MRF');
+
+      return hasMRF;
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(-1), description: 'TV -1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'with Frag Cannon'))
@@ -50,7 +56,12 @@ final UnitModification fragCannon = UnitModification(
 final UnitModification rapidFireBazooka = UnitModification(
     name: 'Rapid Fire Bazooka Upgrade',
     requirementCheck: (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
-      return u.reactWeapons.any((w) => w.abbreviation == 'MRF');
+      final hasMRF = u
+          .attribute<List<Weapon>>(UnitAttribute.weapons,
+              modIDToSkip: rapidFireBazooka.id)
+          .any((w) => w.abbreviation == 'MRF');
+
+      return hasMRF;
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(-1), description: 'TV -1')
   ..addMod(UnitAttribute.name,
