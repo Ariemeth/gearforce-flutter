@@ -246,7 +246,8 @@ class VeteranModification extends BaseModification {
             return false;
           }
 
-          if (u.traits.any((element) => element.name == 'Field Armor')) {
+          if (u.traits
+              .any((t) => t.name == 'Field Armor' && !u.hasMod(fieldArmorId))) {
             return false;
           }
 

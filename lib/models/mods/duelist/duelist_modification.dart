@@ -7,6 +7,7 @@ import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart'
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/traits/trait.dart';
+import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
@@ -57,6 +58,8 @@ class DuelistModification extends BaseModification {
     required RequirementCheck requirementCheck,
     final ModificationOption? options,
     final BaseModification Function()? refreshData,
+    super.onAdd,
+    super.onRemove,
   }) : super(
           name: name,
           id: id,
@@ -133,50 +136,63 @@ class DuelistModification extends BaseModification {
     final modName = _duelistModNames[independentOperatorId];
     assert(modName != null);
 
-    return DuelistModification(
-        name: modName ?? independentOperatorId,
-        id: independentOperatorId,
-        requirementCheck:
-            (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
-          assert(rs != null);
-          assert(ur != null);
+    final independentOperator = DuelistModification(
+      name: modName ?? independentOperatorId,
+      id: independentOperatorId,
+      requirementCheck: (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+        assert(rs != null);
+        assert(ur != null);
 
-          if (u.hasMod(leadByExampleId)) {
-            return false;
-          }
+        if (u.hasMod(leadByExampleId)) {
+          return false;
+        }
 
-          assert(cg != null);
+        assert(cg != null);
 
-          if (cg == null) {
-            return false;
-          }
+        if (cg == null) {
+          return false;
+        }
 
-          // The independent operator must be in a CG alone
-          if (cg.numberOfUnits() > 1) {
-            return false;
-          }
+        // The independent operator must be in a CG alone
+        if (cg.numberOfUnits() > 1) {
+          return false;
+        }
 
-          return rs!.duelistModCheck(u, cg, modID: independentOperatorId);
-        })
-      ..addMod(
-        UnitAttribute.traits,
-        createAddTraitToList(const Trait(name: 'Independent Operator')),
-        description:
-            'Duelist is an Independent Operator and will be the sole ' +
-                'model in a combat group',
-      )
-      ..addMod(
-          UnitAttribute.roles,
-          createReplaceRoles(Roles(
-            roles: [
-              Role(name: RoleType.FS),
-              Role(name: RoleType.FT),
-              Role(name: RoleType.GP),
-              Role(name: RoleType.RC),
-              Role(name: RoleType.SK),
-              Role(name: RoleType.SO),
-            ],
-          )));
+        return rs!.duelistModCheck(u, cg, modID: independentOperatorId);
+      },
+      onAdd: (u) {
+        switch (u?.commandLevel) {
+          case CommandLevel.secic:
+          case CommandLevel.cgl:
+            u?.commandLevel = CommandLevel.none;
+            break;
+          default:
+            break;
+        }
+      },
+    );
+
+    independentOperator.addMod(
+      UnitAttribute.traits,
+      createAddTraitToList(const Trait(name: 'Independent Operator')),
+      description: 'Duelist is an Independent Operator and will be the sole ' +
+          'model in a combat group',
+    );
+
+    independentOperator.addMod(
+        UnitAttribute.roles,
+        createReplaceRoles(Roles(
+          roles: [
+            Role(name: RoleType.FS),
+            Role(name: RoleType.FT),
+            Role(name: RoleType.GP),
+            Role(name: RoleType.RC),
+            Role(name: RoleType.SK),
+            Role(name: RoleType.SO),
+          ],
+        )));
+
+    return independentOperator;
   }
 
 /*

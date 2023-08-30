@@ -210,6 +210,14 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
         ),
       );
 
+      final cls = ruleSet.availableCommandLevels(unit);
+      var unitCommand = unit.commandLevel;
+      if (!cls.any((cl) => cl == unitCommand)) {
+        print(
+            'Unit: ${unit.name} has command: $unitCommand, but is only allowed to have ${cls.toString()}');
+        unitCommand = cls.first;
+      }
+
       var tvCell = DataCell(UnitTextCell.content(unit.tv.toString()));
 
       var actionCell = DataCell(UnitTextCell.content(
@@ -223,7 +231,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
           Container(
             child: Center(
               child: DropdownButton<String>(
-                value: canBeCommand ? unit.commandLevel.name : null,
+                value: canBeCommand ? unitCommand.name : null,
                 // hint: Text('Select Command Level'),
                 icon: const Icon(Icons.arrow_downward),
                 iconSize: 16,
@@ -239,9 +247,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
                   });
                 },
                 items: canBeCommand
-                    ? ruleSet
-                        .availableCommandLevels(unit)
-                        .map<DropdownMenuItem<String>>((CommandLevel value) {
+                    ? cls.map<DropdownMenuItem<String>>((CommandLevel value) {
                         return DropdownMenuItem<String>(
                           value: value.name,
                           child: Center(

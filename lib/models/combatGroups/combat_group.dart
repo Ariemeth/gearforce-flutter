@@ -226,9 +226,11 @@ class CombatGroup extends ChangeNotifier {
     }
 
     // make sure there is at least a CGL in the CG
-    final highRank = _highestCommandLevel();
-    if (highRank < CommandLevel.cgl) {
+    final highestRank = _highestCommandLevel();
+    if (highestRank < CommandLevel.cgl) {
       _tryEnsureCommander(tryFix: tryFix);
+      validationErrors
+          .add(Validation(issue: 'No leader of at least CGL in CG'));
     }
 
     return validationErrors;
@@ -251,7 +253,14 @@ class CombatGroup extends ChangeNotifier {
       return;
     }
 
-    allNonLeaders.first.commandLevel = CommandLevel.cgl;
+    try {
+      allNonLeaders
+          .firstWhere((u) =>
+              rs.availableCommandLevels(u).any((cl) => cl >= CommandLevel.cgl))
+          .commandLevel = CommandLevel.cgl;
+    } catch (e) {
+      print('No units that can be a cgl or better');
+    }
   }
 
   CommandLevel _highestCommandLevel() {
