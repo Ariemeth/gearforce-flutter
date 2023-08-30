@@ -87,7 +87,12 @@ final UnitModification espionCv = UnitModification(name: 'CV Upgrade')
 final UnitModification mfmBoa = UnitModification(
     name: 'MFM Upgrade',
     requirementCheck: (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
-      return u.weapons.any((w) => w.abbreviation == 'LGM');
+      final hasLGM = u
+          .attribute<List<Weapon>>(UnitAttribute.weapons,
+              modIDToSkip: mfmBoa.id)
+          .any((w) => w.abbreviation == 'LGM');
+
+      return hasLGM;
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'MFM'))
@@ -114,7 +119,12 @@ final UnitModification cv2 = UnitModification(name: 'CV Upgrade')
 final UnitModification voltigeurABM = UnitModification(
     name: 'ABM Upgrade',
     requirementCheck: (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
-      return u.weapons.any((w) => w.abbreviation == 'MATM' && w.numberOf == 2);
+      final hasMATM = u
+          .attribute<List<Weapon>>(UnitAttribute.weapons,
+              modIDToSkip: voltigeurABM.id)
+          .any((w) => w.abbreviation == 'MATM');
+
+      return hasMATM;
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(-1), description: 'TV: -1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'ABM'))
@@ -128,7 +138,12 @@ final UnitModification voltigeurABM = UnitModification(
 final UnitModification voltigeurAM = UnitModification(
     name: 'AM Upgrade',
     requirementCheck: (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
-      return u.weapons.any((w) => w.abbreviation == 'MATM' && w.numberOf == 2);
+      final hasMATM = u
+          .attribute<List<Weapon>>(UnitAttribute.weapons,
+              modIDToSkip: voltigeurAM.id)
+          .any((w) => w.abbreviation == 'MATM');
+
+      return hasMATM;
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(0), description: 'TV: 0')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'AM'))
