@@ -6,6 +6,7 @@ import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
+import 'package:gearforce/models/weapons/weapon.dart';
 import 'package:gearforce/models/weapons/weapons.dart';
 
 final UnitModification headHunter = UnitModification(name: 'Headhunter Upgrade')
@@ -132,8 +133,14 @@ final UnitModification denMother = UnitModification(name: 'Den Mother Upgrade')
 final UnitModification gatlingLaser = UnitModification(
     name: 'Gatling Laser Upgrade',
     requirementCheck: (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
-      return u.weapons
-          .any((w) => w.abbreviation == 'LATM' && w.bonusString == '(T)');
+      final hasLATM = u
+          .attribute<List<Weapon>>(UnitAttribute.weapons,
+              modIDToSkip: gatlingLaser.id)
+          .any((w) =>
+              w.abbreviation == 'LATM' &&
+              w.traits.any((t) => Trait.T().isSameType(t)));
+
+      return hasLATM;
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
   ..addMod(
@@ -149,8 +156,14 @@ final UnitModification gatlingLaser = UnitModification(
 final UnitModification crossbow = UnitModification(
     name: 'Crossbow Upgrade',
     requirementCheck: (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
-      return u.weapons
-          .any((w) => w.abbreviation == 'LATM' && w.bonusString == '(T)');
+      final hasLATM = u
+          .attribute<List<Weapon>>(UnitAttribute.weapons,
+              modIDToSkip: crossbow.id)
+          .any((w) =>
+              w.abbreviation == 'LATM' &&
+              w.traits.any((t) => Trait.T().isSameType(t)));
+
+      return hasLATM;
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Crossbow'))

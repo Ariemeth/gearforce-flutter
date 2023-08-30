@@ -7,13 +7,20 @@ import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
+import 'package:gearforce/models/weapons/weapon.dart';
 import 'package:gearforce/models/weapons/weapons.dart';
 
 final UnitModification sawBladeSwap = UnitModification(
     name: 'Saw Blade Swap',
     requirementCheck: (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
-      return u.reactWeapons.any((w) =>
-          w.abbreviation == 'MCW' && w.bonusString == '(Reach:1 Demo:4)');
+      final hasMCW = u
+          .attribute<List<Weapon>>(UnitAttribute.weapons,
+              modIDToSkip: sawBladeSwap.id)
+          .any((w) =>
+              w.abbreviation == 'MCW' &&
+              w.traits.any((t) => Trait.Demo(4).isSameType(t)));
+
+      return hasMCW;
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(0), description: 'TV +0')
   ..addMod(
@@ -28,8 +35,15 @@ final UnitModification sawBladeSwap = UnitModification(
 final UnitModification vibroswordSwap = UnitModification(
     name: 'Vibrosword Swap',
     requirementCheck: (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
-      return u.reactWeapons.any((w) =>
-          w.abbreviation == 'MCW' && w.bonusString == '(Reach:1 Demo:4)');
+      final hasMCW = u
+          .attribute<List<Weapon>>(UnitAttribute.weapons,
+              modIDToSkip: vibroswordSwap.id)
+          .any((w) =>
+              w.abbreviation == 'MCW' &&
+              w.traits.any((t) => Trait.Demo(4).isSameType(t)) &&
+              !w.traits.any((t) => Trait.Brawl(1).isSameType(t)));
+
+      return hasMCW;
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(0), description: 'TV +0')
   ..addMod(
@@ -37,14 +51,19 @@ final UnitModification vibroswordSwap = UnitModification(
   ..addMod(
       UnitAttribute.weapons,
       createReplaceWeaponInList(
-          oldValue: buildWeapon('MCW (Reach:1, Demo:4)', hasReact: true)!,
+          oldValue: buildWeapon('MCW (Reach:1 Demo:4)', hasReact: true)!,
           newValue: buildWeapon('MVB (Reach:1)', hasReact: true)!),
       description: '-MCW (Reach:1, Demo:4), +MVB (Reach:1)');
 
 final UnitModification destroyer = UnitModification(
     name: 'Destroyer Upgrade',
     requirementCheck: (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
-      return u.reactWeapons.any((w) => w.abbreviation == 'HAC');
+      final hasHAC = u
+          .attribute<List<Weapon>>(UnitAttribute.weapons,
+              modIDToSkip: destroyer.id)
+          .any((w) => w.abbreviation == 'HAC');
+
+      return hasHAC;
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(-1), description: 'TV -1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Destroyer Upgrade'))
@@ -58,7 +77,12 @@ final UnitModification destroyer = UnitModification(
 final UnitModification demolisher = UnitModification(
     name: 'Demolisher Hand Swap',
     requirementCheck: (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
-      return u.reactWeapons.any((w) => w.abbreviation == 'HAC');
+      final hasHAC = u
+          .attribute<List<Weapon>>(UnitAttribute.weapons,
+              modIDToSkip: demolisher.id)
+          .any((w) => w.abbreviation == 'HAC');
+
+      return hasHAC;
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(-1), description: 'TV -1')
   ..addMod(UnitAttribute.name,
@@ -79,7 +103,12 @@ final UnitModification demolisher = UnitModification(
 final UnitModification heavyChainswordSwap = UnitModification(
     name: 'Heavy Chainsword Swap',
     requirementCheck: (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
-      return u.reactWeapons.any((w) => w.abbreviation == 'LVB');
+      final hasLVB = u
+          .attribute<List<Weapon>>(UnitAttribute.weapons,
+              modIDToSkip: heavyChainswordSwap.id)
+          .any((w) => w.abbreviation == 'LVB');
+
+      return hasLVB;
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(0), description: 'TV +0')
   ..addMod(UnitAttribute.name,
@@ -94,8 +123,14 @@ final UnitModification heavyChainswordSwap = UnitModification(
 final UnitModification maulerFistSwap = UnitModification(
     name: 'Mauler Fist Swap',
     requirementCheck: (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
-      return u.reactWeapons.any((w) =>
-          w.abbreviation == 'MCW' && w.bonusString == '(Reach:1 Demo:4)');
+      final hasMCW = u
+          .attribute<List<Weapon>>(UnitAttribute.weapons,
+              modIDToSkip: maulerFistSwap.id)
+          .any((w) =>
+              w.abbreviation == 'MCW' &&
+              w.traits.any((t) => Trait.Demo(4).isSameType(t)));
+
+      return hasMCW;
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(0), description: 'TV +0')
   ..addMod(
@@ -103,15 +138,21 @@ final UnitModification maulerFistSwap = UnitModification(
   ..addMod(
       UnitAttribute.weapons,
       createReplaceWeaponInList(
-          oldValue: buildWeapon('MCW (Reach:1, Demo:4)', hasReact: true)!,
-          newValue: buildWeapon('MCW (Brawl:1, Demo:4)', hasReact: true)!),
+          oldValue: buildWeapon('MCW (Reach:1 Demo:4)', hasReact: true)!,
+          newValue: buildWeapon('MCW (Brawl:1 Demo:4)', hasReact: true)!),
       description: '-MCW (Reach:1, Demo:4), +MCW (Brawl:1, Demo:4)');
 
 final UnitModification chainswordSwap = UnitModification(
     name: 'Chainsword Swap',
     requirementCheck: (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
-      return u.reactWeapons.any((w) =>
-          w.abbreviation == 'MCW' && w.bonusString == '(Brawl:1 Demo:4)');
+      final hasMCW = u
+          .attribute<List<Weapon>>(UnitAttribute.weapons,
+              modIDToSkip: chainswordSwap.id)
+          .any((w) =>
+              w.abbreviation == 'MCW' &&
+              w.traits.any((t) => Trait.Demo(4).isSameType(t)));
+
+      return hasMCW;
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(0), description: 'TV +0')
   ..addMod(
@@ -119,15 +160,22 @@ final UnitModification chainswordSwap = UnitModification(
   ..addMod(
       UnitAttribute.weapons,
       createReplaceWeaponInList(
-          oldValue: buildWeapon('MCW (Brawl:1, Demo:4)', hasReact: true)!,
-          newValue: buildWeapon('LCW (Brawl:1, Reach:1)', hasReact: true)!),
+          oldValue: buildWeapon('MCW (Brawl:1 Demo:4)', hasReact: true)!,
+          newValue: buildWeapon('LCW (Brawl:1 Reach:1)', hasReact: true)!),
       description: '-MCW (Brawl:1, Demo:4), +LCW (Brawl:1, Reach:1)');
 
 final UnitModification stonemasonChainswordSwap = UnitModification(
     name: 'Chainsword Swap',
     requirementCheck: (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
-      return u.reactWeapons.any((w) =>
-          w.abbreviation == 'MCW' && w.bonusString == '(Reach:1 Demo:4)');
+      final hasMCW = u
+          .attribute<List<Weapon>>(UnitAttribute.weapons,
+              modIDToSkip: stonemasonChainswordSwap.id)
+          .any((w) =>
+              w.abbreviation == 'MCW' &&
+              w.traits.any((t) => Trait.Demo(4).isSameType(t)) &&
+              !w.traits.any((t) => Trait.Brawl(1).isSameType(t)));
+
+      return hasMCW;
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(0), description: 'TV +0')
   ..addMod(
@@ -135,14 +183,19 @@ final UnitModification stonemasonChainswordSwap = UnitModification(
   ..addMod(
       UnitAttribute.weapons,
       createReplaceWeaponInList(
-          oldValue: buildWeapon('MCW (Reach:1, Demo:4)', hasReact: true)!,
-          newValue: buildWeapon('LCW (Brawl:1, Reach:1)', hasReact: true)!),
+          oldValue: buildWeapon('MCW (Reach:1 Demo:4)', hasReact: true)!,
+          newValue: buildWeapon('LCW (Brawl:1 Reach:1)', hasReact: true)!),
       description: '-MCW (Reach:1, Demo:4), +LCW (Brawl:1, Reach:1)');
 
 final UnitModification strike = UnitModification(
     name: 'Strike Upgrade',
     requirementCheck: (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
-      return u.reactWeapons.any((w) => w.abbreviation == 'HAC');
+      final hasHAC = u
+          .attribute<List<Weapon>>(UnitAttribute.weapons,
+              modIDToSkip: strike.id)
+          .any((w) => w.abbreviation == 'HAC');
+
+      return hasHAC;
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(-1), description: 'TV -1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Strike Upgrade'))
@@ -156,46 +209,65 @@ final UnitModification strike = UnitModification(
 final UnitModification clawSwap = UnitModification(
     name: 'Claw Swap',
     requirementCheck: (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
-      return u.reactWeapons.any((w) =>
-          w.abbreviation == 'MCW' && w.bonusString == '(Brawl:1 Demo:4)');
+      final hasMCW = u
+          .attribute<List<Weapon>>(UnitAttribute.weapons,
+              modIDToSkip: clawSwap.id)
+          .any((w) =>
+              w.abbreviation == 'MCW' &&
+              w.traits.any((t) => Trait.Demo(4).isSameType(t)));
+
+      return hasMCW;
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(0), description: 'TV +0')
   ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'with Claw Swap'))
   ..addMod(
       UnitAttribute.weapons,
       createReplaceWeaponInList(
-          oldValue: buildWeapon('MCW (Brawl:1, Demo:4)', hasReact: true)!,
+          oldValue: buildWeapon('MCW (Brawl:1 Demo:4)', hasReact: true)!,
           newValue: buildWeapon('MVB', hasReact: true)!),
       description: '-MCW (Brawl:1, Demo:4), +MVB)');
 
 final UnitModification valenceClawSwap = UnitModification(
     name: 'Claw Swap',
     requirementCheck: (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
-      return u.reactWeapons.any((w) =>
-          w.abbreviation == 'MCW' && w.bonusString == '(Reach:1 Demo:4)');
+      final hasMCW = u
+          .attribute<List<Weapon>>(UnitAttribute.weapons,
+              modIDToSkip: valenceClawSwap.id)
+          .any((w) =>
+              w.abbreviation == 'MCW' &&
+              w.traits.any((t) => Trait.Demo(4).isSameType(t)) &&
+              !w.traits.any((t) => Trait.Brawl(1).isSameType(t)));
+
+      return hasMCW;
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(0), description: 'TV +0')
   ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'with Claw Swap'))
   ..addMod(
       UnitAttribute.weapons,
       createReplaceWeaponInList(
-          oldValue: buildWeapon('MCW (Reach:1, Demo:4)', hasReact: true)!,
+          oldValue: buildWeapon('MCW (Reach:1 Demo:4)', hasReact: true)!,
           newValue: buildWeapon('MVB', hasReact: true)!),
       description: '-MCW (Reach:1, Demo:4), +MVB)');
 
 final UnitModification hammerSwap = UnitModification(
     name: 'Hammer Swap',
     requirementCheck: (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
-      return u.reactWeapons.any((w) =>
-          w.abbreviation == 'MCW' && w.bonusString == '(Brawl:1 Reach:1)');
+      final hasMCW = u
+          .attribute<List<Weapon>>(UnitAttribute.weapons,
+              modIDToSkip: hammerSwap.id)
+          .any((w) =>
+              w.abbreviation == 'MCW' &&
+              w.traits.any((t) => Trait.Demo(4).isSameType(t)));
+
+      return hasMCW;
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(0), description: 'TV +0')
   ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'with Hammer Swap'))
   ..addMod(
       UnitAttribute.weapons,
       createReplaceWeaponInList(
-          oldValue: buildWeapon('MCW (Brawl:1, Reach:1)', hasReact: true)!,
-          newValue: buildWeapon('MCW (Reach:1, Demo:4)', hasReact: true)!),
+          oldValue: buildWeapon('MCW (Brawl:1 Reach:1)', hasReact: true)!,
+          newValue: buildWeapon('MCW (Reach:1 Demo:4)', hasReact: true)!),
       description: '-MCW (Brawl:1, Reach:1), +MCW (Reach:1, Demo:4)');
 
 final UnitModification paratrooper = UnitModification(

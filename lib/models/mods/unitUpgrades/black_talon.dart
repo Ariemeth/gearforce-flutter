@@ -6,6 +6,7 @@ import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
+import 'package:gearforce/models/weapons/weapon.dart';
 import 'package:gearforce/models/weapons/weapons.dart';
 
 final UnitModification psi = UnitModification(name: 'Psi Upgrade')
@@ -57,8 +58,13 @@ final UnitModification xi = UnitModification(name: 'Xi Upgrade')
 final UnitModification omi = UnitModification(
     name: 'Omi Upgrade',
     requirementCheck: (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
-      return u.weapons
-          .any((w) => w.abbreviation == 'HMG' && w.bonusString == '(Apex)');
+      final hasHMG = u
+          .attribute<List<Weapon>>(UnitAttribute.weapons, modIDToSkip: omi.id)
+          .any((w) =>
+              w.abbreviation == 'HMG' &&
+              w.traits.any((t) => Trait.Apex().isSameType(t)));
+
+      return hasHMG;
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Omi'))
@@ -72,8 +78,13 @@ final UnitModification omi = UnitModification(
 final UnitModification zeta = UnitModification(
     name: 'Zeta Upgrade',
     requirementCheck: (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
-      return u.weapons
-          .any((w) => w.abbreviation == 'HMG' && w.bonusString == '(Apex)');
+      final hasHMG = u
+          .attribute<List<Weapon>>(UnitAttribute.weapons, modIDToSkip: zeta.id)
+          .any((w) =>
+              w.abbreviation == 'HMG' &&
+              w.traits.any((t) => Trait.Apex().isSameType(t)));
+
+      return hasHMG;
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Zeta'))
@@ -87,8 +98,13 @@ final UnitModification zeta = UnitModification(
 final UnitModification pur = UnitModification(
     name: 'Pur Upgrade',
     requirementCheck: (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
-      return u.weapons
-          .any((w) => w.abbreviation == 'HMG' && w.bonusString == '(Apex)');
+      final hasHMG = u
+          .attribute<List<Weapon>>(UnitAttribute.weapons, modIDToSkip: pur.id)
+          .any((w) =>
+              w.abbreviation == 'HMG' &&
+              w.traits.any((t) => Trait.Apex().isSameType(t)));
+
+      return hasHMG;
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(0), description: 'TV 0')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Pur'))

@@ -188,7 +188,12 @@ final UnitModification cobraRazorFang =
 final UnitModification boasLongFang = UnitModification(
     name: 'Long Fang Upgrade',
     requirementCheck: (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
-      return u.weapons.any((w) => w.abbreviation == 'LGM');
+      final hasLATM = u
+          .attribute<List<Weapon>>(UnitAttribute.weapons,
+              modIDToSkip: boasLongFang.id)
+          .any((w) => w.abbreviation == 'LGM');
+
+      return hasLATM;
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Long Fang'))
@@ -201,8 +206,12 @@ final UnitModification boasLongFang = UnitModification(
 final UnitModification meleeSwap = UnitModification(
     name: 'Melee Swap',
     requirementCheck: (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
-      return u.reactWeapons
-          .any((w) => w.abbreviation == 'MVB' && w.bonusString == '(Reach:1)');
+      final hasMVB = u
+          .attribute<List<Weapon>>(UnitAttribute.weapons,
+              modIDToSkip: meleeSwap.id)
+          .any((w) => w.abbreviation == 'MVB');
+
+      return hasMVB;
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(0), description: 'TV: +0')
   ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'with melee swap'))
@@ -223,7 +232,12 @@ final UnitModification boasArenaPilot = UnitModification(name: 'Arena Pilot')
 final UnitModification barbed = UnitModification(
     name: 'Barbed Upgrade',
     requirementCheck: (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
-      return u.weapons.any((w) => w.abbreviation == 'LRP');
+      final hasLRP = u
+          .attribute<List<Weapon>>(UnitAttribute.weapons,
+              modIDToSkip: barbed.id)
+          .any((w) => w.abbreviation == 'LRP');
+
+      return hasLRP;
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Barbed'))
@@ -247,7 +261,11 @@ final UnitModification mpCommand = UnitModification(name: 'Command Upgrade')
 final UnitModification fang = UnitModification(
     name: 'Fang Upgrade',
     requirementCheck: (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
-      return u.weapons.any((w) => w.abbreviation == 'MABM');
+      final hasMABM = u
+          .attribute<List<Weapon>>(UnitAttribute.weapons, modIDToSkip: fang.id)
+          .any((w) => w.abbreviation == 'MABM');
+
+      return hasMABM;
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Fang'))
@@ -274,8 +292,14 @@ final UnitModification drakeCommand = UnitModification(name: 'Command Upgrade')
 final UnitModification hooded = UnitModification(
     name: 'Hooded Upgrade',
     requirementCheck: (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
-      return u.reactWeapons
-          .any((w) => w.abbreviation == 'HMG' && w.bonusString == '(Apex)');
+      final hasHMG = u
+          .attribute<List<Weapon>>(UnitAttribute.weapons,
+              modIDToSkip: hooded.id)
+          .any((w) =>
+              w.abbreviation == 'HMG' &&
+              w.traits.any((t) => Trait.Apex().isSameType(t)));
+
+      return hasHMG;
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Hooded'))
@@ -289,8 +313,13 @@ final UnitModification hooded = UnitModification(
 final UnitModification spark = UnitModification(
     name: 'Spark Upgrade',
     requirementCheck: (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
-      return u.reactWeapons
-          .any((w) => w.abbreviation == 'HMG' && w.bonusString == '(Apex)');
+      final hasHMG = u
+          .attribute<List<Weapon>>(UnitAttribute.weapons, modIDToSkip: spark.id)
+          .any((w) =>
+              w.abbreviation == 'HMG' &&
+              w.traits.any((t) => Trait.Apex().isSameType(t)));
+
+      return hasHMG;
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Spark'))
@@ -304,8 +333,13 @@ final UnitModification spark = UnitModification(
 final UnitModification flame = UnitModification(
     name: 'Flame Upgrade',
     requirementCheck: (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
-      return u.reactWeapons
-          .any((w) => w.abbreviation == 'HMG' && w.bonusString == '(Apex)');
+      final hasHMG = u
+          .attribute<List<Weapon>>(UnitAttribute.weapons, modIDToSkip: flame.id)
+          .any((w) =>
+              w.abbreviation == 'HMG' &&
+              w.traits.any((t) => Trait.Apex().isSameType(t)));
+
+      return hasHMG;
     })
   ..addMod(UnitAttribute.tv, createSimpleIntMod(0), description: 'TV: 0')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Flame'))
