@@ -220,15 +220,20 @@ class Group extends ChangeNotifier {
       return [];
     }
 
-    final makeVet = VeteranModification.makeVet(u, combatGroup!);
-    if (makeVet.requirementCheck(this.combatGroup?.roster?.rulesetNotifer.value,
-        combatGroup?.roster, combatGroup, u)) {
-      u.addUnitMod(makeVet);
-      return [];
-    }
+    if (u.roster?.isEliteForce == true) {
+      final makeVet = VeteranModification.makeVet(u, combatGroup!);
+      if (makeVet.requirementCheck(
+          this.combatGroup?.roster?.rulesetNotifer.value,
+          combatGroup?.roster,
+          combatGroup,
+          u)) {
+        u.addUnitMod(makeVet);
+        return [];
+      }
 
-    if (tryFix) {
-      _units.remove(u);
+      if (tryFix) {
+        _units.remove(u);
+      }
     }
 
     return [
