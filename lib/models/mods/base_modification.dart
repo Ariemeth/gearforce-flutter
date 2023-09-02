@@ -50,7 +50,7 @@ abstract class BaseModification {
     return results;
   }
 
-  final _mods = Map();
+  final _mods = Map<UnitAttribute, List<dynamic>>();
 
   void addMod<T>(UnitAttribute att, T Function(T) mod,
       {String? description, String Function()? dynamicDescription}) {
@@ -114,6 +114,13 @@ Example json format for mods
     });
 
     return result;
+  }
+
+  /// Returns true if this [BaseModification] has a mod that modifies a
+  /// particular [UnitAttribute].
+  bool hasModOfType(UnitAttribute ua) {
+    final hasModType = _mods.containsKey(ua);
+    return hasModType;
   }
 }
 
