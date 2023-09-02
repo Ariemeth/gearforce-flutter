@@ -4,6 +4,7 @@ import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/screens/roster/filehandler/downloader.dart';
 import 'package:gearforce/screens/roster/filehandler/uploader.dart';
+import 'package:gearforce/screens/roster/markdown.dart';
 import 'package:gearforce/screens/roster/pdf/pdf.dart';
 import 'package:gearforce/screens/roster/roster_display.dart';
 import 'package:gearforce/screens/unitSelector/unit_selection.dart';
@@ -13,7 +14,7 @@ import 'package:url_launcher/url_launcher_string.dart';
 const double _leftPanelWidth = 670.0;
 const double _titleHeight = 40.0;
 const double _menuTitleHeight = 50.0;
-const String _version = '0.91.0';
+const String _version = '0.92.0';
 const String _bugEmailAddress = 'gearforce@metadiversions.com';
 const String _dp9URL = 'https://www.dp9.com/';
 const String _sourceCodeURL = 'https://github.com/Ariemeth/gearforce-flutter';
@@ -142,6 +143,15 @@ class _RosterWidgetState extends State<RosterWidget> {
               ),
               onTap: () async {
                 downloadPDF(roster, version: _version);
+              },
+            ),
+            ListTile(
+              title: Text(
+                'Generate Markdown',
+                style: TextStyle(fontSize: 16),
+              ),
+              onTap: () async {
+                showGeneratedMarkdown(context, roster);
               },
             ),
             ListTile(

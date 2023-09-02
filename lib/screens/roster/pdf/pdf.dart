@@ -72,6 +72,8 @@ pw.Widget _buildFooter(
   final footerStyle = pw.Theme.of(context)
       .defaultTextStyle
       .copyWith(color: PdfColors.grey, fontSize: 10);
+// TODO Instead of manually placing cards to print into rows, put them into a
+// pw.grid like the hull and structure boxes used to use.
 
   return pw.Row(
     mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
