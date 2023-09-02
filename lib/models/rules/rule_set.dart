@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/combatGroups/group.dart';
+import 'package:gearforce/models/mods/unitUpgrades/unit_upgrades.dart';
 import 'package:gearforce/models/rules/faction_model_rules.dart';
 import 'package:gearforce/models/rules/faction_rule.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
@@ -17,6 +18,7 @@ import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/model_type.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
+import 'package:gearforce/models/unit/unit_attribute.dart';
 import 'package:gearforce/models/weapons/weapon.dart';
 import 'package:gearforce/models/mods/unitUpgrades/cef.dart' as cef;
 
@@ -399,7 +401,41 @@ abstract class RuleSet extends ChangeNotifier {
       return true;
     }
 
-    return unit.role == null ? false : unit.role!.includesRole([target]);
+    if (unit.role == null) {
+      return false;
+    }
+
+    final hasRole = unit.role!.includesRole([target]);
+
+    if (hasRole) {
+      return true;
+    }
+    // If the unit doesn't have the role, check if there is an upgrade mod that
+    // the model has access that could grant access to the role
+    final roster = group.combatGroup?.roster;
+    if (roster == null) {
+      return false;
+    }
+    final unitMods = getUnitMods(unit.core.frame, unit).where((mod) =>
+        mod.hasModOfType(UnitAttribute.roles) &&
+        mod.requirementCheck(this, roster, group.combatGroup, unit));
+    for (final m in unitMods) {
+      final modifiedRoles = m.applyMods(UnitAttribute.roles, unit.core.role);
+      if (modifiedRoles!.roles.any((r) => r.name == target)) {
+        unit.addUnitMod(m);
+        return true;
+      }
+    }
+    final factionMods = availableFactionMods(roster, group.combatGroup!, unit);
+    for (final m in factionMods) {
+      final modifiedRoles = m.applyMods(UnitAttribute.roles, unit.core.role);
+      if (modifiedRoles!.roles.any((r) => r == target)) {
+        unit.addUnitMod(m);
+        return true;
+      }
+    }
+
+    return false;
   }
 
   // Check if the role is unlimited
