@@ -30,7 +30,6 @@ class RosterHeaderInfo extends StatelessWidget {
 
   Widget _createInfoPanel(BuildContext context) {
     final roster = context.watch<UnitRoster>();
-    final settings = context.read<Settings>();
 
     return Table(
       columnWidths: const <int, TableColumnWidth>{
