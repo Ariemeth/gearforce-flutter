@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/rules/options/combat_group_options.dart';
+import 'package:gearforce/widgets/settings.dart';
+import 'package:provider/provider.dart';
 
 const int _maxOptionNameLines = 2;
 
@@ -22,8 +24,11 @@ class OptionLine extends StatefulWidget {
 class _OptionLineState extends State<OptionLine> {
   @override
   Widget build(BuildContext context) {
+    final settings = context.read<Settings>();
+
     final isAvailable =
         widget.cgOption.requirementCheck(widget.cg, widget.cg.roster);
+
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       controller: ScrollController(),
@@ -74,7 +79,7 @@ class _OptionLineState extends State<OptionLine> {
               ),
             ),
             preferBelow: true,
-            waitDuration: Duration(milliseconds: 250),
+            waitDuration: settings.tooltipDelay,
             decoration: BoxDecoration(
               color: Colors.blueGrey,
               borderRadius: const BorderRadius.all(Radius.circular(4)),

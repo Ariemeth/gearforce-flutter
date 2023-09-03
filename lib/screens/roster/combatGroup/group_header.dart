@@ -6,6 +6,8 @@ import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/screens/roster/combatGroup/combat_group_settings_dialog.dart';
 import 'package:gearforce/screens/roster/select_role.dart';
 import 'package:gearforce/widgets/display_value.dart';
+import 'package:gearforce/widgets/settings.dart';
+import 'package:provider/provider.dart';
 
 const maxDefaultPrimaryActions = 6;
 const minDefaultPrimaryActions = 4;
@@ -25,6 +27,7 @@ class GroupHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final settings = context.read<Settings>();
     final actions = group.totalActions();
     final maxPrimaryActions = roster == null
         ? maxDefaultPrimaryActions
@@ -68,6 +71,7 @@ class GroupHeader extends StatelessWidget {
           ),
           DisplayValue(text: 'TV:', value: group.totalTV()),
           Tooltip(
+            waitDuration: settings.tooltipDelay,
             message: group.groupType == GroupType.Primary
                 // a cg is only valid if the number of actions is greater then 4 and
                 // less then or equal to 6
@@ -124,6 +128,7 @@ class GroupHeader extends StatelessWidget {
                               ),
                               message:
                                   'Check to make this squad a veteran squad',
+                              waitDuration: settings.tooltipDelay,
                             ),
                           ),
                         ),

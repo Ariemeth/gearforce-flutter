@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/screens/roster/roster.dart';
+import 'package:gearforce/widgets/settings.dart';
 import 'package:provider/provider.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   var data = Data();
   data.load().whenComplete(() {
-    runApp(
-      Provider(
-        create: (_) => data,
-        child: GearForce(data: data),
-      ),
-    );
+    runApp(MultiProvider(
+      providers: [
+        Provider(create: (_) => data),
+        Provider(create: (_) => Settings()),
+      ],
+      child: GearForce(data: data),
+    ));
   });
 }
 

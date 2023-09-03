@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gearforce/models/rules/faction_rule.dart';
+import 'package:gearforce/widgets/settings.dart';
+import 'package:provider/provider.dart';
 
 const int _maxOptionNameLines = 2;
 
@@ -23,6 +25,7 @@ class FactionRulesLine extends StatefulWidget {
 class _FactionRulesLineState extends State<FactionRulesLine> {
   @override
   Widget build(BuildContext context) {
+    final settings = context.read<Settings>();
     final upgrade = widget.upgrade;
     final meetsReqs = upgrade.requirementCheck(widget.rules);
     final canBeToggled = upgrade.canBeToggled && meetsReqs;
@@ -71,7 +74,7 @@ class _FactionRulesLineState extends State<FactionRulesLine> {
             ),
           ),
           preferBelow: true,
-          waitDuration: Duration(milliseconds: 250),
+          waitDuration: settings.tooltipDelay,
           decoration: BoxDecoration(
             color: Colors.blueGrey,
             borderRadius: const BorderRadius.all(Radius.circular(4)),
