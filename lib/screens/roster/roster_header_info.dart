@@ -8,6 +8,7 @@ import 'package:gearforce/screens/roster/select_force_leader.dart';
 import 'package:gearforce/screens/roster/select_subfaction.dart';
 import 'package:gearforce/screens/upgrades/unit_upgrade_button.dart';
 import 'package:gearforce/widgets/display_value.dart';
+import 'package:gearforce/widgets/settings.dart';
 import 'package:provider/provider.dart';
 
 const _editableSettingsIcon = Icons.settings_suggest;
@@ -29,6 +30,7 @@ class RosterHeaderInfo extends StatelessWidget {
 
   Widget _createInfoPanel(BuildContext context) {
     final roster = context.watch<UnitRoster>();
+    final settings = context.read<Settings>();
 
     return Table(
       columnWidths: const <int, TableColumnWidth>{
