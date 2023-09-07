@@ -14,12 +14,9 @@ import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/screens/upgrades/upgrade_display_line.dart';
-import 'package:gearforce/widgets/options_section_title.dart';
 import 'package:provider/provider.dart';
 
-const double _upgradeSectionWidth = 620;
-const double _upgradeSectionHeight = 33;
-const int _maxVisibleUnitUpgrades = 3;
+const double _upgradeSectionWidth = 450;
 
 class UpgradesDialog extends StatelessWidget {
   const UpgradesDialog({
@@ -80,40 +77,39 @@ class UpgradesDialog extends StatelessWidget {
     });
 
     var dialog = SimpleDialog(
+      contentPadding: EdgeInsets.fromLTRB(5.0, 12.0, 5.0, 12.0),
       clipBehavior: Clip.antiAlias,
       shape: ContinuousRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(10.0))),
-      title: Center(
-        child: Column(
-          children: [
-            Text(
-              'Upgrades available to this',
-              style: TextStyle(fontSize: 24),
-              maxLines: 2,
-            ),
-            Text(
-              '${unit.core.name} TV: ${unit.tv}',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-          ],
+      title: Container(
+        width: _upgradeSectionWidth,
+        child: Center(
+          child: Column(
+            children: [
+              Text(
+                'Upgrades available to this',
+                style: TextStyle(fontSize: 24),
+                maxLines: 2,
+              ),
+              Text(
+                '${unit.core.name} TV: ${unit.tv}',
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
         ),
       ),
       children: [
-        Column(
-          // create listview with available upgrades
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            optionsSectionTitle('Unit Upgrades'),
-            unitUpgrades(unitMods, unit, cg, roster, rs),
-            optionsSectionTitle('Standard Upgrades'),
-            unitUpgrades(standardMods, unit, cg, roster, rs),
-            optionsSectionTitle('Faction Upgrades'),
-            unitUpgrades(factionMods, unit, cg, roster, rs),
-            optionsSectionTitle('Veteran Upgrades'),
-            unitUpgrades(veteranMods, unit, cg, roster, rs),
-            optionsSectionTitle('Duelist Upgrades'),
-            unitUpgrades(duelistMods, unit, cg, roster, rs),
-          ],
+        UpgradePanels(
+          cg,
+          roster,
+          rs,
+          unit,
+          unitMods: unitMods,
+          standardMods: standardMods,
+          vetMods: veteranMods,
+          duelistMods: duelistMods,
+          factionMods: factionMods,
         ),
         SimpleDialogOption(
           onPressed: () {
@@ -132,49 +128,97 @@ class UpgradesDialog extends StatelessWidget {
   }
 }
 
-Widget unitUpgrades(List<BaseModification> mods, Unit unit, CombatGroup cg,
-    UnitRoster ur, RuleSet rs) {
-  if (mods.isEmpty) {
-    return const Center(
-      child: Text(
-        'no upgrades available',
-        style: TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.w600,
-          fontStyle: FontStyle.normal,
-        ),
+class UpgradePanels extends StatefulWidget {
+  final CombatGroup cg;
+  final UnitRoster roster;
+  final RuleSet rs;
+  final Unit unit;
+  final List<UnitModification> unitMods;
+  final List<StandardModification> standardMods;
+  final List<VeteranModification> vetMods;
+  final List<DuelistModification> duelistMods;
+  final List<FactionModification> factionMods;
+
+  UpgradePanels(
+    this.cg,
+    this.roster,
+    this.rs,
+    this.unit, {
+    super.key,
+    required this.unitMods,
+    required this.standardMods,
+    required this.vetMods,
+    required this.duelistMods,
+    required this.factionMods,
+  });
+
+  @override
+  State<UpgradePanels> createState() => _UpgradePanelsState();
+}
+
+class _UpgradePanelsState extends State<UpgradePanels> {
+  final List<bool> panelExpandedList = [false, false, false, false, false];
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ExpansionPanelList(
+            expansionCallback: (panelIndex, isExpanded) {
+              setState(() {
+                this.panelExpandedList[panelIndex] = isExpanded;
+              });
+            },
+            children: [
+              _buildPanel('Unit Upgrades', widget.unitMods, 0),
+              _buildPanel('Standard Upgrades', widget.standardMods, 1),
+              _buildPanel('Veteran Upgrades', widget.vetMods, 2),
+              _buildPanel('Duelist Upgrades', widget.duelistMods, 3),
+              _buildPanel('Faction Upgrades', widget.factionMods, 4),
+            ],
+            expandedHeaderPadding: EdgeInsets.zero,
+            materialGapSize: 4.0,
+          ),
+        ],
       ),
     );
   }
 
-  final ScrollController _scrollController = ScrollController();
-
-  return Container(
-    width: _upgradeSectionWidth,
-    height: _upgradeSectionHeight *
-        (mods.length > _maxVisibleUnitUpgrades
-            ? _maxVisibleUnitUpgrades
-            : mods.length.toDouble()),
-    child: Scrollbar(
-      thumbVisibility: true,
-      trackVisibility: true,
-      controller: _scrollController,
-      interactive: true,
-      child: ListView.builder(
-        itemCount: mods.length,
-        controller: _scrollController,
-        shrinkWrap: true,
-        itemBuilder: (BuildContext context, int index) {
-          context.watch<Unit>();
-          return UpgradeDisplayLine(
-            mod: mods[index],
-            unit: unit,
-            cg: cg,
-            ur: ur,
-            rs: rs,
-          );
-        },
+  ExpansionPanel _buildPanel(
+      String text, List<BaseModification> mods, int panelIndex) {
+    final panel = ExpansionPanel(
+      canTapOnHeader: true,
+      headerBuilder: (context, isExpanded) {
+        return Container(
+          padding: EdgeInsets.fromLTRB(4.0, 0.0, 4.0, 0.0),
+          color: Color.fromARGB(255, 210, 231, 248),
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Text(text),
+          ),
+        );
+      },
+      body: Container(
+        width: _upgradeSectionWidth,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: mods
+              .map((m) => UpgradeDisplayLine(
+                    mod: m,
+                    unit: widget.unit,
+                    cg: widget.cg,
+                    ur: widget.roster,
+                    rs: widget.rs,
+                  ))
+              .toList(),
+        ),
       ),
-    ),
-  );
+      isExpanded: this.panelExpandedList[panelIndex],
+    );
+
+    return panel;
+  }
 }
