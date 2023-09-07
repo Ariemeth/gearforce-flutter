@@ -193,6 +193,7 @@ class _UpgradePanelsState extends State<UpgradePanels> {
       canTapOnHeader: true,
       headerBuilder: (context, isExpanded) {
         return Container(
+          padding: EdgeInsets.fromLTRB(4.0, 0.0, 4.0, 0.0),
           color: Color.fromARGB(255, 210, 231, 248),
           child: Align(
             alignment: Alignment.centerLeft,
