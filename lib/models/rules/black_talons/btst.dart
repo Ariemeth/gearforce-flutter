@@ -6,6 +6,7 @@ import 'package:gearforce/models/mods/duelist/duelist_modification.dart'
 import 'package:gearforce/models/rules/black_talons/black_talons.dart';
 import 'package:gearforce/models/rules/options/special_unit_filter.dart';
 import 'package:gearforce/models/traits/trait.dart';
+import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/model_type.dart';
 
 const String _baseRuleId = 'rule::blackTalon::btst';
@@ -52,7 +53,7 @@ final ruleAllies = FactionRule(
         u.faction == FactionType.South ||
         u.faction == FactionType.PeaceRiver ||
         u.faction == FactionType.NuCoal) {
-      return [];
+      return [CommandLevel.none];
     }
     return null;
   },

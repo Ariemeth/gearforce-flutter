@@ -4,6 +4,7 @@ import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/mods/factionUpgrades/black_talon.dart';
 import 'package:gearforce/models/rules/black_talons/black_talons.dart';
 import 'package:gearforce/models/rules/options/special_unit_filter.dart';
+import 'package:gearforce/models/unit/command.dart';
 
 const String _baseRuleId = 'rule::blackTalon::btit';
 const String _ruleAlliesId = '$_baseRuleId::10';
@@ -60,7 +61,7 @@ final ruleAllies = FactionRule(
     if (u.faction == FactionType.Caprice ||
         u.faction == FactionType.Utopia ||
         u.faction == FactionType.Eden) {
-      return [];
+      return [CommandLevel.none];
     }
     return null;
   },
