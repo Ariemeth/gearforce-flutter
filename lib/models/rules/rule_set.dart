@@ -250,11 +250,10 @@ abstract class RuleSet extends ChangeNotifier {
         return results;
       }
     }
-    // TODO _checkModelRules should return a validation list
-    final modelCheck = _checkModelRules(unit, group);
-    if (modelCheck != null && !modelCheck) {
-      results.add(Validation(false,
-          issue: 'This model\'s rules prevent it from being added'));
+
+    final modelValidations = _checkModelRules(unit, group);
+    if (modelValidations.isInValid()) {
+      results.addAll(modelValidations.validations);
       return results;
     }
 
@@ -694,34 +693,60 @@ abstract class RuleSet extends ChangeNotifier {
   }
 }
 
-bool? _checkModelRules(Unit unit, Group group) {
+Validations _checkModelRules(Unit unit, Group group) {
+  final results = Validations();
   final frame = unit.core.frame;
   final unitsInGroup = group.allUnits().where((u) => u != unit).toList();
 
   if (unitsInGroup.isEmpty) {
-    return true;
+    results.add(Validation(true));
+    return results;
   }
 
   // deal with the overlord multi unit model
   if (frame == _overlord) {
     if (group.groupType == GroupType.Secondary) {
-      return false;
+      results
+          .add(Validation(false, issue: 'cannot be part of a secondary group'));
+      return results;
     }
-    if (unitsInGroup.length > 1) {
-      return false;
+    if (unitsInGroup
+            .where((u) =>
+                u.actions != null || (u.actions != null && u.actions! > 0))
+            .length >
+        1) {
+      results.add(Validation(false,
+          issue: 'already units in the group, will result in to many actions'));
+      return results;
     }
     if (unit.name == _overlordBody &&
-        unitsInGroup.any((u) => u.name == _overlordTurret)) {
-      return true;
+        unitsInGroup.any((u) =>
+            u.name == _overlordTurret ||
+            u.actions == null ||
+            (u.actions != null && u.actions == 0))) {
+      results.add(Validation(true));
+      return results;
     }
     if (unit.name == _overlordTurret &&
-        unitsInGroup.any((u) => u.name == _overlordBody)) {
-      return true;
+        unitsInGroup.any((u) =>
+            u.name == _overlordBody ||
+            u.actions == null ||
+            (u.actions != null && u.actions == 0))) {
+      results.add(Validation(true));
+      return results;
     }
-    return false;
+
+    results
+        .add(Validation(false, issue: 'group already contains another unit'));
+    return results;
   }
-  if (unitsInGroup.any((u) => u.core.frame == _overlord)) {
-    return false;
+
+  if (unitsInGroup.any((u) => u.core.frame == _overlord) &&
+      (unit.actions != null && unit.actions! > 0)) {
+    results.add(Validation(false,
+        issue:
+            'group already contains an Overlord, will result in to many actions'));
+    return results;
   }
 
   // deal with the gilgamesh multi-unit model
@@ -729,7 +754,9 @@ bool? _checkModelRules(Unit unit, Group group) {
       frame == _gilgameshBack ||
       frame == _gilgameshTurret) {
     if (group.groupType == GroupType.Secondary) {
-      return false;
+      results
+          .add(Validation(false, issue: 'cannot be part of a secondary group'));
+      return results;
     }
 
     // current units in the group need to only be other parts
@@ -737,20 +764,27 @@ bool? _checkModelRules(Unit unit, Group group) {
         u.core.frame != frame &&
         (u.core.frame == _gilgameshFront ||
             u.core.frame == _gilgameshBack ||
-            u.core.frame == _gilgameshTurret))) {
-      return true;
+            u.core.frame == _gilgameshTurret ||
+            (u.actions == null || u.actions! < 1)))) {
+      results.add(Validation(true));
+      return results;
     }
-    return false;
+    results.add(Validation(false,
+        issue: 'already units in the group, will result in too many actions'));
+    return results;
   }
 
   if (unitsInGroup.any((u) =>
-      u.core.frame == _gilgameshFront ||
-      u.core.frame == _gilgameshBack ||
-      u.core.frame == _gilgameshTurret)) {
-    return false;
+          u.core.frame == _gilgameshFront ||
+          u.core.frame == _gilgameshBack ||
+          u.core.frame == _gilgameshTurret) &&
+      (unit.actions != null && unit.actions! > 0)) {
+    results.add(Validation(false,
+        issue: 'Gilgamesh already in group, will result in too many actions'));
+    return results;
   }
 
-  return null;
+  return results;
 }
 
 const _overlord = 'HHT-90 Overlord';
