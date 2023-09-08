@@ -81,7 +81,7 @@ class Group extends ChangeNotifier {
     final validations = Validations();
     if (_units.contains(unit)) {
       validations.add(Validation(
-        status: false,
+        false,
         issue: 'Unit ${unit.name} is already in $groupType in $combatGroup',
       ));
       return validations;
@@ -241,7 +241,7 @@ class Group extends ChangeNotifier {
     }
 
     results.add(Validation(
-      status: false,
+      false,
       issue: 'Unit ${u.name} can not be a vet and the combatgroup' +
           ' is a veteren CG',
     ));
@@ -274,8 +274,7 @@ class Group extends ChangeNotifier {
             .canBeAddedToGroup(u, this, combatGroup!)
             .isInValid()) {
           validationErrors.add(
-            Validation(
-                status: false,
+            Validation(false,
                 issue:
                     '${u.name} no longer can be part of the $groupType of $combatGroup'),
           );

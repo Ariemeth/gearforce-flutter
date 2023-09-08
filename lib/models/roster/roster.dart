@@ -438,7 +438,7 @@ class UnitRoster extends ChangeNotifier {
     allRules.forEach((rule) {
       if (rule.isEnabled && !rule.requirementCheck(allRules)) {
         validationErrors.add(Validation(
-          status: false,
+          false,
           issue: 'Rule ${rule.name} fails requirement check',
         ));
         print('Disabling rule ${rule.name}');

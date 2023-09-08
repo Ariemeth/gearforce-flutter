@@ -227,7 +227,7 @@ class CombatGroup extends ChangeNotifier {
     if (highestRank < CommandLevel.cgl) {
       _tryEnsureCommander(tryFix: tryFix);
       validationErrors.add(Validation(
-        status: false,
+        false,
         issue: 'No leader of at least CGL in CG',
       ));
     }

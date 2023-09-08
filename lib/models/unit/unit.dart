@@ -573,21 +573,21 @@ class Unit extends ChangeNotifier {
     final g = this.group;
     if (g == null) {
       validationErrors.add(Validation(
-        status: false,
+        false,
         issue: "Unit does not have a group",
       ));
     }
     final cg = group?.combatGroup;
     if (cg == null) {
       validationErrors.add(Validation(
-        status: false,
+        false,
         issue: "Unit does not have a combat group",
       ));
     }
     final roster = cg?.roster;
     if (roster == null) {
       validationErrors.add(Validation(
-        status: false,
+        false,
         issue: "Unit does not have a roster",
       ));
     }
@@ -628,7 +628,7 @@ class Unit extends ChangeNotifier {
           this,
         )) {
           validationErrors.add(Validation(
-            status: false,
+            false,
             issue:
                 'mod ${mod.id} does not met its requirement check during validation',
           ));

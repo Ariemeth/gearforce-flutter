@@ -1,7 +1,7 @@
 class Validation {
   final String? issue;
   final bool? status;
-  const Validation({required this.status, this.issue = null});
+  const Validation(this.status, {this.issue = null});
 
   @override
   String toString() {

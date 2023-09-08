@@ -181,7 +181,7 @@ abstract class RuleSet extends ChangeNotifier {
     if (!(numIndependentOperator == 0 ||
         (numIndependentOperator == 1 && unit.hasMod(independentOperatorId)))) {
       results.add(Validation(
-        status: false,
+        false,
         issue: 'An independent Operator is already in the CG',
       ));
       return results;
@@ -191,7 +191,7 @@ abstract class RuleSet extends ChangeNotifier {
     // SpecialUnitFIlters
     final unitFilters = availableUnitFilters(cg.options);
     if (!unitFilters.any((filter) => filter.anyMatch(unit.core))) {
-      results.add(Validation(status: false, issue: 'Unit not allowed'));
+      results.add(Validation(false, issue: 'Unit not allowed'));
       return results;
     }
 
@@ -207,7 +207,7 @@ abstract class RuleSet extends ChangeNotifier {
     if (overrideValues.isNotEmpty) {
       if (overrideValues.any((status) => status == false)) {
         results.add(Validation(
-          status: false,
+          false,
           issue: 'A faction rule is blocking this unit from being added',
         ));
         return results;
@@ -221,7 +221,7 @@ abstract class RuleSet extends ChangeNotifier {
     if (!(hasGroupRole(unit, targetRole, group) ||
         unit.type == ModelType.AirstrikeCounter)) {
       results.add(Validation(
-        status: false,
+        false,
         issue: 'Unit does not have the ${targetRole.name} role',
       ));
       return results;
@@ -242,7 +242,7 @@ abstract class RuleSet extends ChangeNotifier {
             'Unit ${unit.name} has ${unit.actions} action and cannot be added as it would increase the number of actions beyond the max allowed of $maxAllowedActions');
         results.add(
           Validation(
-            status: false,
+            false,
             issue:
                 'This units actions(${unit.actions}) would be over the max of $maxAllowedActions',
           ),
@@ -253,8 +253,7 @@ abstract class RuleSet extends ChangeNotifier {
     // TODO _checkModelRules should return a validation list
     final modelCheck = _checkModelRules(unit, group);
     if (modelCheck != null && !modelCheck) {
-      results.add(Validation(
-          status: false,
+      results.add(Validation(false,
           issue: 'This model\'s rules prevent it from being added'));
       return results;
     }
@@ -268,8 +267,7 @@ abstract class RuleSet extends ChangeNotifier {
     final withinCount = isUnitCountWithinLimits(cg, group, unit);
 
     if (!withinCount) {
-      results.add(Validation(
-          status: false,
+      results.add(Validation(false,
           issue: 'Max allowed instances of this unit are already added'));
       return results;
     }
