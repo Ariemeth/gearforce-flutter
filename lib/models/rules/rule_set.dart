@@ -19,6 +19,7 @@ import 'package:gearforce/models/unit/model_type.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
+import 'package:gearforce/models/validation/validations.dart';
 import 'package:gearforce/models/weapons/weapon.dart';
 import 'package:gearforce/models/mods/unitUpgrades/cef.dart' as cef;
 
@@ -173,18 +174,25 @@ abstract class RuleSet extends ChangeNotifier {
     return results;
   }
 
-  bool canBeAddedToGroup(Unit unit, Group group, CombatGroup cg) {
+  Validations canBeAddedToGroup(Unit unit, Group group, CombatGroup cg) {
+    final results = Validations();
+
     final numIndependentOperator = cg.numUnitsWithMod(independentOperatorId);
     if (!(numIndependentOperator == 0 ||
         (numIndependentOperator == 1 && unit.hasMod(independentOperatorId)))) {
-      return false;
+      results.add(Validation(
+        status: false,
+        issue: 'An independent Operator is already in the CG',
+      ));
+      return results;
     }
 
     // check to ensure the unit passes at least 1 of the enabled rules
     // SpecialUnitFIlters
     final unitFilters = availableUnitFilters(cg.options);
     if (!unitFilters.any((filter) => filter.anyMatch(unit.core))) {
-      return false;
+      results.add(Validation(status: false, issue: 'Unit not allowed'));
+      return results;
     }
 
     // Check if any faction rules override the default canBeAddedToGroup check.
@@ -192,14 +200,19 @@ abstract class RuleSet extends ChangeNotifier {
     // returned are true,return true
     final canBeAddedToGroupOverrides = allEnabledRules(cg.options)
         .where((rule) => rule.canBeAddedToGroup != null);
+    // TODO the rule override canBeAddedToGroup should return a validation
     final overrideValues = canBeAddedToGroupOverrides
         .map((rule) => rule.canBeAddedToGroup!(unit, group, cg))
         .where((result) => result != null);
     if (overrideValues.isNotEmpty) {
       if (overrideValues.any((status) => status == false)) {
-        return false;
+        results.add(Validation(
+          status: false,
+          issue: 'A faction rule is blocking this unit from being added',
+        ));
+        return results;
       }
-      return true;
+      return results;
     }
 
     final targetRole = group.role();
@@ -207,7 +220,11 @@ abstract class RuleSet extends ChangeNotifier {
     // Unit must have the role of the group it is being added.
     if (!(hasGroupRole(unit, targetRole, group) ||
         unit.type == ModelType.AirstrikeCounter)) {
-      return false;
+      results.add(Validation(
+        status: false,
+        issue: 'Unit does not have the ${targetRole.name} role',
+      ));
+      return results;
     }
 
     final modelCheckCount = _checkModelRulesCount(unit, group, cg);
@@ -223,21 +240,41 @@ abstract class RuleSet extends ChangeNotifier {
       if (actions > maxAllowedActions) {
         print(
             'Unit ${unit.name} has ${unit.actions} action and cannot be added as it would increase the number of actions beyond the max allowed of $maxAllowedActions');
-        return false;
+        results.add(
+          Validation(
+            status: false,
+            issue:
+                'This units actions(${unit.actions}) would be over the max of $maxAllowedActions',
+          ),
+        );
+        return results;
       }
     }
+    // TODO _checkModelRules should return a validation list
     final modelCheck = _checkModelRules(unit, group);
     if (modelCheck != null && !modelCheck) {
-      return false;
+      results.add(Validation(
+          status: false,
+          issue: 'This model\'s rules prevent it from being added'));
+      return results;
     }
 
     // if the unit is unlimited for the groups roletype you can add as many
     // as you want.
     if (isRoleTypeUnlimited(unit, targetRole, group, cg.roster)) {
-      return true;
+      return results;
     }
 
-    return isUnitCountWithinLimits(cg, group, unit);
+    final withinCount = isUnitCountWithinLimits(cg, group, unit);
+
+    if (!withinCount) {
+      results.add(Validation(
+          status: false,
+          issue: 'Max allowed instances of this unit are already added'));
+      return results;
+    }
+
+    return results;
   }
 
   bool canBeCommand(Unit unit) {

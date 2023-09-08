@@ -431,14 +431,16 @@ class UnitRoster extends ChangeNotifier {
     return results;
   }
 
-  List<Validation> validate(RuleSet ruleset) {
-    final List<Validation> validationErrors = [];
+  Validations validate(RuleSet ruleset) {
+    final Validations validationErrors = Validations();
 
     final allRules = ruleset.allFactionRules(factions: allModelFactions());
     allRules.forEach((rule) {
       if (rule.isEnabled && !rule.requirementCheck(allRules)) {
-        validationErrors.add(
-            Validation(issue: 'Rule ${rule.name} fails requirement check'));
+        validationErrors.add(Validation(
+          status: false,
+          issue: 'Rule ${rule.name} fails requirement check',
+        ));
         print('Disabling rule ${rule.name}');
         rule.setIsEnabled(false, allRules);
       }
@@ -452,9 +454,8 @@ class UnitRoster extends ChangeNotifier {
 
     _combatGroups.forEach((key, cg) {
       final ve = cg.validate(tryFix: true);
-      if (ve.isNotEmpty) {
-        validationErrors.addAll(ve);
-      }
+
+      validationErrors.addAll(ve.validations);
     });
     return validationErrors;
   }

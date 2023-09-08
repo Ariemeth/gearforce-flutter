@@ -105,11 +105,14 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
         if (u == null) {
           return false;
         }
-        final canBeAdded = ruleSet.canBeAddedToGroup(u, group, cg);
+        final canBeAddedValidations = ruleSet.canBeAddedToGroup(u, group, cg);
+
+        final canBeAdded = canBeAddedValidations.isValid();
 
         if (!canBeAdded) {
           final snack = SnackBar(
-              content: Text('${u.name} can not be added to the group'));
+              content: Text(
+                  '${u.name} can not be added to the ${group.groupType.name} group; reason: ${canBeAddedValidations.toString()}'));
           ScaffoldMessenger.of(context).showSnackBar(snack);
         }
         return canBeAdded;
