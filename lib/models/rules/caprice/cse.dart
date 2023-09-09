@@ -7,6 +7,7 @@ import 'package:gearforce/models/rules/options/combat_group_options.dart';
 import 'package:gearforce/models/rules/options/special_unit_filter.dart';
 import 'package:gearforce/models/unit/model_type.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
+import 'package:gearforce/models/validation/validations.dart';
 
 const String _baseRuleId = 'rule::caprice::cse';
 const String _ruleTheBestWayToMakeMoneyId = '$_baseRuleId::10';
@@ -84,7 +85,11 @@ final FactionRule _ruleAllyCEF = FactionRule(
       if (matchOnlyFlails(unit.core)) {
         return null;
       }
-      return false;
+      return Validation(
+        false,
+        issue: 'CEF units must be placed in secondary units; See' +
+            ' Allies rule.',
+      );
     }
 
     return null;
@@ -112,7 +117,11 @@ final FactionRule _ruleAllyUtopia = FactionRule(
     }
 
     if (unit.faction == FactionType.Utopia) {
-      return false;
+      return Validation(
+        false,
+        issue: 'Utopia units must be placed in secondary units; See' +
+            ' Allies rule.',
+      );
     }
 
     return null;
@@ -140,7 +149,11 @@ final FactionRule _ruleAllyEden = FactionRule(
     }
 
     if (unit.faction == FactionType.Eden) {
-      return false;
+      return Validation(
+        false,
+        issue: 'Eden units must be placed in secondary units; See' +
+            ' Allies rule.',
+      );
     }
 
     return null;
@@ -160,7 +173,12 @@ final FactionRule ruleAppropriations = FactionRule(
     if (!_matchForAppropriations(unit.core)) {
       return null;
     }
-    return group.groupType == GroupType.Primary;
+    final isPrimary = group.groupType == GroupType.Primary;
+    return Validation(
+      isPrimary,
+      issue: 'This unit can only be added to a primary group; See' +
+          ' Appropriations rule.',
+    );
   },
   unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Appropriations',

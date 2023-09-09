@@ -7,6 +7,7 @@ import 'package:gearforce/models/rules/caprice/caprice.dart';
 import 'package:gearforce/models/rules/faction_rule.dart';
 import 'package:gearforce/models/rules/options/special_unit_filter.dart';
 import 'package:gearforce/models/unit/model_type.dart';
+import 'package:gearforce/models/validation/validations.dart';
 
 const String _baseRuleId = 'rule::caprice::lrc';
 const String _ruleHeroesOfTheResistanceId = '$_baseRuleId::10';
@@ -94,7 +95,11 @@ final FactionRule _ruleAllyBlackTalon = FactionRule(
     }
 
     if (unit.faction == FactionType.BlackTalon) {
-      return false;
+      return Validation(
+        false,
+        issue: 'Black Talon units may only be placed in secondary units; See' +
+            ' Allies rule.',
+      );
     }
 
     return null;
@@ -122,7 +127,11 @@ final FactionRule _ruleAllyUtopia = FactionRule(
     }
 
     if (unit.faction == FactionType.Utopia) {
-      return false;
+      return Validation(
+        false,
+        issue: 'Utopia units may only be placed in secondary units; See' +
+            ' Allies rule.',
+      );
     }
 
     return null;
@@ -150,7 +159,11 @@ final FactionRule _ruleAllyEden = FactionRule(
     }
 
     if (unit.faction == FactionType.Eden) {
-      return false;
+      return Validation(
+        false,
+        issue: 'Eden units may only be placed in secondary units; See' +
+            ' Allies rule.',
+      );
     }
 
     return null;

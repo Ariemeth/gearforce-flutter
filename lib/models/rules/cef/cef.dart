@@ -13,6 +13,7 @@ import 'package:gearforce/models/rules/options/combat_group_options.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/rules/options/special_unit_filter.dart';
 import 'package:gearforce/models/unit/model_type.dart';
+import 'package:gearforce/models/validation/validations.dart';
 
 const String _baseRuleId = 'rule::cef::core';
 const String _ruleMinervaId = '$_baseRuleId::10';
@@ -126,7 +127,11 @@ final FactionRule ruleAlliesCaprice = FactionRule(
       return null;
     }
     if (group.groupType == GroupType.Primary) {
-      return false;
+      return Validation(
+        false,
+        issue: 'Caprice units must be placed in secondary units; See Allies' +
+            ' rule.',
+      );
     }
     return null;
   },
@@ -165,7 +170,11 @@ final FactionRule ruleAlliesUtopia = FactionRule(
       return null;
     }
     if (group.groupType == GroupType.Primary) {
-      return false;
+      return Validation(
+        false,
+        issue: 'Utopia units must be placed in secondary units; See Allies' +
+            ' rule.',
+      );
     }
     return null;
   },
@@ -190,7 +199,11 @@ final FactionRule ruleAlliesEden = FactionRule(
       return null;
     }
     if (group.groupType == GroupType.Primary) {
-      return false;
+      return Validation(
+        false,
+        issue: 'Eden units must be placed in secondary units; See Allies' +
+            ' rule.',
+      );
     }
     return null;
   },

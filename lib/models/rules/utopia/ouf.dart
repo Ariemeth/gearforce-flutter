@@ -12,6 +12,7 @@ import 'package:gearforce/models/rules/north/north.dart' as north;
 import 'package:gearforce/models/rules/options/combat_group_options.dart';
 import 'package:gearforce/models/rules/options/special_unit_filter.dart';
 import 'package:gearforce/models/rules/utopia/utopia.dart';
+import 'package:gearforce/models/validation/validations.dart';
 
 const String _baseRuleId = 'rule::utopia::ouf';
 const String _ruleGreenwayCausticsId = '$_baseRuleId::10';
@@ -98,7 +99,11 @@ final FactionRule _ruleAllyCEF = FactionRule(
     if (unit.faction == FactionType.CEF) {
       // handle CEF gears used by NAI Experiements
       if (!matchOnlyGears(unit.core)) {
-        return false;
+        return Validation(
+          false,
+          issue: 'CEF units may only be added to a secondary group; See' +
+              ' Allies rule.',
+        );
       }
     }
 
@@ -128,7 +133,11 @@ final FactionRule _ruleAllyBlackTalon = FactionRule(
     }
 
     if (unit.faction == FactionType.BlackTalon) {
-      return false;
+      return Validation(
+        false,
+        issue: 'Black Talon units may only be added to a secondary group; See' +
+            ' Allies rule.',
+      );
     }
 
     return null;
@@ -157,7 +166,11 @@ final FactionRule _ruleAllyCaprice = FactionRule(
     }
 
     if (unit.faction == FactionType.Caprice) {
-      return false;
+      return Validation(
+        false,
+        issue: 'Caprice units may only be added to a secondary group; See' +
+            ' Allies rule.',
+      );
     }
 
     return null;
@@ -200,7 +213,11 @@ final FactionRule _ruleAllyEden = FactionRule(
     }
 
     if (unit.faction == FactionType.Eden) {
-      return false;
+      return Validation(
+        false,
+        issue: 'Eden units may only be added to a secondary group; See' +
+            ' Allies rule.',
+      );
     }
 
     return null;

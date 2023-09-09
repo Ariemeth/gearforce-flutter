@@ -10,6 +10,7 @@ import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
+import 'package:gearforce/models/validation/validations.dart';
 import 'package:gearforce/models/weapons/weapon.dart';
 
 class FactionRule extends ChangeNotifier {
@@ -102,7 +103,7 @@ class FactionRule extends ChangeNotifier {
   final bool? Function(Unit u, CombatGroup cg, {required String modID})?
       modCheckOverride;
 
-  final bool? Function(Unit unit, Group group, CombatGroup cg)?
+  final Validation? Function(Unit unit, Group group, CombatGroup cg)?
       canBeAddedToGroup;
   final bool? Function(Unit unit, RoleType target, Group group)? hasGroupRole;
   final bool? Function(Unit unit, RoleType target, Group group, UnitRoster? ur)?

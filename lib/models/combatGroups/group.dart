@@ -77,12 +77,14 @@ class Group extends ChangeNotifier {
     notifyListeners();
   }
 
-  List<Validation>? _addUnit(Unit unit) {
+  Validations _addUnit(Unit unit) {
+    final validations = Validations();
     if (_units.contains(unit)) {
-      return [
-        Validation(
-            issue: 'Unit ${unit.name} is already in $groupType in $combatGroup')
-      ];
+      validations.add(Validation(
+        false,
+        issue: 'Unit ${unit.name} is already in $groupType in $combatGroup',
+      ));
+      return validations;
     }
 
     // Check if the unit is part of a vet group and if so make sure all
@@ -90,8 +92,9 @@ class Group extends ChangeNotifier {
     final isInVetGroup = combatGroup?.isVeteran;
     if (isInVetGroup != null && isInVetGroup && !unit.isVeteran) {
       final e = validateVetStatus(unit, tryFix: true);
-      if (e.isNotEmpty) {
-        return e;
+      if (e.isNotValid()) {
+        validations.addAll(e.validations);
+        return validations;
       }
     }
 
@@ -101,13 +104,13 @@ class Group extends ChangeNotifier {
     });
 
     _units.add(unit);
-    return null;
+    return validations;
   }
 
   void addUnit(Unit unit) {
-    final errors = _addUnit(unit);
-    if (errors != null) {
-      print(errors.toString());
+    final validations = _addUnit(unit);
+    if (validations.isNotValid()) {
+      print(validations.toString());
     } else {
       if (unit.group == null) {
         unit.group = this;
@@ -212,12 +215,13 @@ class Group extends ChangeNotifier {
 
   List<Unit> get veterans => _units.where((unit) => unit.isVeteran).toList();
 
-  List<Validation> validateVetStatus(Unit u, {bool tryFix = false}) {
+  Validations validateVetStatus(Unit u, {bool tryFix = false}) {
+    final results = Validations();
     if (u.type == ModelType.Drone ||
         u.type == ModelType.Terrain ||
         u.type == ModelType.AreaTerrain ||
         u.isVeteran) {
-      return [];
+      return results;
     }
 
     if (u.roster?.isEliteForce == true) {
@@ -228,7 +232,7 @@ class Group extends ChangeNotifier {
           combatGroup,
           u)) {
         u.addUnitMod(makeVet);
-        return [];
+        return results;
       }
 
       if (tryFix) {
@@ -236,22 +240,21 @@ class Group extends ChangeNotifier {
       }
     }
 
-    return [
-      Validation(
-        issue: 'Unit ${u.name} can not be a vet and the combatgroup' +
-            ' is a veteren CG',
-      )
-    ];
+    results.add(Validation(
+      false,
+      issue: 'Unit ${u.name} can not be a vet and the combatgroup' +
+          ' is a veteren CG',
+    ));
+
+    return results;
   }
 
-  List<Validation> validate({bool tryFix = false}) {
-    final List<Validation> validationErrors = [];
+  Validations validate({bool tryFix = false}) {
+    final Validations validationErrors = Validations();
 
     _units.toList().forEach((u) {
       final ve = u.validate(tryFix: tryFix);
-      if (ve.isNotEmpty) {
-        validationErrors.addAll(ve);
-      }
+      validationErrors.addAll(ve.validations);
     });
 
     if (combatGroup != null && combatGroup!.roster != null) {
@@ -262,16 +265,19 @@ class Group extends ChangeNotifier {
         final isInVetGroup = combatGroup?.isVeteran;
         if (isInVetGroup != null && isInVetGroup && !u.isVeteran) {
           final e = validateVetStatus(u, tryFix: tryFix);
-          if (e.isNotEmpty) {
-            validationErrors.addAll(e);
+          if (e.isNotValid()) {
+            validationErrors.addAll(e.validations);
             return;
           }
         }
-        if (!combatGroup!.roster!.rulesetNotifer.value
-            .canBeAddedToGroup(u, this, combatGroup!)) {
-          validationErrors.add(Validation(
-              issue:
-                  '${u.name} no longer can be part of the $groupType of $combatGroup'));
+        if (combatGroup!.roster!.rulesetNotifer.value
+            .canBeAddedToGroup(u, this, combatGroup!)
+            .isNotValid()) {
+          validationErrors.add(
+            Validation(false,
+                issue:
+                    '${u.name} no longer can be part of the $groupType of $combatGroup'),
+          );
           _units.remove(u);
         }
       });

@@ -7,6 +7,7 @@ import 'package:gearforce/models/rules/options/combat_group_options.dart';
 import 'package:gearforce/models/rules/peace_river/peace_river.dart';
 import 'package:gearforce/models/rules/options/special_unit_filter.dart';
 import 'package:gearforce/models/unit/role.dart';
+import 'package:gearforce/models/validation/validations.dart';
 
 const String _baseRuleId = 'rule::peaceriver::poc';
 const String _ruleSpecialIssueId = '$_baseRuleId::10';
@@ -117,7 +118,12 @@ final FactionRule ruleMercenaryContract = FactionRule(
   id: _ruleMercContractId,
   cgCheck: onlyOneCG(_ruleMercContractId),
   canBeAddedToGroup: (unit, group, cg) {
-    return unit.armor == null || (unit.armor != null && unit.armor! <= 8);
+    final canBeAdded =
+        unit.armor == null || (unit.armor != null && unit.armor! <= 8);
+    return Validation(
+      canBeAdded,
+      issue: 'Must have an armor value of 8 or lower; See Mercenary Contract.',
+    );
   },
   combatGroupOption: () => [ruleMercenaryContract.buidCombatGroupOption()],
   unitFilter: (cgOptions) => const SpecialUnitFilter(

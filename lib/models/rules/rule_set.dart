@@ -19,6 +19,7 @@ import 'package:gearforce/models/unit/model_type.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
+import 'package:gearforce/models/validation/validations.dart';
 import 'package:gearforce/models/weapons/weapon.dart';
 import 'package:gearforce/models/mods/unitUpgrades/cef.dart' as cef;
 
@@ -173,18 +174,25 @@ abstract class RuleSet extends ChangeNotifier {
     return results;
   }
 
-  bool canBeAddedToGroup(Unit unit, Group group, CombatGroup cg) {
+  Validations canBeAddedToGroup(Unit unit, Group group, CombatGroup cg) {
+    final results = Validations();
+
     final numIndependentOperator = cg.numUnitsWithMod(independentOperatorId);
     if (!(numIndependentOperator == 0 ||
         (numIndependentOperator == 1 && unit.hasMod(independentOperatorId)))) {
-      return false;
+      results.add(Validation(
+        false,
+        issue: 'An independent Operator is already in the CG',
+      ));
+      return results;
     }
 
     // check to ensure the unit passes at least 1 of the enabled rules
     // SpecialUnitFIlters
     final unitFilters = availableUnitFilters(cg.options);
     if (!unitFilters.any((filter) => filter.anyMatch(unit.core))) {
-      return false;
+      results.add(Validation(false, issue: 'Unit not allowed'));
+      return results;
     }
 
     // Check if any faction rules override the default canBeAddedToGroup check.
@@ -192,14 +200,28 @@ abstract class RuleSet extends ChangeNotifier {
     // returned are true,return true
     final canBeAddedToGroupOverrides = allEnabledRules(cg.options)
         .where((rule) => rule.canBeAddedToGroup != null);
-    final overrideValues = canBeAddedToGroupOverrides
+
+    final List<Validation> overrideValues = [];
+    canBeAddedToGroupOverrides
         .map((rule) => rule.canBeAddedToGroup!(unit, group, cg))
-        .where((result) => result != null);
-    if (overrideValues.isNotEmpty) {
-      if (overrideValues.any((status) => status == false)) {
-        return false;
+        .forEach((val) {
+      if (val != null) {
+        overrideValues.add(val);
       }
-      return true;
+    });
+
+    if (overrideValues.isNotEmpty) {
+      if (overrideValues.any((val) => val.isNotValid())) {
+        overrideValues.forEach((val) {
+          if (val.isNotValid()) {
+            results.add(val);
+          }
+        });
+        return results;
+      }
+
+      results.add(Validation(true));
+      return results;
     }
 
     final targetRole = group.role();
@@ -207,7 +229,11 @@ abstract class RuleSet extends ChangeNotifier {
     // Unit must have the role of the group it is being added.
     if (!(hasGroupRole(unit, targetRole, group) ||
         unit.type == ModelType.AirstrikeCounter)) {
-      return false;
+      results.add(Validation(
+        false,
+        issue: 'Unit does not have the ${targetRole.name} role',
+      ));
+      return results;
     }
 
     final modelCheckCount = _checkModelRulesCount(unit, group, cg);
@@ -221,23 +247,43 @@ abstract class RuleSet extends ChangeNotifier {
               ? modelCheckCount
               : maxSecondaryActions(cg.primary.totalActions());
       if (actions > maxAllowedActions) {
-        print(
-            'Unit ${unit.name} has ${unit.actions} action and cannot be added as it would increase the number of actions beyond the max allowed of $maxAllowedActions');
-        return false;
+        print('Unit ${unit.name} has ${unit.actions} action and cannot be' +
+            ' added as it would increase the number of actions beyond the max' +
+            ' allowed of $maxAllowedActions');
+        results.add(
+          Validation(
+            false,
+            issue: 'This units actions(${unit.actions}) would be over the max' +
+                ' of $maxAllowedActions',
+          ),
+        );
+        return results;
       }
     }
-    final modelCheck = _checkModelRules(unit, group);
-    if (modelCheck != null && !modelCheck) {
-      return false;
+
+    final modelValidation = _checkModelRules(unit, group);
+    if (modelValidation != null && modelValidation.isNotValid()) {
+      results.add(modelValidation);
+      return results;
     }
 
     // if the unit is unlimited for the groups roletype you can add as many
     // as you want.
     if (isRoleTypeUnlimited(unit, targetRole, group, cg.roster)) {
-      return true;
+      return results;
     }
 
-    return isUnitCountWithinLimits(cg, group, unit);
+    final withinCount = isUnitCountWithinLimits(cg, group, unit);
+
+    if (!withinCount) {
+      results.add(Validation(
+        false,
+        issue: 'Max allowed instances of this unit are already added',
+      ));
+      return results;
+    }
+
+    return results;
   }
 
   bool canBeCommand(Unit unit) {
@@ -659,34 +705,54 @@ abstract class RuleSet extends ChangeNotifier {
   }
 }
 
-bool? _checkModelRules(Unit unit, Group group) {
+Validation? _checkModelRules(Unit unit, Group group) {
   final frame = unit.core.frame;
   final unitsInGroup = group.allUnits().where((u) => u != unit).toList();
 
   if (unitsInGroup.isEmpty) {
-    return true;
+    return Validation(true);
   }
 
   // deal with the overlord multi unit model
   if (frame == _overlord) {
     if (group.groupType == GroupType.Secondary) {
-      return false;
+      return Validation(false, issue: 'cannot be part of a secondary group');
     }
-    if (unitsInGroup.length > 1) {
-      return false;
+    if (unitsInGroup
+            .where((u) =>
+                u.actions != null || (u.actions != null && u.actions! > 0))
+            .length >
+        1) {
+      return Validation(
+        false,
+        issue: 'already units in the group, will result in to many actions',
+      );
     }
     if (unit.name == _overlordBody &&
-        unitsInGroup.any((u) => u.name == _overlordTurret)) {
-      return true;
+        unitsInGroup.any((u) =>
+            u.name == _overlordTurret ||
+            u.actions == null ||
+            (u.actions != null && u.actions == 0))) {
+      return Validation(true);
     }
     if (unit.name == _overlordTurret &&
-        unitsInGroup.any((u) => u.name == _overlordBody)) {
-      return true;
+        unitsInGroup.any((u) =>
+            u.name == _overlordBody ||
+            u.actions == null ||
+            (u.actions != null && u.actions == 0))) {
+      return Validation(true);
     }
-    return false;
+
+    return Validation(false, issue: 'group already contains another unit');
   }
-  if (unitsInGroup.any((u) => u.core.frame == _overlord)) {
-    return false;
+
+  if (unitsInGroup.any((u) => u.core.frame == _overlord) &&
+      (unit.actions != null && unit.actions! > 0)) {
+    return Validation(
+      false,
+      issue:
+          'group already contains an Overlord, will result in to many actions',
+    );
   }
 
   // deal with the gilgamesh multi-unit model
@@ -694,7 +760,7 @@ bool? _checkModelRules(Unit unit, Group group) {
       frame == _gilgameshBack ||
       frame == _gilgameshTurret) {
     if (group.groupType == GroupType.Secondary) {
-      return false;
+      return Validation(false, issue: 'cannot be part of a secondary group');
     }
 
     // current units in the group need to only be other parts
@@ -702,17 +768,26 @@ bool? _checkModelRules(Unit unit, Group group) {
         u.core.frame != frame &&
         (u.core.frame == _gilgameshFront ||
             u.core.frame == _gilgameshBack ||
-            u.core.frame == _gilgameshTurret))) {
-      return true;
+            u.core.frame == _gilgameshTurret ||
+            (u.actions == null || u.actions! < 1)))) {
+      return Validation(true);
     }
-    return false;
+
+    return Validation(
+      false,
+      issue: 'already units in the group, will result in too many actions',
+    );
   }
 
   if (unitsInGroup.any((u) =>
-      u.core.frame == _gilgameshFront ||
-      u.core.frame == _gilgameshBack ||
-      u.core.frame == _gilgameshTurret)) {
-    return false;
+          u.core.frame == _gilgameshFront ||
+          u.core.frame == _gilgameshBack ||
+          u.core.frame == _gilgameshTurret) &&
+      (unit.actions != null && unit.actions! > 0)) {
+    return Validation(
+      false,
+      issue: 'Gilgamesh already in group, will result in too many actions',
+    );
   }
 
   return null;

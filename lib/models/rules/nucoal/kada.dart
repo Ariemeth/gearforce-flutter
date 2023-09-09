@@ -7,6 +7,7 @@ import 'package:gearforce/models/mods/duelist/duelist_modification.dart';
 import 'package:gearforce/models/rules/nucoal/nucoal.dart';
 import 'package:gearforce/models/rules/options/special_unit_filter.dart';
 import 'package:gearforce/models/unit/model_type.dart';
+import 'package:gearforce/models/validation/validations.dart';
 
 const String _baseRuleId = 'rule::nucoal::kada';
 const String _ruleHeroesOfTheArenaId = '$_baseRuleId::10';
@@ -57,7 +58,10 @@ final ruleHeroesOfTheArena = FactionRule(
     final canBeDuelist =
         cg.roster?.rulesetNotifer.value.duelistCheck(cg.roster!, cg, unit);
     if (canBeDuelist == null || !canBeDuelist) {
-      return false;
+      return Validation(
+        false,
+        issue: 'Unit must be a duelist; See Heroes of the Arena.',
+      );
     }
 
     unit.addUnitMod(DuelistModification.makeDuelist(unit, cg.roster!));

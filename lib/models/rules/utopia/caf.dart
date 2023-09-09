@@ -8,7 +8,7 @@ import 'package:gearforce/models/rules/north/north.dart' as north;
 import 'package:gearforce/models/rules/options/combat_group_options.dart';
 import 'package:gearforce/models/rules/options/special_unit_filter.dart';
 import 'package:gearforce/models/rules/utopia/utopia.dart';
-import 'package:gearforce/models/unit/role.dart';
+import 'package:gearforce/models/validation/validations.dart';
 
 const String _baseRuleId = 'rule::utopia::caf';
 const String _ruleAlliesId = '$_baseRuleId::10';
@@ -109,7 +109,11 @@ final FactionRule _ruleAllyCEF = FactionRule(
       if (matchOnlyFlails(unit.core)) {
         return null;
       }
-      return false;
+      return Validation(
+        false,
+        issue: 'CEF units may only be added to a secondary group; See Allies' +
+            ' rule.',
+      );
     }
 
     return null;
@@ -137,7 +141,11 @@ final FactionRule _ruleAllyCaprice = FactionRule(
     }
 
     if (unit.faction == FactionType.Caprice) {
-      return false;
+      return Validation(
+        false,
+        issue: 'Caprice units may only be added to a secondary group; See' +
+            ' Allies rule.',
+      );
     }
 
     return null;
@@ -179,7 +187,11 @@ final FactionRule _ruleAllyEden = FactionRule(
     }
 
     if (unit.faction == FactionType.Eden) {
-      return false;
+      return Validation(
+        false,
+        issue: 'Eden units may only be added to a secondary group; See' +
+            ' Allies rule.',
+      );
     }
 
     return null;
@@ -289,10 +301,17 @@ final FactionRule ruleGilgameshTroupe = FactionRule(
   },
   combatGroupOption: () => [ruleGilgameshTroupe.buidCombatGroupOption()],
   canBeAddedToGroup: (unit, group, cg) {
-    if (group.role() != RoleType.FS) {
-      return false;
+    final isGilgamesh = unit.core.frame.contains('Gilgamesh');
+    final isNoActionUnit =
+        unit.actions == null || (unit.actions != null && unit.actions == 0);
+    if (isGilgamesh || isNoActionUnit) {
+      return null;
     }
-    return unit.core.frame.contains('Gilgamesh');
+    return Validation(
+      false,
+      issue: 'Only a Gilgamesh or units with no actions can be added; See' +
+          ' Gilgamesh Troupe',
+    );
   },
   description: 'The Divine Brother: This combat group must use a Gilgamesh.' +
       ' The Gilgamesh must be the force leader.\n' +

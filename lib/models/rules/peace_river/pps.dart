@@ -7,6 +7,7 @@ import 'package:gearforce/models/rules/peace_river/peace_river.dart';
 import 'package:gearforce/models/rules/peace_river/poc.dart' as poc;
 import 'package:gearforce/models/rules/peace_river/prdf.dart' as prdf;
 import 'package:gearforce/models/rules/options/special_unit_filter.dart';
+import 'package:gearforce/models/validation/validations.dart';
 
 const String _exPOC = 'Ex-POC';
 const String _exPRDF = 'Ex-PRDF';
@@ -266,7 +267,13 @@ final FactionRule ruleSubContractors = FactionRule(
     id: _ruleSubContractorsId,
     cgCheck: onlyOneCG(_ruleSubContractorsId),
     canBeAddedToGroup: (unit, group, cg) {
-      return unit.armor == null || (unit.armor != null && unit.armor! <= 8);
+      final canBeAdded =
+          unit.armor == null || (unit.armor != null && unit.armor! <= 8);
+      return Validation(
+        canBeAdded,
+        issue: 'Must have an armor value of 8 or lower; See Sub Contractors' +
+            ' rule.',
+      );
     },
     combatGroupOption: () => [ruleSubContractors.buidCombatGroupOption()],
     unitFilter: (cgOptions) => filterSubContractor,

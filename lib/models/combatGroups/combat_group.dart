@@ -195,8 +195,8 @@ class CombatGroup extends ChangeNotifier {
   /// Indicates if there are any units in the [CombatGroup]
   bool isEmpty() => _primary.isEmpty() && _secondary.isEmpty();
 
-  List<Validation> validate({bool tryFix = false}) {
-    final List<Validation> validationErrors = [];
+  Validations validate({bool tryFix = false}) {
+    final Validations validationErrors = Validations();
 
     final options = roster?.rulesetNotifer.value.combatGroupSettings();
     if (options != null) {
@@ -217,20 +217,19 @@ class CombatGroup extends ChangeNotifier {
     }
 
     final pve = primary.validate(tryFix: tryFix);
-    if (pve.isNotEmpty) {
-      validationErrors.addAll(pve);
-    }
+    validationErrors.addAll(pve.validations);
+
     final sve = secondary.validate(tryFix: tryFix);
-    if (sve.isNotEmpty) {
-      validationErrors.addAll(pve);
-    }
+    validationErrors.addAll(sve.validations);
 
     // make sure there is at least a CGL in the CG
     final highestRank = _highestCommandLevel();
     if (highestRank < CommandLevel.cgl) {
       _tryEnsureCommander(tryFix: tryFix);
-      validationErrors
-          .add(Validation(issue: 'No leader of at least CGL in CG'));
+      validationErrors.add(Validation(
+        false,
+        issue: 'No leader of at least CGL in CG',
+      ));
     }
 
     return validationErrors;

@@ -568,23 +568,31 @@ class Unit extends ChangeNotifier {
     notifyListeners();
   }
 
-  List<Validation> validate({bool tryFix = false}) {
-    List<Validation> validationErrors = [];
+  Validations validate({bool tryFix = false}) {
+    Validations validationErrors = Validations();
     final g = this.group;
     if (g == null) {
-      validationErrors.add(Validation(issue: "Unit does not have a group"));
+      validationErrors.add(Validation(
+        false,
+        issue: "Unit does not have a group",
+      ));
     }
     final cg = group?.combatGroup;
     if (cg == null) {
-      validationErrors
-          .add(Validation(issue: "Unit does not have a combat group"));
+      validationErrors.add(Validation(
+        false,
+        issue: "Unit does not have a combat group",
+      ));
     }
     final roster = cg?.roster;
     if (roster == null) {
-      validationErrors.add(Validation(issue: "Unit does not have a roster"));
+      validationErrors.add(Validation(
+        false,
+        issue: "Unit does not have a roster",
+      ));
     }
 
-    if (validationErrors.isNotEmpty) {
+    if (validationErrors.isNotValid()) {
       print('Validation errors found validating $name, $validationErrors');
       return validationErrors;
     }
@@ -620,8 +628,10 @@ class Unit extends ChangeNotifier {
           this,
         )) {
           validationErrors.add(Validation(
-              issue:
-                  'mod ${mod.id} does not met its requirement check during validation'));
+            false,
+            issue:
+                'mod ${mod.id} does not met its requirement check during validation',
+          ));
         }
       });
     }
