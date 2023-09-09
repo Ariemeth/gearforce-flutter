@@ -247,22 +247,23 @@ abstract class RuleSet extends ChangeNotifier {
               ? modelCheckCount
               : maxSecondaryActions(cg.primary.totalActions());
       if (actions > maxAllowedActions) {
-        print(
-            'Unit ${unit.name} has ${unit.actions} action and cannot be added as it would increase the number of actions beyond the max allowed of $maxAllowedActions');
+        print('Unit ${unit.name} has ${unit.actions} action and cannot be' +
+            ' added as it would increase the number of actions beyond the max' +
+            ' allowed of $maxAllowedActions');
         results.add(
           Validation(
             false,
-            issue:
-                'This units actions(${unit.actions}) would be over the max of $maxAllowedActions',
+            issue: 'This units actions(${unit.actions}) would be over the max' +
+                ' of $maxAllowedActions',
           ),
         );
         return results;
       }
     }
 
-    final modelValidations = _checkModelRules(unit, group);
-    if (modelValidations.isNotValid()) {
-      results.addAll(modelValidations.validations);
+    final modelValidation = _checkModelRules(unit, group);
+    if (modelValidation != null && modelValidation.isNotValid()) {
+      results.add(modelValidation);
       return results;
     }
 
@@ -275,8 +276,10 @@ abstract class RuleSet extends ChangeNotifier {
     final withinCount = isUnitCountWithinLimits(cg, group, unit);
 
     if (!withinCount) {
-      results.add(Validation(false,
-          issue: 'Max allowed instances of this unit are already added'));
+      results.add(Validation(
+        false,
+        issue: 'Max allowed instances of this unit are already added',
+      ));
       return results;
     }
 
@@ -702,60 +705,54 @@ abstract class RuleSet extends ChangeNotifier {
   }
 }
 
-Validations _checkModelRules(Unit unit, Group group) {
-  final results = Validations();
+Validation? _checkModelRules(Unit unit, Group group) {
   final frame = unit.core.frame;
   final unitsInGroup = group.allUnits().where((u) => u != unit).toList();
 
   if (unitsInGroup.isEmpty) {
-    results.add(Validation(true));
-    return results;
+    return Validation(true);
   }
 
   // deal with the overlord multi unit model
   if (frame == _overlord) {
     if (group.groupType == GroupType.Secondary) {
-      results
-          .add(Validation(false, issue: 'cannot be part of a secondary group'));
-      return results;
+      return Validation(false, issue: 'cannot be part of a secondary group');
     }
     if (unitsInGroup
             .where((u) =>
                 u.actions != null || (u.actions != null && u.actions! > 0))
             .length >
         1) {
-      results.add(Validation(false,
-          issue: 'already units in the group, will result in to many actions'));
-      return results;
+      return Validation(
+        false,
+        issue: 'already units in the group, will result in to many actions',
+      );
     }
     if (unit.name == _overlordBody &&
         unitsInGroup.any((u) =>
             u.name == _overlordTurret ||
             u.actions == null ||
             (u.actions != null && u.actions == 0))) {
-      results.add(Validation(true));
-      return results;
+      return Validation(true);
     }
     if (unit.name == _overlordTurret &&
         unitsInGroup.any((u) =>
             u.name == _overlordBody ||
             u.actions == null ||
             (u.actions != null && u.actions == 0))) {
-      results.add(Validation(true));
-      return results;
+      return Validation(true);
     }
 
-    results
-        .add(Validation(false, issue: 'group already contains another unit'));
-    return results;
+    return Validation(false, issue: 'group already contains another unit');
   }
 
   if (unitsInGroup.any((u) => u.core.frame == _overlord) &&
       (unit.actions != null && unit.actions! > 0)) {
-    results.add(Validation(false,
-        issue:
-            'group already contains an Overlord, will result in to many actions'));
-    return results;
+    return Validation(
+      false,
+      issue:
+          'group already contains an Overlord, will result in to many actions',
+    );
   }
 
   // deal with the gilgamesh multi-unit model
@@ -763,9 +760,7 @@ Validations _checkModelRules(Unit unit, Group group) {
       frame == _gilgameshBack ||
       frame == _gilgameshTurret) {
     if (group.groupType == GroupType.Secondary) {
-      results
-          .add(Validation(false, issue: 'cannot be part of a secondary group'));
-      return results;
+      return Validation(false, issue: 'cannot be part of a secondary group');
     }
 
     // current units in the group need to only be other parts
@@ -775,12 +770,13 @@ Validations _checkModelRules(Unit unit, Group group) {
             u.core.frame == _gilgameshBack ||
             u.core.frame == _gilgameshTurret ||
             (u.actions == null || u.actions! < 1)))) {
-      results.add(Validation(true));
-      return results;
+      return Validation(true);
     }
-    results.add(Validation(false,
-        issue: 'already units in the group, will result in too many actions'));
-    return results;
+
+    return Validation(
+      false,
+      issue: 'already units in the group, will result in too many actions',
+    );
   }
 
   if (unitsInGroup.any((u) =>
@@ -788,12 +784,13 @@ Validations _checkModelRules(Unit unit, Group group) {
           u.core.frame == _gilgameshBack ||
           u.core.frame == _gilgameshTurret) &&
       (unit.actions != null && unit.actions! > 0)) {
-    results.add(Validation(false,
-        issue: 'Gilgamesh already in group, will result in too many actions'));
-    return results;
+    return Validation(
+      false,
+      issue: 'Gilgamesh already in group, will result in too many actions',
+    );
   }
 
-  return results;
+  return null;
 }
 
 const _overlord = 'HHT-90 Overlord';
