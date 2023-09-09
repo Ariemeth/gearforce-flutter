@@ -1,6 +1,6 @@
 class Validation {
   final String? issue;
-  final bool? status;
+  final bool status;
   const Validation(this.status, {this.issue = null});
 
   @override
@@ -9,11 +9,11 @@ class Validation {
   }
 
   bool isValid() {
-    return status == null || status == true;
+    return status;
   }
 
   bool isNotValid() {
-    return status == false;
+    return !status;
   }
 }
 
