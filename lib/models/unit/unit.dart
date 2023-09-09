@@ -592,7 +592,7 @@ class Unit extends ChangeNotifier {
       ));
     }
 
-    if (validationErrors.isInValid()) {
+    if (validationErrors.isNotValid()) {
       print('Validation errors found validating $name, $validationErrors');
       return validationErrors;
     }

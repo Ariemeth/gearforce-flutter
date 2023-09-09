@@ -12,7 +12,7 @@ class Validation {
     return status == null || status == true;
   }
 
-  bool isInvalid() {
+  bool isNotValid() {
     return status == false;
   }
 }
@@ -41,7 +41,7 @@ class Validations {
     return _validations.isEmpty || _validations.every((v) => v.isValid());
   }
 
-  bool isInValid() {
-    return _validations.any((v) => v.isInvalid());
+  bool isNotValid() {
+    return _validations.any((v) => v.isNotValid());
   }
 }

@@ -92,7 +92,7 @@ class Group extends ChangeNotifier {
     final isInVetGroup = combatGroup?.isVeteran;
     if (isInVetGroup != null && isInVetGroup && !unit.isVeteran) {
       final e = validateVetStatus(unit, tryFix: true);
-      if (e.isInValid()) {
+      if (e.isNotValid()) {
         validations.addAll(e.validations);
         return validations;
       }
@@ -109,7 +109,7 @@ class Group extends ChangeNotifier {
 
   void addUnit(Unit unit) {
     final validations = _addUnit(unit);
-    if (validations.isInValid()) {
+    if (validations.isNotValid()) {
       print(validations.toString());
     } else {
       if (unit.group == null) {
@@ -265,14 +265,14 @@ class Group extends ChangeNotifier {
         final isInVetGroup = combatGroup?.isVeteran;
         if (isInVetGroup != null && isInVetGroup && !u.isVeteran) {
           final e = validateVetStatus(u, tryFix: tryFix);
-          if (e.isInValid()) {
+          if (e.isNotValid()) {
             validationErrors.addAll(e.validations);
             return;
           }
         }
         if (combatGroup!.roster!.rulesetNotifer.value
             .canBeAddedToGroup(u, this, combatGroup!)
-            .isInValid()) {
+            .isNotValid()) {
           validationErrors.add(
             Validation(false,
                 issue:

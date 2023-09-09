@@ -21,6 +21,7 @@ import 'package:gearforce/models/rules/south/south.dart' as south;
 import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
+import 'package:gearforce/models/validation/validations.dart';
 
 const String _baseRuleId = 'rule::leagueless::core';
 const String _ruleJudiciousId = '$_baseRuleId::10';
@@ -312,7 +313,10 @@ final ruleJudicious = FactionRule(
       return null;
     }
     if (unit.core.traits.any((t) => Trait.Vet().isSameType(t))) {
-      return cg.isVeteran;
+      return Validation(
+        cg.isVeteran,
+        issue: 'Unit must be placed in a veteran CG; See Judicious rule.',
+      );
     }
     return null;
   },
@@ -679,25 +683,42 @@ final ruleExpertSalvagers = FactionRule(
       case FactionType.North:
         if (!rs.isRuleEnabled(ruleTheSourceNorth.id) &&
             gt == GroupType.Primary) {
-          return false;
+          return Validation(
+            false,
+            issue: 'North units must be placed in secondary units; See Expert' +
+                ' Salvagers.',
+          );
         }
         break;
       case FactionType.South:
         if (!rs.isRuleEnabled(ruleTheSourceSouth.id) &&
             gt == GroupType.Primary) {
-          return false;
+          return Validation(
+            false,
+            issue: 'South units must be placed in secondary units; See Expert' +
+                ' Salvagers.',
+          );
         }
         break;
       case FactionType.PeaceRiver:
         if (!rs.isRuleEnabled(ruleTheSourcePeaceRiver.id) &&
             gt == GroupType.Primary) {
-          return false;
+          return Validation(
+            false,
+            issue: 'Peace River units must be placed in secondary units; See' +
+                ' Expert Salvagers.',
+          );
         }
         break;
       case FactionType.NuCoal:
         if (!rs.isRuleEnabled(ruleTheSourceNuCoal.id) &&
             gt == GroupType.Primary) {
-          return false;
+          return Validation(
+            false,
+            issue:
+                'NuCoal units must be placed in secondary units; See Expert' +
+                    ' Salvagers.',
+          );
         }
         break;
       default:

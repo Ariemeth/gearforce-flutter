@@ -200,18 +200,27 @@ abstract class RuleSet extends ChangeNotifier {
     // returned are true,return true
     final canBeAddedToGroupOverrides = allEnabledRules(cg.options)
         .where((rule) => rule.canBeAddedToGroup != null);
-    // TODO the rule override canBeAddedToGroup should return a validation
-    final overrideValues = canBeAddedToGroupOverrides
+
+    final List<Validation> overrideValues = [];
+    canBeAddedToGroupOverrides
         .map((rule) => rule.canBeAddedToGroup!(unit, group, cg))
-        .where((result) => result != null);
+        .forEach((val) {
+      if (val != null) {
+        overrideValues.add(val);
+      }
+    });
+
     if (overrideValues.isNotEmpty) {
-      if (overrideValues.any((status) => status == false)) {
-        results.add(Validation(
-          false,
-          issue: 'A faction rule is blocking this unit from being added',
-        ));
+      if (overrideValues.any((val) => val.isNotValid())) {
+        overrideValues.forEach((val) {
+          if (val.isNotValid()) {
+            results.add(val);
+          }
+        });
         return results;
       }
+
+      results.add(Validation(true));
       return results;
     }
 
@@ -252,7 +261,7 @@ abstract class RuleSet extends ChangeNotifier {
     }
 
     final modelValidations = _checkModelRules(unit, group);
-    if (modelValidations.isInValid()) {
+    if (modelValidations.isNotValid()) {
       results.addAll(modelValidations.validations);
       return results;
     }

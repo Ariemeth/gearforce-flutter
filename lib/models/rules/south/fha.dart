@@ -7,6 +7,7 @@ import 'package:gearforce/models/mods/duelist/duelist_modification.dart'
 import 'package:gearforce/models/rules/options/special_unit_filter.dart';
 import 'package:gearforce/models/rules/south/milicia.dart' as milicia;
 import 'package:gearforce/models/rules/south/south.dart';
+import 'package:gearforce/models/validation/validations.dart';
 
 const String _baseRuleId = 'rule::south::fha';
 const String _ruleWroteTheBookId = '$_baseRuleId::10';
@@ -107,7 +108,11 @@ final FactionRule ruleAllies = FactionRule(
     if (group.groupType != GroupType.Primary) {
       return null;
     }
-    return false;
+    return Validation(
+      false,
+      issue: 'NuCoal units can only be added to secondary groups; See Allies' +
+          ' rule.',
+    );
   },
   unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Allies',

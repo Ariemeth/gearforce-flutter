@@ -11,6 +11,7 @@ import 'package:gearforce/models/rules/eden/enh.dart';
 import 'package:gearforce/models/rules/options/combat_group_options.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/rules/options/special_unit_filter.dart';
+import 'package:gearforce/models/validation/validations.dart';
 
 const String _baseRuleId = 'rule::eden::core';
 const String _ruleLancersId = '$_baseRuleId::10';
@@ -126,7 +127,10 @@ final FactionRule _ruleAllyCEF = FactionRule(
       if (matchOnlyFlails(unit.core)) {
         return null;
       }
-      return false;
+      return Validation(
+        false,
+        issue: 'CEF units must be placed in secondary units; See Allies rule.',
+      );
     }
 
     return null;
@@ -155,7 +159,11 @@ final FactionRule _ruleAllyBlackTalon = FactionRule(
     }
 
     if (unit.faction == FactionType.BlackTalon) {
-      return false;
+      return Validation(
+        false,
+        issue: 'Black Talon units must be placed in secondary units; See' +
+            ' Allies rule.',
+      );
     }
 
     return null;
@@ -184,7 +192,11 @@ final FactionRule _ruleAllyUtopia = FactionRule(
     }
 
     if (unit.faction == FactionType.Utopia) {
-      return false;
+      return Validation(
+        false,
+        issue: 'Utopia units must be placed in secondary units; See Allies' +
+            ' rule.',
+      );
     }
 
     return null;
@@ -213,7 +225,11 @@ final FactionRule _ruleAllyCaprice = FactionRule(
     }
 
     if (unit.faction == FactionType.Caprice) {
-      return false;
+      return Validation(
+        false,
+        issue: 'Caprice units must be placed in secondary units; See Allies' +
+            ' rule.',
+      );
     }
 
     return null;
