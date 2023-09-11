@@ -55,7 +55,11 @@ List<FactionRule> GetModelFactionRulesByFaction(FactionType? faction) {
     case FactionType.Eden:
       return [eden.ruleLancers, eden.ruleJoustYouSay];
     case FactionType.Universal:
-      return [caprice.ruleCyberneticUpgrades];
+      return [north.ruleTaskBuilt, caprice.ruleCyberneticUpgrades];
+    case FactionType.Universal_TerraNova:
+      return [north.ruleTaskBuilt];
+    case FactionType.Universal_Non_TerraNova:
+      return [eden.ruleLancers, eden.ruleJoustYouSay];
     case null:
       return [
         north.ruleTaskBuilt,

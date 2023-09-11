@@ -11,6 +11,7 @@ import 'package:gearforce/models/rules/eden/enh.dart';
 import 'package:gearforce/models/rules/options/combat_group_options.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/rules/options/special_unit_filter.dart';
+import 'package:gearforce/models/unit/model_type.dart';
 import 'package:gearforce/models/validation/validations.dart';
 
 const String _baseRuleId = 'rule::eden::core';
@@ -78,7 +79,15 @@ class Eden extends RuleSet {
 final FactionRule ruleLancers = FactionRule(
   name: 'Lancers',
   id: _ruleLancersId,
-  factionMods: (ur, cg, u) => [EdenMods.lancers(u)],
+  factionMods: (ur, cg, u) {
+    if (u.type != ModelType.Gear) {
+      return [];
+    }
+    if (u.faction == FactionType.Eden || u.core.frame == 'Druid') {
+      return [EdenMods.lancers(u)];
+    }
+    return [];
+  },
   description: 'Golems may have their melee weapon upgraded to a lance for +2' +
       ' TV each. The lance is an MSG (React, Reach:2). Models with a lance' +
       ' gain the Brawl:2 trait or add +2 to their existing Brawl:X trait if' +

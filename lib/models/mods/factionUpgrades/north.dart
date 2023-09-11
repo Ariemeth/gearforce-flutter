@@ -53,11 +53,12 @@ class NorthernFactionMods extends FactionModification {
       final isNorthernGear =
           u.faction == FactionType.North && u.type == ModelType.Gear;
 
-      if (!(isNorthernGear ||
-          u.core.name == 'Bricklayer' ||
-          u.core.name == 'Engineering Grizzly' ||
-          u.core.name == 'Camel Truck*' ||
-          u.core.name == 'Stinger')) {
+      final isOtherAcceptable = u.core.frame == 'Bricklayer' ||
+          u.core.frame == 'Engineering Grizzly' ||
+          u.core.frame == 'Camel Truck' ||
+          u.core.frame == 'Stinger';
+
+      if (!(isNorthernGear || isOtherAcceptable)) {
         return false;
       }
 

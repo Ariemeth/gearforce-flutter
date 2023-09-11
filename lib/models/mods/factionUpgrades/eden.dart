@@ -55,7 +55,11 @@ class EdenMods extends FactionModification {
         return false;
       }
 
-      if (!(u.faction == FactionType.Eden && u.type == ModelType.Gear)) {
+      if (u.type != ModelType.Gear) {
+        return false;
+      }
+
+      if (!(u.faction == FactionType.Eden || u.core.frame == 'Druid')) {
         return false;
       }
 
