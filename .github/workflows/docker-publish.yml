@@ -97,4 +97,4 @@ jobs:
 
       - name: Deploy to linode cluster
         run: |
-          helm upgrade --install --set image.tag=${{ github.sha }} --set replicaCount=2 ${{ secrets.HELM_RELEASE_NAME }} chart/gearforce
+          helm upgrade -n gearforce --install --set image.tag=${{ github.sha }} --set replicaCount=2 ${{ secrets.HELM_RELEASE_NAME }} chart/gearforce
