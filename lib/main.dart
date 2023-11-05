@@ -6,6 +6,14 @@ import 'package:provider/provider.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  // final myUrl = Uri.base.toString();
+  // print('Url: $myUrl');
+  // final p1 = Uri.base.queryParameters['para1'];
+  // final p2 = Uri.base.queryParameters['para2'];
+  // print('p1: $p1');
+  // print('p2: $p2');
+  // final path = Uri.base.path;
+  // print('path: ${path.substring(1)}');
   var data = Data();
   data.load().whenComplete(() {
     runApp(MultiProvider(
