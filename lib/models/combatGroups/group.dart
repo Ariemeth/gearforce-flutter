@@ -31,8 +31,6 @@ class Group extends ChangeNotifier {
     this._role = role;
   }
 
-  bool unitHasTag(String tag) => _units.any((u) => u.hasTag(tag));
-
   Map<String, dynamic> toJson() => {
         'role': _role.toString().split('.').last,
         'units': _units.map((e) => e.toJson()).toList(),
@@ -165,14 +163,6 @@ class Group extends ChangeNotifier {
 
   List<Unit> unitsWithTrait(Trait trait) {
     return _units.where((unit) => unit.traits.any((t) => t == trait)).toList();
-  }
-
-  int tagCount(String tag) {
-    return unitsWithTag(tag).length;
-  }
-
-  List<Unit> unitsWithTag(String tag) {
-    return _units.where((unit) => unit.hasTag(tag)).toList();
   }
 
   bool isEmpty() => _units.isEmpty;

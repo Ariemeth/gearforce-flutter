@@ -34,8 +34,6 @@ class Unit extends ChangeNotifier {
 
   final List<BaseModification> _mods = [];
 
-  final List<String> _tags = [];
-
   CommandLevel _commandLevel = CommandLevel.none;
 
   FactionType? factionOverride = null;
@@ -50,7 +48,6 @@ class Unit extends ChangeNotifier {
     newUnit._commandLevel = original._commandLevel;
     original._mods.forEach((m) => newUnit.addUnitMod(m));
     newUnit._special = original.special;
-    original._tags.forEach((t) => newUnit.addTag(t));
     newUnit.factionOverride = original.factionOverride;
 
     return newUnit;
@@ -190,10 +187,6 @@ class Unit extends ChangeNotifier {
           refreshOptions: loadAttempts != 0);
       loadAttempts++;
     }
-
-    final tags = json['tags'] as List;
-    tags.forEach((tag) =>
-        u._tags.any((t) => t.toString() == tag) ? () {} : u._tags.add(tag));
 
     return u;
   }
@@ -385,9 +378,6 @@ class Unit extends ChangeNotifier {
     return value;
   }
 
-  /// Retrieve the tags associated with this [Unit].
-  List<String> get tags => _tags.toList();
-
   List<Trait> get traits {
     var newList =
         this.core.traits.map((trait) => Trait.fromTrait(trait)).toList();
@@ -466,12 +456,6 @@ class Unit extends ChangeNotifier {
     return sp;
   }
 
-  addTag(String tag) {
-    if (!_tags.any((s) => s == tag)) {
-      _tags.add(tag);
-    }
-  }
-
   void addUnitMod(BaseModification mod) {
     // Duplicate mods are not allowed on the same unit
     if (_mods.any((m) => m.id == mod.id)) {
@@ -538,15 +522,7 @@ class Unit extends ChangeNotifier {
 
   bool hasMod(String id) => _mods.any((mod) => mod.name == id || mod.id == id);
 
-  bool hasTag(String tag) => _tags.any((t) => t == tag);
-
-  int numTags() => _tags.length;
-
   int numUnitMods() => _mods.length;
-
-  removeTag(String tag) {
-    _tags.remove(tag);
-  }
 
   void removeUnitMod(String id) {
     final mod = getMod(id);
@@ -642,22 +618,7 @@ class Unit extends ChangeNotifier {
   Map<String, dynamic> toJson() {
     Map<String, List<dynamic>> mods = {};
     _mods.forEach((mod) {
-      if (mod is UnitModification) {
-        if (mods['unit'] == null) {
-          mods['unit'] = [];
-        }
-        mods['unit']!.add(mod.toJson());
-      } else if (mod is StandardModification) {
-        if (mods['standard'] == null) {
-          mods['standard'] = [];
-        }
-        mods['standard']!.add(mod.toJson());
-      } else if (mod is VeteranModification) {
-        if (mods['vet'] == null) {
-          mods['vet'] = [];
-        }
-        mods['vet']!.add(mod.toJson());
-      } else if (mod is DuelistModification) {
+      if (mod is DuelistModification) {
         if (mods['duelist'] == null) {
           mods['duelist'] = [];
         }
@@ -667,6 +628,21 @@ class Unit extends ChangeNotifier {
           mods['faction'] = [];
         }
         mods['faction']!.add(mod.toJson());
+      } else if (mod is StandardModification) {
+        if (mods['standard'] == null) {
+          mods['standard'] = [];
+        }
+        mods['standard']!.add(mod.toJson());
+      } else if (mod is UnitModification) {
+        if (mods['unit'] == null) {
+          mods['unit'] = [];
+        }
+        mods['unit']!.add(mod.toJson());
+      } else if (mod is VeteranModification) {
+        if (mods['vet'] == null) {
+          mods['vet'] = [];
+        }
+        mods['vet']!.add(mod.toJson());
       }
     });
 
@@ -675,7 +651,6 @@ class Unit extends ChangeNotifier {
       'variant': core.name,
       'mods': mods,
       'command': _commandLevel.name,
-      'tags': this._tags,
       'factionOverride': factionOverride?.toString()
     };
   }

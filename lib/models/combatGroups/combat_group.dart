@@ -29,9 +29,6 @@ class CombatGroup extends ChangeNotifier {
   /// Retrieve a list of all units in this [CombatGroup].
   List<Unit> get units => _primary.allUnits()..addAll(_secondary.allUnits());
 
-  bool unitHasTag(String tag) =>
-      _primary.unitHasTag(tag) || _secondary.unitHasTag(tag);
-
   Group get primary => _primary;
   set primary(Group group) {
     if (_primary.hasListeners) {
@@ -177,14 +174,6 @@ class CombatGroup extends ChangeNotifier {
   int numUnitsWithMod(String id) {
     return _primary.unitsWithMod(id).length +
         _secondary.unitsWithMod(id).length;
-  }
-
-  int numberUnitsWithTag(String tag) {
-    return unitsWithTag(tag).length;
-  }
-
-  List<Unit> unitsWithTag(String tag) {
-    return primary.unitsWithTag(tag)..addAll(secondary.unitsWithTag(tag));
   }
 
   // Retrieve the total number of units in the combat group

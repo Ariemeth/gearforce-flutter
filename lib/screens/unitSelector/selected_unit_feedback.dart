@@ -12,7 +12,7 @@ class SelectedUnitFeedback extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.blue[100],
+      color: Color.fromARGB(225, 187, 222, 251),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -24,6 +24,10 @@ class SelectedUnitFeedback extends StatelessWidget {
           ),
           UnitSelectionTextCell.draggableFeedback(
             'Roles: ${this.unit.role == null ? '-' : this.unit.role!.roles.join(', ')}',
+          ),
+          UnitSelectionTextCell.draggableFeedback(
+            'Weapons: ${this.unit.weapons.join(', ')}',
+            maxLines: 3,
           ),
         ],
       ),
