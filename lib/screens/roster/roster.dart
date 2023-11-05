@@ -4,10 +4,14 @@ import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/screens/roster/filehandler/downloader.dart';
 import 'package:gearforce/screens/roster/filehandler/uploader.dart';
+import 'package:gearforce/screens/roster/input_roster_id.dart';
 import 'package:gearforce/screens/roster/markdown.dart';
 import 'package:gearforce/screens/roster/pdf/pdf.dart';
 import 'package:gearforce/screens/roster/roster_display.dart';
+import 'package:gearforce/screens/roster/show_roster_id.dart';
 import 'package:gearforce/screens/unitSelector/unit_selection.dart';
+import 'package:gearforce/widgets/api/api_service.dart';
+import 'package:gearforce/widgets/roster_id.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -24,10 +28,12 @@ class RosterWidget extends StatefulWidget {
     Key? key,
     required this.title,
     required this.data,
+    required this.rosterId,
   }) : super(key: key);
 
   final String? title;
   final Data data;
+  final RosterId rosterId;
   final hScrollController = ScrollController();
 
   @override
@@ -39,8 +45,24 @@ class _RosterWidgetState extends State<RosterWidget> {
 
   @override
   void initState() {
-    roster = UnitRoster(widget.data);
     super.initState();
+
+    roster = UnitRoster(widget.data);
+    _loadRoster();
+  }
+
+  void _loadRoster() async {
+    if (widget.rosterId.Id == null) {
+      return;
+    }
+
+    final loadedRoster = await await ApiService.getRoster(
+      widget.data,
+      widget.rosterId.Id!,
+    );
+    if (loadedRoster != null) {
+      roster.copyFrom(loadedRoster);
+    }
   }
 
   @override
@@ -102,7 +124,7 @@ class _RosterWidgetState extends State<RosterWidget> {
             ),
             ListTile(
               title: Text(
-                'Load',
+                'Load from file',
                 style: TextStyle(fontSize: 16),
               ),
               onTap: () async {
@@ -117,13 +139,40 @@ class _RosterWidgetState extends State<RosterWidget> {
             ),
             ListTile(
               title: Text(
-                'Save',
+                'Load from id',
+                style: TextStyle(fontSize: 16),
+              ),
+              onTap: () async {
+                final loadedRoster = await showInputRosterId(context, data);
+                if (loadedRoster != null) {
+                  setState(() {
+                    roster.copyFrom(loadedRoster);
+                  });
+                }
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: Text(
+                'Save to file',
                 style: TextStyle(
                   fontSize: 16,
                 ),
               ),
               onTap: () async {
                 downloadRoster(roster);
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: Text(
+                'Save to Gearforce Online',
+                style: TextStyle(
+                  fontSize: 16,
+                ),
+              ),
+              onTap: () async {
+                await showRosterIdDialog(context, roster);
                 Navigator.pop(context);
               },
             ),

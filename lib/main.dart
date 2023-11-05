@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/screens/roster/roster.dart';
+import 'package:gearforce/widgets/roster_id.dart';
 import 'package:gearforce/widgets/settings.dart';
 import 'package:provider/provider.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  // final myUrl = Uri.base.toString();
-  // print('Url: $myUrl');
-  // final p1 = Uri.base.queryParameters['para1'];
-  // final p2 = Uri.base.queryParameters['para2'];
-  // print('p1: $p1');
-  // print('p2: $p2');
-  // final path = Uri.base.path;
-  // print('path: ${path.substring(1)}');
+  //final myUrl = Uri.base.toString();
+
+  final idParam = Uri.base.queryParameters['id'];
+
+  if (idParam != null && idParam.isNotEmpty) {
+    print('id: $idParam');
+  }
+
   var data = Data();
   data.load().whenComplete(() {
     runApp(MultiProvider(
@@ -21,15 +22,20 @@ void main() {
         Provider(create: (_) => data),
         Provider(create: (_) => Settings()),
       ],
-      child: GearForce(data: data),
+      child: GearForce(data: data, rosterId: RosterId(idParam)),
     ));
   });
 }
 
 class GearForce extends StatefulWidget {
-  const GearForce({Key? key, required this.data}) : super(key: key);
+  const GearForce({
+    Key? key,
+    required this.data,
+    required this.rosterId,
+  }) : super(key: key);
 
   final Data data;
+  final RosterId rosterId;
   @override
   _GearForceState createState() => _GearForceState();
 }
@@ -47,6 +53,7 @@ class _GearForceState extends State<GearForce> {
       home: RosterWidget(
         title: 'Gearforce',
         data: widget.data,
+        rosterId: widget.rosterId,
       ),
     );
   }

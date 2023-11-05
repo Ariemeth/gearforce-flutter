@@ -205,7 +205,7 @@ class UnitRoster extends ChangeNotifier {
     ur._combatGroups.clear();
     ur._isEliteForce =
         json['isEliteForce'] != null ? json['isEliteForce'] as bool : false;
-    ur._totalCreated = json['totalCreated'] as int;
+
     var decodedCG = json['cgs'];
     decodedCG
         .map((e) => CombatGroup.fromJson(
@@ -239,6 +239,7 @@ class UnitRoster extends ChangeNotifier {
     } catch (e) {
       print('Error loading force leader: $e');
     }
+    ur._totalCreated = json['totalCreated'] as int;
     ur.validate(ur.rulesetNotifer.value);
 
     return ur;
