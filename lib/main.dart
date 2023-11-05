@@ -12,7 +12,7 @@ void main() {
   final idParam = Uri.base.queryParameters['id'];
 
   if (idParam != null && idParam.isNotEmpty) {
-    print('id: $idParam');
+    print('loading id: $idParam');
   }
 
   var data = Data();
