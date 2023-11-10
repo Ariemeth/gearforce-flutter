@@ -252,7 +252,9 @@ class DuelistModification extends BaseModification {
           assert(rs != null);
           assert(cg != null);
 
-          if (u.actions != null && u.actions! >= 3) {
+          final actionLimit = u.hasMod(advancedControlSystemId) ? 4 : 3;
+
+          if (u.actions != null && u.actions! >= actionLimit) {
             return false;
           }
           return rs!.duelistModCheck(u, cg!, modID: advancedControlSystemId);
@@ -739,7 +741,8 @@ class DuelistModification extends BaseModification {
     final modName = _duelistModNames[ecmId];
     assert(modName != null);
 
-    final RegExp traitCheck = RegExp(r'^ECM$', caseSensitive: false);
+    final RegExp traitCheckWithoutMod = RegExp(r'^ECM$', caseSensitive: false);
+    final RegExp traitCheckWithMod = RegExp(r'^ECM\+$', caseSensitive: false);
     return DuelistModification(
         name: modName ?? ecmId,
         id: ecmId,
@@ -747,6 +750,9 @@ class DuelistModification extends BaseModification {
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
           assert(rs != null);
           assert(cg != null);
+          final traitCheck =
+              u.hasMod(ecmId) ? traitCheckWithMod : traitCheckWithoutMod;
+
           if (!u.traits.any((trait) => traitCheck.hasMatch(trait.name))) {
             return false;
           }
