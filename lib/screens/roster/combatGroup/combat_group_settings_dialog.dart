@@ -43,7 +43,7 @@ class _CombatGroupSettingsDialogState extends State<CombatGroupSettingsDialog> {
         child: Column(
           children: [
             Text(
-              '${widget.cg.name} settings',
+              '${widget.cg.name} options',
               style: TextStyle(fontSize: 24),
               maxLines: 1,
             ),
