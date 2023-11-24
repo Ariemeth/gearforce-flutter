@@ -78,7 +78,6 @@ class _CombatGroupsDisplayState extends State<CombatGroupsDisplay>
                 appBar: PreferredSize(
                   preferredSize: Size.fromHeight(_tabBarHeight),
                   child: TabBar(
-                    labelColor: Colors.blue[700],
                     indicatorColor: Colors.deepPurple,
                     tabs: tabs,
                     isScrollable: true,

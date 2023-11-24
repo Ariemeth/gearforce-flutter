@@ -48,7 +48,12 @@ class _GearForceState extends State<GearForce> {
     return MaterialApp(
       title: 'Gearforce',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.blue,
+          background: Colors.white,
+          primary: Colors.blue,
+        ),
       ),
       home: RosterWidget(
         title: 'Gearforce',

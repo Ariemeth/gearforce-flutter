@@ -86,7 +86,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
       horizontalMargin: 0.0,
       headingRowHeight: 30.0,
       headingRowColor: MaterialStateColor.resolveWith(
-        (states) => Color.fromARGB(255, 187, 222, 251),
+        (states) => Theme.of(context).primaryColorLight,
       ),
     );
 

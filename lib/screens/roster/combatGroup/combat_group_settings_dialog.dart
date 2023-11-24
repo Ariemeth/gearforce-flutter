@@ -74,11 +74,16 @@ class _CombatGroupSettingsDialogState extends State<CombatGroupSettingsDialog> {
                   }
                 });
               },
-              child: Text('Delete ${widget.cg.name}'),
+              child: Text(
+                'Delete ${widget.cg.name}',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               style: ElevatedButton.styleFrom(
                 elevation: 12.0,
-                textStyle: const TextStyle(color: Colors.white),
-                backgroundColor: Color.fromARGB(255, 200, 28, 28),
+                backgroundColor: Colors.red.shade700,
               ),
             ),
             Text(''),

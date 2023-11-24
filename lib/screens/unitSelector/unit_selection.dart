@@ -116,12 +116,12 @@ class SelectionList extends StatelessWidget {
 
     return Column(
       children: [
-        _buildTable(roster.rulesetNotifer.value),
+        _buildTable(context, roster.rulesetNotifer.value),
       ],
     );
   }
 
-  Widget _buildTable(RuleSet ruleSet) {
+  Widget _buildTable(BuildContext context, RuleSet ruleSet) {
     final availableUnits = ruleSet.availableUnits(
         role: this
             .roleFilters
@@ -140,7 +140,7 @@ class SelectionList extends StatelessWidget {
       horizontalMargin: 0.0,
       headingRowHeight: 30.0,
       headingRowColor: MaterialStateColor.resolveWith(
-        (states) => Color.fromARGB(255, 187, 222, 251),
+        (states) => Theme.of(context).primaryColorLight,
       ),
     );
 
