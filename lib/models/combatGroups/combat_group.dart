@@ -1,12 +1,16 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/combatGroups/group.dart';
 import 'package:gearforce/models/factions/faction.dart';
+import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/rules/options/combat_group_options.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/command.dart';
+import 'package:gearforce/models/unit/model_type.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/validation/validations.dart';
 
@@ -137,7 +141,24 @@ class CombatGroup extends ChangeNotifier {
   }
 
   int totalTV() {
-    return _primary.totalTV() + _secondary.totalTV();
+    var total = _primary.totalTV() + _secondary.totalTV();
+
+    // account for drones attached to a recon Hun costing 0
+    final dronesInCG = units
+        .where((u) =>
+            u.type == ModelType.Drone &&
+            u.faction == FactionType.Universal_TerraNova)
+        .length;
+    if (dronesInCG > 0) {
+      final HunsInCG =
+          units.where((u) => u.core.name.startsWith('Recon Hu')).length;
+
+      final maxFreeDrones = HunsInCG * 3;
+      final freeDrones = min(maxFreeDrones, dronesInCG);
+      total -= (freeDrones * 2);
+    }
+
+    return total;
   }
 
   bool hasDuelist() {
@@ -180,6 +201,8 @@ class CombatGroup extends ChangeNotifier {
   int numberOfUnits() {
     return _primary.numberOfUnits() + _secondary.numberOfUnits();
   }
+
+  List<Group> get Groups => [primary, secondary];
 
   /// Indicates if there are any units in the [CombatGroup]
   bool isEmpty() => _primary.isEmpty() && _secondary.isEmpty();

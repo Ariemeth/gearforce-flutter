@@ -184,7 +184,7 @@ class Group extends ChangeNotifier {
 
   int totalActions() {
     var total = 0;
-    _units.where((u) => u.core.type != ModelType.Drone).forEach((u) {
+    _units.forEach((u) {
       total += u.actions ?? 0;
     });
     return total;
