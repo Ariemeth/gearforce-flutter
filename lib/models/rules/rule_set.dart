@@ -23,7 +23,6 @@ import 'package:gearforce/models/validation/validations.dart';
 import 'package:gearforce/models/weapons/weapon.dart';
 import 'package:gearforce/models/mods/unitUpgrades/cef.dart' as cef;
 
-const coreName = 'None';
 const coreTag = 'none';
 const _maxPrimaryActions = 6;
 const _minPrimaryActions = 4;
@@ -31,6 +30,7 @@ const _minMaxSecondaryActions = 2;
 const _maxSecondaryActions = 3;
 const _maxNumberModels = 2;
 const _maxNumberAirstrikes = 4;
+const _maxTotalNumberUniversalDrones = 5;
 
 class DefaultRuleSet extends RuleSet {
   DefaultRuleSet(data)
@@ -267,6 +267,20 @@ abstract class RuleSet extends ChangeNotifier {
       return results;
     }
 
+    if (unit.type == ModelType.Drone &&
+        unit.faction == FactionType.Universal_TerraNova) {
+      final canBeAdded =
+          hasUniversalDroneCapacityAvailable(cg.roster, cg, unit);
+      if (!canBeAdded) {
+        results.add(Validation(
+          canBeAdded,
+          issue: 'Max number(${_maxTotalNumberUniversalDrones}) of ' +
+              ' ${unit.core.name} have already been added',
+        ));
+        return results;
+      }
+    }
+
     // if the unit is unlimited for the groups roletype you can add as many
     // as you want.
     if (isRoleTypeUnlimited(unit, targetRole, group, cg.roster)) {
@@ -284,6 +298,69 @@ abstract class RuleSet extends ChangeNotifier {
     }
 
     return results;
+  }
+
+  bool hasUniversalDroneCapacityAvailable(
+      UnitRoster? roster, CombatGroup cg, Unit unit) {
+    if (unit.type != ModelType.Drone ||
+        unit.faction != FactionType.Universal_TerraNova) {
+      return true;
+    }
+
+    final dronesInCG = cg.units
+        .where((u) =>
+            u.type == ModelType.Drone &&
+            u.faction == FactionType.Universal_TerraNova &&
+            u.core.name == unit.core.name &&
+            u != unit)
+        .length;
+    final HunsInCG =
+        cg.units.where((u) => u.core.name.startsWith('Recon Hu')).length;
+
+    final nonFreeDrones = max(dronesInCG - HunsInCG * 2, 0);
+
+    if (nonFreeDrones <= 0) {
+      return true;
+    }
+
+    if (roster == null) {
+      return true;
+    }
+
+    final otherDroneCount = numberOfOtherUniversalDrones(roster, cg, unit);
+    if ((otherDroneCount + nonFreeDrones) >= _maxTotalNumberUniversalDrones) {
+      return false;
+    }
+
+    return true;
+  }
+
+  int numberOfOtherUniversalDrones(
+      UnitRoster roster, CombatGroup combatGroup, Unit unit) {
+    var result = 0;
+
+    final allCGs = roster.getCGs().where((cg) => cg != combatGroup);
+
+    if (allCGs.isEmpty) {
+      return result;
+    }
+
+    allCGs.where((cg) => cg != combatGroup).forEach((cg) {
+      final droneCount = cg.units
+          .where((u) =>
+              u.type == ModelType.Drone &&
+              u.faction == FactionType.Universal_TerraNova &&
+              u.core.name == unit.core.name)
+          .length;
+      if (droneCount > 0) {
+        final hunCount =
+            cg.units.where((u) => u.core.name.startsWith('Recon Hu')).length;
+        final allowedByHun = hunCount * 3;
+        result += max(droneCount - allowedByHun, 0);
+      }
+    });
+
+    return result;
   }
 
   bool canBeCommand(Unit unit) {
@@ -817,5 +894,6 @@ int? _checkModelRulesCount(Unit unit, Group group, CombatGroup cg) {
       return 4;
     }
   }
+
   return null;
 }
