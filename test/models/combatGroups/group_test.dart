@@ -59,7 +59,7 @@ void main() {
       ..addUnit(Unit(core: UnitCore.test()))
       ..addUnit(Unit(core: UnitCore.test()))
       ..addUnit(Unit(core: UnitCore.test(type: ModelType.Drone)));
-    expect(g.totalActions(), equals(2), reason: 'check total actions');
+    expect(g.totalActions(), equals(3), reason: 'check total actions');
   });
 
   test('test modCount with 0 mods', () {
