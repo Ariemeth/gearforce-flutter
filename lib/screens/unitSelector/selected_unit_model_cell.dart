@@ -16,32 +16,13 @@ class SelectedUnitModelCell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double iconPadding = this.hasBorder
-        ? this.borderSize > 2
-            ? 0
-            : 2 - this.borderSize
-        : 2;
-    return Row(
-      children: [
-        Padding(
-          padding: EdgeInsets.fromLTRB(
-            iconPadding,
-            iconPadding,
-            0,
-            iconPadding,
-          ),
-          child: Icon(Icons.drag_indicator),
-        ),
-        UnitSelectionTextCell.content(
-          this.text,
-          maxLines: 1,
-          alignment: Alignment.centerLeft,
-          padding: this.hasBorder
-              ? EdgeInsets.fromLTRB(
-                  5, 5 - this.borderSize, 5, 5 - this.borderSize)
-              : const EdgeInsets.all(5),
-        ),
-      ],
+    return UnitSelectionTextCell.content(
+      this.text,
+      maxLines: 1,
+      alignment: Alignment.centerLeft,
+      padding: this.hasBorder
+          ? EdgeInsets.fromLTRB(5, 5 - this.borderSize, 5, 5 - this.borderSize)
+          : const EdgeInsets.all(5),
     );
   }
 }
