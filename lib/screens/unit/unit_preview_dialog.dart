@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/unit.dart';
+import 'package:gearforce/models/weapons/weapon.dart';
 import 'package:gearforce/models/weapons/weapon_modes.dart';
 
 const _horizontalBorder = const BorderSide();
@@ -271,18 +272,27 @@ class UnitPreviewDialog extends StatelessWidget {
       },
     );
 
-    // TODO Handle combo weapons
     unit.weapons.forEach((w) {
-      weaponTable.children.add(TableRow(children: [
-        Text('${w.hasReact ? '$_reactSymbol' : ''}${w.abbreviation}'),
-        Text('${w.range}'),
-        Text('${w.damage}'),
-        Text('${w.traits.join(', ')}'),
-        Text(
-          '${w.modes.map((m) => getWeaponModeName(m)[0]).toList().join(', ')}',
-          textAlign: TextAlign.center,
-        )
-      ]));
+      weaponTable.children.add(TableRow(
+        children: [
+          _buildWeaponCode(w),
+          _buildWeaponRange(w),
+          _buildWeaponDamage(w),
+          _buildWeaponTraits(w),
+          _buildWeaponMode(w),
+        ],
+      ));
+      if (w.isCombo && w.combo != null) {
+        weaponTable.children.add(TableRow(
+          children: [
+            _buildWeaponCode(w.combo!),
+            _buildWeaponRange(w.combo!),
+            _buildWeaponDamage(w.combo!),
+            _buildWeaponTraits(w.combo!),
+            _buildWeaponMode(w.combo!),
+          ],
+        ));
+      }
     });
 
     final layout = Padding(
@@ -291,4 +301,31 @@ class UnitPreviewDialog extends StatelessWidget {
 
     return layout;
   }
+}
+
+Widget _buildWeaponCode(Weapon w) {
+  return Text(
+    '${w.hasReact ? _reactSymbol : ''}${w.numberOf >= 2 ? '2 x ' : ''}${w.abbreviation}',
+  );
+}
+
+Widget _buildWeaponRange(Weapon w) {
+  return Text('${w.range}');
+}
+
+Widget _buildWeaponDamage(Weapon w) {
+  return Text('${w.damage}');
+}
+
+Widget _buildWeaponTraits(Weapon w) {
+  final traits1 = w.traits.join(', ');
+  final traits2 = w.alternativeTraits.join(', ');
+  return Text('${traits2.isEmpty ? traits1 : '[$traits1] or [$traits2]'}');
+}
+
+Widget _buildWeaponMode(Weapon w) {
+  return Text(
+    '${w.modes.map((m) => getWeaponModeName(m)[0]).toList().join(', ')}',
+    textAlign: TextAlign.center,
+  );
 }

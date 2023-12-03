@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/screens/unit/unit_preview_dialog.dart';
 
-const _buttonIcon = Icons.drag_indicator;
+const _buttonIcon = Icons.menu_open_sharp;
 
 class UnitPreviewButton extends StatelessWidget {
   final Unit unit;
