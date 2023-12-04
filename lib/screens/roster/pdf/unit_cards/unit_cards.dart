@@ -374,7 +374,6 @@ pw.Widget _buildSecondaryStatBlock(pw.Font font, Unit u) {
       movementBlock,
       hullBlock,
       structureBlock,
-      //  secondaryStatBlock,
     ]),
     decoration: pw.BoxDecoration(
       border: pw.Border(
@@ -395,24 +394,6 @@ String _cheapHS(int? num) {
   return r;
 }
 
-// pw.Row _hullStructure(int? num) {
-//   if (num == null || num == 0) {
-//     return pw.Row();
-//   }
-//   final List<pw.Widget> icons = [];
-//   const boxIconData = const pw.IconData(57688);
-//   const blah = Icon(Icons.check_box_outline_blank);
-
-//   for (var i = 0; i < num; i++) {
-//     final boxIcon = pw.Icon(boxIconData, size: 16);
-//     icons.add(boxIcon);
-//   }
-
-//   final result = pw.Row(children: []);
-
-//   return result;
-// }
-
 pw.Widget _buildTraitsSection(pw.Font font, List<Trait> traits) {
   return pw.Container(
     child: pw.Text(traits.join(', '),
@@ -429,7 +410,13 @@ pw.Widget _buildTraitsSection(pw.Font font, List<Trait> traits) {
 }
 
 pw.Widget _buildWeaponsSection(pw.Font font, List<Weapon> weapons) {
-  final rows = weapons.map((w) => _buildWeaponRow(font, w)).toList();
+  final List<pw.TableRow> rows = [];
+  weapons.forEach((w) {
+    rows.add(_buildWeaponRow(font, w));
+    if (w.isCombo && w.combo != null) {
+      rows.add(_buildWeaponRow(font, w.combo!));
+    }
+  });
   final headerRow = pw.TableRow(children: [
     pw.Padding(
       padding: pw.EdgeInsets.only(right: 5.0),
@@ -534,30 +521,7 @@ pw.Widget _buildWeaponName(pw.Font font, Weapon w) {
     '${w.hasReact ? _reactSymbol : ''}${w.numberOf >= 2 ? '2 x ' : ''}${w.abbreviation}',
   );
 
-  if (!w.isCombo) {
-    return nameField;
-  }
-
-  return pw.Container(
-    padding: pw.EdgeInsets.only(left: 2.0),
-    child: pw.Column(
-      crossAxisAlignment: pw.CrossAxisAlignment.start,
-      children: [nameField, _buildWeaponName(font, w.combo!)],
-    ),
-    decoration: pw.BoxDecoration(
-      border: pw.Border(
-        top: pw.BorderSide(
-          width: 1.0,
-        ),
-        bottom: pw.BorderSide(
-          width: 1.0,
-        ),
-        left: pw.BorderSide(
-          width: 1.0,
-        ),
-      ),
-    ),
-  );
+  return nameField;
 }
 
 pw.Widget _buildWeaponRange(pw.Font font, Weapon w) {
@@ -566,28 +530,14 @@ pw.Widget _buildWeaponRange(pw.Font font, Weapon w) {
     w.range.toString(),
   );
 
-  if (!w.isCombo) {
-    return rangeField;
-  }
-
-  return pw.Column(
-    crossAxisAlignment: pw.CrossAxisAlignment.center,
-    children: [rangeField, _buildWeaponRange(font, w.combo!)],
-  );
+  return rangeField;
 }
 
 pw.Widget _buildWeaponDamage(pw.Font font, Weapon w) {
   final damageField = _buildWeaponField(font, w.damage.toString(),
       textAlign: pw.TextAlign.center);
 
-  if (!w.isCombo) {
-    return damageField;
-  }
-
-  return pw.Column(
-    crossAxisAlignment: pw.CrossAxisAlignment.center,
-    children: [damageField, _buildWeaponDamage(font, w.combo!)],
-  );
+  return damageField;
 }
 
 pw.Widget _buildWeaponTraits(pw.Font font, Weapon w) {
@@ -597,14 +547,7 @@ pw.Widget _buildWeaponTraits(pw.Font font, Weapon w) {
     font,
     traits2.isEmpty ? traits1 : "[$traits1] or [$traits2]",
   );
-  if (!w.isCombo) {
-    return traitField;
-  }
-
-  return pw.Column(
-    crossAxisAlignment: pw.CrossAxisAlignment.start,
-    children: [traitField, _buildWeaponTraits(font, w.combo!)],
-  );
+  return traitField;
 }
 
 pw.Widget _buildWeaponModes(pw.Font font, Weapon w) {
@@ -612,14 +555,7 @@ pw.Widget _buildWeaponModes(pw.Font font, Weapon w) {
       font, w.modes.map((e) => getWeaponModeName(e)[0]).join(', '),
       textAlign: pw.TextAlign.center);
 
-  if (!w.isCombo) {
-    return modeField;
-  }
-
-  return pw.Column(
-    crossAxisAlignment: pw.CrossAxisAlignment.center,
-    children: [modeField, _buildWeaponModes(font, w.combo!)],
-  );
+  return modeField;
 }
 
 pw.Widget _buildWeaponField(

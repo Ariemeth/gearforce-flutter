@@ -7,6 +7,7 @@ import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/screens/unitSelector/selected_unit_feedback.dart';
 import 'package:gearforce/screens/unitSelector/selected_unit_model_cell.dart';
 import 'package:gearforce/screens/unitSelector/selection_filters.dart';
+import 'package:gearforce/screens/unitSelector/unit_preview_button.dart';
 import 'package:gearforce/screens/unitSelector/unit_selection_text_Cell.dart';
 import 'package:provider/provider.dart';
 
@@ -149,8 +150,12 @@ class SelectionList extends StatelessWidget {
 
   List<DataColumn> _createTableColumns() {
     return <DataColumn>[
-      _createTableColumn('Model',
-          alignment: Alignment.centerLeft, textAlign: TextAlign.left),
+      _createTableColumn(''),
+      _createTableColumn(
+        'Model',
+        alignment: Alignment.centerLeft,
+        textAlign: TextAlign.left,
+      ),
       _createTableColumn('TV'),
       _createTableColumn('Roles'),
       _createTableColumn('Movement'),
@@ -169,6 +174,7 @@ class SelectionList extends StatelessWidget {
 
   DataRow _createTableRow(Unit unit) {
     return DataRow(cells: [
+      DataCell(UnitPreviewButton(unit: unit)),
       DataCell(
         Draggable<Unit>(
           childWhenDragging: Container(
