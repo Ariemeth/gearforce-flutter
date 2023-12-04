@@ -13,6 +13,7 @@ import 'package:gearforce/models/mods/veteranUpgrades/veteran_upgrades.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/unit/unit.dart';
+import 'package:gearforce/screens/unit/unit_card.dart';
 import 'package:gearforce/screens/upgrades/upgrade_display_line.dart';
 import 'package:provider/provider.dart';
 
@@ -77,29 +78,22 @@ class UpgradesDialog extends StatelessWidget {
     });
 
     var dialog = SimpleDialog(
-      contentPadding: EdgeInsets.fromLTRB(5.0, 12.0, 5.0, 12.0),
+      contentPadding: EdgeInsets.all(5.0),
       clipBehavior: Clip.antiAlias,
       shape: ContinuousRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(10.0))),
-      title: Container(
-        width: _upgradeSectionWidth,
-        child: Center(
-          child: Column(
-            children: [
-              Text(
-                'Upgrades available to this',
-                style: TextStyle(fontSize: 24),
-                maxLines: 2,
-              ),
-              Text(
-                '${unit.core.name} TV: ${unit.tv}',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              ),
-            ],
+      children: [
+        UnitCard(unit),
+        Padding(
+          padding: const EdgeInsets.only(top: 5.0, bottom: 5.0),
+          child: Center(
+            child: Text(
+              'Upgrades available to this unit.',
+              style: TextStyle(fontSize: 24),
+              maxLines: 2,
+            ),
           ),
         ),
-      ),
-      children: [
         UpgradePanels(
           cg,
           roster,

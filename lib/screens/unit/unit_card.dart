@@ -7,7 +7,8 @@ import 'package:gearforce/models/weapons/weapon_modes.dart';
 const _horizontalBorder = const BorderSide();
 const _primaryStatSectionWidth = 70.0;
 const _primaryStatNameWidth = 35.0;
-const _secondaryaStatNameWidth = 35.0;
+const _secondaryStatNameWidth = 35.0;
+const _secondaryStatRightStatValueWidth = 25.0;
 const _weaponCodeWidth = 50.0;
 const _weaponRangeWidth = 60.0;
 const _weaponDamageWidth = 15.0;
@@ -41,7 +42,13 @@ class UnitCard extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(unit.name),
+          Padding(
+            padding: const EdgeInsets.only(left: 5.0, right: 5.0, bottom: 2.5),
+            child: Text(
+              unit.name,
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+          ),
         ],
       ),
       decoration: BoxDecoration(
@@ -89,7 +96,7 @@ class UnitCard extends StatelessWidget {
     const statValuePadding = const EdgeInsets.only(left: 5.0);
 
     return Padding(
-      padding: const EdgeInsets.only(left: 5.0, right: 5.0),
+      padding: const EdgeInsets.only(left: 5.0, right: 5.0, bottom: 3.0),
       child: Column(
         children: [
           Table(
@@ -143,7 +150,7 @@ class UnitCard extends StatelessWidget {
     const statValuePadding = const EdgeInsets.only(left: 5.0);
 
     return Padding(
-      padding: const EdgeInsets.only(left: 5.0, right: 5.0),
+      padding: const EdgeInsets.only(left: 5.0, right: 5.0, bottom: 3.0),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -160,7 +167,8 @@ class UnitCard extends StatelessWidget {
                 Text('Cmd:', textAlign: TextAlign.right),
                 Padding(
                   padding: statValuePadding,
-                  child: Text('-'),
+                  child: Text(
+                      '${unit.commandLevel == CommandLevel.none ? '-' : '${unit.commandLevel.name}'}'),
                 ),
               ]),
               TableRow(children: [
@@ -187,7 +195,7 @@ class UnitCard extends StatelessWidget {
               ]),
             ],
             columnWidths: const <int, TableColumnWidth>{
-              0: FixedColumnWidth(_secondaryaStatNameWidth),
+              0: FixedColumnWidth(_secondaryStatNameWidth),
               1: IntrinsicColumnWidth(),
             },
           ),
@@ -214,8 +222,8 @@ class UnitCard extends StatelessWidget {
               ]),
             ],
             columnWidths: const <int, TableColumnWidth>{
-              0: FixedColumnWidth(_secondaryaStatNameWidth),
-              1: IntrinsicColumnWidth(),
+              0: FixedColumnWidth(_secondaryStatNameWidth),
+              1: FixedColumnWidth(_secondaryStatRightStatValueWidth),
             },
           ),
         ],
@@ -227,7 +235,7 @@ class UnitCard extends StatelessWidget {
   Widget _TraitsRow(BuildContext context) {
     return Container(
       child: Padding(
-        padding: const EdgeInsets.only(left: 5.0, right: 5.0),
+        padding: const EdgeInsets.only(left: 5.0, right: 5.0, bottom: 3.0),
         child: Row(
           children: [Text(unit.traits.join(', '))],
         ),
