@@ -52,7 +52,8 @@ class UnitCard extends StatelessWidget {
         ],
       ),
       decoration: BoxDecoration(
-        border: Border(bottom: _horizontalBorder),
+        color: Theme.of(context).colorScheme.primary,
+        borderRadius: BorderRadiusDirectional.circular(5.0),
       ),
     );
   }
@@ -81,6 +82,7 @@ class UnitCard extends StatelessWidget {
       ),
       decoration: BoxDecoration(
           border: Border(
+        top: _horizontalBorder,
         bottom: _horizontalBorder,
       )),
     );

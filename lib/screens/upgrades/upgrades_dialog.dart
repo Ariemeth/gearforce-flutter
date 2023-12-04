@@ -182,32 +182,33 @@ class _UpgradePanelsState extends State<UpgradePanels> {
   }
 
   ExpansionPanel _buildPanel(
-      String text, List<BaseModification> mods, int panelIndex) {
+    String text,
+    List<BaseModification> mods,
+    int panelIndex,
+  ) {
     final numAvailable = mods
         .where((m) => m.requirementCheck(
             widget.rs, widget.roster, widget.cg, widget.unit))
         .length;
     final numEnabled = mods.where((m) => widget.unit.hasMod(m.id)).length;
     final panel = ExpansionPanel(
+      backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       canTapOnHeader: true,
       headerBuilder: (context, isExpanded) {
         return Container(
           padding: EdgeInsets.fromLTRB(4.0, 0.0, 6.0, 0.0),
-          color: Color.fromARGB(255, 210, 231, 248),
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: Row(
-              children: [
-                SizedBox(
-                  child: Text(text),
-                  width: 200.0,
-                ),
-                Text('Available: $numAvailable'),
-                Spacer(),
-                Text('Enabled: $numEnabled')
-              ],
-              //    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            ),
+          color: Theme.of(context).colorScheme.inversePrimary,
+          child: Row(
+            children: [
+              SizedBox(
+                child: Text(text),
+                width: 200.0,
+              ),
+              Text('Available: $numAvailable'),
+              Spacer(),
+              Text('Enabled: $numEnabled')
+            ],
+            //    mainAxisAlignment: MainAxisAlignment.spaceBetween,
           ),
         );
       },
