@@ -2345,7 +2345,7 @@
           "ew": "5+",
           "react-weapons": "LAC (T Link)",
           "mounted-weapons": "-",
-          "traits": "Transport: 2 Squads, CommsECM, ECCM, Stealth (Aux)",
+          "traits": "Transport: 2 Squads, Comms, ECM, ECCM, Stealth (Aux)",
           "type": "Vehicle",
           "height": 1
         },

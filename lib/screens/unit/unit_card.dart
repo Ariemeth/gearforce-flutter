@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/weapons/weapon.dart';
@@ -11,7 +12,7 @@ const _secondaryStatNameWidth = 35.0;
 const _secondaryStatRightStatValueWidth = 25.0;
 const _weaponCodeWidth = 50.0;
 const _weaponRangeWidth = 60.0;
-const _weaponDamageWidth = 15.0;
+const _weaponDamageWidth = 20.0;
 const _reactSymbol = '»';
 
 class UnitCard extends StatelessWidget {
@@ -233,13 +234,12 @@ class UnitCard extends StatelessWidget {
     );
   }
 
-// TODO Add tooltips with trait info
   Widget _TraitsRow(BuildContext context) {
     return Container(
       child: Padding(
         padding: const EdgeInsets.only(left: 5.0, right: 5.0, bottom: 3.0),
         child: Row(
-          children: [Text(unit.traits.join(', '))],
+          children: _buildTraitList(unit.traits),
         ),
       ),
       decoration: BoxDecoration(
@@ -249,8 +249,6 @@ class UnitCard extends StatelessWidget {
     );
   }
 
-// TODO Add tooltips with weapon trait info
-// TODO Add tooltips for weapon modes
   Widget _WeaponsRow(BuildContext context) {
     final weaponTable = Table(
       children: [
@@ -318,15 +316,24 @@ Widget _buildWeaponDamage(Weapon w) {
   return Text('${w.damage}');
 }
 
+// TODO fix alternate traits display
 Widget _buildWeaponTraits(Weapon w) {
   final traits1 = w.traits.join(', ');
   final traits2 = w.alternativeTraits.join(', ');
   return Text('${traits2.isEmpty ? traits1 : '[$traits1] or [$traits2]'}');
 }
 
+// TODO Add tooltips for weapon modes
 Widget _buildWeaponMode(Weapon w) {
   return Text(
     '${w.modes.map((m) => getWeaponModeName(m)[0]).toList().join(', ')}',
     textAlign: TextAlign.center,
   );
+}
+
+// TODO Add tooltips with trait info
+List<Widget> _buildTraitList(List<Trait> traits) {
+  final List<Widget> traitList = [];
+  traitList.add(Text(traits.join(', ')));
+  return traitList;
 }
