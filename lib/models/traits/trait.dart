@@ -73,6 +73,7 @@ class Trait {
       type: original.type,
       level: level != null ? level : original.level,
       isAux: isAux != null ? isAux : original.isAux,
+      description: original.description,
     );
   }
 
@@ -192,8 +193,13 @@ class Trait {
       case 'Mine':
         return Trait.Mine(level, isAux: auxCheck);
       case 'Occupancy':
-        print('Occupancy type is null');
+        if (type == null) {
+          print('Occupancy type is null');
+        }
         return Trait.Occupancy(level, type ?? 'Unknown', isAux: auxCheck);
+      case 'or':
+      case 'OR':
+        return Trait.Or();
       case 'Offroad':
         return Trait.Offroad(isAux: auxCheck);
       case 'Precise':
@@ -255,7 +261,9 @@ class Trait {
       case 'Towed':
         return Trait.Towed(isAux: auxCheck);
       case 'Transport':
-        print('Transport type is null');
+        if (type == null) {
+          print('Transport type is null');
+        }
         return Trait.Transport(level, type ?? 'Unknown', isAux: auxCheck);
       case 'T':
         return Trait.T(isAux: auxCheck);
@@ -286,7 +294,7 @@ class Trait {
     print('Trait was not captured by switch: $str');
     return unknownTrait;
   }
-// TODO all trait factory constructors need to accept a bool for isAux
+
   factory Trait.AA({bool isAux = false}) {
     return Trait(
       name: 'AA',

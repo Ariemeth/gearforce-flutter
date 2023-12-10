@@ -3,14 +3,14 @@ import 'package:test/test.dart';
 
 void main() {
   test('test converting weaponMode to string for Direct', () {
-    expect(getWeaponModeName(weaponModes.Direct), equals('Direct'));
+    expect(weaponModes.Direct.name, equals('Direct'));
   });
 
   test('test converting weaponMode to string for Indirect', () {
-    expect(getWeaponModeName(weaponModes.Indirect), equals('Indirect'));
+    expect(weaponModes.Indirect.name, equals('Indirect'));
   });
 
   test('test converting weaponMode to string for Melee', () {
-    expect(getWeaponModeName(weaponModes.Melee), equals('Melee'));
+    expect(weaponModes.Melee.name, equals('Melee'));
   });
 }

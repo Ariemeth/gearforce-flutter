@@ -3,7 +3,8 @@ import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/weapons/weapon.dart';
-import 'package:gearforce/models/weapons/weapon_modes.dart';
+import 'package:gearforce/widgets/settings.dart';
+import 'package:provider/provider.dart';
 
 const _horizontalBorder = const BorderSide();
 const _primaryStatSectionWidth = 70.0;
@@ -238,12 +239,12 @@ class UnitCard extends StatelessWidget {
     return Container(
       child: Padding(
         padding: const EdgeInsets.only(left: 5.0, right: 5.0, bottom: 3.0),
-        child: _buildTraitList(unit.traits),
+        child: _buildTraitList(context, unit.traits),
       ),
-      decoration: BoxDecoration(
-          border: Border(
-        bottom: _horizontalBorder,
-      )),
+      // decoration: BoxDecoration(
+      //     border: Border(
+      //   bottom: _horizontalBorder,
+      // )),
     );
   }
 
@@ -275,7 +276,7 @@ class UnitCard extends StatelessWidget {
           _buildWeaponCode(w),
           _buildWeaponRange(w),
           _buildWeaponDamage(w),
-          _buildWeaponTraits(w),
+          _buildWeaponTraits(context, w),
           _buildWeaponMode(w),
         ],
       ));
@@ -285,7 +286,7 @@ class UnitCard extends StatelessWidget {
             _buildWeaponCode(w.combo!),
             _buildWeaponRange(w.combo!),
             _buildWeaponDamage(w.combo!),
-            _buildWeaponTraits(w.combo!),
+            _buildWeaponTraits(context, w.combo!),
             _buildWeaponMode(w.combo!),
           ],
         ));
@@ -296,7 +297,13 @@ class UnitCard extends StatelessWidget {
         padding: const EdgeInsets.only(left: 5.0, right: 5.0, bottom: 5.0),
         child: weaponTable);
 
-    return layout;
+    return Container(
+      child: layout,
+      decoration: BoxDecoration(
+          border: Border(
+        top: _horizontalBorder,
+      )),
+    );
   }
 }
 
@@ -314,26 +321,55 @@ Widget _buildWeaponDamage(Weapon w) {
   return Text('${w.damage}');
 }
 
-// TODO fix alternate traits display
-Widget _buildWeaponTraits(Weapon w) {
-  final traits1 = w.traits.join(', ');
-  final traits2 = w.alternativeTraits.join(', ');
-  return Text('${traits2.isEmpty ? traits1 : '[$traits1] or [$traits2]'}');
-}
-
-// TODO Add tooltips for weapon modes
-Widget _buildWeaponMode(Weapon w) {
-  return Text(
-    '${w.modes.map((m) => getWeaponModeName(m)[0]).toList().join(', ')}',
-    textAlign: TextAlign.center,
+Widget _buildWeaponTraits(BuildContext context, Weapon w) {
+  final traits1 = _buildTraitList(context, w.traits);
+  final traits2 = _buildTraitList(context, w.alternativeTraits);
+  return Wrap(
+    children: [
+      w.alternativeTraits.isEmpty ? Spacer() : Text('['),
+      traits1,
+      w.alternativeTraits.isEmpty ? Spacer() : Text(']'),
+      w.alternativeTraits.isNotEmpty
+          ? Tooltip(
+              message: Trait.Or().description,
+              child: Text(' or '),
+            )
+          : Spacer(),
+      w.alternativeTraits.isEmpty ? Spacer() : Text('['),
+      w.alternativeTraits.isNotEmpty ? traits2 : Spacer(),
+      w.alternativeTraits.isEmpty ? Spacer() : Text(']'),
+    ],
   );
 }
 
-// TODO Add tooltips with trait info
-Widget _buildTraitList(List<Trait> traits) {
+Widget _buildWeaponMode(Weapon w) {
+  return Tooltip(
+    child: Text(
+      '${w.modes.map((m) => m.abbr).toList().join(', ')}',
+      textAlign: TextAlign.center,
+    ),
+    message: w.modes.map((m) => m.name).toList().join('\n'),
+  );
+}
+
+Widget _buildTraitList(BuildContext context, List<Trait> traits) {
+  if (traits.isEmpty) {
+    return Row();
+  }
+  final settings = context.read<Settings>();
+
   final List<Widget> traitList = [];
-  traitList.add(Text(traits.join(', ')));
-  return Row(
+  final lastTrait = traits.last;
+
+  traits.forEach((trait) {
+    var traitStr = trait.toString() + (trait == lastTrait ? '' : ', ');
+    traitList.add(Tooltip(
+      child: Text(traitStr),
+      message: trait.description ?? '',
+      waitDuration: settings.tooltipDelay,
+    ));
+  });
+  return Wrap(
     children: traitList,
   );
 }

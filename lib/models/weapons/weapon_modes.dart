@@ -1,9 +1,9 @@
 enum weaponModes {
-  Direct,
-  Indirect,
-  Melee,
-}
+  Direct('Direct', 'D'),
+  Indirect('Indirect', 'I'),
+  Melee('Melee', 'M');
 
-String getWeaponModeName(weaponModes wm) {
-  return wm.toString().split('.').last;
+  const weaponModes(this.name, this.abbr);
+  final String abbr;
+  final String name;
 }

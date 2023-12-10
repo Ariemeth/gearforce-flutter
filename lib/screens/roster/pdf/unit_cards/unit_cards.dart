@@ -3,7 +3,6 @@ import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/weapons/weapon.dart';
-import 'package:gearforce/models/weapons/weapon_modes.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 
@@ -552,7 +551,7 @@ pw.Widget _buildWeaponTraits(pw.Font font, Weapon w) {
 
 pw.Widget _buildWeaponModes(pw.Font font, Weapon w) {
   final modeField = _buildWeaponField(
-      font, w.modes.map((e) => getWeaponModeName(e)[0]).join(', '),
+      font, w.modes.map((m) => m.abbr).join(', '),
       textAlign: pw.TextAlign.center);
 
   return modeField;
