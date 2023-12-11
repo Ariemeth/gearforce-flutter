@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 const _horizontalBorder = const BorderSide();
 const _primaryStatSectionWidth = 70.0;
 const _primaryStatNameWidth = 35.0;
-const _secondaryStatNameWidth = 35.0;
+const _secondaryStatNameWidth = 38.0;
 const _secondaryStatRightStatValueWidth = 25.0;
 const _weaponCodeWidth = 50.0;
 const _weaponRangeWidth = 60.0;
