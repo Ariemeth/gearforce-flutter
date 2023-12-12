@@ -692,16 +692,16 @@ void main() {
     expect(l?.toString(), equals('LAC/LGL (Auto)'), reason: 'check toString');
   });
 
-  test('test building standard BB', () {
+  test('test building standard LB', () {
     final modes = [weaponModes.Direct];
     final range = Range(0, null, null);
     const damage = 8;
     final traits = [const Trait(name: 'AOE', level: 4)];
     const name = 'Bomb';
 
-    final l = buildWeapon('BB');
+    final l = buildWeapon('LB');
     expect(l, isNotNull, reason: 'weapon should not be null');
-    expect(l?.abbreviation, 'BB', reason: 'check weapon code');
+    expect(l?.abbreviation, 'LB', reason: 'check weapon code');
     expect(l?.name, equals(name), reason: 'check name');
     expect(l?.modes, equals(modes), reason: 'check modes');
     expect(l?.damage, equals(damage), reason: 'check damage');

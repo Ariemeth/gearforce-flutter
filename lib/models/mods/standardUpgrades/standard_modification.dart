@@ -53,7 +53,7 @@ class StandardModification extends BaseModification {
   factory StandardModification.antiAirTrait(Unit u, CombatGroup cg) {
     final List<ModificationOption> _options = [];
     final RegExp weaponMatch = RegExp(r'^(AC|RC|LC|RLC)');
-    final traitToAdd = const Trait(name: 'AA');
+    final traitToAdd = Trait.AA();
 
     final allWeapons = u.weapons;
     allWeapons
@@ -694,7 +694,7 @@ class StandardModification extends BaseModification {
       )
       ..addMod(
         UnitAttribute.traits,
-        createAddTraitToList(const Trait(name: 'Smoke')),
+        createAddTraitToList(Trait.Smoke()),
         description: '+Smoke',
       );
   }

@@ -2810,7 +2810,7 @@
           "ew": "6+",
           "react-weapons": "HMG (L Link Auto), HMG (R Link Auto)",
           "mounted-weapons": "HFL (T Apex)",
-          "traits": "Amphib, Offroad, SmokeTransport: 2 Squads",
+          "traits": "Amphib, Offroad, Smoke, Transport: 2 Squads",
           "type": "Vehicle",
           "height": 1
         }

@@ -13,20 +13,18 @@ final UnitModification psi = UnitModification(name: 'Psi Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Psi'))
   ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
-  ..addMod(
-      UnitAttribute.traits, createAddTraitToList(const Trait(name: 'Comms')),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.Comms()),
       description: '+Comms');
 
 final UnitModification darkJaguarPsi = UnitModification(name: 'Psi Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Psi'))
   ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
-  ..addMod(
-      UnitAttribute.traits, createAddTraitToList(const Trait(name: 'Comms')),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.Comms()),
       description: '+Comms')
   ..addMod(
     UnitAttribute.traits,
-    createAddTraitToList(const Trait(name: 'SatUp', isAux: true)),
+    createAddTraitToList(Trait.SatUp(isAux: true)),
     description: '+SatUp (Aux)',
   );
 
@@ -34,19 +32,16 @@ final UnitModification phi = UnitModification(name: 'Phi Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Phi'))
   ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
-  ..addMod(
-      UnitAttribute.traits, createAddTraitToList(const Trait(name: 'ECCM')),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.ECCM()),
       description: '+ECCM');
 
 final UnitModification darkMambaPsi = UnitModification(name: 'Psi Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Psi'))
   ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
-  ..addMod(
-      UnitAttribute.traits, createAddTraitToList(const Trait(name: 'Comms')),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.Comms()),
       description: '+Comms')
-  ..addMod(
-      UnitAttribute.traits, createAddTraitToList(const Trait(name: 'SatUp')),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.SatUp()),
       description: '+SatUp');
 
 final UnitModification xi = UnitModification(name: 'Xi Upgrade')
@@ -119,17 +114,13 @@ final UnitModification darkCoyotePsi = UnitModification(name: 'Psi Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(3), description: 'TV +3')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Psi'))
   ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
-  ..addMod(UnitAttribute.traits,
-      createAddTraitToList(const Trait(name: 'SP', level: 1)),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.SP(1)),
       description: '+SP:+1')
-  ..addMod(
-      UnitAttribute.traits, createAddTraitToList(const Trait(name: 'Comms')),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.Comms()),
       description: '+Comms')
-  ..addMod(
-      UnitAttribute.traits, createAddTraitToList(const Trait(name: 'SatUp')),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.SatUp()),
       description: '+SatUp')
-  ..addMod(
-      UnitAttribute.traits, createAddTraitToList(const Trait(name: 'ECCM')),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.ECCM()),
       description: '+ECCM');
 
 final UnitModification iota = UnitModification(name: 'Iota Upgrade')
@@ -154,8 +145,7 @@ final UnitModification spectre = UnitModification(name: 'Spectra Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Spectre'))
   ..addMod(UnitAttribute.ew, createSetIntMod(3), description: 'EW 3+')
-  ..addMod(
-      UnitAttribute.traits, createAddTraitToList(const Trait(name: 'ECM+')),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.ECMPlus()),
       description: '+ECM+');
 
 final UnitModification darkHoplitePsi = UnitModification(
@@ -166,14 +156,11 @@ final UnitModification darkHoplitePsi = UnitModification(
   ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Psi'))
   ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
-  ..addMod(UnitAttribute.traits,
-      createAddTraitToList(const Trait(name: 'SP', level: 1)),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.SP(1)),
       description: '+SP:+1')
-  ..addMod(
-      UnitAttribute.traits, createAddTraitToList(const Trait(name: 'Comms')),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.Comms()),
       description: '+Comms')
-  ..addMod(
-      UnitAttribute.traits, createAddTraitToList(const Trait(name: 'SatUp')),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.SatUp()),
       description: '+SatUp');
 
 final UnitModification blackwindTheta = UnitModification(name: 'Theta Upgrade')

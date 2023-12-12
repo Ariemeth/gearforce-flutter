@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/weapons/weapon.dart';
-import 'package:gearforce/models/weapons/weapon_modes.dart';
+import 'package:gearforce/widgets/settings.dart';
+import 'package:provider/provider.dart';
 
 const _horizontalBorder = const BorderSide();
 const _primaryStatSectionWidth = 70.0;
 const _primaryStatNameWidth = 35.0;
-const _secondaryStatNameWidth = 35.0;
+const _secondaryStatNameWidth = 38.0;
 const _secondaryStatRightStatValueWidth = 25.0;
 const _weaponCodeWidth = 50.0;
 const _weaponRangeWidth = 60.0;
-const _weaponDamageWidth = 15.0;
+const _weaponDamageWidth = 20.0;
 const _reactSymbol = '»';
 
 class UnitCard extends StatelessWidget {
@@ -233,24 +235,15 @@ class UnitCard extends StatelessWidget {
     );
   }
 
-// TODO Add tooltips with trait info
   Widget _TraitsRow(BuildContext context) {
     return Container(
       child: Padding(
         padding: const EdgeInsets.only(left: 5.0, right: 5.0, bottom: 3.0),
-        child: Row(
-          children: [Text(unit.traits.join(', '))],
-        ),
+        child: _buildTraitList(context, unit.traits),
       ),
-      decoration: BoxDecoration(
-          border: Border(
-        bottom: _horizontalBorder,
-      )),
     );
   }
 
-// TODO Add tooltips with weapon trait info
-// TODO Add tooltips for weapon modes
   Widget _WeaponsRow(BuildContext context) {
     final weaponTable = Table(
       children: [
@@ -279,7 +272,7 @@ class UnitCard extends StatelessWidget {
           _buildWeaponCode(w),
           _buildWeaponRange(w),
           _buildWeaponDamage(w),
-          _buildWeaponTraits(w),
+          _buildWeaponTraits(context, w),
           _buildWeaponMode(w),
         ],
       ));
@@ -289,7 +282,7 @@ class UnitCard extends StatelessWidget {
             _buildWeaponCode(w.combo!),
             _buildWeaponRange(w.combo!),
             _buildWeaponDamage(w.combo!),
-            _buildWeaponTraits(w.combo!),
+            _buildWeaponTraits(context, w.combo!),
             _buildWeaponMode(w.combo!),
           ],
         ));
@@ -300,7 +293,13 @@ class UnitCard extends StatelessWidget {
         padding: const EdgeInsets.only(left: 5.0, right: 5.0, bottom: 5.0),
         child: weaponTable);
 
-    return layout;
+    return Container(
+      child: layout,
+      decoration: BoxDecoration(
+          border: Border(
+        top: _horizontalBorder,
+      )),
+    );
   }
 }
 
@@ -318,15 +317,55 @@ Widget _buildWeaponDamage(Weapon w) {
   return Text('${w.damage}');
 }
 
-Widget _buildWeaponTraits(Weapon w) {
-  final traits1 = w.traits.join(', ');
-  final traits2 = w.alternativeTraits.join(', ');
-  return Text('${traits2.isEmpty ? traits1 : '[$traits1] or [$traits2]'}');
+Widget _buildWeaponTraits(BuildContext context, Weapon w) {
+  final traits1 = _buildTraitList(context, w.traits);
+  final traits2 = _buildTraitList(context, w.alternativeTraits);
+  return Wrap(
+    children: [
+      w.alternativeTraits.isEmpty ? Container() : Text('['),
+      traits1,
+      w.alternativeTraits.isEmpty ? Container() : Text(']'),
+      w.alternativeTraits.isNotEmpty
+          ? Tooltip(
+              message: Trait.Or().description,
+              child: Text(' or '),
+            )
+          : Container(),
+      w.alternativeTraits.isEmpty ? Container() : Text('['),
+      w.alternativeTraits.isNotEmpty ? traits2 : Container(),
+      w.alternativeTraits.isEmpty ? Container() : Text(']'),
+    ],
+  );
 }
 
 Widget _buildWeaponMode(Weapon w) {
-  return Text(
-    '${w.modes.map((m) => getWeaponModeName(m)[0]).toList().join(', ')}',
-    textAlign: TextAlign.center,
+  return Tooltip(
+    child: Text(
+      '${w.modes.map((m) => m.abbr).toList().join(', ')}',
+      textAlign: TextAlign.center,
+    ),
+    message: w.modes.map((m) => m.name).toList().join('\n'),
+  );
+}
+
+Widget _buildTraitList(BuildContext context, List<Trait> traits) {
+  if (traits.isEmpty) {
+    return Row();
+  }
+  final settings = context.read<Settings>();
+
+  final List<Widget> traitList = [];
+  final lastTrait = traits.last;
+
+  traits.forEach((trait) {
+    var traitStr = trait.toString() + (trait == lastTrait ? '' : ', ');
+    traitList.add(Tooltip(
+      child: Text(traitStr),
+      message: trait.description ?? '',
+      waitDuration: settings.tooltipDelay,
+    ));
+  });
+  return Wrap(
+    children: traitList,
   );
 }

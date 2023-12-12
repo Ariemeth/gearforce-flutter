@@ -66,7 +66,7 @@ Unit createDefaultUnit() {
           piloting: 6,
           ew: 2,
           weapons: [],
-          traits: [const Trait(name: 'hands')],
+          traits: [Trait.Hands()],
           type: ModelType.Gear,
           height: '1.5'));
 }

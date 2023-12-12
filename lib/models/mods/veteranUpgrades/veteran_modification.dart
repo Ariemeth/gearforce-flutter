@@ -103,8 +103,7 @@ class VeteranModification extends BaseModification {
           return rs.vetCheck(cg, u);
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
-      ..addMod(
-          UnitAttribute.traits, createAddTraitToList(const Trait(name: 'Vet')),
+      ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.Vet()),
           description: '+Vet');
   }
 
@@ -133,8 +132,7 @@ class VeteranModification extends BaseModification {
           return rs!.veteranModCheck(u, cg!, modID: eccmId);
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
-      ..addMod(
-          UnitAttribute.traits, createAddTraitToList(const Trait(name: 'ECCM')),
+      ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.ECCM()),
           description: '+ECCM');
   }
 
@@ -151,7 +149,7 @@ class VeteranModification extends BaseModification {
 
     final react = u.reactWeapons;
     final List<ModificationOption> _options = [];
-    const traitToAdd = const Trait(name: 'Reach', level: 1);
+    final traitToAdd = Trait.Reach(1);
     final allowedWeaponMatch = RegExp(r'^(VB|SG|CW|ICW)$');
     react.where((weapon) {
       return allowedWeaponMatch.hasMatch(weapon.code);
@@ -267,7 +265,7 @@ class VeteranModification extends BaseModification {
       )
       ..addMod(
         UnitAttribute.traits,
-        createAddTraitToList(const Trait(name: 'Field Armor')),
+        createAddTraitToList(Trait.FieldArmor()),
         description: '+Field Armor',
       );
   }
@@ -400,9 +398,7 @@ class VeteranModification extends BaseModification {
                 (element) => element.name == 'Vuln' && element.type == 'H');
             return createRemoveTraitFromList(oldTrait)(value);
           } else {
-            return createAddTraitToList(
-              const Trait(name: 'Resist', type: 'H'),
-            )(value);
+            return createAddTraitToList(Trait.ResistH())(value);
           }
         },
         description: '${isVulnerable ? '-Vuln:H' : ' +Resist:H'}',
@@ -444,8 +440,7 @@ class VeteranModification extends BaseModification {
                 (element) => element.name == 'Vuln' && element.type == 'F');
             return createRemoveTraitFromList(oldTrait)(value);
           } else {
-            return createAddTraitToList(const Trait(name: 'Resist', type: 'F'))(
-                value);
+            return createAddTraitToList(Trait.ResistF())(value);
           }
         },
         description: '${isVulnerable ? '-Vuln:F' : ' +Resist:F'}',
@@ -487,8 +482,7 @@ class VeteranModification extends BaseModification {
                 (element) => element.name == 'Vuln' && element.type == 'C');
             return createRemoveTraitFromList(oldTrait)(value);
           } else {
-            return createAddTraitToList(const Trait(name: 'Resist', type: 'C'))(
-                value);
+            return createAddTraitToList(Trait.ResistC())(value);
           }
         },
         description: '${isVulnerable ? '-Vuln:C' : ' +Resist:C'}',
@@ -558,7 +552,7 @@ class VeteranModification extends BaseModification {
     final RegExp weaponCheck = RegExp(r'^(P|SMG|AC|FC|FL|GL)');
     final react = u.reactWeapons;
     final List<ModificationOption> _options = [];
-    const traitToAdd = const Trait(name: 'Link');
+    final traitToAdd = Trait.Link();
 
     final allWeapons = react.toList();
     allWeapons
@@ -713,8 +707,7 @@ class VeteranModification extends BaseModification {
           return rs!.veteranModCheck(u, cg!, modID: amsId);
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
-      ..addMod(
-          UnitAttribute.traits, createAddTraitToList(const Trait(name: 'AMS')),
+      ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.AMS()),
           description: '+AMS');
   }
 }

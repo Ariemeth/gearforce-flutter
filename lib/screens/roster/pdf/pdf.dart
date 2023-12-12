@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:file_selector/file_selector.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/screens/roster/pdf/record_sheet/record_sheet.dart';
+import 'package:gearforce/screens/roster/pdf/record_sheet/traits_sheet.dart';
 import 'package:gearforce/screens/roster/pdf/unit_cards/unit_cards.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
@@ -50,18 +51,38 @@ Future<Uint8List> buildPdf(PdfPageFormat format, UnitRoster roster,
   );
 
   final unitCards = buildUnitCards(font, roster, version: version);
-  List<pw.Widget> cardRows = _buildCardRows(unitCards);
 
-  // Add unit cards, they should be aligned in a 3 x 3 layout on each page
+  // Add unit cards
   doc.addPage(pw.MultiPage(
     pageTheme: pageTheme,
+    mainAxisAlignment: pw.MainAxisAlignment.start,
+    crossAxisAlignment: pw.CrossAxisAlignment.center,
     build: (pw.Context context) {
-      return cardRows;
+      return [
+        pw.Padding(
+          padding: pw.EdgeInsets.only(),
+          child: pw.Wrap(
+            children: unitCards,
+            spacing: _unitCardMargins * 2,
+            runSpacing: _unitCardMargins,
+          ),
+        )
+      ];
     },
     footer: (pw.Context context) {
       return _buildFooter(context, version, roster.rulesVersion);
     },
   ));
+
+  // Add Trait reference page
+  doc.addPage(pw.MultiPage(
+      pageTheme: pageTheme,
+      build: (context) {
+        return [buildTraitSheet(font, roster.getAllUnits())];
+      },
+      footer: (pw.Context context) {
+        return _buildFooter(context, version, roster.rulesVersion);
+      }));
 
   // Build and return the final Pdf file data
   return doc.save();
@@ -72,8 +93,6 @@ pw.Widget _buildFooter(
   final footerStyle = pw.Theme.of(context)
       .defaultTextStyle
       .copyWith(color: PdfColors.grey, fontSize: 10);
-// TODO Instead of manually placing cards to print into rows, put them into a
-// pw.grid like the hull and structure boxes used to use.
 
   return pw.Row(
     mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
@@ -99,48 +118,6 @@ pw.Widget _buildFooter(
       ),
     ],
   );
-}
-
-List<pw.Widget> _buildCardRows(List<pw.Widget> unitCards) {
-  final List<pw.Widget> cardRows = [];
-
-  for (var i = 0; i < unitCards.length; i++) {
-    final leftCard = pw.Padding(
-      padding: pw.EdgeInsets.all(_unitCardMargins),
-      child: unitCards[i],
-    );
-
-    pw.Widget? middleCard;
-    var nextCardIndex = i + 1;
-    if (nextCardIndex < unitCards.length) {
-      middleCard = pw.Padding(
-        padding: pw.EdgeInsets.all(_unitCardMargins),
-        child: unitCards[nextCardIndex],
-      );
-      i++;
-    }
-
-    pw.Widget? rightCard;
-    nextCardIndex = nextCardIndex + 1;
-    if (nextCardIndex < unitCards.length) {
-      rightCard = pw.Padding(
-        padding: pw.EdgeInsets.all(_unitCardMargins),
-        child: unitCards[nextCardIndex],
-      );
-      i++;
-    }
-    cardRows.add(
-      pw.Row(
-        mainAxisAlignment: pw.MainAxisAlignment.center,
-        children: [
-          leftCard,
-          middleCard ?? pw.Container(),
-          rightCard ?? pw.Container(),
-        ],
-      ),
-    );
-  }
-  return cardRows;
 }
 
 Future<void> downloadPDF(UnitRoster roster, {required String version}) async {

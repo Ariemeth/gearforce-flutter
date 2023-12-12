@@ -590,7 +590,7 @@
           "ew": "4+",
           "react-weapons": "MRF, LP, LVB",
           "mounted-weapons": "-",
-          "traits": "Hands, Agile, Airdrop,  Comms, SatUp,   ECM+ (Aux), Sensors:36 (Aux)",
+          "traits": "Hands, Agile, Airdrop, Comms, SatUp, ECM+ (Aux), Sensors:36 (Aux)",
           "type": "Gear",
           "height": 1.5
         }
@@ -702,7 +702,7 @@
           "ew": "5+",
           "react-weapons": "LAC (Precise Silent), LVB",
           "mounted-weapons": "LRP",
-          "traits": "Hands, Agile, Airdrop,  Vet, Comms, Stealth (Aux)",
+          "traits": "Hands, Agile, Airdrop, Vet, Comms, Stealth (Aux)",
           "type": "Gear",
           "height": 1.5
         },
@@ -821,7 +821,7 @@
           "ew": "5+",
           "react-weapons": "LPA, LVB",
           "mounted-weapons": "LRP",
-          "traits": "Hands, Agile, Airdrop,  Vet, Comms, Stealth (Aux)",
+          "traits": "Hands, Agile, Airdrop, Vet, Comms, Stealth (Aux)",
           "type": "Gear",
           "height": 1.5
         },
@@ -838,7 +838,7 @@
           "ew": "5+",
           "react-weapons": "MRL, LVB",
           "mounted-weapons": "LRP",
-          "traits": "Hands, Agile, Airdrop,  Vet, Comms, Stealth (Aux)",
+          "traits": "Hands, Agile, Airdrop, Vet, Comms, Stealth (Aux)",
           "type": "Gear",
           "height": 1.5
         }
@@ -1617,7 +1617,7 @@
           "ew": "5+",
           "react-weapons": "MRF (AA Silent)",
           "mounted-weapons": "MRP (Link)",
-          "traits": "Agile, ECM, Stealth TD, VTOL",
+          "traits": "Agile, ECM, Stealth, TD, VTOL",
           "type": "Vehicle",
           "height": 2
         }
