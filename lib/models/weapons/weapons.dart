@@ -12,15 +12,9 @@ Weapon? buildWeapon(
   String weaponString, {
   bool hasReact = false,
 }) {
-  /*
-    TODO fix BB not matching
-    flutter: buildWeapon: BB (AP:2 Guided) does not match
-    flutter: buildWeapon: BB (AI Fire:2 Guided) does not match
-    flutter: buildWeapon: BB (AP:2 Demo:4) does not match
-  */
   if (!weaponMatch.hasMatch(weaponString)) {
     print('buildWeapon: $weaponString does not match');
-    //  return null;
+    return null;
   }
 
   final weaponCheck = weaponMatch.firstMatch(weaponString);
