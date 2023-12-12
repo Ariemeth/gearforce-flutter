@@ -96,8 +96,7 @@ final UnitModification demolisher = UnitModification(
   ..addMod(
       UnitAttribute.traits,
       createReplaceTraitInList(
-          oldValue: const Trait(name: 'Brawl', level: 1),
-          newValue: const Trait(name: 'Brawl', level: 2)),
+          oldValue: Trait.Brawl(1), newValue: Trait.Brawl(2)),
       description: '-Brawl:1, +Brawl:2');
 
 final UnitModification heavyChainswordSwap = UnitModification(
@@ -277,8 +276,7 @@ final UnitModification paratrooper = UnitModification(
   ..addMod(UnitAttribute.piloting, createSetIntMod(3), description: 'PI:3+')
   ..addMod(UnitAttribute.roles, createAddRoleToList(Role(name: RoleType.SO)),
       description: '+SO')
-  ..addMod(
-      UnitAttribute.traits, createAddTraitToList(const Trait(name: 'Airdrop')),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.Airdrop()),
       description: '+Airdrop');
 
 final UnitModification mountaineering = UnitModification(
@@ -288,8 +286,7 @@ final UnitModification mountaineering = UnitModification(
   ..addMod(UnitAttribute.piloting, createSetIntMod(3), description: 'PI:3+')
   ..addMod(UnitAttribute.roles, createAddRoleToList(Role(name: RoleType.SO)),
       description: '+SO')
-  ..addMod(
-      UnitAttribute.traits, createAddTraitToList(const Trait(name: 'Climber')),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.Climber()),
       description: '+Climber');
 
 final UnitModification frogmen = UnitModification(name: 'Frogmen Upgrade')
@@ -298,7 +295,7 @@ final UnitModification frogmen = UnitModification(name: 'Frogmen Upgrade')
   ..addMod(UnitAttribute.roles, createAddRoleToList(Role(name: RoleType.SO)),
       description: '+SO')
   ..addMod(UnitAttribute.piloting, createSetIntMod(3), description: 'PI:3+')
-  ..addMod(UnitAttribute.traits, createAddTraitToList(const Trait(name: 'Sub')),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.Sub()),
       description: '+Sub');
 
 final UnitModification latm = UnitModification(name: 'LATM Upgrade')
@@ -315,5 +312,5 @@ final UnitModification ecm = UnitModification(name: 'ECM Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
   ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'with ECM'))
   ..addMod(UnitAttribute.ew, createSetIntMod(5), description: 'EW:5+')
-  ..addMod(UnitAttribute.traits, createAddTraitToList(const Trait(name: 'ECM')),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.ECM()),
       description: '+ECM');

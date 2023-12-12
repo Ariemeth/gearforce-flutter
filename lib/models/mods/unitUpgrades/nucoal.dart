@@ -13,25 +13,20 @@ final UnitModification cv = UnitModification(name: 'CV Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'CV'))
   ..addMod(UnitAttribute.ew, createSetIntMod(5), description: 'EW 5+')
-  ..addMod(
-      UnitAttribute.traits, createAddTraitToList(const Trait(name: 'Comms')),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.Comms()),
       description: '+Comms')
-  ..addMod(UnitAttribute.traits,
-      createAddTraitToList(const Trait(name: 'ECCM', isAux: true)),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.ECCM(isAux: true)),
       description: '+ECCM (Aux)');
 
 final UnitModification cuirassierCv = UnitModification(name: 'CV Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'CV'))
   ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
-  ..addMod(
-      UnitAttribute.traits, createAddTraitToList(const Trait(name: 'Comms')),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.Comms()),
       description: '+Comms')
-  ..addMod(
-      UnitAttribute.traits, createAddTraitToList(const Trait(name: 'SatUp')),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.SatUp()),
       description: '+SatUp')
-  ..addMod(UnitAttribute.traits,
-      createAddTraitToList(const Trait(name: 'ECCM', isAux: true)),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.ECCM(isAux: true)),
       description: '+ECCM (Aux)');
 
 final UnitModification fragCannon = UnitModification(
@@ -77,11 +72,9 @@ final UnitModification espionCv = UnitModification(name: 'CV Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'CV'))
   ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
-  ..addMod(
-      UnitAttribute.traits, createAddTraitToList(const Trait(name: 'Comms')),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.Comms()),
       description: '+Comms')
-  ..addMod(
-      UnitAttribute.traits, createAddTraitToList(const Trait(name: 'SatUp')),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.SatUp()),
       description: '+SatUp');
 
 final UnitModification mfmBoa = UnitModification(
@@ -106,14 +99,11 @@ final UnitModification cv2 = UnitModification(name: 'CV Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'CV'))
   ..addMod(UnitAttribute.ew, createSetIntMod(5), description: 'EW 5+')
-  ..addMod(
-      UnitAttribute.traits, createAddTraitToList(const Trait(name: 'Comms')),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.Comms()),
       description: '+Comms')
-  ..addMod(
-      UnitAttribute.traits, createAddTraitToList(const Trait(name: 'SatUp')),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.SatUp()),
       description: '+SatUp')
-  ..addMod(UnitAttribute.traits,
-      createAddTraitToList(const Trait(name: 'ECCM', isAux: true)),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.ECCM(isAux: true)),
       description: '+ECCM (Aux)');
 
 final UnitModification voltigeurABM = UnitModification(
@@ -158,14 +148,11 @@ final UnitModification voltigeurCv = UnitModification(name: 'CV Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
   ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'CV'))
   ..addMod(UnitAttribute.ew, createSetIntMod(5), description: 'EW 5+')
-  ..addMod(
-      UnitAttribute.traits, createAddTraitToList(const Trait(name: 'Comms')),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.Comms()),
       description: '+Comms')
-  ..addMod(
-      UnitAttribute.traits, createAddTraitToList(const Trait(name: 'SatUp')),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.SatUp()),
       description: '+SatUp')
-  ..addMod(
-      UnitAttribute.traits, createAddTraitToList(const Trait(name: 'ECCM')),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.ECCM()),
       description: '+ECCM');
 
 final UnitModification sampsonCv = UnitModification(
@@ -176,14 +163,11 @@ final UnitModification sampsonCv = UnitModification(
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'CV'))
   ..addMod(UnitAttribute.ew, createSetIntMod(5), description: 'EW 5+')
-  ..addMod(
-      UnitAttribute.traits, createAddTraitToList(const Trait(name: 'Comms')),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.Comms()),
       description: '+Comms')
-  ..addMod(
-      UnitAttribute.traits, createAddTraitToList(const Trait(name: 'SatUp')),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.SatUp()),
       description: '+SatUp')
-  ..addMod(UnitAttribute.traits,
-      createAddTraitToList(const Trait(name: 'ECCM', isAux: true)),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.ECCM(isAux: true)),
       description: '+ECCM (Aux)');
 
 final UnitModification squad = UnitModification(name: 'Squad')
@@ -196,8 +180,7 @@ final UnitModification koreshi = UnitModification(name: 'Koreshi Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Koreshi'))
   ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
-  ..addMod(
-      UnitAttribute.traits, createAddTraitToList(const Trait(name: 'Comms')),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.Comms()),
       description: '+Comms')
-  ..addMod(UnitAttribute.traits, createAddTraitToList(const Trait(name: 'Vet')),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.Vet()),
       description: '+Vet');

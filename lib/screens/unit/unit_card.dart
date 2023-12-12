@@ -326,18 +326,18 @@ Widget _buildWeaponTraits(BuildContext context, Weapon w) {
   final traits2 = _buildTraitList(context, w.alternativeTraits);
   return Wrap(
     children: [
-      w.alternativeTraits.isEmpty ? Spacer() : Text('['),
+      w.alternativeTraits.isEmpty ? Container() : Text('['),
       traits1,
-      w.alternativeTraits.isEmpty ? Spacer() : Text(']'),
+      w.alternativeTraits.isEmpty ? Container() : Text(']'),
       w.alternativeTraits.isNotEmpty
           ? Tooltip(
               message: Trait.Or().description,
               child: Text(' or '),
             )
-          : Spacer(),
-      w.alternativeTraits.isEmpty ? Spacer() : Text('['),
-      w.alternativeTraits.isNotEmpty ? traits2 : Spacer(),
-      w.alternativeTraits.isEmpty ? Spacer() : Text(']'),
+          : Container(),
+      w.alternativeTraits.isEmpty ? Container() : Text('['),
+      w.alternativeTraits.isNotEmpty ? traits2 : Container(),
+      w.alternativeTraits.isEmpty ? Container() : Text(']'),
     ],
   );
 }

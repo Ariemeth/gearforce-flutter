@@ -17,8 +17,7 @@ final UnitModification command = UnitModification(name: 'Command Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Command'))
   ..addMod(UnitAttribute.ew, createSetIntMod(5), description: 'EW 5+')
-  ..addMod(
-      UnitAttribute.traits, createAddTraitToList(const Trait(name: 'Comms')),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.Comms()),
       description: '+Comms');
 
 final UnitModification mortarUpgrade = UnitModification(name: 'Mortar Upgrade')
@@ -37,11 +36,9 @@ final UnitModification sidewinderCommand = UnitModification(
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Command'))
   ..addMod(UnitAttribute.ew, createSetIntMod(5), description: 'EW 5+')
-  ..addMod(
-      UnitAttribute.traits, createAddTraitToList(const Trait(name: 'Comms')),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.Comms()),
       description: '+Comms')
-  ..addMod(UnitAttribute.traits,
-      createAddTraitToList(const Trait(name: 'SatUp', isAux: true)),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.SatUp(isAux: true)),
       description: '+SatUp (Aux)');
 
 final UnitModification razorFang = UnitModification(name: 'Razor Fang Upgrade')
@@ -50,12 +47,12 @@ final UnitModification razorFang = UnitModification(name: 'Razor Fang Upgrade')
   ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
   ..addMod(
     UnitAttribute.traits,
-    createAddTraitToList(const Trait(name: 'Comms')),
+    createAddTraitToList(Trait.Comms()),
     description: '+Comms',
   )
   ..addMod(
     UnitAttribute.traits,
-    createAddTraitToList(const Trait(name: 'SatUp')),
+    createAddTraitToList(Trait.SatUp()),
     description: '+SatUp',
   );
 
@@ -67,22 +64,22 @@ final UnitModification SRUpgrade = UnitModification(name: 'SR Upgrade Upgrade')
       description: '+SO')
   ..addMod(
     UnitAttribute.traits,
-    createAddTraitToList(const Trait(name: 'ECM')),
+    createAddTraitToList(Trait.ECM()),
     description: '+ECM',
   )
   ..addMod(
     UnitAttribute.traits,
-    createAddTraitToList(const Trait(name: 'ECCM')),
+    createAddTraitToList(Trait.ECCM()),
     description: '+ECCM',
   )
   ..addMod(
     UnitAttribute.traits,
-    createAddTraitToList(const Trait(name: 'Smoke')),
+    createAddTraitToList(Trait.Smoke()),
     description: '+Smoke',
   )
   ..addMod(
     UnitAttribute.traits,
-    createAddTraitToList(const Trait(name: 'Stealth', isAux: true)),
+    createAddTraitToList(Trait.Stealth(isAux: true)),
     description: '+Stealth (Aux)',
   )
   ..addMod(
@@ -100,8 +97,7 @@ final UnitModification ruggedTerrain = UnitModification(
   ..addMod(UnitAttribute.weapons,
       createAddWeaponToList(buildWeapon('MCW', hasReact: true)!),
       description: '+MCW')
-  ..addMod(
-      UnitAttribute.traits, createAddTraitToList(const Trait(name: 'Climber')),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.Climber()),
       description: '+Climber');
 
 final UnitModification copperheadArenaPilot = UnitModification(
@@ -111,8 +107,7 @@ final UnitModification copperheadArenaPilot = UnitModification(
   ..addMod(UnitAttribute.weapons,
       createAddWeaponToList(buildWeapon('MVB', hasReact: true)!),
       description: '+MVB')
-  ..addMod(
-      UnitAttribute.traits, createAddTraitToList(const Trait(name: 'Shield')),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.Shield()),
       description: '+Shield');
 
 final UnitModification longFang = UnitModification(name: 'Long Fang Upgrade')
@@ -153,8 +148,7 @@ UnitModification diamondbackArenaPilot(Unit u) {
 
       return newList;
     }, description: '+LVB (Precise) or +LCW (Brawl:1)')
-    ..addMod(UnitAttribute.traits,
-        createAddTraitToList(const Trait(name: 'Brawl', level: 1)),
+    ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.Brawl(1)),
         description: '+Brawl:1');
 }
 
@@ -165,8 +159,7 @@ final UnitModification blackAdderArenaPilot = UnitModification(
   ..addMod(UnitAttribute.weapons,
       createAddWeaponToList(buildWeapon('MVB (Reach:1)', hasReact: true)!),
       description: '+MVB (Reach:1)')
-  ..addMod(UnitAttribute.traits,
-      createAddTraitToList(const Trait(name: 'Brawl', level: 2)),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.Brawl(2)),
       description: '+Brawl:2');
 
 final UnitModification cobraRazorFang =
@@ -176,12 +169,12 @@ final UnitModification cobraRazorFang =
       ..addMod(UnitAttribute.ew, createSetIntMod(5), description: 'EW 5+')
       ..addMod(
         UnitAttribute.traits,
-        createAddTraitToList(const Trait(name: 'Comms')),
+        createAddTraitToList(Trait.Comms()),
         description: '+Comms',
       )
       ..addMod(
         UnitAttribute.traits,
-        createAddTraitToList(const Trait(name: 'SatUp')),
+        createAddTraitToList(Trait.SatUp()),
         description: '+SatUp',
       );
 
@@ -225,8 +218,7 @@ final UnitModification meleeSwap = UnitModification(
 final UnitModification boasArenaPilot = UnitModification(name: 'Arena Pilot')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'with Arena Pilot'))
-  ..addMod(UnitAttribute.traits,
-      createAddTraitToList(const Trait(name: 'Brawl', level: 2)),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.Brawl(2)),
       description: '+Brawl:2');
 
 final UnitModification barbed = UnitModification(
@@ -251,11 +243,9 @@ final UnitModification mpCommand = UnitModification(name: 'Command Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Command'))
   ..addMod(UnitAttribute.ew, createSetIntMod(5), description: 'EW 5+')
-  ..addMod(
-      UnitAttribute.traits, createAddTraitToList(const Trait(name: 'Comms')),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.Comms()),
       description: '+Comms')
-  ..addMod(UnitAttribute.traits,
-      createAddTraitToList(const Trait(name: 'ECCM', isAux: true)),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.ECCM(isAux: true)),
       description: '+ECCM (Aux)');
 
 final UnitModification fang = UnitModification(
@@ -279,14 +269,11 @@ final UnitModification drakeCommand = UnitModification(name: 'Command Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Command'))
   ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
-  ..addMod(
-      UnitAttribute.traits, createAddTraitToList(const Trait(name: 'Comms')),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.Comms()),
       description: '+Comms')
-  ..addMod(
-      UnitAttribute.traits, createAddTraitToList(const Trait(name: 'SatUp')),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.SatUp()),
       description: '+SatUp')
-  ..addMod(
-      UnitAttribute.traits, createAddTraitToList(const Trait(name: 'ECCM')),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.ECCM()),
       description: '+ECCM');
 
 final UnitModification hooded = UnitModification(
@@ -358,16 +345,13 @@ final UnitModification caimanCommand = UnitModification(
   ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Command'))
   ..addMod(UnitAttribute.ew, createSetIntMod(5), description: 'EW 5+')
-  ..addMod(
-      UnitAttribute.traits, createAddTraitToList(const Trait(name: 'Comms')),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.Comms()),
       description: '+Comms')
-  ..addMod(
-      UnitAttribute.traits, createAddTraitToList(const Trait(name: 'SatUp')),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.SatUp()),
       description: '+SatUp')
-  ..addMod(UnitAttribute.traits, createAddTraitToList(const Trait(name: 'ECM')),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.ECM()),
       description: '+ECM')
-  ..addMod(UnitAttribute.traits,
-      createAddTraitToList(const Trait(name: 'ECCM', isAux: true)),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.ECCM(isAux: true)),
       description: '+ECCM (Aux)');
 
 final UnitModification team = UnitModification(name: 'Team')

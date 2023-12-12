@@ -109,13 +109,13 @@ class DuelistModification extends BaseModification {
     );
     mod.addMod<List<Trait>>(
       UnitAttribute.traits,
-      createAddTraitToList(const Trait(name: 'Duelist')),
+      createAddTraitToList(Trait.Duelist()),
       description: '+Duelist',
     );
 
     mod.addMod(
       UnitAttribute.traits,
-      createAddTraitToList(const Trait(name: 'Vet')),
+      createAddTraitToList(Trait.Vet()),
       description: '+Vet',
     );
 
@@ -174,7 +174,10 @@ class DuelistModification extends BaseModification {
 
     independentOperator.addMod(
       UnitAttribute.traits,
-      createAddTraitToList(const Trait(name: 'Independent Operator')),
+      createAddTraitToList(const Trait(
+          name: 'Independent Operator',
+          description: 'Duelist is an Independent Operator and will be the' +
+              ' sole model in a combat group')),
       description: 'Duelist is an Independent Operator and will be the sole ' +
           'model in a combat group',
     );
@@ -225,7 +228,11 @@ class DuelistModification extends BaseModification {
         })
       ..addMod(
         UnitAttribute.traits,
-        createAddTraitToList(const Trait(name: 'Lead by Example')),
+        createAddTraitToList(const Trait(
+            name: 'Lead by Example',
+            description: 'duelist will gain the following ability during the ' +
+                ' game. Once per round, for each duelist, whenever a duelist ' +
+                ' damages an enemy model, give one SP to one model in formation with the duelist.')),
         description:
             'duelist will gain the following ability during the game. Once ' +
                 'per round, for each duelist, whenever a duelist damages an enemy ' +
@@ -493,8 +500,13 @@ class DuelistModification extends BaseModification {
           return rs!.duelistModCheck(u, cg!, modID: aceGunnerId);
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
-      ..addMod(UnitAttribute.traits,
-          createAddTraitToList(const Trait(name: 'Ace Gunner')))
+      ..addMod(
+          UnitAttribute.traits,
+          createAddTraitToList(const Trait(
+            name: 'Ace Gunner',
+            description: 'This model does not suffer the -1D6 modifier when' +
+                ' using the Split weapon trait',
+          )))
       ..addMod(
           UnitAttribute.special,
           createAddStringToList(

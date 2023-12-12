@@ -103,7 +103,7 @@ class PeaceRiverFactionMods extends FactionModification {
       ..addMod<int>(UnitAttribute.ew, createSetIntMod(4), description: 'EW: 4')
       ..addMod<List<Trait>>(
         UnitAttribute.traits,
-        createAddTraitToList(const Trait(name: 'Agile')),
+        createAddTraitToList(Trait.Agile()),
         description: '+Agile',
       );
   }
@@ -143,8 +143,8 @@ class PeaceRiverFactionMods extends FactionModification {
     )
       ..addMod<int>(UnitAttribute.tv, createSimpleIntMod(1),
           description: 'TV: +1')
-      ..addMod<List<Trait>>(UnitAttribute.traits,
-          createAddTraitToList(const Trait(name: 'Shield')),
+      ..addMod<List<Trait>>(
+          UnitAttribute.traits, createAddTraitToList(Trait.Shield()),
           description: '+Shield')
       ..addMod<List<Weapon>>(UnitAttribute.weapons, (value) {
         final newList = value.toList();
@@ -219,7 +219,7 @@ class PeaceRiverFactionMods extends FactionModification {
         newList.remove(selectedWeaponToRemove);
         newList.add(Weapon.fromWeapon(
           selectedWeaponToRemove,
-          addTraits: [const Trait(name: 'Advanced')],
+          addTraits: [Trait.Advanced()],
         ));
 
         return newList;
@@ -441,8 +441,7 @@ class PeaceRiverFactionMods extends FactionModification {
       }, dynamicDescription: () {
         return '${unitRPToRemove.isNotEmpty ? '-$unitRPToRemove' : ''}';
       })
-      ..addMod(UnitAttribute.traits,
-          createAddTraitToList(const Trait(name: 'Shield')),
+      ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.Shield()),
           description: '+Shield');
   }
   /*

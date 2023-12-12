@@ -24,18 +24,18 @@ void main() {
 
   test('test headhunter mod adds Comms to list', () {
     final mod = headHunter;
-    final List<Trait> traits = [const Trait(name: 'Comms+')];
+    final List<Trait> traits = [];
     final List<Trait> result = mod.applyMods(UnitAttribute.traits, traits);
-    expect(result.any((element) => element.name == 'Comms+'), isTrue,
-        reason: 'check Comms+ exists');
-    expect(mod.applyMods(UnitAttribute.traits, traits), hasLength(2));
+    expect(result.any((element) => element.name == 'Comms'), isTrue,
+        reason: 'check Comms exists');
+    expect(mod.applyMods(UnitAttribute.traits, traits), hasLength(1));
   });
 
   test('test headhunter mod does not duplicate Comms', () {
     final mod = headHunter;
-    final List<Trait> traits = [const Trait(name: "Comms")];
-    expect(mod.applyMods(UnitAttribute.traits, traits),
-        contains(const Trait(name: "Comms")));
+    final List<Trait> traits = [Trait.Comms()];
+    expect(
+        mod.applyMods(UnitAttribute.traits, traits), contains(Trait.Comms()));
     expect(traits, hasLength(1),
         reason: 'original list should not have changed in length');
     expect(mod.applyMods(UnitAttribute.traits, traits), hasLength(1));

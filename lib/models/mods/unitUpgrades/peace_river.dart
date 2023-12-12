@@ -17,51 +17,41 @@ final UnitModification chieftain = UnitModification(name: 'Chieftain Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Chieftain'))
   ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
-  ..addMod(
-      UnitAttribute.traits, createAddTraitToList(const Trait(name: 'Comms')),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.Comms()),
       description: '+Comms');
 
 final UnitModification spectre = UnitModification(name: 'Spectre Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Spectre'))
   ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
-  ..addMod(UnitAttribute.traits, createAddTraitToList(const Trait(name: 'ECM')),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.ECM()),
       description: '+ECM');
 
-final UnitModification warriorIVChieftain = UnitModification(
-    name: 'Chieftain Upgrade')
-  ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
-  ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Chieftain'))
-  ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
-  ..addMod(
-      UnitAttribute.traits, createAddTraitToList(const Trait(name: 'Comms')),
-      description: '+Comms')
-  ..addMod(
-      UnitAttribute.traits, createAddTraitToList(const Trait(name: 'SatUp')),
-      description: '+SatUp');
+final UnitModification warriorIVChieftain =
+    UnitModification(name: 'Chieftain Upgrade')
+      ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
+      ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Chieftain'))
+      ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
+      ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.Comms()),
+          description: '+Comms')
+      ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.SatUp()),
+          description: '+SatUp');
 
 final UnitModification warriorIVSpectre =
     UnitModification(name: 'Spectre Upgrade')
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
       ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Spectre'))
       ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
-      ..addMod(
-          UnitAttribute.traits, createAddTraitToList(const Trait(name: 'ECM')),
+      ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.ECM()),
           description: '+ECM')
-      ..addMod(
-          UnitAttribute.traits,
-          createAddTraitToList(const Trait(
-            name: 'Sensors',
-            level: 24,
-            isAux: true,
-          )),
+      ..addMod(UnitAttribute.traits,
+          createAddTraitToList(Trait.Sensors(24, isAux: true)),
           description: '+Sensors:24 (Aux)');
 
 final UnitModification jetpack = UnitModification(name: 'Jetpack Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Jetpack'))
-  ..addMod(UnitAttribute.traits,
-      createAddTraitToList(const Trait(name: 'Jetpack', level: 6)),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.Jetpack(6)),
       description: '+Jetpack:6');
 
 final UnitModification warriorIVSpecialForces = UnitModification(
@@ -71,8 +61,8 @@ final UnitModification warriorIVSpecialForces = UnitModification(
   ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
   ..addMod(UnitAttribute.roles, createAddRoleToList(Role(name: RoleType.SO)),
       description: '+SO')
-  ..addMod(UnitAttribute.traits,
-      createAddTraitToList(const Trait(name: 'Stealth', isAux: true)),
+  ..addMod(
+      UnitAttribute.traits, createAddTraitToList(Trait.Stealth(isAux: true)),
       description: '+Stealth (Aux)');
 
 final UnitModification meleeSpecialist = UnitModification(
@@ -88,8 +78,7 @@ final UnitModification meleeSpecialist = UnitModification(
   ..addMod(
       UnitAttribute.traits,
       createReplaceTraitInList(
-          oldValue: const Trait(name: 'Brawl', level: 1),
-          newValue: const Trait(name: 'Brawl', level: 2)),
+          oldValue: Trait.Brawl(1), newValue: Trait.Brawl(2)),
       description: '-Brawl:1, +Brawl:2');
 
 final UnitModification meleeSpecialist1 = UnitModification(
@@ -102,15 +91,13 @@ final UnitModification meleeSpecialist1 = UnitModification(
   ..addMod(
       UnitAttribute.traits,
       createReplaceTraitInList(
-          oldValue: const Trait(name: 'Brawl', level: 1),
-          newValue: const Trait(name: 'Brawl', level: 2)),
+          oldValue: Trait.Brawl(1), newValue: Trait.Brawl(2)),
       description: '-Brawl:1, +Brawl:2');
 
 final UnitModification shield = UnitModification(name: 'Shield Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'with Shield'))
-  ..addMod(
-      UnitAttribute.traits, createAddTraitToList(const Trait(name: 'Shield')),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.Shield()),
       description: '+Shield');
 
 final UnitModification pitBullSpectre =
@@ -118,16 +105,10 @@ final UnitModification pitBullSpectre =
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
       ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Spectre'))
       ..addMod(UnitAttribute.ew, createSetIntMod(5), description: 'EW 5+')
-      ..addMod(
-          UnitAttribute.traits, createAddTraitToList(const Trait(name: 'ECM')),
+      ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.ECM()),
           description: '+ECM')
-      ..addMod(
-          UnitAttribute.traits,
-          createAddTraitToList(const Trait(
-            name: 'Sensors',
-            level: 24,
-            isAux: true,
-          )),
+      ..addMod(UnitAttribute.traits,
+          createAddTraitToList(Trait.Sensors(24, isAux: true)),
           description: '+Sensors:24 (Aux)');
 
 final UnitModification greyhoundChieftain =
@@ -135,33 +116,28 @@ final UnitModification greyhoundChieftain =
       ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
       ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Chieftain'))
       ..addMod(UnitAttribute.ew, createSetIntMod(3), description: 'EW 3+')
-      ..addMod(UnitAttribute.traits,
-          createAddTraitToList(const Trait(name: 'SP', level: 1)),
+      ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.SP(1)),
           description: '+SP:+1')
-      ..addMod(
-          UnitAttribute.traits, createAddTraitToList(const Trait(name: 'ECCM')),
+      ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.ECCM()),
           description: '+ECCM');
 
-final UnitModification skirmisherChieftain =
-    UnitModification(name: 'Chieftain Upgrade')
-      ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
-      ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Chieftain'))
-      ..addMod(UnitAttribute.ew, createSetIntMod(3), description: 'EW 3+')
-      ..addMod(UnitAttribute.traits,
-          createAddTraitToList(const Trait(name: 'SatUp', isAux: true)),
-          description: '+SatUp (Aux)')
-      ..addMod(UnitAttribute.traits,
-          createAddTraitToList(const Trait(name: 'ECCM', isAux: true)),
-          description: '+ECCM (Aux)');
+final UnitModification skirmisherChieftain = UnitModification(
+    name: 'Chieftain Upgrade')
+  ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
+  ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Chieftain'))
+  ..addMod(UnitAttribute.ew, createSetIntMod(3), description: 'EW 3+')
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.SatUp(isAux: true)),
+      description: '+SatUp (Aux)')
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.ECCM(isAux: true)),
+      description: '+ECCM (Aux)');
 
 final UnitModification skirmisherTag = UnitModification(name: 'Tag Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'with Tag'))
   ..addMod(UnitAttribute.ew, createSetIntMod(3), description: 'EW 3+')
-  ..addMod(UnitAttribute.traits, createAddTraitToList(const Trait(name: 'TD')),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.TD()),
       description: '+TD')
-  ..addMod(UnitAttribute.traits,
-      createAddTraitToList(const Trait(name: 'ECCM', isAux: true)),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.ECCM(isAux: true)),
       description: '+ECCM (Aux)');
 
 final UnitModification SkirmisherSpecialForces = UnitModification(
@@ -171,16 +147,15 @@ final UnitModification SkirmisherSpecialForces = UnitModification(
   ..addMod(UnitAttribute.ew, createSetIntMod(3), description: 'EW 3+')
   ..addMod(UnitAttribute.roles, createAddRoleToList(Role(name: RoleType.SO)),
       description: '+SO')
-  ..addMod(UnitAttribute.traits,
-      createAddTraitToList(const Trait(name: 'Stealth', isAux: true)),
+  ..addMod(
+      UnitAttribute.traits, createAddTraitToList(Trait.Stealth(isAux: true)),
       description: '+Stealth (Aux)');
 
 final UnitModification shinobiMeleeSpecialist = UnitModification(
     name: 'Melee Specialist Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'melee specialist'))
-  ..addMod(UnitAttribute.traits,
-      createAddTraitToList(const Trait(name: 'Brawl', level: 2)),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.Brawl(2)),
       description: '+Brawl:2')
   ..addMod(
       UnitAttribute.weapons,
@@ -189,32 +164,24 @@ final UnitModification shinobiMeleeSpecialist = UnitModification(
           newValue: buildWeapon('LVB (Precise)', hasReact: true)!),
       description: '-LVB, +LVB (Precise)');
 
-final UnitModification shinobiChieftain = UnitModification(
-    name: 'Chieftain Upgrade')
-  ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
-  ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Chieftain'))
-  ..addMod(
-      UnitAttribute.traits, createAddTraitToList(const Trait(name: 'ECCM')),
-      description: '+ECCM')
-  ..addMod(
-      UnitAttribute.traits, createAddTraitToList(const Trait(name: 'SatUp')),
-      description: '+SatUp');
+final UnitModification shinobiChieftain =
+    UnitModification(name: 'Chieftain Upgrade')
+      ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
+      ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Chieftain'))
+      ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.ECCM()),
+          description: '+ECCM')
+      ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.SatUp()),
+          description: '+SatUp');
 
 final UnitModification shinobiSpectre =
     UnitModification(name: 'Spectre Upgrade')
       ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
       ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Spectre'))
       ..addMod(UnitAttribute.ew, createSetIntMod(3), description: 'EW 3+')
-      ..addMod(
-          UnitAttribute.traits, createAddTraitToList(const Trait(name: 'ECM+')),
+      ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.ECMPlus()),
           description: '+ECM+')
-      ..addMod(
-          UnitAttribute.traits,
-          createAddTraitToList(const Trait(
-            name: 'Sensors',
-            level: 24,
-            isAux: true,
-          )),
+      ..addMod(UnitAttribute.traits,
+          createAddTraitToList(Trait.Sensors(24, isAux: true)),
           description: '+Sensors:24 (Aux)');
 
 final UnitModification spartanSpectre =
@@ -222,16 +189,10 @@ final UnitModification spartanSpectre =
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
       ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Spectre'))
       ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
-      ..addMod(
-          UnitAttribute.traits, createAddTraitToList(const Trait(name: 'ECM')),
+      ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.ECM()),
           description: '+ECM')
-      ..addMod(
-          UnitAttribute.traits,
-          createAddTraitToList(const Trait(
-            name: 'Sensors',
-            level: 24,
-            isAux: true,
-          )),
+      ..addMod(UnitAttribute.traits,
+          createAddTraitToList(Trait.Sensors(24, isAux: true)),
           description: '+Sensors:24 (Aux)');
 
 final UnitModification crusaderV = UnitModification(
@@ -247,8 +208,7 @@ final UnitModification crusaderV = UnitModification(
         newItems: [buildWeapon('MRP')!, buildWeapon('MFM')!],
       ),
       description: '-MRP (Link), -LFM, +MRP, +MFM')
-  ..addMod(UnitAttribute.traits,
-      createRemoveTraitFromList(const Trait(name: 'Vuln', type: 'Haywire')),
+  ..addMod(UnitAttribute.traits, createRemoveTraitFromList(Trait.VulnH()),
       description: '-Vuln:Haywire');
 
 final UnitModification cataphractSarisa =
@@ -267,14 +227,11 @@ final UnitModification cataphractLord = UnitModification(name: 'Lord Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Lord'))
   ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
-  ..addMod(UnitAttribute.traits,
-      createAddTraitToList(const Trait(name: 'SP', level: 1)),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.SP(1)),
       description: '+SP:+1')
-  ..addMod(
-      UnitAttribute.traits, createAddTraitToList(const Trait(name: 'Comms')),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.Comms()),
       description: '+Comms')
-  ..addMod(
-      UnitAttribute.traits, createAddTraitToList(const Trait(name: 'ECCM')),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.ECCM()),
       description: '+ECCM');
 
 final UnitModification tankHunter =
@@ -292,14 +249,11 @@ final UnitModification uhlanLord = UnitModification(name: 'Lord Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Lord'))
   ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
-  ..addMod(UnitAttribute.traits,
-      createAddTraitToList(const Trait(name: 'SP', level: 1)),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.SP(1)),
       description: '+SP:+1')
-  ..addMod(
-      UnitAttribute.traits, createAddTraitToList(const Trait(name: 'Comms')),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.Comms()),
       description: '+Comms')
-  ..addMod(
-      UnitAttribute.traits, createAddTraitToList(const Trait(name: 'ECCM')),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.ECCM()),
       description: '+ECCM');
 
 final UnitModification hyeneIISpectre =
@@ -307,25 +261,20 @@ final UnitModification hyeneIISpectre =
       ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
       ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'Spectre Dog'))
       ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
-      ..addMod(
-          UnitAttribute.traits, createAddTraitToList(const Trait(name: 'ECM+')),
+      ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.ECMPlus()),
           description: '+ECM+');
 
 final UnitModification alphaDog = UnitModification(name: 'Alpha Dog Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(3), description: 'TV +3')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Alpha Dog'))
   ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
-  ..addMod(UnitAttribute.traits,
-      createAddTraitToList(const Trait(name: 'SP', level: 1)),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.SP(1)),
       description: '+SP:+1')
-  ..addMod(
-      UnitAttribute.traits, createAddTraitToList(const Trait(name: 'ECCM')),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.ECCM()),
       description: '+ECCM')
-  ..addMod(
-      UnitAttribute.traits, createAddTraitToList(const Trait(name: 'Comms')),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.Comms()),
       description: '+Comms')
-  ..addMod(
-      UnitAttribute.traits, createAddTraitToList(const Trait(name: 'SatUp')),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.SatUp()),
       description: '+SatUp');
 
 final UnitModification arbalest = UnitModification(name: 'Arbalest Upgrade')
@@ -346,14 +295,11 @@ final UnitModification herdLord = UnitModification(
   ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Herd Lord'))
   ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
-  ..addMod(UnitAttribute.traits,
-      createAddTraitToList(const Trait(name: 'SP', level: 1)),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.SP(1)),
       description: '+SP:+1')
-  ..addMod(
-      UnitAttribute.traits, createAddTraitToList(const Trait(name: 'Comms')),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.Comms()),
       description: '+Comms')
-  ..addMod(
-      UnitAttribute.traits, createAddTraitToList(const Trait(name: 'SatUp')),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.SatUp()),
       description: '+SatUp');
 
 final UnitModification missile = UnitModification(name: 'Missile Upgrade')

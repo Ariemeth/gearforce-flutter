@@ -4,7 +4,7 @@ import 'package:gearforce/models/weapons/weapon.dart';
 import 'package:gearforce/models/weapons/weapon_modes.dart';
 
 final weaponMatch =
-    RegExp(r'^((?<number>[2-9]) [xX] )?(?<size>[LMH])(?<type>[a-zA-Z]+)');
+    RegExp(r'^((?<number>[2-9]) [xX] )?(?<size>[BLMH])(?<type>[a-zA-Z]+)');
 final comboMatch = RegExp(r'(?<combo>[\/])(?<code>[a-zA-Z]+)');
 final traitsMatch = RegExp(r'\((?<traits>[a-zA-Z :0-9]+)\)$');
 
@@ -12,9 +12,15 @@ Weapon? buildWeapon(
   String weaponString, {
   bool hasReact = false,
 }) {
+  /*
+    TODO fix BB not matching
+    flutter: buildWeapon: BB (AP:2 Guided) does not match
+    flutter: buildWeapon: BB (AI Fire:2 Guided) does not match
+    flutter: buildWeapon: BB (AP:2 Demo:4) does not match
+  */
   if (!weaponMatch.hasMatch(weaponString)) {
     print('buildWeapon: $weaponString does not match');
-    return null;
+    //  return null;
   }
 
   final weaponCheck = weaponMatch.firstMatch(weaponString);
@@ -75,7 +81,8 @@ Weapon? _buildWeapon({
   List<Trait> traits = [];
   List<Trait> alternativeTraits = [];
 
-  assert(size == 'L' || size == 'M' || size == 'H' || size.isEmpty);
+  assert(
+      size == 'L' || size == 'M' || size == 'H' || size.isEmpty || size == 'B');
 
   switch (type.toUpperCase()) {
     case 'AAM':

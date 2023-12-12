@@ -72,17 +72,17 @@ void main() {
     final faction = roster.factionNotifier.value.factionType;
     cg.primary.addUnit(Unit(
         core: UnitCore.test(
-      traits: const [const Trait(name: 'Hands')],
+      traits: [Trait.Hands()],
       faction: faction,
     )));
     cg.primary.addUnit(Unit(
         core: UnitCore.test(
-      traits: const [const Trait(name: 'Hands')],
+      traits: [Trait.Hands()],
       faction: faction,
     )));
     cg.primary.addUnit(Unit(
         core: UnitCore.test(
-      traits: const [const Trait(name: 'Hands')],
+      traits: [Trait.Hands()],
       faction: faction,
     )));
 
@@ -95,12 +95,9 @@ void main() {
 
   test('test handGrenade (LHG) requirement check with 1 in group already', () {
     var cg = CombatGroup('test1')
-      ..primary.addUnit(
-          Unit(core: UnitCore.test(traits: const [const Trait(name: 'Hands')])))
-      ..primary.addUnit(
-          Unit(core: UnitCore.test(traits: const [const Trait(name: 'Hands')])))
-      ..primary.addUnit(Unit(
-          core: UnitCore.test(traits: const [const Trait(name: 'Hands')])));
+      ..primary.addUnit(Unit(core: UnitCore.test(traits: [Trait.Hands()])))
+      ..primary.addUnit(Unit(core: UnitCore.test(traits: [Trait.Hands()])))
+      ..primary.addUnit(Unit(core: UnitCore.test(traits: [Trait.Hands()])));
     final roster = UnitRoster(data)..addCG(cg);
 
     var u = cg.primary.allUnits().last;
@@ -116,17 +113,17 @@ void main() {
     final faction = roster.factionNotifier.value.factionType;
     cg.primary.addUnit(Unit(
         core: UnitCore.test(
-      traits: const [const Trait(name: 'Hands')],
+      traits: [Trait.Hands()],
       faction: faction,
     )));
     cg.primary.addUnit(Unit(
         core: UnitCore.test(
-      traits: const [const Trait(name: 'Hands')],
+      traits: [Trait.Hands()],
       faction: faction,
     )));
     cg.primary.addUnit(Unit(
         core: UnitCore.test(
-      traits: const [const Trait(name: 'Hands')],
+      traits: [Trait.Hands()],
       faction: faction,
     )));
 
@@ -142,12 +139,9 @@ void main() {
       'test handGrenade (LHG) requirement check with 1 MHG already added to other group',
       () {
     var cg = CombatGroup('test1')
-      ..primary.addUnit(
-          Unit(core: UnitCore.test(traits: const [const Trait(name: 'Hands')])))
-      ..secondary.addUnit(
-          Unit(core: UnitCore.test(traits: const [const Trait(name: 'Hands')])))
-      ..secondary.addUnit(Unit(
-          core: UnitCore.test(traits: const [const Trait(name: 'Hands')])));
+      ..primary.addUnit(Unit(core: UnitCore.test(traits: [Trait.Hands()])))
+      ..secondary.addUnit(Unit(core: UnitCore.test(traits: [Trait.Hands()])))
+      ..secondary.addUnit(Unit(core: UnitCore.test(traits: [Trait.Hands()])));
     final roster = UnitRoster(data)..addCG(cg);
 
     var u = cg.primary.allUnits().last;
@@ -165,13 +159,13 @@ void main() {
     final faction = roster.factionNotifier.value.factionType;
     cg.primary.addUnit(Unit(
         core: UnitCore.test(
-      traits: const [const Trait(name: 'Hands')],
+      traits: [Trait.Hands()],
       faction: faction,
     )));
 
     cg.primary.addUnit(Unit(
         core: UnitCore.test(
-      traits: const [const Trait(name: 'Hands')],
+      traits: [Trait.Hands()],
       faction: faction,
     )));
 
@@ -190,18 +184,18 @@ void main() {
 
     cg.primary.addUnit(Unit(
         core: UnitCore.test(
-      traits: const [const Trait(name: 'Hands')],
+      traits: [Trait.Hands()],
       faction: faction,
     )));
     cg.primary.addUnit(Unit(
         core: UnitCore.test(
-      traits: const [const Trait(name: 'Hands')],
+      traits: [Trait.Hands()],
       faction: faction,
     )));
     cg.primary.addUnit(Unit(
         core: UnitCore.test(
       name: 'test3',
-      traits: const [const Trait(name: 'Hands')],
+      traits: [Trait.Hands()],
       faction: faction,
     )));
 
@@ -222,18 +216,18 @@ void main() {
 
     cg.primary.addUnit(Unit(
         core: UnitCore.test(
-      traits: const [const Trait(name: 'Hands')],
+      traits: [Trait.Hands()],
       faction: faction,
     )));
     cg.primary.addUnit(Unit(
         core: UnitCore.test(
-      traits: const [const Trait(name: 'Hands')],
+      traits: [Trait.Hands()],
       faction: faction,
     )));
     cg.primary.addUnit(Unit(
         core: UnitCore.test(
       name: 'test3',
-      traits: const [const Trait(name: 'Hands')],
+      traits: [Trait.Hands()],
       faction: faction,
     )));
 
@@ -251,18 +245,18 @@ void main() {
 
     cg.primary.addUnit(Unit(
         core: UnitCore.test(
-      traits: const [const Trait(name: 'Hands')],
+      traits: [Trait.Hands()],
       faction: faction,
     )));
     cg.primary.addUnit(Unit(
         core: UnitCore.test(
-      traits: const [const Trait(name: 'Hands')],
+      traits: [Trait.Hands()],
       faction: faction,
     )));
     cg.primary.addUnit(Unit(
         core: UnitCore.test(
       name: 'test3',
-      traits: const [const Trait(name: 'Hands')],
+      traits: [Trait.Hands()],
       faction: faction,
     )));
 
@@ -276,12 +270,9 @@ void main() {
       'test handGrenade (MHG) requirement check with 1 MHG already added to other group',
       () {
     var cg = CombatGroup('test1')
-      ..primary.addUnit(
-          Unit(core: UnitCore.test(traits: const [const Trait(name: 'Hands')])))
-      ..secondary.addUnit(
-          Unit(core: UnitCore.test(traits: const [const Trait(name: 'Hands')])))
-      ..secondary.addUnit(Unit(
-          core: UnitCore.test(traits: const [const Trait(name: 'Hands')])));
+      ..primary.addUnit(Unit(core: UnitCore.test(traits: [Trait.Hands()])))
+      ..secondary.addUnit(Unit(core: UnitCore.test(traits: [Trait.Hands()])))
+      ..secondary.addUnit(Unit(core: UnitCore.test(traits: [Trait.Hands()])));
 
     final first = cg.primary.allUnits().first;
     first.addUnitMod(StandardModification.handGrenadeMHG(first, cg));
@@ -291,12 +282,9 @@ void main() {
   });
   test('test handGrenade (MHG) cost with only 1 mod', () {
     var cg = CombatGroup('test1')
-      ..primary.addUnit(
-          Unit(core: UnitCore.test(traits: const [const Trait(name: 'Hands')])))
-      ..primary.addUnit(
-          Unit(core: UnitCore.test(traits: const [const Trait(name: 'Hands')])))
-      ..primary.addUnit(Unit(
-          core: UnitCore.test(traits: const [const Trait(name: 'Hands')])));
+      ..primary.addUnit(Unit(core: UnitCore.test(traits: [Trait.Hands()])))
+      ..primary.addUnit(Unit(core: UnitCore.test(traits: [Trait.Hands()])))
+      ..primary.addUnit(Unit(core: UnitCore.test(traits: [Trait.Hands()])));
 
     var u = cg.primary.allUnits().last;
     final mod = StandardModification.handGrenadeMHG(u, cg);
@@ -306,12 +294,9 @@ void main() {
 
   test('test handGrenade (MHG) cost with 2 mods', () {
     var cg = CombatGroup('test1')
-      ..primary.addUnit(
-          Unit(core: UnitCore.test(traits: const [const Trait(name: 'Hands')])))
-      ..primary.addUnit(
-          Unit(core: UnitCore.test(traits: const [const Trait(name: 'Hands')])))
-      ..primary.addUnit(Unit(
-          core: UnitCore.test(traits: const [const Trait(name: 'Hands')])));
+      ..primary.addUnit(Unit(core: UnitCore.test(traits: [Trait.Hands()])))
+      ..primary.addUnit(Unit(core: UnitCore.test(traits: [Trait.Hands()])))
+      ..primary.addUnit(Unit(core: UnitCore.test(traits: [Trait.Hands()])));
 
     final u = cg.primary.allUnits().last;
     u.addUnitMod(StandardModification.handGrenadeMHG(u, cg));
