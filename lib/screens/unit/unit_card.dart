@@ -241,10 +241,6 @@ class UnitCard extends StatelessWidget {
         padding: const EdgeInsets.only(left: 5.0, right: 5.0, bottom: 3.0),
         child: _buildTraitList(context, unit.traits),
       ),
-      // decoration: BoxDecoration(
-      //     border: Border(
-      //   bottom: _horizontalBorder,
-      // )),
     );
   }
 
