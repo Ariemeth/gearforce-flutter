@@ -102,6 +102,7 @@ class Group extends ChangeNotifier {
     });
 
     _units.add(unit);
+    // TODO add onUnitAdded faction rule call
     return validations;
   }
 

@@ -8,6 +8,7 @@ import 'package:gearforce/models/rules/north/north.dart' as north;
 import 'package:gearforce/models/rules/options/combat_group_options.dart';
 import 'package:gearforce/models/rules/options/special_unit_filter.dart';
 import 'package:gearforce/models/rules/utopia/utopia.dart';
+import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/validation/validations.dart';
 
 const String _baseRuleId = 'rule::utopia::caf';
@@ -312,6 +313,37 @@ final FactionRule ruleGilgameshTroupe = FactionRule(
       issue: 'Only a Gilgamesh or units with no actions can be added; See' +
           ' Gilgamesh Troupe',
     );
+  },
+  onForceLeaderChanged: (roster, newleader) {
+    // need to find the combat group that has this rule enabled
+    if (!roster.getCGs().any((cg) =>
+        cg.options.any((o) => o.isEnabled && o.id == _ruleGilgameshTroupeId))) {
+      return;
+    }
+
+    final cg = roster.getCGs().firstWhere((c) =>
+        c.options.any((o) => o.isEnabled && o.id == _ruleGilgameshTroupeId));
+
+    if (!cg.units.any((u) => u.core.frame.contains('Gilgamesh'))) {
+      // there are no gilgamesh units in the CG
+      return;
+    }
+
+    final gilga =
+        cg.units.firstWhere((u) => u.core.frame.contains('Gilgamesh'));
+
+    final nextCGRank = CommandLevel.NextGreater(cg.highestCommandLevel());
+    if (newleader == null) {
+      gilga.commandLevel = nextCGRank;
+      return;
+    }
+
+    if (newleader != gilga) {
+      gilga.commandLevel = CommandLevel.NextGreater(newleader.commandLevel);
+    }
+  },
+  onUnitAdded: (roster, unit) {
+    // TODO implement
   },
   description: 'The Divine Brother: This combat group must use a Gilgamesh.' +
       ' The Gilgamesh must be the force leader.\n' +
