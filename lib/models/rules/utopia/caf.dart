@@ -343,6 +343,23 @@ final FactionRule ruleGilgameshTroupe = FactionRule(
     }
   },
   onUnitAdded: (roster, unit) {
+    if (!unit.core.frame.contains('Gilgamesh')) {
+      return;
+    }
+
+    final cg = unit.combatGroup;
+    if (cg == null) {
+      return;
+    }
+
+    // the unit's cg needs to be a Gilgamesh Troupe
+    if (!cg.isOptionEnabled(_ruleGilgameshTroupeId)) {
+      return;
+    }
+
+    final nextCGRank = CommandLevel.NextGreater(cg.highestCommandLevel());
+    unit.commandLevel = nextCGRank;
+
     // TODO implement
   },
   description: 'The Divine Brother: This combat group must use a Gilgamesh.' +

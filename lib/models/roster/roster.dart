@@ -36,7 +36,6 @@ class UnitRoster extends ChangeNotifier {
         .allEnabledRules(null)
         .where((rule) => rule.onForceLeaderChanged != null);
 
-    final oldLeader = _selectedForceLeader;
     _selectedForceLeader = newLeader;
 
     if (_selectedForceLeader != null) {

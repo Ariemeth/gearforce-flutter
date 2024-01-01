@@ -102,7 +102,15 @@ class Group extends ChangeNotifier {
     });
 
     _units.add(unit);
-    // TODO add onUnitAdded faction rule call
+    final rs = combatGroup?.roster?.rulesetNotifer.value;
+    if (rs != null) {
+      final onAddedRules = rs
+          .allFactionRules(unit: unit)
+          .where((rule) => rule.onUnitAdded != null);
+      for (var rule in onAddedRules) {
+        rule.onUnitAdded!(combatGroup!.roster!, unit);
+      }
+    }
     return validations;
   }
 
