@@ -840,6 +840,7 @@ Validation? _checkModelRules(Unit unit, Group group) {
       return Validation(false, issue: 'cannot be part of a secondary group');
     }
 
+    // TODO ensure if the front and back parts are the same type, A or B
     // current units in the group need to only be other parts
     if (unitsInGroup.every((u) =>
         u.core.frame != frame &&

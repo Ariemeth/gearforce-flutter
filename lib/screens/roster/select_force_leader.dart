@@ -17,9 +17,17 @@ class _SelectForceLeaderState extends State<SelectForceLeader> {
   @override
   Widget build(BuildContext context) {
     final roster = context.watch<UnitRoster>();
+    final availableUnits = roster.availableForceLeaders();
+    var selectedLeader = roster.selectedForceLeader;
+
+    if (selectedLeader != null && !availableUnits.contains(selectedLeader)) {
+      print(
+          'Selected leader is not in the available units list, leader: $selectedLeader, available: $availableUnits');
+      selectedLeader = null;
+    }
 
     return DropdownButton<Unit?>(
-      value: roster.selectedForceLeader,
+      value: selectedLeader,
       hint: Text('Select Force Leader'),
       icon: const Icon(Icons.arrow_downward),
       iconSize: 16,
@@ -33,7 +41,7 @@ class _SelectForceLeaderState extends State<SelectForceLeader> {
           roster.selectedForceLeader = newValue;
         });
       },
-      items: _availableForceLeaders(roster.availableForceLeaders()),
+      items: _availableForceLeaders(availableUnits),
     );
   }
 
