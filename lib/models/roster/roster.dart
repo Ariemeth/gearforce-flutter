@@ -24,7 +24,26 @@ class UnitRoster extends ChangeNotifier {
   String _activeCG = '';
   String get rulesVersion => _currentRulesVersion;
   bool _isEliteForce = false;
-  Unit? selectedForceLeader;
+  Unit? _selectedForceLeader;
+
+  Unit? get selectedForceLeader => _selectedForceLeader;
+
+  set selectedForceLeader(Unit? newLeader) {
+    if (newLeader == _selectedForceLeader) {
+      return;
+    }
+    final onChangedRules = rulesetNotifer.value
+        .allEnabledRules(null)
+        .where((rule) => rule.onForceLeaderChanged != null);
+
+    _selectedForceLeader = newLeader;
+
+    if (_selectedForceLeader != null) {
+      onChangedRules.forEach((rule) {
+        rule.onForceLeaderChanged!(this, newLeader);
+      });
+    }
+  }
 
   UnitRoster(Data data) {
     factionNotifier = ValueNotifier<Faction>(Faction.blackTalons(data));

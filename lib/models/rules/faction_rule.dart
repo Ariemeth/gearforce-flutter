@@ -44,6 +44,10 @@ class FactionRule extends ChangeNotifier {
     this.onModRemoved,
     this.modifyWeapon,
     this.modifyTraits,
+    this.onForceLeaderChanged,
+    this.onUnitAdded,
+    this.onUnitRemoved,
+    this.onLeadershipChanged,
     this.onEnabled,
     this.onDisabled,
   }) {
@@ -129,6 +133,18 @@ class FactionRule extends ChangeNotifier {
 
   /// Modify a [Unit]'s [Trait]s.
   final Function(List<Trait> traits, UnitCore uc)? modifyTraits;
+
+  /// Called when the force leader is changed.
+  final void Function(UnitRoster roster, Unit? newleader)? onForceLeaderChanged;
+
+  /// Called when a unit is added to a group.
+  final void Function(UnitRoster roster, Unit unit)? onUnitAdded;
+
+  /// Called when a unit is removed from a group.
+  final void Function(UnitRoster roster, Unit unit)? onUnitRemoved;
+
+  /// Called when a unit's leadership level is changed
+  final void Function(UnitRoster roster, Unit unit)? onLeadershipChanged;
 
   /// Called with the [FactionRule] is enabled.
   final Function()? onEnabled;
@@ -310,6 +326,10 @@ class FactionRule extends ChangeNotifier {
       onEnabled: onEnabled != null ? onEnabled : original.onEnabled,
       onDisabled: onDisabled != null ? onDisabled : original.onDisabled,
       cgCheck: cgCheck != null ? cgCheck : original.cgCheck,
+      onForceLeaderChanged: original.onForceLeaderChanged,
+      onUnitAdded: original.onUnitAdded,
+      onUnitRemoved: original.onUnitRemoved,
+      onLeadershipChanged: original.onLeadershipChanged,
     );
   }
   Map<String, dynamic> toJson() {

@@ -840,7 +840,36 @@ Validation? _checkModelRules(Unit unit, Group group) {
       return Validation(false, issue: 'cannot be part of a secondary group');
     }
 
-    // current units in the group need to only be other parts
+    RegExp gilgameshTypeExp = RegExp(
+        r'^Gilgamesh (?<location>Forward|Rear).*Type (?<type>.)$',
+        caseSensitive: false);
+
+    if (gilgameshTypeExp.hasMatch(unit.core.name)) {
+      final unitTypeMatch = gilgameshTypeExp.firstMatch(unit.core.name);
+
+      if (!unitsInGroup.any((u) {
+        if (!gilgameshTypeExp.hasMatch(u.core.name)) {
+          return true;
+        }
+
+        final uMatch = gilgameshTypeExp.firstMatch(u.core.name);
+
+        if (uMatch == null || unitTypeMatch == null) {
+          return true;
+        }
+
+        // A Gilgamesh front or back in already in the group and one is
+        // trying to be added.  Check to ensure the new part is the same
+        // type (A or B)
+        final uMatchType = uMatch.namedGroup('type');
+        final unitType = unitTypeMatch.namedGroup('type');
+        return uMatchType == unitType;
+      })) {
+        return Validation(false,
+            issue: 'Cannot mix Gilgamesh Type A and B parts');
+      }
+    }
+
     if (unitsInGroup.every((u) =>
         u.core.frame != frame &&
         (u.core.frame == _gilgameshFront ||

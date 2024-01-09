@@ -8,6 +8,7 @@ import 'package:gearforce/models/rules/north/north.dart' as north;
 import 'package:gearforce/models/rules/options/combat_group_options.dart';
 import 'package:gearforce/models/rules/options/special_unit_filter.dart';
 import 'package:gearforce/models/rules/utopia/utopia.dart';
+import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/validation/validations.dart';
 
 const String _baseRuleId = 'rule::utopia::caf';
@@ -310,8 +311,99 @@ final FactionRule ruleGilgameshTroupe = FactionRule(
     return Validation(
       false,
       issue: 'Only a Gilgamesh or units with no actions can be added; See' +
-          ' Gilgamesh Troupe',
+          ' Gilgamesh Troupe rules',
     );
+  },
+  onForceLeaderChanged: (roster, newleader) {
+    // Check if any cg is a Gilgamesh Troupe
+    if (!roster
+        .getCGs()
+        .any((cg) => cg.isOptionEnabled(_ruleGilgameshTroupeId))) {
+      return;
+    }
+
+    final leadersCG = newleader?.combatGroup;
+    if (leadersCG == null) {
+      return;
+    }
+    if (newleader!.core.frame.contains('Gilgamesh') &&
+        leadersCG.isOptionEnabled(_ruleGilgameshTroupeId)) {
+      return;
+    }
+
+    // check if there is a gilgamesh in the gilgamesh troupe cg
+    final gilgaCG = roster
+        .getCGs()
+        .firstWhere((cg) => cg.isOptionEnabled(_ruleGilgameshTroupeId));
+    if (!gilgaCG.units.any((u) => u.core.frame.contains('Gilgamesh'))) {
+      // No Gilgamesh in the force, ignore this rule
+      return;
+    }
+
+    // Check if the gilgamesh is an available force leader
+    if (roster.availableForceLeaders().any((u) =>
+        u.core.frame.contains('Gilgamesh') &&
+        u.combatGroup != null &&
+        u.combatGroup!.isOptionEnabled(_ruleGilgameshTroupeId))) {
+      // The gilgamesh is available as a force leader so select it
+      roster.selectedForceLeader = roster.availableForceLeaders().firstWhere(
+          (u) =>
+              u.core.frame.contains('Gilgamesh') &&
+              u.combatGroup != null &&
+              u.combatGroup!.isOptionEnabled(_ruleGilgameshTroupeId));
+      return;
+    }
+
+    // A Gilgamesh exists in a Gilgamesh Troupe CG, is not the force leader and
+    // does not have a high enough rank to be a force leader, so increase the
+    // command level to make it the force leader.
+    final nextCGRank =
+        CommandLevel.NextGreater(roster.selectedForceLeader!.commandLevel);
+    final gilgas =
+        gilgaCG.units.where((u) => u.core.frame.contains('Gilgamesh'));
+
+    var gilga = gilgas.first;
+    gilgas.forEach((g) {
+      if (g.commandLevel > gilga.commandLevel) {
+        gilga = g;
+      }
+    });
+    gilga.commandLevel = nextCGRank;
+  },
+  onLeadershipChanged: (roster, unit) {
+    // make sure this unit is a Gilgamesh component.
+    if (!unit.core.frame.contains('Gilgamesh')) {
+      return;
+    }
+
+    // check if this unit is already the force leader
+    if (roster.selectedForceLeader == unit) {
+      return;
+    }
+
+    // make sure this gilgamesh is in a Gilgamesh Troupe
+    final unitsCG = unit.combatGroup;
+    if (unitsCG == null) {
+      return;
+    }
+    if (!unitsCG.isOptionEnabled(_ruleGilgameshTroupeId)) {
+      return;
+    }
+
+    // Check if the gilgamesh is an available force leader
+    if (roster.availableForceLeaders().any((u) => u == unit)) {
+      // The gilgamesh is available as a force leader so select it
+      roster.selectedForceLeader = unit;
+      return;
+    }
+
+    // A Gilgamesh exists in a Gilgamesh Troupe CG, is not the force leader and
+    // does not have a high enough rank to be a force leader, so increase the
+    // command level to make it the force leader.
+    final nextCGRank =
+        CommandLevel.NextGreater(roster.selectedForceLeader!.commandLevel);
+
+    unit.commandLevel = nextCGRank;
   },
   description: 'The Divine Brother: This combat group must use a Gilgamesh.' +
       ' The Gilgamesh must be the force leader.\n' +

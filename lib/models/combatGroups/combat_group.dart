@@ -235,7 +235,7 @@ class CombatGroup extends ChangeNotifier {
     validationErrors.addAll(sve.validations);
 
     // make sure there is at least a CGL in the CG
-    final highestRank = _highestCommandLevel();
+    final highestRank = highestCommandLevel();
     if (highestRank < CommandLevel.cgl) {
       _tryEnsureCommander(tryFix: tryFix);
       validationErrors.add(Validation(
@@ -274,7 +274,7 @@ class CombatGroup extends ChangeNotifier {
     }
   }
 
-  CommandLevel _highestCommandLevel() {
+  CommandLevel highestCommandLevel() {
     final leaders = getLeaders(null);
     if (leaders.isEmpty) {
       return CommandLevel.none;

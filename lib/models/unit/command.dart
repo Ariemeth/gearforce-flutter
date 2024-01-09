@@ -37,6 +37,25 @@ enum CommandLevel {
     }
     return second;
   }
+
+  static CommandLevel NextGreater(CommandLevel cl) {
+    switch (cl) {
+      case CommandLevel.none:
+        return CommandLevel.cgl;
+      case CommandLevel.bc:
+        return CommandLevel.cgl;
+      case CommandLevel.po:
+        return CommandLevel.cgl;
+      case CommandLevel.secic:
+        return CommandLevel.cgl;
+      case CommandLevel.cgl:
+        return CommandLevel.xo;
+      case CommandLevel.xo:
+        return CommandLevel.co;
+      default:
+        return CommandLevel.tfc;
+    }
+  }
 }
 
 extension EnumOperators on CommandLevel {

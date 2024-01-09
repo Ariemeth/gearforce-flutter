@@ -213,6 +213,9 @@ class Unit extends ChangeNotifier {
     if (_commandLevel == cl) {
       return;
     }
+
+    _commandLevel = cl;
+
     // Note: Setting the command level on other units directly using prviate
     // fields to prevent the notifier from running.
     switch (cl) {
@@ -224,39 +227,51 @@ class Unit extends ChangeNotifier {
         break;
       case CommandLevel.cgl:
         // Only 1 cgl, tfc, co, or xo can exist within a single Combat Group
-        combatGroup?.getUnitWithCommand(CommandLevel.cgl)?._commandLevel =
-            CommandLevel.none;
-        combatGroup?.getUnitWithCommand(CommandLevel.tfc)?._commandLevel =
-            CommandLevel.none;
-        combatGroup?.getUnitWithCommand(CommandLevel.co)?._commandLevel =
-            CommandLevel.none;
-        combatGroup?.getUnitWithCommand(CommandLevel.xo)?._commandLevel =
-            CommandLevel.none;
+        final units = combatGroup?.units.where(
+            (unit) => unit != this && unit.commandLevel >= CommandLevel.cgl);
+        units?.forEach((unit) {
+          unit.commandLevel = CommandLevel.none;
+        });
+
         break;
       case CommandLevel.secic:
         // only 1 second in command per combat group
-        combatGroup?.getUnitWithCommand(CommandLevel.secic)?._commandLevel =
-            CommandLevel.none;
+        final units = combatGroup?.units.where(
+            (unit) => unit != this && unit.commandLevel == CommandLevel.secic);
+        units?.forEach((unit) {
+          unit.commandLevel = CommandLevel.none;
+        });
         break;
       case CommandLevel.xo:
       case CommandLevel.co:
       case CommandLevel.tfc:
         // only 1 xo, co, tfc per task force
-        combatGroup?.roster?.getFirstUnitWithCommand(cl)?._commandLevel =
-            CommandLevel.cgl;
+        final topUnits = roster
+            ?.getAllUnits()
+            .where((unit) => unit != this && unit.commandLevel == cl);
+        topUnits?.forEach((unit) {
+          unit.commandLevel = CommandLevel.none;
+        });
+
         // only 1 of xo, co, tfc, or cgl per combat group
-        combatGroup?.getUnitWithCommand(CommandLevel.cgl)?._commandLevel =
-            CommandLevel.none;
-        combatGroup?.getUnitWithCommand(CommandLevel.tfc)?._commandLevel =
-            CommandLevel.none;
-        combatGroup?.getUnitWithCommand(CommandLevel.co)?._commandLevel =
-            CommandLevel.none;
-        combatGroup?.getUnitWithCommand(CommandLevel.xo)?._commandLevel =
-            CommandLevel.none;
+        final units = combatGroup?.units.where(
+            (unit) => unit != this && unit.commandLevel >= CommandLevel.cgl);
+        units?.forEach((unit) {
+          unit.commandLevel = CommandLevel.none;
+        });
+
         break;
     }
 
-    _commandLevel = cl;
+    final rs = roster?.rulesetNotifer.value;
+    if (rs != null) {
+      final onLeadershipRules = rs
+          .allFactionRules(unit: this)
+          .where((rule) => rule.onLeadershipChanged != null);
+      for (var rule in onLeadershipRules) {
+        rule.onLeadershipChanged!(roster!, this);
+      }
+    }
 
     notifyListeners();
   }
