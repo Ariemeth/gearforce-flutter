@@ -329,3 +329,34 @@ final UnitModification azat = UnitModification(name: 'Azat Upgrade')
       description: '+MICW (AP:1)')
   ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.Vet()),
       description: '+Vet');
+
+final UnitModification hmg = UnitModification(name: 'HMG Upgrade')
+  ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
+  ..addMod(UnitAttribute.weapons,
+      createAddWeaponToList(buildWeapon('HMG (Auto)', hasReact: true)!),
+      description: '+HMG (Auto)');
+
+final UnitModification trooperAutomationSquad = UnitModification(
+    name: 'Squad Upgrade')
+  ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
+  ..addMod(
+      UnitAttribute.name, createReplaceStringMod(old: 'Team', change: 'Squad'))
+  ..addMod(UnitAttribute.hull, createSetIntMod(5), description: 'H/S 5/1')
+  ..addMod(UnitAttribute.structure, createSetIntMod(1));
+
+final UnitModification trooperAutomationNode = UnitModification(
+    name: 'Node Upgrade')
+  ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
+  ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'Node'))
+  ..addMod(UnitAttribute.ew, createSetIntMod(5), description: 'EW 5+')
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.Comms()),
+      description: '+Comms')
+  ..addMod(UnitAttribute.traits, createRemoveTraitFromList(Trait.Conscript()),
+      description: '-Conscript');
+
+final UnitModification achillusSquad = UnitModification(name: 'Squad Upgrade')
+  ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
+  ..addMod(
+      UnitAttribute.name, createReplaceStringMod(old: 'Team', change: 'Squad'))
+  ..addMod(UnitAttribute.hull, createSetIntMod(4), description: 'H/S 4/2')
+  ..addMod(UnitAttribute.structure, createSetIntMod(2));

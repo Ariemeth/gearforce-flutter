@@ -2873,6 +2873,62 @@
       ]
     },
     {
+      "name": "Wasserjager",
+      "variants": [
+        {
+          "model": "Wasserjager",
+          "tv": 7,
+          "role": "GP+, SK, FS",
+          "mr": "W:6",
+          "arm": 7,
+          "h/s": "4/2",
+          "a": 1,
+          "gu": "4+",
+          "pi": "4+",
+          "ew": "6+",
+          "react-weapons": "LSMG, LVB",
+          "mounted-weapons": "LRP, LAPGL",
+          "traits": "Hands, Sub",
+          "type": "Gear",
+          "height": 1.5
+        },
+        {
+          "model": "Wasserjager Gunner",
+          "tv": 7,
+          "role": "GP, SK, FS",
+          "mr": "W:6",
+          "arm": 7,
+          "h/s": "4/2",
+          "a": 1,
+          "gu": "4+",
+          "pi": "4+",
+          "ew": "6+",
+          "react-weapons": "LAC, LVB",
+          "mounted-weapons": "LRP, LAPGL",
+          "traits": "Hands, Sub",
+          "type": "Gear",
+          "height": 1.5
+        },
+        {
+          "model": "Long Fang Wasserjager",
+          "tv": 8,
+          "role": "GP, SK, FS",
+          "mr": "W:6",
+          "arm": 7,
+          "h/s": "4/2",
+          "a": 1,
+          "gu": "4+",
+          "pi": "4+",
+          "ew": "6+",
+          "react-weapons": "LSMG, LVB",
+          "mounted-weapons": "LRP (Link), LAPGL",
+          "traits": "Hands, Sub",
+          "type": "Gear",
+          "height": 1.5
+        }
+      ]
+    },
+    {
       "name": "Lizard Rider",
       "variants": [
         {

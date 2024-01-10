@@ -150,6 +150,113 @@
           "height": 1.5
         }
       ]
+    },
+    {
+      "name": "Trooper Automaton",
+      "variants": [
+        {
+          "model": "Automaton Trooper Team",
+          "tv": 3,
+          "role": "GP+, SK, FS",
+          "mr": "I:3",
+          "arm": 4,
+          "h/s": "3/0",
+          "a": 1,
+          "gu": "4+",
+          "pi": "4+",
+          "ew": "6+",
+          "react-weapons": "MIW, LIGL, LICW",
+          "mounted-weapons": "LIR",
+          "traits": "Conscript, Vuln:H",
+          "type": "Infantry",
+          "height": 0.5
+        },
+        {
+          "model": "Automaton Anti-Tank Team",
+          "tv": 4,
+          "role": "GP, SK, FS",
+          "mr": "I:3",
+          "arm": 4,
+          "h/s": "3/0",
+          "a": 1,
+          "gu": "4+",
+          "pi": "4+",
+          "ew": "6+",
+          "react-weapons": "LIW, LICW",
+          "mounted-weapons": "MAVM",
+          "traits": "Conscript, Vuln:H",
+          "type": "Infantry",
+          "height": 0.5
+        },
+        {
+          "model": "Automaton Mortar Team",
+          "tv": 3,
+          "role": "GP, SK, FS",
+          "mr": "I:3",
+          "arm": 4,
+          "h/s": "3/0",
+          "a": 1,
+          "gu": "4+",
+          "pi": "4+",
+          "ew": "6+",
+          "react-weapons": "LIW, LICW",
+          "mounted-weapons": "MIM (Brace)",
+          "traits": "Conscript, Vuln:H",
+          "type": "Infantry",
+          "height": 0.5
+        },
+        {
+          "model": "Automaton Sniper Team",
+          "tv": 3,
+          "role": "GP, SK, FS",
+          "mr": "I:3",
+          "arm": 4,
+          "h/s": "3/0",
+          "a": 1,
+          "gu": "4+",
+          "pi": "4+",
+          "ew": "6+",
+          "react-weapons": "LIW, LICW",
+          "mounted-weapons": "MIR (Silent)",
+          "traits": "Conscript, Vuln:H",
+          "type": "Infantry",
+          "height": 0.5
+        },
+        {
+          "model": "Automaton Assault Team",
+          "tv": 3,
+          "role": "GP, SK, FS",
+          "mr": "I:3",
+          "arm": 4,
+          "h/s": "3/0",
+          "a": 1,
+          "gu": "4+",
+          "pi": "4+",
+          "ew": "6+",
+          "react-weapons": "LIW, LICW",
+          "mounted-weapons": "HIS (Burst:1)",
+          "traits": "Conscript, Vuln:H",
+          "type": "Infantry",
+          "height": 0.5
+        },
+        {
+          "model": "Automaton Clearance Team",
+          "tv": 3,
+          "role": "GP, SK, FS",
+          "mr": "I:3",
+          "arm": 4,
+          "h/s": "3/0",
+          "a": 1,
+          "gu": "4+",
+          "pi": "4+",
+          "ew": "6+",
+          "react-weapons": "LIW, LICW",
+          "mounted-weapons": "BB (Precise AP:2 AI)",
+          "traits": "Conscript, Vuln:H",
+          "type": "Infantry",
+          "height": 0.5
+        }       
+      ]
     }
   ]
 }

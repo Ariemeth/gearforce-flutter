@@ -2189,6 +2189,89 @@
       ]
     },
     {
+      "name": "Murdock",
+      "variants": [
+        {
+          "model": "Murdock",
+          "tv": 7,
+          "role": "GP, SK, FS",
+          "mr": "G:7",
+          "arm": 6,
+          "h/s": "3/3",
+          "a": 1,
+          "gu": "5+",
+          "pi": "4+",
+          "ew": "3+",
+          "react-weapons": "HIGL (AI)",
+          "mounted-weapons": "-",
+          "traits": "Comms, SatUp (Aux), SP:+1, ECCM, Sensors:36 (Aux), Offroad",
+          "type": "Vehicle",
+          "height": 1.5
+        }
+      ]
+    },
+    {
+      "name": "Seeker",
+      "variants": [
+        {
+          "model": "Seeker",
+          "tv": 7,
+          "role": "GP, RC, FS",
+          "mr": "G:7",
+          "arm": 6,
+          "h/s": "3/3",
+          "a": 1,
+          "gu": "5+",
+          "pi": "4+",
+          "ew": "3+",
+          "react-weapons": "MMG",
+          "mounted-weapons": "LRP",
+          "traits": "Comms, ECM+, ECCM, Offroad, Sensors:36 (Aux), Stealth (Aux)",
+          "type": "Vehicle",
+          "height": 1.5
+        }
+      ]
+    },
+    {
+      "name": "Rock Beetle",
+      "variants": [
+        {
+          "model": "Rock Beetle",
+          "tv": 13,
+          "role": "FS",
+          "mr": "H:8",
+          "arm": 8,
+          "h/s": "5/3",
+          "a": 2,
+          "gu": "4+",
+          "pi": "4+",
+          "ew": "6+",
+          "react-weapons": "MMG (L), MMG (R)",
+          "mounted-weapons": "2 x LRP",
+          "traits": "Agile, VTOL, Transport: 2 Squads",
+          "type": "Vehicle",
+          "height": 2
+        },
+        {
+          "model": "Medical Beetle",
+          "tv": 13,
+          "role": "FS",
+          "mr": "H:8",
+          "arm": 8,
+          "h/s": "5/3",
+          "a": 2,
+          "gu": "4+",
+          "pi": "4+",
+          "ew": "6+",
+          "react-weapons": "-",
+          "mounted-weapons": "-",
+          "traits": "Agile, VTOL, Medic, Transport: 2 Squads",
+          "type": "Vehicle",
+          "height": 2
+        }
+      ]
+    },
+    {
       "name": "Thunderhammer",
       "variants": [
         {
@@ -2421,12 +2504,7 @@
           "traits": "Offroad, Smoke",
           "type": "Vehicle",
           "height": 1
-        }
-      ]
-    },
-    {
-      "name": "Tyburr",
-      "variants": [
+        },
         {
           "model": "Tyburr",
           "tv": 13,
@@ -2443,12 +2521,7 @@
           "traits": "Offroad, Smoke",
           "type": "Vehicle",
           "height": 1
-        }
-      ]
-    },
-    {
-      "name": "Jaxon",
-      "variants": [
+        },
         {
           "model": "Jaxon",
           "tv": 13,
@@ -2465,12 +2538,7 @@
           "traits": "Offroad, Smoke",
           "type": "Vehicle",
           "height": 1.5
-        }
-      ]
-    },
-    {
-      "name": "Stormhammer",
-      "variants": [
+        },
         {
           "model": "Stormhammer",
           "tv": 13,
@@ -2487,6 +2555,23 @@
           "traits": "Offroad, Smoke",
           "type": "Vehicle",
           "height": 1.5
+        },
+        {
+          "model": "Snake Eater",
+          "tv": 12,
+          "role": "SK, FS",
+          "mr": "G:6",
+          "arm": 8,
+          "h/s": "5/3",
+          "a": 1,
+          "gu": "4+",
+          "pi": "5+",
+          "ew": "6+",
+          "react-weapons": "LRL (Auto)",
+          "mounted-weapons": "LRG (T), MATM (T), MAPGL",
+          "traits": "Offroad, Smoke",
+          "type": "Vehicle",
+          "height": 1
         }
       ]
     },
