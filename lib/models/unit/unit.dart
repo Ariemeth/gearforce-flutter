@@ -610,6 +610,14 @@ class Unit extends ChangeNotifier {
           _mods[_mods.indexWhere((mod) => mod.id == updatedMod.id)];
         }
       });
+
+      if (commandLevel != CommandLevel.none) {
+        final canBeCommand =
+            roster?.rulesetNotifer.value.canBeCommand(this) ?? false;
+        if (!canBeCommand) {
+          commandLevel = CommandLevel.none;
+        }
+      }
     } else {
       _mods.forEach((mod) {
         if (!mod.requirementCheck(
@@ -625,6 +633,16 @@ class Unit extends ChangeNotifier {
           ));
         }
       });
+
+      if (commandLevel != CommandLevel.none) {
+        final canBeCommand =
+            roster?.rulesetNotifer.value.canBeCommand(this) ?? false;
+        if (!canBeCommand) {
+          validationErrors.add(Validation(false,
+              issue:
+                  'Unit has a command level of $_commandLevel but is not allowed to be a commander'));
+        }
+      }
     }
 
     return validationErrors;

@@ -196,3 +196,12 @@ final UnitModification bastion = UnitModification(name: 'Bastion Upgrade')
   ..addMod(
       UnitAttribute.traits, createAddTraitToList(Trait.Transport(2, 'Squad')),
       description: '+Transport: 2 Squads');
+
+final UnitModification allerCommand = UnitModification(name: 'Command Upgrade')
+  ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
+  ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Command'))
+  ..addMod(UnitAttribute.ew, createSetIntMod(5), description: 'EW 5+')
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.Comms()),
+      description: '+Comms')
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.SatUp()),
+      description: '+SatUp');

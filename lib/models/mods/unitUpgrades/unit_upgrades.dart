@@ -48,6 +48,8 @@ List<UnitModification> getUnitMods(String frameName, Unit unit) {
       return [north.sledgehammer, north.aegis];
     case 'thunderhammer':
       return [north.bastion];
+    case 'aller':
+      return [north.allerCommand];
 
     // Southern units
     case 'jager':
@@ -92,6 +94,8 @@ List<UnitModification> getUnitMods(String frameName, Unit unit) {
       return [south.caimanCommand];
     case 'lizard rider':
       return [south.team];
+    case 'wasserjager':
+      return [south.command];
 
     // Peace River
     case 'warrior':
@@ -213,6 +217,10 @@ List<UnitModification> getUnitMods(String frameName, Unit unit) {
       return [caprice.command2];
     case 'moab':
       return [caprice.command2];
+    case 'f-55 zikru':
+      return [caprice.command2, caprice.jammer];
+    case 'f-112 rabbu':
+      return [caprice.command3];
 
     // Utopia
     case 'commando armiger': //
@@ -305,6 +313,8 @@ List<UnitModification> getUnitMods(String frameName, Unit unit) {
         universal.demolisher,
         universal.heavyChainswordSwap
       ];
+    case 'haru':
+      return [universal.azat, caprice.command3, cef.team];
     case 'saker':
       return [eden.dominus];
     case 'universal infantry':
@@ -314,12 +324,26 @@ List<UnitModification> getUnitMods(String frameName, Unit unit) {
         universal.frogmen,
         nucoal.squad
       ];
+    case 'achillus exoskeleton':
+      return [
+        universal.paratrooper,
+        universal.mountaineering,
+        universal.frogmen,
+        universal.achillusSquad,
+      ];
+    case 'baxter':
+      return [universal.hmg];
     case 'small vehicles':
       return [south.team];
     case 'dragonfly':
       return [universal.latm, universal.ecm];
     case 'varis':
       return [universal.latm];
+    case 'trooper automaton':
+      return [
+        universal.trooperAutomationNode,
+        universal.trooperAutomationSquad,
+      ];
   }
   return [];
 }

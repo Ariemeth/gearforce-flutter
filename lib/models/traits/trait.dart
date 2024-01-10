@@ -1,7 +1,7 @@
 final traitNameMatch = RegExp(r'^([a-zA-Z +]+)', caseSensitive: false);
 final auxMatch = RegExp(r'(Aux)', caseSensitive: false);
 final levelMatch = RegExp(
-  r':([+-]?\d+)',
+  r':([+-]? ?\d+)',
 );
 final typeMatch = RegExp(r'([a-zA-Z+]+\**)$', caseSensitive: false);
 
