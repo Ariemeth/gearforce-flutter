@@ -11,7 +11,7 @@ import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 
 const String _defaultRosterFileName = 'hg-roster';
-const String _webURL = 'https://gf.metadiversions.com';
+const String _webURL = 'https://gearforce.metadiversions.com';
 
 const double _leftRightPageMargins = PdfPageFormat.inch / 8.0;
 const double _topPageMargins = PdfPageFormat.inch / 32;
