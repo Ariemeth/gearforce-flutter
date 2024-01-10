@@ -19,10 +19,6 @@ pw.Widget buildRulesSheet(pw.Font font, UnitRoster roster) {
     subFactionRules.add((fr.name, fr.description));
   });
 
-  // CG special rules
-
-  // Unit special rules
-
   final sheet = pw.Column(children: [
     _buildRuleTable(font, ['Faction Rule', 'Description'], factionRules),
     _buildRuleTable(font, ['Sub-Faction Rule', 'Description'], subFactionRules),
