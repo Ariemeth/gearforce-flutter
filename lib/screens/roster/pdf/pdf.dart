@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:file_selector/file_selector.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/screens/roster/pdf/record_sheet/record_sheet.dart';
+import 'package:gearforce/screens/roster/pdf/record_sheet/rules_sheet.dart';
 import 'package:gearforce/screens/roster/pdf/record_sheet/traits_sheet.dart';
 import 'package:gearforce/screens/roster/pdf/unit_cards/unit_cards.dart';
 import 'package:pdf/pdf.dart';
@@ -10,7 +11,7 @@ import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 
 const String _defaultRosterFileName = 'hg-roster';
-const String _webURL = 'https://gf.metadiversions.com';
+const String _webURL = 'https://gearforce.metadiversions.com';
 
 const double _leftRightPageMargins = PdfPageFormat.inch / 8.0;
 const double _topPageMargins = PdfPageFormat.inch / 32;
@@ -79,6 +80,16 @@ Future<Uint8List> buildPdf(PdfPageFormat format, UnitRoster roster,
       pageTheme: pageTheme,
       build: (context) {
         return [buildTraitSheet(font, roster.getAllUnits())];
+      },
+      footer: (pw.Context context) {
+        return _buildFooter(context, version, roster.rulesVersion);
+      }));
+
+  // Add Rules reference page
+  doc.addPage(pw.MultiPage(
+      pageTheme: pageTheme,
+      build: (context) {
+        return [buildRulesSheet(font, roster)];
       },
       footer: (pw.Context context) {
         return _buildFooter(context, version, roster.rulesVersion);
