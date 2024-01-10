@@ -309,6 +309,8 @@ List<UnitModification> getUnitMods(String frameName, Unit unit) {
         universal.demolisher,
         universal.heavyChainswordSwap
       ];
+    case 'haru':
+      return [universal.azat, caprice.command3, cef.team];
     case 'saker':
       return [eden.dominus];
     case 'universal infantry':
