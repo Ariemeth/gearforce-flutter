@@ -213,6 +213,10 @@ List<UnitModification> getUnitMods(String frameName, Unit unit) {
       return [caprice.command2];
     case 'moab':
       return [caprice.command2];
+    case 'f-55 zikru':
+      return [caprice.command2, caprice.jammer];
+    case 'f-112 rabbu':
+      return [caprice.command3];
 
     // Utopia
     case 'commando armiger': //
