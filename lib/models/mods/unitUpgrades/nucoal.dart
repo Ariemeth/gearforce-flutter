@@ -172,7 +172,8 @@ final UnitModification sampsonCv = UnitModification(
 
 final UnitModification squad = UnitModification(name: 'Squad')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
-  ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'Squad'))
+  ..addMod(
+      UnitAttribute.name, createReplaceStringMod(old: 'Team', change: 'Squad'))
   ..addMod(UnitAttribute.hull, createSetIntMod(3), description: 'H/S: 3/3')
   ..addMod(UnitAttribute.structure, createSetIntMod(3));
 

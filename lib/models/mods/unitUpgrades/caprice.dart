@@ -27,12 +27,14 @@ final UnitModification command2 = UnitModification(name: 'Command Upgrade')
 final UnitModification jammer = UnitModification(name: 'Jammer Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
   ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'Jammer'))
-  ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
   ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.ECM()),
       description: '+ECM')
   ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.ECCM()),
       description: '+ECCM')
-  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.Sensors(36)),
+  ..addMod(
+      UnitAttribute.traits,
+      createReplaceTraitInList(
+          oldValue: Trait.Sensors(24), newValue: Trait.Sensors(36)),
       description: '+Sensors:36');
 
 final UnitModification command3 = UnitModification(name: 'Command Upgrade')

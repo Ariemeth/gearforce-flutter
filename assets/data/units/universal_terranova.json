@@ -421,7 +421,7 @@
       "name": "Behemoth",
       "variants": [
         {
-          "model": "Behemoth",
+          "model": "Behemoth Transport",
           "tv": 7,
           "role": "GP+, SK, FS",
           "mr": "G:7",
@@ -429,7 +429,7 @@
           "h/s": "3/5",
           "a": 1,
           "gu": "5+",
-          "pi": "5+",
+          "pi": "6+",
           "ew": "6+",
           "react-weapons": "MMG (T)",
           "mounted-weapons": "-",
