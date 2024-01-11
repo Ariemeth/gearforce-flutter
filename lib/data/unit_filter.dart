@@ -33,6 +33,12 @@ bool matchNotAVet(UnitCore uc) {
   return !uc.traits.any((t) => t.name == Trait.Vet().name);
 }
 
+/// Match units only if they are not already a Vet and a Gear
+bool matchNonVetGears(UnitCore uc) {
+  return uc.type == ModelType.Gear &&
+      !uc.traits.any((t) => t.name == Trait.Vet().name);
+}
+
 /// Match only with units that are [ModelType.Gear]
 bool matchOnlyGears(UnitCore uc) {
   return uc.type == ModelType.Gear;

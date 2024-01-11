@@ -92,11 +92,11 @@ final ruleAllies = FactionRule(
         filters: [
           UnitFilter(
             FactionType.North,
-            matcher: matchNotAVet,
+            matcher: matchNonVetGears,
           ),
           UnitFilter(
             FactionType.South,
-            matcher: matchNotAVet,
+            matcher: matchNonVetGears,
           ),
         ],
         id: _ruleAlliesId),
