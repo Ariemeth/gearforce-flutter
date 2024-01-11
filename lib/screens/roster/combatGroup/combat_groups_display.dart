@@ -70,7 +70,8 @@ class _CombatGroupsDisplayState extends State<CombatGroupsDisplay>
                 tabIndex = max(tabIndex, 1);
                 tabIndex = min(tabIndex, tabs.length - 1);
                 tabController.animateTo(tabIndex);
-                roster.setActiveCG(roster.getCGs()[tabIndex].name);
+                final rosterIndex = min(tabIndex, roster.getCGs().length - 1);
+                roster.setActiveCG(roster.getCGs()[rosterIndex].name);
               },
             );
 
