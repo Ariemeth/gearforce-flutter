@@ -22,6 +22,12 @@ pw.Widget buildTraitSheet(pw.Font font, List<Unit> units) {
       weapon.alternativeTraits.forEach((trait) {
         allTraits[trait.toString()] = trait.description ?? '';
       });
+      weapon.combo?.traits.forEach((trait) {
+        allTraits[trait.toString()] = trait.description ?? '';
+      });
+      weapon.combo?.alternativeTraits.forEach((trait) {
+        allTraits[trait.toString()] = trait.description ?? '';
+      });
     });
   });
 
