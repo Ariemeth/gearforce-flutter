@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 
 const double _tabBarHeight = 30.0;
 const double _addCGButtonHorizontalPadding = 10.0;
-const double _addCGButtonCornerRadius = 15.0;
+const double _addCGButtonCornerRadius = 10.0;
 
 class CombatGroupsDisplay extends StatefulWidget {
   CombatGroupsDisplay();
@@ -23,7 +23,7 @@ class _CombatGroupsDisplayState extends State<CombatGroupsDisplay>
   Widget build(BuildContext context) {
     final data = Provider.of<Data>(context);
     final roster = Provider.of<UnitRoster>(context);
-    final tabs = roster
+    final cgTabButtons = roster
         .getCGs()
         .map((e) => Tab(
               child: Padding(
@@ -31,23 +31,26 @@ class _CombatGroupsDisplayState extends State<CombatGroupsDisplay>
                 child: Text(e.name),
               ),
             ))
-        .toList()
-      ..add(Tab(
-        child: OutlinedButton(
-          style: OutlinedButton.styleFrom(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(_addCGButtonCornerRadius),
-                ),
+        .toList();
+
+    final addCGTabButton = Tab(
+      child: OutlinedButton(
+        style: OutlinedButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(_addCGButtonCornerRadius),
               ),
-              padding: EdgeInsets.symmetric(
-                  horizontal: _addCGButtonHorizontalPadding)),
-          onPressed: () {
-            context.read<UnitRoster>().createCG();
-          },
-          child: const Text('Add CG'),
-        ),
-      ));
+            ),
+            padding: EdgeInsets.symmetric(
+                horizontal: _addCGButtonHorizontalPadding)),
+        onPressed: () {
+          context.read<UnitRoster>().createCG();
+        },
+        child: const Text('Add CG'),
+      ),
+    );
+
+    final List<Tab> tabs = [addCGTabButton, ...cgTabButtons];
 
     return Container(
       child: DefaultTabController(
@@ -57,14 +60,14 @@ class _CombatGroupsDisplayState extends State<CombatGroupsDisplay>
             final TabController tabController =
                 DefaultTabController.of(context);
 
-            if (tabController.index != 0 &&
-                tabController.index == tabs.length - 1) {
-              tabController.animateTo(tabs.length > 1 ? tabs.length - 2 : 0);
+            if (tabController.index == 0 && tabs.length >= 1) {
+              tabController.animateTo(1);
             }
+
             tabController.addListener(
               () {
                 var tabIndex = tabController.index;
-                tabIndex = max(tabIndex, 0);
+                tabIndex = max(tabIndex, 1);
                 tabIndex = min(tabIndex, tabs.length - 1);
                 tabController.animateTo(tabIndex);
                 roster.setActiveCG(roster.getCGs()[tabIndex].name);
@@ -82,21 +85,22 @@ class _CombatGroupsDisplayState extends State<CombatGroupsDisplay>
                     tabs: tabs,
                     isScrollable: true,
                     labelPadding: EdgeInsets.zero,
+                    tabAlignment: TabAlignment.start,
                   ),
                 ),
                 body: TabBarView(
                   controller: tabController,
                   physics: NeverScrollableScrollPhysics(),
                   children: [
+                    Center(
+                      child: Text(
+                          'Should not be here!\nClick on any of the existing combat group tabs to go back'),
+                    ),
                     ...roster
                         .getCGs()
                         .map((e) =>
                             CombatGroupWidget(data, roster, name: e.name))
                         .toList(),
-                    Center(
-                      child: Text(
-                          'Should not be here!\nClick on any of the existing combat group tabs to go back'),
-                    ),
                   ],
                 ),
               ),

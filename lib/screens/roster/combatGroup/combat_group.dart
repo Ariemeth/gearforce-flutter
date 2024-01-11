@@ -43,8 +43,8 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
           group: cg.primary,
           roster: widget.roster,
         ),
-        SizedBox(
-          height: _sectionheight,
+        Container(
+          constraints: BoxConstraints(minHeight: _sectionheight / 2),
           child: _generateTable(
             context: context,
             group: cg.primary,
@@ -56,8 +56,8 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
           cg: cg,
           group: cg.secondary,
         ),
-        SizedBox(
-          height: _sectionheight,
+        Container(
+          constraints: BoxConstraints(minHeight: _sectionheight / 2),
           child: _generateTable(
             context: context,
             group: cg.secondary,
