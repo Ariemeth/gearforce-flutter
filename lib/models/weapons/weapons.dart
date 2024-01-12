@@ -143,7 +143,7 @@ Weapon? _buildWeapon({
       break;
     case 'APGL':
       const damageMap = {'L': 5, 'M': 6, 'H': 7};
-      name = 'Anti-Per Grenade Launchers';
+      name = 'Anti-Per Grenade Launcher';
       modes = [weaponModes.Direct];
       damage = damageMap[size]!;
       range = Range(0, 3, null);
@@ -309,7 +309,7 @@ Weapon? _buildWeapon({
       break;
     case 'HG':
       const damageMap = {'L': 8, 'M': 9, 'H': 10};
-      name = 'Hand Grenades';
+      name = 'Hand Grenade';
       modes = [weaponModes.Direct, weaponModes.Indirect];
       damage = damageMap[size]!;
       range = Range(3, 6, 9);
