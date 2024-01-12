@@ -22,6 +22,8 @@ class UnitCard extends StatelessWidget {
   const UnitCard(this.unit, {super.key});
   @override
   Widget build(BuildContext context) {
+    final settings = context.read<Settings>();
+
     var card = Container(
       decoration: BoxDecoration(
           border: Border.all(),
@@ -30,8 +32,8 @@ class UnitCard extends StatelessWidget {
         children: [
           _nameRow(context),
           _StatsRow(context),
-          _TraitsRow(context),
-          _WeaponsRow(context),
+          _TraitsRow(settings),
+          _WeaponsRow(settings),
         ],
       ),
     );
@@ -106,21 +108,21 @@ class UnitCard extends StatelessWidget {
           Table(
             children: [
               TableRow(children: [
-                Text('Gu:', textAlign: TextAlign.right),
+                Text('GU:', textAlign: TextAlign.right),
                 Padding(
                   padding: statValuePadding,
                   child: Text(gunnery),
                 ),
               ]),
               TableRow(children: [
-                Text('Pi:', textAlign: TextAlign.right),
+                Text('PI:', textAlign: TextAlign.right),
                 Padding(
                   padding: statValuePadding,
                   child: Text(piloting),
                 ),
               ]),
               TableRow(children: [
-                Text('Ew:', textAlign: TextAlign.right),
+                Text('EW:', textAlign: TextAlign.right),
                 Padding(
                   padding: statValuePadding,
                   child: Text(ew),
@@ -134,7 +136,7 @@ class UnitCard extends StatelessWidget {
                 ),
               ]),
               TableRow(children: [
-                Text('Arm:', textAlign: TextAlign.right),
+                Text('ARM:', textAlign: TextAlign.right),
                 Padding(
                   padding: statValuePadding,
                   child: Text(armor),
@@ -235,16 +237,16 @@ class UnitCard extends StatelessWidget {
     );
   }
 
-  Widget _TraitsRow(BuildContext context) {
+  Widget _TraitsRow(Settings settings) {
     return Container(
       child: Padding(
         padding: const EdgeInsets.only(left: 5.0, right: 5.0, bottom: 3.0),
-        child: _buildTraitList(context, unit.traits),
+        child: _buildTraitList(settings, unit.traits),
       ),
     );
   }
 
-  Widget _WeaponsRow(BuildContext context) {
+  Widget _WeaponsRow(Settings settings) {
     final weaponTable = Table(
       children: [
         const TableRow(
@@ -269,21 +271,21 @@ class UnitCard extends StatelessWidget {
     unit.weapons.forEach((w) {
       weaponTable.children.add(TableRow(
         children: [
-          _buildWeaponCode(w),
+          _buildWeaponCode(settings, w),
           _buildWeaponRange(w),
           _buildWeaponDamage(w),
-          _buildWeaponTraits(context, w),
-          _buildWeaponMode(w),
+          _buildWeaponTraits(settings, w),
+          _buildWeaponMode(settings, w),
         ],
       ));
       if (w.isCombo && w.combo != null) {
         weaponTable.children.add(TableRow(
           children: [
-            _buildWeaponCode(w.combo!),
+            _buildWeaponCode(settings, w.combo!),
             _buildWeaponRange(w.combo!),
             _buildWeaponDamage(w.combo!),
-            _buildWeaponTraits(context, w.combo!),
-            _buildWeaponMode(w.combo!),
+            _buildWeaponTraits(settings, w.combo!),
+            _buildWeaponMode(settings, w.combo!),
           ],
         ));
       }
@@ -303,9 +305,19 @@ class UnitCard extends StatelessWidget {
   }
 }
 
-Widget _buildWeaponCode(Weapon w) {
-  return Text(
-    '${w.hasReact ? _reactSymbol : ''}${w.numberOf >= 2 ? '2 x ' : ''}${w.abbreviation}',
+Widget _buildWeaponCode(Settings settings, Weapon w) {
+  final weaponSize = switch (w.size) {
+    'L' => 'Light',
+    'M' => 'Medium',
+    'H' => 'Heavy',
+    _ => '',
+  };
+  return Tooltip(
+    message: '$weaponSize ${w.name}',
+    child: Text(
+      '${w.hasReact ? _reactSymbol : ''}${w.numberOf >= 2 ? '2 x ' : ''}${w.abbreviation}',
+    ),
+    waitDuration: settings.tooltipDelay,
   );
 }
 
@@ -317,9 +329,9 @@ Widget _buildWeaponDamage(Weapon w) {
   return Text('${w.damage}');
 }
 
-Widget _buildWeaponTraits(BuildContext context, Weapon w) {
-  final traits1 = _buildTraitList(context, w.traits);
-  final traits2 = _buildTraitList(context, w.alternativeTraits);
+Widget _buildWeaponTraits(Settings settings, Weapon w) {
+  final traits1 = _buildTraitList(settings, w.traits);
+  final traits2 = _buildTraitList(settings, w.alternativeTraits);
   return Wrap(
     children: [
       w.alternativeTraits.isEmpty ? Container() : Text('['),
@@ -338,21 +350,21 @@ Widget _buildWeaponTraits(BuildContext context, Weapon w) {
   );
 }
 
-Widget _buildWeaponMode(Weapon w) {
+Widget _buildWeaponMode(Settings settings, Weapon w) {
   return Tooltip(
     child: Text(
       '${w.modes.map((m) => m.abbr).toList().join(', ')}',
       textAlign: TextAlign.center,
     ),
     message: w.modes.map((m) => m.name).toList().join('\n'),
+    waitDuration: settings.tooltipDelay,
   );
 }
 
-Widget _buildTraitList(BuildContext context, List<Trait> traits) {
+Widget _buildTraitList(Settings settings, List<Trait> traits) {
   if (traits.isEmpty) {
     return Row();
   }
-  final settings = context.read<Settings>();
 
   final List<Widget> traitList = [];
   final lastTrait = traits.last;

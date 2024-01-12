@@ -94,7 +94,7 @@ void main() {
     ),
     TestTable(
       code: 'HG',
-      name: 'Hand Grenades',
+      name: 'Hand Grenade',
       modes: [weaponModes.Direct, weaponModes.Indirect],
       range: Range(3, 6, 9),
       damage: {'L': 8, 'M': 9, 'H': 10},
