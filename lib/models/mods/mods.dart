@@ -143,14 +143,21 @@ List<Weapon> Function(List<Weapon>) createRemoveWeaponFromList(
   };
 }
 
+/// [createReplaceTraitInList] will replace the [oldValue] with the [newValue]
+/// in an existing list or insert it at the end of the list if the is not found.
 List<Trait> Function(List<Trait>) createReplaceTraitInList(
     {required Trait oldValue, required Trait newValue}) {
   return (value) {
     var newList = new List<Trait>.from(value);
 
-    newList.remove(oldValue);
+    var index = newList.indexWhere((trait) => trait == oldValue);
 
-    if (!newList.contains(newValue)) {
+    newList.removeWhere((trait) => trait == oldValue);
+
+    if (index >= 0) {
+      newList.insert(index, newValue);
+    } else {
+      print('$oldValue was not found in list of traits ${value.toString()}');
       newList.add(newValue);
     }
 
@@ -163,19 +170,21 @@ List<Weapon> Function(List<Weapon>) createReplaceWeaponInList(
   return (value) {
     var newList = new List<Weapon>.from(value);
 
-    var index = newList
-        .indexWhere((element) => element.abbreviation == oldValue.abbreviation);
+    var index =
+        newList.indexWhere((w) => w.abbreviation == oldValue.abbreviation);
 
     if (index < 0) {
       print('$oldValue was not found in list of weapons ${value.toString()}');
-      return value;
     }
 
-    newList.removeAt(index);
+    newList.removeWhere((w) => w.abbreviation == oldValue.abbreviation);
 
-    if (!newList
-        .any((element) => element.abbreviation == newValue.abbreviation)) {
-      newList.add(newValue);
+    if (!newList.any((w) => w.abbreviation == newValue.abbreviation)) {
+      if (index >= 0) {
+        newList.insert(index, newValue);
+      } else {
+        newList.add(newValue);
+      }
     }
 
     return newList;
