@@ -164,7 +164,6 @@ class UnitCard extends StatelessWidget {
             children: [
               TableRow(children: [
                 Text('Type:', textAlign: TextAlign.right),
-                //  Text('${unit.type.name}:', textAlign: TextAlign.right),
                 Padding(
                   padding: statValuePadding,
                   child: Text(
