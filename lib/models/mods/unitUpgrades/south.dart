@@ -359,3 +359,15 @@ final UnitModification team = UnitModification(name: 'Team')
   ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'Team'))
   ..addMod(UnitAttribute.hull, createSetIntMod(3), description: 'H/S 3/3')
   ..addMod(UnitAttribute.structure, createSetIntMod(3));
+
+final UnitModification wasserjagerLongfang =
+    UnitModification(name: 'Longfang Upgrade')
+      ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
+      ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Longfang'))
+      ..addMod(
+        UnitAttribute.weapons,
+        createReplaceWeaponInList(
+            oldValue: buildWeapon('LRP', hasReact: false)!,
+            newValue: buildWeapon('LRP (Link)', hasReact: false)!),
+        description: '-LRP, +LRP (Link)',
+      );

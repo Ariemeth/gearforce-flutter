@@ -95,7 +95,7 @@ List<UnitModification> getUnitMods(String frameName, Unit unit) {
     case 'lizard rider':
       return [south.team];
     case 'wasserjager':
-      return [south.command];
+      return [south.command, south.wasserjagerLongfang];
 
     // Peace River
     case 'warrior':

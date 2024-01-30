@@ -163,10 +163,11 @@ class UnitCard extends StatelessWidget {
           Table(
             children: [
               TableRow(children: [
-                Text('Gear:', textAlign: TextAlign.right),
+                Text('Type:', textAlign: TextAlign.right),
                 Padding(
                   padding: statValuePadding,
-                  child: Text('${unit.height}"'),
+                  child: Text(
+                      '${unit.type.name} ${unit.height != '-' ? '${unit.height}"' : ''}'),
                 ),
               ]),
               TableRow(children: [
