@@ -40,7 +40,12 @@ class RosterHeaderInfo extends StatelessWidget {
       children: <TableRow>[
         TableRow(children: [
           Padding(
-            padding: EdgeInsets.only(right: 5, left: 5, top: 5, bottom: 5),
+            padding: const EdgeInsets.only(
+              right: 5,
+              left: 5,
+              top: 5,
+              bottom: 5,
+            ),
             child: Text(
               'Player name:',
               textAlign: TextAlign.right,
@@ -48,7 +53,12 @@ class RosterHeaderInfo extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(right: 10, left: 5, top: 5, bottom: 5),
+            padding: const EdgeInsets.only(
+              right: 10,
+              left: 5,
+              top: 5,
+              bottom: 5,
+            ),
             child: TextField(
               controller: TextEditingController(text: roster.player),
               decoration: InputDecoration(
@@ -73,7 +83,12 @@ class RosterHeaderInfo extends StatelessWidget {
         ]),
         TableRow(children: [
           Padding(
-            padding: EdgeInsets.only(right: 5, left: 5, top: 5, bottom: 5),
+            padding: const EdgeInsets.only(
+              right: 5,
+              left: 5,
+              top: 5,
+              bottom: 5,
+            ),
             child: Text(
               'Force name:',
               textAlign: TextAlign.right,
@@ -81,7 +96,12 @@ class RosterHeaderInfo extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(right: 10, left: 5, top: 5, bottom: 5),
+            padding: const EdgeInsets.only(
+              right: 10,
+              left: 5,
+              top: 5,
+              bottom: 5,
+            ),
             child: TextField(
               controller: TextEditingController(text: roster.name),
               decoration: InputDecoration(
@@ -101,7 +121,12 @@ class RosterHeaderInfo extends StatelessWidget {
         ]),
         TableRow(children: [
           Padding(
-            padding: EdgeInsets.only(right: 5, left: 5, top: 5, bottom: 5),
+            padding: const EdgeInsets.only(
+              right: 5,
+              left: 5,
+              top: 5,
+              bottom: 5,
+            ),
             child: Text(
               'Faction:',
               textAlign: TextAlign.right,
@@ -109,7 +134,12 @@ class RosterHeaderInfo extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(right: 10, left: 5, top: 5, bottom: 5),
+            padding: const EdgeInsets.only(
+              right: 10,
+              left: 5,
+              top: 5,
+              bottom: 5,
+            ),
             child: SelectFaction(
               factions: Provider.of<Data>(context).factions(),
               selectedFaction: roster.factionNotifier,
@@ -143,13 +173,18 @@ class RosterHeaderInfo extends StatelessWidget {
               color: Colors.green,
             ),
             splashRadius: 20.0,
-            padding: EdgeInsets.zero,
+            padding: const EdgeInsets.only(),
             tooltip: 'Rules for ${roster.factionNotifier.value.name}',
           ),
         ]),
         TableRow(children: [
           Padding(
-            padding: EdgeInsets.only(right: 5, left: 5, top: 5, bottom: 5),
+            padding: const EdgeInsets.only(
+              right: 5,
+              left: 5,
+              top: 5,
+              bottom: 5,
+            ),
             child: Text(
               'Sub-List:',
               textAlign: TextAlign.right,
@@ -157,7 +192,12 @@ class RosterHeaderInfo extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(right: 10, left: 5, top: 5, bottom: 5),
+            padding: const EdgeInsets.only(
+              right: 10,
+              left: 5,
+              top: 5,
+              bottom: 5,
+            ),
             child: SelectSubFaction(
               factions: Provider.of<Data>(context).factions(),
               selectedFaction: roster.factionNotifier,
@@ -192,13 +232,18 @@ class RosterHeaderInfo extends StatelessWidget {
               color: Colors.green,
             ),
             splashRadius: 20.0,
-            padding: EdgeInsets.zero,
+            padding: const EdgeInsets.only(),
             tooltip: 'Rules for ${roster.rulesetNotifer.value.name}',
           ),
         ]),
         TableRow(children: [
           Padding(
-            padding: EdgeInsets.only(right: 5, left: 5, top: 5, bottom: 5),
+            padding: const EdgeInsets.only(
+              right: 5,
+              left: 5,
+              top: 5,
+              bottom: 5,
+            ),
             child: Text(
               'Force Leader:',
               textAlign: TextAlign.right,
@@ -206,7 +251,12 @@ class RosterHeaderInfo extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(right: 10, left: 5, top: 5, bottom: 5),
+            padding: const EdgeInsets.only(
+              right: 10,
+              left: 5,
+              top: 5,
+              bottom: 5,
+            ),
             child: SelectForceLeader(),
           ),
           roster.selectedForceLeader != null
@@ -260,7 +310,7 @@ class RosterHeaderInfo extends StatelessWidget {
       Flexible(
         flex: 1,
         child: SingleChildScrollView(
-          padding: EdgeInsets.all(1),
+          padding: const EdgeInsets.all(1),
           child: Column(
             children: [
               tvAllCGs,
@@ -272,7 +322,7 @@ class RosterHeaderInfo extends StatelessWidget {
     ]);
     return SizedBox(
       width: 270,
-      height: 150,
+      height: 145,
       child: tvPanel,
     );
   }

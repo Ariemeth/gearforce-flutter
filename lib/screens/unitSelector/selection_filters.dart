@@ -78,7 +78,6 @@ class SelectionFilters extends StatelessWidget {
         Column(
           children: [
             Container(
-              //decoration: BoxDecoration(color: Colors.green),
               child: SpecialFilterSelector(
                 onChanged: this.onSpecialUnitFilterChanged,
               ),
@@ -103,17 +102,20 @@ class FilterSelection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Text(
-          this.role.toString().split('.').last,
-          style: TextStyle(fontSize: 16),
-        ),
-        Checkbox(
-          value: this.isChecked,
-          onChanged: (bool? value) => onChanged(this.role, value!),
-        )
-      ],
+    return Padding(
+      padding: const EdgeInsets.only(right: 8),
+      child: Row(
+        children: [
+          Text(
+            this.role.toString().split('.').last,
+            style: TextStyle(fontSize: 16),
+          ),
+          Checkbox(
+            value: this.isChecked,
+            onChanged: (bool? value) => onChanged(this.role, value!),
+          )
+        ],
+      ),
     );
   }
 }

@@ -11,8 +11,8 @@ const double _optionSectionHeight = 33;
 const int _maxVisibleOptions = 4;
 const String _optionText = 'Rules Options';
 
-class CombatGroupSettingsDialog extends StatefulWidget {
-  const CombatGroupSettingsDialog({
+class CombatGroupOptionsDialog extends StatefulWidget {
+  const CombatGroupOptionsDialog({
     super.key,
     required this.cg,
     required this.ruleSet,
@@ -22,11 +22,11 @@ class CombatGroupSettingsDialog extends StatefulWidget {
   final RuleSet ruleSet;
 
   @override
-  State<CombatGroupSettingsDialog> createState() =>
-      _CombatGroupSettingsDialogState();
+  State<CombatGroupOptionsDialog> createState() =>
+      _CombatGroupOptionsDialogState();
 }
 
-class _CombatGroupSettingsDialogState extends State<CombatGroupSettingsDialog> {
+class _CombatGroupOptionsDialogState extends State<CombatGroupOptionsDialog> {
   @override
   Widget build(BuildContext context) {
     final options = widget.cg.options;

@@ -3,56 +3,59 @@ import 'package:gearforce/models/combatGroups/group.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/unit/role.dart';
 
-/// This is the stateful widget that the main application instantiates.
 class SelectRole extends StatefulWidget {
   final Group group;
   final UnitRoster roster;
+  final double width;
 
   SelectRole({
     Key? key,
     required this.group,
     required this.roster,
+    required this.width,
   }) : super(key: key);
 
   @override
   _SelectRoleState createState() => _SelectRoleState();
 }
 
-/// This is the private State class that goes with MyStatefulWidget.
 class _SelectRoleState extends State<SelectRole> {
   @override
   Widget build(BuildContext context) {
-    return DropdownButton<String>(
-      value: widget.group.role().toString().split('.').last,
-      hint: Text("Select Role"),
+    final dropdown = DropdownButton<RoleType>(
+      value: widget.group.role(),
       icon: const Icon(Icons.arrow_drop_down_outlined),
       iconSize: 24,
       elevation: 8,
       isExpanded: true,
       isDense: true,
       style: const TextStyle(color: Colors.blue),
-      onChanged: (String? newValue) {
+      onChanged: (RoleType? newValue) {
         setState(() {
-          if (newValue == null || newValue.isEmpty) {
+          if (newValue == null) {
             return;
           }
 
-          widget.group.changeRole(convertRoleType(newValue));
+          widget.group.changeRole(newValue);
         });
       },
-      items: RoleType.values.take(8).map<DropdownMenuItem<String>>((value) {
-        var text = value.toString().split('.').last;
-        return DropdownMenuItem<String>(
-          value: text,
+      items: RoleType.values.map<DropdownMenuItem<RoleType>>((value) {
+        return DropdownMenuItem<RoleType>(
+          value: value,
           child: Center(
             child: Text(
-              text,
+              value.toString().split('.').last,
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 16),
             ),
           ),
         );
       }).toList(),
+    );
+
+    return SizedBox(
+      child: dropdown,
+      width: widget.width,
     );
   }
 }
