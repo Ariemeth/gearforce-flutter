@@ -45,14 +45,14 @@ class UnitRoster extends ChangeNotifier {
     }
   }
 
-  UnitRoster(Data data) {
+  UnitRoster(Data data, {bool tryFix = true}) {
     factionNotifier = ValueNotifier<Faction>(Faction.blackTalons(data));
     rulesetNotifer =
         ValueNotifier<RuleSet>(factionNotifier.value.defaultSubFaction);
 
     final rulesetListener = () {
       _combatGroups.forEach((key, value) {
-        value.validate(tryFix: true);
+        value.validate(tryFix: tryFix);
       });
       notifyListeners();
     };
@@ -69,7 +69,7 @@ class UnitRoster extends ChangeNotifier {
     rulesetNotifer.addListener(() {
       // Ensure each combat group is clear
       _combatGroups.forEach((key, value) {
-        value.validate(tryFix: true);
+        value.validate(tryFix: tryFix);
       });
 
       if (_combatGroups.length > 1) {
@@ -80,7 +80,8 @@ class UnitRoster extends ChangeNotifier {
       }
 
       rulesetNotifer.value.addListener(rulesetListener);
-      validate(rulesetNotifer.value);
+      validate(tryFix: tryFix);
+
       notifyListeners();
     });
 
@@ -259,7 +260,7 @@ class UnitRoster extends ChangeNotifier {
       print('Error loading force leader: $e');
     }
     ur._totalCreated = json['totalCreated'] as int;
-    ur.validate(ur.rulesetNotifer.value);
+    ur.validate();
 
     return ur;
   }
@@ -282,7 +283,7 @@ class UnitRoster extends ChangeNotifier {
 
   void addCG(CombatGroup cg) {
     cg.addListener(() {
-      validate(rulesetNotifer.value);
+      validate();
       notifyListeners();
     });
     cg.roster = this;
@@ -440,8 +441,9 @@ class UnitRoster extends ChangeNotifier {
     return results;
   }
 
-  Validations validate(RuleSet ruleset) {
+  Validations validate({bool tryFix = true}) {
     final Validations validationErrors = Validations();
+    final ruleset = rulesetNotifer.value;
 
     final allRules = ruleset.allFactionRules(factions: allModelFactions());
     allRules.forEach((rule) {
@@ -462,7 +464,7 @@ class UnitRoster extends ChangeNotifier {
     }
 
     _combatGroups.forEach((key, cg) {
-      final ve = cg.validate(tryFix: true);
+      final ve = cg.validate(tryFix: tryFix);
 
       validationErrors.addAll(ve.validations);
     });

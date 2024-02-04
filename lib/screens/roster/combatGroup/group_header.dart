@@ -9,8 +9,6 @@ import 'package:gearforce/widgets/display_value.dart';
 import 'package:gearforce/widgets/settings.dart';
 import 'package:provider/provider.dart';
 
-const maxDefaultPrimaryActions = 6;
-const minDefaultPrimaryActions = 4;
 const _groupHeaderHeight = 35.0;
 
 class GroupHeader extends StatelessWidget {
@@ -18,32 +16,25 @@ class GroupHeader extends StatelessWidget {
     Key? key,
     required this.cg,
     required this.group,
-    this.roster,
+    required this.roster,
   }) : super(key: key);
 
   final CombatGroup cg;
   final Group group;
-  final UnitRoster? roster;
+  final UnitRoster roster;
 
   @override
   Widget build(BuildContext context) {
     final settings = context.read<Settings>();
     final actions = group.totalActions();
-    final maxPrimaryActions = roster == null
-        ? maxDefaultPrimaryActions
-        : roster!.rulesetNotifer.value.maxPrimaryActions;
-    final minPrimaryActions = roster == null
-        ? minDefaultPrimaryActions
-        : roster!.rulesetNotifer.value.minPrimaryActions;
-    final maxSecondaryAction = roster == null
-        ? (cg.primary.totalActions() / 2).ceil()
-        : roster!.rulesetNotifer.value
-            .maxSecondaryActions(cg.primary.totalActions());
-    final settingsIcon = roster != null &&
-            roster?.rulesetNotifer.value.combatGroupSettings() != null &&
-            roster!.rulesetNotifer.value.combatGroupSettings().length > 0
-        ? Icons.settings_suggest
-        : Icons.settings;
+    final maxPrimaryActions = roster.rulesetNotifer.value.maxPrimaryActions;
+    final minPrimaryActions = roster.rulesetNotifer.value.minPrimaryActions;
+    final maxSecondaryAction = roster.rulesetNotifer.value
+        .maxSecondaryActions(cg.primary.totalActions());
+    final settingsIcon =
+        roster.rulesetNotifer.value.combatGroupSettings().length > 0
+            ? Icons.settings_suggest
+            : Icons.settings;
     return Padding(
       padding: const EdgeInsets.all(4.0),
       child: Row(
@@ -63,6 +54,7 @@ class GroupHeader extends StatelessWidget {
           SizedBox(
             child: SelectRole(
               group: group,
+              roster: roster,
             ),
             width: 75,
           ),
@@ -166,7 +158,7 @@ class GroupHeader extends StatelessWidget {
   void _showSettingsDialog(BuildContext context) {
     final settingsDialog = CombatGroupSettingsDialog(
       cg: cg,
-      ruleSet: roster!.rulesetNotifer.value,
+      ruleSet: roster.rulesetNotifer.value,
     );
     showDialog(
         context: context,
