@@ -5,7 +5,7 @@ import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/screens/roster/combatGroup/combat_group_options_button.dart';
 import 'package:gearforce/screens/roster/combatGroup/group_actions_display.dart';
 import 'package:gearforce/screens/roster/combatGroup/veteran_group_checkbox_display.dart';
-import 'package:gearforce/screens/roster/select_role.dart';
+import 'package:gearforce/screens/roster/combatGroup/select_role.dart';
 import 'package:gearforce/widgets/display_value.dart';
 
 const _groupTypeNameWidth = 100.0;

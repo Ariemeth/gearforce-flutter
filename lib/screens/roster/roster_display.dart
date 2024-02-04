@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gearforce/screens/roster/combatGroup/combat_groups_display.dart';
-import 'package:gearforce/screens/roster/roster_header_info.dart';
+import 'package:gearforce/screens/roster/header/roster_header_info.dart';
 
 class RosterDisplay extends StatelessWidget {
   const RosterDisplay({
