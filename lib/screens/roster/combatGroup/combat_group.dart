@@ -55,6 +55,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
         GroupHeader(
           cg: cg,
           group: cg.secondary,
+          roster: widget.roster,
         ),
         Container(
           constraints: BoxConstraints(minHeight: _sectionheight / 2),

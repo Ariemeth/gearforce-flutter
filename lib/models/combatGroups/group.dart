@@ -277,7 +277,10 @@ class Group extends ChangeNotifier {
                 issue:
                     '${u.name} no longer can be part of the $groupType of $combatGroup'),
           );
-          _units.remove(u);
+
+          if (tryFix) {
+            _units.remove(u);
+          }
         }
       });
     }
