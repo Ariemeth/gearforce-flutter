@@ -17,12 +17,15 @@ pw.Widget buildRosterHeader(pw.Font font, UnitRoster roster) {
 
   return pw.Column(
     children: [
-      pw.Center(
-        child: pw.Text(
-          _recordSheetHeadingText,
-          style: pw.TextStyle(
-            font: font,
-            fontSize: _recordSheetHeadingFontSize,
+      pw.Padding(
+        padding: pw.EdgeInsets.only(bottom: 5.0),
+        child: pw.Center(
+          child: pw.Text(
+            _recordSheetHeadingText,
+            style: pw.TextStyle(
+              font: font,
+              fontSize: _recordSheetHeadingFontSize,
+            ),
           ),
         ),
       ),
