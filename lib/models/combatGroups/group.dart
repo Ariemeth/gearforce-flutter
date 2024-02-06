@@ -89,7 +89,7 @@ class Group extends ChangeNotifier {
     // units are vets.
     final isInVetGroup = combatGroup?.isVeteran;
     if (isInVetGroup != null && isInVetGroup && !unit.isVeteran) {
-      final e = validateVetStatus(unit, tryFix: true);
+      final e = _ensureVetStatus(unit, tryFix: true);
       if (e.isNotValid()) {
         validations.addAll(e.validations);
         return validations;
@@ -214,8 +214,9 @@ class Group extends ChangeNotifier {
 
   List<Unit> get veterans => _units.where((unit) => unit.isVeteran).toList();
 
-  Validations validateVetStatus(Unit u, {bool tryFix = false}) {
+  Validations _ensureVetStatus(Unit u, {bool tryFix = false}) {
     final results = Validations();
+
     if (u.type == ModelType.Drone ||
         u.type == ModelType.Terrain ||
         u.type == ModelType.AreaTerrain ||
@@ -223,20 +224,15 @@ class Group extends ChangeNotifier {
       return results;
     }
 
-    if (u.roster?.isEliteForce == true) {
-      final makeVet = VeteranModification.makeVet(u, combatGroup!);
-      if (makeVet.requirementCheck(
-          this.combatGroup?.roster?.rulesetNotifer.value,
-          combatGroup?.roster,
-          combatGroup,
-          u)) {
-        u.addUnitMod(makeVet);
-        return results;
-      }
+    final makeVet = VeteranModification.makeVet(u, combatGroup!);
+    if (makeVet.requirementCheck(this.combatGroup?.roster?.rulesetNotifer.value,
+        combatGroup?.roster, combatGroup, u)) {
+      u.addUnitMod(makeVet);
+      return results;
+    }
 
-      if (tryFix) {
-        _units.remove(u);
-      }
+    if (tryFix) {
+      _units.remove(u);
     }
 
     results.add(Validation(
@@ -263,7 +259,7 @@ class Group extends ChangeNotifier {
         // units are vets.
         final isInVetGroup = combatGroup?.isVeteran;
         if (isInVetGroup != null && isInVetGroup && !u.isVeteran) {
-          final e = validateVetStatus(u, tryFix: tryFix);
+          final e = _ensureVetStatus(u, tryFix: tryFix);
           if (e.isNotValid()) {
             validationErrors.addAll(e.validations);
             return;
