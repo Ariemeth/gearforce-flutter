@@ -7,11 +7,13 @@ import 'package:gearforce/screens/roster/filehandler/uploader.dart';
 import 'package:gearforce/screens/roster/input_roster_id.dart';
 import 'package:gearforce/screens/roster/markdown.dart';
 import 'package:gearforce/screens/roster/pdf/pdf.dart';
+import 'package:gearforce/screens/roster/pdf/pdf_settings_dialog.dart';
 import 'package:gearforce/screens/roster/roster_display.dart';
 import 'package:gearforce/screens/roster/show_roster_id.dart';
 import 'package:gearforce/screens/unitSelector/unit_selection.dart';
 import 'package:gearforce/widgets/api/api_service.dart';
 import 'package:gearforce/widgets/confirmation_dialog.dart';
+import 'package:gearforce/widgets/pdf_settings.dart';
 import 'package:gearforce/widgets/roster_id.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -19,7 +21,7 @@ import 'package:url_launcher/url_launcher_string.dart';
 const double _leftPanelWidth = 670.0;
 const double _titleHeight = 40.0;
 const double _menuTitleHeight = 50.0;
-const String _version = '1.1.0';
+const String _version = '1.2.0';
 const String _bugEmailAddress = 'gearforce@metadiversions.com';
 const String _dp9URL = 'https://www.dp9.com/';
 const String _sourceCodeURL = 'https://github.com/Ariemeth/gearforce-flutter';
@@ -184,7 +186,14 @@ class _RosterWidgetState extends State<RosterWidget> {
                 style: TextStyle(fontSize: 16),
               ),
               onTap: () async {
-                printPDF(roster, version: _version);
+                final pdfSettings = await showDialog<PDFSettings>(
+                  context: context,
+                  builder: (context) => PDFSettingsDialog('Print'),
+                );
+
+                if (pdfSettings != null) {
+                  printPDF(roster, pdfSettings, version: _version);
+                }
               },
             ),
             ListTile(
@@ -193,7 +202,14 @@ class _RosterWidgetState extends State<RosterWidget> {
                 style: TextStyle(fontSize: 16),
               ),
               onTap: () async {
-                downloadPDF(roster, version: _version);
+                final pdfSettings = await showDialog<PDFSettings>(
+                  context: context,
+                  builder: (context) => PDFSettingsDialog('Export to PDF'),
+                );
+
+                if (pdfSettings != null) {
+                  downloadPDF(roster, pdfSettings, version: _version);
+                }
               },
             ),
             ListTile(

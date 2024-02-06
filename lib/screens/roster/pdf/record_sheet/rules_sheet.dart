@@ -5,19 +5,27 @@ import 'package:pdf/widgets.dart' as pw;
 const double _headerTextSize = 12;
 const double _standardTextSize = 10;
 
-pw.Widget buildRulesSheet(pw.Font font, UnitRoster roster) {
-  // Faction rules
+pw.Widget buildRulesSheet(
+  pw.Font font,
+  UnitRoster roster, {
+  bool includeFactionRules = true,
+  bool includeSubFactionRules = true,
+}) {
   final List<(String, String)> factionRules = [];
-  FactionRule.enabledRules(roster.rulesetNotifer.value.factionRules)
-      .forEach((fr) {
-    factionRules.add((fr.name, fr.description));
-  });
+  if (includeFactionRules) {
+    FactionRule.enabledRules(roster.rulesetNotifer.value.factionRules)
+        .forEach((fr) {
+      factionRules.add((fr.name, fr.description));
+    });
+  }
 
   final List<(String, String)> subFactionRules = [];
-  FactionRule.enabledRules(roster.rulesetNotifer.value.subFactionRules)
-      .forEach((fr) {
-    subFactionRules.add((fr.name, fr.description));
-  });
+  if (includeSubFactionRules) {
+    FactionRule.enabledRules(roster.rulesetNotifer.value.subFactionRules)
+        .forEach((fr) {
+      subFactionRules.add((fr.name, fr.description));
+    });
+  }
 
   final sheet = pw.Column(children: [
     _buildRuleTable(font, ['Faction Rule', 'Description'], factionRules),
