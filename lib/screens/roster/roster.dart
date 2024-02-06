@@ -11,6 +11,7 @@ import 'package:gearforce/screens/roster/roster_display.dart';
 import 'package:gearforce/screens/roster/show_roster_id.dart';
 import 'package:gearforce/screens/unitSelector/unit_selection.dart';
 import 'package:gearforce/widgets/api/api_service.dart';
+import 'package:gearforce/widgets/confirmation_dialog.dart';
 import 'package:gearforce/widgets/roster_id.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -18,7 +19,7 @@ import 'package:url_launcher/url_launcher_string.dart';
 const double _leftPanelWidth = 670.0;
 const double _titleHeight = 40.0;
 const double _menuTitleHeight = 50.0;
-const String _version = '1.0.8';
+const String _version = '1.1.0';
 const String _bugEmailAddress = 'gearforce@metadiversions.com';
 const String _dp9URL = 'https://www.dp9.com/';
 const String _sourceCodeURL = 'https://github.com/Ariemeth/gearforce-flutter';
@@ -322,9 +323,23 @@ class _RosterWidgetState extends State<RosterWidget> {
         foregroundColor: Colors.red,
         mini: true,
         onPressed: () {
-          setState(() {
-            roster.copyFrom(UnitRoster(data));
-          });
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return ConfirmationDialog(
+                text: 'Are you sure you want to reset everything?',
+                onOptionSelected: (result) {
+                  if (result == ConfirmationResult.Yes) {
+                    setState(
+                      () {
+                        roster.copyFrom(UnitRoster(data));
+                      },
+                    );
+                  }
+                },
+              );
+            },
+          );
         },
         tooltip: 'Reset roster',
       ),
