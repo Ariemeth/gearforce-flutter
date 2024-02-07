@@ -166,7 +166,7 @@ class BlackTalonMods extends FactionModification {
       assert(cg != null);
       assert(rs != null);
 
-      if (rs == null || !rs.isRuleEnabled(ruleTheUnseen.id)) {
+      if (rs == null || !rs.isRuleEnabled(ruleTheTalons.id)) {
         return false;
       }
 
