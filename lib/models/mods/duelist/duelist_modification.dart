@@ -725,7 +725,7 @@ class DuelistModification extends BaseModification {
           assert(rs != null);
           assert(cg != null);
           final hasHands =
-              u.traits.any((trait) => _handsMatch.hasMatch(trait.name));
+              u.traits.any((trait) => trait.isSameType(Trait.Hands()));
           if (!hasHands) {
             return false;
           }
