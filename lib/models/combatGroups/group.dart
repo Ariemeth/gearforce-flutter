@@ -85,10 +85,10 @@ class Group extends ChangeNotifier {
       return validations;
     }
 
-    // Check if the unit is part of a vet group and if so make sure all
-    // units are vets.
-    final isInVetGroup = combatGroup?.isVeteran;
-    if (isInVetGroup != null && isInVetGroup && !unit.isVeteran) {
+    // Check if the unit is part of an elite force of all vets and if so make
+    // sure all units are vets.
+    final inEliteForce = combatGroup?.roster?.isEliteForce;
+    if (inEliteForce != null && inEliteForce && !unit.isVeteran) {
       final e = _ensureVetStatus(unit, tryFix: true);
       if (e.isNotValid()) {
         validations.addAll(e.validations);
@@ -235,11 +235,7 @@ class Group extends ChangeNotifier {
       _units.remove(u);
     }
 
-    results.add(Validation(
-      false,
-      issue: 'Unit ${u.name} can not be a vet and the combatgroup' +
-          ' is a veteren CG',
-    ));
+    results.add(Validation(false, issue: 'Unit ${u.name} can not be a vet'));
 
     return results;
   }
@@ -255,10 +251,10 @@ class Group extends ChangeNotifier {
     if (combatGroup != null && combatGroup!.roster != null) {
       final tempList = _units.toList(growable: false);
       tempList.forEach((u) {
-        // Check if the unit is part of a vet group and if so make sure all
+        // Check if the unit is part of a veteran/elite force and if so make sure all
         // units are vets.
-        final isInVetGroup = combatGroup?.isVeteran;
-        if (isInVetGroup != null && isInVetGroup && !u.isVeteran) {
+        final isEliteForce = combatGroup?.roster?.isEliteForce;
+        if (isEliteForce != null && isEliteForce && !u.isVeteran) {
           final e = _ensureVetStatus(u, tryFix: tryFix);
           if (e.isNotValid()) {
             validationErrors.addAll(e.validations);

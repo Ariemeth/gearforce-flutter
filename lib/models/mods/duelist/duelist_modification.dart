@@ -320,6 +320,10 @@ class DuelistModification extends BaseModification {
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
           assert(rs != null);
           assert(cg != null);
+          // if a unit has the stable trait, no point to include it on any weapons
+          if (u.traits.any((t) => t.isSameType(Trait.Stable()))) {
+            return false;
+          }
           return rs!.duelistModCheck(u, cg!, modID: stableId);
         })
       ..addMod<int>(
@@ -720,6 +724,11 @@ class DuelistModification extends BaseModification {
             (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
           assert(rs != null);
           assert(cg != null);
+          final hasHands =
+              u.traits.any((trait) => _handsMatch.hasMatch(trait.name));
+          if (!hasHands) {
+            return false;
+          }
           return rs!.duelistModCheck(u, cg!, modID: meleeUpgradeId);
         },
         refreshData: () {
