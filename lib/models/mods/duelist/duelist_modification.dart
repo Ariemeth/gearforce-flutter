@@ -783,12 +783,16 @@ class DuelistModification extends BaseModification {
       ..addMod<List<Trait>>(UnitAttribute.traits, (value) {
         var newList = new List<Trait>.from(value);
 
-        final oldTrait =
-            newList.firstWhere((t) => t.name.toLowerCase() == 'ecm');
+        if (!newList.any((trait) => trait.isSameType(Trait.ECM()))) {
+          return newList;
+        }
+
+        final oldTrait = newList.firstWhere((t) => t.isSameType(Trait.ECM()));
+        final oldIndex = newList.indexOf(oldTrait);
         newList.remove(oldTrait);
 
-        if (!newList.any((t) => t.name.toLowerCase() == 'ecm+')) {
-          newList.add(Trait.fromTrait(oldTrait, name: 'ECM+'));
+        if (!newList.any((t) => t.isSameType(Trait.ECMPlus()))) {
+          newList.insert(oldIndex, Trait.ECMPlus(isAux: oldTrait.isAux));
         }
 
         return newList;
