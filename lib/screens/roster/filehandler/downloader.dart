@@ -20,7 +20,7 @@ Future<void> downloadRoster(UnitRoster roster) async {
   }
 
   final Uint8List fileData = Uint8List.fromList(data);
-  const String mimeType = 'application/json';
+  const String mimeType = 'application/gearforce';
   final XFile textFile = XFile.fromData(
     fileData,
     mimeType: mimeType,

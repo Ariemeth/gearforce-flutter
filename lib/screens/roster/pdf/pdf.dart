@@ -15,10 +15,13 @@ const String _defaultRosterFileName = 'hg-roster';
 const String _webURL = 'https://gearforce.metadiversions.com';
 
 const double _leftRightPageMargins = PdfPageFormat.inch / 8.0;
-const double _topPageMargins = PdfPageFormat.inch / 32;
-const double _bottomPageMargins = PdfPageFormat.inch / 28;
+const double _topPageMargins = PdfPageFormat.inch / 8.0;
+const double _bottomPageMargins = PdfPageFormat.inch / 16.0;
 const double _unitCardMargins = 5.0 / 2.0;
-const pw.EdgeInsets _footerMargin = const pw.EdgeInsets.only(top: 0);
+const pw.EdgeInsets _footerMargin = const pw.EdgeInsets.only(
+  top: 0,
+  bottom: PdfPageFormat.inch / 32.0,
+);
 
 Future<bool> printPDF(
   UnitRoster roster,
@@ -97,7 +100,7 @@ Future<Uint8List> buildPdf(
     doc.addPage(pw.MultiPage(
       pageTheme: pageTheme,
       mainAxisAlignment: pw.MainAxisAlignment.start,
-      crossAxisAlignment: pw.CrossAxisAlignment.center,
+      crossAxisAlignment: pw.CrossAxisAlignment.start,
       build: (pw.Context context) {
         return [
           pw.Padding(
@@ -192,6 +195,7 @@ Future<pw.PageTheme> _myPageTheme(PdfPageFormat format) async {
 
   return pw.PageTheme(
     pageFormat: updatedFormat,
+    orientation: pw.PageOrientation.portrait,
     theme: pw.ThemeData.withFont(
       base: await PdfGoogleFonts.openSansRegular(),
       bold: await PdfGoogleFonts.openSansBold(),
