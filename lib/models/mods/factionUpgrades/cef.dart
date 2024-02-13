@@ -49,7 +49,7 @@ class CEFMods extends FactionModification {
         return modOverride;
       }
 
-      if (rs == null || !rs.isRuleEnabled(ruleMinvera.id)) {
+      if (rs == null || !rs.isRuleEnabled(ruleMinerva.id)) {
         return false;
       }
 
@@ -61,7 +61,7 @@ class CEFMods extends FactionModification {
     };
 
     final fm = CEFMods(
-      name: 'Minvera',
+      name: 'Minerva',
       requirementCheck: reqCheck,
       id: minveraId,
     );
@@ -76,7 +76,7 @@ class CEFMods extends FactionModification {
       UnitAttribute.piloting,
       createSimpleIntMod(-1),
       description:
-          'Improve PI skill by 1 by adding a Minvera class' + ' GREL pilot',
+          'Improve PI skill by 1 by adding a Minerva class' + ' GREL pilot',
     );
 
     return fm;

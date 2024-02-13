@@ -79,7 +79,7 @@ class CEF extends RuleSet {
   factory CEF.CEFIF(Data data) => CEFIF(data);
 }
 
-final FactionRule ruleMinvera = FactionRule(
+final FactionRule ruleMinerva = FactionRule(
   name: 'Minerva',
   id: _ruleMinervaId,
   factionMods: (ur, cg, u) {

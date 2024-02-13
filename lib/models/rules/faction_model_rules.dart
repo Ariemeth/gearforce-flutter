@@ -38,7 +38,7 @@ List<FactionRule> GetModelFactionRulesByFaction(FactionType? faction) {
     case FactionType.North:
       return [north.ruleTaskBuilt];
     case FactionType.CEF:
-      return [cef.ruleMinvera, cef.ruleAdvancedInterfaceNetwork];
+      return [cef.ruleMinerva, cef.ruleAdvancedInterfaceNetwork];
     case FactionType.Caprice:
       return [
         caprice.ruleDuelingMounts,
@@ -63,7 +63,7 @@ List<FactionRule> GetModelFactionRulesByFaction(FactionType? faction) {
     case null:
       return [
         north.ruleTaskBuilt,
-        cef.ruleMinvera,
+        cef.ruleMinerva,
         cef.ruleAdvancedInterfaceNetwork,
         caprice.ruleDuelingMounts,
         caprice.ruleAdvancedInterfaceNetworks,
