@@ -201,12 +201,14 @@ class SouthernFactionMods extends FactionModification {
       id: conscriptionId,
     );
 
-    final int Function() cost = () {
-      return -1 *
-          unit.attribute(UnitAttribute.actions, modIDToSkip: conscriptionId);
-    };
-    fm.addMod<int>(UnitAttribute.tv, createSimpleIntMod(cost()),
-        description: 'TV: ${cost()}');
+    final int cost = -1 *
+        unit.attribute(
+          UnitAttribute.actions,
+          modIDToSkip: conscriptionId,
+        );
+    ;
+    fm.addMod<int>(UnitAttribute.tv, createSimpleIntMod(cost),
+        description: 'TV: $cost');
     fm.addMod<List<Trait>>(
         UnitAttribute.traits, createAddTraitToList(Trait.Conscript()),
         description: 'Adds the Conscript Trait');
