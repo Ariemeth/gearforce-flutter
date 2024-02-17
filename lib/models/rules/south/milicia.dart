@@ -43,7 +43,7 @@ class MILICIA extends South {
 final FactionRule ruleConscription = FactionRule(
   name: 'Conscription',
   id: _ruleConscriptionId,
-  factionMods: (ur, cg, u) => [SouthernFactionMods.conscription()],
+  factionMods: (ur, cg, u) => [SouthernFactionMods.conscription(u)],
   description: 'You may add the Conscript trait to any non-commander,' +
       ' non-veteran and non-duelist in the force if they do not already' +
       ' possess the trait. Reduce the TV of these models by 1 TV per action.',

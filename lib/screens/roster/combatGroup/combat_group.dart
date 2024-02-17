@@ -99,13 +99,19 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
       ) {
         return table;
       },
-      onAccept: (Unit u) {
-        group.addUnit(Unit.from(u));
+      onAcceptWithDetails: (DragTargetDetails<Unit>? details) {
+        if (details == null) {
+          return;
+        }
+
+        group.addUnit(Unit.from(details.data));
       },
-      onWillAccept: (Unit? u) {
-        if (u == null) {
+      onWillAcceptWithDetails: (DragTargetDetails<Unit>? details) {
+        if (details == null) {
           return false;
         }
+
+        final u = details.data;
         final canBeAddedValidations = ruleSet.canBeAddedToGroup(u, group, cg);
 
         final canBeAdded = canBeAddedValidations.isValid();

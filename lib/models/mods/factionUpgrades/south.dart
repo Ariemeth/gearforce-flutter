@@ -169,7 +169,7 @@ class SouthernFactionMods extends FactionModification {
   non-veteran and non-duelist in the force if they do not already possess the trait.
   Reduce the TV of these models by 1 TV per action.
 */
-  factory SouthernFactionMods.conscription() {
+  factory SouthernFactionMods.conscription(Unit unit) {
     final RequirementCheck reqCheck = (
       RuleSet? rs,
       UnitRoster? ur,
@@ -201,8 +201,12 @@ class SouthernFactionMods extends FactionModification {
       id: conscriptionId,
     );
 
-    fm.addMod<int>(UnitAttribute.tv, createSimpleIntMod(-1),
-        description: 'TV: -1');
+    final int Function() cost = () {
+      return -1 *
+          unit.attribute(UnitAttribute.actions, modIDToSkip: conscriptionId);
+    };
+    fm.addMod<int>(UnitAttribute.tv, createSimpleIntMod(cost()),
+        description: 'TV: ${cost()}');
     fm.addMod<List<Trait>>(
         UnitAttribute.traits, createAddTraitToList(Trait.Conscript()),
         description: 'Adds the Conscript Trait');
@@ -324,16 +328,21 @@ class SouthernFactionMods extends FactionModification {
       id: metsukeId,
     );
 
-    fm.addMod<int>(UnitAttribute.tv, createSimpleIntMod(-1),
-        description: 'TV: -1');
+    fm.addMod<int>(UnitAttribute.tv, createSimpleIntMod(1),
+        description: 'TV: +1');
     fm.addMod<List<Trait>>(
-        UnitAttribute.traits, createAddTraitToList(Trait.ShieldPlus()),
+        UnitAttribute.traits,
+        createAddTraitToList(
+          Trait.ShieldPlus(),
+        ),
         description: 'Adds the Shield+ Trait');
     if (unit.traits.any((t) => t.name == Trait.Shield().name)) {
       final traitToRemove =
           unit.traits.firstWhere((t) => t.name == Trait.Shield().name);
       fm.addMod<List<Trait>>(
-          UnitAttribute.traits, createRemoveTraitFromList(traitToRemove));
+        UnitAttribute.traits,
+        createRemoveTraitFromList(traitToRemove),
+      );
     }
     return fm;
   }
