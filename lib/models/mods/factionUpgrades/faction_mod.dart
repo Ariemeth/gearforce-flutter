@@ -69,7 +69,7 @@ FactionModification? factionModFromId(String id, UnitRoster ur, Unit u) {
     case politicalOfficerId:
       return SouthernFactionMods.politicalOfficer();
     case conscriptionId:
-      return SouthernFactionMods.conscription();
+      return SouthernFactionMods.conscription(u);
     case samuraiSpiritId:
       return SouthernFactionMods.samuraiSpirit(u);
     case metsukeId:
