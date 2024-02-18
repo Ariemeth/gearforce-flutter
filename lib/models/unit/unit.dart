@@ -65,7 +65,13 @@ class Unit extends ChangeNotifier {
       core.addAll(ruleset.availableUnits(specialUnitFilter: sfilter));
     });
     final variant = json['variant'] as String;
-    Unit u = Unit.from(core.firstWhere((unit) => unit.core.name == variant));
+    Unit u;
+    try {
+      u = core.firstWhere((unit) => unit.core.name == variant);
+    } catch (e) {
+      print('Unable to find unit variant [$variant], $e');
+      throw e;
+    }
 
     u._commandLevel = CommandLevel.fromString(json['command']);
 

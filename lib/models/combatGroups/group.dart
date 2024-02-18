@@ -48,17 +48,21 @@ class Group extends ChangeNotifier {
     g.combatGroup = cg;
 
     var decodedUnits = json['units'] as List;
-    try {
-      decodedUnits
-          .map((e) => Unit.fromJson(e, faction, ruleset, cg, roster))
-          .toList()
-        ..forEach((u) {
+
+    decodedUnits.map((du) {
+      try {
+        return Unit.fromJson(du, faction, ruleset, cg, roster);
+      } on Exception catch (e) {
+        print(
+            'Exception caught while decoding unit $du in ${cg.name} $groupType group: $e');
+        return null;
+      }
+    }).toList()
+      ..forEach((u) {
+        if (u != null) {
           g._addUnit(u);
-        });
-    } on Exception catch (e) {
-      print(
-          'Exception caught while decoding units in $groupType of ${cg.name}: $e');
-    }
+        }
+      });
 
     return g;
   }
