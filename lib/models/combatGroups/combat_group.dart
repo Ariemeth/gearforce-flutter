@@ -119,13 +119,6 @@ class CombatGroup extends ChangeNotifier {
       roster: roster,
     ).._isVeteran = json['isVet'] != null ? json['isVet'] as bool : false;
 
-    final p = Group.fromJson(
-        json['primary'], faction, ruleset, cg, roster, GroupType.Primary);
-    final s = Group.fromJson(
-        json['secondary'], faction, ruleset, cg, roster, GroupType.Secondary);
-    cg.primary = p;
-    cg.secondary = s;
-
     cg._options = roster.rulesetNotifer.value.combatGroupSettings();
 
     final enabledOptions = json['enabledOptions'] as List;
@@ -134,6 +127,13 @@ class CombatGroup extends ChangeNotifier {
           .where((oo) => oo.id == optionId)
           .forEach((o) => o.isEnabled = true);
     });
+
+    final p = Group.fromJson(
+        json['primary'], faction, ruleset, cg, roster, GroupType.Primary);
+    final s = Group.fromJson(
+        json['secondary'], faction, ruleset, cg, roster, GroupType.Secondary);
+    cg.primary = p;
+    cg.secondary = s;
 
     return cg;
   }
