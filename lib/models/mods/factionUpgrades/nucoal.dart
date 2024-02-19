@@ -49,7 +49,7 @@ class NuCoalFactionMods extends FactionModification {
       assert(cg != null);
       assert(rs != null);
 
-      if(u.type != ModelType.Gear) {
+      if (u.type != ModelType.Gear) {
         return false;
       }
 
