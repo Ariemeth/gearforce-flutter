@@ -49,11 +49,15 @@ class NuCoalFactionMods extends FactionModification {
       assert(cg != null);
       assert(rs != null);
 
+      if(u.type != ModelType.Gear) {
+        return false;
+      }
+
       if (rs == null || !rs.isRuleEnabled(nsdf.ruleHighSpeedLowDrag.id)) {
         return false;
       }
 
-      if (u.traits.any((t) => t.name == Trait.Lumbering().name)) {
+      if (u.traits.any((t) => t.isSameType(Trait.Lumbering()))) {
         return false;
       }
 
