@@ -20,7 +20,7 @@ jobs:
 
     steps:
       - name: "Checkout"
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: "Gather variables"
         id: gather-variables
@@ -47,7 +47,7 @@ jobs:
 
       # Checkout code and get packages.
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - run: flutter pub get
 
       # Analyze, check formatting, and run unit tests.
@@ -87,7 +87,7 @@ jobs:
 
     steps:
       - name: "Checkout"
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         
       - name: Kubernetes set context
         uses: Azure/k8s-set-context@v1
