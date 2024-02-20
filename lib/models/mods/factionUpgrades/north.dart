@@ -357,7 +357,8 @@ class NorthernFactionMods extends FactionModification {
 
     fm.addMod<int>(UnitAttribute.tv, createSimpleIntMod(2),
         description: 'TV: +2');
-    fm.addMod(UnitAttribute.cp, createSimpleIntMod(1),
+    // Not adding a cp here as all commanders get a cp automatically
+    fm.addMod(UnitAttribute.cp, createSimpleIntMod(0),
         description: 'CP +1, Chaplains become third in command leaders');
 
     return fm;
