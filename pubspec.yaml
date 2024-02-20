@@ -33,7 +33,7 @@ dependencies:
   printing: ^5.11.1
   url_launcher: ^6.2.4
   file_selector: ^1.0.3
-  http: ^1.2.0
+  http: ^1.2.1
 
 dev_dependencies:
   flutter_test:
