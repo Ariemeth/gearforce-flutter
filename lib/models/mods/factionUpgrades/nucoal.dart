@@ -224,6 +224,10 @@ class NuCoalFactionMods extends FactionModification {
         return false;
       }
 
+      if (u.type != ModelType.Gear) {
+        return false;
+      }
+
       if (rs == null || !rs.isRuleEnabled(th.ruleJannitePilots.id)) {
         return false;
       }
