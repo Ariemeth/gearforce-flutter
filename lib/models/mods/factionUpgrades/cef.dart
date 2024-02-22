@@ -213,7 +213,17 @@ class CEFMods extends FactionModification {
 
     fm.addMod<List<Trait>>(
       UnitAttribute.traits,
-      createAddTraitToList(Trait.ECM()),
+      (value) {
+        final newValue = Trait.ECMPlus();
+        var newList = new List<Trait>.from(value);
+
+        if (!newList
+            .any((t) => t.isSameType(newValue) || t.isSameType(Trait.ECM()))) {
+          newList.add(newValue);
+        }
+
+        return newList;
+      },
       description: '+ECM',
     );
 
