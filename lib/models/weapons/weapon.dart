@@ -129,6 +129,7 @@ class Weapon {
     Weapon original, {
     String? name,
     Range? range,
+    int? numberOf,
     List<Trait>? addTraits,
     bool? hasReact,
   }) {
@@ -141,12 +142,12 @@ class Weapon {
     }
     return Weapon(
       abbreviation: original.abbreviation,
-      name: name != null ? name : original.name,
-      numberOf: original.numberOf,
+      name: name ?? original.name,
+      numberOf: numberOf ?? original.numberOf,
       modes: original.modes,
-      range: range != null ? range : original.range,
+      range: range ?? original.range,
       damage: original.damage,
-      hasReact: hasReact != null ? hasReact : original.hasReact,
+      hasReact: hasReact ?? original.hasReact,
       baseTraits:
           original.baseTraits.map((trait) => Trait.fromTrait(trait)).toList(),
       baseAlternativeTraits: original.baseAlternativeTraits

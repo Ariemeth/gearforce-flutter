@@ -148,10 +148,20 @@ class StandardModification extends BaseModification {
           var existingWeapon = newList.firstWhere(
               (weapon) => weapon.toString() == modOptions.selectedOption?.text);
 
-          final index = newList.indexWhere(
-              (weapon) => weapon.toString() == modOptions.selectedOption?.text);
+          // final index = newList.indexWhere(
+          //     (weapon) => weapon.toString() == modOptions.selectedOption?.text);
+          final index = newList.indexOf(existingWeapon);
           if (index >= 0) {
             newList.removeAt(index);
+            if (existingWeapon.numberOf >= 2) {
+              newList.insert(
+                index,
+                Weapon.fromWeapon(
+                  existingWeapon,
+                  numberOf: existingWeapon.numberOf - 1,
+                ),
+              );
+            }
             final aam = buildWeapon(
                 '${existingWeapon.size}AAM ${existingWeapon.bonusString}',
                 hasReact: existingWeapon.hasReact);
