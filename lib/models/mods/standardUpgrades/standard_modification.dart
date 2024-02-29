@@ -130,7 +130,10 @@ class StandardModification extends BaseModification {
           }
 
           // check to ensure the unit has an appropriate weapon that can be upgraded
-          return u.weapons.any((weapon) => weaponMatch.hasMatch(weapon.code));
+          return u
+              .attribute<List<Weapon>>(UnitAttribute.weapons,
+                  modIDToSkip: antiAirSwapId)
+              .any((w) => weaponMatch.hasMatch(w.code));
         },
         refreshData: () {
           return StandardModification.antiAirSwap(u, cg);
