@@ -7,7 +7,7 @@ import 'package:gearforce/models/weapons/weapons.dart';
 final UnitModification command = UnitModification(name: 'Command Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Command'))
-  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.SP(1)),
+  ..addMod(UnitAttribute.traits, createAddOrCombineTraitToList(Trait.SP(1)),
       description: '+SP:+1');
 
 final UnitModification mortar = UnitModification(name: 'Mortar Upgrade')

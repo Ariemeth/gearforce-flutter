@@ -116,7 +116,7 @@ final UnitModification greyhoundChieftain =
       ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
       ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Chieftain'))
       ..addMod(UnitAttribute.ew, createSetIntMod(3), description: 'EW 3+')
-      ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.SP(1)),
+      ..addMod(UnitAttribute.traits, createAddOrCombineTraitToList(Trait.SP(1)),
           description: '+SP:+1')
       ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.ECCM()),
           description: '+ECCM');
@@ -155,7 +155,7 @@ final UnitModification shinobiMeleeSpecialist = UnitModification(
     name: 'Melee Specialist Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'melee specialist'))
-  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.Brawl(2)),
+  ..addMod(UnitAttribute.traits, createAddOrCombineTraitToList(Trait.Brawl(2)),
       description: '+Brawl:2')
   ..addMod(
       UnitAttribute.weapons,
@@ -227,7 +227,7 @@ final UnitModification cataphractLord = UnitModification(name: 'Lord Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Lord'))
   ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
-  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.SP(1)),
+  ..addMod(UnitAttribute.traits, createAddOrCombineTraitToList(Trait.SP(1)),
       description: '+SP:+1')
   ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.Comms()),
       description: '+Comms')
@@ -249,7 +249,7 @@ final UnitModification uhlanLord = UnitModification(name: 'Lord Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Lord'))
   ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
-  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.SP(1)),
+  ..addMod(UnitAttribute.traits, createAddOrCombineTraitToList(Trait.SP(1)),
       description: '+SP:+1')
   ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.Comms()),
       description: '+Comms')
@@ -268,7 +268,7 @@ final UnitModification alphaDog = UnitModification(name: 'Alpha Dog Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(3), description: 'TV +3')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Alpha Dog'))
   ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
-  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.SP(1)),
+  ..addMod(UnitAttribute.traits, createAddOrCombineTraitToList(Trait.SP(1)),
       description: '+SP:+1')
   ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.ECCM()),
       description: '+ECCM')
@@ -295,7 +295,7 @@ final UnitModification herdLord = UnitModification(
   ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Herd Lord'))
   ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
-  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.SP(1)),
+  ..addMod(UnitAttribute.traits, createAddOrCombineTraitToList(Trait.SP(1)),
       description: '+SP:+1')
   ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.Comms()),
       description: '+Comms')

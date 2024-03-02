@@ -114,7 +114,7 @@ final UnitModification darkCoyotePsi = UnitModification(name: 'Psi Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(3), description: 'TV +3')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Psi'))
   ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
-  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.SP(1)),
+  ..addMod(UnitAttribute.traits, createAddOrCombineTraitToList(Trait.SP(1)),
       description: '+SP:+1')
   ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.Comms()),
       description: '+Comms')
@@ -156,7 +156,7 @@ final UnitModification darkHoplitePsi = UnitModification(
   ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Psi'))
   ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
-  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.SP(1)),
+  ..addMod(UnitAttribute.traits, createAddOrCombineTraitToList(Trait.SP(1)),
       description: '+SP:+1')
   ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.Comms()),
       description: '+Comms')

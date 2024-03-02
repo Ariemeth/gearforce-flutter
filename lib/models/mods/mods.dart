@@ -78,6 +78,30 @@ List<Trait> Function(List<Trait>) createAddTraitToList(Trait newValue) {
   };
 }
 
+/// Add the trait to the list if it does not already exist in the list.  Otherwise
+/// combine the trait with the existing trait in the list by summing the levels.
+List<Trait> Function(List<Trait>) createAddOrCombineTraitToList(
+    Trait newValue) {
+  return (value) {
+    var newList = new List<Trait>.from(value);
+
+    if (!newList.any((trait) => trait.isSameType(newValue))) {
+      newList.add(newValue);
+      return newList;
+    }
+
+    final existingTrait =
+        newList.firstWhere((trait) => trait.isSameType(newValue));
+    final newLevel = (existingTrait.level ?? 0) + (newValue.level ?? 0);
+    final index = newList.indexOf(existingTrait);
+    newList.removeAt(index);
+
+    newList.insert(index, Trait.fromTrait(existingTrait, level: newLevel));
+
+    return newList;
+  };
+}
+
 List<Weapon> Function(List<Weapon>) createAddWeaponToList(Weapon newValue) {
   return (value) {
     var newList = new List<Weapon>.from(value);

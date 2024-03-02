@@ -93,7 +93,7 @@ class Unit extends ChangeNotifier {
       mods.forEach((loadedMod) {
         try {
           var mod = availableUnitMods
-              .firstWhere((unitMod) => unitMod.name == loadedMod['id']);
+              .firstWhere((unitMod) => unitMod.id == loadedMod['id']);
           u.addUnitMod(mod);
           final selected = loadedMod['selected'];
           if (selected != null) {
@@ -172,17 +172,21 @@ class Unit extends ChangeNotifier {
       final mods = modMap['faction'] as List;
 
       mods.forEach((loadedMod) {
-        final modId = loadedMod['id'];
+        try {
+          final modId = loadedMod['id'];
 
-        var mod = factionModFromId(modId, roster, u);
-        if (mod == null) {
-          print('faction mod $modId could not be loaded');
-          return;
-        }
-        u.addUnitMod(mod);
-        final selected = loadedMod['selected'];
-        if (selected != null) {
-          modsWithOptions[mod] = selected;
+          var mod = factionModFromId(modId, roster, u);
+          if (mod == null) {
+            print('faction mod $modId could not be loaded');
+            return;
+          }
+          u.addUnitMod(mod);
+          final selected = loadedMod['selected'];
+          if (selected != null) {
+            modsWithOptions[mod] = selected;
+          }
+        } catch (e) {
+          print('faction mod $loadedMod not found in available mods, $e');
         }
       });
     }
@@ -456,10 +460,6 @@ class Unit extends ChangeNotifier {
   }
 
   int get skillPoints {
-    if (commandLevel != CommandLevel.none) {
-      return 0;
-    }
-
     return _calculateSkillPoints();
   }
 
@@ -469,6 +469,11 @@ class Unit extends ChangeNotifier {
     for (var mod in this._mods) {
       sp = mod.applyMods(UnitAttribute.sp, sp);
     }
+
+    final numSPMods =
+        traits.where((trait) => trait.isSameType(Trait.SP(0))).length;
+
+    sp += numSPMods;
 
     if (isVeteran) {
       sp += 1;
