@@ -280,7 +280,6 @@ class VeteranModification extends BaseModification {
     final modName = _vetModNames[brawler1Id];
     assert(modName != null);
 
-    final traits = u.traits.toList();
     return VeteranModification(
         name: modName ?? brawler1Id,
         id: brawler1Id,
@@ -301,18 +300,9 @@ class VeteranModification extends BaseModification {
           return rs!.veteranModCheck(u, cg!, modID: brawler1Id);
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
-      ..addMod<List<Trait>>(UnitAttribute.traits, (value) {
-        var newLevel = 0;
-        if (traits.any((element) => element.name == 'Brawl')) {
-          var oldTrait =
-              traits.firstWhere((element) => element.name == 'Brawl');
-          newLevel = oldTrait.level == null ? 1 : oldTrait.level!;
-          value = createRemoveTraitFromList(oldTrait)(value);
-        }
-
-        return createAddTraitToList(Trait(name: 'Brawl', level: newLevel + 1))(
-            value);
-      }, description: '+Brawl:1 or +1 to existing Brawl');
+      ..addMod<List<Trait>>(UnitAttribute.traits,
+          createAddOrCombineTraitToList(Trait(name: 'Brawl', level: 1)),
+          description: '+Brawl:1 or +1 to existing Brawl');
   }
 
   /*
@@ -325,7 +315,6 @@ class VeteranModification extends BaseModification {
     final modName = _vetModNames[brawler2Id];
     assert(modName != null);
 
-    final traits = u.traits.toList();
     return VeteranModification(
         name: modName ?? brawler2Id,
         id: brawler2Id,
@@ -349,18 +338,9 @@ class VeteranModification extends BaseModification {
           return VeteranModification.brawler2(u);
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
-      ..addMod<List<Trait>>(UnitAttribute.traits, (value) {
-        var newLevel = 0;
-        if (traits.any((element) => element.name == 'Brawl')) {
-          var oldTrait =
-              traits.firstWhere((element) => element.name == 'Brawl');
-          newLevel = oldTrait.level == null ? 0 : oldTrait.level!;
-          value = createRemoveTraitFromList(oldTrait)(value);
-        }
-
-        return createAddTraitToList(Trait(name: 'Brawl', level: newLevel + 2))(
-            value);
-      }, description: '+Brawl:2 or +2 to existing Brawl');
+      ..addMod<List<Trait>>(UnitAttribute.traits,
+          createAddOrCombineTraitToList(Trait(name: 'Brawl', level: 2)),
+          description: '+Brawl:2 or +2 to existing Brawl');
   }
 
   /*

@@ -102,7 +102,7 @@ class UnitCore {
         return 0;
       case UnitAttribute.sp:
         var value = 0;
-        traits.where((t) => t.name == "SP").forEach((t) {
+        traits.where((t) => t.isSameType(Trait.SP(0))).forEach((t) {
           value += t.level ?? 0;
         });
         return value;

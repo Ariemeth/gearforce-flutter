@@ -456,10 +456,6 @@ class Unit extends ChangeNotifier {
   }
 
   int get skillPoints {
-    if (commandLevel != CommandLevel.none) {
-      return 0;
-    }
-
     return _calculateSkillPoints();
   }
 
@@ -469,6 +465,11 @@ class Unit extends ChangeNotifier {
     for (var mod in this._mods) {
       sp = mod.applyMods(UnitAttribute.sp, sp);
     }
+
+    final numSPMods =
+        traits.where((trait) => trait.isSameType(Trait.SP(0))).length;
+
+    sp += numSPMods;
 
     if (isVeteran) {
       sp += 1;

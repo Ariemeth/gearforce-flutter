@@ -148,7 +148,8 @@ UnitModification diamondbackArenaPilot(Unit u) {
 
       return newList;
     }, description: '+LVB (Precise) or +LCW (Brawl:1)')
-    ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.Brawl(1)),
+    ..addMod(
+        UnitAttribute.traits, createAddOrCombineTraitToList(Trait.Brawl(1)),
         description: '+Brawl:1');
 }
 
@@ -159,7 +160,7 @@ final UnitModification blackAdderArenaPilot = UnitModification(
   ..addMod(UnitAttribute.weapons,
       createAddWeaponToList(buildWeapon('MVB (Reach:1)', hasReact: true)!),
       description: '+MVB (Reach:1)')
-  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.Brawl(2)),
+  ..addMod(UnitAttribute.traits, createAddOrCombineTraitToList(Trait.Brawl(2)),
       description: '+Brawl:2');
 
 final UnitModification cobraRazorFang =
@@ -218,7 +219,7 @@ final UnitModification meleeSwap = UnitModification(
 final UnitModification boasArenaPilot = UnitModification(name: 'Arena Pilot')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV: +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'with Arena Pilot'))
-  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.Brawl(2)),
+  ..addMod(UnitAttribute.traits, createAddOrCombineTraitToList(Trait.Brawl(2)),
       description: '+Brawl:2');
 
 final UnitModification barbed = UnitModification(
