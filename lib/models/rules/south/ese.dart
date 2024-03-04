@@ -86,7 +86,7 @@ final FactionRule rulePersonalEscort = FactionRule(
   // personal escort units cannot have a command greater then the current force leader
   availableCommandLevelOverride: (u) {
     if (_notEnabledAllies().any((f) => u.faction == f)) {
-      return CommandLevel.allLevelsBelow(
+      return CommandLevel.allAvailableLowerLevels(
           u.roster?.selectedForceLeader?.commandLevel);
     }
     return null;

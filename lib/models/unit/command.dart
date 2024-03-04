@@ -31,12 +31,11 @@ enum CommandLevel {
     }
   }
 
-  static List<CommandLevel> allLevelsBelow(CommandLevel? cl) {
+  static List<CommandLevel> allAvailableLowerLevels(CommandLevel? cl) {
     final List<CommandLevel> results = [];
 
     switch (cl) {
       case CommandLevel.co:
-        results.add(CommandLevel.xo);
         results.add(CommandLevel.cgl);
         results.add(CommandLevel.secic);
         results.add(CommandLevel.none);
