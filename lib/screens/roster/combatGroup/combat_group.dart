@@ -232,7 +232,8 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
       if (!cls.any((cl) => cl == unitCommand)) {
         print(
             'Unit: ${unit.name} has command: $unitCommand, but is only allowed to have ${cls.toString()}');
-        unitCommand = cls.first;
+
+        unitCommand = cls.isEmpty ? CommandLevel.none : cls.first;
       }
 
       var tvCell = DataCell(UnitTextCell.content(unit.tv.toString()));

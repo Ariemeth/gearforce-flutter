@@ -458,9 +458,10 @@ class UnitRoster extends ChangeNotifier {
     });
 
     final forceLeaders = availableForceLeaders();
-    if (!forceLeaders.any((unit) => unit == selectedForceLeader)) {
-      selectedForceLeader =
-          forceLeaders.length == 1 ? forceLeaders.first : null;
+    // if there are no available force leaders ensure the selected force leader is null
+    if (!forceLeaders.contains(selectedForceLeader)) {
+      // there are available force leaders so make sure there is a valid one selected
+      selectedForceLeader = forceLeaders.firstOrNull;
     }
 
     _combatGroups.forEach((key, cg) {

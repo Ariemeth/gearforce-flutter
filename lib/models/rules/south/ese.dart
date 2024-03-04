@@ -4,6 +4,7 @@ import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/mods/duelist/duelist_modification.dart';
 import 'package:gearforce/models/rules/options/special_unit_filter.dart';
 import 'package:gearforce/models/rules/south/south.dart';
+import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/role.dart';
 
 const String _baseRuleId = 'rule::south::ese';
@@ -82,12 +83,20 @@ final FactionRule rulePersonalEscort = FactionRule(
 
     return null;
   },
+  // personal escort units cannot have a command greater then the current force leader
+  availableCommandLevelOverride: (u) {
+    if (_notEnabledAllies().any((f) => u.faction == f)) {
+      return CommandLevel.allLevelsBelow(
+          u.roster?.selectedForceLeader?.commandLevel);
+    }
+    return null;
+  },
   isUnitCountWithinLimits: (cg, group, unit) {
     final faction = cg.roster?.factionNotifier.value;
     if (faction == null) {
       return null;
     }
-    if (unit.faction == faction) {
+    if (unit.faction == faction.factionType) {
       return null;
     }
 
@@ -96,19 +105,19 @@ final FactionRule rulePersonalEscort = FactionRule(
       return null;
     }
 
-    if (cg.roster?.selectedForceLeader?.group?.combatGroup == null ||
-        (cg.roster?.selectedForceLeader != null &&
-            cg.roster?.selectedForceLeader?.group?.combatGroup !=
-                group.combatGroup)) {
+    // If the unit is not an ally or primary faction it must be part of the personal escort
+    // personal escort units can only be added to the cg with the force leader
+    final forceLeadersCG = cg.roster?.selectedForceLeader?.combatGroup;
+    if (forceLeadersCG == null || forceLeadersCG != cg) {
       return false;
     }
-    // only 1 non primary or ally faction can be added
-    final notSelectedAllyFactions = _notEnabledAllies();
+    // There can also only be 1 unit that is a personal escort
+    final numberOfPersonalEscorts = cg.units
+        .where(
+            (u) => u != unit && _notEnabledAllies().any((f) => u.faction == f))
+        .length;
 
-    final numberOfNonAllies = cg.roster?.getAllUnits().where(
-        (u) => notSelectedAllyFactions.any((f) => u.faction == f && unit != u));
-
-    if (numberOfNonAllies != null && numberOfNonAllies.isNotEmpty) {
+    if (numberOfPersonalEscorts > 0) {
       return false;
     }
 
@@ -126,7 +135,8 @@ final FactionRule rulePersonalEscort = FactionRule(
     return null;
   },
   isRoleTypeUnlimited: (unit, target, group, ur) {
-    // only 1 non primary or ally faction can be added
+    // only 1 unit from the personal escort factions can be added that isn't
+    // an ally or the primary faction
     final notSelectedAllyFactions = _notEnabledAllies();
     if (notSelectedAllyFactions.any((f) => f == unit.faction)) {
       return false;
@@ -182,7 +192,7 @@ final FactionRule _allyNorth = FactionRule(
         ...SouthFilters,
       ],
       id: _ruleAllyNorthId),
-  description: 'May include models from the Northern',
+  description: 'May include models from the North',
 );
 
 final FactionRule _allyPeaceRiver = FactionRule(
@@ -238,7 +248,7 @@ final FactionRule _allyNuCoal = FactionRule(
   description: 'May include models from NuCoal',
 );
 
-FactionType _enabledAlly() {
+FactionType? _enabledAlly() {
   if (_allyNorth.isEnabled) {
     return FactionType.North;
   }
@@ -248,7 +258,7 @@ FactionType _enabledAlly() {
   if (_allyPeaceRiver.isEnabled) {
     return FactionType.PeaceRiver;
   }
-  return FactionType.None;
+  return null;
 }
 
 List<FactionType> _notEnabledAllies() {
