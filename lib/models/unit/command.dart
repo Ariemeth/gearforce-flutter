@@ -31,6 +31,23 @@ enum CommandLevel {
     }
   }
 
+  static List<CommandLevel> allLevelsBelow(CommandLevel? cl) {
+    final List<CommandLevel> results = [];
+
+    switch (cl) {
+      case CommandLevel.co:
+        results.add(CommandLevel.xo);
+      case CommandLevel.xo:
+        results.add(CommandLevel.cgl);
+      case CommandLevel.cgl:
+        results.add(CommandLevel.secic);
+        results.add(CommandLevel.none);
+      default:
+    }
+
+    return results;
+  }
+
   static CommandLevel GreaterOne(CommandLevel first, CommandLevel second) {
     if (first > second) {
       return first;
