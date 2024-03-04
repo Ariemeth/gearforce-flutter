@@ -37,12 +37,21 @@ enum CommandLevel {
     switch (cl) {
       case CommandLevel.co:
         results.add(CommandLevel.xo);
+        results.add(CommandLevel.cgl);
+        results.add(CommandLevel.secic);
+        results.add(CommandLevel.none);
+        break;
       case CommandLevel.xo:
         results.add(CommandLevel.cgl);
+        results.add(CommandLevel.secic);
+        results.add(CommandLevel.none);
+        break;
       case CommandLevel.cgl:
         results.add(CommandLevel.secic);
         results.add(CommandLevel.none);
+        break;
       default:
+        results.add(CommandLevel.none);
     }
 
     return results;
