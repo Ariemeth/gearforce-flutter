@@ -301,7 +301,9 @@ class DuelistModification extends BaseModification {
     final List<ModificationOption> _options = [];
     final traitToAdd = Trait.Stable();
 
-    u.weapons.forEach((weapon) {
+    u.weapons
+        .where((weapon) => !weapon.modes.every((wm) => wm == weaponModes.Melee))
+        .forEach((weapon) {
       _options.add(ModificationOption('${weapon.toString()}'));
     });
 
@@ -341,11 +343,9 @@ class DuelistModification extends BaseModification {
 
         if (modOptions.selectedOption != null &&
             newList.any((weapon) =>
-                weapon.toString() == modOptions.selectedOption?.text &&
-                weapon.hasReact)) {
-          var existingWeapon = newList.firstWhere((weapon) =>
-              weapon.toString() == modOptions.selectedOption?.text &&
-              weapon.hasReact);
+                weapon.toString() == modOptions.selectedOption?.text)) {
+          var existingWeapon = newList.firstWhere(
+              (weapon) => weapon.toString() == modOptions.selectedOption?.text);
           existingWeapon.bonusTraits.add(traitToAdd);
         }
         return newList;
