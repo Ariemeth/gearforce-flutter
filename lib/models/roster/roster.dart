@@ -18,7 +18,7 @@ class UnitRoster extends ChangeNotifier {
   String? name;
   late final ValueNotifier<Faction> factionNotifier;
   late final ValueNotifier<RuleSet> rulesetNotifer;
-  final Map<String, CombatGroup> _combatGroups = new Map<String, CombatGroup>();
+  final List<CombatGroup> _combatGroups = new List.empty(growable: true);
 
   int _totalCreated = 0;
   String _activeCG = '';
@@ -51,8 +51,8 @@ class UnitRoster extends ChangeNotifier {
         ValueNotifier<RuleSet>(factionNotifier.value.defaultSubFaction);
 
     final rulesetListener = () {
-      _combatGroups.forEach((key, value) {
-        value.validate(tryFix: tryFix);
+      _combatGroups.forEach((cg) {
+        cg.validate(tryFix: tryFix);
       });
       notifyListeners();
     };
@@ -68,12 +68,12 @@ class UnitRoster extends ChangeNotifier {
 
     rulesetNotifer.addListener(() {
       // Ensure each combat group is clear
-      _combatGroups.forEach((key, value) {
-        value.validate(tryFix: tryFix);
+      _combatGroups.forEach((cg) {
+        cg.validate(tryFix: tryFix);
       });
 
       if (_combatGroups.length > 1) {
-        _combatGroups.removeWhere((key, value) => value.units.length == 0);
+        _combatGroups.removeWhere((cg) => cg.units.length == 0);
         if (_combatGroups.length == 0) {
           createCG();
         }
@@ -96,7 +96,7 @@ class UnitRoster extends ChangeNotifier {
 
     _isEliteForce = newValue;
 
-    _combatGroups.forEach((id, cg) {
+    _combatGroups.forEach((cg) {
       cg.isEliteForce = newValue;
     });
 
@@ -135,8 +135,8 @@ class UnitRoster extends ChangeNotifier {
 
   List<Unit> getAllUnits() {
     final List<Unit> allUnits = [];
-    _combatGroups.entries.forEach((me) {
-      allUnits.addAll(me.value.units);
+    _combatGroups.forEach((cg) {
+      allUnits.addAll(cg.units);
     });
     return allUnits;
   }
@@ -146,7 +146,7 @@ class UnitRoster extends ChangeNotifier {
     final result = '\nRoster:\n' +
         '\tPlayer: $player \tForce Name: $name\n' +
         '\tFaction: ${factionNotifier.value.name} \\ ${rulesetNotifer.value.name}\n' +
-        '${_combatGroups.values.join('\n')}\n\n';
+        '${_combatGroups.join('\n')}\n\n';
 
     return result;
   }
@@ -177,7 +177,7 @@ class UnitRoster extends ChangeNotifier {
               .indexOf(selectedForceLeader!),
         },
         'totalCreated': _totalCreated,
-        'cgs': _combatGroups.entries.map((e) => e.value.toJson()).toList(),
+        'cgs': _combatGroups.map((e) => e.toJson()).toList(),
         'version': _currentRosterVersion,
         'rulesVersion': rulesVersion,
         'isEliteForce': isEliteForce,
@@ -227,7 +227,7 @@ class UnitRoster extends ChangeNotifier {
         json['isEliteForce'] != null ? json['isEliteForce'] as bool : false;
 
     var decodedCG = json['cgs'];
-    decodedCG
+    final cgList = decodedCG
         .map((e) => CombatGroup.fromJson(
               e,
               data,
@@ -235,10 +235,11 @@ class UnitRoster extends ChangeNotifier {
               ur.rulesetNotifer.value,
               ur,
             ))
-        .toList()
-      ..forEach((element) {
-        ur.addCG(element);
-      });
+        .toList();
+
+    cgList.forEach((cg) {
+      ur.addCG(cg);
+    });
 
     try {
       final leaderJson = json['forceLeader'];
@@ -271,7 +272,8 @@ class UnitRoster extends ChangeNotifier {
     this.factionNotifier.value = ur.factionNotifier.value;
     this.rulesetNotifer.value = ur.rulesetNotifer.value;
     this._activeCG = ur._activeCG;
-    ur._combatGroups.forEach((key, cg) {
+    this._combatGroups.clear();
+    ur._combatGroups.forEach((cg) {
       this.addCG(cg);
     });
     this._totalCreated = ur._totalCreated;
@@ -279,15 +281,32 @@ class UnitRoster extends ChangeNotifier {
     this.selectedForceLeader = ur.selectedForceLeader;
   }
 
-  CombatGroup? getCG(String name) => _combatGroups[name];
+  CombatGroup? getCG(String name) {
+    if (_combatGroups.any((cg) => cg.name == name)) {
+      return _combatGroups.firstWhere((cg) => cg.name == name);
+    }
+    return null;
+  }
 
   void addCG(CombatGroup cg) {
+    cg.roster = this;
+    if (_combatGroups.any((value) => value.name == cg.name)) {
+      int count = 1;
+      String newName = cg.name;
+      while (_combatGroups.any((value) => value.name == newName)) {
+        print('Duplicate name found: $newName');
+        newName = '${cg.name} ($count)';
+        count++;
+      }
+      cg.name = newName;
+    }
+
     cg.addListener(() {
       validate();
       notifyListeners();
     });
-    cg.roster = this;
-    _combatGroups[cg.name] = cg;
+
+    _combatGroups.add(cg);
     if (_activeCG == '') {
       _activeCG = cg.name;
     }
@@ -297,18 +316,20 @@ class UnitRoster extends ChangeNotifier {
 
   void removeCG(String name) {
     // if the cg isn't part of the roster no need to do any more checks
-    if (!_combatGroups.keys.any((key) => key == name)) {
+    if (!_combatGroups.any((cg) => cg.name == name)) {
       return;
     }
 
-    _combatGroups[name]?.roster = null;
+    _combatGroups.where((cg) => cg.name == name).forEach((cg) {
+      cg.roster = null;
+    });
 
-    _combatGroups.remove(name);
+    _combatGroups.removeWhere((cg) => cg.name == name);
     if (_activeCG == name) {
       _activeCG = '';
     }
     if (_combatGroups.isNotEmpty) {
-      _activeCG = _combatGroups.keys.first;
+      _activeCG = _combatGroups.first.name;
     } else {
       createCG();
     }
@@ -326,29 +347,37 @@ class UnitRoster extends ChangeNotifier {
 
   int totalTV() {
     var result = 0;
-    _combatGroups.forEach((key, value) {
-      result += value.totalTV();
+    _combatGroups.forEach((cg) {
+      result += cg.totalTV();
     });
 
     return result;
   }
 
-  CombatGroup? activeCG() => _combatGroups[_activeCG];
+  CombatGroup? activeCG() {
+    if (_activeCG == '') {
+      return null;
+    }
+    if (!_combatGroups.any((cg) => cg.name == _activeCG)) {
+      return null;
+    }
+    return _combatGroups.firstWhere((cg) => cg.name == _activeCG);
+  }
+
   void setActiveCG(String name) {
     if (name == _activeCG) {
       return;
     }
-    if (_combatGroups.containsKey(name)) {
+    if (_combatGroups.any((cg) => cg.name == name)) {
       _activeCG = name;
       notifyListeners();
     }
   }
 
-  List<CombatGroup> getCGs() =>
-      _combatGroups.entries.map((e) => e.value).toList();
+  List<CombatGroup> getCGs() => new List<CombatGroup>.from(_combatGroups);
 
   Unit? getFirstUnitWithCommand(CommandLevel cl) {
-    for (var cg in _combatGroups.values) {
+    for (var cg in _combatGroups) {
       final u = cg.getUnitWithCommand(cl);
       if (u != null) {
         return u;
@@ -359,7 +388,7 @@ class UnitRoster extends ChangeNotifier {
 
   List<Unit> getLeaders(CommandLevel? cl) {
     final List<Unit> leaders = [];
-    _combatGroups.forEach((_, cg) {
+    _combatGroups.forEach((cg) {
       leaders.addAll(cg.getLeaders(cl));
     });
     return leaders;
@@ -369,7 +398,7 @@ class UnitRoster extends ChangeNotifier {
   // specific mod.
   List<CombatGroup?> combatGroupsWithMod(String id) {
     List<CombatGroup?> results = [];
-    _combatGroups.forEach((_, cg) {
+    _combatGroups.forEach((cg) {
       if (cg.modCount(id) > 0) {
         results.add(cg);
       }
@@ -380,15 +409,14 @@ class UnitRoster extends ChangeNotifier {
   // Retrieve a list of units that have the specified mod attached.
   List<Unit> unitsWithMod(String id) {
     List<Unit> listOfUnits = [];
-    _combatGroups
-        .forEach((name, cg) => listOfUnits.addAll(cg.unitsWithMod(id)));
+    _combatGroups.forEach((cg) => listOfUnits.addAll(cg.unitsWithMod(id)));
     return listOfUnits;
   }
 
   List<Unit> unitsWithTrait(Trait trait) {
     final List<Unit> results = [];
 
-    _combatGroups.entries.map((e) => e.value).forEach((cg) {
+    _combatGroups.forEach((cg) {
       results.addAll(cg.unitsWithTrait(trait));
     });
 
@@ -415,7 +443,7 @@ class UnitRoster extends ChangeNotifier {
 
   List<Unit> get duelists {
     final List<Unit> results = [];
-    _combatGroups.forEach((_, cg) {
+    _combatGroups.forEach((cg) {
       results.addAll(cg.duelists);
     });
     return results;
@@ -423,7 +451,7 @@ class UnitRoster extends ChangeNotifier {
 
   int totalAirstrikeCounters() {
     var total = 0;
-    _combatGroups.forEach((key, cg) {
+    _combatGroups.forEach((cg) {
       total +=
           cg.units.where((u) => u.type == ModelType.AirstrikeCounter).length;
     });
@@ -464,7 +492,7 @@ class UnitRoster extends ChangeNotifier {
       selectedForceLeader = forceLeaders.firstOrNull;
     }
 
-    _combatGroups.forEach((key, cg) {
+    _combatGroups.forEach((cg) {
       final ve = cg.validate(tryFix: tryFix);
 
       validationErrors.addAll(ve.validations);

@@ -4,6 +4,7 @@ import 'package:gearforce/models/rules/options/combat_group_options.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/screens/roster/combatGroup/delete_combat_group_dialog.dart';
 import 'package:gearforce/screens/roster/combatGroup/option_line.dart';
+import 'package:gearforce/screens/roster/combatGroup/rename_combat_group_dialog.dart';
 import 'package:gearforce/widgets/options_section_title.dart';
 
 const double _optionSectionWidth = 400;
@@ -46,6 +47,34 @@ class _CombatGroupOptionsDialogState extends State<CombatGroupOptionsDialog> {
               '${widget.cg.name} options',
               style: TextStyle(fontSize: 24),
               maxLines: 1,
+            ),
+            Text(''),
+            ElevatedButton(
+              onPressed: () {
+                Future<RenameCGOptionResult?> futureResult =
+                    showDialog<RenameCGOptionResult>(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return RenameCombatGroupDialog(
+                            currentName: widget.cg.name,
+                          );
+                        });
+
+                futureResult.then((value) {
+                  switch (value?.resultType) {
+                    case RenameCGOptionResultType.Rename:
+                      final newName = value?.newName;
+                      if (newName != null) {
+                        setState(() {
+                          widget.cg.name = newName;
+                        });
+                      }
+                      break;
+                    default:
+                  }
+                });
+              },
+              child: Text('Rename'),
             ),
             Text(''),
             options.isNotEmpty
