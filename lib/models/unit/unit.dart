@@ -699,7 +699,7 @@ class Unit extends ChangeNotifier {
 
   @override
   String toString() {
-    return 'Unit: $name, TV: $tv, Rank: ${commandLevel.name}, Mods: $modNames';
+    return 'Unit: $name, Hash: $hashCode, TV: $tv, Rank: ${commandLevel.name}, Mods: $modNames';
   }
 }
 
