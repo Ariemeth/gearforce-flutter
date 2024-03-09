@@ -21,8 +21,8 @@ class _CombatGroupsDisplayState extends State<CombatGroupsDisplay>
     with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
-    final data = Provider.of<Data>(context);
-    final roster = Provider.of<UnitRoster>(context);
+    final data = context.watch<Data>();
+    final roster = context.watch<UnitRoster>();
     final cgTabButtons = roster
         .getCGs()
         .map((e) => Tab(
@@ -75,6 +75,11 @@ class _CombatGroupsDisplayState extends State<CombatGroupsDisplay>
               },
             );
 
+            final cgTabPanels = roster
+                .getCGs()
+                .map((e) => CombatGroupWidget(data, roster, name: e.name))
+                .toList();
+
             return Flexible(
               fit: FlexFit.loose,
               child: Scaffold(
@@ -97,11 +102,7 @@ class _CombatGroupsDisplayState extends State<CombatGroupsDisplay>
                       child: Text(
                           'Should not be here!\nClick on any of the existing combat group tabs to go back'),
                     ),
-                    ...roster
-                        .getCGs()
-                        .map((e) =>
-                            CombatGroupWidget(data, roster, name: e.name))
-                        .toList(),
+                    ...cgTabPanels,
                   ],
                 ),
               ),

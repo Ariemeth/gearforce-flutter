@@ -17,10 +17,40 @@ import 'package:gearforce/models/validation/validations.dart';
 class CombatGroup extends ChangeNotifier {
   Group _primary = Group(GroupType.Primary);
   Group _secondary = Group(GroupType.Secondary);
-  final String name;
+  String _name;
   bool _isVeteran = false;
   UnitRoster? roster;
   List<CombatGroupOption> _options = [];
+
+  CombatGroup(String name, {Group? primary, Group? secondary, this.roster})
+      : _name = name {
+    this.primary = primary == null ? Group(GroupType.Primary) : primary;
+    this.secondary = secondary == null ? Group(GroupType.Secondary) : secondary;
+    _resetOptions();
+  }
+
+  String get name => _name;
+  set name(String newValue) {
+    if (_name == newValue) {
+      return;
+    }
+
+    if (roster != null) {
+      if (roster!.getCGs().any((value) => value.name == newValue)) {
+        int count = 1;
+        String newName = newValue;
+        while (roster!.getCGs().any((value) => value.name == newName)) {
+          print('Duplicate name found, changing rename to $newName');
+          newName = '${newValue} ($count)';
+          count++;
+        }
+        newValue = newName;
+      }
+    }
+
+    _name = newValue;
+    notifyListeners();
+  }
 
   /// Retrieve the options associated with this [CombatGroup].
   List<CombatGroupOption> get options => _options.toList();
@@ -90,12 +120,6 @@ class CombatGroup extends ChangeNotifier {
   bool get isEliteForce => roster != null && roster!.isEliteForce;
   set isEliteForce(bool newValue) {
     notifyListeners();
-  }
-
-  CombatGroup(this.name, {Group? primary, Group? secondary, this.roster}) {
-    this.primary = primary == null ? Group(GroupType.Primary) : primary;
-    this.secondary = secondary == null ? Group(GroupType.Secondary) : secondary;
-    _resetOptions();
   }
 
   Map<String, dynamic> toJson() => {

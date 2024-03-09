@@ -6,6 +6,7 @@ import 'package:gearforce/screens/roster/header/faction_rules_dialog.dart';
 import 'package:gearforce/screens/roster/header/select_faction.dart';
 import 'package:gearforce/screens/roster/header/select_force_leader.dart';
 import 'package:gearforce/screens/roster/header/select_subfaction.dart';
+import 'package:gearforce/screens/roster/roster_tv_totals_display_line.dart';
 import 'package:gearforce/screens/upgrades/unit_upgrade_button.dart';
 import 'package:gearforce/widgets/display_value.dart';
 import 'package:provider/provider.dart';
@@ -294,15 +295,13 @@ class RosterHeaderInfo extends StatelessWidget {
     List<Widget> tvs = [];
 
     roster.getCGs().forEach((cg) {
-      tvs.add(DisplayValue(text: '${cg.name} TV:', value: cg.totalTV()));
+      tvs.add(
+        RosterTVTotalsDisplayLine(
+          text: cg.name,
+          value: cg.totalTV(),
+        ),
+      );
     });
-    var tvAllCGs = GridView.count(
-      crossAxisCount: 2,
-      children: tvs,
-      shrinkWrap: true,
-      childAspectRatio: 270 / 75,
-      clipBehavior: Clip.antiAlias,
-    );
 
     var tvPanel = Column(children: [
       DisplayValue(
@@ -312,17 +311,15 @@ class RosterHeaderInfo extends StatelessWidget {
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(1),
           child: Column(
-            children: [
-              tvAllCGs,
-            ],
+            children: tvs,
           ),
           primary: true,
         ),
       ),
     ]);
     return SizedBox(
-      width: 270,
-      height: 145,
+      width: 310,
+      height: 210,
       child: tvPanel,
     );
   }
