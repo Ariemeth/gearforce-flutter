@@ -60,7 +60,7 @@
       "name": "Commando N-KIDU",
       "variants": [
         {
-          "model": "Commando  N-KIDU",
+          "model": "Commando N-KIDU",
           "tv": 6,
           "role": "GP+, SK, SO",
           "mr": "H:8",
@@ -77,7 +77,7 @@
           "height": 1.5
         },
         {
-          "model": "ECM Commando  N-KIDU",
+          "model": "ECM Commando N-KIDU",
           "tv": 7,
           "role": "GP, SK, SO",
           "mr": "H:8",
@@ -94,7 +94,7 @@
           "height": 1.5
         },
         {
-          "model": "EMT Commando  N-KIDU",
+          "model": "EMT Commando N-KIDU",
           "tv": 6,
           "role": "GP, SK, SO",
           "mr": "H:8",
@@ -189,7 +189,7 @@
       "name": "Recce N-KIDU",
       "variants": [
         {
-          "model": "Recce  N-KIDU",
+          "model": "Recce N-KIDU",
           "tv": 4,
           "role": "GP+, RC, FS",
           "mr": "W:6",
@@ -206,7 +206,7 @@
           "height": 1
         },
         {
-          "model": "Hunter Recce  N-KIDU",
+          "model": "Hunter Recce N-KIDU",
           "tv": 4,
           "role": "GP+, RC, FS",
           "mr": "W:6",
@@ -223,7 +223,7 @@
           "height": 1
         },
         {
-          "model": "MP Recce  N-KIDU",
+          "model": "MP Recce N-KIDU",
           "tv": 4,
           "role": "GP+, RC, FS",
           "mr": "W:6",
@@ -240,7 +240,7 @@
           "height": 1
         },
         {
-          "model": "ECM Recce  N-KIDU",
+          "model": "ECM Recce N-KIDU",
           "tv": 4,
           "role": "GP+, RC, FS",
           "mr": "W:6",
@@ -257,7 +257,7 @@
           "height": 1
         },
         {
-          "model": "Pazu-Recce  N-KIDU*",
+          "model": "Pazu-Recce N-KIDU*",
           "tv": 5,
           "role": "GP+, RC, FS",
           "mr": "W:6",
@@ -318,7 +318,7 @@
       "name": "Support N-KIDU",
       "variants": [
         {
-          "model": "Support  N-KIDU",
+          "model": "Support N-KIDU",
           "tv": 5,
           "role": "GP, SK, FS",
           "mr": "G:6",
@@ -335,7 +335,7 @@
           "height": 1
         },
         {
-          "model": "Missile Support  N-KIDU",
+          "model": "Missile Support N-KIDU",
           "tv": 7,
           "role": "GP, SK, FS",
           "mr": "G:6",
@@ -352,7 +352,7 @@
           "height": 1
         },
         {
-          "model": "Mortar Support  N-KIDU",
+          "model": "Mortar Support N-KIDU",
           "tv": 5,
           "role": "GP, SK, FS",
           "mr": "G:6",
@@ -369,7 +369,7 @@
           "height": 1
         },
         {
-          "model": "Pazu-Support  N-KIDU*",
+          "model": "Pazu-Support N-KIDU*",
           "tv": 7,
           "role": "GP, SK, FS",
           "mr": "G:6",
@@ -481,7 +481,7 @@
           "height": 1
         },
         {
-          "model": "Gunner Support  APE",
+          "model": "Gunner Support APE",
           "tv": 8,
           "role": "GP, SK, FS",
           "mr": "W:6",
@@ -515,7 +515,7 @@
           "height": 1
         },
         {
-          "model": "Fire Support  APE",
+          "model": "Fire Support APE",
           "tv": 8,
           "role": "GP, SK, FS",
           "mr": "W:6",
@@ -532,7 +532,7 @@
           "height": 1
         },
         {
-          "model": "Bazooka Support  APE",
+          "model": "Bazooka Support APE",
           "tv": 8,
           "role": "GP, SK, FS",
           "mr": "W:6",

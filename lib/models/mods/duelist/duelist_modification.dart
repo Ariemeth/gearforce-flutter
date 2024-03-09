@@ -400,9 +400,11 @@ class DuelistModification extends BaseModification {
         if (modOptions.selectedOption != null &&
             newList.any((weapon) =>
                 weapon.toString() == modOptions.selectedOption?.text)) {
-          var existingWeapon = newList.firstWhere(
+          final existingWeapon = newList.firstWhere(
               (weapon) => weapon.toString() == modOptions.selectedOption?.text);
-          existingWeapon.bonusTraits.add(traitToAdd);
+          final index = newList.indexOf(existingWeapon);
+          newList[index] =
+              Weapon.fromWeapon(existingWeapon, addTraits: [traitToAdd]);
         }
         return newList;
       });

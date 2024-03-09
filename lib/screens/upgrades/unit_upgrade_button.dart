@@ -69,6 +69,7 @@ void showUnitUpgradeDialog(
       print('         mods: ${unit.modNames.toString()}');
       print('      actions: ${unit.actions}');
       print('           tv: ${unit.tv}');
+      print('         hash: ${unit.hashCode}');
     }
   });
 }
