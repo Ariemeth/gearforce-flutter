@@ -453,30 +453,28 @@ class Unit extends ChangeNotifier {
     if (commandLevel != CommandLevel.none) {
       // all commanders get 1 base cp
       cp = cp + 1;
-      cp = cp + _calculateSkillPoints();
+      // commanders convert their sp to cp
+      cp = cp + skillPoints;
     }
 
     return cp;
   }
 
   int get skillPoints {
-    return _calculateSkillPoints();
-  }
-
-  int _calculateSkillPoints() {
-    var sp = core.attribute(UnitAttribute.sp);
+    var sp = 0;
 
     for (var mod in this._mods) {
       sp = mod.applyMods(UnitAttribute.sp, sp);
     }
 
-    final numSPMods =
-        traits.where((trait) => trait.isSameType(Trait.SP(0))).length;
-
-    sp += numSPMods;
-
-    if (isVeteran) {
+    if (this.isVeteran) {
       sp += 1;
+    }
+
+    for (var trait in this.traits) {
+      if (trait.isSameType(Trait.SP(0))) {
+        sp += trait.level ?? 0;
+      }
     }
 
     return sp;
