@@ -5,7 +5,7 @@ import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart'
 import 'package:gearforce/models/rules/eden/eden.dart';
 import 'package:gearforce/models/rules/faction_rule.dart';
 
-const String _baseRuleId = 'rule::eden::core';
+const String _baseRuleId = 'rule::eden::enh';
 const String _ruleChampionsId = '$_baseRuleId::10';
 const String _ruleIsharaId = '$_baseRuleId::20';
 const String _ruleWellSupportedId = '$_baseRuleId::30';

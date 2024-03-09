@@ -274,32 +274,31 @@ class FactionRule extends ChangeNotifier {
     };
   }
 
-  factory FactionRule.from(FactionRule original,
-      {String? name,
-      String? id,
-      List<FactionRule>? options,
-      bool? isEnabled,
-      bool? canBeToggled,
-      bool Function(List<FactionRule>)? requirementCheck,
-      bool Function(CombatGroup?, UnitRoster?)? cgCheck,
-      List<CombatGroupOption> Function()? combatGroupOption,
-      List<FactionModification> Function(UnitRoster ur, CombatGroup cg, Unit u)?
-          factionMods,
-      SpecialUnitFilter? Function(List<CombatGroupOption>? cgOptions)?
-          unitFilter,
-      String? description,
-      Function()? onEnabled,
-      Function()? onDisabled}) {
+  factory FactionRule.from(
+    FactionRule original, {
+    String? name,
+    String? id,
+    List<FactionRule>? options,
+    bool? isEnabled,
+    bool? canBeToggled,
+    bool Function(List<FactionRule>)? requirementCheck,
+    bool Function(CombatGroup?, UnitRoster?)? cgCheck,
+    List<CombatGroupOption> Function()? combatGroupOption,
+    List<FactionModification> Function(UnitRoster ur, CombatGroup cg, Unit u)?
+        factionMods,
+    SpecialUnitFilter? Function(List<CombatGroupOption>? cgOptions)? unitFilter,
+    String? description,
+    Function()? onEnabled,
+    Function()? onDisable,
+  }) {
     return FactionRule(
-      name: name != null ? name : original.name,
-      id: id != null ? id : original.id,
-      options: options != null ? options : original._options?.toList(),
-      isEnabled: isEnabled != null ? isEnabled : original.isEnabled,
-      canBeToggled: canBeToggled != null ? canBeToggled : original.canBeToggled,
-      description: description != null ? description : original.description,
-      requirementCheck: requirementCheck != null
-          ? requirementCheck
-          : original.requirementCheck,
+      name: name ?? original.name,
+      id: id ?? original.id,
+      options: options ?? original._options?.toList(),
+      isEnabled: isEnabled ?? original.isEnabled,
+      canBeToggled: canBeToggled ?? original.canBeToggled,
+      description: description ?? original.description,
+      requirementCheck: requirementCheck ?? original.requirementCheck,
       duelistModCheck: original.duelistModCheck,
       duelistModelCheck: original.duelistModelCheck,
       duelistMaxNumberOverride: original.duelistMaxNumberOverride,
@@ -314,18 +313,16 @@ class FactionRule extends ChangeNotifier {
       isRoleTypeUnlimited: original.isRoleTypeUnlimited,
       isUnitCountWithinLimits: original.isUnitCountWithinLimits,
       unitCountOverride: original.unitCountOverride,
-      combatGroupOption: combatGroupOption != null
-          ? combatGroupOption
-          : original.combatGroupOption,
-      factionMods: factionMods != null ? factionMods : original.factionMods,
-      unitFilter: unitFilter != null ? unitFilter : original.unitFilter,
+      combatGroupOption: combatGroupOption ?? original.combatGroupOption,
+      factionMods: factionMods ?? original.factionMods,
+      unitFilter: unitFilter ?? original.unitFilter,
       onModAdded: original.onModAdded,
       onModRemoved: original.onModRemoved,
       modifyWeapon: original.modifyWeapon,
       modifyTraits: original.modifyTraits,
-      onEnabled: onEnabled != null ? onEnabled : original.onEnabled,
-      onDisabled: onDisabled != null ? onDisabled : original.onDisabled,
-      cgCheck: cgCheck != null ? cgCheck : original.cgCheck,
+      onEnabled: onEnabled ?? original.onEnabled,
+      onDisabled: onDisable ?? original.onDisabled,
+      cgCheck: cgCheck ?? original.cgCheck,
       onForceLeaderChanged: original.onForceLeaderChanged,
       onUnitAdded: original.onUnitAdded,
       onUnitRemoved: original.onUnitRemoved,
