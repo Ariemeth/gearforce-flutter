@@ -115,27 +115,11 @@ class EdenMods extends FactionModification {
       description: '+Lance - MSG (React, Reach:2)',
     );
 
-    final existingBrawls = unit
-        .attribute<List<Trait>>(UnitAttribute.traits, modIDToSkip: lancersId)
-        .where((t) => Trait.Brawl(1).isSameType(t))
-        .toList();
-
-    if (existingBrawls.isEmpty) {
-      fm.addMod<List<Trait>>(
-        UnitAttribute.traits,
-        createAddTraitToList(Trait.Brawl(2)),
-        description: '+Brawl:2',
-      );
-    } else {
-      final existingBrawl = existingBrawls.first;
-      final newBrawl =
-          Trait.fromTrait(existingBrawl, level: existingBrawl.level! + 2);
-      fm.addMod<List<Trait>>(
-        UnitAttribute.traits,
-        createReplaceTraitInList(oldValue: existingBrawl, newValue: newBrawl),
-        description: '-Brawl:${existingBrawl.level}+Brawl:${newBrawl.level}',
-      );
-    }
+    fm.addMod<List<Trait>>(
+      UnitAttribute.traits,
+      createAddOrCombineTraitToList(Trait.Brawl(2)),
+      description: '+Brawl:2',
+    );
 
     return fm;
   }
@@ -210,18 +194,22 @@ class EdenMods extends FactionModification {
         return false;
       }
 
-      if (u.type == ModelType.Gear && u.faction == FactionType.Eden) {
-        return true;
+      if (u.type != ModelType.Gear) {
+        return false;
       }
 
-      return false;
+      if (!(u.faction == FactionType.Eden || u.core.frame == 'Druid')) {
+        return false;
+      }
+
+      return true;
     };
     final mvb = buildWeapon('MVB', hasReact: true);
     assert(mvb != null);
     final halberd = Weapon.fromWeapon(mvb!,
         name: 'Halberd',
-        addTraits: [Trait.Reach(2)],
-        range: Range(0, 2, null, hasReach: true));
+        addTraits: [Trait.Reach(1)],
+        range: Range(0, 1, null, hasReach: true));
 
     final fm = EdenMods(
       name: 'Ishara',
@@ -247,22 +235,8 @@ class EdenMods extends FactionModification {
       return newList;
     });
 
-    fm.addMod<List<Trait>>(UnitAttribute.traits, (value) {
-      var newList = new List<Trait>.from(value);
-
-      var newBrawl = Trait.Brawl(1);
-      if (newList.any((t) => newBrawl.name == t.name)) {
-        final existingBrawl =
-            newList.firstWhere((t) => newBrawl.name == t.name);
-        newBrawl = Trait.fromTrait(existingBrawl,
-            level: existingBrawl.level! + newBrawl.level!);
-        newList.remove(existingBrawl);
-      }
-
-      newList.add(newBrawl);
-
-      return newList;
-    },
+    fm.addMod<List<Trait>>(
+        UnitAttribute.traits, createAddOrCombineTraitToList(Trait.Brawl(1)),
         description: 'Golems may have their melee weapon upgraded to a' +
             ' halberd (MVB with React, Reach:2). Add Brawl:1 trait, or' +
             ' increase existing Brawl by 1');
