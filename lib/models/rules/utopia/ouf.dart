@@ -12,6 +12,7 @@ import 'package:gearforce/models/rules/north/north.dart' as north;
 import 'package:gearforce/models/rules/options/combat_group_options.dart';
 import 'package:gearforce/models/rules/options/special_unit_filter.dart';
 import 'package:gearforce/models/rules/utopia/utopia.dart';
+import 'package:gearforce/models/unit/frame.dart';
 import 'package:gearforce/models/validation/validations.dart';
 
 const String _baseRuleId = 'rule::utopia::ouf';
@@ -257,8 +258,11 @@ final FactionRule ruleFrankNKidu = FactionRule(
   name: 'Frank-N-KIDU',
   id: _ruleFrankNKiduId,
   veteranModCheck: (u, cg, {required modID}) {
+    if (!u.core.frame.contains('N-KIDU')) {
+      return null;
+    }
     if (!u.hasMod(frankNKiduId)) {
-      return false;
+      return null;
     }
     if (!u.getMods().where((m) => m.id != modID).any((m) =>
         VeteranModification.isVetMod(m.id) ||
@@ -266,18 +270,21 @@ final FactionRule ruleFrankNKidu = FactionRule(
       return true;
     }
 
-    return false;
+    return null;
   },
   duelistModCheck: (u, cg, {required modID}) {
+    if (!u.core.frame.contains('N-KIDU')) {
+      return null;
+    }
     if (!u.hasMod(frankNKiduId)) {
-      return false;
+      return null;
     }
     if (!u.getMods().where((m) => m.id != modID).any((m) =>
         VeteranModification.isVetMod(m.id) ||
         DuelistModification.isDuelistMod(m.id))) {
       return true;
     }
-    return false;
+    return null;
   },
   factionMods: (ur, cg, u) => [UtopiaMods.frankNKidu()],
   description: 'One N-KIDU per combat group may purchase one veteran or' +
