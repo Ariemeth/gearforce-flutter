@@ -64,7 +64,9 @@ class Unit extends ChangeNotifier {
     ruleset.availableUnitFilters(cg?.options).forEach((sfilter) {
       core.addAll(ruleset.availableUnits(specialUnitFilter: sfilter));
     });
-    final variant = json['variant'] as String;
+    final loadVariant = json['variant'] as String;
+    // account for any lists made with the units that had double spaces in their names
+    final variant = loadVariant.replaceAll('  ', ' ');
     Unit u;
     try {
       u = core.firstWhere((unit) => unit.core.name == variant);
