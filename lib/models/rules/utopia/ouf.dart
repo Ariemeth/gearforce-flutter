@@ -12,7 +12,6 @@ import 'package:gearforce/models/rules/north/north.dart' as north;
 import 'package:gearforce/models/rules/options/combat_group_options.dart';
 import 'package:gearforce/models/rules/options/special_unit_filter.dart';
 import 'package:gearforce/models/rules/utopia/utopia.dart';
-import 'package:gearforce/models/unit/frame.dart';
 import 'package:gearforce/models/validation/validations.dart';
 
 const String _baseRuleId = 'rule::utopia::ouf';
