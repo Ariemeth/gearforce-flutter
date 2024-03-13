@@ -112,16 +112,17 @@ class Weapon {
       result = '$numberOf X ';
     }
 
-    if (combo != null) {
-      result = '$result$abbreviation/${combo!.abbreviation}';
-    } else {
-      result = '$result$abbreviation';
-    }
+    result = '$result$abbreviation';
 
     if (bonusTraits.isNotEmpty) {
       result =
           '$result (${bonusTraits.toString().replaceAll(RegExp(r'\[|\]|,'), '')})';
     }
+
+    if (combo != null) {
+      result = '$result/${combo!.toString()}';
+    }
+
     return result;
   }
 
