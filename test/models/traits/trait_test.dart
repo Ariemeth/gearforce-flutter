@@ -15,7 +15,7 @@ void main() {
   });
 
   test('test creating a trait with a level', () {
-    const traitName = 'AE';
+    const traitName = 'Brawl';
     const traitLevel = 2;
     const toString = '$traitName:$traitLevel';
 
@@ -64,7 +64,7 @@ void main() {
   });
 
   test('test fromString with trait with level', () {
-    const traitName = 'AE';
+    const traitName = 'Brawl';
     const level = 2;
     const isAux = false;
     const toString = '$traitName:$level';
@@ -94,7 +94,7 @@ void main() {
 
   test('test fromString with vuln trait', () {
     const traitName = 'Vuln';
-    const vulnType = "Fire";
+    const vulnType = "F";
     const toString = '$traitName:$vulnType';
 
     final w = Trait.fromString(toString);
@@ -106,7 +106,7 @@ void main() {
 
   test('test fromString with resist trait', () {
     const traitName = 'Resist';
-    const vulnType = "Fire";
+    const vulnType = "F";
     const toString = '$traitName:$vulnType';
 
     final w = Trait.fromString(toString);

@@ -28,6 +28,30 @@ class TestTable {
 }
 
 void main() {
+  test('test weapon combos', () {
+    final weapon1 = 'LAC';
+    final weapon2 = 'LAC/LGL';
+    final weapon3 = 'HRC (Apex)/HVB';
+    final weapon4 = 'LRC (AA)/HVB (Precise)';
+    final weapon5 = 'MRC (Aux)/LVB (Precise Auto)';
+    final weapon6 = 'HRC (T Aux)/HVB (Precise Auto)';
+    final weapon7 = 'BB';
+
+    final weaponList = [
+      weapon1,
+      weapon2,
+      weapon3,
+      weapon4,
+      weapon5,
+      weapon6,
+      weapon7
+    ];
+    weaponList.forEach((w) {
+      final weapon = buildWeapon(w);
+      expect(weapon.toString(), w);
+    });
+  });
+
   final testTables = [
     TestTable(
       code: 'AAM',

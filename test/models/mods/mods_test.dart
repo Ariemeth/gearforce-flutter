@@ -150,7 +150,7 @@ void main() {
 
   test('test createMultiReplaceInList mod add 1 remove 1', () {
     final weaponNew = buildWeapon('LATM')!;
-    final weaponOld = buildWeapon('MRL (TLink)')!;
+    final weaponOld = buildWeapon('MRL (T Link)')!;
     final mod = createMultiReplaceWeaponsInList(
         oldItems: [weaponOld], newItems: [weaponNew]);
     final List<Weapon> weapons = [weaponOld];

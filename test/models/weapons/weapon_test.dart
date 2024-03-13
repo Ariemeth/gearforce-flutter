@@ -59,7 +59,7 @@ void main() {
     const weaponName = 'Autocannon';
     const mode = weaponModes.Direct;
     const weaponDamage = 1;
-    const trait = const Trait(name: 'AE', level: 1);
+    const trait = const Trait(name: 'Brawl', level: 1);
     const range = Range(12, 36, 72);
 
     const w = Weapon(
@@ -87,7 +87,7 @@ void main() {
     const weaponName = 'Autocannon';
     const mode = weaponModes.Direct;
     const weaponDamage = 1;
-    const trait = const Trait(name: 'AE', level: 1);
+    const trait = const Trait(name: 'Brawl', level: 1);
     const range = Range(12, 36, 72);
 
     const w = Weapon(
@@ -116,7 +116,7 @@ void main() {
     const weaponName = 'Autocannon';
     const mode = weaponModes.Direct;
     const weaponDamage = 1;
-    const trait = const Trait(name: 'AE', level: 1);
+    const trait = const Trait(name: 'Brawl', level: 1);
     const range = Range(12, 36, 72);
 
     const w = Weapon(
@@ -136,7 +136,7 @@ void main() {
     const weaponName = 'Autocannon';
     const mode = weaponModes.Direct;
     const weaponDamage = 1;
-    const trait = const Trait(name: 'AE', level: 1);
+    const trait = const Trait(name: 'Brawl', level: 1);
     const range = Range(12, 36, 72);
 
     const w = Weapon(
@@ -156,7 +156,7 @@ void main() {
     const weaponName = 'Autocannon';
     const mode = weaponModes.Direct;
     const weaponDamage = 1;
-    const trait = const Trait(name: 'AE', level: 1);
+    const trait = const Trait(name: 'Brawl', level: 1);
     const range = Range(12, 36, 72);
 
     const w = Weapon(
@@ -180,7 +180,7 @@ void main() {
     const weaponName = 'Autocannon';
     const mode = weaponModes.Direct;
     const weaponDamage = 1;
-    const trait = const Trait(name: 'AE', level: 1);
+    const trait = const Trait(name: 'Brawl', level: 1);
     const range = Range(12, 36, 72);
 
     const w = Weapon(

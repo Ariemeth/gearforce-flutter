@@ -5,13 +5,15 @@ import 'package:gearforce/models/weapons/weapon_modes.dart';
 
 final weaponMatch =
     RegExp(r'^((?<number>[2-9]) [xX] )?(?<size>[BLMH])(?<type>[a-zA-Z]+)');
-final comboMatch = RegExp(r'(?<combo>[\/])(?<code>[a-zA-Z]+)');
-final traitsMatch = RegExp(r'\((?<traits>[a-zA-Z :0-9]+)\)$');
+final traitsMatch = RegExp(r'\((?<traits>[a-zA-Z :0-9]+)\)\/?.*$');
 
 Weapon? buildWeapon(
-  String weaponString, {
+  String ws, {
   bool hasReact = false,
 }) {
+  final weaponsplit = ws.split(RegExp(r'\s?\/\s?'));
+  final weaponString = weaponsplit.first;
+
   if (!weaponMatch.hasMatch(weaponString)) {
     print('buildWeapon: $weaponString does not match');
     return null;
@@ -35,13 +37,12 @@ Weapon? buildWeapon(
     bonusTraits.addAll(bt);
   }
 
-  String? comboType;
-  String? comboSize;
-  final comboName = comboMatch.firstMatch(weaponString)?.namedGroup('code');
-  if (comboName != null) {
-    final comboWeaponCheck = weaponMatch.firstMatch(comboName);
-    comboType = comboWeaponCheck?.namedGroup('type');
-    comboSize = comboWeaponCheck?.namedGroup('size');
+  Weapon? comboWeapon;
+  if (weaponsplit.length > 1) {
+    comboWeapon = buildWeapon(weaponsplit.last, hasReact: hasReact);
+    if (comboWeapon == null) {
+      print('Unknown combo weapon [$weaponString], bonusTraits [$bonusTraits]');
+    }
   }
 
   final generatedWeapon = _buildWeapon(
@@ -50,12 +51,12 @@ Weapon? buildWeapon(
     numberOf: numberOf,
     bonusTraits: bonusTraits,
     hasReact: hasReact,
-    comboType: comboType,
-    comboSize: comboSize,
+    comboWeapon: comboWeapon,
   );
   if (generatedWeapon == null) {
     print('Unknown weapon [$weaponString], bonusTraits [$bonusTraits]');
   }
+
   return generatedWeapon;
 }
 
@@ -64,9 +65,8 @@ Weapon? _buildWeapon({
   required String type,
   required String? numberOf,
   required List<Trait> bonusTraits,
-  String? comboType,
-  String? comboSize,
   bool hasReact = false,
+  Weapon? comboWeapon = null,
 }) {
   String name = '';
   List<weaponModes> modes = [];
@@ -602,24 +602,11 @@ Weapon? _buildWeapon({
           numberOf: numberOf,
           bonusTraits: bonusTraits,
           hasReact: hasReact,
-          comboType: comboType,
-          comboSize: comboSize,
         );
       } else {
         print('Unknown weapon type: $type.');
       }
       return null;
-  }
-
-  Weapon? comboWeapon;
-  if (comboType != null && comboSize != null) {
-    comboWeapon = _buildWeapon(
-      size: comboSize,
-      type: comboType,
-      numberOf: numberOf,
-      bonusTraits: bonusTraits,
-      hasReact: hasReact,
-    );
   }
 
   return Weapon(
