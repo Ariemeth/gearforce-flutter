@@ -4,14 +4,14 @@ import 'package:gearforce/models/weapons/weapon.dart';
 import 'package:gearforce/models/weapons/weapon_modes.dart';
 
 final weaponMatch =
-    RegExp(r'^((?<number>[2-9]) [xX] )?(?<size>[BLMH])(?<type>[a-zA-Z]+)');
+    RegExp(r'^((?<number>[2-9])\s?[xX]\s?)?(?<size>[BLMH])(?<type>[a-zA-Z]+)');
 final traitsMatch = RegExp(r'\((?<traits>[a-zA-Z :0-9]+)\)\/?.*$');
 
 Weapon? buildWeapon(
-  String ws, {
+  String fullWeaponString, {
   bool hasReact = false,
 }) {
-  final weaponsplit = ws.split(RegExp(r'\s?\/\s?'));
+  final weaponsplit = fullWeaponString.split(RegExp(r'\s?\/\s?'));
   final weaponString = weaponsplit.first;
 
   if (!weaponMatch.hasMatch(weaponString)) {
