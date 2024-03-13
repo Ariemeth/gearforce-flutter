@@ -657,22 +657,25 @@ abstract class RuleSet extends ChangeNotifier {
     return count < 1;
   }
 
-  int modCostOverride(int baseCost, String modID, Unit u) {
+  int? modCostOverride(String modID, Unit u) {
     final modCostOverrides = allEnabledRules(u.group?.combatGroup?.options)
         .where((rule) => rule.modCostOverride != null);
     if (modCostOverrides.isEmpty) {
-      return baseCost;
+      return null;
     }
 
     // check the rule's modCostOverrides function for any override values for
     // this mod.  If multiple functions are found, return the min value from all
     // of them.
-    final overrideValues = modCostOverrides
-        .map((r) => r.modCostOverride!(baseCost, modID, u))
-        .toList();
-    var minOverrideValue = baseCost;
+    final overrideValues =
+        modCostOverrides.map((r) => r.modCostOverride!(modID, u)).toList();
+    int? minOverrideValue;
     overrideValues.forEach((v) {
-      minOverrideValue = min(minOverrideValue, v);
+      if (minOverrideValue == null) {
+        minOverrideValue = v;
+      } else if (v != null) {
+        minOverrideValue = min(minOverrideValue!, v);
+      }
     });
     return minOverrideValue;
   }

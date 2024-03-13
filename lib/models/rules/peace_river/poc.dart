@@ -103,11 +103,11 @@ final ruleGSwatSniper = FactionRule(
       }
       return null;
     },
-    modCostOverride: (baseCost, modID, u) {
+    modCostOverride: (modID, u) {
       if (modID == improvedGunneryID && u.hasMod(gSWATSniperID)) {
         return 1;
       }
-      return baseCost;
+      return null;
     },
     factionMods: (ur, cg, u) => [PeaceRiverFactionMods.gSWATSniper()],
     description: 'One gear with a rifle, per combat group, may purchase the' +

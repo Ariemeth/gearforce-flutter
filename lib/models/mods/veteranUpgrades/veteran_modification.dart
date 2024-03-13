@@ -480,7 +480,7 @@ class VeteranModification extends BaseModification {
     final modName = _vetModNames[improvedGunneryID];
     assert(modName != null);
 
-    var modCost = u.actions != null ? u.actions! * 2 : 0;
+    int? modCostOverride;
 
     final vm = VeteranModification(
         name: modName ?? improvedGunneryID,
@@ -494,16 +494,24 @@ class VeteranModification extends BaseModification {
             return false;
           }
 
-          modCost = rs!.modCostOverride(modCost, improvedGunneryID, u);
+          modCostOverride = rs!.modCostOverride(improvedGunneryID, u);
           return rs.veteranModCheck(u, cg!, modID: improvedGunneryID);
         });
 
     vm.addMod<int>(
       UnitAttribute.tv,
       (value) {
-        return value + (u.actions != null ? modCost : 0);
+        if (modCostOverride != null) {
+          return value + modCostOverride!;
+        }
+        return value + ((u.actions ?? 0) * 2);
       },
-      description: 'TV +${u.actions != null ? modCost : 0}',
+      dynamicDescription: () {
+        if (modCostOverride != null) {
+          return 'TV +$modCostOverride';
+        }
+        return 'TV +${(u.actions ?? 0) * 2}';
+      },
     );
 
     vm.addMod<int>(

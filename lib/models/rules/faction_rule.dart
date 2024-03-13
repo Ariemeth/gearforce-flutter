@@ -101,7 +101,7 @@ class FactionRule extends ChangeNotifier {
       veteranModCheck;
   final bool? Function(Unit u, CombatGroup cg)? veteranCheckOverride;
   final int? Function(UnitRoster ur, CombatGroup cg)? veteranCGCountOverride;
-  final int Function(int baseCost, String modID, Unit u)? modCostOverride;
+  final int? Function(String modID, Unit u)? modCostOverride;
 
   /// Override a mod's requirement check
   final bool? Function(Unit u, CombatGroup cg, {required String modID})?
