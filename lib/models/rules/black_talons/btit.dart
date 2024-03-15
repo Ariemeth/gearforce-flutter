@@ -55,14 +55,12 @@ final ruleAllies = FactionRule(
           matcher: matchInfantry,
           factionOverride: FactionType.Caprice,
         ),
-        const UnitFilter(FactionType.Universal_Non_TerraNova)
       ],
       id: _ruleAlliesId),
   availableCommandLevelOverride: (u) {
     if (u.faction == FactionType.Caprice ||
         u.faction == FactionType.Utopia ||
-        u.faction == FactionType.Eden ||
-        u.faction == FactionType.Universal_Non_TerraNova) {
+        u.faction == FactionType.Eden) {
       return [CommandLevel.none];
     }
     return null;
