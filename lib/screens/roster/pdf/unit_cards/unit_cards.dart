@@ -14,7 +14,7 @@ const double _nameRowHorizontalPadding = 3.0;
 const double _traitsSectionPadding = 3.0;
 const double _weaponSectionPadding = 3.0;
 const double _unitCardFooterPadding = 3.0;
-const double _cardHeight = PdfPageFormat.inch * 3.5;
+const double _cardHeight = PdfPageFormat.inch * 4.0;
 const double _cardWidth = PdfPageFormat.inch * 2.5;
 const double? _section3Height = 73.0;
 const double _standardFontSize = 10;
@@ -72,7 +72,7 @@ pw.Widget _buildUnitCard(
   required String version,
 }) {
   final rulesVersion = u.roster?.rulesVersion;
-  return pw.Container(
+  final card = pw.Container(
     width: _cardWidth,
     height: _cardHeight,
     child: pw.Column(
@@ -104,6 +104,8 @@ pw.Widget _buildUnitCard(
       ),
     ),
   );
+
+  return card;
 }
 
 pw.Widget _buildFirstSection(pw.Font font, Unit u) {

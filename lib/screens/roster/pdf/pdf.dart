@@ -14,22 +14,29 @@ import 'package:printing/printing.dart';
 const String _defaultRosterFileName = 'hg-roster';
 const String _webURL = 'https://gearforce.metadiversions.com';
 
-const double _leftRightPageMargins = PdfPageFormat.inch / 8.0;
-const double _topPageMargins = PdfPageFormat.inch / 8.0;
-const double _bottomPageMargins = PdfPageFormat.inch / 16.0;
-const double _unitCardMargins = 5.0 / 2.0;
-const pw.EdgeInsets _footerMargin = const pw.EdgeInsets.only(
-  top: 0,
-  bottom: PdfPageFormat.inch / 32.0,
-);
+const double _unitCardMargins = 0;
 
 Future<bool> printPDF(
   UnitRoster roster,
   PDFSettings settings, {
   required String version,
 }) async {
+  final info = await Printing.info();
+  if (!info.canPrint) {
+    return false;
+  }
+
   // This is where we print the document
   return Printing.layoutPdf(
+    format: PdfPageFormat.letter.copyWith(
+      width: PdfPageFormat.letter.width,
+      height: PdfPageFormat.letter.height,
+      marginLeft: PdfPageFormat.inch / 4.0,
+      marginRight: PdfPageFormat.inch / 4.0,
+      marginTop: PdfPageFormat.inch / 4.0,
+      marginBottom: PdfPageFormat.inch / 4.0,
+    ),
+    dynamicLayout: false,
     // [onLayout] will be called multiple times
     // when the user changes the printer or printer settings
     onLayout: (PdfPageFormat format) {
@@ -45,7 +52,14 @@ Future<void> downloadPDF(
   required String version,
 }) async {
   final pdf = await buildPdf(
-    PdfPageFormat.letter,
+    PdfPageFormat.letter.copyWith(
+      width: PdfPageFormat.letter.width,
+      height: PdfPageFormat.letter.height,
+      marginLeft: PdfPageFormat.inch / 4.0,
+      marginRight: PdfPageFormat.inch / 4.0,
+      marginTop: PdfPageFormat.inch / 4.0,
+      marginBottom: PdfPageFormat.inch / 4.0,
+    ),
     roster,
     settings,
     version: version,
@@ -100,16 +114,15 @@ Future<Uint8List> buildPdf(
     doc.addPage(pw.MultiPage(
       pageTheme: pageTheme,
       mainAxisAlignment: pw.MainAxisAlignment.start,
-      crossAxisAlignment: pw.CrossAxisAlignment.start,
+      crossAxisAlignment: unitCards.length % 9 == 1
+          ? pw.CrossAxisAlignment.start
+          : pw.CrossAxisAlignment.center,
       build: (pw.Context context) {
         return [
-          pw.Padding(
-            padding: pw.EdgeInsets.only(),
-            child: pw.Wrap(
-              children: unitCards,
-              spacing: _unitCardMargins * 2,
-              runSpacing: _unitCardMargins,
-            ),
+          pw.Wrap(
+            children: unitCards,
+            spacing: _unitCardMargins * 2,
+            runSpacing: _unitCardMargins,
           )
         ];
       },
@@ -164,18 +177,15 @@ pw.Widget _buildFooter(
     children: [
       pw.Container(
         alignment: pw.Alignment.centerLeft,
-        margin: _footerMargin,
         child: pw.Text('Rules: $rulesVersion', style: footerStyle),
       ),
       pw.Container(
         alignment: pw.Alignment.center,
-        margin: _footerMargin,
         child: pw.Text('Created using Gearforce v$version  $_webURL',
             style: footerStyle),
       ),
       pw.Container(
         alignment: pw.Alignment.centerRight,
-        margin: _footerMargin,
         child: pw.Text(
           'Page ${context.pageNumber} of ${context.pagesCount}',
           style: footerStyle,
@@ -186,11 +196,13 @@ pw.Widget _buildFooter(
 }
 
 Future<pw.PageTheme> _myPageTheme(PdfPageFormat format) async {
-  final updatedFormat = format.copyWith(
-    marginLeft: _leftRightPageMargins,
-    marginRight: _leftRightPageMargins,
-    marginTop: _topPageMargins,
-    marginBottom: _bottomPageMargins,
+  final updatedFormat = PdfPageFormat.letter.copyWith(
+    width: PdfPageFormat.letter.width,
+    height: PdfPageFormat.letter.height,
+    marginLeft: PdfPageFormat.inch / 4.0,
+    marginRight: PdfPageFormat.inch / 4.0,
+    marginTop: PdfPageFormat.inch / 4.0,
+    marginBottom: PdfPageFormat.inch / 4.0,
   );
 
   return pw.PageTheme(
