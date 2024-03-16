@@ -117,7 +117,6 @@ Future<Uint8List> buildPdf(
       crossAxisAlignment: unitCards.length % 9 == 1
           ? pw.CrossAxisAlignment.start
           : pw.CrossAxisAlignment.center,
-      // margin: pw.EdgeInsets.only(),
       build: (pw.Context context) {
         return [
           pw.Wrap(
