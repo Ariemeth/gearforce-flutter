@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/screens/roster/combatGroup/combat_groups_display.dart';
 import 'package:gearforce/screens/roster/header/roster_header_info.dart';
+import 'package:provider/provider.dart';
 
 class RosterDisplay extends StatelessWidget {
   const RosterDisplay({
@@ -14,7 +16,11 @@ class RosterDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final vScrollController = ScrollController();
+    final vScrollController = ScrollController(
+      debugLabel: 'RosterDisplayVerticalScrollController',
+    );
+
+    final roster = context.watch<UnitRoster>();
 
     return Scrollbar(
       scrollbarOrientation: ScrollbarOrientation.left,
@@ -29,7 +35,7 @@ class RosterDisplay extends StatelessWidget {
           child: Column(
             children: [
               RosterHeaderInfo(),
-              CombatGroupsDisplay(),
+              CombatGroupsDisplay(roster),
             ],
             mainAxisAlignment: MainAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,

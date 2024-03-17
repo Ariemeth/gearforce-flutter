@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/combatGroups/group.dart';
 import 'package:gearforce/models/roster/roster.dart';
@@ -13,9 +12,8 @@ import 'package:gearforce/widgets/unit_text_cell.dart';
 const double _sectionheight = 320;
 
 class CombatGroupWidget extends StatefulWidget {
-  CombatGroupWidget(this.data, this.roster, {required this.name});
+  CombatGroupWidget(this.roster, {required this.name});
 
-  final Data data;
   final UnitRoster roster;
   final String name;
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/rules/faction_rule.dart';
 import 'package:gearforce/models/roster/roster.dart';
@@ -61,24 +62,27 @@ class RosterHeaderInfo extends StatelessWidget {
               bottom: 5,
             ),
             child: TextField(
-              controller: TextEditingController(text: roster.player),
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                isDense: true,
-                contentPadding: const EdgeInsets.symmetric(
-                  vertical: 10,
-                  horizontal: 5,
+                controller: TextEditingController(text: roster.player),
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  isDense: true,
+                  contentPadding: const EdgeInsets.symmetric(
+                    vertical: 10,
+                    horizontal: 5,
+                  ),
                 ),
-              ),
-              onChanged: (String value) async {
-                roster.player = value;
-              },
-              onSubmitted: (String value) async {
-                // TODO DEBUG use playername onSubmit to print the roster.
-                print(roster);
-              },
-              style: TextStyle(fontSize: 16),
-            ),
+                onChanged: (String value) async {
+                  roster.player = value;
+                },
+                onSubmitted: (String value) async {
+                  // TODO DEBUG use playername onSubmit to print the roster.
+                  print(roster);
+                },
+                style: TextStyle(fontSize: 16),
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(
+                      RegExp(r"[a-zA-Z0-9 -':\(\)_]"))
+                ]),
           ),
           Container(),
         ]),
@@ -104,19 +108,23 @@ class RosterHeaderInfo extends StatelessWidget {
               bottom: 5,
             ),
             child: TextField(
-              controller: TextEditingController(text: roster.name),
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                isDense: true,
-                contentPadding: const EdgeInsets.symmetric(
-                  vertical: 10,
-                  horizontal: 5,
+                controller: TextEditingController(text: roster.name),
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  isDense: true,
+                  contentPadding: const EdgeInsets.symmetric(
+                    vertical: 10,
+                    horizontal: 5,
+                  ),
                 ),
-              ),
-              onChanged: (String value) async {
-                roster.name = value;
-              },
-            ),
+                onChanged: (String value) async {
+                  roster.name = value;
+                },
+                maxLengthEnforcement: MaxLengthEnforcement.enforced,
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(
+                      RegExp(r"[a-zA-Z0-9 -'\(\)_]"))
+                ]),
           ),
           Container(),
         ]),
