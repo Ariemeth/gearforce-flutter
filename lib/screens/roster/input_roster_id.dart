@@ -32,6 +32,7 @@ class _RosterIdInputDialogState extends State<RosterIdInputDialog> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
           child: TextField(
+            autofocus: true,
             autocorrect: false,
             textAlign: TextAlign.center,
             decoration: InputDecoration(
