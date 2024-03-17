@@ -67,7 +67,7 @@ class _RenameCombatGroupDialogState extends State<RenameCombatGroupDialog> {
             maxLength: _maxCGNameLength,
             maxLengthEnforcement: MaxLengthEnforcement.enforced,
             inputFormatters: [
-              FilteringTextInputFormatter.allow(RegExp(r"[a-zA-Z0-9 -':]"))
+              FilteringTextInputFormatter.allow(RegExp(r"[a-zA-Z0-9 -'_\(\)]"))
             ],
             autofocus: true,
           ),

@@ -37,8 +37,9 @@ class _CombatGroupsDisplayState extends State<CombatGroupsDisplay>
   @override
   Widget build(BuildContext context) {
     if ((_tabController.length - 1) != widget.roster.getCGs().length) {
-      _tabController.dispose();
+      final oldController = _tabController;
       _tabController = _getTabController(initialIndex: _selectedIndex);
+      oldController.dispose();
     }
 
     final cgTabButtons = widget.roster
