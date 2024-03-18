@@ -4,14 +4,11 @@ import 'package:gearforce/models/combatGroups/group.dart';
 import 'package:gearforce/models/factions/faction.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/mods/base_modification.dart';
-import 'package:gearforce/models/mods/duelist/duelist_modification.dart';
 import 'package:gearforce/models/mods/duelist/duelist_upgrades.dart';
 import 'package:gearforce/models/mods/factionUpgrades/faction_mod.dart';
-import 'package:gearforce/models/mods/standardUpgrades/standard_modification.dart';
+import 'package:gearforce/models/mods/saved_mod.dart';
 import 'package:gearforce/models/mods/standardUpgrades/standard_upgrades.dart';
-import 'package:gearforce/models/mods/unitUpgrades/unit_modification.dart';
 import 'package:gearforce/models/mods/unitUpgrades/unit_upgrades.dart';
-import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart';
 import 'package:gearforce/models/mods/veteranUpgrades/veteran_upgrades.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
@@ -60,6 +57,8 @@ class Unit extends ChangeNotifier {
     CombatGroup? cg,
     UnitRoster roster,
   ) {
+    final api_version = json['version'] != null ? json['version'] as int : 1;
+
     final List<Unit> core = [];
     ruleset.availableUnitFilters(cg?.options).forEach((sfilter) {
       core.addAll(ruleset.availableUnits(specialUnitFilter: sfilter));
@@ -86,9 +85,79 @@ class Unit extends ChangeNotifier {
       }
     }
 
+    switch (api_version) {
+      case 1:
+        _loadV1UnitMods(json['mods'] as Map, u, faction, ruleset, cg, roster);
+        break;
+      default:
+        _loadV2UnitMods(json['mods'] as List, u, faction, ruleset, cg, roster);
+    }
+
+    return u;
+  }
+
+  static bool _loadV2UnitMods(
+    List<dynamic> modMap,
+    Unit u,
+    Faction faction,
+    RuleSet ruleset,
+    CombatGroup? cg,
+    UnitRoster roster,
+  ) {
+    if (cg == null) {
+      return false;
+    }
+
+    modMap.forEach((modJson) {
+      final savedMod = SavedMod.fromJson(modJson);
+      BaseModification? mod;
+      switch (ModificationTypeExtension.fromString(savedMod.type)) {
+        case ModificationType.standard:
+          mod = buildStandardUpgrade(savedMod.ModId, u, cg, roster);
+          break;
+        case ModificationType.veteran:
+          mod = buildVetUpgrade(savedMod.ModId, u, cg);
+          break;
+        case ModificationType.duelist:
+          mod = buildDuelistUpgrade(savedMod.ModId, u, cg, roster);
+          break;
+        case ModificationType.faction:
+          mod = factionModFromId(savedMod.ModId, roster, u);
+          break;
+        case ModificationType.unit:
+          mod = getUnitMods(u.core.frame, u)
+              .firstWhere((unitMod) => unitMod.id == savedMod.ModId);
+          break;
+      }
+      if (mod != null) {
+        // TODO load selected Mod Options
+        // final selected = modData['selected'];
+        // if (selected != null) {
+        //   final modWithOptions = {mod: selected};
+        //   var loadAttempts = 0;
+        //   while (modWithOptions.isNotEmpty && loadAttempts < 5) {
+        //     modWithOptions = _loadOptionsFromJSON(modWithOptions,
+        //         refreshOptions: loadAttempts != 0);
+        //     loadAttempts++;
+        //   }
+        // }
+        u.addUnitMod(mod);
+      }
+    });
+    return true;
+  }
+
+  static bool _loadV1UnitMods(
+    Map<dynamic, dynamic> modMap,
+    Unit u,
+    Faction faction,
+    RuleSet ruleset,
+    CombatGroup? cg,
+    UnitRoster roster,
+  ) {
     Map<BaseModification, Map<String, dynamic>> modsWithOptions = {};
 
-    final modMap = json['mods'] as Map;
+    //final modMap = json['mods'] as Map;
     if (modMap['unit'] != null) {
       final mods = modMap['unit'] as List;
       var availableUnitMods = getUnitMods(u.core.frame, u);
@@ -199,8 +268,7 @@ class Unit extends ChangeNotifier {
           refreshOptions: loadAttempts != 0);
       loadAttempts++;
     }
-
-    return u;
+    return true;
   }
 
   int? get actions {
@@ -660,40 +728,22 @@ class Unit extends ChangeNotifier {
   }
 
   Map<String, dynamic> toJson() {
-    Map<String, List<dynamic>> mods = {};
-    _mods.forEach((mod) {
-      if (mod is DuelistModification) {
-        if (mods['duelist'] == null) {
-          mods['duelist'] = [];
-        }
-        mods['duelist']!.add(mod.toJson());
-      } else if (mod is FactionModification) {
-        if (mods['faction'] == null) {
-          mods['faction'] = [];
-        }
-        mods['faction']!.add(mod.toJson());
-      } else if (mod is StandardModification) {
-        if (mods['standard'] == null) {
-          mods['standard'] = [];
-        }
-        mods['standard']!.add(mod.toJson());
-      } else if (mod is UnitModification) {
-        if (mods['unit'] == null) {
-          mods['unit'] = [];
-        }
-        mods['unit']!.add(mod.toJson());
-      } else if (mod is VeteranModification) {
-        if (mods['vet'] == null) {
-          mods['vet'] = [];
-        }
-        mods['vet']!.add(mod.toJson());
-      }
-    });
+    List<SavedMod> mods2 = [];
+
+    for (int i = 0; i < _mods.length; i++) {
+      final mod = _mods[i];
+      mods2.add(SavedMod(
+        mod.modType.name,
+        i,
+        mod.toJson(),
+      ));
+    }
 
     return {
+      'version': 2,
       'frame': core.frame,
       'variant': core.name,
-      'mods': mods,
+      'mods': mods2,
       'command': _commandLevel.name,
       'factionOverride': factionOverride?.toString()
     };
