@@ -200,7 +200,9 @@ class VeteranModification extends BaseModification {
             }
             newList.replaceRange(currentIndex, currentIndex + 1, [newWeapon]);
           } else {
-            existingWeapon.bonusTraits.add(traitToAdd);
+            final index = newList.indexOf(existingWeapon);
+            newList[index] =
+                Weapon.fromWeapon(existingWeapon, addTraits: [traitToAdd]);
           }
         }
         return newList;
@@ -584,7 +586,9 @@ class VeteranModification extends BaseModification {
                 weapon.toString() == modOptions.selectedOption?.text)) {
           var existingWeapon = newList.firstWhere(
               (weapon) => weapon.toString() == modOptions.selectedOption?.text);
-          existingWeapon.bonusTraits.add(traitToAdd);
+          final index = newList.indexOf(existingWeapon);
+          newList[index] =
+              Weapon.fromWeapon(existingWeapon, addTraits: [traitToAdd]);
         }
         return newList;
       },
