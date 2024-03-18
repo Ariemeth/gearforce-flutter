@@ -93,7 +93,9 @@ class StandardModification extends BaseModification {
           var existingWeapon = newList.firstWhere(
               (weapon) => weapon.toString() == modOptions.selectedOption?.text);
 
-          existingWeapon.bonusTraits.add(traitToAdd);
+          final index = newList.indexOf(existingWeapon);
+          newList[index] =
+              Weapon.fromWeapon(existingWeapon, addTraits: [traitToAdd]);
         }
         return newList;
       }, description: 'Add the Anti-Air trait to one AC, RC, LC or RLC');
@@ -268,23 +270,25 @@ class StandardModification extends BaseModification {
                   'can be swapped for an equal class melee weapon for 0 TV,' +
                   'i.e. a LCW can be swapped for a LVB or a LSG')
       ..addMod<List<Weapon>>(UnitAttribute.weapons, (value) {
+        final newList = value.toList();
         // Grab the substring starting at position 1 to exclude the - or +
         if (modOptions.selectedOption == null ||
             modOptions.selectedOption!.selectedOption == null) {
-          return value;
+          return newList;
         }
-        var remove = value.firstWhere(
+        var weaponToRemove = newList.firstWhere(
             (weapon) => weapon.toString() == modOptions.selectedOption!.text);
 
-        value = value.toList()..remove(remove);
+        newList.remove(weaponToRemove);
 
         var add = buildWeapon(modOptions.selectedOption!.selectedOption!.text,
             hasReact: true);
+        assert(add != null);
         if (add != null) {
-          value.add(add);
+          newList.add(add);
         }
 
-        return value;
+        return newList;
       });
   }
 

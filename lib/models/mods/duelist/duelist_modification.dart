@@ -346,7 +346,9 @@ class DuelistModification extends BaseModification {
                 weapon.toString() == modOptions.selectedOption?.text)) {
           var existingWeapon = newList.firstWhere(
               (weapon) => weapon.toString() == modOptions.selectedOption?.text);
-          existingWeapon.bonusTraits.add(traitToAdd);
+          final index = newList.indexOf(existingWeapon);
+          newList[index] =
+              Weapon.fromWeapon(existingWeapon, addTraits: [traitToAdd]);
         }
         return newList;
       });
@@ -469,7 +471,9 @@ class DuelistModification extends BaseModification {
                   weapon.toString() == modOptions.selectedOption?.text)) {
             var existingWeapon = newList.firstWhere((weapon) =>
                 weapon.toString() == modOptions.selectedOption?.text);
-            existingWeapon.bonusTraits.add(traitToAdd);
+            final index = newList.indexOf(existingWeapon);
+            newList[index] =
+                Weapon.fromWeapon(existingWeapon, addTraits: [traitToAdd]);
           }
           return newList;
         },
@@ -510,15 +514,16 @@ class DuelistModification extends BaseModification {
           UnitAttribute.traits,
           createAddTraitToList(const Trait(
             name: 'Ace Gunner',
-            description: 'This model does not suffer the -1D6 modifier when' +
-                ' using the Split weapon trait',
+            description:
+                'When using an autocannon this model does not suffer the -1D6 modifier when' +
+                    ' using the Split weapon trait',
           )))
       ..addMod(
           UnitAttribute.special,
           createAddStringToList(
-              'This model does not suffer the -1D6 modifier when using the Split weapon trait'),
+              'When using an autocannon this model does not suffer the -1D6 modifier when using the Split weapon trait'),
           description:
-              'This model does not suffer the -1D6 modifier when using the Split weapon trait');
+              'When using an autocannon this model does not suffer the -1D6 modifier when using the Split weapon trait');
   }
 
   /*
@@ -564,7 +569,13 @@ class DuelistModification extends BaseModification {
         UnitAttribute.weapons,
         createAddWeaponToList(trickPistol),
         description: '+LP (Link, Split)',
-      );
+      )
+      ..addMod(
+          UnitAttribute.special,
+          createAddStringToList(
+              'When using the LP (Link, Split) this model does not suffer the -1D6 modifier when using the Split weapon trait'),
+          description:
+              'When using the LP (Link, Split) this model does not suffer the -1D6 modifier when using the Split weapon trait');
   }
 
   /*
@@ -608,7 +619,7 @@ class DuelistModification extends BaseModification {
           description:
               'TV +1, Add the Link trait to any melee weapon other than ' +
                   'Shaped Explosives. This adds a second weapon of the ' +
-                  'same type to the model.')
+                  'same type to the model for modeling purposes.')
       ..addMod<List<Weapon>>(UnitAttribute.weapons, (value) {
         final newList =
             value.map((weapon) => Weapon.fromWeapon(weapon)).toList();
@@ -617,7 +628,9 @@ class DuelistModification extends BaseModification {
                 weapon.toString() == modOptions.selectedOption?.text)) {
           var existingWeapon = newList.firstWhere(
               (weapon) => weapon.toString() == modOptions.selectedOption?.text);
-          existingWeapon.bonusTraits.add(traitToAdd);
+          final index = newList.indexOf(existingWeapon);
+          newList[index] =
+              Weapon.fromWeapon(existingWeapon, addTraits: [traitToAdd]);
         }
         return newList;
       });
@@ -738,21 +751,22 @@ class DuelistModification extends BaseModification {
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
       ..addMod<List<Weapon>>(UnitAttribute.weapons, (value) {
+        final newList = value.toList();
         // check if an option has been selected
         if (modOptions.selectedOption == null) {
-          return value;
+          return newList;
         }
 
         final weaponToAdd =
             buildWeapon(modOptions.selectedOption!.text, hasReact: true);
         if (weaponToAdd != null) {
-          value.add(weaponToAdd);
+          newList.add(weaponToAdd);
         }
 
-        return value;
+        return newList;
       },
-          description: 'Upgrade one melee weapon with the React trait to one ' +
-              'of the following with react: MVB, MCW (Demo:4)');
+          description:
+              'Add one of the following: MVB (React), or MCW (React Demo:4)');
   }
 
   /*
