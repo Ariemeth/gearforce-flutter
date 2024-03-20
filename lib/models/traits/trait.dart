@@ -12,12 +12,14 @@ class Trait {
     this.isAux = false,
     this.type,
     this.description,
+    this.isDisabled = false,
   });
   final String name;
   final String? type;
   final int? level;
   final bool isAux;
   final String? description;
+  final bool isDisabled;
 
   @override
   String toString() {
@@ -41,11 +43,13 @@ class Trait {
     return other is Trait &&
         name == other.name &&
         level == other.level &&
-        isAux == other.isAux;
+        isAux == other.isAux &&
+        isDisabled == other.isDisabled;
   }
 
   @override
-  int get hashCode => name.hashCode ^ level.hashCode ^ isAux.hashCode;
+  int get hashCode =>
+      name.hashCode ^ level.hashCode ^ isAux.hashCode ^ isDisabled.hashCode;
 
   /// Checks if the [Trait] other has the same name.
   bool isSameType(Trait other) {

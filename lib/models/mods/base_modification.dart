@@ -1,5 +1,6 @@
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/mods/modification_option.dart';
+import 'package:gearforce/models/mods/saved_mod.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/rules/rule_set.dart';
 import 'package:gearforce/models/unit/unit.dart';
@@ -103,6 +104,10 @@ Example json format for mods
     return result;
   }
 
+  SavedMod toSavedMod(int order) {
+    return SavedMod(modType.toString(), order, toJson());
+  }
+
   T applyMods<T>(UnitAttribute att, T startingValue) {
     var mods = this._mods[att];
     if (mods == null) {
@@ -130,4 +135,16 @@ enum ModificationType {
   standard,
   unit,
   veteran,
+}
+
+extension ModificationTypeExtension on ModificationType {
+  String get name {
+    return this.toString().split('.').last;
+  }
+
+  static ModificationType fromString(String type) {
+    return ModificationType.values.firstWhere(
+        (e) => e.toString().split('.').last == type,
+        orElse: () => throw Exception('Invalid ModificationType: $type'));
+  }
 }

@@ -368,16 +368,23 @@ Widget _buildTraitList(Settings settings, List<Trait> traits) {
   }
 
   final List<Widget> traitList = [];
-  final lastTrait = traits.last;
 
-  traits.forEach((trait) {
-    var traitStr = trait.toString() + (trait == lastTrait ? '' : ', ');
+  for (var i = 0; i < traits.length; i++) {
+    final isLast = i == traits.length - 1;
+    final trait = traits[i];
+    var traitStr = trait.toString() + (isLast ? '' : ', ');
     traitList.add(Tooltip(
-      child: Text(traitStr),
+      child: Text(
+        traitStr,
+        style: trait.isDisabled
+            ? TextStyle(decoration: TextDecoration.lineThrough)
+            : null,
+      ),
       message: trait.description ?? '',
       waitDuration: settings.tooltipDelay,
     ));
-  });
+  }
+  ;
   return Wrap(
     children: traitList,
   );
