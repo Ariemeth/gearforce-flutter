@@ -13,5 +13,7 @@ class SavedMod {
     return {'type': type, 'order': order, 'mod': mod};
   }
 
+  Map<String, dynamic>? get selected => mod['selected'];
+
   String get ModId => mod['id'];
 }

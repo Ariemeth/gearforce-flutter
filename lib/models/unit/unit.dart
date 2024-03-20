@@ -89,6 +89,7 @@ class Unit extends ChangeNotifier {
       case 1:
         _loadV1UnitMods(json['mods'] as Map, u, faction, ruleset, cg, roster);
         break;
+      // 2+
       default:
         _loadV2UnitMods(json['mods'] as List, u, faction, ruleset, cg, roster);
     }
@@ -130,17 +131,19 @@ class Unit extends ChangeNotifier {
           break;
       }
       if (mod != null) {
-        // TODO load selected Mod Options
-        // final selected = modData['selected'];
-        // if (selected != null) {
-        //   final modWithOptions = {mod: selected};
-        //   var loadAttempts = 0;
-        //   while (modWithOptions.isNotEmpty && loadAttempts < 5) {
-        //     modWithOptions = _loadOptionsFromJSON(modWithOptions,
-        //         refreshOptions: loadAttempts != 0);
-        //     loadAttempts++;
-        //   }
-        // }
+        final modOptions = savedMod.selected;
+        if (modOptions != null) {
+          mod.options?.selectedOption =
+              mod.options?.optionByText(modOptions['text']);
+          if (mod.options?.selectedOption != null) {
+            final subOption = modOptions['selected'];
+            if (subOption != null) {
+              mod.options?.selectedOption?.selectedOption =
+                  mod.options?.selectedOption?.optionByText(subOption['text']);
+            }
+          }
+          mod.refreshData();
+        }
         u.addUnitMod(mod);
       }
     });
@@ -157,7 +160,6 @@ class Unit extends ChangeNotifier {
   ) {
     Map<BaseModification, Map<String, dynamic>> modsWithOptions = {};
 
-    //final modMap = json['mods'] as Map;
     if (modMap['unit'] != null) {
       final mods = modMap['unit'] as List;
       var availableUnitMods = getUnitMods(u.core.frame, u);
