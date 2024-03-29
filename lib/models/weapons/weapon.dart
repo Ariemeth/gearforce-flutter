@@ -50,11 +50,14 @@ class Weapon {
       // if a bonus trait already has a version as part of the base traits,
       // update the existing trait to the bonus level
       if (result.any((trait) => trait.name == bonusTrait.name)) {
-        final index =
-            result.indexWhere((trait) => trait.name == bonusTrait.name);
-        if (index >= 0) {
-          result.removeAt(index);
-          result.insert(index, bonusTrait);
+        if (bonusTrait.isSameType(Trait.Apex())) {
+          result.add(bonusTrait);
+        } else {
+          final index =
+              result.indexWhere((trait) => trait.name == bonusTrait.name);
+          if (index >= 0) {
+            result[index] = bonusTrait;
+          }
         }
       } else {
         result.add(bonusTrait);
@@ -80,11 +83,15 @@ class Weapon {
       // if a bonus trait already has a version as part of the base traits,
       // update the existing trait to the bonus level
       if (result.any((trait) => trait.name == bonusTrait.name)) {
-        final index =
-            result.indexWhere((trait) => trait.name == bonusTrait.name);
-        if (index >= 0) {
-          result.removeAt(index);
-          result.insert(index, bonusTrait);
+        if (bonusTrait.isSameType(Trait.Apex())) {
+          result.add(bonusTrait);
+        } else {
+          final index =
+              result.indexWhere((trait) => trait.name == bonusTrait.name);
+          if (index >= 0) {
+            result.removeAt(index);
+            result.insert(index, bonusTrait);
+          }
         }
       } else {
         result.add(bonusTrait);

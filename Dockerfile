@@ -1,4 +1,4 @@
-ARG COMPILER_VERSION="1.21.2"
+ARG COMPILER_VERSION="1.22.0"
 
 FROM golang:${COMPILER_VERSION} AS builder
 
@@ -7,11 +7,11 @@ WORKDIR /build
 COPY . .
 
 RUN  CGO_ENABLED=0 \
-     go build \
-       -a \
-       -installsuffix cgo \
-       -ldflags '-extldflags "-static"' \
-       -o gearforce-web
+  go build \
+  -a \
+  -installsuffix cgo \
+  -ldflags '-extldflags "-static"' \
+  -o gearforce-web
 
 
 FROM scratch AS release
