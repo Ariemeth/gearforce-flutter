@@ -47,8 +47,12 @@ class Group extends ChangeNotifier {
     Group g = Group(groupType, role: convertRoleType(json['role'] as String));
     g.combatGroup = cg;
 
-    var decodedUnits = json['units'] as List;
+    var jsonUnits = json['units'];
+    if (jsonUnits == null) {
+      return g;
+    }
 
+    var decodedUnits = jsonUnits as List<dynamic>;
     decodedUnits.map((du) {
       try {
         return Unit.fromJson(du, faction, ruleset, cg, roster);

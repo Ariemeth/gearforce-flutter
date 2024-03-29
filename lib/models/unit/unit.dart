@@ -86,6 +86,7 @@ class Unit extends ChangeNotifier {
     }
 
     switch (api_version) {
+      case 0:
       case 1:
         _loadV1UnitMods(json['mods'] as Map, u, faction, ruleset, cg, roster);
         break;
