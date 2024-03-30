@@ -151,12 +151,12 @@ class Data {
       Faction.cef(this),
       Faction.eden(this),
       Faction.leagueless(this),
+      Faction.new_jerusalem(this),
       Faction.north(this),
       Faction.nucoal(this),
       Faction.peaceRiver(this),
       Faction.south(this),
       Faction.utopia(this),
-      Faction.new_jerusalem(this),
     ];
   }
 
