@@ -3,7 +3,7 @@ name: Docker
 on:
   push:
     # Publish `main` as Docker `latest` image.
-    branches: [main]
+    branches: [main, playtest/*]
 
     # Publish `v1.2.3` tags as releases.
     tags: [v*]
@@ -83,7 +83,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: build
-    if: github.event_name == 'push'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
 
     steps:
       - name: "Checkout"
