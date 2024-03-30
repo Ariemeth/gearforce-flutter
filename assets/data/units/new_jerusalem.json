@@ -1,0 +1,94 @@
+{
+    "frames": [
+        {
+            "name": "Initiate",
+            "variants": [
+                {
+                    "model": "Initiate",
+                    "tv": 8,
+                    "role": "GP+, SK, FS",
+                    "mr": "W:6",
+                    "arm": 6,
+                    "h/s": "4/2",
+                    "a": 1,
+                    "gu": "4+",
+                    "pi": "4+",
+                    "ew": "6+",
+                    "react-weapons": "LPL, LVB",
+                    "mounted-weapons": "LAPGL",
+                    "traits": "Hands, Jump Jets:2",
+                    "type": "Gear",
+                    "height": 1.5
+                },
+                {
+                    "model": "Nahum Initiate",
+                    "tv": 8,
+                    "role": "GP, SK, FS",
+                    "mr": "W:6",
+                    "arm": 6,
+                    "h/s": "4/2",
+                    "a": 1,
+                    "gu": "4+",
+                    "pi": "4+",
+                    "ew": "6+",
+                    "react-weapons": "MFL, LVB",
+                    "mounted-weapons": "LAPGL",
+                    "traits": "Hands, Jump Jets:2",
+                    "type": "Gear",
+                    "height": 1.5
+                },
+                {
+                    "model": "Tobit Initiate",
+                    "tv": 9,
+                    "role": "GP, SK, FS",
+                    "mr": "W:6",
+                    "arm": 6,
+                    "h/s": "4/2",
+                    "a": 1,
+                    "gu": "4+",
+                    "pi": "4+",
+                    "ew": "6+",
+                    "react-weapons": "LSC (Corrosion), LVB",
+                    "mounted-weapons": "LAPGL",
+                    "traits": "Hands, Jump Jets:2",
+                    "type": "Gear",
+                    "height": 1.5
+                },
+                {
+                    "model": "Judges Initiate",
+                    "tv": 10,
+                    "role": "GP, SK, FS",
+                    "mr": "W:6",
+                    "arm": 6,
+                    "h/s": "4/2",
+                    "a": 1,
+                    "gu": "4+",
+                    "pi": "4+",
+                    "ew": "6+",
+                    "react-weapons": "MFC (Advanced), LVB",
+                    "mounted-weapons": "LAPGL",
+                    "traits": "Hands, Jump Jets:2",
+                    "type": "Gear",
+                    "height": 1.5
+                },
+                {
+                    "model": "Esdras Initiate",
+                    "tv": 8,
+                    "role": "GP, SK, FS",
+                    "mr": "W:6",
+                    "arm": 6,
+                    "h/s": "4/2",
+                    "a": 1,
+                    "gu": "4+",
+                    "pi": "4+",
+                    "ew": "6+",
+                    "react-weapons": "MSMG, LVB",
+                    "mounted-weapons": "LAPGL",
+                    "traits": "Hands, Jump Jets:2",
+                    "type": "Gear",
+                    "height": 1.5
+                }
+            ]
+        }
+    ]
+}

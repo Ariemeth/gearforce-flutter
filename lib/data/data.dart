@@ -14,6 +14,7 @@ const Map<FactionType, String> _factionUnitFiles = {
   FactionType.CEF: 'assets/data/units/cef.json',
   FactionType.Caprice: 'assets/data/units/caprice.json',
   FactionType.Eden: 'assets/data/units/eden.json',
+  FactionType.NewJerusalem: 'assets/data/units/new_jerusalem.json',
   FactionType.North: 'assets/data/units/north.json',
   FactionType.NuCoal: 'assets/data/units/nucoal.json',
   FactionType.PeaceRiver: 'assets/data/units/peace_river.json',
@@ -155,6 +156,7 @@ class Data {
       Faction.peaceRiver(this),
       Faction.south(this),
       Faction.utopia(this),
+      Faction.new_jerusalem(this),
     ];
   }
 

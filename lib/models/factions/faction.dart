@@ -5,6 +5,7 @@ import 'package:gearforce/models/rules/caprice/caprice.dart';
 import 'package:gearforce/models/rules/cef/cef.dart';
 import 'package:gearforce/models/rules/eden/eden.dart';
 import 'package:gearforce/models/rules/leagueless/leagueless.dart';
+import 'package:gearforce/models/rules/new_jerusalem/new_jerusalem.dart';
 import 'package:gearforce/models/rules/north/north.dart';
 import 'package:gearforce/models/rules/nucoal/nucoal.dart';
 import 'package:gearforce/models/rules/peace_river/peace_river.dart';
@@ -121,6 +122,14 @@ class Faction {
     return Faction(FactionType.Leagueless, rulesets, rulesets.first);
   }
 
+  factory Faction.new_jerusalem(Data data) {
+    List<RuleSet> rulesets = [
+      NewJerusalem(data, name: _emptySubFactionName),
+    ];
+
+    return Faction(FactionType.NewJerusalem, rulesets, rulesets.first);
+  }
+
   factory Faction.fromType(FactionType faction, Data data) {
     switch (faction) {
       case FactionType.North:
@@ -155,6 +164,8 @@ class Faction {
         break;
       case FactionType.None:
         break;
+      case FactionType.NewJerusalem:
+        return Faction.new_jerusalem(data);
     }
     throw FormatException('Cannot create a faction from ${faction.name}');
   }
