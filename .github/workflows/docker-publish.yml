@@ -35,11 +35,10 @@ jobs:
           # Use Docker `latest` tag convention
           [ "$VERSION" == "main" ] && VERSION=latest
 
-          SHA=${{ github.sha }} | cut -c1-7)
+          SHA="${{ github.sha }}" | cut -c1-7)
           echo "SHA=$SHA" >> "$GITHUB_ENV"
 
           IMAGE_TAGS="$IMAGE_NAME:$VERSION,$IMAGE_NAME:$SHA"
-
           echo "IMAGE_TAGS=$IMAGE_TAGS" >> "$GITHUB_ENV"          
 
       # Set up Flutter.
