@@ -80,7 +80,7 @@ jobs:
           context: .
           push: true
           target: release
-          tags: ${{github.env.IMAGE_TAGS}}
+          tags: ${{ env.IMAGE_TAGS }}
 
   deploy:
     runs-on: ubuntu-latest
@@ -100,9 +100,9 @@ jobs:
       - name: Deploy latest main to the linode cluster
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
-          helm upgrade -n gearforce --install --set image.tag=${{github.env.SHA}} --set replicaCount=2 ${{ secrets.HELM_RELEASE_NAME }} chart/gearforce
+          helm upgrade -n gearforce --install --set image.tag=${{ env.SHA }} --set replicaCount=2 ${{ secrets.HELM_RELEASE_NAME }} chart/gearforce
 
       - name: Deploy to playtest on the linode cluster
         if: github.event_name == 'push' && github.ref == 'refs/heads/playtest/nj'
         run: |
-          helm upgrade -n playtest --install --set image.tag=${{github.env.SHA}} --set replicaCount=1 gfpt1 chart/gearforce
+          helm upgrade -n playtest --install --set image.tag=${{ env.SHA }} --set replicaCount=1 gfpt1 chart/gearforce
