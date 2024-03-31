@@ -17,6 +17,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     if: github.event_name == 'push'
+    outputs:
+      IMAGE_TAGS: ${{ steps.gather-variables.outputs.IMAGE_TAGS }}
+      SHA: ${{ steps.gather-variables.outputs.SHA }}
 
     steps:
       - name: "Checkout"
@@ -35,10 +38,10 @@ jobs:
           [ "$VERSION" == "main" ] && VERSION=latest
 
           SHA=$(echo "${{ github.sha }}" | cut -c1-7)
-          echo "SHA=$SHA" >> "$GITHUB_ENV"
+          echo "SHA=$SHA" >> "$GITHUB_OUTPUT"
 
           IMAGE_TAGS="$IMAGE_NAME:$VERSION,$IMAGE_NAME:$SHA"
-          echo "IMAGE_TAGS=$IMAGE_TAGS" >> "$GITHUB_ENV"
+          echo "IMAGE_TAGS=$IMAGE_TAGS" >> "$GITHUB_OUTPUT"
 
       # Set up Flutter.
       - name: Clone Flutter repository with stable channel
@@ -80,7 +83,7 @@ jobs:
           context: .
           push: true
           target: release
-          tags: ${{ env.IMAGE_TAGS }}
+          tags: ${{ steps.gather-variables.outputs.IMAGE_TAGS }}
 
   deploy:
     runs-on: ubuntu-latest
@@ -100,9 +103,9 @@ jobs:
       - name: Deploy latest main to the linode cluster
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
-          helm upgrade -n gearforce --install --set image.tag=${{ env.SHA }} --set replicaCount=2 ${{ secrets.HELM_RELEASE_NAME }} chart/gearforce
+          helm upgrade -n gearforce --install --set image.tag=${{ needs.build.outputs.SHA }} --set replicaCount=2 ${{ secrets.HELM_RELEASE_NAME }} chart/gearforce
 
       - name: Deploy to playtest on the linode cluster
         if: github.event_name == 'push' && github.ref == 'refs/heads/playtest/nj'
         run: |
-          helm upgrade -n playtest --install --set image.tag=${{ env.SHA }} --set replicaCount=1 gfpt1 chart/gearforce
+          helm upgrade -n playtest --install --set image.tag=${{ needs.build.outputs.SHA }} --set replicaCount=1 gfpt1 chart/gearforce
