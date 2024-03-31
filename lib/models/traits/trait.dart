@@ -617,7 +617,9 @@ class Trait {
     return Trait(
       name: 'Faithful',
       isAux: isAux,
-      description: 'Unknown',
+      description: 'This model begins the game with 1 SP, this SP does not' +
+          ' become a CP for commanders and does not refresh during the' +
+          ' Cleanup phase. It can only have 1 SP due to faithful at a time.',
     );
   }
 

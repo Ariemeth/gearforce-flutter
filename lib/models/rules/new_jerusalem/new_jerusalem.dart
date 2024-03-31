@@ -18,12 +18,15 @@ class NewJerusalem extends RuleSet {
     super.description,
     required super.name,
     List<FactionRule> subFactionRules = const [],
-  }) : super(
-          FactionType.NewJerusalem,
-          data,
-          factionRules: [],
-          subFactionRules: subFactionRules,
-        );
+  }) : super(FactionType.NewJerusalem, data,
+            factionRules: [],
+            subFactionRules: subFactionRules,
+            specialRules: [
+              'Order - Inspiring Oratory: This order may be issued at any' +
+                  ' time by a New Jerusalem commander. Affected models' +
+                  ' immediately refresh their Faithful SP. A CG can only be' +
+                  ' affected by this order once per round '
+            ]);
 
   @override
   List<SpecialUnitFilter> availableUnitFilters(
