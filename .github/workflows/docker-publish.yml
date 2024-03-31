@@ -10,7 +10,6 @@ on:
 
 env:
   IMAGE_NAME: edwardcarmack/gearforce-web
-  SHA: ""
 
 jobs:
   # Push image to GitHub Packages.
@@ -39,7 +38,7 @@ jobs:
           echo "SHA=$SHA" >> "$GITHUB_ENV"
 
           IMAGE_TAGS="$IMAGE_NAME:$VERSION,$IMAGE_NAME:$SHA"
-          echo "IMAGE_TAGS=$IMAGE_TAGS" >> "$GITHUB_ENV"          
+          echo "IMAGE_TAGS=$IMAGE_TAGS" >> "$GITHUB_ENV"
 
       # Set up Flutter.
       - name: Clone Flutter repository with stable channel
