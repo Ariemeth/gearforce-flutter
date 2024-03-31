@@ -10,7 +10,7 @@ on:
 
 env:
   IMAGE_NAME: edwardcarmack/gearforce-web
-  SHA: $("${{ github.sha }}" | cut -c1-7)
+  SHA: ""
 
 jobs:
   # Push image to GitHub Packages.
@@ -35,7 +35,10 @@ jobs:
           # Use Docker `latest` tag convention
           [ "$VERSION" == "main" ] && VERSION=latest
 
-          IMAGE_TAGS="$IMAGE_NAME:$VERSION,$IMAGE_NAME:${{env.SHA}}"
+          SHA=${{ github.sha }} | cut -c1-7)
+          echo "SHA=$SHA" >> "$GITHUB_ENV"
+
+          IMAGE_TAGS="$IMAGE_NAME:$VERSION,$IMAGE_NAME:$SHA"
 
           echo "IMAGE_TAGS=$IMAGE_TAGS" >> "$GITHUB_ENV"          
 
