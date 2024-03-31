@@ -10,6 +10,7 @@ on:
 
 env:
   IMAGE_NAME: edwardcarmack/gearforce-web
+  SHA: $("${{ github.sha }}" | cut -c1-7)
 
 jobs:
   # Push image to GitHub Packages.
@@ -34,9 +35,9 @@ jobs:
           # Use Docker `latest` tag convention
           [ "$VERSION" == "main" ] && VERSION=latest
 
-          IMAGE_TAGS="$IMAGE_NAME:$VERSION,$IMAGE_NAME:${{ github.sha }}"
+          IMAGE_TAGS="$IMAGE_NAME:$VERSION,$IMAGE_NAME:${{env.SHA}}"
 
-          echo "::set-output name=IMAGE_TAGS::$IMAGE_TAGS"
+          echo "IMAGE_TAGS=$IMAGE_TAGS" >> "$GITHUB_ENV"          
 
       # Set up Flutter.
       - name: Clone Flutter repository with stable channel
@@ -83,7 +84,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: build
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: github.event_name == 'push'
 
     steps:
       - name: "Checkout"
@@ -95,6 +96,12 @@ jobs:
           method: kubeconfig
           kubeconfig: ${{ secrets.KUBE_CONFIG }}
 
-      - name: Deploy to linode cluster
+      - name: Deploy latest main to the linode cluster
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
-          helm upgrade -n gearforce --install --set image.tag=${{ github.sha }} --set replicaCount=2 ${{ secrets.HELM_RELEASE_NAME }} chart/gearforce
+          helm upgrade -n gearforce --install --set image.tag=${{env.SHA}} --set replicaCount=2 ${{ secrets.HELM_RELEASE_NAME }} chart/gearforce
+
+      - name: Deploy to playtest on the linode cluster
+        if: github.event_name == 'push' && github.ref == 'refs/heads/playtest/nj'
+        run: |
+          helm upgrade -n playtest --install --set image.tag=${{env.SHA}} --set replicaCount=1 gfpt1 chart/gearforce
