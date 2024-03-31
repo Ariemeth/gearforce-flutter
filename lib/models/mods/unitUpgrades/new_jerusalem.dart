@@ -302,8 +302,6 @@ final UnitModification kibushPack2 = UnitModification(
   ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.Sensors(36)),
       description: '+Sensors:36');
 
-final _packMatch = RegExp(r'^w\/.+Pack$');
-
 final _packModNames = [
   milchamaPack.name,
   raavPack.name,
