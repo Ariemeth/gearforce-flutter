@@ -11,6 +11,8 @@ import 'package:gearforce/models/mods/unitUpgrades/peace_river.dart'
 import 'package:gearforce/models/mods/unitUpgrades/south.dart' as south;
 import 'package:gearforce/models/mods/unitUpgrades/universal.dart' as universal;
 import 'package:gearforce/models/mods/unitUpgrades/utopia.dart' as utopia;
+import 'package:gearforce/models/mods/unitUpgrades/new_jerusalem.dart'
+    as newJerusalem;
 import 'package:gearforce/models/unit/unit.dart';
 
 List<UnitModification> getUnitMods(String frameName, Unit unit) {
@@ -287,6 +289,61 @@ List<UnitModification> getUnitMods(String frameName, Unit unit) {
       return [eden.lyddite, eden.serpentinaDominus];
     case 'huni riders':
       return [eden.team];
+
+    // New Jerusalem
+    case 'initiate':
+      return [newJerusalem.faithful, newJerusalem.archUpgrade5];
+    case 'apostle':
+      return [newJerusalem.faithful, newJerusalem.archUpgrade4];
+    case 'disciple':
+      return [newJerusalem.faithful];
+    case 'paladin':
+      return [newJerusalem.faithful, newJerusalem.archUpgrade5];
+    case 'templar':
+      return [
+        newJerusalem.genesisUpgrade,
+        newJerusalem.samsonUpgrade,
+        newJerusalem.faithful,
+        newJerusalem.archUpgrade4,
+      ];
+    case 'hakham':
+      return [newJerusalem.faithful, newJerusalem.neshUpgrade];
+    case 'ghazi':
+      return [
+        newJerusalem.zacchaeusUpgrade,
+        newJerusalem.sayfUpgrade,
+        newJerusalem.nissiUpgrade,
+        newJerusalem.faithful,
+        newJerusalem.archUpgradeGhazi,
+      ];
+    case 'prioress':
+      return [newJerusalem.faithful, newJerusalem.genesisUpgradePrioress];
+    case 'abbess':
+      return [newJerusalem.faithful, newJerusalem.archUpgradeAbbess];
+    case 'kwaja':
+      return [
+        newJerusalem.faithful,
+        newJerusalem.enhancedEngine,
+        newJerusalem.squadKwaja,
+      ];
+    case 'zealot':
+      return [newJerusalem.faithful, newJerusalem.archUpgradeZealot];
+    case 'tenet':
+      return [newJerusalem.faithful];
+    case 'prophet':
+      return [
+        newJerusalem.faithful,
+        newJerusalem.milchamaPack,
+        newJerusalem.milchamaPack2,
+        newJerusalem.raavPack,
+        newJerusalem.raavPack2,
+        newJerusalem.mavethPack,
+        newJerusalem.mavethPack2,
+        newJerusalem.deverPack,
+        newJerusalem.deverPack2,
+        newJerusalem.kibushPack,
+        newJerusalem.kibushPack2,
+      ];
 
     // Universal
     case 'chargeur':

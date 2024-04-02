@@ -8,6 +8,7 @@ enum FactionType {
   Caprice('Caprice'),
   Utopia('Utopia'),
   Eden('Eden'),
+  NewJerusalem('New Jerusalem'),
   Universal('Universal'),
   Universal_TerraNova('Terra Nova Universal'),
   Universal_Non_TerraNova('Non Terra Nova Universal'),

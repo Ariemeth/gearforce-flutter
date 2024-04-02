@@ -165,6 +165,8 @@ class Trait {
         return Trait.ECMPlus(isAux: auxCheck);
       case 'ECCM':
         return Trait.ECCM(isAux: auxCheck);
+      case 'Faithful':
+        return Trait.Faithful(isAux: auxCheck);
       case 'Field Armor':
         return Trait.FieldArmor(isAux: auxCheck);
       case 'Fire':
@@ -608,6 +610,16 @@ class Trait {
           ' is not cumulative with additional ECCM traits.\n' +
           'Models with the ECCM trait can also perform ECCM firewall' +
           ' reactions.',
+    );
+  }
+
+  factory Trait.Faithful({bool isAux = false}) {
+    return Trait(
+      name: 'Faithful',
+      isAux: isAux,
+      description: 'This model begins the game with 1 SP, this SP does not' +
+          ' become a CP for commanders and does not refresh during the' +
+          ' Cleanup phase. It can only have 1 SP due to faithful at a time.',
     );
   }
 

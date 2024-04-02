@@ -28,7 +28,8 @@ class RosterIdDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final link = 'https://gearforce.metadiversions.com/?id=$rosterId';
+    final link =
+        'https://nj.playtest.gearforce.metadiversions.com/?id=$rosterId';
     return SimpleDialog(
       children: [
         Row(

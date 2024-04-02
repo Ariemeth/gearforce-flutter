@@ -12,7 +12,7 @@ import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 
 const String _defaultRosterFileName = 'hg-roster';
-const String _webURL = 'https://gearforce.metadiversions.com';
+const String _webURL = 'https://nj.playtest.gearforce.metadiversions.com';
 
 const double _unitCardMargins = 0;
 
