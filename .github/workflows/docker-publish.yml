@@ -1,13 +1,9 @@
 name: Docker
 
 on:
-  workflow_run:
-    workflows: ["Tests"]
-    types:
-      - completed
   push:
     # Publish `main` as Docker `latest` image.
-    branches: [playtest/*]
+    branches: [main, playtest/*]
 
 env:
   IMAGE_NAME: edwardcarmack/gearforce-web
