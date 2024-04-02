@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/movement.dart';
 import 'package:gearforce/models/unit/role.dart';
@@ -36,8 +38,12 @@ String Function(String) createReplaceStringMod(
   };
 }
 
-int Function(int) createSetIntMod(int newValue) {
+int Function(int) createSetIntMod(int newValue, {bool onlyIfLessThan = false}) {
   return (value) {
+    if (onlyIfLessThan) {
+      return min(value, newValue);
+    }
+
     return newValue;
   };
 }
