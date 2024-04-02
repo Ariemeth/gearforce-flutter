@@ -188,7 +188,10 @@ class UnitCore {
     String frame = '',
     FactionType faction = FactionType.None,
   }) {
-    List<Weapon> reactWeapons = json['react-weapons'] == '-'
+    final reactWeaponsJson = json['react-weapons'];
+    List<Weapon> reactWeapons = (reactWeaponsJson == null ||
+            reactWeaponsJson == '-' ||
+            reactWeaponsJson == "")
         ? []
         : List.from(json['react-weapons']
             .toString()
@@ -197,7 +200,10 @@ class UnitCore {
             .whereType<Weapon>()
             .toList());
 
-    List<Weapon> mountedWeapons = json['mounted-weapons'] == '-'
+    final mountedWeaponsJson = json['mounted-weapons'];
+    List<Weapon> mountedWeapons = (mountedWeaponsJson == null ||
+            mountedWeaponsJson == '-' ||
+            mountedWeaponsJson == "")
         ? []
         : List.from(json['mounted-weapons']
             .toString()
@@ -206,13 +212,15 @@ class UnitCore {
             .whereType<Weapon>()
             .toList());
 
-    List<Trait> traits = json['traits'] == '-'
-        ? []
-        : List.from(json['traits']
-            .toString()
-            .split(',')
-            .map((e) => Trait.fromString(e.trim()))
-            .toList());
+    final traitsJson = json['traits'];
+    List<Trait> traits =
+        (traitsJson == null || traitsJson == '-' || traitsJson == "")
+            ? []
+            : List.from(json['traits']
+                .toString()
+                .split(',')
+                .map((e) => Trait.fromString(e.trim()))
+                .toList());
 
     var uc = UnitCore(
       frame: frame,
