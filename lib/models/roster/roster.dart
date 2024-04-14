@@ -291,7 +291,7 @@ class UnitRoster extends ChangeNotifier {
       try {
         final f = Faction.fromType(FactionType.fromName(faction), data);
         ur.factionNotifier.value = f;
-      } on Exception catch (e) {
+      } catch (e) {
         print(e);
       }
     }
@@ -315,7 +315,7 @@ class UnitRoster extends ChangeNotifier {
     try {
       final f = Faction.fromType(FactionType.fromName(factionName), data);
       ur.factionNotifier.value = f;
-    } on Exception catch (e) {
+    } catch (e) {
       print(e);
     }
 

@@ -56,7 +56,7 @@ class Group extends ChangeNotifier {
     decodedUnits.map((du) {
       try {
         return Unit.fromJson(du, faction, ruleset, cg, roster);
-      } on Exception catch (e) {
+      } catch (e) {
         print(
             'Exception caught while decoding unit $du in ${cg.name} $groupType group: $e');
         return null;
