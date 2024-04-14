@@ -10,7 +10,6 @@ import 'package:gearforce/models/unit/model_type.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/validation/validations.dart';
 
-const _currentRosterVersion = 2;
 const _currentRulesVersion = '3.1 - May 2022';
 
 class UnitRoster extends ChangeNotifier {
@@ -154,7 +153,19 @@ class UnitRoster extends ChangeNotifier {
   Map<String, dynamic> toJson() => {
         'player': player,
         'name': name,
-        'faction': factionNotifier.value.factionType.name,
+        'faction': {
+          'name': factionNotifier.value.factionType.name,
+          'enabledRules': rulesetNotifer.value.factionRules
+              .where((r) => r.isEnabled)
+              .map((r) => {
+                    'id': r.id,
+                    'options': r.options
+                        ?.where((o) => o.isEnabled)
+                        .map((o) => o.id)
+                        .toList(),
+                  })
+              .toList(),
+        },
         'subfaction': {
           'name': rulesetNotifer.value.name,
           'enabledRules': rulesetNotifer.value.subFactionRules
@@ -178,25 +189,34 @@ class UnitRoster extends ChangeNotifier {
         },
         'totalCreated': _totalCreated,
         'cgs': _combatGroups.map((e) => e.toJson()).toList(),
-        'version': _currentRosterVersion,
+        'version': 3,
         'rulesVersion': rulesVersion,
         'isEliteForce': isEliteForce,
         'whenCreated': DateTime.now().toString(),
       };
 
   factory UnitRoster.fromJson(dynamic json, Data data) {
+    final version = json['version'] as int;
     UnitRoster ur = UnitRoster(data);
     ur.name = json['name'] as String?;
     ur.player = json['player'] as String?;
-    final faction = json['faction'] as String?;
-    if (faction != null) {
-      try {
-        final f = Faction.fromType(FactionType.fromName(faction), data);
-        ur.factionNotifier.value = f;
-      } on Exception catch (e) {
-        print(e);
-      }
+
+    String? faction;
+    switch (version) {
+      case 0:
+      case 1:
+      case 2:
+        faction = _loadV2Faction(json['faction'] as String?, ur, data);
+        break;
+      default:
+        faction = _loadV3Faction(
+          json['faction'] as Map<String, dynamic>?,
+          ur,
+          data,
+        );
+        break;
     }
+
     final subFaction = json['subfaction'];
     final subFactionName = subFaction['name'] as String?;
     if (subFactionName != null && faction != null) {
@@ -264,6 +284,58 @@ class UnitRoster extends ChangeNotifier {
     ur.validate();
 
     return ur;
+  }
+
+  static String? _loadV2Faction(String? faction, UnitRoster ur, Data data) {
+    if (faction != null) {
+      try {
+        final f = Faction.fromType(FactionType.fromName(faction), data);
+        ur.factionNotifier.value = f;
+      } on Exception catch (e) {
+        print(e);
+      }
+    }
+    return faction;
+  }
+
+  static String? _loadV3Faction(
+    Map<String, dynamic>? factionJson,
+    UnitRoster ur,
+    Data data,
+  ) {
+    if (factionJson == null) {
+      return null;
+    }
+
+    final factionName = factionJson['name'] as String?;
+    if (factionName == null) {
+      return null;
+    }
+
+    try {
+      final f = Faction.fromType(FactionType.fromName(factionName), data);
+      ur.factionNotifier.value = f;
+    } on Exception catch (e) {
+      print(e);
+    }
+
+    final factionRules = factionJson['enabledRules'] as List;
+    factionRules.forEach((factionRule) {
+      final ruleId = factionRule['id'];
+      final rules = ur.rulesetNotifer.value.factionRules;
+      final rule = rules.where((r) => r.id == ruleId).first;
+      rule.setIsEnabled(true, rules);
+
+      final options = factionRule['options'] as List?;
+      options?.forEach((optionRuleId) {
+        final optionRules = rule.options;
+        final optionRule =
+            optionRules?.where((r) => r.id == optionRuleId).first;
+        optionRule?.setIsEnabled(true, optionRules!);
+      });
+    });
+
+    return factionName;
   }
 
   void copyFrom(UnitRoster ur) {
