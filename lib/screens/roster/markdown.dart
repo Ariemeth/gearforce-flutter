@@ -86,7 +86,7 @@ class MarkdownDialog extends StatelessWidget {
     }
     final groupType = group.groupType.name;
     final role = group.role().name;
-    final actions = group.totalActions();
+    final actions = group.totalActions;
     final totalTv = group.totalTV();
 
     String result = '';

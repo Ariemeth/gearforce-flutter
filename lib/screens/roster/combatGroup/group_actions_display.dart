@@ -24,11 +24,11 @@ class GroupActionsDisplay extends StatelessWidget {
 
     final isPrimary = group.groupType == GroupType.Primary;
 
-    final actions = group.totalActions();
+    final actions = group.totalActions;
     final maxPrimaryActions = ruleSet.maxPrimaryActions;
     final minPrimaryActions = ruleSet.minPrimaryActions;
     final maxSecondaryAction =
-        ruleSet.maxSecondaryActions(group.combatGroup!.primary.totalActions());
+        ruleSet.maxSecondaryActions(group.combatGroup!.primary.totalActions);
 
     final widget = Tooltip(
       waitDuration: settings.tooltipDelay,

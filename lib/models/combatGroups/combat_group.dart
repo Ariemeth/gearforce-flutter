@@ -52,6 +52,8 @@ class CombatGroup extends ChangeNotifier {
     notifyListeners();
   }
 
+  int get totalActions => _primary.totalActions + _secondary.totalActions;
+
   /// Retrieve the options associated with this [CombatGroup].
   List<CombatGroupOption> get options => _options.toList();
   bool hasOption(String id) => _options.any((o) => o.id == id);

@@ -240,12 +240,12 @@ abstract class RuleSet extends ChangeNotifier {
 
     final isUnitAlreadyInGroup = group.allUnits().any((u) => u == unit);
     if (!isUnitAlreadyInGroup) {
-      final actions = group.totalActions() + (unit.actions ?? 0);
+      final actions = group.totalActions + (unit.actions ?? 0);
       final maxAllowedActions = group.groupType == GroupType.Primary
           ? maxPrimaryActions
           : modelCheckCount != null
               ? modelCheckCount
-              : maxSecondaryActions(cg.primary.totalActions());
+              : maxSecondaryActions(cg.primary.totalActions);
       if (actions > maxAllowedActions) {
         print('Unit ${unit.name} has ${unit.actions} action and cannot be' +
             ' added as it would increase the number of actions beyond the max' +
