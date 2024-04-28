@@ -234,17 +234,13 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
             child: IconButton(
               onPressed: unit == units.firstOrNull
                   ? null
-                  : () {
-                      // TODO: Implement move unit up
-                      print('up');
-                    },
+                  : () => group.moveUnitUpInList(unit),
               icon: const Icon(
                 size: 15.0,
                 Icons.arrow_upward,
                 color: Colors.blueAccent,
               ),
               splashRadius: 20.0,
-              tooltip: 'Move unit up',
             ),
           ),
           SizedBox(
@@ -253,17 +249,13 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
             child: IconButton(
               onPressed: unit == units.lastOrNull
                   ? null
-                  : () {
-                      // TODO: Implement move unit down
-                      print('down');
-                    },
+                  : () => group.moveUnitDownInList(unit),
               icon: const Icon(
                 size: 15.0,
                 Icons.arrow_downward,
                 color: Colors.blueAccent,
               ),
               splashRadius: 20.0,
-              tooltip: 'Move unit down',
             ),
           ),
         ],

@@ -145,6 +145,30 @@ class Group extends ChangeNotifier {
     notifyListeners();
   }
 
+  bool moveUnitUpInList(Unit unit) {
+    final index = _units.indexOf(unit);
+    if (index <= 0) {
+      return false;
+    }
+
+    _units.removeAt(index);
+    _units.insert(index - 1, unit);
+    notifyListeners();
+    return true;
+  }
+
+  bool moveUnitDownInList(Unit unit) {
+    final index = _units.indexOf(unit);
+    if (index < 0 || index >= _units.length - 1) {
+      return false;
+    }
+
+    _units.removeAt(index);
+    _units.insert(index + 1, unit);
+    notifyListeners();
+    return true;
+  }
+
   List<Unit> allUnits() {
     return _units.toList();
   }
