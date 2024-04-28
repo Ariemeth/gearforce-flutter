@@ -93,7 +93,7 @@ BEGIN
             VALUE "FileDescription", "A Heavy Gear force constructor." "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
             VALUE "InternalName", "gearforce" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2021 com.metadiversions. All rights reserved." "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2024 com.metadiversions. All rights reserved." "\0"
             VALUE "OriginalFilename", "gearforce.exe" "\0"
             VALUE "ProductName", "gearforce" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
