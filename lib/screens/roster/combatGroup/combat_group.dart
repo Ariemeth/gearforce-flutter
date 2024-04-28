@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/combatGroups/group.dart';
@@ -10,6 +12,7 @@ import 'package:gearforce/screens/upgrades/unit_upgrade_button.dart';
 import 'package:gearforce/widgets/unit_text_cell.dart';
 
 const double _sectionheight = 320;
+const double _movementIconCellWidth = 36;
 
 class CombatGroupWidget extends StatefulWidget {
   CombatGroupWidget(this.roster, {required this.name});
@@ -131,8 +134,16 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
     return <DataColumn>[
       DataColumn(
         label: Container(
+          width: _movementIconCellWidth,
+          child: UnitTextCell.columnTitle(
+            '',
+          ),
+        ),
+      ),
+      DataColumn(
+        label: Container(
           alignment: Alignment.centerLeft,
-          width: 160,
+          width: 180,
           child: UnitTextCell.columnTitle(
             "Model",
             textAlignment: TextAlign.left,
@@ -166,7 +177,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
       ),
       DataColumn(
         label: Container(
-          width: 92,
+          width: 60,
           child: UnitTextCell.columnTitle(
             'Rank',
           ),
@@ -182,9 +193,9 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
       ),
       DataColumn(
         label: Container(
-          width: 65,
+          width: 40,
           child: UnitTextCell.columnTitle(
-            'Veteran',
+            'Vet',
           ),
         ),
       ),
@@ -217,6 +228,48 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
     for (var i = 0; i < units.length; i++) {
       var unit = units[i];
       final canBeCommand = ruleSet.canBeCommand(unit);
+      var movementCell = DataCell(Column(
+        children: [
+          SizedBox(
+            width: _movementIconCellWidth,
+            height: 24.0,
+            child: IconButton(
+              onPressed: unit == units.firstOrNull
+                  ? null
+                  : () {
+                      // TODO: Implement move unit up
+                      print('up');
+                    },
+              icon: const Icon(
+                size: 15.0,
+                Icons.arrow_upward,
+                color: Colors.blueAccent,
+              ),
+              splashRadius: 20.0,
+              tooltip: 'Move unit up',
+            ),
+          ),
+          SizedBox(
+            width: _movementIconCellWidth,
+            height: 24.0,
+            child: IconButton(
+              onPressed: unit == units.lastOrNull
+                  ? null
+                  : () {
+                      // TODO: Implement move unit down
+                      print('down');
+                    },
+              icon: const Icon(
+                size: 15.0,
+                Icons.arrow_downward,
+                color: Colors.blueAccent,
+              ),
+              splashRadius: 20.0,
+              tooltip: 'Move unit down',
+            ),
+          ),
+        ],
+      ));
       var nameCell = DataCell(
         UnitTextCell.content(
           unit.name,
@@ -345,6 +398,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
       );
 
       var dataRow = DataRow(cells: [
+        movementCell,
         nameCell,
         tvCell,
         actionCell,
