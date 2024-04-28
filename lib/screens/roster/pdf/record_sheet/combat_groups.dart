@@ -50,7 +50,7 @@ pw.Widget _buildCombatGroup(pw.Font font, CombatGroup cg) {
     _buildUnitsContent(
       font,
       units: cg.primary.allUnits(),
-      actions: cg.primary.totalActions(),
+      actions: cg.primary.totalActions,
       tv: cg.primary.totalTV(),
       groupType: 'Primary',
     ),
@@ -70,7 +70,7 @@ pw.Widget _buildCombatGroup(pw.Font font, CombatGroup cg) {
       _buildUnitsContent(
         font,
         units: cg.secondary.allUnits(),
-        actions: cg.secondary.totalActions(),
+        actions: cg.secondary.totalActions,
         tv: cg.secondary.totalTV(),
         groupType: 'Secondary',
       ),
@@ -101,7 +101,7 @@ pw.Widget _buildCombatGroupHeader(
       children: [
         pw.Expanded(
           child: pw.Text(
-            '$GroupName Combat Group',
+            'Combat Group $GroupName',
             style: headerTextStyle,
             textAlign: pw.TextAlign.center,
           ),

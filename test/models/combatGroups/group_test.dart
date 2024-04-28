@@ -39,19 +39,19 @@ void main() {
 
   test('test totalActions with new group', () {
     var g = Group(GroupType.Primary);
-    expect(g.totalActions(), equals(0), reason: 'check default total actions');
+    expect(g.totalActions, equals(0), reason: 'check default total actions');
   });
 
   test('test totalActions with added unit', () {
     var g = Group(GroupType.Primary)..addUnit(Unit(core: UnitCore.test()));
-    expect(g.totalActions(), equals(1), reason: 'check total actions');
+    expect(g.totalActions, equals(1), reason: 'check total actions');
   });
 
   test('test totalActions with 2 added units', () {
     var g = Group(GroupType.Primary)
       ..addUnit(Unit(core: UnitCore.test()))
       ..addUnit(Unit(core: UnitCore.test()));
-    expect(g.totalActions(), equals(2), reason: 'check total actions');
+    expect(g.totalActions, equals(2), reason: 'check total actions');
   });
 
   test('test totalActions with 2 added units plus a drone', () {
@@ -59,7 +59,7 @@ void main() {
       ..addUnit(Unit(core: UnitCore.test()))
       ..addUnit(Unit(core: UnitCore.test()))
       ..addUnit(Unit(core: UnitCore.test(type: ModelType.Drone)));
-    expect(g.totalActions(), equals(3), reason: 'check total actions');
+    expect(g.totalActions, equals(3), reason: 'check total actions');
   });
 
   test('test modCount with 0 mods', () {

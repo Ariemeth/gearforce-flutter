@@ -27,6 +27,9 @@ class UnitRoster extends ChangeNotifier {
 
   Unit? get selectedForceLeader => _selectedForceLeader;
 
+  int get totalActions => _combatGroups.fold<int>(
+      0, (previousValue, cg) => previousValue + cg.totalActions);
+
   set selectedForceLeader(Unit? newLeader) {
     if (newLeader == _selectedForceLeader) {
       return;
@@ -447,6 +450,9 @@ class UnitRoster extends ChangeNotifier {
   }
 
   List<CombatGroup> getCGs() => new List<CombatGroup>.from(_combatGroups);
+
+  int get combatGroupCount =>
+      _combatGroups.where((cg) => cg.units.isNotEmpty).length;
 
   Unit? getFirstUnitWithCommand(CommandLevel cl) {
     for (var cg in _combatGroups) {

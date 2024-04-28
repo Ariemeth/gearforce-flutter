@@ -199,7 +199,7 @@ class Group extends ChangeNotifier {
     return total;
   }
 
-  int totalActions() {
+  int get totalActions {
     var total = 0;
     _units.forEach((u) {
       total += u.actions ?? 0;
