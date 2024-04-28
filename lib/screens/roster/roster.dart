@@ -21,7 +21,7 @@ import 'package:url_launcher/url_launcher_string.dart';
 const double _leftPanelWidth = 670.0;
 const double _titleHeight = 40.0;
 const double _menuTitleHeight = 50.0;
-const String _version = '1.6.1';
+// const String version = '1.6.1';
 const String _bugEmailAddress = 'gearforce@metadiversions.com';
 const String _dp9URL = 'https://www.dp9.com/';
 const String _sourceCodeURL = 'https://github.com/Ariemeth/gearforce-flutter';
@@ -32,11 +32,13 @@ class RosterWidget extends StatefulWidget {
     required this.title,
     required this.data,
     required this.rosterId,
+    required this.version,
   }) : super(key: key);
 
   final String? title;
   final Data data;
   final RosterId rosterId;
+  final String version;
   final hScrollController = ScrollController();
 
   @override
@@ -192,7 +194,7 @@ class _RosterWidgetState extends State<RosterWidget> {
                 );
 
                 if (pdfSettings != null) {
-                  printPDF(roster, pdfSettings, version: _version);
+                  printPDF(roster, pdfSettings, version: widget.version);
                 }
               },
             ),
@@ -208,7 +210,7 @@ class _RosterWidgetState extends State<RosterWidget> {
                 );
 
                 if (pdfSettings != null) {
-                  downloadPDF(roster, pdfSettings, version: _version);
+                  downloadPDF(roster, pdfSettings, version: widget.version);
                 }
               },
             ),
@@ -241,7 +243,7 @@ class _RosterWidgetState extends State<RosterWidget> {
             ),
             AboutListTile(
               applicationName: 'Gearforce',
-              applicationVersion: _version,
+              applicationVersion: widget.version,
               aboutBoxChildren: [
                 Text('Gearforce is a Heavy Gear Blitz force creation tool'),
                 RichText(
