@@ -3,9 +3,10 @@ import 'package:gearforce/data/data.dart';
 import 'package:gearforce/screens/roster/roster.dart';
 import 'package:gearforce/widgets/roster_id.dart';
 import 'package:gearforce/widgets/settings.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   //final myUrl = Uri.base.toString();
 
@@ -15,6 +16,8 @@ void main() {
     print('loading id: $idParam');
   }
 
+  final appInfo = await PackageInfo.fromPlatform();
+
   var data = Data();
   data.load().whenComplete(() {
     runApp(MultiProvider(
@@ -22,7 +25,11 @@ void main() {
         Provider(create: (_) => data),
         Provider(create: (_) => Settings()),
       ],
-      child: GearForce(data: data, rosterId: RosterId(idParam)),
+      child: GearForce(
+        data: data,
+        rosterId: RosterId(idParam),
+        version: appInfo.version,
+      ),
     ));
   });
 }
@@ -32,10 +39,12 @@ class GearForce extends StatefulWidget {
     Key? key,
     required this.data,
     required this.rosterId,
+    required this.version,
   }) : super(key: key);
 
   final Data data;
   final RosterId rosterId;
+  final String version;
   @override
   _GearForceState createState() => _GearForceState();
 }
@@ -59,6 +68,7 @@ class _GearForceState extends State<GearForce> {
         title: 'Gearforce',
         data: widget.data,
         rosterId: widget.rosterId,
+        version: widget.version,
       ),
     );
   }
