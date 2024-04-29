@@ -5,7 +5,7 @@ import 'package:gearforce/models/roster/roster.dart';
 import 'package:http/http.dart' as http;
 import 'package:uuid/uuid.dart';
 
-const _default_base_url = 'https://hg.metadiversions.com';
+const _default_base_url = 'https://gearforce.metadiversions.com';
 const _game_storage_url = 'https://gs.metadiversions.com/gf';
 //const _game_storage_url = "http://localhost:9000/gf";
 
@@ -51,7 +51,6 @@ class ApiService {
   }
 
   static Future<String?> getLatestVersion(Uri baseUri) async {
-    print('base: ${baseUri.host}');
     final uri = switch (baseUri.scheme) {
       'https' => baseUri.replace(path: '/version.json'),
       _ => Uri.parse('$_default_base_url/version.json'),
