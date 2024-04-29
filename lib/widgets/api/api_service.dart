@@ -55,14 +55,14 @@ class ApiService {
         ? Uri.parse('$_default_base_url/version.json')
         : baseUri.replace(path: '/version.json');
     try {
-      final response = await http.get(uri).timeout(Duration(seconds: 2));
+      final response = await http.get(uri).timeout(Duration(seconds: 3));
       if (response.statusCode != 200) {
         return null;
       }
 
       return (jsonDecode(response.body) as Map<String, dynamic>)['version'];
     } catch (e) {
-      print('Unable to get the latest version within the alloted time: $e');
+      print('Unable to get the latest version within the alloted time(3s): $e');
       return null;
     }
   }

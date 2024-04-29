@@ -15,6 +15,7 @@ import 'package:gearforce/widgets/api/api_service.dart';
 import 'package:gearforce/widgets/confirmation_dialog.dart';
 import 'package:gearforce/widgets/pdf_settings.dart';
 import 'package:gearforce/widgets/roster_id.dart';
+import 'package:gearforce/widgets/version_checker.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -83,7 +84,16 @@ class _RosterWidgetState extends State<RosterWidget> {
       appBar: AppBar(
         // Here we take the value from the Roster object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title!),
+        //title: Text(widget.title!),
+        title: Row(
+          children: [
+            Text(widget.title!),
+            Spacer(),
+            VersionChecker(
+              currentVersion: widget.version,
+            ),
+          ],
+        ),
         toolbarHeight: _titleHeight,
         backgroundColor: Theme.of(context).primaryColor,
       ),
