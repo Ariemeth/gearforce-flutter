@@ -27,7 +27,7 @@ class _VersionCheckerState extends State<VersionChecker> {
   void initState() {
     super.initState();
     _checkForUpdatedVersion();
-    Timer.periodic(Duration(seconds: 300), (timer) async {
+    Timer.periodic(Duration(seconds: 10), (timer) async {
       _checkForUpdatedVersion();
     });
   }
@@ -59,7 +59,8 @@ class _VersionCheckerState extends State<VersionChecker> {
     // TODO remove when everything seems to be working
     print('Checking for updated version');
     final latestVersionStr = await ApiService.getLatestVersion(Uri.base);
-
+    print("latestVersionStr: $latestVersionStr");
+    print("currentVersion: ${widget.currentVersion}");
     if (latestVersionStr == null || latestVersionStr.isEmpty) {
       if (this.latestVersion != null) {
         setState(() {
