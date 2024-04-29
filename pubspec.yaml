@@ -35,6 +35,7 @@ dependencies:
   file_selector: 1.0.3
   http: 1.2.1
   package_info_plus: 8.0.0
+  pub_semver: ^2.1.4
 
 dev_dependencies:
   flutter_test:
