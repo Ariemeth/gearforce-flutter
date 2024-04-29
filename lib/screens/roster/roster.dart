@@ -84,7 +84,6 @@ class _RosterWidgetState extends State<RosterWidget> {
       appBar: AppBar(
         // Here we take the value from the Roster object that was created by
         // the App.build method, and use it to set our appbar title.
-        //title: Text(widget.title!),
         title: Row(
           children: [
             Text(widget.title!),
