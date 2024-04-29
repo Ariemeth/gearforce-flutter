@@ -56,6 +56,7 @@ class _VersionCheckerState extends State<VersionChecker> {
   }
 
   void _checkForUpdatedVersion() async {
+    print('Checking for updated version');
     final latestVersionStr = await ApiService.getLatestVersion(Uri.base);
 
     if (latestVersionStr == null || latestVersionStr.isEmpty) {
