@@ -45,7 +45,7 @@ class _VersionCheckerState extends State<VersionChecker> {
     // TODO change message for desktop app before making it available
     return Container(
       child: Tooltip(
-        message: 'Refresh page to get the latest version',
+        message: 'Refresh the page to get the latest version',
         waitDuration: settings.tooltipDelay,
         child: Text(
           'New version available: ${latestVersion.toString()}',
@@ -56,10 +56,9 @@ class _VersionCheckerState extends State<VersionChecker> {
   }
 
   void _checkForUpdatedVersion() async {
+    // TODO remove when everything seems to be working
     print('Checking for updated version');
     final latestVersionStr = await ApiService.getLatestVersion(Uri.base);
-    print(' Latest version: $latestVersionStr');
-    print(' Current version: ${widget.currentVersion}');
 
     if (latestVersionStr == null || latestVersionStr.isEmpty) {
       if (this.latestVersion != null) {
@@ -72,7 +71,6 @@ class _VersionCheckerState extends State<VersionChecker> {
 
     final latestVersion = Version.parse(latestVersionStr);
     if (latestVersion != widget.currentVersion) {
-      print('Updating latest version to $latestVersion');
       setState(() {
         this.latestVersion = latestVersion;
       });

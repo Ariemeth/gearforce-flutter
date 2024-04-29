@@ -51,10 +51,11 @@ class ApiService {
   }
 
   static Future<String?> getLatestVersion(Uri baseUri) async {
-    final uri = baseUri.isScheme('file')
-        ? Uri.parse('$_default_base_url/version.json')
-        : Uri.parse('${baseUri.host}/version.json');
-    //final uri = Uri.parse('$_default_base_url/version.json');
+    final uri = switch (baseUri.scheme) {
+      'https' => Uri.parse('${baseUri.host}/version.json'),
+      _ => Uri.parse('$_default_base_url/version.json'),
+    };
+
     try {
       final response = await http.get(uri).timeout(Duration(seconds: 3));
       if (response.statusCode != 200) {
