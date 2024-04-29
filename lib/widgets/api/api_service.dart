@@ -51,6 +51,7 @@ class ApiService {
   }
 
   static Future<String?> getLatestVersion(Uri baseUri) async {
+    print('base: ${baseUri.host}');
     final uri = switch (baseUri.scheme) {
       'https' => Uri.parse('${baseUri.host}/version.json'),
       _ => Uri.parse('$_default_base_url/version.json'),
