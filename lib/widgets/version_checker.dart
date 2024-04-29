@@ -37,7 +37,8 @@ class _VersionCheckerState extends State<VersionChecker> {
     final settings = context.read<Settings>();
     final isOutdated =
         latestVersion != null && widget.currentVersion < latestVersion!;
-
+    print('build:latestVersion: $latestVersion');
+    print('build:isOutdated: $isOutdated');
     if (latestVersion == null || !isOutdated) {
       return Container();
     }
