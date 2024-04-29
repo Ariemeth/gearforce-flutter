@@ -8,9 +8,8 @@ import 'package:provider/provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  //final myUrl = Uri.base.toString();
-
-  final idParam = Uri.base.queryParameters['id'];
+  final baseUri = Uri.base;
+  final idParam = baseUri.queryParameters['id'];
 
   if (idParam != null && idParam.isNotEmpty) {
     print('loading id: $idParam');
@@ -54,8 +53,10 @@ class _GearForceState extends State<GearForce> {
 
   @override
   Widget build(BuildContext context) {
+    final title = 'Gearforce';
+
     return MaterialApp(
-      title: 'Gearforce',
+      title: title,
       theme: ThemeData(
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(
@@ -65,7 +66,7 @@ class _GearForceState extends State<GearForce> {
         ),
       ),
       home: RosterWidget(
-        title: 'Gearforce',
+        title: title,
         data: widget.data,
         rosterId: widget.rosterId,
         version: widget.version,
