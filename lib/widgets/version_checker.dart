@@ -27,7 +27,7 @@ class _VersionCheckerState extends State<VersionChecker> {
   void initState() {
     super.initState();
     _checkForUpdatedVersion();
-    Timer.periodic(Duration(seconds: 10), (timer) async {
+    Timer.periodic(Duration(seconds: 600), (timer) async {
       _checkForUpdatedVersion();
     });
   }
@@ -37,8 +37,6 @@ class _VersionCheckerState extends State<VersionChecker> {
     final settings = context.read<Settings>();
     final isOutdated =
         latestVersion != null && widget.currentVersion < latestVersion!;
-    print('build:latestVersion: $latestVersion');
-    print('build:isOutdated: $isOutdated');
     if (latestVersion == null || !isOutdated) {
       return Container();
     }
@@ -57,11 +55,7 @@ class _VersionCheckerState extends State<VersionChecker> {
   }
 
   void _checkForUpdatedVersion() async {
-    // TODO remove when everything seems to be working
-    print('Checking for updated version');
     final latestVersionStr = await ApiService.getLatestVersion(Uri.base);
-    print("latestVersionStr: $latestVersionStr");
-    print("currentVersion: ${widget.currentVersion}");
     if (latestVersionStr == null || latestVersionStr.isEmpty) {
       if (this.latestVersion != null) {
         setState(() {
