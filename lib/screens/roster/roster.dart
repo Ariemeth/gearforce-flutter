@@ -16,6 +16,7 @@ import 'package:gearforce/widgets/api/api_service.dart';
 import 'package:gearforce/widgets/confirmation_dialog.dart';
 import 'package:gearforce/widgets/pdf_settings.dart';
 import 'package:gearforce/widgets/roster_id.dart';
+import 'package:gearforce/widgets/settings.dart';
 import 'package:gearforce/widgets/version_checker.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -74,6 +75,7 @@ class _RosterWidgetState extends State<RosterWidget> {
   @override
   Widget build(BuildContext context) {
     final data = context.watch<Data>();
+    final appSettings = context.watch<Settings>();
 
     return Scaffold(
       appBar: AppBar(
@@ -197,7 +199,14 @@ class _RosterWidgetState extends State<RosterWidget> {
                 );
 
                 if (pdfSettings != null) {
-                  printPDF(roster, pdfSettings, version: widget.version);
+                  printPDF(
+                    roster,
+                    pdfSettings,
+                    isExtendedContentAllowed:
+                        appSettings.isExtendedContentAllowed,
+                    isAlphaBetaAllowed: appSettings.isAlphaBetaAllowed,
+                    version: widget.version,
+                  );
                 }
               },
             ),
@@ -213,7 +222,14 @@ class _RosterWidgetState extends State<RosterWidget> {
                 );
 
                 if (pdfSettings != null) {
-                  downloadPDF(roster, pdfSettings, version: widget.version);
+                  downloadPDF(
+                    roster,
+                    pdfSettings,
+                    isExtendedContentAllowed:
+                        appSettings.isExtendedContentAllowed,
+                    isAlphaBetaAllowed: appSettings.isAlphaBetaAllowed,
+                    version: widget.version,
+                  );
                 }
               },
             ),

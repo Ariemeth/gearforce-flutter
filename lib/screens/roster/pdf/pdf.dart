@@ -18,7 +18,9 @@ const double _unitCardMargins = 0;
 
 Future<bool> printPDF(
   UnitRoster roster,
-  PDFSettings settings, {
+  PDFSettings pdfSettings, {
+  required bool isExtendedContentAllowed,
+  required bool isAlphaBetaAllowed,
   required String version,
 }) async {
   final info = await Printing.info();
@@ -41,14 +43,23 @@ Future<bool> printPDF(
     // when the user changes the printer or printer settings
     onLayout: (PdfPageFormat format) {
       // Any valid Pdf document can be returned here as a list of int
-      return buildPdf(format, roster, settings, version: version);
+      return buildPdf(
+        format,
+        roster,
+        pdfSettings,
+        version: version,
+        isExtendedContentAllowed: isExtendedContentAllowed,
+        isAlphaBetaAllowed: isAlphaBetaAllowed,
+      );
     },
   );
 }
 
 Future<void> downloadPDF(
   UnitRoster roster,
-  PDFSettings settings, {
+  PDFSettings pdfSettings, {
+  required bool isExtendedContentAllowed,
+  required bool isAlphaBetaAllowed,
   required String version,
 }) async {
   final pdf = await buildPdf(
@@ -61,7 +72,9 @@ Future<void> downloadPDF(
       marginBottom: PdfPageFormat.inch / 4.0,
     ),
     roster,
-    settings,
+    pdfSettings,
+    isExtendedContentAllowed: isExtendedContentAllowed,
+    isAlphaBetaAllowed: isAlphaBetaAllowed,
     version: version,
   );
 
@@ -85,7 +98,9 @@ Future<void> downloadPDF(
 Future<Uint8List> buildPdf(
   PdfPageFormat format,
   UnitRoster roster,
-  PDFSettings settings, {
+  PDFSettings pdfSettings, {
+  required bool isExtendedContentAllowed,
+  required bool isAlphaBetaAllowed,
   required String version,
 }) async {
   // Create the Pdf document
@@ -93,7 +108,7 @@ Future<Uint8List> buildPdf(
   final font = await PdfGoogleFonts.nunitoRegular();
   final pageTheme = await _myPageTheme(format);
 
-  if (settings.sections.recordSheet) {
+  if (pdfSettings.sections.recordSheet) {
     // Add record sheet summary
     doc.addPage(
       pw.MultiPage(
@@ -102,13 +117,25 @@ Future<Uint8List> buildPdf(
             return buildRecordSheet(font, roster);
           },
           footer: (pw.Context context) {
-            return _buildFooter(context, version, roster.rulesVersion);
+            return _buildFooter(
+              context,
+              version,
+              roster.rulesVersion,
+              isExtendedContentAllowed: isExtendedContentAllowed,
+              isAlphaBetaAllowed: isAlphaBetaAllowed,
+            );
           }),
     );
   }
 
-  if (settings.sections.unitCards) {
-    final unitCards = buildUnitCards(font, roster, version: version);
+  if (pdfSettings.sections.unitCards) {
+    final unitCards = buildUnitCards(
+      font,
+      roster,
+      version: version,
+      isExtendedContentAllowed: isExtendedContentAllowed,
+      isAlphaBetaAllowed: isAlphaBetaAllowed,
+    );
 
     // Add unit cards
     doc.addPage(pw.MultiPage(
@@ -127,12 +154,18 @@ Future<Uint8List> buildPdf(
         ];
       },
       footer: (pw.Context context) {
-        return _buildFooter(context, version, roster.rulesVersion);
+        return _buildFooter(
+          context,
+          version,
+          roster.rulesVersion,
+          isExtendedContentAllowed: isExtendedContentAllowed,
+          isAlphaBetaAllowed: isAlphaBetaAllowed,
+        );
       },
     ));
   }
 
-  if (settings.sections.traitReference) {
+  if (pdfSettings.sections.traitReference) {
     // Add Trait reference page
     doc.addPage(pw.MultiPage(
         pageTheme: pageTheme,
@@ -140,11 +173,18 @@ Future<Uint8List> buildPdf(
           return [buildTraitSheet(font, roster.getAllUnits())];
         },
         footer: (pw.Context context) {
-          return _buildFooter(context, version, roster.rulesVersion);
+          return _buildFooter(
+            context,
+            version,
+            roster.rulesVersion,
+            isExtendedContentAllowed: isExtendedContentAllowed,
+            isAlphaBetaAllowed: isAlphaBetaAllowed,
+          );
         }));
   }
 
-  if (settings.sections.factionRules || settings.sections.subFactionRules) {
+  if (pdfSettings.sections.factionRules ||
+      pdfSettings.sections.subFactionRules) {
     // Add Rules reference page
     doc.addPage(pw.MultiPage(
         pageTheme: pageTheme,
@@ -153,13 +193,19 @@ Future<Uint8List> buildPdf(
             buildRulesSheet(
               font,
               roster,
-              includeFactionRules: settings.sections.factionRules,
-              includeSubFactionRules: settings.sections.subFactionRules,
+              includeFactionRules: pdfSettings.sections.factionRules,
+              includeSubFactionRules: pdfSettings.sections.subFactionRules,
             )
           ];
         },
         footer: (pw.Context context) {
-          return _buildFooter(context, version, roster.rulesVersion);
+          return _buildFooter(
+            context,
+            version,
+            roster.rulesVersion,
+            isExtendedContentAllowed: isExtendedContentAllowed,
+            isAlphaBetaAllowed: isAlphaBetaAllowed,
+          );
         }));
   }
   // Build and return the final Pdf file data
@@ -167,30 +213,47 @@ Future<Uint8List> buildPdf(
 }
 
 pw.Widget _buildFooter(
-    pw.Context context, String version, String rulesVersion) {
+  pw.Context context,
+  String version,
+  String rulesVersion, {
+  required bool isExtendedContentAllowed,
+  required bool isAlphaBetaAllowed,
+}) {
   final footerStyle = pw.Theme.of(context)
       .defaultTextStyle
       .copyWith(color: PdfColors.grey, fontSize: 10);
 
-  return pw.Row(
-    mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+  var rulesVersionText = 'Rules: $rulesVersion';
+  if (isExtendedContentAllowed) {
+    rulesVersionText += ' + Extended Content';
+  }
+  if (isAlphaBetaAllowed) {
+    rulesVersionText += ' + Alpha/Beta';
+  }
+
+  return pw.Column(
     children: [
       pw.Container(
         alignment: pw.Alignment.centerLeft,
-        child: pw.Text('Rules: $rulesVersion', style: footerStyle),
+        child: pw.Text(rulesVersionText, style: footerStyle),
       ),
-      pw.Container(
-        alignment: pw.Alignment.center,
-        child: pw.Text('Created using Gearforce v$version  $_webURL',
-            style: footerStyle),
-      ),
-      pw.Container(
-        alignment: pw.Alignment.centerRight,
-        child: pw.Text(
-          'Page ${context.pageNumber} of ${context.pagesCount}',
-          style: footerStyle,
-        ),
-      ),
+      pw.Row(
+        mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+        children: [
+          pw.Container(
+            alignment: pw.Alignment.center,
+            child: pw.Text('Created using Gearforce v$version  $_webURL',
+                style: footerStyle),
+          ),
+          pw.Container(
+            alignment: pw.Alignment.centerRight,
+            child: pw.Text(
+              'Page ${context.pageNumber} of ${context.pagesCount}',
+              style: footerStyle,
+            ),
+          ),
+        ],
+      )
     ],
   );
 }
