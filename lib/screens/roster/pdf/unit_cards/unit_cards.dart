@@ -29,6 +29,7 @@ const _reactSymbol = '»';
 List<pw.Widget> buildUnitCards(
   pw.Font font,
   UnitRoster roster, {
+  required bool isExtendedContentAllowed,
   required String version,
 }) {
   final List<pw.Widget> units = [];
@@ -37,6 +38,7 @@ List<pw.Widget> buildUnitCards(
       font,
       primaryUnits: cg.primary.allUnits(),
       secondaryUnits: cg.secondary.allUnits(),
+      isExtendedContentAllowed: isExtendedContentAllowed,
       version: version,
     ));
   });
@@ -48,12 +50,23 @@ List<pw.Widget> _buildGroupUnits(
   pw.Font font, {
   required List<Unit> primaryUnits,
   required List<Unit> secondaryUnits,
+  required bool isExtendedContentAllowed,
   required String version,
 }) {
   final List<pw.Widget> groupCards = [];
 
-  groupCards.addAll(_buildUnitCards(font, primaryUnits, version: version));
-  groupCards.addAll(_buildUnitCards(font, secondaryUnits, version: version));
+  groupCards.addAll(_buildUnitCards(
+    font,
+    primaryUnits,
+    version: version,
+    isExtendedContentAllowed: isExtendedContentAllowed,
+  ));
+  groupCards.addAll(_buildUnitCards(
+    font,
+    secondaryUnits,
+    version: version,
+    isExtendedContentAllowed: isExtendedContentAllowed,
+  ));
 
   return groupCards;
 }
@@ -61,17 +74,32 @@ List<pw.Widget> _buildGroupUnits(
 List<pw.Widget> _buildUnitCards(
   pw.Font font,
   List<Unit> units, {
+  required bool isExtendedContentAllowed,
   required String version,
 }) {
-  return units.map((us) => _buildUnitCard(font, us, version: version)).toList();
+  return units
+      .map((us) => _buildUnitCard(
+            font,
+            us,
+            version: version,
+            isExtendedContentAllowed: isExtendedContentAllowed,
+          ))
+      .toList();
 }
 
 pw.Widget _buildUnitCard(
   pw.Font font,
   Unit u, {
+  required bool isExtendedContentAllowed,
   required String version,
 }) {
   final rulesVersion = u.roster?.rulesVersion;
+  var rulesText =
+      'Gearforce $version${rulesVersion != null ? '; Rules: $rulesVersion' : ''}';
+  if (isExtendedContentAllowed) {
+    rulesText += ' & Ext. Content';
+  }
+
   final card = pw.Container(
     width: _cardWidth,
     height: _cardHeight,
@@ -86,7 +114,7 @@ pw.Widget _buildUnitCard(
         pw.Container(
           alignment: pw.Alignment.bottomCenter,
           child: pw.Text(
-            'Gearforce $version${rulesVersion != null ? '; Rules: $rulesVersion' : ''}',
+            rulesText,
             style: pw.TextStyle(
                 color: PdfColors.grey, fontSize: _unitCardFooterFontSize),
           ),
