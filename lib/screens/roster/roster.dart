@@ -10,6 +10,7 @@ import 'package:gearforce/screens/roster/pdf/pdf.dart';
 import 'package:gearforce/screens/roster/pdf/pdf_settings_dialog.dart';
 import 'package:gearforce/screens/roster/roster_display.dart';
 import 'package:gearforce/screens/roster/show_roster_id.dart';
+import 'package:gearforce/screens/settings/application_settings_dialog.dart';
 import 'package:gearforce/screens/unitSelector/unit_selection.dart';
 import 'package:gearforce/widgets/api/api_service.dart';
 import 'package:gearforce/widgets/confirmation_dialog.dart';
@@ -321,6 +322,20 @@ class _RosterWidgetState extends State<RosterWidget> {
                   style: TextStyle(
                     fontSize: 16,
                   )),
+            ),
+            ListTile(
+              title: Text(
+                'Settings',
+                style: TextStyle(
+                  fontSize: 16,
+                ),
+              ),
+              onTap: () async {
+                await showDialog<ApplicationSettingsDialog>(
+                  context: context,
+                  builder: (context) => ApplicationSettingsDialog(),
+                );
+              },
             ),
             ListTile(
               title: Text(
