@@ -30,6 +30,7 @@ List<pw.Widget> buildUnitCards(
   pw.Font font,
   UnitRoster roster, {
   required bool isExtendedContentAllowed,
+  required bool isAlphaBetaAllowed,
   required String version,
 }) {
   final List<pw.Widget> units = [];
@@ -39,6 +40,7 @@ List<pw.Widget> buildUnitCards(
       primaryUnits: cg.primary.allUnits(),
       secondaryUnits: cg.secondary.allUnits(),
       isExtendedContentAllowed: isExtendedContentAllowed,
+      isAlphaBetaAllowed: isAlphaBetaAllowed,
       version: version,
     ));
   });
@@ -51,6 +53,7 @@ List<pw.Widget> _buildGroupUnits(
   required List<Unit> primaryUnits,
   required List<Unit> secondaryUnits,
   required bool isExtendedContentAllowed,
+  required bool isAlphaBetaAllowed,
   required String version,
 }) {
   final List<pw.Widget> groupCards = [];
@@ -60,12 +63,14 @@ List<pw.Widget> _buildGroupUnits(
     primaryUnits,
     version: version,
     isExtendedContentAllowed: isExtendedContentAllowed,
+    isAlphaBetaAllowed: isAlphaBetaAllowed,
   ));
   groupCards.addAll(_buildUnitCards(
     font,
     secondaryUnits,
     version: version,
     isExtendedContentAllowed: isExtendedContentAllowed,
+    isAlphaBetaAllowed: isAlphaBetaAllowed,
   ));
 
   return groupCards;
@@ -75,6 +80,7 @@ List<pw.Widget> _buildUnitCards(
   pw.Font font,
   List<Unit> units, {
   required bool isExtendedContentAllowed,
+  required bool isAlphaBetaAllowed,
   required String version,
 }) {
   return units
@@ -83,6 +89,7 @@ List<pw.Widget> _buildUnitCards(
             us,
             version: version,
             isExtendedContentAllowed: isExtendedContentAllowed,
+            isAlphaBetaAllowed: isAlphaBetaAllowed,
           ))
       .toList();
 }
@@ -91,13 +98,17 @@ pw.Widget _buildUnitCard(
   pw.Font font,
   Unit u, {
   required bool isExtendedContentAllowed,
+  required bool isAlphaBetaAllowed,
   required String version,
 }) {
   final rulesVersion = u.roster?.rulesVersion;
-  var rulesText =
-      'Gearforce $version${rulesVersion != null ? '; Rules: $rulesVersion' : ''}';
+  var rulesVersionText =
+      '${rulesVersion != null ? 'Rules: $rulesVersion' : ''}';
   if (isExtendedContentAllowed) {
-    rulesText += ' & Ext. Content';
+    rulesVersionText += ' + Extended Content';
+  }
+  if (isAlphaBetaAllowed) {
+    rulesVersionText += ' + Alpha/Beta';
   }
 
   final card = pw.Container(
@@ -111,15 +122,32 @@ pw.Widget _buildUnitCard(
         _buildThirdSection(font, u),
         _buildTraitsSection(font, u.traits),
         pw.Expanded(child: _buildWeaponsSection(font, u.weapons)),
-        pw.Container(
-          alignment: pw.Alignment.bottomCenter,
-          child: pw.Text(
-            rulesText,
-            style: pw.TextStyle(
-                color: PdfColors.grey, fontSize: _unitCardFooterFontSize),
-          ),
-          padding: pw.EdgeInsets.only(bottom: _unitCardFooterPadding),
-        ),
+        pw.Padding(
+            padding: pw.EdgeInsets.only(
+              left: 5.0,
+              right: 5.0,
+              bottom: _unitCardFooterPadding,
+            ),
+            child: pw.Column(
+              children: [
+                pw.Text(
+                  'Gearforce $version',
+                  maxLines: 2,
+                  softWrap: true,
+                  style: pw.TextStyle(
+                      color: PdfColors.grey, fontSize: _unitCardFooterFontSize),
+                ),
+                pw.Container(
+                  alignment: pw.Alignment.bottomCenter,
+                  child: pw.Text(
+                    rulesVersionText,
+                    style: pw.TextStyle(
+                        color: PdfColors.grey,
+                        fontSize: _unitCardFooterFontSize),
+                  ),
+                )
+              ],
+            ))
       ],
     ),
     decoration: pw.BoxDecoration(

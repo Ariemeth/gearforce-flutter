@@ -20,6 +20,7 @@ Future<bool> printPDF(
   UnitRoster roster,
   PDFSettings pdfSettings, {
   required bool isExtendedContentAllowed,
+  required bool isAlphaBetaAllowed,
   required String version,
 }) async {
   final info = await Printing.info();
@@ -48,6 +49,7 @@ Future<bool> printPDF(
         pdfSettings,
         version: version,
         isExtendedContentAllowed: isExtendedContentAllowed,
+        isAlphaBetaAllowed: isAlphaBetaAllowed,
       );
     },
   );
@@ -57,6 +59,7 @@ Future<void> downloadPDF(
   UnitRoster roster,
   PDFSettings pdfSettings, {
   required bool isExtendedContentAllowed,
+  required bool isAlphaBetaAllowed,
   required String version,
 }) async {
   final pdf = await buildPdf(
@@ -71,6 +74,7 @@ Future<void> downloadPDF(
     roster,
     pdfSettings,
     isExtendedContentAllowed: isExtendedContentAllowed,
+    isAlphaBetaAllowed: isAlphaBetaAllowed,
     version: version,
   );
 
@@ -96,6 +100,7 @@ Future<Uint8List> buildPdf(
   UnitRoster roster,
   PDFSettings pdfSettings, {
   required bool isExtendedContentAllowed,
+  required bool isAlphaBetaAllowed,
   required String version,
 }) async {
   // Create the Pdf document
@@ -117,6 +122,7 @@ Future<Uint8List> buildPdf(
               version,
               roster.rulesVersion,
               isExtendedContentAllowed: isExtendedContentAllowed,
+              isAlphaBetaAllowed: isAlphaBetaAllowed,
             );
           }),
     );
@@ -128,6 +134,7 @@ Future<Uint8List> buildPdf(
       roster,
       version: version,
       isExtendedContentAllowed: isExtendedContentAllowed,
+      isAlphaBetaAllowed: isAlphaBetaAllowed,
     );
 
     // Add unit cards
@@ -152,6 +159,7 @@ Future<Uint8List> buildPdf(
           version,
           roster.rulesVersion,
           isExtendedContentAllowed: isExtendedContentAllowed,
+          isAlphaBetaAllowed: isAlphaBetaAllowed,
         );
       },
     ));
@@ -170,6 +178,7 @@ Future<Uint8List> buildPdf(
             version,
             roster.rulesVersion,
             isExtendedContentAllowed: isExtendedContentAllowed,
+            isAlphaBetaAllowed: isAlphaBetaAllowed,
           );
         }));
   }
@@ -195,6 +204,7 @@ Future<Uint8List> buildPdf(
             version,
             roster.rulesVersion,
             isExtendedContentAllowed: isExtendedContentAllowed,
+            isAlphaBetaAllowed: isAlphaBetaAllowed,
           );
         }));
   }
@@ -207,32 +217,43 @@ pw.Widget _buildFooter(
   String version,
   String rulesVersion, {
   required bool isExtendedContentAllowed,
+  required bool isAlphaBetaAllowed,
 }) {
   final footerStyle = pw.Theme.of(context)
       .defaultTextStyle
       .copyWith(color: PdfColors.grey, fontSize: 10);
 
-  return pw.Row(
-    mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+  var rulesVersionText = 'Rules: $rulesVersion';
+  if (isExtendedContentAllowed) {
+    rulesVersionText += ' + Extended Content';
+  }
+  if (isAlphaBetaAllowed) {
+    rulesVersionText += ' + Alpha/Beta';
+  }
+
+  return pw.Column(
     children: [
       pw.Container(
         alignment: pw.Alignment.centerLeft,
-        child: pw.Text(
-            'Rules: $rulesVersion${isExtendedContentAllowed ? ' & Ext. Content' : ''}',
-            style: footerStyle),
+        child: pw.Text(rulesVersionText, style: footerStyle),
       ),
-      pw.Container(
-        alignment: pw.Alignment.center,
-        child: pw.Text('Created using Gearforce v$version  $_webURL',
-            style: footerStyle),
-      ),
-      pw.Container(
-        alignment: pw.Alignment.centerRight,
-        child: pw.Text(
-          'Page ${context.pageNumber} of ${context.pagesCount}',
-          style: footerStyle,
-        ),
-      ),
+      pw.Row(
+        mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+        children: [
+          pw.Container(
+            alignment: pw.Alignment.center,
+            child: pw.Text('Created using Gearforce v$version  $_webURL',
+                style: footerStyle),
+          ),
+          pw.Container(
+            alignment: pw.Alignment.centerRight,
+            child: pw.Text(
+              'Page ${context.pageNumber} of ${context.pagesCount}',
+              style: footerStyle,
+            ),
+          ),
+        ],
+      )
     ],
   );
 }

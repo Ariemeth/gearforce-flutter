@@ -204,6 +204,7 @@ class _RosterWidgetState extends State<RosterWidget> {
                     pdfSettings,
                     isExtendedContentAllowed:
                         appSettings.isExtendedContentAllowed,
+                    isAlphaBetaAllowed: appSettings.isAlphaBetaAllowed,
                     version: widget.version,
                   );
                 }
@@ -226,6 +227,7 @@ class _RosterWidgetState extends State<RosterWidget> {
                     pdfSettings,
                     isExtendedContentAllowed:
                         appSettings.isExtendedContentAllowed,
+                    isAlphaBetaAllowed: appSettings.isAlphaBetaAllowed,
                     version: widget.version,
                   );
                 }
