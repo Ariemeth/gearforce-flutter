@@ -16,13 +16,15 @@ Future<void> main() async {
   }
 
   final appInfo = await PackageInfo.fromPlatform();
+  final settings = Settings();
+  await settings.load();
 
   var data = Data();
   data.load().whenComplete(() {
     runApp(MultiProvider(
       providers: [
         Provider(create: (_) => data),
-        Provider(create: (_) => Settings()),
+        Provider(create: (_) => settings),
       ],
       child: GearForce(
         data: data,
