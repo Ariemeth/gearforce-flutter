@@ -81,7 +81,7 @@ class North extends RuleSet {
   factory North.NLC(Data data) => NLC(data);
 }
 
-final ruleTaskBuilt = Rule(
+final Rule ruleTaskBuilt = Rule(
   name: 'Task Built',
   id: _ruleTaskBuiltId,
   factionMods: (ur, cg, u) {
@@ -189,14 +189,14 @@ final Rule ruleProspectors = Rule(
       ' SK, FS, RC or SO units.',
 );
 
-final ruleHammersOfTheNorth = Rule(
+final Rule ruleHammersOfTheNorth = Rule(
   name: 'Hammers of the North',
   id: _ruleHammersOfTheNorthId,
   factionMods: (ur, cg, u) => [NorthernFactionMods.hammerOfTheNorth(u)],
   description: 'Snub cannons may be given the Precise trait for +1 TV each.',
 );
 
-final ruleVeteranLeaders = Rule(
+final Rule ruleVeteranLeaders = Rule(
   name: 'Veteran Leaders',
   id: _ruleVeteranLeadersId,
   veteranCheckOverride: (u, cg) {

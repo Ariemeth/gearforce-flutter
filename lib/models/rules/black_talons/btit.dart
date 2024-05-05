@@ -41,7 +41,7 @@ class BTIT extends BlackTalons {
         );
 }
 
-final ruleAllies = Rule(
+final Rule ruleAllies = Rule(
   name: 'Allies',
   id: _ruleAlliesId,
   unitFilter: (cgOptions) => const SpecialUnitFilter(

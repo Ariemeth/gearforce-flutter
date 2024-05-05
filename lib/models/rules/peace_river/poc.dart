@@ -53,7 +53,7 @@ class POC extends PeaceRiver {
         );
 }
 
-final ruleSpecialIssue = Rule(
+final Rule ruleSpecialIssue = Rule(
   name: 'Special Issue',
   id: _ruleSpecialIssueId,
   hasGroupRole: (unit, target, group) {
@@ -70,14 +70,14 @@ final ruleSpecialIssue = Rule(
   description: 'Greyhounds may be placed in GP, SK, FS, RC or SO units.',
 );
 
-final ruleECMSpecialist = Rule(
+final Rule ruleECMSpecialist = Rule(
     name: 'ECM Specialist',
     id: _ruleEcmSpecialistId,
     factionMods: (ur, cg, u) => [PeaceRiverFactionMods.ecmSpecialist()],
     description: 'One gear or strider per combat group may improve its ECM' +
         ' to ECM+ for 1 TV each.');
 
-final rulePOCOlTrusty = Rule(
+final Rule rulePOCOlTrusty = Rule(
   name: 'Ol’ Trusty',
   id: _ruleOlTrustyId,
   factionMods: (ur, cg, u) => [PeaceRiverFactionMods.olTrustyPOC()],
@@ -85,7 +85,7 @@ final rulePOCOlTrusty = Rule(
       ' one for 1 TV each.',
 );
 
-final rulePeaceOfficer = Rule(
+final Rule rulePeaceOfficer = Rule(
     name: 'Peace Officer',
     id: _rulePeaceOfficersId,
     factionMods: (ur, cg, u) => [PeaceRiverFactionMods.peaceOfficers(u)],
@@ -94,7 +94,7 @@ final rulePeaceOfficer = Rule(
             ' Shield trait. If a gear does not have a rocket pack, then it' +
             ' may instead gain the Shield trait for 1 TV.');
 
-final ruleGSwatSniper = Rule(
+final Rule ruleGSwatSniper = Rule(
     name: 'G-Swat Sniper',
     id: _ruleGSwatId,
     veteranModCheck: (u, cg, {required modID}) {

@@ -59,7 +59,7 @@ const filterSubContractor = SpecialUnitFilter(
   ],
 );
 
-final ruleExPRDF = Rule(
+final Rule ruleExPRDF = Rule(
     name: _exPRDF,
     id: _ruleExPRDFId,
     description: 'Choose any one rule from the PRDF.',
@@ -150,7 +150,7 @@ final ruleExPRDF = Rule(
       ),
     ]);
 
-final ruleExPOC = Rule(
+final Rule ruleExPOC = Rule(
     name: _exPOC,
     id: _ruleExPOCId,
     description: 'Choose any one rule from the POC.',

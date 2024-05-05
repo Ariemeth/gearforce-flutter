@@ -67,7 +67,7 @@ class PRDF extends PeaceRiver {
         );
 }
 
-final ruleOlTrusty = Rule(
+final Rule ruleOlTrusty = Rule(
   name: 'Ol’ Trusty',
   id: _ruleOlTrustyId,
   factionMods: (ur, cg, u) => [PeaceRiverFactionMods.olTrusty()],
@@ -75,7 +75,7 @@ final ruleOlTrusty = Rule(
       ' by one for 1 TV each. This does not include Warrior IVs.',
 );
 
-final ruleThunderFromTheSky = Rule(
+final Rule ruleThunderFromTheSky = Rule(
   name: 'Thunder from the Sky',
   id: _ruleThunderFromTheSkyId,
   factionMods: (ur, cg, u) => [PeaceRiverFactionMods.thunderFromTheSky()],
@@ -83,7 +83,7 @@ final ruleThunderFromTheSky = Rule(
       ' instead of 4+ for 1 TV each.',
 );
 
-final ruleHighTech = Rule(
+final Rule ruleHighTech = Rule(
     name: 'High Tech',
     id: _ruleHighTechId,
     isRoleTypeUnlimited: (unit, target, group, roster) {
@@ -131,13 +131,13 @@ final Rule ruleBestMenAndWomen = Rule(
       id: _ruleBestMenAndWomenId),
 );
 
-final ruleEliteElements = Rule(
+final Rule ruleEliteElements = Rule(
     name: 'Elite Elements',
     id: _ruleEliteElementsId,
     factionMods: (ur, cg, u) => [PeaceRiverFactionMods.eliteElements(ur)],
     description: 'One SK unit may change their role to SO.');
 
-final ruleGhostStrike = Rule(
+final Rule ruleGhostStrike = Rule(
     name: 'Ghost Strike',
     id: _ruleGhostStrikeId,
     description: 'Models in one combat group using special operations' +

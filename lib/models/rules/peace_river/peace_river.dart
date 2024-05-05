@@ -81,7 +81,7 @@ class PeaceRiver extends RuleSet {
   factory PeaceRiver.PRDF(Data data) => prdf.PRDF(data);
 }
 
-final ruleArchitects = Rule(
+final Rule ruleArchitects = Rule(
     name: 'Architects',
     id: _ruleArchitectsId,
     duelistModelCheck: (roster, u) {
@@ -92,7 +92,7 @@ final ruleArchitects = Rule(
     },
     description: 'The duelist for this force may use a Peace River strider.');
 
-final ruleCrisisResponders = Rule(
+final Rule ruleCrisisResponders = Rule(
     name: 'Crisis Responders',
     id: _ruleCrisisRespondersId,
     isRoleTypeUnlimited: (unit, target, group, roster) {
@@ -115,21 +115,21 @@ final ruleCrisisResponders = Rule(
     description:
         'Any Crusader IV that has been upgraded to a Crusader V may swap their HAC, MSC, MBZ or LFG for a MPA (React) and a Shield for 1 TV. This Crisis Responder variant is unlimited for this force.');
 
-final ruleEPex = Rule(
+final Rule ruleEPex = Rule(
     name: 'E-pex',
     id: _ruleEpexId,
     factionMods: (ur, cg, u) => [PeaceRiverFactionMods.e_pex()],
     description:
         'One Peace River model within each combat group may increase its EW skill by one for 1 TV each.');
 
-final ruleLaserTech = Rule(
+final Rule ruleLaserTech = Rule(
     name: 'Laser Tech',
     id: _ruleLaserTechId,
     factionMods: (ur, cg, u) => [PeaceRiverFactionMods.laserTech(u)],
     description:
         'Veteran universal infantry and veteran Spitz Monowheels may upgrade their IW, IR or IS for 1 TV each. These weapons receive the Advanced trait.');
 
-final ruleWarriorElite = Rule(
+final Rule ruleWarriorElite = Rule(
     name: 'Warrior Elite',
     id: _ruleWarriorEliteId,
     factionMods: (ur, cg, u) => [PeaceRiverFactionMods.warriorElite()],

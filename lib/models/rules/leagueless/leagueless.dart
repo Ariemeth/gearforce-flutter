@@ -305,7 +305,7 @@ class SourceNuCoal extends Leagueless {
 
 final _nuCoalSourcesRules = buildTheSource(FactionType.NuCoal);
 
-final ruleJudicious = Rule(
+final Rule ruleJudicious = Rule(
   name: 'Judicious',
   id: _ruleJudiciousId,
   canBeAddedToGroup: (unit, group, cg) {
@@ -648,7 +648,7 @@ final List<Rule> _protectorateSponsoredRules = [
   ),
 ];
 
-final ruleExpertSalvagers = Rule(
+final Rule ruleExpertSalvagers = Rule(
   name: 'Expert Salvagers',
   id: _ruleExpertSalvagersId,
   isEnabled: false,
@@ -739,7 +739,7 @@ final ruleExpertSalvagers = Rule(
       ' South, Peace River and NuCoal.',
 );
 
-final ruleStripped = Rule(
+final Rule ruleStripped = Rule(
   name: 'Stripped',
   id: _ruleStrippedId,
   isEnabled: false,
@@ -771,7 +771,7 @@ final ruleStripped = Rule(
       ' force and placed in GP, SK, FS, RC or SO units.',
 );
 
-final ruleWeCameFromTheDesert = Rule(
+final Rule ruleWeCameFromTheDesert = Rule(
   name: 'We Came From the Desert',
   id: _ruleWeCameFromTheDesertId,
   isEnabled: false,
@@ -794,7 +794,7 @@ bool matchWeCameFromTheDesert(UnitCore uc) {
   return uc.frame == 'Sandrider' || uc.frame == 'En Koreshi';
 }
 
-final rulePurplePowered = Rule(
+final Rule rulePurplePowered = Rule(
   name: 'Purple Powered',
   id: _rulePurplePowerId,
   isEnabled: false,
