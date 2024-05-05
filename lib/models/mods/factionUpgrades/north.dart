@@ -200,8 +200,8 @@ class NorthernFactionMods extends FactionModification {
       );
 
       newList.remove(weaponToRemove);
-      newList.add(Weapon.fromWeapon(weaponToRemove,
-          addTraits: [Trait(name: 'Precise')]));
+      newList
+          .add(Weapon.fromWeapon(weaponToRemove, addTraits: [Trait.Precise()]));
       return newList;
     }, description: 'Add Precise to a Snub Cannon');
 

@@ -124,14 +124,15 @@ final Rule ruleProspectors = Rule(
       return null;
     }
 
-    final hasClimber = unit.traits.any((trait) => trait.name == 'Climber');
+    final hasClimber =
+        unit.traits.any((trait) => trait.isSameType(Trait.Climber()));
     if (!hasClimber) {
       return null;
     }
 
     // Get the number of gears with climber in the entire force
     final unitsWithClimber = group.combatGroup?.roster
-        ?.unitsWithTrait(Trait(name: 'Climber'))
+        ?.unitsWithTrait(Trait.Climber())
         .where((u) => u != unit);
 
     // If there are less then 2 climbers already in the force, no need to check

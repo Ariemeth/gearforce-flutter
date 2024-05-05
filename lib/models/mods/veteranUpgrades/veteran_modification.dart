@@ -302,9 +302,11 @@ class VeteranModification extends BaseModification {
           return rs!.veteranModCheck(u, cg!, modID: brawler1Id);
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
-      ..addMod<List<Trait>>(UnitAttribute.traits,
-          createAddOrCombineTraitToList(Trait(name: 'Brawl', level: 1)),
-          description: '+Brawl:1 or +1 to existing Brawl');
+      ..addMod<List<Trait>>(
+        UnitAttribute.traits,
+        createAddOrCombineTraitToList(Trait.Brawl(1)),
+        description: '+Brawl:1 or +1 to existing Brawl',
+      );
   }
 
   /*
@@ -340,9 +342,11 @@ class VeteranModification extends BaseModification {
           return VeteranModification.brawler2(u);
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
-      ..addMod<List<Trait>>(UnitAttribute.traits,
-          createAddOrCombineTraitToList(Trait(name: 'Brawl', level: 2)),
-          description: '+Brawl:2 or +2 to existing Brawl');
+      ..addMod<List<Trait>>(
+        UnitAttribute.traits,
+        createAddOrCombineTraitToList(Trait.Brawl(2)),
+        description: '+Brawl:2 or +2 to existing Brawl',
+      );
   }
 
   /*
