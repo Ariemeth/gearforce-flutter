@@ -39,7 +39,7 @@ class KADA extends NuCoal {
         );
 }
 
-final ruleHeroesOfTheArena = FactionRule(
+final ruleHeroesOfTheArena = Rule(
   name: 'Heroes of the Arena',
   id: _ruleHeroesOfTheArenaId,
   duelistMaxNumberOverride: (roster, cg, u) => 1000000,
@@ -100,7 +100,7 @@ final ruleHeroesOfTheArena = FactionRule(
       ' This force cannot use the Independent Operator rule for duelists.',
 );
 
-final ruleTheBrute = FactionRule(
+final ruleTheBrute = Rule(
   name: 'The Brute',
   id: _ruleTheBruteId,
   duelistModelCheck: (roster, u) {
@@ -139,7 +139,7 @@ final ruleTheBrute = FactionRule(
       ' Peace River, or NuCoal.',
 );
 
-final ruleChallengers = FactionRule(
+final ruleChallengers = Rule(
   name: 'Something to Prove',
   id: _ruleChallengersId,
   description: 'One objective selected for this force may be the' +

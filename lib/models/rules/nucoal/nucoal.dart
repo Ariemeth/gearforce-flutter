@@ -34,8 +34,8 @@ class NuCoal extends RuleSet {
     String? description,
     required String name,
     List<String>? specialRules,
-    List<FactionRule>? factionRules,
-    List<FactionRule> subFactionRules = const [],
+    List<Rule>? factionRules,
+    List<Rule> subFactionRules = const [],
   }) : super(
           FactionType.NuCoal,
           data,
@@ -75,7 +75,7 @@ class NuCoal extends RuleSet {
   factory NuCoal.HCSA(Data data) => HCSA(data);
 }
 
-final FactionRule ruleHumanistTech = FactionRule(
+final Rule ruleHumanistTech = Rule(
   name: 'Humanist Tech',
   id: _ruleHumanistTechId,
   hasGroupRole: (unit, target, group) {
@@ -116,7 +116,7 @@ bool checkForHumanistTechUnit(String frame) {
       frame == 'Hetairoi';
 }
 
-final FactionRule rulePortArthurKorps = FactionRule(
+final Rule rulePortArthurKorps = Rule(
   name: 'Port Arthur Korps',
   id: _rulePortArthurKorpsId,
   hasGroupRole: (unit, target, group) {

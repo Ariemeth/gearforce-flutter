@@ -34,7 +34,7 @@ class CEFIF extends CEF {
         );
 }
 
-final FactionRule ruleTheAnvil = FactionRule(
+final Rule ruleTheAnvil = Rule(
   name: 'The Anvil',
   id: _ruleTheAnvilId,
   hasGroupRole: (unit, target, group) {
@@ -53,7 +53,7 @@ final FactionRule ruleTheAnvil = FactionRule(
   description: 'Infantry may be placed in GP, SK, FS, RC or SO units.',
 );
 
-final FactionRule ruleAlternateApproach = FactionRule(
+final Rule ruleAlternateApproach = Rule(
   name: 'Alternate Approach',
   id: _ruleAlternateApproachId,
   modifyTraits: (traits, uc) {

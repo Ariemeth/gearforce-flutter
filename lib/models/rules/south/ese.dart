@@ -46,7 +46,7 @@ class ESE extends South {
         );
 }
 
-final FactionRule ruleLocalManufacturing = FactionRule(
+final Rule ruleLocalManufacturing = Rule(
   name: 'Local Manufacturing',
   id: _ruleLocalManufacturingId,
   hasGroupRole: (unit, target, group) {
@@ -62,7 +62,7 @@ final FactionRule ruleLocalManufacturing = FactionRule(
   description: 'Iguanas may be placed in GP, SK, FS, RC and SO units.',
 );
 
-final FactionRule rulePersonalEscort = FactionRule(
+final Rule rulePersonalEscort = Rule(
   name: 'Personal Escort',
   id: _rulePersonalEscortId,
   duelistMaxNumberOverride: (roster, cg, u) {
@@ -164,7 +164,7 @@ const personalEscortFilter = const SpecialUnitFilter(
     ],
     id: _ruleAllyNuCoalId);
 
-final FactionRule ruleAllies = FactionRule(
+final Rule ruleAllies = Rule(
   name: 'Allies',
   id: _ruleAlliesId,
   options: [_allyNorth, _allyPeaceRiver, _allyNuCoal],
@@ -174,12 +174,12 @@ final FactionRule ruleAllies = FactionRule(
       ' purchased for models that do not come with it.',
 );
 
-final FactionRule _allyNorth = FactionRule(
+final Rule _allyNorth = Rule(
   name: 'North',
   id: _ruleAllyNorthId,
   isEnabled: false,
   canBeToggled: true,
-  requirementCheck: FactionRule.thereCanBeOnlyOne([
+  requirementCheck: Rule.thereCanBeOnlyOne([
     _ruleAllyPeaceRiverId,
     _ruleAllyNuCoalId,
   ]),
@@ -199,12 +199,12 @@ final FactionRule _allyNorth = FactionRule(
   description: 'May include models from the North',
 );
 
-final FactionRule _allyPeaceRiver = FactionRule(
+final Rule _allyPeaceRiver = Rule(
   name: 'Peace River',
   id: _ruleAllyPeaceRiverId,
   isEnabled: false,
   canBeToggled: true,
-  requirementCheck: FactionRule.thereCanBeOnlyOne([
+  requirementCheck: Rule.thereCanBeOnlyOne([
     _ruleAllyNorthId,
     _ruleAllyNuCoalId,
   ]),
@@ -227,12 +227,12 @@ final FactionRule _allyPeaceRiver = FactionRule(
   description: 'May include models from Peace River',
 );
 
-final FactionRule _allyNuCoal = FactionRule(
+final Rule _allyNuCoal = Rule(
   name: 'NuCoal',
   id: _ruleAllyNuCoalId,
   isEnabled: false,
   canBeToggled: true,
-  requirementCheck: FactionRule.thereCanBeOnlyOne([
+  requirementCheck: Rule.thereCanBeOnlyOne([
     _ruleAllyNorthId,
     _ruleAllyPeaceRiverId,
   ]),

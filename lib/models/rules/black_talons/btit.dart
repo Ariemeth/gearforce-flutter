@@ -41,7 +41,7 @@ class BTIT extends BlackTalons {
         );
 }
 
-final ruleAllies = FactionRule(
+final ruleAllies = Rule(
   name: 'Allies',
   id: _ruleAlliesId,
   unitFilter: (cgOptions) => const SpecialUnitFilter(
@@ -69,14 +69,14 @@ final ruleAllies = FactionRule(
       ' include a mix). Commanders must choose a Black Talon model.',
 );
 
-final FactionRule ruleAsymmetry = FactionRule(
+final Rule ruleAsymmetry = Rule(
   name: 'Asymmetry',
   id: _ruleAssymetryId,
   description: 'Any combat group that can use the airdrop special deployment' +
       ' may use the special operations deployment instead.',
 );
 
-final FactionRule ruleRadioBlackout = FactionRule(
+final Rule ruleRadioBlackout = Rule(
   name: 'Radio Blackout',
   id: _ruleRadioBlackoutId,
   factionMods: (ur, cg, u) => [BlackTalonMods.RadioBlackout()],
@@ -84,7 +84,7 @@ final FactionRule ruleRadioBlackout = FactionRule(
       ' improve its EW skill by one for 1 TV each.',
 );
 
-final FactionRule ruleTheTalons = FactionRule(
+final Rule ruleTheTalons = Rule(
   name: 'The Talons',
   id: _ruleTheTalonsId,
   factionMods: (ur, cg, u) => [BlackTalonMods.theTalons()],

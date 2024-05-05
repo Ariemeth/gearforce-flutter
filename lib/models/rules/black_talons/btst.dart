@@ -36,7 +36,7 @@ class BTST extends BlackTalons {
         );
 }
 
-final ruleAllies = FactionRule(
+final ruleAllies = Rule(
   name: 'Allies',
   id: _ruleAlliesId,
   unitFilter: (cgOptions) => const SpecialUnitFilter(
@@ -61,7 +61,7 @@ final ruleAllies = FactionRule(
       ' NuCoal (may include a mix). Commanders must choose a Black Talon model.',
 );
 
-final FactionRule ruleBestAndBrightest = FactionRule(
+final Rule ruleBestAndBrightest = Rule(
   name: 'Best and Brightest',
   id: _ruleBestAndBrightestId,
   veteranCheckOverride: (u, cg) {
@@ -80,7 +80,7 @@ final FactionRule ruleBestAndBrightest = FactionRule(
       ' counting against the veteran limitations.',
 );
 
-final FactionRule ruleShowoffs = FactionRule(
+final Rule ruleShowoffs = Rule(
   name: 'Showoffs',
   id: _ruleShowoffsId,
   duelistModCheck: (u, cg, {required modID}) {

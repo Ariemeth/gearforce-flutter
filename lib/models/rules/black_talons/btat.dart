@@ -34,14 +34,14 @@ class BTAT extends BlackTalons {
         );
 }
 
-final FactionRule ruleShadowWarriors = FactionRule(
+final Rule ruleShadowWarriors = Rule(
   name: 'Shadow Warriors',
   id: _ruleShadowWarriorsId,
   description: 'Models that start the game in area terrain gain a hidden' +
       ' token at the start of the first round.',
 );
 
-final FactionRule ruleBreachers = FactionRule(
+final Rule ruleBreachers = Rule(
   name: 'Breachers',
   id: _ruleBreachersId,
   modifyWeapon: (weapons) {
@@ -53,7 +53,7 @@ final FactionRule ruleBreachers = FactionRule(
       ' with the Brawl:-1 trait.',
 );
 
-final FactionRule ruleDropsOfDarkness = FactionRule(
+final Rule ruleDropsOfDarkness = Rule(
   name: 'Drops of Darkness',
   id: _ruleDropsOfDarknessId,
   description: 'If the airdrop special deployment option is used, models in' +

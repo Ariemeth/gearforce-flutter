@@ -7,7 +7,7 @@ import 'package:gearforce/models/rules/north/north.dart' as north;
 import 'package:gearforce/models/rules/utopia/utopia.dart' as utopia;
 import 'package:gearforce/models/unit/unit.dart';
 
-List<FactionRule> GetModelFactionRules(
+List<Rule> GetModelFactionRules(
   Unit? unit,
   List<FactionType>? factions,
 ) {
@@ -21,10 +21,10 @@ List<FactionRule> GetModelFactionRules(
   return GetModelFactionRulesByFactionList(factions);
 }
 
-List<FactionRule> GetModelFactionRulesByFactionList(
+List<Rule> GetModelFactionRulesByFactionList(
   List<FactionType> factions,
 ) {
-  final List<FactionRule> results = [];
+  final List<Rule> results = [];
 
   factions.forEach((faction) {
     results.addAll(GetModelFactionRulesByFaction(faction));
@@ -33,7 +33,7 @@ List<FactionRule> GetModelFactionRulesByFactionList(
   return results;
 }
 
-List<FactionRule> GetModelFactionRulesByFaction(FactionType? faction) {
+List<Rule> GetModelFactionRulesByFaction(FactionType? faction) {
   switch (faction) {
     case FactionType.North:
       return [north.ruleTaskBuilt];

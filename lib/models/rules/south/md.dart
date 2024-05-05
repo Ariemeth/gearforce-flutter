@@ -42,7 +42,7 @@ class MD extends South {
         );
 }
 
-final FactionRule ruleMekongeseExcellence = FactionRule(
+final Rule ruleMekongeseExcellence = Rule(
   name: 'Mekongese Excellence',
   id: _ruleMekongeseExellenceId,
   veteranCheckOverride: (u, cg) {
@@ -61,7 +61,7 @@ final FactionRule ruleMekongeseExcellence = FactionRule(
       ' the Vet trait. This does not count against the veteran limits.',
 );
 
-final FactionRule ruleSamuraiSpirit = FactionRule(
+final Rule ruleSamuraiSpirit = Rule(
   name: 'Samurai Spirit',
   id: _ruleSamuraiSpiritId,
   factionMods: (ur, cg, u) => [SouthernFactionMods.samuraiSpirit(u)],
@@ -71,7 +71,7 @@ final FactionRule ruleSamuraiSpirit = FactionRule(
       ' Brawl:X trait by one. A vibro-katana is a LVB (React, Precise).',
 );
 
-final FactionRule ruleMetsuke = FactionRule(
+final Rule ruleMetsuke = Rule(
   name: 'Metsuke:',
   id: _ruleMetsukeId,
   factionMods: (ur, cg, u) => [SouthernFactionMods.metsuke(u)],

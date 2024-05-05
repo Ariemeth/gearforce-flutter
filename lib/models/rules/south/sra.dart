@@ -52,7 +52,7 @@ class SRA extends South {
         );
 }
 
-final FactionRule rulePrideOfTheSouth = FactionRule(
+final Rule rulePrideOfTheSouth = Rule(
   name: 'Pride of the South',
   id: _rulePrideOfTheSouthId,
   factionMods: (ur, cg, u) => [SouthernFactionMods.prideOfTheSouth(u)],
@@ -62,7 +62,7 @@ final FactionRule rulePrideOfTheSouth = FactionRule(
       ' Brawl:X trait by one. A vibrorapier is a LVB (React, Precise).',
 );
 
-final FactionRule ruleAssultTroops = FactionRule(
+final Rule ruleAssultTroops = Rule(
   name: 'Assault Troops',
   id: _ruleAssaultTroopsId,
   veteranModCheck: (u, cg, {required modID}) {
@@ -79,7 +79,7 @@ final FactionRule ruleAssultTroops = FactionRule(
       ' without being veterans.',
 );
 
-final FactionRule rulePoliticalOfficer = FactionRule(
+final Rule rulePoliticalOfficer = Rule(
   name: 'Political Officer',
   id: _rulePoliticalOfficerId,
   factionMods: (ur, cg, u) => [SouthernFactionMods.politicalOfficer()],

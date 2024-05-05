@@ -40,7 +40,7 @@ class ENH extends Eden {
         );
 }
 
-final FactionRule ruleChampions = FactionRule(
+final Rule ruleChampions = Rule(
   name: 'Champions',
   id: _ruleChampionsId,
   duelistModCheck: (u, cg, {required modID}) {
@@ -62,7 +62,7 @@ final FactionRule ruleChampions = FactionRule(
       ' force cannot use the Independent Operator rule for duelists.',
 );
 
-final FactionRule ruleIshara = FactionRule(
+final Rule ruleIshara = Rule(
   name: 'Ishara',
   id: _ruleIsharaId,
   factionMods: (ur, cg, u) => [EdenMods.ishara(u)],
@@ -72,7 +72,7 @@ final FactionRule ruleIshara = FactionRule(
       ' trait if they have it.',
 );
 
-final FactionRule ruleWellSupported = FactionRule(
+final Rule ruleWellSupported = Rule(
   name: 'Well Supported',
   id: _ruleWellSupportedId,
   veteranModCheck: (u, cg, {required modID}) {
@@ -98,7 +98,7 @@ final FactionRule ruleWellSupported = FactionRule(
       ' without being a veteran.',
 );
 
-final FactionRule ruleAssertion = FactionRule(
+final Rule ruleAssertion = Rule(
   name: 'Assertion',
   id: _ruleAssertionId,
   description: 'This force may select one flag objective regardless of its' +

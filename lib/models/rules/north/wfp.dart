@@ -38,7 +38,7 @@ class WFP extends North {
         );
 }
 
-final FactionRule rulePristineAntiques = FactionRule(
+final Rule rulePristineAntiques = Rule(
   name: 'Pristine Antiques',
   id: _rulePristineAntiquesId,
   hasGroupRole: (unit, target, group) {
@@ -61,7 +61,7 @@ final FactionRule rulePristineAntiques = FactionRule(
       ' XMGs.',
 );
 
-final FactionRule ruleOlTrustyWFP = FactionRule(
+final Rule ruleOlTrustyWFP = Rule(
   name: 'Ol’ Trusty',
   id: _ruleOlTrustyId,
   factionMods: (ur, cg, u) => [NorthernFactionMods.olTrustyWFP()],
@@ -70,14 +70,14 @@ final FactionRule ruleOlTrustyWFP = FactionRule(
       ' Hunter XMGs.',
 );
 
-final FactionRule ruleDropBears = FactionRule(
+final Rule ruleDropBears = Rule(
   name: 'Drop Bears',
   id: _ruleDropBearsId,
   description: 'Combat groups performing airdrop deployments are not ' +
       ' required to be placed in formation.',
 );
 
-final FactionRule ruleLiveFreeDieHard = FactionRule(
+final Rule ruleLiveFreeDieHard = Rule(
   name: 'Live Free Die Hard',
   id: _ruleLiveFreeDieHardId,
   description: 'Whenever a WFP commander is destroyed, immediately' +

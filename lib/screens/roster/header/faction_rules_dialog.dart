@@ -18,7 +18,7 @@ class FactionRulesDialog extends StatefulWidget {
     this.isCore = true,
   });
 
-  final List<FactionRule> upgrades;
+  final List<Rule> upgrades;
   final bool isCore;
   final UnitRoster roster;
 
@@ -71,7 +71,7 @@ class _FactionRulesDialogState extends State<FactionRulesDialog> {
 }
 
 Widget _factionOptions(
-  List<FactionRule> upgrades,
+  List<Rule> upgrades,
   UnitRoster roster,
   bool isCore,
   Function() notifyParent,

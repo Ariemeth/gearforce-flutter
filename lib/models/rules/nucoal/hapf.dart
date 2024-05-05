@@ -34,7 +34,7 @@ class HAPF extends NuCoal {
         );
 }
 
-final ruleSouthernSurplus = FactionRule(
+final ruleSouthernSurplus = Rule(
   name: 'Southern Surplus',
   id: _ruleSouthernSurplusId,
   hasGroupRole: (unit, target, group) {

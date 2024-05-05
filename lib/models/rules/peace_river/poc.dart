@@ -53,7 +53,7 @@ class POC extends PeaceRiver {
         );
 }
 
-final ruleSpecialIssue = FactionRule(
+final ruleSpecialIssue = Rule(
   name: 'Special Issue',
   id: _ruleSpecialIssueId,
   hasGroupRole: (unit, target, group) {
@@ -70,14 +70,14 @@ final ruleSpecialIssue = FactionRule(
   description: 'Greyhounds may be placed in GP, SK, FS, RC or SO units.',
 );
 
-final ruleECMSpecialist = FactionRule(
+final ruleECMSpecialist = Rule(
     name: 'ECM Specialist',
     id: _ruleEcmSpecialistId,
     factionMods: (ur, cg, u) => [PeaceRiverFactionMods.ecmSpecialist()],
     description: 'One gear or strider per combat group may improve its ECM' +
         ' to ECM+ for 1 TV each.');
 
-final rulePOCOlTrusty = FactionRule(
+final rulePOCOlTrusty = Rule(
   name: 'Ol’ Trusty',
   id: _ruleOlTrustyId,
   factionMods: (ur, cg, u) => [PeaceRiverFactionMods.olTrustyPOC()],
@@ -85,7 +85,7 @@ final rulePOCOlTrusty = FactionRule(
       ' one for 1 TV each.',
 );
 
-final rulePeaceOfficer = FactionRule(
+final rulePeaceOfficer = Rule(
     name: 'Peace Officer',
     id: _rulePeaceOfficersId,
     factionMods: (ur, cg, u) => [PeaceRiverFactionMods.peaceOfficers(u)],
@@ -94,7 +94,7 @@ final rulePeaceOfficer = FactionRule(
             ' Shield trait. If a gear does not have a rocket pack, then it' +
             ' may instead gain the Shield trait for 1 TV.');
 
-final ruleGSwatSniper = FactionRule(
+final ruleGSwatSniper = Rule(
     name: 'G-Swat Sniper',
     id: _ruleGSwatId,
     veteranModCheck: (u, cg, {required modID}) {
@@ -113,7 +113,7 @@ final ruleGSwatSniper = FactionRule(
     description: 'One gear with a rifle, per combat group, may purchase the' +
         ' Improved Gunnery upgrade for 1 TV each, without being a veteran.');
 
-final FactionRule ruleMercenaryContract = FactionRule(
+final Rule ruleMercenaryContract = Rule(
   name: 'Mercenary Contract',
   id: _ruleMercContractId,
   cgCheck: onlyOneCG(_ruleMercContractId),

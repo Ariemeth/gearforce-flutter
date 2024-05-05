@@ -67,7 +67,7 @@ class PRDF extends PeaceRiver {
         );
 }
 
-final ruleOlTrusty = FactionRule(
+final ruleOlTrusty = Rule(
   name: 'Ol’ Trusty',
   id: _ruleOlTrustyId,
   factionMods: (ur, cg, u) => [PeaceRiverFactionMods.olTrusty()],
@@ -75,7 +75,7 @@ final ruleOlTrusty = FactionRule(
       ' by one for 1 TV each. This does not include Warrior IVs.',
 );
 
-final ruleThunderFromTheSky = FactionRule(
+final ruleThunderFromTheSky = Rule(
   name: 'Thunder from the Sky',
   id: _ruleThunderFromTheSkyId,
   factionMods: (ur, cg, u) => [PeaceRiverFactionMods.thunderFromTheSky()],
@@ -83,7 +83,7 @@ final ruleThunderFromTheSky = FactionRule(
       ' instead of 4+ for 1 TV each.',
 );
 
-final ruleHighTech = FactionRule(
+final ruleHighTech = Rule(
     name: 'High Tech',
     id: _ruleHighTechId,
     isRoleTypeUnlimited: (unit, target, group, roster) {
@@ -99,7 +99,7 @@ final ruleHighTech = FactionRule(
     description:
         'Models with weapons that have the Advanced or Guided traits have unlimited availability for all primary units.');
 
-final FactionRule ruleBestMenAndWomen = FactionRule(
+final Rule ruleBestMenAndWomen = Rule(
   name: 'The Best Men and Women for the Job',
   id: _ruleBestMenAndWomenId,
   description:
@@ -131,13 +131,13 @@ final FactionRule ruleBestMenAndWomen = FactionRule(
       id: _ruleBestMenAndWomenId),
 );
 
-final ruleEliteElements = FactionRule(
+final ruleEliteElements = Rule(
     name: 'Elite Elements',
     id: _ruleEliteElementsId,
     factionMods: (ur, cg, u) => [PeaceRiverFactionMods.eliteElements(ur)],
     description: 'One SK unit may change their role to SO.');
 
-final ruleGhostStrike = FactionRule(
+final ruleGhostStrike = Rule(
     name: 'Ghost Strike',
     id: _ruleGhostStrikeId,
     description: 'Models in one combat group using special operations' +

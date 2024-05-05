@@ -50,7 +50,7 @@ class NLC extends North {
         );
 }
 
-final FactionRule ruleChaplain = FactionRule(
+final Rule ruleChaplain = Rule(
   name: 'Chaplain',
   id: _ruleChaplainId,
   factionMods: (ur, cg, u) => [NorthernFactionMods.chaplain()],
@@ -69,7 +69,7 @@ final FactionRule ruleChaplain = FactionRule(
       ' force, the BC will roll with a 5+ initiative skill.',
 );
 
-final FactionRule ruleWarriorMonks = FactionRule(
+final Rule ruleWarriorMonks = Rule(
   name: 'Warrior Monks',
   id: _ruleWarriorMonksId,
   factionMods: (ur, cg, u) => [NorthernFactionMods.warriorMonks(u)],
@@ -80,7 +80,7 @@ final FactionRule ruleWarriorMonks = FactionRule(
       ' Reach:2 traits.',
 );
 
-final FactionRule ruleThePride = FactionRule(
+final Rule ruleThePride = Rule(
   name: 'The Pride',
   id: _ruleThePrideId,
   duelistMaxNumberOverride: (roster, cg, u) => 2,
@@ -100,7 +100,7 @@ final FactionRule ruleThePride = FactionRule(
       'duelists must take the Warrior Monks upgrade.',
 );
 
-final FactionRule ruleDevoted = FactionRule(
+final Rule ruleDevoted = Rule(
   name: 'Devoted',
   id: _ruleDevotedId,
   description: 'When the chaplain is targeted by a direct or indirect attack,' +

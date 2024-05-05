@@ -37,15 +37,15 @@ class EIF extends Eden {
         );
 }
 
-final FactionRule ruleImproviso = FactionRule(
+final Rule ruleImproviso = Rule(
   name: 'Improviso',
   id: _ruleImprovisoId,
   options: [
-    FactionRule.from(
+    Rule.from(
       enh.ruleChampions,
       isEnabled: false,
       canBeToggled: true,
-      requirementCheck: FactionRule.thereCanBeOnlyOne(
+      requirementCheck: Rule.thereCanBeOnlyOne(
         [
           enh.ruleIshara.id,
           enh.ruleWellSupported.id,
@@ -56,10 +56,10 @@ final FactionRule ruleImproviso = FactionRule(
         ],
       ),
     ),
-    FactionRule.from(enh.ruleIshara,
+    Rule.from(enh.ruleIshara,
         isEnabled: false,
         canBeToggled: true,
-        requirementCheck: FactionRule.thereCanBeOnlyOne(
+        requirementCheck: Rule.thereCanBeOnlyOne(
           [
             enh.ruleChampions.id,
             enh.ruleWellSupported.id,
@@ -69,10 +69,10 @@ final FactionRule ruleImproviso = FactionRule(
             aef.ruleFreeblade.id,
           ],
         )),
-    FactionRule.from(enh.ruleWellSupported,
+    Rule.from(enh.ruleWellSupported,
         isEnabled: false,
         canBeToggled: true,
-        requirementCheck: FactionRule.thereCanBeOnlyOne(
+        requirementCheck: Rule.thereCanBeOnlyOne(
           [
             enh.ruleChampions.id,
             enh.ruleIshara.id,
@@ -82,10 +82,10 @@ final FactionRule ruleImproviso = FactionRule(
             aef.ruleFreeblade.id,
           ],
         )),
-    FactionRule.from(enh.ruleAssertion,
+    Rule.from(enh.ruleAssertion,
         isEnabled: false,
         canBeToggled: true,
-        requirementCheck: FactionRule.thereCanBeOnlyOne(
+        requirementCheck: Rule.thereCanBeOnlyOne(
           [
             enh.ruleChampions.id,
             enh.ruleIshara.id,
@@ -95,10 +95,10 @@ final FactionRule ruleImproviso = FactionRule(
             aef.ruleFreeblade.id,
           ],
         )),
-    FactionRule.from(aef.ruleSelfMade,
+    Rule.from(aef.ruleSelfMade,
         isEnabled: false,
         canBeToggled: true,
-        requirementCheck: FactionRule.thereCanBeOnlyOne(
+        requirementCheck: Rule.thereCanBeOnlyOne(
           [
             enh.ruleChampions.id,
             enh.ruleIshara.id,
@@ -108,10 +108,10 @@ final FactionRule ruleImproviso = FactionRule(
             aef.ruleFreeblade.id,
           ],
         )),
-    FactionRule.from(aef.ruleWaterBorn,
+    Rule.from(aef.ruleWaterBorn,
         isEnabled: false,
         canBeToggled: true,
-        requirementCheck: FactionRule.thereCanBeOnlyOne(
+        requirementCheck: Rule.thereCanBeOnlyOne(
           [
             enh.ruleChampions.id,
             enh.ruleIshara.id,
@@ -121,10 +121,10 @@ final FactionRule ruleImproviso = FactionRule(
             aef.ruleFreeblade.id,
           ],
         )),
-    FactionRule.from(aef.ruleFreeblade,
+    Rule.from(aef.ruleFreeblade,
         isEnabled: false,
         canBeToggled: true,
-        requirementCheck: FactionRule.thereCanBeOnlyOne(
+        requirementCheck: Rule.thereCanBeOnlyOne(
           [
             enh.ruleChampions.id,
             enh.ruleIshara.id,
@@ -138,7 +138,7 @@ final FactionRule ruleImproviso = FactionRule(
   description: 'Select one upgrade option from ENH or AEF.',
 );
 
-final FactionRule ruleExpertMarksmen = FactionRule(
+final Rule ruleExpertMarksmen = Rule(
   name: 'Expert Marksmen',
   id: _ruleExpertMarksmenId,
   factionMods: (ur, cg, u) => [EdenMods.expertMarksmen()],
@@ -146,7 +146,7 @@ final FactionRule ruleExpertMarksmen = FactionRule(
       'Each golem with a rifle may increase their GU skill by one for 1 TV.',
 );
 
-final FactionRule ruleEquity = FactionRule(
+final Rule ruleEquity = Rule(
   name: 'Equity',
   id: _ruleEquityId,
   description: 'This force may select one capture objective regardless of its' +

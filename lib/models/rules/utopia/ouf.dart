@@ -58,7 +58,7 @@ class OUF extends Utopia {
         );
 }
 
-final FactionRule ruleGreenwayCaustics = FactionRule(
+final Rule ruleGreenwayCaustics = Rule(
   name: 'Greenway Caustics',
   id: _ruleGreenwayCausticsId,
   cgCheck: onlyOneCG(_ruleGreenwayCausticsId),
@@ -68,7 +68,7 @@ final FactionRule ruleGreenwayCaustics = FactionRule(
       ' to, and remove the AP trait from, their rocket packs for 0 TV.',
 );
 
-final FactionRule ruleAllies = FactionRule(
+final Rule ruleAllies = Rule(
   name: 'Allies',
   id: _ruleAlliesId,
   options: [
@@ -81,12 +81,12 @@ final FactionRule ruleAllies = FactionRule(
       ' Eden (pick one) for secondary units.',
 );
 
-final FactionRule _ruleAllyCEF = FactionRule(
+final Rule _ruleAllyCEF = Rule(
   name: 'CEF',
   id: _ruleAlliesCEFId,
   isEnabled: false,
   canBeToggled: true,
-  requirementCheck: FactionRule.thereCanBeOnlyOne([
+  requirementCheck: Rule.thereCanBeOnlyOne([
     _ruleAlliesCapriceId,
     _ruleAlliesBlackTalonId,
     _ruleAlliesEdenId,
@@ -117,12 +117,12 @@ final FactionRule _ruleAllyCEF = FactionRule(
       ' secondary units.',
 );
 
-final FactionRule _ruleAllyBlackTalon = FactionRule(
+final Rule _ruleAllyBlackTalon = Rule(
   name: 'Black Talon',
   id: _ruleAlliesBlackTalonId,
   isEnabled: false,
   canBeToggled: true,
-  requirementCheck: FactionRule.thereCanBeOnlyOne([
+  requirementCheck: Rule.thereCanBeOnlyOne([
     _ruleAlliesCEFId,
     _ruleAlliesCapriceId,
     _ruleAlliesEdenId,
@@ -150,12 +150,12 @@ final FactionRule _ruleAllyBlackTalon = FactionRule(
       ' secondary units.',
 );
 
-final FactionRule _ruleAllyCaprice = FactionRule(
+final Rule _ruleAllyCaprice = Rule(
   name: 'Caprice',
   id: _ruleAlliesCapriceId,
   isEnabled: false,
   canBeToggled: true,
-  requirementCheck: FactionRule.thereCanBeOnlyOne([
+  requirementCheck: Rule.thereCanBeOnlyOne([
     _ruleAlliesCEFId,
     _ruleAlliesBlackTalonId,
     _ruleAlliesEdenId,
@@ -197,12 +197,12 @@ final FactionRule _ruleAllyCaprice = FactionRule(
       ' secondary units.',
 );
 
-final FactionRule _ruleAllyEden = FactionRule(
+final Rule _ruleAllyEden = Rule(
   name: 'Eden',
   id: _ruleAlliesEdenId,
   isEnabled: false,
   canBeToggled: true,
-  requirementCheck: FactionRule.thereCanBeOnlyOne([
+  requirementCheck: Rule.thereCanBeOnlyOne([
     _ruleAlliesCEFId,
     _ruleAlliesBlackTalonId,
     _ruleAlliesCapriceId,
@@ -230,7 +230,7 @@ final FactionRule _ruleAllyEden = FactionRule(
       ' secondary units.',
 );
 
-final FactionRule ruleNAIExperiements = FactionRule(
+final Rule ruleNAIExperiements = Rule(
   name: 'NAI Experiements',
   id: _ruleNAIExperimentsId,
   unitFilter: (cgOptions) => const SpecialUnitFilter(
@@ -253,7 +253,7 @@ final FactionRule ruleNAIExperiements = FactionRule(
       ' Commanders, veterans and duelists may not receive the Conscript trait.',
 );
 
-final FactionRule ruleFrankNKidu = FactionRule(
+final Rule ruleFrankNKidu = Rule(
   name: 'Frank-N-KIDU',
   id: _ruleFrankNKiduId,
   veteranModCheck: (u, cg, {required modID}) {

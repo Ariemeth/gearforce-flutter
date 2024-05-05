@@ -59,16 +59,16 @@ const filterSubContractor = SpecialUnitFilter(
   ],
 );
 
-final ruleExPRDF = FactionRule(
+final ruleExPRDF = Rule(
     name: _exPRDF,
     id: _ruleExPRDFId,
     description: 'Choose any one rule from the PRDF.',
     options: [
-      FactionRule.from(
+      Rule.from(
         prdf.ruleOlTrusty,
         isEnabled: false,
         canBeToggled: true,
-        requirementCheck: FactionRule.thereCanBeOnlyOne(
+        requirementCheck: Rule.thereCanBeOnlyOne(
           [
             prdf.ruleThunderFromTheSky.id,
             prdf.ruleHighTech.id,
@@ -78,11 +78,11 @@ final ruleExPRDF = FactionRule(
           ],
         ),
       ),
-      FactionRule.from(
+      Rule.from(
         prdf.ruleThunderFromTheSky,
         isEnabled: false,
         canBeToggled: true,
-        requirementCheck: FactionRule.thereCanBeOnlyOne(
+        requirementCheck: Rule.thereCanBeOnlyOne(
           [
             prdf.ruleOlTrusty.id,
             prdf.ruleHighTech.id,
@@ -92,11 +92,11 @@ final ruleExPRDF = FactionRule(
           ],
         ),
       ),
-      FactionRule.from(
+      Rule.from(
         prdf.ruleHighTech,
         isEnabled: false,
         canBeToggled: true,
-        requirementCheck: FactionRule.thereCanBeOnlyOne(
+        requirementCheck: Rule.thereCanBeOnlyOne(
           [
             prdf.ruleOlTrusty.id,
             prdf.ruleThunderFromTheSky.id,
@@ -106,11 +106,11 @@ final ruleExPRDF = FactionRule(
           ],
         ),
       ),
-      FactionRule.from(
+      Rule.from(
         prdf.ruleBestMenAndWomen,
         isEnabled: false,
         canBeToggled: true,
-        requirementCheck: FactionRule.thereCanBeOnlyOne(
+        requirementCheck: Rule.thereCanBeOnlyOne(
           [
             prdf.ruleOlTrusty.id,
             prdf.ruleThunderFromTheSky.id,
@@ -120,11 +120,11 @@ final ruleExPRDF = FactionRule(
           ],
         ),
       ),
-      FactionRule.from(
+      Rule.from(
         prdf.ruleEliteElements,
         isEnabled: false,
         canBeToggled: true,
-        requirementCheck: FactionRule.thereCanBeOnlyOne(
+        requirementCheck: Rule.thereCanBeOnlyOne(
           [
             prdf.ruleOlTrusty.id,
             prdf.ruleThunderFromTheSky.id,
@@ -134,11 +134,11 @@ final ruleExPRDF = FactionRule(
           ],
         ),
       ),
-      FactionRule.from(
+      Rule.from(
         prdf.ruleGhostStrike,
         isEnabled: false,
         canBeToggled: true,
-        requirementCheck: FactionRule.thereCanBeOnlyOne(
+        requirementCheck: Rule.thereCanBeOnlyOne(
           [
             prdf.ruleOlTrusty.id,
             prdf.ruleThunderFromTheSky.id,
@@ -150,16 +150,16 @@ final ruleExPRDF = FactionRule(
       ),
     ]);
 
-final ruleExPOC = FactionRule(
+final ruleExPOC = Rule(
     name: _exPOC,
     id: _ruleExPOCId,
     description: 'Choose any one rule from the POC.',
     options: [
-      FactionRule.from(
+      Rule.from(
         poc.ruleSpecialIssue,
         isEnabled: false,
         canBeToggled: true,
-        requirementCheck: FactionRule.thereCanBeOnlyOne(
+        requirementCheck: Rule.thereCanBeOnlyOne(
           [
             poc.ruleECMSpecialist.id,
             poc.rulePOCOlTrusty.id,
@@ -169,11 +169,11 @@ final ruleExPOC = FactionRule(
           ],
         ),
       ),
-      FactionRule.from(
+      Rule.from(
         poc.ruleECMSpecialist,
         isEnabled: false,
         canBeToggled: true,
-        requirementCheck: FactionRule.thereCanBeOnlyOne(
+        requirementCheck: Rule.thereCanBeOnlyOne(
           [
             poc.ruleSpecialIssue.id,
             poc.rulePOCOlTrusty.id,
@@ -183,11 +183,11 @@ final ruleExPOC = FactionRule(
           ],
         ),
       ),
-      FactionRule.from(
+      Rule.from(
         poc.rulePOCOlTrusty,
         isEnabled: false,
         canBeToggled: true,
-        requirementCheck: FactionRule.thereCanBeOnlyOne(
+        requirementCheck: Rule.thereCanBeOnlyOne(
           [
             poc.ruleSpecialIssue.id,
             poc.ruleECMSpecialist.id,
@@ -197,11 +197,11 @@ final ruleExPOC = FactionRule(
           ],
         ),
       ),
-      FactionRule.from(
+      Rule.from(
         poc.rulePeaceOfficer,
         isEnabled: false,
         canBeToggled: true,
-        requirementCheck: FactionRule.thereCanBeOnlyOne(
+        requirementCheck: Rule.thereCanBeOnlyOne(
           [
             poc.ruleSpecialIssue.id,
             poc.ruleECMSpecialist.id,
@@ -211,11 +211,11 @@ final ruleExPOC = FactionRule(
           ],
         ),
       ),
-      FactionRule.from(
+      Rule.from(
         poc.ruleGSwatSniper,
         isEnabled: false,
         canBeToggled: true,
-        requirementCheck: FactionRule.thereCanBeOnlyOne(
+        requirementCheck: Rule.thereCanBeOnlyOne(
           [
             poc.ruleSpecialIssue.id,
             poc.ruleECMSpecialist.id,
@@ -225,11 +225,11 @@ final ruleExPOC = FactionRule(
           ],
         ),
       ),
-      FactionRule.from(
+      Rule.from(
         poc.ruleMercenaryContract,
         isEnabled: false,
         canBeToggled: true,
-        requirementCheck: FactionRule.thereCanBeOnlyOne(
+        requirementCheck: Rule.thereCanBeOnlyOne(
           [
             poc.ruleSpecialIssue.id,
             poc.ruleECMSpecialist.id,
@@ -241,7 +241,7 @@ final ruleExPOC = FactionRule(
       ),
     ]);
 
-final FactionRule ruleBadlandsSoup = FactionRule(
+final Rule ruleBadlandsSoup = Rule(
     name: _badlandsSoupName,
     id: _ruleBadlandsSoupId,
     cgCheck: onlyOneCG(_ruleBadlandsSoupId),
@@ -262,7 +262,7 @@ final FactionRule ruleBadlandsSoup = FactionRule(
     description:
         'One combat group may purchase the following veteran upgrades for their models without being veterans; Improved Gunnery, Dual Guns, Brawler, Veteran Melee upgrade, or ECCM.');
 
-final FactionRule ruleSubContractors = FactionRule(
+final Rule ruleSubContractors = Rule(
     name: _ruleSubContractorsName,
     id: _ruleSubContractorsId,
     cgCheck: onlyOneCG(_ruleSubContractorsId),

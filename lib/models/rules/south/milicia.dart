@@ -40,7 +40,7 @@ class MILICIA extends South {
         );
 }
 
-final FactionRule ruleConscription = FactionRule(
+final Rule ruleConscription = Rule(
   name: 'Conscription',
   id: _ruleConscriptionId,
   factionMods: (ur, cg, u) => [SouthernFactionMods.conscription(u)],

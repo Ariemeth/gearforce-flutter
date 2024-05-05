@@ -29,7 +29,7 @@ class CEFTF extends CEF {
         );
 }
 
-final FactionRule ruleTheHammer = FactionRule(
+final Rule ruleTheHammer = Rule(
   name: 'The Hammer',
   id: _ruleTheHammerId,
   veteranModCheck: (u, cg, {required modID}) {
@@ -47,14 +47,14 @@ final FactionRule ruleTheHammer = FactionRule(
       ' veteran upgrade without being veterans.',
 );
 
-final FactionRule ruleTankJockeys = FactionRule(
+final Rule ruleTankJockeys = Rule(
   name: 'Tank Jockeys',
   id: _ruleTankJockeysId,
   description: 'Light and medium hovertanks upgraded with the Vet trait' +
       ' ignore the movement penalty for traveling through difficult terrain.',
 );
 
-final FactionRule ruleOutriders = FactionRule(
+final Rule ruleOutriders = Rule(
   name: 'Outriders',
   id: _ruleOutridersId,
   description: 'One combat group, with all models having the hover type' +

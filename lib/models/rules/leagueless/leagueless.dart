@@ -44,7 +44,7 @@ const String _ruleDiscountsId = '$_baseRuleId::170';
 const String _ruleLocalKnowledgeId = '$_baseRuleId::180';
 const String _ruleShadowWarriorsId = '$_baseRuleId::190';
 
-final List<FactionRule> _rules = [
+final List<Rule> _rules = [
   rulesNorthernInfluence,
   rulesSouthernInfluence,
   rulesProtectorateSponsoredInfluence,
@@ -65,7 +65,7 @@ final List<FactionRule> _rules = [
   _ruleOperators,
   _ruleJannitePilots,
 ];
-final List<FactionRule> _onlyThreeAllowedRules = [
+final List<Rule> _onlyThreeAllowedRules = [
   buildTheSource(FactionType.None),
   ..._northernInfluenceRules,
   ..._southernInfluenceRules,
@@ -144,9 +144,9 @@ class Leagueless extends RuleSet {
     Data data, {
     super.description,
     required super.name,
-    required List<FactionRule> factionRules,
+    required List<Rule> factionRules,
     List<String>? specialRules,
-    List<FactionRule> subFactionRules = const [],
+    List<Rule> subFactionRules = const [],
   }) : super(
           FactionType.Leagueless,
           data,
@@ -179,7 +179,7 @@ class SourceNorth extends Leagueless {
       : super(
           name: 'Source: North',
           factionRules: [
-            FactionRule.from(
+            Rule.from(
               ruleTheSourceNorth,
               isEnabled: true,
               canBeToggled: false,
@@ -211,7 +211,7 @@ class SourceSouth extends Leagueless {
       : super(
           name: 'Source: South',
           factionRules: [
-            FactionRule.from(
+            Rule.from(
               ruleTheSourceSouth,
               isEnabled: true,
               canBeToggled: false,
@@ -244,7 +244,7 @@ class SourcePeaceRiver extends Leagueless {
       : super(
           name: 'Source: Peace River',
           factionRules: [
-            FactionRule.from(
+            Rule.from(
               ruleTheSourcePeaceRiver,
               isEnabled: true,
               canBeToggled: false,
@@ -277,7 +277,7 @@ class SourceNuCoal extends Leagueless {
       : super(
           name: 'Source: NuCoal',
           factionRules: [
-            FactionRule.from(
+            Rule.from(
               ruleTheSourceNuCoal,
               isEnabled: true,
               canBeToggled: false,
@@ -305,7 +305,7 @@ class SourceNuCoal extends Leagueless {
 
 final _nuCoalSourcesRules = buildTheSource(FactionType.NuCoal);
 
-final ruleJudicious = FactionRule(
+final ruleJudicious = Rule(
   name: 'Judicious',
   id: _ruleJudiciousId,
   canBeAddedToGroup: (unit, group, cg) {
@@ -325,7 +325,7 @@ final ruleJudicious = FactionRule(
       ' applies to any and all upgrade options.',
 );
 
-FactionRule buildTheSource(FactionType sourceFaction) {
+Rule buildTheSource(FactionType sourceFaction) {
   final rules = [
     ruleTheSourceNorth,
     ruleTheSourceSouth,
@@ -348,7 +348,7 @@ FactionRule buildTheSource(FactionType sourceFaction) {
     default:
   }
 
-  return FactionRule(
+  return Rule(
       name: 'Additional Source',
       isEnabled: false,
       canBeToggled: true,
@@ -368,7 +368,7 @@ FactionRule buildTheSource(FactionType sourceFaction) {
       description: 'Select an additional source faction');
 }
 
-final FactionRule ruleTheSourceNorth = FactionRule(
+final Rule ruleTheSourceNorth = Rule(
   name: 'Source: North',
   id: _ruleTheSourceNorthId,
   isEnabled: false,
@@ -385,7 +385,7 @@ final FactionRule ruleTheSourceNorth = FactionRule(
   description: 'Select models from the North',
 );
 
-final FactionRule ruleTheSourceSouth = FactionRule(
+final Rule ruleTheSourceSouth = Rule(
   name: 'Source: South',
   id: _ruleTheSourceSouthId,
   isEnabled: false,
@@ -402,7 +402,7 @@ final FactionRule ruleTheSourceSouth = FactionRule(
   description: 'Select models from the South',
 );
 
-final FactionRule ruleTheSourcePeaceRiver = FactionRule(
+final Rule ruleTheSourcePeaceRiver = Rule(
   name: 'Source: Peace River',
   id: _ruleTheSourcePeaceRiverId,
   isEnabled: false,
@@ -419,7 +419,7 @@ final FactionRule ruleTheSourcePeaceRiver = FactionRule(
   description: 'Select models from Peace River',
 );
 
-final FactionRule ruleTheSourceNuCoal = FactionRule(
+final Rule ruleTheSourceNuCoal = Rule(
   name: 'Source: NuCoal',
   id: _ruleTheSourceNuCoalId,
   isEnabled: false,
@@ -433,18 +433,17 @@ final FactionRule ruleTheSourceNuCoal = FactionRule(
   description: 'Select models from NuCoal',
 );
 
-final FactionRule rulesNorthernInfluence = FactionRule(
+final Rule rulesNorthernInfluence = Rule(
   name: 'Northern Influence',
   id: _ruleNorthernInfluenceId,
   isEnabled: false,
   canBeToggled: true,
   requirementCheck: (factionRules) {
-    final isValid =
-        FactionRule.isRuleEnabled(factionRules, ruleTheSourceNorth.id) &&
-            !rulesSouthernInfluence.isEnabled &&
-            !rulesProtectorateSponsoredInfluence.isEnabled &&
-            (_onlyThreeUpgrades(_ruleNorthernInfluenceId)(factionRules) ||
-                _northernInfluenceRules.any((rule) => rule.isEnabled));
+    final isValid = Rule.isRuleEnabled(factionRules, ruleTheSourceNorth.id) &&
+        !rulesSouthernInfluence.isEnabled &&
+        !rulesProtectorateSponsoredInfluence.isEnabled &&
+        (_onlyThreeUpgrades(_ruleNorthernInfluenceId)(factionRules) ||
+            _northernInfluenceRules.any((rule) => rule.isEnabled));
 
     if (!isValid) {
       rulesNorthernInfluence.disable();
@@ -469,8 +468,8 @@ final FactionRule rulesNorthernInfluence = FactionRule(
       ' selected twice in order to gain a second option from the North.',
 );
 
-final List<FactionRule> _northernInfluenceRules = [
-  FactionRule.from(
+final List<Rule> _northernInfluenceRules = [
+  Rule.from(
     north.ruleProspectors,
     isEnabled: false,
     canBeToggled: false,
@@ -479,7 +478,7 @@ final List<FactionRule> _northernInfluenceRules = [
         _onlyThreeUpgrades(north.ruleProspectors.id)(factionRules) &&
         north.ruleProspectors.requirementCheck(factionRules),
   ),
-  FactionRule.from(
+  Rule.from(
     north.ruleHammersOfTheNorth,
     isEnabled: false,
     canBeToggled: false,
@@ -488,7 +487,7 @@ final List<FactionRule> _northernInfluenceRules = [
         _onlyThreeUpgrades(north.ruleHammersOfTheNorth.id)(factionRules) &&
         north.ruleHammersOfTheNorth.requirementCheck(factionRules),
   ),
-  FactionRule.from(
+  Rule.from(
     north.ruleVeteranLeaders,
     isEnabled: false,
     canBeToggled: false,
@@ -497,7 +496,7 @@ final List<FactionRule> _northernInfluenceRules = [
         _onlyThreeUpgrades(north.ruleVeteranLeaders.id)(factionRules) &&
         north.ruleVeteranLeaders.requirementCheck(factionRules),
   ),
-  FactionRule.from(
+  Rule.from(
     north.ruleDragoonSquad,
     isEnabled: false,
     canBeToggled: false,
@@ -508,18 +507,17 @@ final List<FactionRule> _northernInfluenceRules = [
   ),
 ];
 
-final FactionRule rulesSouthernInfluence = FactionRule(
+final Rule rulesSouthernInfluence = Rule(
   name: 'Southern Influence',
   id: _ruleSouthernInfluenceId,
   isEnabled: false,
   canBeToggled: true,
   requirementCheck: (factionRules) {
-    final isValid =
-        FactionRule.isRuleEnabled(factionRules, ruleTheSourceSouth.id) &&
-            !rulesNorthernInfluence.isEnabled &&
-            !rulesProtectorateSponsoredInfluence.isEnabled &&
-            (_onlyThreeUpgrades(_ruleSouthernInfluenceId)(factionRules) ||
-                _southernInfluenceRules.any((rule) => rule.isEnabled));
+    final isValid = Rule.isRuleEnabled(factionRules, ruleTheSourceSouth.id) &&
+        !rulesNorthernInfluence.isEnabled &&
+        !rulesProtectorateSponsoredInfluence.isEnabled &&
+        (_onlyThreeUpgrades(_ruleSouthernInfluenceId)(factionRules) ||
+            _southernInfluenceRules.any((rule) => rule.isEnabled));
 
     if (!isValid) {
       rulesSouthernInfluence.disable();
@@ -544,8 +542,8 @@ final FactionRule rulesSouthernInfluence = FactionRule(
       ' selected twice in order to gain a second option from the South.',
 );
 
-final List<FactionRule> _southernInfluenceRules = [
-  FactionRule.from(
+final List<Rule> _southernInfluenceRules = [
+  Rule.from(
     south.rulePoliceState,
     isEnabled: false,
     canBeToggled: false,
@@ -554,7 +552,7 @@ final List<FactionRule> _southernInfluenceRules = [
         _onlyThreeUpgrades(south.rulePoliceState.id)(factionRules) &&
         south.rulePoliceState.requirementCheck(factionRules),
   ),
-  FactionRule.from(
+  Rule.from(
     south.ruleAmphibians,
     isEnabled: false,
     canBeToggled: false,
@@ -565,14 +563,14 @@ final List<FactionRule> _southernInfluenceRules = [
   ),
 ];
 
-final FactionRule rulesProtectorateSponsoredInfluence = FactionRule(
+final Rule rulesProtectorateSponsoredInfluence = Rule(
   name: 'Protectorate Sponsored',
   id: _ruleProtectorateSponsoredId,
   isEnabled: false,
   canBeToggled: true,
   requirementCheck: (factionRules) {
     final isValid =
-        FactionRule.isRuleEnabled(factionRules, ruleTheSourcePeaceRiver.id) &&
+        Rule.isRuleEnabled(factionRules, ruleTheSourcePeaceRiver.id) &&
             !rulesNorthernInfluence.isEnabled &&
             !rulesSouthernInfluence.isEnabled &&
             (_onlyThreeUpgrades(_ruleProtectorateSponsoredId)(factionRules) ||
@@ -601,8 +599,8 @@ final FactionRule rulesProtectorateSponsoredInfluence = FactionRule(
       ' be selected twice in order to gain a second option from Peace River.',
 );
 
-final List<FactionRule> _protectorateSponsoredRules = [
-  FactionRule.from(
+final List<Rule> _protectorateSponsoredRules = [
+  Rule.from(
     peaceRiver.ruleEPex,
     isEnabled: false,
     canBeToggled: false,
@@ -611,7 +609,7 @@ final List<FactionRule> _protectorateSponsoredRules = [
         _onlyThreeUpgrades(peaceRiver.ruleEPex.id)(factionRules) &&
         peaceRiver.ruleEPex.requirementCheck(factionRules),
   ),
-  FactionRule.from(
+  Rule.from(
     peaceRiver.ruleWarriorElite,
     isEnabled: false,
     canBeToggled: false,
@@ -620,7 +618,7 @@ final List<FactionRule> _protectorateSponsoredRules = [
         _onlyThreeUpgrades(peaceRiver.ruleWarriorElite.id)(factionRules) &&
         peaceRiver.ruleWarriorElite.requirementCheck(factionRules),
   ),
-  FactionRule.from(
+  Rule.from(
     peaceRiver.ruleCrisisResponders,
     isEnabled: false,
     canBeToggled: false,
@@ -630,7 +628,7 @@ final List<FactionRule> _protectorateSponsoredRules = [
         _onlyThreeUpgrades(peaceRiver.ruleCrisisResponders.id)(factionRules) &&
         peaceRiver.ruleCrisisResponders.requirementCheck(factionRules),
   ),
-  FactionRule.from(
+  Rule.from(
     peaceRiver.ruleLaserTech,
     isEnabled: false,
     canBeToggled: false,
@@ -639,7 +637,7 @@ final List<FactionRule> _protectorateSponsoredRules = [
         _onlyThreeUpgrades(peaceRiver.ruleLaserTech.id)(factionRules) &&
         peaceRiver.ruleLaserTech.requirementCheck(factionRules),
   ),
-  FactionRule.from(
+  Rule.from(
     peaceRiver.ruleArchitects,
     isEnabled: false,
     canBeToggled: false,
@@ -650,7 +648,7 @@ final List<FactionRule> _protectorateSponsoredRules = [
   ),
 ];
 
-final ruleExpertSalvagers = FactionRule(
+final ruleExpertSalvagers = Rule(
   name: 'Expert Salvagers',
   id: _ruleExpertSalvagersId,
   isEnabled: false,
@@ -741,7 +739,7 @@ final ruleExpertSalvagers = FactionRule(
       ' South, Peace River and NuCoal.',
 );
 
-final ruleStripped = FactionRule(
+final ruleStripped = Rule(
   name: 'Stripped',
   id: _ruleStrippedId,
   isEnabled: false,
@@ -773,7 +771,7 @@ final ruleStripped = FactionRule(
       ' force and placed in GP, SK, FS, RC or SO units.',
 );
 
-final ruleWeCameFromTheDesert = FactionRule(
+final ruleWeCameFromTheDesert = Rule(
   name: 'We Came From the Desert',
   id: _ruleWeCameFromTheDesertId,
   isEnabled: false,
@@ -796,7 +794,7 @@ bool matchWeCameFromTheDesert(UnitCore uc) {
   return uc.frame == 'Sandrider' || uc.frame == 'En Koreshi';
 }
 
-final rulePurplePowered = FactionRule(
+final rulePurplePowered = Rule(
   name: 'Purple Powered',
   id: _rulePurplePowerId,
   isEnabled: false,
@@ -826,7 +824,7 @@ bool matchPurplePowered(UnitCore uc) {
   return uc.frame == 'Hoverbike GREL' || uc.frame == 'GREL';
 }
 
-final FactionRule _rulePersonalEquipment = FactionRule(
+final Rule _rulePersonalEquipment = Rule(
   name: 'Personal Equipment',
   id: _rulePersonalEquipmentId,
   isEnabled: false,
@@ -872,7 +870,7 @@ final FactionRule _rulePersonalEquipment = FactionRule(
       ' upgrades each without being veterans.',
 );
 
-FactionRule ruleLocalHero = FactionRule(
+Rule ruleLocalHero = Rule(
   name: 'Local Hero',
   id: _ruleLocalHeroId,
   isEnabled: false,
@@ -886,7 +884,7 @@ FactionRule ruleLocalHero = FactionRule(
       ' without being a duelist.',
 );
 
-FactionRule ruleOlRusty = FactionRule(
+Rule ruleOlRusty = Rule(
   name: 'Ol’ Rusty',
   id: _ruleOlRustyId,
   isEnabled: false,
@@ -899,7 +897,7 @@ FactionRule ruleOlRusty = FactionRule(
       ' will become a 3/3.',
 );
 
-FactionRule ruleDiscounts = FactionRule(
+Rule ruleDiscounts = Rule(
   name: 'Discounts',
   id: _ruleDiscountsId,
   isEnabled: false,
@@ -910,7 +908,7 @@ FactionRule ruleDiscounts = FactionRule(
       ' TV each.',
 );
 
-FactionRule _ruleLocalKnowledge = FactionRule(
+Rule _ruleLocalKnowledge = Rule(
   name: 'Local Knowledge',
   id: _ruleLocalKnowledgeId,
   isEnabled: false,
@@ -919,7 +917,7 @@ FactionRule _ruleLocalKnowledge = FactionRule(
   description: 'One combat group may use the recon special deployment option.',
 );
 
-FactionRule _ruleShadowWarriors = FactionRule(
+Rule _ruleShadowWarriors = Rule(
   name: 'Shadow Warriors',
   id: _ruleShadowWarriorsId,
   isEnabled: false,
@@ -936,8 +934,8 @@ final _ruleConscription = _buildRuleFromOther(milicia.ruleConscription);
 final _ruleOperators = _buildRuleFromOther(btrt.ruleOperators);
 final _ruleJannitePilots = _buildRuleFromOther(th.ruleJannitePilots);
 
-FactionRule _buildRuleFromOther(FactionRule rule) {
-  return FactionRule.from(
+Rule _buildRuleFromOther(Rule rule) {
+  return Rule.from(
     rule,
     isEnabled: false,
     canBeToggled: true,
@@ -947,7 +945,7 @@ FactionRule _buildRuleFromOther(FactionRule rule) {
   );
 }
 
-bool _onlyOne(List<FactionRule> rules, String excludeId) {
+bool _onlyOne(List<Rule> rules, String excludeId) {
   int count = 0;
   rules.forEach((rule) {
     if (rule.isEnabled && rule.id != excludeId) {
@@ -957,9 +955,9 @@ bool _onlyOne(List<FactionRule> rules, String excludeId) {
   return count < 2;
 }
 
-bool Function(List<FactionRule> rules) _onlyThreeUpgrades(String excludedId) {
-  return (List<FactionRule> rules) {
-    final ruleCount = (FactionRule rule, String excludedId) {
+bool Function(List<Rule> rules) _onlyThreeUpgrades(String excludedId) {
+  return (List<Rule> rules) {
+    final ruleCount = (Rule rule, String excludedId) {
       return rule.isEnabled && rule.id != excludedId ? 1 : 0;
     };
 

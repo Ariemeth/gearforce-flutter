@@ -36,14 +36,14 @@ class CEFFF extends CEF {
         );
 }
 
-final FactionRule ruleDuelingFrames = FactionRule(
+final Rule ruleDuelingFrames = Rule(
   name: 'Dueling Frames',
   id: _ruleDuelingFramesId,
   duelistMaxNumberOverride: (roster, cg, u) => 2,
   description: 'You may select two frames in this force to become duelists.',
 );
 
-final FactionRule ruleValkyries = FactionRule(
+final Rule ruleValkyries = Rule(
   name: 'Valkyries',
   id: _ruleValkyriesId,
   factionMods: (ur, cg, u) => [CEFMods.valkyries()],
@@ -51,7 +51,7 @@ final FactionRule ruleValkyries = FactionRule(
       ' actions for +2 TV each.',
 );
 
-final FactionRule ruleDualLasers = FactionRule(
+final Rule ruleDualLasers = Rule(
   name: 'Dual Lasers',
   id: _ruleDualLasersId,
   factionMods: (ur, cg, u) => [CEFMods.dualLasers(u)],
@@ -69,7 +69,7 @@ final FactionRule ruleDualLasers = FactionRule(
       ' chosen.',
 );
 
-final FactionRule ruleEWDuelists = FactionRule(
+final Rule ruleEWDuelists = Rule(
   name: 'EW Duelists',
   id: _ruleEWDuelistsId,
   factionMods: (ur, cg, u) => [CEFMods.ewDuelists()],

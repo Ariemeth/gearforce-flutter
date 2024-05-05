@@ -39,7 +39,7 @@ class NG extends North {
         );
 }
 
-final FactionRule rulePanNorthern = FactionRule(
+final Rule rulePanNorthern = Rule(
   name: 'Pan-Northern',
   id: _rulePanNorthernId,
   options: [
@@ -57,7 +57,7 @@ final FactionRule rulePanNorthern = FactionRule(
       'or NLC. Live Free Die Hard, The Pride and Devoted may not be selected.',
 );
 
-final FactionRule ruleSurplusHunters = FactionRule(
+final Rule ruleSurplusHunters = Rule(
   name: 'Surplus Hunters',
   id: _ruleSurplusHuntersId,
   hasGroupRole: (unit, target, group) {
@@ -82,7 +82,7 @@ final FactionRule ruleSurplusHunters = FactionRule(
       ' be selected an unlimited number of times.',
 );
 
-final FactionRule ruleSurplusJaguars = FactionRule(
+final Rule ruleSurplusJaguars = Rule(
   name: 'Surplus Jaguars',
   id: _ruleSurplusJaguarsId,
   hasGroupRole: (unit, target, group) {
@@ -115,7 +115,7 @@ List<String> _getPanNorthernRuleIds(String id) {
   return ids;
 }
 
-final FactionRule _ngPristineAntiques = FactionRule.from(
+final Rule _ngPristineAntiques = Rule.from(
   wfp.rulePristineAntiques,
   isEnabled: true,
   canBeToggled: false,
@@ -123,7 +123,7 @@ final FactionRule _ngPristineAntiques = FactionRule.from(
   combatGroupOption: () => [_ngPristineAntiques.buidCombatGroupOption()],
 );
 
-final FactionRule _ngOlTrusty = FactionRule.from(
+final Rule _ngOlTrusty = Rule.from(
   wfp.ruleOlTrustyWFP,
   isEnabled: true,
   canBeToggled: false,
@@ -131,7 +131,7 @@ final FactionRule _ngOlTrusty = FactionRule.from(
   combatGroupOption: () => [_ngOlTrusty.buidCombatGroupOption()],
 );
 
-final FactionRule _ngDropBears = FactionRule.from(
+final Rule _ngDropBears = Rule.from(
   wfp.ruleDropBears,
   isEnabled: true,
   canBeToggled: false,
@@ -139,7 +139,7 @@ final FactionRule _ngDropBears = FactionRule.from(
   combatGroupOption: () => [_ngDropBears.buidCombatGroupOption()],
 );
 
-final FactionRule _ngLocalManufacturing = FactionRule.from(
+final Rule _ngLocalManufacturing = Rule.from(
   umf.ruleLocalManufacturing,
   isEnabled: true,
   canBeToggled: false,
@@ -147,7 +147,7 @@ final FactionRule _ngLocalManufacturing = FactionRule.from(
   combatGroupOption: () => [_ngLocalManufacturing.buidCombatGroupOption()],
 );
 
-final FactionRule _ngEwSpecialist = FactionRule.from(
+final Rule _ngEwSpecialist = Rule.from(
   umf.ruleEWSpecialist,
   isEnabled: true,
   canBeToggled: false,
@@ -155,7 +155,7 @@ final FactionRule _ngEwSpecialist = FactionRule.from(
   combatGroupOption: () => [_ngEwSpecialist.buidCombatGroupOption()],
 );
 
-final FactionRule _ngWellFunded = FactionRule.from(
+final Rule _ngWellFunded = Rule.from(
   umf.ruleWellFunded,
   isEnabled: true,
   canBeToggled: false,
@@ -163,7 +163,7 @@ final FactionRule _ngWellFunded = FactionRule.from(
   combatGroupOption: () => [_ngWellFunded.buidCombatGroupOption()],
 );
 
-final FactionRule _ngMercContract = FactionRule.from(
+final Rule _ngMercContract = Rule.from(
   poc.ruleMercenaryContract,
   isEnabled: true,
   canBeToggled: false,
@@ -171,7 +171,7 @@ final FactionRule _ngMercContract = FactionRule.from(
   combatGroupOption: () => [_ngMercContract.buidCombatGroupOption()],
 );
 
-final FactionRule _ngChaplain = FactionRule.from(
+final Rule _ngChaplain = Rule.from(
   nlc.ruleChaplain,
   isEnabled: true,
   canBeToggled: false,
@@ -179,7 +179,7 @@ final FactionRule _ngChaplain = FactionRule.from(
   combatGroupOption: () => [_ngChaplain.buidCombatGroupOption()],
 );
 
-final FactionRule _ngWarriorMonks = FactionRule.from(
+final Rule _ngWarriorMonks = Rule.from(
   nlc.ruleWarriorMonks,
   isEnabled: true,
   canBeToggled: false,

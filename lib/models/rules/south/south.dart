@@ -29,7 +29,7 @@ class South extends RuleSet {
     Data data, {
     super.description,
     required super.name,
-    List<FactionRule> subFactionRules = const [],
+    List<Rule> subFactionRules = const [],
   }) : super(
           FactionType.South,
           data,
@@ -64,7 +64,7 @@ const SouthFilters = const [
   const UnitFilter(FactionType.Terrain),
 ];
 
-final FactionRule rulePoliceState = FactionRule(
+final Rule rulePoliceState = Rule(
   name: 'Police State',
   id: _rulePoliceStateId,
   hasGroupRole: (unit, target, group) {
@@ -80,7 +80,7 @@ final FactionRule rulePoliceState = FactionRule(
   description: 'Southern MP models may be placed in GP, SK, FS or SO units.',
 );
 
-final FactionRule ruleAmphibians = FactionRule(
+final Rule ruleAmphibians = Rule(
   name: 'Amphibians',
   id: _ruleAmphibiansId,
   hasGroupRole: (unit, target, group) {

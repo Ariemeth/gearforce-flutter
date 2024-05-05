@@ -56,9 +56,6 @@ class _ApplicationSettingsDialogState extends State<ApplicationSettingsDialog> {
             }),
         SettingsSectionHeading('Content Settings'),
         SettingsCheckboxOptionLine(
-          // TODO: Enable when ready
-          isEnabled: false,
-          tooltipMessage: 'Coming soon!',
           text: 'Allow Alpha/Beta Content',
           value: settings.isAlphaBetaAllowed,
           onChanged: (bool? newValue) {

@@ -13,9 +13,9 @@ class FactionRulesLine extends StatefulWidget {
     this.leftOffset = 0.0,
     required this.notifyParent,
   });
-  final FactionRule upgrade;
+  final Rule upgrade;
   final double leftOffset;
-  final List<FactionRule> rules;
+  final List<Rule> rules;
   final Function() notifyParent;
 
   @override

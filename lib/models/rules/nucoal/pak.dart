@@ -38,7 +38,7 @@ class PAK extends NuCoal {
           name: 'Port Arthur Korps',
           factionRules: [
             ruleHumanistTech,
-            FactionRule.from(
+            Rule.from(
               rulePortArthurKorps,
               isEnabled: false,
               requirementCheck: (_) => false,
@@ -54,7 +54,7 @@ class PAK extends NuCoal {
         );
 }
 
-final ruleHoverTankCommander = FactionRule(
+final ruleHoverTankCommander = Rule(
     name: 'Hover Tank Commander',
     id: _ruleHoverTankCommanderId,
     factionMods: (ur, cg, u) => [NuCoalFactionMods.hoverTankCommander()],
@@ -62,7 +62,7 @@ final ruleHoverTankCommander = FactionRule(
         ' type model may improve its EW skill by one, to a maximum of 3+, for' +
         ' 1 TV each.');
 
-final ruleTankJockeys = FactionRule(
+final ruleTankJockeys = Rule(
     name: 'Tank Jockeys',
     id: _ruleTankJockeysId,
     factionMods: (ur, cg, u) => [NuCoalFactionMods.tankJockeys()],
@@ -70,7 +70,7 @@ final ruleTankJockeys = FactionRule(
         ' ability for 1 TV each: Ignore the movement penalty for traveling' +
         ' through difficult terrain.');
 
-final ruleAllies = FactionRule(
+final ruleAllies = Rule(
     name: 'Allies',
     id: _ruleAlliesId,
     hasGroupRole: (unit, target, group) {
@@ -105,7 +105,7 @@ final ruleAllies = FactionRule(
         ' the Vet trait on their profile cannot be purchased. However, the' +
         ' Vet trait may be purchased for models that do not come with it.');
 
-final ruleAcquiredTech = FactionRule(
+final ruleAcquiredTech = Rule(
     name: 'Acquired Tech',
     id: _ruleAcquiredTechId,
     unitFilter: (cgOptions) => const SpecialUnitFilter(
@@ -138,7 +138,7 @@ bool _checkForAcquiredTech(String frame) {
       frame == 'HC-3A';
 }
 
-final ruleSomethingToProve = FactionRule(
+final ruleSomethingToProve = Rule(
   name: 'Something to Prove',
   id: _ruleSomethingToProveId,
   factionMods: (ur, cg, u) => [NuCoalFactionMods.somethingToProve()],

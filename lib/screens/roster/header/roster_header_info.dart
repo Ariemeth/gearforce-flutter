@@ -284,7 +284,7 @@ class RosterHeaderInfo extends StatelessWidget {
     );
   }
 
-  void _showSettingsDialog(BuildContext context, List<FactionRule> upgrades,
+  void _showSettingsDialog(BuildContext context, List<Rule> upgrades,
       UnitRoster roster, bool isCore) {
     final settingsDialog = FactionRulesDialog(
       upgrades: upgrades,

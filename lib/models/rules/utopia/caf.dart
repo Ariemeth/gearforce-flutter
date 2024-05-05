@@ -79,7 +79,7 @@ class CAF extends Utopia {
         );
 }
 
-final FactionRule ruleAllies = FactionRule(
+final Rule ruleAllies = Rule(
   name: 'Allies',
   id: _ruleAlliesId,
   options: [
@@ -91,12 +91,12 @@ final FactionRule ruleAllies = FactionRule(
       ' Eden to place into your secondary units.',
 );
 
-final FactionRule _ruleAllyCEF = FactionRule(
+final Rule _ruleAllyCEF = Rule(
   name: 'CEF',
   id: _ruleAlliesCEFId,
   isEnabled: false,
   canBeToggled: true,
-  requirementCheck: FactionRule.thereCanBeOnlyOne([
+  requirementCheck: Rule.thereCanBeOnlyOne([
     _ruleAlliesCapriceId,
     _ruleAlliesEdenId,
   ]),
@@ -127,12 +127,12 @@ final FactionRule _ruleAllyCEF = FactionRule(
       ' secondary units.',
 );
 
-final FactionRule _ruleAllyCaprice = FactionRule(
+final Rule _ruleAllyCaprice = Rule(
   name: 'Caprice',
   id: _ruleAlliesCapriceId,
   isEnabled: false,
   canBeToggled: true,
-  requirementCheck: FactionRule.thereCanBeOnlyOne([
+  requirementCheck: Rule.thereCanBeOnlyOne([
     _ruleAlliesCEFId,
     _ruleAlliesEdenId,
   ]),
@@ -173,12 +173,12 @@ final FactionRule _ruleAllyCaprice = FactionRule(
       ' secondary units.',
 );
 
-final FactionRule _ruleAllyEden = FactionRule(
+final Rule _ruleAllyEden = Rule(
   name: 'Eden',
   id: _ruleAlliesEdenId,
   isEnabled: false,
   canBeToggled: true,
-  requirementCheck: FactionRule.thereCanBeOnlyOne([
+  requirementCheck: Rule.thereCanBeOnlyOne([
     _ruleAlliesCEFId,
     _ruleAlliesCapriceId,
   ]),
@@ -205,14 +205,14 @@ final FactionRule _ruleAllyEden = FactionRule(
       ' secondary units.',
 );
 
-final FactionRule ruleCombinedArms = FactionRule(
+final Rule ruleCombinedArms = Rule(
   name: 'Combined Arms',
   id: _ruleCombinedArmsId,
   description: 'You may select one of the below for each combat group.\n' +
       'Commando Troupe, Recce Troupe, Support Troupe or Gilgamesh Troupe.',
 );
 
-final FactionRule ruleRecceTroupe = FactionRule(
+final Rule ruleRecceTroupe = Rule(
   name: 'Recce Troupe',
   id: _ruleRecceTroupeId,
   options: [ruleQuietDeath, ruleSilentAssault],
@@ -228,13 +228,13 @@ final FactionRule ruleRecceTroupe = FactionRule(
       ' TV each.',
 );
 
-final FactionRule ruleQuietDeath = FactionRule(
+final Rule ruleQuietDeath = Rule(
   name: 'Quiet Death',
   id: _ruleQuietDeathId,
   description: 'Recce Armigers may purchase the React+ trait for 1 TV each.',
 );
 
-final FactionRule ruleSilentAssault = FactionRule(
+final Rule ruleSilentAssault = Rule(
   name: 'Silent Assault',
   id: _ruleSilentAssaultId,
   description:
@@ -242,7 +242,7 @@ final FactionRule ruleSilentAssault = FactionRule(
 );
 
 ////////////////////
-final FactionRule ruleSupportTroupe = FactionRule(
+final Rule ruleSupportTroupe = Rule(
   name: 'Support Troupe',
   id: _ruleSupportTroupeId,
   options: [ruleWrathOfTheDemigods, ruleNotSoSilentAssault],
@@ -258,14 +258,14 @@ final FactionRule ruleSupportTroupe = FactionRule(
       ' one for 1 TV each.',
 );
 
-final FactionRule ruleWrathOfTheDemigods = FactionRule(
+final Rule ruleWrathOfTheDemigods = Rule(
   name: 'Wrath of the Demigods',
   id: _ruleWrathOfTheDemigodsId,
   description: 'Each Support Armiger may upgrade their MRP with both the' +
       ' Precise trait and the Guided trait for 1 TV total.',
 );
 
-final FactionRule ruleNotSoSilentAssault = FactionRule(
+final Rule ruleNotSoSilentAssault = Rule(
   name: 'Not So Silent Assault',
   id: _ruleNotSoSilentAssaultId,
   description:
@@ -273,7 +273,7 @@ final FactionRule ruleNotSoSilentAssault = FactionRule(
 );
 
 ////////////////////
-final FactionRule ruleCommandoTroupe = FactionRule(
+final Rule ruleCommandoTroupe = Rule(
   name: 'Commando Troupe',
   id: _ruleCommandoTroupeId,
   options: [ruleWhoDares],
@@ -283,14 +283,14 @@ final FactionRule ruleCommandoTroupe = FactionRule(
   description: 'Who Dares: Commando Armigers may add +1 action for 2 TV each.',
 );
 
-final FactionRule ruleWhoDares = FactionRule(
+final Rule ruleWhoDares = Rule(
   name: 'Who Dares',
   id: _ruleWhoDaresId,
   description: 'Commando Armigers may add +1 action for 2 TV each.',
 );
 
 ////////////////////
-final FactionRule ruleGilgameshTroupe = FactionRule(
+final Rule ruleGilgameshTroupe = Rule(
   name: 'Gilgamesh Troupe',
   id: _ruleGilgameshTroupeId,
   options: [_ruleTheDivineBrother, _ruleTheBrothersFriends],
@@ -412,14 +412,14 @@ final FactionRule ruleGilgameshTroupe = FactionRule(
       ' one combat group during their activation.',
 );
 
-final FactionRule _ruleTheDivineBrother = FactionRule(
+final Rule _ruleTheDivineBrother = Rule(
   name: 'The Divine Brother',
   id: _ruleTheDevineBrotherId,
   description: 'The Divine Brother: This combat group must use a Gilgamesh.' +
       ' The Gilgamesh must be the force leader.',
 );
 
-final FactionRule _ruleTheBrothersFriends = FactionRule(
+final Rule _ruleTheBrothersFriends = Rule(
   name: 'The Brother’s Friends',
   id: _ruleTheBrothersFriendsId,
   description: 'The Gilgamesh may spend 1 CP to issue a special order that' +

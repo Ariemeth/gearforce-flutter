@@ -31,14 +31,14 @@ class NSDF extends NuCoal {
         );
 }
 
-final FactionRule ruleBaitAndSwitch = FactionRule(
+final Rule ruleBaitAndSwitch = Rule(
   name: 'Bait and Switch',
   id: _ruleBaitAndSwitchId,
   description: 'One combat group composed of all gears may use the special' +
       ' operations deployment or the recon special deployment option.',
 );
 
-final FactionRule ruleHighSpeedLowDrag = FactionRule(
+final Rule ruleHighSpeedLowDrag = Rule(
   name: 'High Speed, Low Drag',
   id: _ruleHighSpeedLowDragId,
   factionMods: (ur, cg, u) => [NuCoalFactionMods.highSpeedLowDrag()],

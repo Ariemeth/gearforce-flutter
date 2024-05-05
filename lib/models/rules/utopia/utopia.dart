@@ -40,7 +40,7 @@ class Utopia extends RuleSet {
     String? description,
     required String name,
     List<String>? specialRules,
-    List<FactionRule> subFactionRules = const [],
+    List<Rule> subFactionRules = const [],
   }) : super(
           FactionType.Utopia,
           data,
@@ -74,7 +74,7 @@ class Utopia extends RuleSet {
   factory Utopia.OUF(Data data) => OUF(data);
 }
 
-final FactionRule ruleDroneMatrix = FactionRule(
+final Rule ruleDroneMatrix = Rule(
   name: 'Drone Matrix',
   id: _ruleDroneMatrixId,
   description: 'Armiger and Gilgamesh models may spend 1 CP to issue a' +
@@ -82,14 +82,14 @@ final FactionRule ruleDroneMatrix = FactionRule(
       ' their own combat group during any one combat group’s activation.',
 );
 
-final FactionRule ruleManualControl = FactionRule(
+final Rule ruleManualControl = Rule(
   name: 'Manual Control',
   id: _ruleManualControlId,
   description: 'Armiger and Gilgamesh models may spend one action to improve' +
       ' one N-KIDU’s GU and PI skill by one, during that N-KIDU’s activation.',
 );
 
-final FactionRule ruleDroneHacking = FactionRule(
+final Rule ruleDroneHacking = Rule(
   name: 'Drone Hacking',
   id: _ruleDroneHackingId,
   description: 'Armiger and Gilgamesh models may attempt to force a universal' +
@@ -105,7 +105,7 @@ final FactionRule ruleDroneHacking = FactionRule(
       ' objectives (if applicable).',
 );
 
-final FactionRule ruleExpendable = FactionRule(
+final Rule ruleExpendable = Rule(
   name: 'Expendable',
   id: _ruleExpendableId,
   description: 'When an armiger is targeted by a direct or indirect attack, a' +

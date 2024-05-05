@@ -87,14 +87,14 @@ class HCSA extends NuCoal {
         );
 }
 
-final FactionRule ruleCityStateDetachments = FactionRule(
+final Rule ruleCityStateDetachments = Rule(
   name: 'City-States Detachments',
   id: _ruleCityStateDetachmentsId,
   description: 'Select a city-state from below for each combat group.\n' +
       '\tLance Point, Fort Neil, Prince Gable and/or Erech & Nineveh.',
 );
 
-final FactionRule ruleLancePoint = FactionRule(
+final Rule ruleLancePoint = Rule(
   name: 'Lance Point',
   id: _ruleLancePointId,
   options: [_ruleAlliesLancePoint, _rulePathfinder],
@@ -115,21 +115,21 @@ final FactionRule ruleLancePoint = FactionRule(
       ' in Lance Point.',
 );
 
-final FactionRule _ruleAlliesLancePoint = FactionRule(
+final Rule _ruleAlliesLancePoint = Rule(
   name: 'Allies',
   id: _ruleAlliesLancePointId,
   description: 'This combat group may include models from the South with an' +
       ' armor of 9 or less.',
 );
 
-final FactionRule _rulePathfinder = FactionRule(
+final Rule _rulePathfinder = Rule(
   name: 'Pathfinder',
   id: _rulePathfinderId,
   description: 'If this combat group is composed entirely of gears, then it' +
       ' may use the recon special deployment option.',
 );
 
-final FactionRule ruleFortNeil = FactionRule(
+final Rule ruleFortNeil = Rule(
   name: 'Fort Neil',
   id: _ruleFortNeilId,
   options: [
@@ -191,14 +191,14 @@ final FactionRule ruleFortNeil = FactionRule(
       ' Sampsons are common in Fort Neil regiments and the local rally scene.',
 );
 
-final FactionRule _ruleGallicManufacturing = FactionRule(
+final Rule _ruleGallicManufacturing = Rule(
   name: 'Gallic Manufacturing',
   id: _ruleGallicManufacturingId,
   description: 'Chasseurs and Chasseur MK2s may be placed in GP, SK, FS or RC' +
       ' units.',
 );
 
-final FactionRule _ruleLicensedManufacturing = FactionRule(
+final Rule _ruleLicensedManufacturing = Rule(
   name: 'Licensed Manufacturing',
   id: _ruleLicensedManufacturingId,
   description: 'This combat group may include Sidewinders from the South, and' +
@@ -215,20 +215,20 @@ bool _matchSidewinders(UnitCore uc) {
   return uc.frame == 'Sidewinder';
 }
 
-final FactionRule _ruleTestPilots = FactionRule(
+final Rule _ruleTestPilots = Rule(
     name: 'Test Pilots',
     id: _ruleTestPilotsId,
     description: 'Two models in this combat group may purchase the Vet trait' +
         ' without counting against the veteran limitations.');
 
-final FactionRule ruleFastCavalry = FactionRule(
+final Rule ruleFastCavalry = Rule(
   name: 'Fast Cavalry',
   id: _ruleFastCavalryId,
   description: 'Sampsons in this combat group may purchase the Agile trait' +
       ' for 1 TV each.',
 );
 
-final FactionRule rulePrinceGable = FactionRule(
+final Rule rulePrinceGable = Rule(
   name: 'Prince Gable',
   id: _rulePrinceGableId,
   options: [
@@ -306,28 +306,28 @@ final FactionRule rulePrinceGable = FactionRule(
       ' this city-state.',
 );
 
-final FactionRule _ruleAlliesPrinceGable = FactionRule(
+final Rule _ruleAlliesPrinceGable = Rule(
   name: 'Allies',
   id: _ruleAlliesPrinceGableId,
   description: 'This combat group may include models from the North with an' +
       ' armor of 9 or less.',
 );
 
-final FactionRule _ruleEwSpecialist = FactionRule(
+final Rule _ruleEwSpecialist = Rule(
   name: 'EW Specialists',
   id: _ruleEwSpecialistsId,
   description: 'One gear, strider, or vehicle in this combat group may' +
       ' purchase the ECCM veteran upgrade without being a veteran.',
 );
 
-final FactionRule ruleEPex = FactionRule(
+final Rule ruleEPex = Rule(
   name: 'E-pex',
   id: _ruleEPexId,
   description: 'One model in this combat group may improve its EW skill by' +
       ' one for 1 TV.',
 );
 
-final FactionRule ruleErechAndNineveh = FactionRule(
+final Rule ruleErechAndNineveh = Rule(
   name: 'Erech & Nineveh',
   id: _ruleErechAndNinevehId,
   options: [
@@ -430,7 +430,7 @@ const _south = const SpecialUnitFilter(
     ],
     id: _ruleAlliesErechAndNinevehSouthId);
 
-final FactionRule _ruleAlliesErechAndNinevehNorth = FactionRule(
+final Rule _ruleAlliesErechAndNinevehNorth = Rule(
   name: '  Allies: North',
   id: _ruleAlliesErechAndNinevehNorthId,
   cgCheck: (cg, ur) {
@@ -451,7 +451,7 @@ final FactionRule _ruleAlliesErechAndNinevehNorth = FactionRule(
       ' with an armor of 9 or less.',
 );
 
-final FactionRule _ruleAlliesErechAndNinevehSouth = FactionRule(
+final Rule _ruleAlliesErechAndNinevehSouth = Rule(
   name: '  Allies: South',
   id: _ruleAlliesErechAndNinevehSouthId,
   cgCheck: (cg, ur) {
@@ -472,14 +472,14 @@ final FactionRule _ruleAlliesErechAndNinevehSouth = FactionRule(
       ' with an armor of 9 or less.',
 );
 
-final FactionRule rulePersonalEquipment = FactionRule(
+final Rule rulePersonalEquipment = Rule(
   name: 'Personal Equipment',
   id: _rulePersonalEquipmentId,
   description: 'Two models in this combat group may purchase two veteran' +
       ' upgrades each without being veterans.',
 );
 
-final FactionRule ruleHighOctane = FactionRule(
+final Rule ruleHighOctane = Rule(
   name: 'High Octane',
   id: _ruleHighOctaneId,
   description: 'Add +1 to the MR of any veteran gears in this combat group' +

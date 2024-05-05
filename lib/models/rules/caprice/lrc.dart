@@ -43,7 +43,7 @@ class LRC extends Caprice {
         );
 }
 
-final FactionRule ruleHeroesOfTheResistance = FactionRule(
+final Rule ruleHeroesOfTheResistance = Rule(
   name: 'Heroes of the Resistance',
   id: _ruleHeroesOfTheResistanceId,
   duelistModCheck: (u, cg, {required modID}) {
@@ -68,7 +68,7 @@ final FactionRule ruleHeroesOfTheResistance = FactionRule(
       ' cannot use the Independent Operator rule for duelists.',
 );
 
-final FactionRule ruleAllies = FactionRule(
+final Rule ruleAllies = Rule(
   name: 'Allies',
   id: _ruleAlliesId,
   options: [
@@ -80,12 +80,12 @@ final FactionRule ruleAllies = FactionRule(
       ' Eden to place into your secondary units.',
 );
 
-final FactionRule _ruleAllyBlackTalon = FactionRule(
+final Rule _ruleAllyBlackTalon = Rule(
   name: 'Black Talon',
   id: _ruleAlliesBlackTalonId,
   isEnabled: false,
   canBeToggled: true,
-  requirementCheck: FactionRule.thereCanBeOnlyOne([
+  requirementCheck: Rule.thereCanBeOnlyOne([
     _ruleAlliesUtopiaId,
     _ruleAlliesEdenId,
   ]),
@@ -112,12 +112,12 @@ final FactionRule _ruleAllyBlackTalon = FactionRule(
       ' secondary units.',
 );
 
-final FactionRule _ruleAllyUtopia = FactionRule(
+final Rule _ruleAllyUtopia = Rule(
   name: 'Utopia',
   id: _ruleAlliesUtopiaId,
   isEnabled: false,
   canBeToggled: true,
-  requirementCheck: FactionRule.thereCanBeOnlyOne([
+  requirementCheck: Rule.thereCanBeOnlyOne([
     _ruleAlliesBlackTalonId,
     _ruleAlliesEdenId,
   ]),
@@ -144,12 +144,12 @@ final FactionRule _ruleAllyUtopia = FactionRule(
       ' secondary units.',
 );
 
-final FactionRule _ruleAllyEden = FactionRule(
+final Rule _ruleAllyEden = Rule(
   name: 'Eden',
   id: _ruleAlliesEdenId,
   isEnabled: false,
   canBeToggled: true,
-  requirementCheck: FactionRule.thereCanBeOnlyOne([
+  requirementCheck: Rule.thereCanBeOnlyOne([
     _ruleAlliesBlackTalonId,
     _ruleAlliesUtopiaId,
   ]),
@@ -176,14 +176,14 @@ final FactionRule _ruleAllyEden = FactionRule(
       ' secondary units.',
 );
 
-final FactionRule ruleAmbush = FactionRule(
+final Rule ruleAmbush = Rule(
   name: 'Ambush',
   id: _ruleAmbushId,
   description: 'One combat group may use the special operations deployment' +
       ' regardless of their primary unit’s role.',
 );
 
-final FactionRule ruleElimination = FactionRule(
+final Rule ruleElimination = Rule(
   name: 'Elimination',
   id: _ruleEliminationId,
   description: 'One objective selected for this force may be the assassinate' +

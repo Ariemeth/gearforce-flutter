@@ -41,7 +41,7 @@ class Eden extends RuleSet {
     String? description,
     required String name,
     List<String>? specialRules,
-    List<FactionRule> subFactionRules = const [],
+    List<Rule> subFactionRules = const [],
   }) : super(
           FactionType.Eden,
           data,
@@ -76,7 +76,7 @@ class Eden extends RuleSet {
   factory Eden.AEF(Data data) => AEF(data);
 }
 
-final FactionRule ruleLancers = FactionRule(
+final Rule ruleLancers = Rule(
   name: 'Lancers',
   id: _ruleLancersId,
   factionMods: (ur, cg, u) {
@@ -94,7 +94,7 @@ final FactionRule ruleLancers = FactionRule(
       ' they have it.',
 );
 
-final FactionRule ruleJoustYouSay = FactionRule(
+final Rule ruleJoustYouSay = Rule(
   name: 'Joust You Say?',
   id: _ruleJoustYouSayId,
   description: 'Any golem with a lance may perform a melee attack using their' +
@@ -103,7 +103,7 @@ final FactionRule ruleJoustYouSay = FactionRule(
       ' attack is treated as using a HSG instead of a MSG.',
 );
 
-final FactionRule ruleAllies = FactionRule(
+final Rule ruleAllies = Rule(
   name: 'Allies',
   id: _ruleAlliesId,
   options: [
@@ -116,12 +116,12 @@ final FactionRule ruleAllies = FactionRule(
       ' Caprice (pick one) for your secondary units.',
 );
 
-final FactionRule _ruleAllyCEF = FactionRule(
+final Rule _ruleAllyCEF = Rule(
   name: 'CEF',
   id: _ruleAlliesCEFId,
   isEnabled: false,
   canBeToggled: true,
-  requirementCheck: FactionRule.thereCanBeOnlyOne([
+  requirementCheck: Rule.thereCanBeOnlyOne([
     _ruleAlliesBlackTalonId,
     _ruleAlliesUtopiaId,
     _ruleAlliesCapriceId,
@@ -152,12 +152,12 @@ final FactionRule _ruleAllyCEF = FactionRule(
       'You may select models from CEF to place into your secondary units.',
 );
 
-final FactionRule _ruleAllyBlackTalon = FactionRule(
+final Rule _ruleAllyBlackTalon = Rule(
   name: 'Black Talon',
   id: _ruleAlliesBlackTalonId,
   isEnabled: false,
   canBeToggled: true,
-  requirementCheck: FactionRule.thereCanBeOnlyOne([
+  requirementCheck: Rule.thereCanBeOnlyOne([
     _ruleAlliesCEFId,
     _ruleAlliesUtopiaId,
     _ruleAlliesCapriceId,
@@ -185,12 +185,12 @@ final FactionRule _ruleAllyBlackTalon = FactionRule(
       ' your secondary units.',
 );
 
-final FactionRule _ruleAllyUtopia = FactionRule(
+final Rule _ruleAllyUtopia = Rule(
   name: 'Utopia',
   id: _ruleAlliesUtopiaId,
   isEnabled: false,
   canBeToggled: true,
-  requirementCheck: FactionRule.thereCanBeOnlyOne([
+  requirementCheck: Rule.thereCanBeOnlyOne([
     _ruleAlliesCEFId,
     _ruleAlliesBlackTalonId,
     _ruleAlliesCapriceId,
@@ -218,12 +218,12 @@ final FactionRule _ruleAllyUtopia = FactionRule(
       ' secondary units.',
 );
 
-final FactionRule _ruleAllyCaprice = FactionRule(
+final Rule _ruleAllyCaprice = Rule(
   name: 'Caprice',
   id: _ruleAlliesCapriceId,
   isEnabled: false,
   canBeToggled: true,
-  requirementCheck: FactionRule.thereCanBeOnlyOne([
+  requirementCheck: Rule.thereCanBeOnlyOne([
     _ruleAlliesCEFId,
     _ruleAlliesBlackTalonId,
     _ruleAlliesUtopiaId,

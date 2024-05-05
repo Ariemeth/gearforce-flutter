@@ -5,6 +5,7 @@ import 'package:gearforce/models/rules/options/combat_group_options.dart';
 import 'package:gearforce/models/combatGroups/group.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/rules/options/special_unit_filter.dart';
+import 'package:gearforce/models/rules/rule_types.dart';
 import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/role.dart';
@@ -13,11 +14,12 @@ import 'package:gearforce/models/unit/unit_core.dart';
 import 'package:gearforce/models/validation/validations.dart';
 import 'package:gearforce/models/weapons/weapon.dart';
 
-class FactionRule extends ChangeNotifier {
-  FactionRule({
+class Rule extends ChangeNotifier {
+  Rule({
     required this.name,
     required this.id,
-    List<FactionRule>? options = null,
+    this.ruleType = RuleType.Standard,
+    List<Rule>? options = null,
     this.description = '',
     bool isEnabled = true,
     this.canBeToggled = false,
@@ -64,13 +66,13 @@ class FactionRule extends ChangeNotifier {
 
   final String name;
   final String id;
-  List<FactionRule>? get options =>
-      _options == null ? null : _options!.toList();
-  late final List<FactionRule>? _options;
+  final RuleType ruleType;
+  List<Rule>? get options => _options == null ? null : _options!.toList();
+  late final List<Rule>? _options;
   final String description;
   late bool _isEnabled;
   bool canBeToggled;
-  final bool Function(List<FactionRule>) requirementCheck;
+  final bool Function(List<Rule>) requirementCheck;
   final bool Function(CombatGroup?, UnitRoster?) cgCheck;
 
   final bool? Function(UnitRoster roster, Unit u)? duelistModelCheck;
@@ -146,10 +148,10 @@ class FactionRule extends ChangeNotifier {
   /// Called when a unit's leadership level is changed
   final void Function(UnitRoster roster, Unit unit)? onLeadershipChanged;
 
-  /// Called with the [FactionRule] is enabled.
+  /// Called with the [Rule] is enabled.
   final Function()? onEnabled;
 
-  /// Called with the [FactionRule] is disabled.
+  /// Called with the [Rule] is disabled.
   final Function()? onDisabled;
 
   bool get isEnabled => _isEnabled;
@@ -164,7 +166,7 @@ class FactionRule extends ChangeNotifier {
     }
   }
 
-  void setIsEnabled(bool value, List<FactionRule> rules) {
+  void setIsEnabled(bool value, List<Rule> rules) {
     // If the value isn't being changed or the value cannot be changed do nothing
     if (value == _isEnabled || !canBeToggled) {
       return;
@@ -214,7 +216,7 @@ class FactionRule extends ChangeNotifier {
     return cgOption;
   }
 
-  static bool isRuleEnabled(List<FactionRule> rules, String ruleID) {
+  static bool isRuleEnabled(List<Rule> rules, String ruleID) {
     for (final r in rules) {
       if (r.id == ruleID) {
         return r.isEnabled;
@@ -229,7 +231,7 @@ class FactionRule extends ChangeNotifier {
     return false;
   }
 
-  static FactionRule? findRule(List<FactionRule> rules, String ruleID) {
+  static Rule? findRule(List<Rule> rules, String ruleID) {
     for (final r in rules) {
       if (r.id == ruleID) {
         return r;
@@ -244,8 +246,8 @@ class FactionRule extends ChangeNotifier {
     return null;
   }
 
-  static List<FactionRule> enabledRules(List<FactionRule> rules) {
-    final List<FactionRule> results = [];
+  static List<Rule> enabledRules(List<Rule> rules) {
+    final List<Rule> results = [];
     rules.forEach((rule) {
       if (rule.isEnabled) {
         results.add(rule);
@@ -258,11 +260,11 @@ class FactionRule extends ChangeNotifier {
     return results;
   }
 
-  static bool ruleAlwaysAvailable(List<FactionRule> rules) => true;
+  static bool ruleAlwaysAvailable(List<Rule> rules) => true;
 
-  static bool Function(List<FactionRule> rules) thereCanBeOnlyOne(
+  static bool Function(List<Rule> rules) thereCanBeOnlyOne(
       List<String> excludedIDs) {
-    return (List<FactionRule> rules) {
+    return (List<Rule> rules) {
       for (final ID in excludedIDs) {
         // if a rule that is on the exclude list is already enabled
         // this rule cannot be.
@@ -274,14 +276,14 @@ class FactionRule extends ChangeNotifier {
     };
   }
 
-  factory FactionRule.from(
-    FactionRule original, {
+  factory Rule.from(
+    Rule original, {
     String? name,
     String? id,
-    List<FactionRule>? options,
+    List<Rule>? options,
     bool? isEnabled,
     bool? canBeToggled,
-    bool Function(List<FactionRule>)? requirementCheck,
+    bool Function(List<Rule>)? requirementCheck,
     bool Function(CombatGroup?, UnitRoster?)? cgCheck,
     List<CombatGroupOption> Function()? combatGroupOption,
     List<FactionModification> Function(UnitRoster ur, CombatGroup cg, Unit u)?
@@ -291,9 +293,10 @@ class FactionRule extends ChangeNotifier {
     Function()? onEnabled,
     Function()? onDisable,
   }) {
-    return FactionRule(
+    return Rule(
       name: name ?? original.name,
       id: id ?? original.id,
+      ruleType: original.ruleType,
       options: options ?? original._options?.toList(),
       isEnabled: isEnabled ?? original.isEnabled,
       canBeToggled: canBeToggled ?? original.canBeToggled,

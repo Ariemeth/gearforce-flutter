@@ -49,8 +49,8 @@ abstract class RuleSet extends ChangeNotifier {
   final FactionType type;
   final String? description;
   final String name;
-  final List<FactionRule> _factionRules = [];
-  final List<FactionRule> _subFactionRules = [];
+  final List<Rule> _factionRules = [];
+  final List<Rule> _subFactionRules = [];
 
   RuleSet(
     this.type,
@@ -58,8 +58,8 @@ abstract class RuleSet extends ChangeNotifier {
     required this.name,
     this.description,
     this.specialRules = null,
-    required List<FactionRule> factionRules,
-    required List<FactionRule> subFactionRules,
+    required List<Rule> factionRules,
+    required List<Rule> subFactionRules,
   }) {
     factionRules.forEach((fr) {
       fr.addListener(() {
@@ -75,7 +75,7 @@ abstract class RuleSet extends ChangeNotifier {
     _subFactionRules.addAll(subFactionRules);
   }
 
-  List<FactionRule> allFactionRules({
+  List<Rule> allFactionRules({
     Unit? unit = null,
     List<FactionType>? factions = null,
   }) =>
@@ -84,8 +84,8 @@ abstract class RuleSet extends ChangeNotifier {
         ...subFactionRules,
         ...GetModelFactionRules(unit, factions),
       ];
-  List<FactionRule> get factionRules => _factionRules.toList();
-  List<FactionRule> get subFactionRules => _subFactionRules.toList();
+  List<Rule> get factionRules => _factionRules.toList();
+  List<Rule> get subFactionRules => _subFactionRules.toList();
 
   int get maxPrimaryActions => _maxPrimaryActions;
   int get minPrimaryActions => _minPrimaryActions;
@@ -95,18 +95,18 @@ abstract class RuleSet extends ChangeNotifier {
       _maxSecondaryActions);
 
   bool isRuleEnabled(String ruleName) =>
-      FactionRule.isRuleEnabled(allFactionRules(), ruleName);
+      Rule.isRuleEnabled(allFactionRules(), ruleName);
 
-  FactionRule? findFactionRule(String ruleName) =>
-      FactionRule.findRule(allFactionRules(), ruleName);
+  Rule? findFactionRule(String ruleName) =>
+      Rule.findRule(allFactionRules(), ruleName);
 
-  List<FactionRule> allEnabledRules(
+  List<Rule> allEnabledRules(
     List<CombatGroupOption>? cgOptions, {
     bool includeModelRules = true,
     Unit? unit = null,
   }) {
     final enabledAvailableRules =
-        FactionRule.enabledRules(allFactionRules(unit: unit)).toList();
+        Rule.enabledRules(allFactionRules(unit: unit)).toList();
 
     if (cgOptions == null || cgOptions.isEmpty) {
       return enabledAvailableRules;
@@ -140,7 +140,7 @@ abstract class RuleSet extends ChangeNotifier {
   List<SpecialUnitFilter> availableUnitFilters(
     List<CombatGroupOption>? cgOptions,
   ) {
-    final List<FactionRule> availableUnitFilterRules = [];
+    final List<Rule> availableUnitFilterRules = [];
 
     availableUnitFilterRules.addAll(
         allEnabledRules(cgOptions).where((rule) => rule.unitFilter != null));
@@ -758,7 +758,7 @@ abstract class RuleSet extends ChangeNotifier {
     return (u.traits.any((trait) => trait.name == 'Vet'));
   }
 
-  /// Modifies an existing [Weapon] list based on current [FactionRule]s.
+  /// Modifies an existing [Weapon] list based on current [Rule]s.
   unitWeaponsModifier(List<Weapon> weapons) {
     final weaponModifierRules =
         allEnabledRules(null).where((rule) => rule.modifyWeapon != null);
@@ -771,7 +771,7 @@ abstract class RuleSet extends ChangeNotifier {
     });
   }
 
-  /// Modifies an existing [Trait] list based on current [FactionRule]s.
+  /// Modifies an existing [Trait] list based on current [Rule]s.
   unitTraitsModifier(List<Trait> traits, Unit unit) {
     final traitModifierRules =
         allEnabledRules(null).where((rule) => rule.modifyTraits != null);

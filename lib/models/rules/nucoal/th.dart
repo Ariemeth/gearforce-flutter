@@ -42,7 +42,7 @@ class TH extends NuCoal {
         );
 }
 
-final ruleJannitePilots = FactionRule(
+final ruleJannitePilots = Rule(
   name: 'Jannite Pilots',
   id: _ruleJannitePilotsId,
   factionMods: (ur, cg, u) => [NuCoalFactionMods.jannitePilots()],
@@ -50,7 +50,7 @@ final ruleJannitePilots = FactionRule(
       ' having two actions for +2 TV each.',
 );
 
-final ruleJanniteWardens = FactionRule(
+final ruleJanniteWardens = Rule(
   name: 'Jannite Wardens',
   id: _ruleJanniteWardensId,
   duelistMaxNumberOverride: (roster, cg, u) => 2,
@@ -85,7 +85,7 @@ final ruleJanniteWardens = FactionRule(
       ' duelists must take the Jannite Pilot upgrade if able.',
 );
 
-final ruleLocalMilitia = FactionRule(
+final ruleLocalMilitia = Rule(
   name: 'Local Militia',
   id: _ruleLocalMilitiaId,
   hasGroupRole: (unit, target, group) {

@@ -42,7 +42,7 @@ class UMF extends North {
         );
 }
 
-final FactionRule ruleLocalManufacturing = FactionRule(
+final Rule ruleLocalManufacturing = Rule(
   name: 'Local Manufacturing',
   id: _ruleLocalManufacturingId,
   hasGroupRole: (unit, target, group) {
@@ -64,7 +64,7 @@ final FactionRule ruleLocalManufacturing = FactionRule(
       ' and may be selected an unlimited number of times.',
 );
 
-final FactionRule ruleEWSpecialist = FactionRule(
+final Rule ruleEWSpecialist = Rule(
   name: 'EW Specialists',
   id: _ruleEWSpecialistId,
   veteranModCheck: (u, cg, {required modID}) {
@@ -122,7 +122,7 @@ final FactionRule ruleEWSpecialist = FactionRule(
       ' the ECCM veteran upgrade without being a veteran.',
 );
 
-final FactionRule ruleWellFunded = FactionRule(
+final Rule ruleWellFunded = Rule(
   name: 'Well Funded',
   id: _ruleWellFundedId,
   veteranModCheck: (u, cg, {required modID}) {

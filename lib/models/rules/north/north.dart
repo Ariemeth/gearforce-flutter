@@ -42,7 +42,7 @@ class North extends RuleSet {
     Data data, {
     super.description,
     required super.name,
-    List<FactionRule> subFactionRules = const [],
+    List<Rule> subFactionRules = const [],
   }) : super(
           FactionType.North,
           data,
@@ -81,7 +81,7 @@ class North extends RuleSet {
   factory North.NLC(Data data) => NLC(data);
 }
 
-final ruleTaskBuilt = FactionRule(
+final ruleTaskBuilt = Rule(
   name: 'Task Built',
   id: _ruleTaskBuiltId,
   factionMods: (ur, cg, u) {
@@ -103,7 +103,7 @@ final ruleTaskBuilt = FactionRule(
           ' Camel Truck and Stinger may also add an HMG for 1 TV.',
 );
 
-final FactionRule ruleProspectors = FactionRule(
+final Rule ruleProspectors = Rule(
   name: 'Prospectors',
   id: _ruleProspectorsId,
   hasGroupRole: (unit, target, group) {
@@ -189,14 +189,14 @@ final FactionRule ruleProspectors = FactionRule(
       ' SK, FS, RC or SO units.',
 );
 
-final ruleHammersOfTheNorth = FactionRule(
+final ruleHammersOfTheNorth = Rule(
   name: 'Hammers of the North',
   id: _ruleHammersOfTheNorthId,
   factionMods: (ur, cg, u) => [NorthernFactionMods.hammerOfTheNorth(u)],
   description: 'Snub cannons may be given the Precise trait for +1 TV each.',
 );
 
-final ruleVeteranLeaders = FactionRule(
+final ruleVeteranLeaders = Rule(
   name: 'Veteran Leaders',
   id: _ruleVeteranLeadersId,
   veteranCheckOverride: (u, cg) {
@@ -209,7 +209,7 @@ final ruleVeteranLeaders = FactionRule(
       ' force without counting against the normal veteran limitations',
 );
 
-final FactionRule ruleDragoonSquad = FactionRule(
+final Rule ruleDragoonSquad = Rule(
   name: 'Dragoon Squad',
   id: _ruleDragoonSquadId,
   cgCheck: (cg, roster) {

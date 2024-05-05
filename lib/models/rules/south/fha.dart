@@ -47,7 +47,7 @@ class FHA extends South {
         );
 }
 
-final FactionRule ruleWroteTheBook = FactionRule(
+final Rule ruleWroteTheBook = Rule(
   name: 'Wrote the Book',
   id: _ruleWroteTheBookId,
   veteranCheckOverride: (u, cg) {
@@ -72,7 +72,7 @@ final FactionRule ruleWroteTheBook = FactionRule(
       ' without counting against the veteran limitations.',
 );
 
-final FactionRule ruleExperts = FactionRule(
+final Rule ruleExperts = Rule(
   name: 'Experts',
   id: _ruleExpertsId,
   duelistModCheck: (u, cg, {required modID}) {
@@ -98,7 +98,7 @@ final FactionRule ruleExperts = FactionRule(
       ' without having to be duelists.',
 );
 
-final FactionRule ruleAllies = FactionRule(
+final Rule ruleAllies = Rule(
   name: 'Allies',
   id: _ruleAlliesId,
   canBeAddedToGroup: (unit, group, cg) {

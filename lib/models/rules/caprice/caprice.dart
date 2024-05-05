@@ -37,7 +37,7 @@ class Caprice extends RuleSet {
     String? description,
     required String name,
     List<String>? specialRules,
-    List<FactionRule> subFactionRules = const [],
+    List<Rule> subFactionRules = const [],
   }) : super(
           FactionType.Caprice,
           data,
@@ -74,7 +74,7 @@ class Caprice extends RuleSet {
   factory Caprice.LRC(Data data) => LRC(data);
 }
 
-final FactionRule ruleDuelingMounts = FactionRule(
+final Rule ruleDuelingMounts = Rule(
   name: 'Dueling Mounts',
   id: _ruleDuelingMountsId,
   duelistModelCheck: (roster, u) {
@@ -94,7 +94,7 @@ final FactionRule ruleDuelingMounts = FactionRule(
       ' though they are striders. Follow all other duelist rules as normal.',
 );
 
-final FactionRule ruleAdvancedInterfaceNetworks = FactionRule.from(
+final Rule ruleAdvancedInterfaceNetworks = Rule.from(
   cef.ruleAdvancedInterfaceNetwork,
   factionMods: (ur, cg, u) {
     if (u.faction == FactionType.Caprice && u.type == ModelType.Gear) {
@@ -104,7 +104,7 @@ final FactionRule ruleAdvancedInterfaceNetworks = FactionRule.from(
   },
 );
 
-final FactionRule ruleCyberneticUpgrades = FactionRule(
+final Rule ruleCyberneticUpgrades = Rule(
   name: 'Cybernetic Upgrades',
   id: _ruleCyberneticUpgradesId,
   factionMods: (ur, cg, u) {
@@ -120,7 +120,7 @@ final FactionRule ruleCyberneticUpgrades = FactionRule(
       ' for 1 TV total; +1 Armor, +1 GU and the Climber trait.',
 );
 
-final FactionRule ruleAbominations = FactionRule(
+final Rule ruleAbominations = Rule(
   name: 'Abominations',
   id: _ruleAbominationsId,
   unitFilter: (cgOptions) => const SpecialUnitFilter(

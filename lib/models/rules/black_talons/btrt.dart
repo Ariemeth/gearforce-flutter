@@ -34,14 +34,14 @@ class BTRT extends BlackTalons {
         );
 }
 
-final FactionRule ruleOperators = FactionRule(
+final Rule ruleOperators = Rule(
   name: 'Operators',
   id: _ruleOperatorsId,
   duelistMaxNumberOverride: (roster, cg, u) => 2,
   description: 'You may select 2 gears in this force to become duelists.',
 );
 
-final FactionRule ruleTheUnseen = FactionRule(
+final Rule ruleTheUnseen = Rule(
   name: 'The Unseen',
   id: _ruleTheUnseenId,
   factionMods: (ur, cg, u) => [BlackTalonMods.theUnseen()],
@@ -49,7 +49,7 @@ final FactionRule ruleTheUnseen = FactionRule(
       'Dark Cheetahs and Dark Skirmishers may add +1 action for 2 TV each.',
 );
 
-final FactionRule ruleCatchThemSleeping = FactionRule(
+final Rule ruleCatchThemSleeping = Rule(
   name: 'Catch Them Sleeping',
   id: _ruleCatchThemSleepingId,
   description: 'This force may forgo all airdrop special deployments to allow' +

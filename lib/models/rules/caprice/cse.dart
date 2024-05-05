@@ -46,7 +46,7 @@ class CSE extends Caprice {
         );
 }
 
-final FactionRule ruleTheBestMoneyCanBuy = FactionRule(
+final Rule ruleTheBestMoneyCanBuy = Rule(
   name: 'The Best Money Can Buy',
   id: _ruleTheBestWayToMakeMoneyId,
   veteranCGCountOverride: (ur, cg) => 2,
@@ -54,7 +54,7 @@ final FactionRule ruleTheBestMoneyCanBuy = FactionRule(
       ' instead of the normal limit of one combat group.',
 );
 
-final FactionRule ruleAllies = FactionRule(
+final Rule ruleAllies = Rule(
   name: 'Allies',
   id: _ruleAlliesId,
   options: [
@@ -66,12 +66,12 @@ final FactionRule ruleAllies = FactionRule(
       ' Eden to place into your secondary units.',
 );
 
-final FactionRule _ruleAllyCEF = FactionRule(
+final Rule _ruleAllyCEF = Rule(
   name: 'CEF',
   id: _ruleAlliesCEFId,
   isEnabled: false,
   canBeToggled: true,
-  requirementCheck: FactionRule.thereCanBeOnlyOne([
+  requirementCheck: Rule.thereCanBeOnlyOne([
     _ruleAlliesUtopiaId,
     _ruleAlliesEdenId,
   ]),
@@ -102,12 +102,12 @@ final FactionRule _ruleAllyCEF = FactionRule(
       ' secondary units.',
 );
 
-final FactionRule _ruleAllyUtopia = FactionRule(
+final Rule _ruleAllyUtopia = Rule(
   name: 'Utopia',
   id: _ruleAlliesUtopiaId,
   isEnabled: false,
   canBeToggled: true,
-  requirementCheck: FactionRule.thereCanBeOnlyOne([
+  requirementCheck: Rule.thereCanBeOnlyOne([
     _ruleAlliesCEFId,
     _ruleAlliesEdenId,
   ]),
@@ -134,12 +134,12 @@ final FactionRule _ruleAllyUtopia = FactionRule(
       ' secondary units.',
 );
 
-final FactionRule _ruleAllyEden = FactionRule(
+final Rule _ruleAllyEden = Rule(
   name: 'Eden',
   id: _ruleAlliesEdenId,
   isEnabled: false,
   canBeToggled: true,
-  requirementCheck: FactionRule.thereCanBeOnlyOne([
+  requirementCheck: Rule.thereCanBeOnlyOne([
     _ruleAlliesCEFId,
     _ruleAlliesUtopiaId,
   ]),
@@ -166,7 +166,7 @@ final FactionRule _ruleAllyEden = FactionRule(
       ' secondary units.',
 );
 
-final FactionRule ruleAppropriations = FactionRule(
+final Rule ruleAppropriations = Rule(
   name: 'Appropriations',
   id: _ruleAppropriationsId,
   canBeAddedToGroup: (unit, group, cg) {
@@ -206,7 +206,7 @@ bool _matchForAppropriations(UnitCore uc) {
   return uc.type == ModelType.Gear;
 }
 
-final FactionRule ruleAcquisitions = FactionRule(
+final Rule ruleAcquisitions = Rule(
   name: 'Acquisitions',
   id: _ruleAcquisitionsId,
   description: 'One objective selected for this force may be the raid' +

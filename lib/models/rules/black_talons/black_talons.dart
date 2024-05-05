@@ -29,7 +29,7 @@ class BlackTalons extends RuleSet {
     String? description,
     required String name,
     List<String>? specialRules,
-    List<FactionRule> subFactionRules = const [],
+    List<Rule> subFactionRules = const [],
   }) : super(
           FactionType.BlackTalon,
           data,
@@ -65,14 +65,14 @@ class BlackTalons extends RuleSet {
   factory BlackTalons.BTAT(Data data) => BTAT(data);
 }
 
-final FactionRule ruleTheChosen = FactionRule(
+final Rule ruleTheChosen = Rule(
   name: 'The Chosen',
   id: _ruleTheChosenId,
   factionMods: (ur, cg, u) => [BlackTalonMods.theChosen()],
   description: 'The force leader may purchase 1 extra CP for 2 TV.',
 );
 
-final FactionRule ruleSpecialOperators = FactionRule(
+final Rule ruleSpecialOperators = Rule(
   name: 'Special Operators',
   id: _ruleSpecialOperatorsId,
   description: 'This force may select one assassinate and/or one raid' +

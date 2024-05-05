@@ -42,7 +42,7 @@ class CEF extends RuleSet {
     super.description,
     required super.name,
     super.specialRules,
-    List<FactionRule> subFactionRules = const [],
+    List<Rule> subFactionRules = const [],
   }) : super(
           FactionType.CEF,
           data,
@@ -79,7 +79,7 @@ class CEF extends RuleSet {
   factory CEF.CEFIF(Data data) => CEFIF(data);
 }
 
-final FactionRule ruleMinerva = FactionRule(
+final Rule ruleMinerva = Rule(
   name: 'Minerva',
   id: _ruleMinervaId,
   factionMods: (ur, cg, u) {
@@ -92,7 +92,7 @@ final FactionRule ruleMinerva = FactionRule(
       ' for 1 TV each. This will improve the PI skill of that frame by one.',
 );
 
-final FactionRule ruleAdvancedInterfaceNetwork = FactionRule(
+final Rule ruleAdvancedInterfaceNetwork = Rule(
   name: 'Advanced Interface Network (AIN)',
   id: _ruleAdvancedInterfaceNetworkId,
   factionMods: (ur, cg, u) {
@@ -105,7 +105,7 @@ final FactionRule ruleAdvancedInterfaceNetwork = FactionRule(
       ' 1 TV times the number of Actions that the model has.',
 );
 
-final FactionRule ruleAllies = FactionRule(
+final Rule ruleAllies = Rule(
   name: 'Allies',
   id: _ruleAllies,
   options: [ruleAlliesCaprice, ruleAlliesUtopia, ruleAlliesEden],
@@ -113,12 +113,12 @@ final FactionRule ruleAllies = FactionRule(
       ' one) for secondary units.',
 );
 
-final FactionRule ruleAlliesCaprice = FactionRule(
+final Rule ruleAlliesCaprice = Rule(
   name: 'Caprice',
   id: _ruleAlliesCapriceId,
   isEnabled: false,
   canBeToggled: true,
-  requirementCheck: FactionRule.thereCanBeOnlyOne([
+  requirementCheck: Rule.thereCanBeOnlyOne([
     _ruleAlliesUtopiaId,
     _ruleAlliesEdenId,
   ]),
@@ -156,12 +156,12 @@ final FactionRule ruleAlliesCaprice = FactionRule(
   description: 'You may select models from Caprice for secondary units.',
 );
 
-final FactionRule ruleAlliesUtopia = FactionRule(
+final Rule ruleAlliesUtopia = Rule(
   name: 'Utopia',
   id: _ruleAlliesUtopiaId,
   isEnabled: false,
   canBeToggled: true,
-  requirementCheck: FactionRule.thereCanBeOnlyOne([
+  requirementCheck: Rule.thereCanBeOnlyOne([
     _ruleAlliesCapriceId,
     _ruleAlliesEdenId,
   ]),
@@ -185,12 +185,12 @@ final FactionRule ruleAlliesUtopia = FactionRule(
   description: 'You may select models from Utopia for secondary units.',
 );
 
-final FactionRule ruleAlliesEden = FactionRule(
+final Rule ruleAlliesEden = Rule(
   name: 'Eden',
   id: _ruleAlliesEdenId,
   isEnabled: false,
   canBeToggled: true,
-  requirementCheck: FactionRule.thereCanBeOnlyOne([
+  requirementCheck: Rule.thereCanBeOnlyOne([
     _ruleAlliesCapriceId,
     _ruleAlliesUtopiaId,
   ]),

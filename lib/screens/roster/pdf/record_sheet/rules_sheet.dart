@@ -13,15 +13,14 @@ pw.Widget buildRulesSheet(
 }) {
   final List<(String, String)> factionRules = [];
   if (includeFactionRules) {
-    FactionRule.enabledRules(roster.rulesetNotifer.value.factionRules)
-        .forEach((fr) {
+    Rule.enabledRules(roster.rulesetNotifer.value.factionRules).forEach((fr) {
       factionRules.add((fr.name, fr.description));
     });
   }
 
   final List<(String, String)> subFactionRules = [];
   if (includeSubFactionRules) {
-    FactionRule.enabledRules(roster.rulesetNotifer.value.subFactionRules)
+    Rule.enabledRules(roster.rulesetNotifer.value.subFactionRules)
         .forEach((fr) {
       subFactionRules.add((fr.name, fr.description));
     });

@@ -19,7 +19,7 @@ class CombatGroupOption extends ChangeNotifier {
 
   final String name;
   final String id;
-  final FactionRule factionRule;
+  final Rule factionRule;
   final bool canBeToggled;
   final String? description;
   final bool? Function()? isEnabledOverrideCheck;
