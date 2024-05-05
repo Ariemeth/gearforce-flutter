@@ -1,4 +1,4 @@
-import 'package:gearforce/models/rules/faction_rule.dart';
+import 'package:gearforce/models/rules/rule.dart';
 import 'package:gearforce/models/mods/factionUpgrades/south.dart';
 import 'package:gearforce/models/rules/north/north.dart' as north;
 import 'package:gearforce/models/rules/south/south.dart';

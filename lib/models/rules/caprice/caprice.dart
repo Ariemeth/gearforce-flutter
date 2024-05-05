@@ -4,7 +4,7 @@ import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/mods/factionUpgrades/caprice.dart';
 import 'package:gearforce/models/mods/factionUpgrades/cef.dart';
 import 'package:gearforce/models/rules/cef/cef.dart' as cef;
-import 'package:gearforce/models/rules/faction_rule.dart';
+import 'package:gearforce/models/rules/rule.dart';
 import 'package:gearforce/models/rules/caprice/cid.dart';
 import 'package:gearforce/models/rules/caprice/cse.dart';
 import 'package:gearforce/models/rules/caprice/lrc.dart';

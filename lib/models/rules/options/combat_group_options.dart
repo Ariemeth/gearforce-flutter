@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
-import 'package:gearforce/models/rules/faction_rule.dart';
+import 'package:gearforce/models/rules/rule.dart';
 import 'package:gearforce/models/roster/roster.dart';
 
 class CombatGroupOption extends ChangeNotifier {

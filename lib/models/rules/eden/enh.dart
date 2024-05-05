@@ -3,7 +3,7 @@ import 'package:gearforce/models/mods/duelist/duelist_modification.dart'
 import 'package:gearforce/models/mods/factionUpgrades/eden.dart';
 import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart';
 import 'package:gearforce/models/rules/eden/eden.dart';
-import 'package:gearforce/models/rules/faction_rule.dart';
+import 'package:gearforce/models/rules/rule.dart';
 
 const String _baseRuleId = 'rule::eden::enh';
 const String _ruleChampionsId = '$_baseRuleId::10';

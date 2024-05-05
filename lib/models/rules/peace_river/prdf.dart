@@ -1,5 +1,5 @@
 import 'package:gearforce/models/combatGroups/group.dart';
-import 'package:gearforce/models/rules/faction_rule.dart';
+import 'package:gearforce/models/rules/rule.dart';
 import 'package:gearforce/models/mods/factionUpgrades/peace_river.dart';
 import 'package:gearforce/models/rules/peace_river/peace_river.dart';
 import 'package:gearforce/data/unit_filter.dart';

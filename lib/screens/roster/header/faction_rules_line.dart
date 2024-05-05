@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gearforce/models/rules/faction_rule.dart';
+import 'package:gearforce/models/rules/rule.dart';
 import 'package:gearforce/widgets/settings.dart';
 import 'package:provider/provider.dart';
 

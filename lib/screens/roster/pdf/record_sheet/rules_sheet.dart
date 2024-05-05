@@ -1,5 +1,5 @@
 import 'package:gearforce/models/roster/roster.dart';
-import 'package:gearforce/models/rules/faction_rule.dart';
+import 'package:gearforce/models/rules/rule.dart';
 import 'package:pdf/widgets.dart' as pw;
 
 const double _headerTextSize = 12;

@@ -2,7 +2,7 @@ import 'package:gearforce/models/mods/factionUpgrades/eden.dart';
 import 'package:gearforce/models/rules/eden/aef.dart' as aef;
 import 'package:gearforce/models/rules/eden/eden.dart';
 import 'package:gearforce/models/rules/eden/enh.dart' as enh;
-import 'package:gearforce/models/rules/faction_rule.dart';
+import 'package:gearforce/models/rules/rule.dart';
 import 'package:gearforce/models/rules/north/north.dart' as north;
 
 const String _baseRuleId = 'rule::eden::eif';

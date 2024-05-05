@@ -6,7 +6,7 @@ import 'package:gearforce/models/mods/factionUpgrades/leagueless.dart';
 import 'package:gearforce/models/mods/factionUpgrades/nucoal.dart';
 import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart';
 import 'package:gearforce/models/rules/black_talons/btrt.dart' as btrt;
-import 'package:gearforce/models/rules/faction_rule.dart';
+import 'package:gearforce/models/rules/rule.dart';
 import 'package:gearforce/models/rules/north/north.dart' as north;
 import 'package:gearforce/models/rules/nucoal/th.dart' as th;
 import 'package:gearforce/models/rules/options/combat_group_options.dart';

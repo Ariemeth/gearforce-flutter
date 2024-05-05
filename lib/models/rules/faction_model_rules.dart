@@ -2,7 +2,7 @@ import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/rules/caprice/caprice.dart' as caprice;
 import 'package:gearforce/models/rules/cef/cef.dart' as cef;
 import 'package:gearforce/models/rules/eden/eden.dart' as eden;
-import 'package:gearforce/models/rules/faction_rule.dart';
+import 'package:gearforce/models/rules/rule.dart';
 import 'package:gearforce/models/rules/north/north.dart' as north;
 import 'package:gearforce/models/rules/utopia/utopia.dart' as utopia;
 import 'package:gearforce/models/unit/unit.dart';

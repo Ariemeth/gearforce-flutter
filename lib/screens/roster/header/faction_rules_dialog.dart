@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:gearforce/models/roster/roster.dart';
-import 'package:gearforce/models/rules/faction_rule.dart';
+import 'package:gearforce/models/rules/rule.dart';
 import 'package:gearforce/screens/roster/header/faction_rules_line.dart';
 
 const double _optionSectionWidth = 400;

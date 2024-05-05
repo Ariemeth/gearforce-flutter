@@ -3,7 +3,7 @@ import 'package:gearforce/data/unit_filter.dart';
 import 'package:gearforce/models/combatGroups/group.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/mods/factionUpgrades/caprice.dart' as caprice;
-import 'package:gearforce/models/rules/faction_rule.dart';
+import 'package:gearforce/models/rules/rule.dart';
 import 'package:gearforce/models/mods/factionUpgrades/cef.dart';
 import 'package:gearforce/models/rules/cef/cefff.dart';
 import 'package:gearforce/models/rules/cef/cefif.dart';

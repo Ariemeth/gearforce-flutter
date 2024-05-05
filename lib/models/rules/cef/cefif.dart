@@ -1,4 +1,4 @@
-import 'package:gearforce/models/rules/faction_rule.dart';
+import 'package:gearforce/models/rules/rule.dart';
 import 'package:gearforce/models/rules/cef/cef.dart';
 import 'package:gearforce/models/rules/nucoal/pak.dart' as pak;
 import 'package:gearforce/models/traits/trait.dart';

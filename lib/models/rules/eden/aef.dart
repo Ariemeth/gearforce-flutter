@@ -6,7 +6,7 @@ import 'package:gearforce/models/mods/unitUpgrades/universal.dart';
 import 'package:gearforce/models/rules/eden/eden.dart';
 import 'package:gearforce/models/rules/eden/eif.dart' as eif;
 import 'package:gearforce/models/rules/eden/enh.dart' as enh;
-import 'package:gearforce/models/rules/faction_rule.dart';
+import 'package:gearforce/models/rules/rule.dart';
 import 'package:gearforce/models/rules/north/north.dart' as north;
 import 'package:gearforce/models/unit/model_type.dart';
 
