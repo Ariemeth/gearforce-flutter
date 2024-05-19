@@ -26,10 +26,21 @@ pw.Widget buildRulesSheet(
     });
   }
 
-  final sheet = pw.Column(children: [
+  final rules = [
     _buildRuleTable(font, ['Faction Rule', 'Description'], factionRules),
     _buildRuleTable(font, ['Sub-Faction Rule', 'Description'], subFactionRules),
-  ]);
+  ];
+
+  if (roster.rulesetNotifer.value.alphaBetaRules.isNotEmpty) {
+    final List<(String, String)> alphaBetaRules = [];
+    Rule.enabledRules(roster.rulesetNotifer.value.alphaBetaRules).forEach((fr) {
+      alphaBetaRules.add((fr.name, fr.description));
+    });
+    rules.add(_buildRuleTable(
+        font, ['Alpha-Beta Rule', 'Description'], alphaBetaRules));
+  }
+
+  final sheet = pw.Column(children: rules);
 
   return pw.Padding(
     padding: pw.EdgeInsets.only(

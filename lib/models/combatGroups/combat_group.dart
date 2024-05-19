@@ -182,7 +182,13 @@ class CombatGroup extends ChangeNotifier {
       total -= (freeDrones * 2);
     }
 
-    return total;
+    final rs = roster?.rulesetNotifer.value;
+    var tvModifier = 0;
+    if (rs != null) {
+      tvModifier = rs.combatGroupTVModifier(this);
+    }
+
+    return total + tvModifier;
   }
 
   bool hasDuelist() {

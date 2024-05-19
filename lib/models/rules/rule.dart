@@ -36,6 +36,7 @@ class Rule extends ChangeNotifier {
     this.veteranCheckOverride,
     this.veteranCGCountOverride,
     this.modCostOverride,
+    this.combatGroupTVModifier,
     this.modCheckOverride,
     this.canBeAddedToGroup,
     this.hasGroupRole,
@@ -111,6 +112,7 @@ class Rule extends ChangeNotifier {
   final bool? Function(Unit u, CombatGroup cg)? veteranCheckOverride;
   final int? Function(UnitRoster ur, CombatGroup cg)? veteranCGCountOverride;
   final int? Function(String modID, Unit u)? modCostOverride;
+  final int Function(CombatGroup cg)? combatGroupTVModifier;
 
   /// Override a mod's requirement check
   final bool? Function(Unit u, CombatGroup cg, {required String modID})?
@@ -333,6 +335,7 @@ class Rule extends ChangeNotifier {
       veteranCheckOverride: original.veteranCheckOverride,
       veteranCGCountOverride: original.veteranCGCountOverride,
       modCostOverride: original.modCostOverride,
+      combatGroupTVModifier: original.combatGroupTVModifier,
       modCheckOverride: original.modCheckOverride,
       canBeAddedToGroup: original.canBeAddedToGroup,
       hasGroupRole: original.hasGroupRole,

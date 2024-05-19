@@ -13,6 +13,7 @@ import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart'
 import 'package:gearforce/models/mods/veteranUpgrades/veteran_upgrades.dart';
 import 'package:gearforce/models/mods/factionUpgrades/faction_mod.dart';
 import 'package:gearforce/models/rules/alpha_beta/rule_snipers.dart';
+import 'package:gearforce/models/rules/alpha_beta/veteran_combat_groups.dart';
 import 'package:gearforce/models/rules/faction_model_rules.dart';
 import 'package:gearforce/models/rules/rule.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
@@ -105,7 +106,7 @@ abstract class RuleSet extends ChangeNotifier {
     if (!settings.isAlphaBetaAllowed) {
       return rules;
     }
-    rules.add(ruleSnipers);
+    rules.addAll([ruleSnipers, ruleVeteranCombatGroups]);
 
     if (this.type == FactionType.South) {
       rules.add(ruleLionHunters);
@@ -782,6 +783,25 @@ abstract class RuleSet extends ChangeNotifier {
       }
     });
     return minOverrideValue;
+  }
+
+  int combatGroupTVModifier(CombatGroup cg) {
+    final tvModifiers = allEnabledRules(cg.options)
+        .where((rule) => rule.combatGroupTVModifier != null);
+    if (tvModifiers.isEmpty) {
+      return 0;
+    }
+
+    final overrideValues = tvModifiers.map((r) => r.combatGroupTVModifier!(cg));
+
+    final List<int> results = [];
+    if (overrideValues.isNotEmpty) {
+      overrideValues.forEach((r) {
+        results.add(r);
+      });
+    }
+
+    return results.fold(0, (a, b) => a + b);
   }
 
   bool vetCheck(

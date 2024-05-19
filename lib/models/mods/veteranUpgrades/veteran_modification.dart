@@ -94,21 +94,43 @@ class VeteranModification extends BaseModification {
   }
 
   factory VeteranModification.makeVet(Unit u, CombatGroup cg) {
-    return VeteranModification(
+    final mod = VeteranModification(
         name: 'Veteran Upgrade',
         id: veteranId,
         requirementCheck:
-            (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+            (RuleSet rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
           assert(cg != null);
-          assert(rs != null);
-          if (rs == null || cg == null) {
+          if (cg == null) {
             return false;
           }
           return rs.vetCheck(cg, u);
-        })
-      ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
-      ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.Vet()),
-          description: '+Vet');
+        });
+
+    final modCost = () {
+      const baseCost = 2;
+      final rs = u.ruleset;
+
+      if (rs == null) {
+        return baseCost;
+      }
+
+      final modCostOverride = rs.modCostOverride(veteranId, u);
+
+      return modCostOverride ?? baseCost;
+    };
+
+    mod.addMod<int>(UnitAttribute.tv, (value) {
+      return value + modCost();
+    }, dynamicDescription: () {
+      return 'TV +${modCost()}';
+    });
+
+    mod.addMod(
+      UnitAttribute.traits,
+      createAddTraitToList(Trait.Vet()),
+      description: '+Vet',
+    );
+    return mod;
   }
 
   /*
@@ -496,15 +518,14 @@ class VeteranModification extends BaseModification {
         name: modName ?? improvedGunneryID,
         id: improvedGunneryID,
         requirementCheck:
-            (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
-          assert(rs != null);
+            (RuleSet rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
           assert(cg != null);
 
           if (u.actions == null || u.gunnery == null || u.gunnery == '-') {
             return false;
           }
 
-          modCostOverride = rs!.modCostOverride(improvedGunneryID, u);
+          modCostOverride = rs.modCostOverride(improvedGunneryID, u);
           return rs.veteranModCheck(u, cg!, modID: improvedGunneryID);
         });
 

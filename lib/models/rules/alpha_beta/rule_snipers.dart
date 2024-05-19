@@ -1,14 +1,12 @@
 import 'package:gearforce/models/mods/standardUpgrades/standard_modification.dart';
 import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart';
+import 'package:gearforce/models/rules/alpha_beta/base.dart';
 import 'package:gearforce/models/rules/rule.dart';
 import 'package:gearforce/models/rules/rule_types.dart';
 
-const String _baseRuleId = 'rule::alphaBeta::core';
-const String _ruleSnipers = '$_baseRuleId::10';
-
 final Rule ruleSnipers = Rule(
   name: 'Snipers',
-  id: _ruleSnipers,
+  id: ruleSnipersId,
   ruleType: RuleType.AlphaBeta,
   availableStandardUpgrades: (roster, unit) =>
       [StandardModification.precisePlus(unit)],
