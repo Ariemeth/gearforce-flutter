@@ -13,8 +13,8 @@ import 'package:gearforce/models/mods/unitUpgrades/universal.dart' as universal;
 import 'package:gearforce/models/mods/unitUpgrades/utopia.dart' as utopia;
 import 'package:gearforce/models/unit/unit.dart';
 
-List<UnitModification> getUnitMods(String frameName, Unit unit) {
-  switch (frameName.toLowerCase()) {
+List<UnitModification> getUnitMods(Unit unit) {
+  switch (unit.core.frame.toLowerCase()) {
     // Northern units
     case 'hunter':
       return [north.headHunter];

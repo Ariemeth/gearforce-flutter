@@ -1,15 +1,17 @@
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/mods/unitUpgrades/unit_modification.dart';
-import 'package:gearforce/models/rules/rule_set.dart';
+import 'package:gearforce/models/rules/rulesets/rule_set.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
+import 'package:gearforce/widgets/settings.dart';
 import 'package:test/test.dart';
 
 void main() {
-  final data = Data()..load();
-  final RuleSet rs = DefaultRuleSet(data);
+  final settings = Settings();
+  final data = Data()..load(settings);
+  final RuleSet rs = DefaultRuleSet(data, settings: settings);
   test('check default modification constructor', () {
     final m = UnitModification(
       name: 'test',

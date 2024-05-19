@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gearforce/models/combatGroups/group.dart';
 import 'package:gearforce/models/mods/duelist/duelist_modification.dart';
-import 'package:gearforce/models/rules/rule_set.dart';
+import 'package:gearforce/models/rules/rulesets/rule_set.dart';
 import 'package:gearforce/widgets/display_value.dart';
 import 'package:gearforce/widgets/settings.dart';
 import 'package:provider/provider.dart';

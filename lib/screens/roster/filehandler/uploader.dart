@@ -3,8 +3,9 @@ import 'package:file_selector/file_selector.dart';
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/screens/roster/filehandler/fileHandler.dart';
+import 'package:gearforce/widgets/settings.dart';
 
-Future<UnitRoster?> loadRoster(Data data) async {
+Future<UnitRoster?> loadRoster(Data data, Settings settings) async {
   UnitRoster? resultRoster;
 
   const XTypeGroup typeGroup = XTypeGroup(
@@ -20,7 +21,7 @@ Future<UnitRoster?> loadRoster(Data data) async {
 
   try {
     var decodedFile = json.decode(await file.readAsString());
-    resultRoster = UnitRoster.fromJson(decodedFile, data);
+    resultRoster = UnitRoster.fromJson(decodedFile, data, settings);
   } catch (e) {
     print('error occured loading ${file.name} : $e');
   }

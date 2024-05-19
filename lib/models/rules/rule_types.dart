@@ -1,6 +1,6 @@
 enum RuleType {
   Standard,
-  Beta,
+  AlphaBeta,
   ExtendedContent,
 }
 
@@ -13,8 +13,8 @@ extension RuleTypeExtension on RuleType {
     switch (this) {
       case RuleType.Standard:
         return 'Standard rules';
-      case RuleType.Beta:
-        return 'Beta rules';
+      case RuleType.AlphaBeta:
+        return 'Alpha/Beta rules';
       case RuleType.ExtendedContent:
         return 'Extended content rules';
     }
@@ -24,8 +24,8 @@ extension RuleTypeExtension on RuleType {
     switch (value) {
       case 'Standard':
         return RuleType.Standard;
-      case 'Beta':
-        return RuleType.Beta;
+      case 'AlphaBeta':
+        return RuleType.AlphaBeta;
       case 'ExtendedContent':
         return RuleType.ExtendedContent;
       default:

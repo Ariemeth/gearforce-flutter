@@ -1,12 +1,15 @@
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/mods/base_modification.dart';
 import 'package:gearforce/models/mods/factionUpgrades/faction_mod.dart';
+import 'package:gearforce/models/mods/modification_option.dart';
 import 'package:gearforce/models/mods/mods.dart';
 import 'package:gearforce/models/roster/roster.dart';
-import 'package:gearforce/models/rules/rule_set.dart';
-import 'package:gearforce/models/rules/south/md.dart' as md;
-import 'package:gearforce/models/rules/south/milicia.dart' as milicia;
-import 'package:gearforce/models/rules/south/sra.dart' as sra;
+import 'package:gearforce/models/rules/rule_types.dart';
+import 'package:gearforce/models/rules/rulesets/rule_set.dart';
+import 'package:gearforce/models/rules/rulesets/south/md.dart' as md;
+import 'package:gearforce/models/rules/rulesets/south/milicia.dart' as milicia;
+import 'package:gearforce/models/rules/rulesets/south/south.dart';
+import 'package:gearforce/models/rules/rulesets/south/sra.dart' as sra;
 import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/unit.dart';
@@ -20,6 +23,7 @@ const politicalOfficerId = '$_baseFactionModId::20';
 const conscriptionId = '$_baseFactionModId::30';
 const samuraiSpiritId = '$_baseFactionModId::40';
 const metsukeId = '$_baseFactionModId::50';
+const lionHuntersId = '$_baseFactionModId::60';
 
 class SouthernFactionMods extends FactionModification {
   SouthernFactionMods({
@@ -29,6 +33,7 @@ class SouthernFactionMods extends FactionModification {
     super.options,
     super.onAdd,
     super.onRemove,
+    super.ruleType = RuleType.Standard,
   }) : super();
 
   /*
@@ -347,6 +352,84 @@ class SouthernFactionMods extends FactionModification {
         createRemoveTraitFromList(traitToRemove),
       );
     }
+    return fm;
+  }
+
+  /*
+     Lion Hunters: Bazookas may be given the Precise+ trait for +1 TV each.
+  */
+  factory SouthernFactionMods.lionHunters(Unit unit) {
+    final RequirementCheck reqCheck = (
+      RuleSet rs,
+      UnitRoster? ur,
+      CombatGroup? cg,
+      Unit u,
+    ) {
+      assert(cg != null);
+
+      if (!rs.settings.isAlphaBetaAllowed) {
+        return false;
+      }
+
+      if (!ruleLionHunters.isEnabled) {
+        return false;
+      }
+
+      final bazookas = u.weapons.where((w) => w.code == 'BZ');
+      if (bazookas.isEmpty) {
+        return false;
+      }
+
+      return true;
+    };
+
+    final modOptions = ModificationOption(
+      'Lion Hunters',
+      subOptions: unit.weapons
+          .where((w) => w.code == 'BZ')
+          .map((w) => ModificationOption(w.abbreviation))
+          .toList(),
+      description: 'Select a Bazooka to have the Precise+ trait.',
+    );
+
+    final fm = SouthernFactionMods(
+      name: 'Lion Hunters',
+      requirementCheck: reqCheck,
+      options: modOptions,
+      id: lionHuntersId,
+      ruleType: RuleType.AlphaBeta,
+    );
+    fm.addMod<int>(
+      UnitAttribute.tv,
+      createSimpleIntMod(1),
+      description: 'TV: +1',
+    );
+    fm.addMod<List<Weapon>>(UnitAttribute.weapons, (value) {
+      final newList = value.map((weapon) => Weapon.fromWeapon(weapon)).toList();
+
+      // check if an option has been selected
+      if (modOptions.selectedOption == null) {
+        return newList;
+      }
+
+      // make sure the selected weapon is in the list
+      final isInList =
+          newList.any((w) => w.abbreviation == modOptions.selectedOption?.text);
+
+      if (!isInList) {
+        return newList;
+      }
+
+      final weaponToRemove = newList.firstWhere(
+        (w) => w.abbreviation == modOptions.selectedOption?.text,
+      );
+
+      newList.remove(weaponToRemove);
+      newList.add(
+          Weapon.fromWeapon(weaponToRemove, addTraits: [Trait.PrecisePlus()]));
+      return newList;
+    }, description: 'Add Precise+ to a Bazooka');
+
     return fm;
   }
 }

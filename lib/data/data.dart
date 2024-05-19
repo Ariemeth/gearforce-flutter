@@ -7,6 +7,7 @@ import 'package:gearforce/models/unit/frame.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
+import 'package:gearforce/widgets/settings.dart';
 
 const Map<FactionType, String> _factionUnitFiles = {
   FactionType.Airstrike: 'assets/data/units/air_strike.json',
@@ -126,8 +127,8 @@ class Data {
   /// This function loads all needed data resources.
   ///
   /// This function will not return/complete until all resources have been loaded.
-  Future<void> load() async {
-    this._factions = _loadFactions();
+  Future<void> load(Settings settings) async {
+    this._factions = _loadFactions(settings);
 
     await Future.forEach<MapEntry<FactionType, String>>(
         _factionUnitFiles.entries.map((me) => me).toList(), (me) async {
@@ -143,18 +144,18 @@ class Data {
     });
   }
 
-  List<Faction> _loadFactions() {
+  List<Faction> _loadFactions(Settings settings) {
     return [
-      Faction.blackTalons(this),
-      Faction.caprice(this),
-      Faction.cef(this),
-      Faction.eden(this),
-      Faction.leagueless(this),
-      Faction.north(this),
-      Faction.nucoal(this),
-      Faction.peaceRiver(this),
-      Faction.south(this),
-      Faction.utopia(this),
+      Faction.blackTalons(this, settings),
+      Faction.caprice(this, settings),
+      Faction.cef(this, settings),
+      Faction.eden(this, settings),
+      Faction.leagueless(this, settings),
+      Faction.north(this, settings),
+      Faction.nucoal(this, settings),
+      Faction.peaceRiver(this, settings),
+      Faction.south(this, settings),
+      Faction.utopia(this, settings),
     ];
   }
 

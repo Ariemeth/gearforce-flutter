@@ -3,12 +3,13 @@ import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/factions/faction.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
-import 'package:gearforce/models/rules/rule_set.dart';
+import 'package:gearforce/models/rules/rulesets/rule_set.dart';
 import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/model_type.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/validation/validations.dart';
+import 'package:gearforce/widgets/settings.dart';
 
 const _currentRulesVersion = '3.1 - May 2022';
 
@@ -47,8 +48,9 @@ class UnitRoster extends ChangeNotifier {
     }
   }
 
-  UnitRoster(Data data, {bool tryFix = true}) {
-    factionNotifier = ValueNotifier<Faction>(Faction.blackTalons(data));
+  UnitRoster(Data data, Settings settings, {bool tryFix = true}) {
+    factionNotifier =
+        ValueNotifier<Faction>(Faction.blackTalons(data, settings));
     rulesetNotifer =
         ValueNotifier<RuleSet>(factionNotifier.value.defaultSubFaction);
 
@@ -198,9 +200,9 @@ class UnitRoster extends ChangeNotifier {
         'whenCreated': DateTime.now().toString(),
       };
 
-  factory UnitRoster.fromJson(dynamic json, Data data) {
+  factory UnitRoster.fromJson(dynamic json, Data data, Settings settings) {
     final version = json['version'] as int;
-    UnitRoster ur = UnitRoster(data);
+    UnitRoster ur = UnitRoster(data, settings);
     ur.name = json['name'] as String?;
     ur.player = json['player'] as String?;
 
@@ -209,13 +211,19 @@ class UnitRoster extends ChangeNotifier {
       case 0:
       case 1:
       case 2:
-        faction = _loadV2Faction(json['faction'] as String?, ur, data);
+        faction = _loadV2Faction(
+          json['faction'] as String?,
+          ur,
+          data,
+          settings,
+        );
         break;
       default:
         faction = _loadV3Faction(
           json['faction'] as Map<String, dynamic>?,
           ur,
           data,
+          settings,
         );
         break;
     }
@@ -289,10 +297,15 @@ class UnitRoster extends ChangeNotifier {
     return ur;
   }
 
-  static String? _loadV2Faction(String? faction, UnitRoster ur, Data data) {
+  static String? _loadV2Faction(
+      String? faction, UnitRoster ur, Data data, Settings settings) {
     if (faction != null) {
       try {
-        final f = Faction.fromType(FactionType.fromName(faction), data);
+        final f = Faction.fromType(
+          FactionType.fromName(faction),
+          data,
+          settings,
+        );
         ur.factionNotifier.value = f;
       } catch (e) {
         print(e);
@@ -305,6 +318,7 @@ class UnitRoster extends ChangeNotifier {
     Map<String, dynamic>? factionJson,
     UnitRoster ur,
     Data data,
+    Settings settings,
   ) {
     if (factionJson == null) {
       return null;
@@ -316,7 +330,11 @@ class UnitRoster extends ChangeNotifier {
     }
 
     try {
-      final f = Faction.fromType(FactionType.fromName(factionName), data);
+      final f = Faction.fromType(
+        FactionType.fromName(factionName),
+        data,
+        settings,
+      );
       ur.factionNotifier.value = f;
     } catch (e) {
       print(e);

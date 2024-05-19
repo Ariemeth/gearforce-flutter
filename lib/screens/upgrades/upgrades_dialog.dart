@@ -2,16 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/mods/base_modification.dart';
 import 'package:gearforce/models/mods/duelist/duelist_modification.dart';
-import 'package:gearforce/models/mods/duelist/duelist_upgrades.dart';
 import 'package:gearforce/models/mods/factionUpgrades/faction_mod.dart';
 import 'package:gearforce/models/mods/standardUpgrades/standard_modification.dart';
-import 'package:gearforce/models/mods/standardUpgrades/standard_upgrades.dart';
 import 'package:gearforce/models/mods/unitUpgrades/unit_modification.dart';
-import 'package:gearforce/models/mods/unitUpgrades/unit_upgrades.dart';
 import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart';
-import 'package:gearforce/models/mods/veteranUpgrades/veteran_upgrades.dart';
 import 'package:gearforce/models/roster/roster.dart';
-import 'package:gearforce/models/rules/rule_set.dart';
+import 'package:gearforce/models/rules/rulesets/rule_set.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/screens/unit/unit_card.dart';
 import 'package:gearforce/screens/upgrades/upgrade_display_line.dart';
@@ -36,10 +32,10 @@ class UpgradesDialog extends StatelessWidget {
     context.watch<Unit>();
 
     final rs = roster.rulesetNotifer.value;
-    final unitMods = getUnitMods(unit.core.frame, unit);
-    final standardMods = getStandardMods(unit, cg, roster);
-    final veteranMods = getVeteranMods(unit, cg);
-    final duelistMods = getDuelistMods(unit, cg, roster);
+    final unitMods = rs.availableUnitMods(unit);
+    final standardMods = rs.availableStandardMods(roster, cg, unit);
+    final veteranMods = rs.availableVeteranMods(roster, cg, unit);
+    final duelistMods = rs.availableDuelistMods(roster, cg, unit);
     final factionMods = rs.availableFactionMods(roster, cg, unit);
 
     unit.getMods().forEach((mod) {

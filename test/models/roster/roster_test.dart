@@ -5,6 +5,7 @@ import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
+import 'package:gearforce/widgets/settings.dart';
 
 void main() {
   setUpAll(() async {
@@ -14,15 +15,17 @@ void main() {
   });
 
   test('create default CombatGroup', () {
-    final data = Data()..load();
-    final roster = UnitRoster(data);
+    final settings = Settings();
+    final data = Data()..load(settings);
+    final roster = UnitRoster(data, settings);
     expect(roster.getCGs().length, equals(1),
         reason: 'check cg length to ensure proper construction');
   });
 
   test('get default cg', () {
-    final data = Data()..load();
-    final roster = UnitRoster(data);
+    final settings = Settings();
+    final data = Data()..load(settings);
+    final roster = UnitRoster(data, settings);
     final cg = roster.getCG('CG 1');
     expect(cg!.name, equals('CG 1'), reason: 'check cg default name');
     expect(cg.primary.allUnits().length, equals(0),
@@ -32,8 +35,9 @@ void main() {
   });
 
   test('add new cg', () {
-    final data = Data()..load();
-    final roster = UnitRoster(data);
+    final settings = Settings();
+    final data = Data()..load(settings);
+    final roster = UnitRoster(data, settings);
     final cg = CombatGroup('test1');
     cg.primary.addUnit(Unit(core: UnitCore.test()));
     cg.secondary.addUnit(Unit(core: UnitCore.test()));
@@ -45,8 +49,9 @@ void main() {
   });
 
   test('check default active cg', () {
-    final data = Data()..load();
-    final roster = UnitRoster(data);
+    final settings = Settings();
+    final data = Data()..load(settings);
+    final roster = UnitRoster(data, settings);
     expect(roster.activeCG(), isNotNull,
         reason: 'active cg should not be null');
     expect(roster.activeCG()!.name, equals('CG 1'),
@@ -54,9 +59,10 @@ void main() {
   });
 
   test('Single CGL picked up as only available leader', () async {
+    final settings = Settings();
     final data = await Data()
-      ..load();
-    final roster = UnitRoster(data);
+      ..load(settings);
+    final roster = UnitRoster(data, settings);
     expect(roster.getLeaders(null).length, 0);
 
     final unit = Unit(
@@ -70,9 +76,10 @@ void main() {
 
   test('CO picked up as only available force leader with 2 leaders in roster',
       () async {
+    final settings = Settings();
     final data = await Data()
-      ..load();
-    final roster = UnitRoster(data);
+      ..load(settings);
+    final roster = UnitRoster(data, settings);
     expect(roster.getLeaders(null).length, 0);
 
     final unit = Unit(

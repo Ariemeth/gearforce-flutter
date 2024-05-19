@@ -2,12 +2,17 @@ import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/mods/modification_option.dart';
 import 'package:gearforce/models/mods/saved_mod.dart';
 import 'package:gearforce/models/roster/roster.dart';
-import 'package:gearforce/models/rules/rule_set.dart';
+import 'package:gearforce/models/rules/rulesets/rule_set.dart';
+import 'package:gearforce/models/rules/rule_types.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
 
 typedef RequirementCheck = bool Function(
-    RuleSet?, UnitRoster?, CombatGroup?, Unit);
+  RuleSet,
+  UnitRoster?,
+  CombatGroup?,
+  Unit,
+);
 
 abstract class BaseModification {
   BaseModification({
@@ -17,6 +22,7 @@ abstract class BaseModification {
     required this.modType,
     this.options,
     BaseModification Function()? refreshData,
+    required this.ruleType,
     this.onAdd,
     this.onRemove,
   }) {
@@ -25,12 +31,14 @@ abstract class BaseModification {
 
   final String name;
   final ModificationType modType;
+  final RuleType ruleType;
   final List<String> _descriptions = [];
   final List<String Function()> _dynamicDescriptions = [];
   late final BaseModification Function()? _refreshData;
   BaseModification refreshData() =>
       _refreshData == null ? this : _refreshData!();
-  // function to ensure the modification can be applied to the unit
+
+  /// function to ensure the modification can be applied to the unit
   final RequirementCheck requirementCheck;
 
   final Function(Unit? u)? onAdd;

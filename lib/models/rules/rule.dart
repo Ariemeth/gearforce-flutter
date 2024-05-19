@@ -1,6 +1,9 @@
 import 'package:flutter/widgets.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
+import 'package:gearforce/models/mods/duelist/duelist_modification.dart';
 import 'package:gearforce/models/mods/factionUpgrades/faction_mod.dart';
+import 'package:gearforce/models/mods/standardUpgrades/standard_modification.dart';
+import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart';
 import 'package:gearforce/models/rules/options/combat_group_options.dart';
 import 'package:gearforce/models/combatGroups/group.dart';
 import 'package:gearforce/models/roster/roster.dart';
@@ -50,6 +53,10 @@ class Rule extends ChangeNotifier {
     this.onUnitAdded,
     this.onUnitRemoved,
     this.onLeadershipChanged,
+    this.availableStandardUpgrades,
+    this.availableVeteranUpgrades,
+    this.availableDuelistUpgrades,
+    this.availableFactionUpgrades,
     this.onEnabled,
     this.onDisabled,
   }) {
@@ -147,6 +154,22 @@ class Rule extends ChangeNotifier {
 
   /// Called when a unit's leadership level is changed
   final void Function(UnitRoster roster, Unit unit)? onLeadershipChanged;
+
+  /// Called to provide additional [StandardModification]s.
+  final List<StandardModification> Function(UnitRoster roster, Unit unit)?
+      availableStandardUpgrades;
+
+  /// Called to provide additional [VeteranModification]s.
+  final List<VeteranModification> Function(UnitRoster roster, Unit unit)?
+      availableVeteranUpgrades;
+
+  /// Called to provide additional [DuelistModification]s.
+  final List<DuelistModification> Function(UnitRoster roster, Unit unit)?
+      availableDuelistUpgrades;
+
+  /// Called to provide additional [FactionModification]s.
+  final List<FactionModification> Function(UnitRoster roster, Unit unit)?
+      availableFactionUpgrades;
 
   /// Called with the [Rule] is enabled.
   final Function()? onEnabled;
@@ -330,6 +353,10 @@ class Rule extends ChangeNotifier {
       onUnitAdded: original.onUnitAdded,
       onUnitRemoved: original.onUnitRemoved,
       onLeadershipChanged: original.onLeadershipChanged,
+      availableStandardUpgrades: original.availableStandardUpgrades,
+      availableVeteranUpgrades: original.availableVeteranUpgrades,
+      availableDuelistUpgrades: original.availableDuelistUpgrades,
+      availableFactionUpgrades: original.availableFactionUpgrades,
     );
   }
   Map<String, dynamic> toJson() {

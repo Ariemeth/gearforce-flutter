@@ -2,16 +2,18 @@ import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/mods/standardUpgrades/standard_modification.dart';
 import 'package:gearforce/models/roster/roster.dart';
-import 'package:gearforce/models/rules/rule_set.dart';
+import 'package:gearforce/models/rules/rulesets/rule_set.dart';
 import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_core.dart';
 import 'package:gearforce/models/weapons/weapons.dart';
+import 'package:gearforce/widgets/settings.dart';
 import 'package:test/test.dart';
 
 void main() {
-  final data = Data()..load();
-  final RuleSet rs = DefaultRuleSet(data);
+  final settings = Settings();
+  final data = Data()..load(settings);
+  final RuleSet rs = DefaultRuleSet(data, settings: settings);
   test('test Anti-Air Swap requirement check for weapon type', () {
     final w1 = buildWeapon('LATM', hasReact: true)!;
     final w2 = buildWeapon('MRP', hasReact: true)!;
@@ -67,8 +69,9 @@ void main() {
 
   test('test handGrenade (LHG) requirement check with 2 in group already', () {
     var cg = CombatGroup('test1');
+    final settings = Settings();
 
-    final roster = UnitRoster(data)..addCG(cg);
+    final roster = UnitRoster(data, settings)..addCG(cg);
     final faction = roster.factionNotifier.value.factionType;
     cg.primary.addUnit(Unit(
         core: UnitCore.test(
@@ -94,11 +97,12 @@ void main() {
   });
 
   test('test handGrenade (LHG) requirement check with 1 in group already', () {
+    final settings = Settings();
     var cg = CombatGroup('test1')
       ..primary.addUnit(Unit(core: UnitCore.test(traits: [Trait.Hands()])))
       ..primary.addUnit(Unit(core: UnitCore.test(traits: [Trait.Hands()])))
       ..primary.addUnit(Unit(core: UnitCore.test(traits: [Trait.Hands()])));
-    final roster = UnitRoster(data)..addCG(cg);
+    final roster = UnitRoster(data, settings)..addCG(cg);
 
     var u = cg.primary.allUnits().last;
     final mod = StandardModification.handGrenadeLHG(u, cg, roster);
@@ -108,8 +112,9 @@ void main() {
 
   test('test handGrenade (LHG) requirement check with 1 MHG already added', () {
     var cg = CombatGroup('test1');
+    final settings = Settings();
 
-    final roster = UnitRoster(data)..addCG(cg);
+    final roster = UnitRoster(data, settings)..addCG(cg);
     final faction = roster.factionNotifier.value.factionType;
     cg.primary.addUnit(Unit(
         core: UnitCore.test(
@@ -142,7 +147,8 @@ void main() {
       ..primary.addUnit(Unit(core: UnitCore.test(traits: [Trait.Hands()])))
       ..secondary.addUnit(Unit(core: UnitCore.test(traits: [Trait.Hands()])))
       ..secondary.addUnit(Unit(core: UnitCore.test(traits: [Trait.Hands()])));
-    final roster = UnitRoster(data)..addCG(cg);
+    final settings = Settings();
+    final roster = UnitRoster(data, settings)..addCG(cg);
 
     var u = cg.primary.allUnits().last;
 
@@ -154,8 +160,9 @@ void main() {
 
   test('test handGrenade (LHG) cost with 2 mods', () {
     var cg = CombatGroup('test1');
+    final settings = Settings();
 
-    final roster = UnitRoster(data)..addCG(cg);
+    final roster = UnitRoster(data, settings)..addCG(cg);
     final faction = roster.factionNotifier.value.factionType;
     cg.primary.addUnit(Unit(
         core: UnitCore.test(
@@ -178,8 +185,9 @@ void main() {
 
   test('test handGrenade (MHG) requirement check with 2 in group already', () {
     var cg = CombatGroup('test1');
+    final settings = Settings();
 
-    final roster = UnitRoster(data)..addCG(cg);
+    final roster = UnitRoster(data, settings)..addCG(cg);
     final faction = roster.factionNotifier.value.factionType;
 
     cg.primary.addUnit(Unit(
@@ -210,8 +218,9 @@ void main() {
 
   test('test handGrenade (MHG) requirement check with 1 in group already', () {
     var cg = CombatGroup('test1');
+    final settings = Settings();
 
-    final roster = UnitRoster(data)..addCG(cg);
+    final roster = UnitRoster(data, settings)..addCG(cg);
     final faction = roster.factionNotifier.value.factionType;
 
     cg.primary.addUnit(Unit(
@@ -239,8 +248,9 @@ void main() {
 
   test('test handGrenade (MHG) requirement check with 1 LHG already added', () {
     var cg = CombatGroup('test1');
+    final settings = Settings();
 
-    final roster = UnitRoster(data)..addCG(cg);
+    final roster = UnitRoster(data, settings)..addCG(cg);
     final faction = roster.factionNotifier.value.factionType;
 
     cg.primary.addUnit(Unit(
