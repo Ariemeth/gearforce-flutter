@@ -18,4 +18,5 @@ class Sections {
   bool traitReference = true;
   bool factionRules = true;
   bool subFactionRules = true;
+  bool alphaBetaRules = true;
 }

@@ -1,5 +1,6 @@
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/rules/rule.dart';
+import 'package:gearforce/widgets/pdf_settings.dart';
 import 'package:pdf/widgets.dart' as pw;
 
 const double _headerTextSize = 12;
@@ -7,19 +8,18 @@ const double _standardTextSize = 10;
 
 pw.Widget buildRulesSheet(
   pw.Font font,
-  UnitRoster roster, {
-  bool includeFactionRules = true,
-  bool includeSubFactionRules = true,
-}) {
+  UnitRoster roster,
+  PDFSettings pdfSettings,
+) {
   final List<(String, String)> factionRules = [];
-  if (includeFactionRules) {
+  if (pdfSettings.sections.factionRules) {
     Rule.enabledRules(roster.rulesetNotifer.value.factionRules).forEach((fr) {
       factionRules.add((fr.name, fr.description));
     });
   }
 
   final List<(String, String)> subFactionRules = [];
-  if (includeSubFactionRules) {
+  if (pdfSettings.sections.subFactionRules) {
     Rule.enabledRules(roster.rulesetNotifer.value.subFactionRules)
         .forEach((fr) {
       subFactionRules.add((fr.name, fr.description));
@@ -31,7 +31,8 @@ pw.Widget buildRulesSheet(
     _buildRuleTable(font, ['Sub-Faction Rule', 'Description'], subFactionRules),
   ];
 
-  if (roster.rulesetNotifer.value.alphaBetaRules.isNotEmpty) {
+  if (pdfSettings.sections.alphaBetaRules &&
+      roster.rulesetNotifer.value.alphaBetaRules.isNotEmpty) {
     final List<(String, String)> alphaBetaRules = [];
     Rule.enabledRules(roster.rulesetNotifer.value.alphaBetaRules).forEach((fr) {
       alphaBetaRules.add((fr.name, fr.description));

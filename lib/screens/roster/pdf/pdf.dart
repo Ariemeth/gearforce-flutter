@@ -193,8 +193,7 @@ Future<Uint8List> buildPdf(
             buildRulesSheet(
               font,
               roster,
-              includeFactionRules: pdfSettings.sections.factionRules,
-              includeSubFactionRules: pdfSettings.sections.subFactionRules,
+              pdfSettings,
             )
           ];
         },
