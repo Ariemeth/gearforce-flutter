@@ -12,7 +12,7 @@ import 'package:gearforce/models/mods/unitUpgrades/unit_upgrades.dart';
 import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart';
 import 'package:gearforce/models/mods/veteranUpgrades/veteran_upgrades.dart';
 import 'package:gearforce/models/mods/factionUpgrades/faction_mod.dart';
-import 'package:gearforce/models/rules/alpha_beta/precise_plus.dart';
+import 'package:gearforce/models/rules/alpha_beta/rule_snipers.dart';
 import 'package:gearforce/models/rules/faction_model_rules.dart';
 import 'package:gearforce/models/rules/rule.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
