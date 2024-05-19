@@ -784,7 +784,6 @@ class StandardModification extends BaseModification {
               (weapon) => weapon.toString() == modOptions.selectedOption?.text);
 
           final index = newList.indexOf(existingWeapon);
-          newList.removeAt(index);
           newList[index] = Weapon.fromWeapon(
             existingWeapon,
             traitsToRemove: [Trait.Precise()],
