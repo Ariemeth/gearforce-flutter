@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gearforce/models/roster/roster.dart';
-import 'package:gearforce/models/rules/rule_set.dart';
+import 'package:gearforce/models/rules/rulesets/rule_set.dart';
 import 'package:gearforce/models/rules/options/special_unit_filter.dart';
 import 'package:gearforce/models/unit/role.dart';
 import 'package:gearforce/models/unit/unit.dart';
@@ -140,7 +140,7 @@ class SelectionList extends StatelessWidget {
       columnSpacing: 2.0,
       horizontalMargin: 0.0,
       headingRowHeight: 30.0,
-      headingRowColor: MaterialStateColor.resolveWith(
+      headingRowColor: WidgetStateColor.resolveWith(
         (states) => Theme.of(context).primaryColorLight,
       ),
     );

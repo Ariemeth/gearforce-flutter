@@ -10,17 +10,20 @@ import 'package:gearforce/models/mods/factionUpgrades/peace_river.dart';
 import 'package:gearforce/models/mods/factionUpgrades/south.dart';
 import 'package:gearforce/models/mods/factionUpgrades/utopia.dart';
 import 'package:gearforce/models/roster/roster.dart';
+import 'package:gearforce/models/rules/rule_types.dart';
 import 'package:gearforce/models/unit/unit.dart';
 
 class FactionModification extends BaseModification {
-  FactionModification(
-      {required super.name,
-      super.options,
-      required super.requirementCheck,
-      required super.id,
-      super.onAdd,
-      super.onRemove})
-      : super(modType: ModificationType.faction);
+  FactionModification({
+    required super.name,
+    super.options,
+    required super.requirementCheck,
+    required super.id,
+    super.onAdd,
+    super.onRemove,
+    super.ruleType = RuleType.Standard,
+    super.refreshData,
+  }) : super(modType: ModificationType.faction);
 }
 
 FactionModification? factionModFromId(String id, UnitRoster ur, Unit u) {
@@ -74,6 +77,8 @@ FactionModification? factionModFromId(String id, UnitRoster ur, Unit u) {
       return SouthernFactionMods.samuraiSpirit(u);
     case metsukeId:
       return SouthernFactionMods.metsuke(u);
+    case lionHuntersId:
+      return SouthernFactionMods.lionHunters(u);
 
     // NuCoal Faction mods
     case highSpeedLowDragId:

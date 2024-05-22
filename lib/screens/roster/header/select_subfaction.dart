@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gearforce/models/factions/faction.dart';
-import 'package:gearforce/models/rules/rule_set.dart';
+import 'package:gearforce/models/rules/rulesets/rule_set.dart';
 
 class SelectSubFaction extends StatefulWidget {
   const SelectSubFaction(

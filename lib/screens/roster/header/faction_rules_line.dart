@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gearforce/models/rules/faction_rule.dart';
+import 'package:gearforce/models/rules/rule.dart';
 import 'package:gearforce/widgets/settings.dart';
 import 'package:provider/provider.dart';
 
@@ -13,9 +13,9 @@ class FactionRulesLine extends StatefulWidget {
     this.leftOffset = 0.0,
     required this.notifyParent,
   });
-  final FactionRule upgrade;
+  final Rule upgrade;
   final double leftOffset;
-  final List<FactionRule> rules;
+  final List<Rule> rules;
   final Function() notifyParent;
 
   @override

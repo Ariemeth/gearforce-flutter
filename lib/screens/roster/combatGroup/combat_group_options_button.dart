@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
-import 'package:gearforce/models/rules/rule_set.dart';
+import 'package:gearforce/models/rules/rulesets/rule_set.dart';
 import 'package:gearforce/screens/roster/combatGroup/combat_group_options_dialog.dart';
 
 const _splashRadius = 20.0;

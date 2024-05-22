@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/mods/base_modification.dart';
 import 'package:gearforce/models/roster/roster.dart';
-import 'package:gearforce/models/rules/rule_set.dart';
+import 'package:gearforce/models/rules/rulesets/rule_set.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/screens/upgrades/unit_mod_line.dart';
 

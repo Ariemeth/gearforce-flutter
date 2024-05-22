@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:gearforce/models/roster/roster.dart';
-import 'package:gearforce/models/rules/faction_rule.dart';
+import 'package:gearforce/models/rules/rule.dart';
 import 'package:gearforce/screens/roster/header/faction_rules_line.dart';
 
 const double _optionSectionWidth = 400;
@@ -18,7 +18,7 @@ class FactionRulesDialog extends StatefulWidget {
     this.isCore = true,
   });
 
-  final List<FactionRule> upgrades;
+  final List<Rule> upgrades;
   final bool isCore;
   final UnitRoster roster;
 
@@ -71,7 +71,7 @@ class _FactionRulesDialogState extends State<FactionRulesDialog> {
 }
 
 Widget _factionOptions(
-  List<FactionRule> upgrades,
+  List<Rule> upgrades,
   UnitRoster roster,
   bool isCore,
   Function() notifyParent,

@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/widgets/api/api_service.dart';
+import 'package:gearforce/widgets/settings.dart';
+import 'package:provider/provider.dart';
 
 Future<UnitRoster?> showInputRosterId(BuildContext context, Data data) async {
+  final settings = context.watch<Settings>();
+
   var result = await showDialog<String>(
       context: context,
       builder: (BuildContext context) {
@@ -14,7 +18,7 @@ Future<UnitRoster?> showInputRosterId(BuildContext context, Data data) async {
     return null;
   }
 
-  return await ApiService.getRoster(data, result);
+  return await ApiService.getRoster(data, result, settings);
 }
 
 class RosterIdInputDialog extends StatefulWidget {

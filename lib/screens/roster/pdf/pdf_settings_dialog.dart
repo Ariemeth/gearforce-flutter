@@ -44,6 +44,11 @@ class PDFSettingsDialog extends StatelessWidget {
             onChanged: (bool? newValue) {
               settings.sections.subFactionRules = newValue!;
             }),
+        SettingsOptionLine(
+            text: 'Alpha/Beta Rules',
+            onChanged: (bool? newValue) {
+              settings.sections.alphaBetaRules = newValue!;
+            }),
         SimpleDialogOption(
           onPressed: () {
             Navigator.pop(context, settings);

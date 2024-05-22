@@ -3,7 +3,8 @@ import 'package:gearforce/models/mods/base_modification.dart';
 import 'package:gearforce/models/mods/modification_option.dart';
 import 'package:gearforce/models/mods/mods.dart';
 import 'package:gearforce/models/roster/roster.dart';
-import 'package:gearforce/models/rules/rule_set.dart';
+import 'package:gearforce/models/rules/rulesets/rule_set.dart';
+import 'package:gearforce/models/rules/rule_types.dart';
 import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/model_type.dart';
 import 'package:gearforce/models/unit/unit.dart';
@@ -26,6 +27,7 @@ const subMachineGunId = '$_standardIDBase::100';
 const shapedExplosivesLId = '$_standardIDBase::110';
 const shapedExplosivesMId = '$_standardIDBase::120';
 const smokeId = '$_standardIDBase::130';
+const precisePlusId = '$_standardIDBase::140';
 
 final RegExp _handsMatch = RegExp(r'^Hands', caseSensitive: false);
 final RegExp _vtolMatch = RegExp(r'^VTOL', caseSensitive: false);
@@ -37,13 +39,14 @@ class StandardModification extends BaseModification {
     required String id,
     ModificationOption? options,
     final BaseModification Function()? refreshData,
+    super.modType = ModificationType.standard,
+    super.ruleType = RuleType.Standard,
   }) : super(
           name: name,
           id: id,
           requirementCheck: requirementCheck,
           options: options,
           refreshData: refreshData,
-          modType: ModificationType.standard,
         );
 
   /*
@@ -714,6 +717,87 @@ class StandardModification extends BaseModification {
         createAddTraitToList(Trait.Smoke()),
         description: '+Smoke',
       );
+  }
+
+  /*
+    Precise+
+    Upgrade the Precise trait on one pistol, autocannon, or rifle, to Precise+
+    for 1 TV.
+  */
+  factory StandardModification.precisePlus(Unit u) {
+    final newTrait = Trait.PrecisePlus();
+
+    final List<ModificationOption> _options = [];
+    final requiredWeapons = u
+        .attribute<List<Weapon>>(UnitAttribute.weapons,
+            modIDToSkip: precisePlusId)
+        .where((w) =>
+            (w.code == 'P' || w.code == 'AC' || w.code == 'RF') &&
+            (w.traits.any((t) => t.isSameType(Trait.Precise()))));
+    requiredWeapons.forEach((w) {
+      _options.add(ModificationOption('${w.toString()}'));
+    });
+
+    var modOptions = ModificationOption(
+      'Precise+',
+      subOptions: _options,
+      description: 'Choose a weapon to replace Precise with Precise+',
+    );
+
+    final mod = StandardModification(
+      name: 'Precise+',
+      id: precisePlusId,
+      options: modOptions,
+      ruleType: RuleType.AlphaBeta,
+      requirementCheck: (RuleSet rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+        if (!rs.settings.isAlphaBetaAllowed) {
+          return false;
+        }
+
+        final hasARequiredWeapon = u
+            .attribute<List<Weapon>>(UnitAttribute.weapons,
+                modIDToSkip: precisePlusId)
+            .any((w) =>
+                (w.code == 'P' || w.code == 'AC' || w.code == 'RF') &&
+                (w.traits.any((t) => t.isSameType(Trait.Precise()))));
+        return hasARequiredWeapon;
+      },
+      refreshData: () => StandardModification.precisePlus(u),
+    );
+
+    mod.addMod<int>(
+      UnitAttribute.tv,
+      createSimpleIntMod(1),
+      description: 'TV +1',
+    );
+
+    mod.addMod<List<Weapon>>(
+      UnitAttribute.weapons,
+      (value) {
+        final newList =
+            value.map((weapon) => Weapon.fromWeapon(weapon)).toList();
+
+        if (modOptions.selectedOption != null &&
+            newList.any((weapon) =>
+                weapon.toString() == modOptions.selectedOption?.text)) {
+          var existingWeapon = newList.firstWhere(
+              (weapon) => weapon.toString() == modOptions.selectedOption?.text);
+
+          final index = newList.indexOf(existingWeapon);
+          newList[index] = Weapon.fromWeapon(
+            existingWeapon,
+            traitsToRemove: [Trait.Precise()],
+            addTraits: [newTrait],
+          );
+        }
+
+        return newList;
+      },
+      description: 'Upgrade the Precise trait on one pistol, autocannon, or' +
+          ' rifle, to Precise+ for 1 TV.',
+    );
+
+    return mod;
   }
 }
 

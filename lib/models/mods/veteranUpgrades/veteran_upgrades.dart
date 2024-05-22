@@ -48,6 +48,8 @@ VeteranModification? buildVetUpgrade(String id, Unit u, CombatGroup cg) {
       return VeteranModification.fieldArmor(u);
     case amsId:
       return VeteranModification.ams(u);
+    case vetPreciseId:
+      return VeteranModification.vetPrecise(u);
   }
   return null;
 }

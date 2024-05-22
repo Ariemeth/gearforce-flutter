@@ -7,7 +7,7 @@ import 'package:gearforce/models/factions/faction.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/rules/options/combat_group_options.dart';
-import 'package:gearforce/models/rules/rule_set.dart';
+import 'package:gearforce/models/rules/rulesets/rule_set.dart';
 import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/model_type.dart';
@@ -182,7 +182,13 @@ class CombatGroup extends ChangeNotifier {
       total -= (freeDrones * 2);
     }
 
-    return total;
+    final rs = roster?.rulesetNotifer.value;
+    var tvModifier = 0;
+    if (rs != null) {
+      tvModifier = rs.combatGroupTVModifier(this);
+    }
+
+    return total + tvModifier;
   }
 
   bool hasDuelist() {

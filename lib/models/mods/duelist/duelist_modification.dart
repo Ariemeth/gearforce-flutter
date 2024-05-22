@@ -5,7 +5,8 @@ import 'package:gearforce/models/mods/mods.dart';
 import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart'
     as vetMod;
 import 'package:gearforce/models/roster/roster.dart';
-import 'package:gearforce/models/rules/rule_set.dart';
+import 'package:gearforce/models/rules/rulesets/rule_set.dart';
+import 'package:gearforce/models/rules/rule_types.dart';
 import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/role.dart';
@@ -23,7 +24,7 @@ const independentOperatorId = '$_duelistIDBase::20';
 const leadByExampleId = '$_duelistIDBase::30';
 const advancedControlSystemId = '$_duelistIDBase::40';
 const stableId = '$_duelistIDBase::50';
-const preciseId = '$_duelistIDBase::60';
+const duelistPreciseId = '$_duelistIDBase::60';
 const autoId = '$_duelistIDBase::70';
 const aceGunnerId = '$_duelistIDBase::80';
 const trickShotId = '$_duelistIDBase::90';
@@ -38,7 +39,7 @@ final Map<String, String> _duelistModNames = {
   leadByExampleId: 'Lead by Example',
   advancedControlSystemId: 'Advanced Control System',
   stableId: 'Stable',
-  preciseId: 'Precise',
+  duelistPreciseId: 'Precise',
   autoId: 'Auto',
   aceGunnerId: 'Ace Gunner',
   trickShotId: 'Trick Shot',
@@ -60,6 +61,7 @@ class DuelistModification extends BaseModification {
     final BaseModification Function()? refreshData,
     super.onAdd,
     super.onRemove,
+    super.ruleType = RuleType.Standard,
   }) : super(
           name: name,
           id: id,
@@ -362,7 +364,7 @@ class DuelistModification extends BaseModification {
   > Or, add the Precise trait to a combo weapon for 2 TV.
   */
   factory DuelistModification.precise(Unit u) {
-    final modName = _duelistModNames[preciseId];
+    final modName = _duelistModNames[duelistPreciseId];
     assert(modName != null);
 
     final List<ModificationOption> _options = [];
@@ -377,14 +379,16 @@ class DuelistModification extends BaseModification {
         description: 'Choose a weapon to gain the Precise trait.');
 
     final mod = DuelistModification(
-        name: modName ?? preciseId,
-        id: preciseId,
+        name: modName ?? duelistPreciseId,
+        id: duelistPreciseId,
         options: modOptions,
         requirementCheck:
-            (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
-          assert(rs != null);
+            (RuleSet rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
           assert(cg != null);
-          return rs!.duelistModCheck(u, cg!, modID: preciseId);
+          if (rs.settings.isAlphaBetaAllowed) {
+            return false;
+          }
+          return rs.duelistModCheck(u, cg!, modID: duelistPreciseId);
         },
         refreshData: () {
           return DuelistModification.precise(u);

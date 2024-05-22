@@ -208,6 +208,8 @@ class Trait {
         return Trait.Offroad(isAux: auxCheck);
       case 'Precise':
         return Trait.Precise(isAux: auxCheck);
+      case 'Precise+':
+        return Trait.PrecisePlus(isAux: auxCheck);
       case 'Proximity':
         return Trait.Proximity(isAux: auxCheck);
       case 'R':
@@ -832,6 +834,19 @@ class Trait {
       isAux: isAux,
       description: 'Ranged weapons with the Precise trait add +1 to the' +
           ' result rolled (+1 R) when in optimal range.\n' +
+          'Melee weapons with the Precise trait add +1 to the result rolled' +
+          ' (+1 R).\n' +
+          'Multiple sources of Precise are not cumulative.',
+    );
+  }
+
+  factory Trait.PrecisePlus({bool isAux = false}) {
+    return Trait(
+      name: 'Precise+',
+      isAux: isAux,
+      description: 'Ranged weapons with the Precise+ trait add +1 to the' +
+          ' result rolled (+1 R) when in optimal range, and out to its maximum' +
+          ' range.\n' +
           'Melee weapons with the Precise trait add +1 to the result rolled' +
           ' (+1 R).\n' +
           'Multiple sources of Precise are not cumulative.',

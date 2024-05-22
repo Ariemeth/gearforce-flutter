@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gearforce/data/data.dart';
-import 'package:gearforce/models/rules/faction_rule.dart';
+import 'package:gearforce/models/rules/rule.dart';
 import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/screens/roster/header/faction_rules_dialog.dart';
 import 'package:gearforce/screens/roster/header/select_faction.dart';
@@ -284,7 +284,7 @@ class RosterHeaderInfo extends StatelessWidget {
     );
   }
 
-  void _showSettingsDialog(BuildContext context, List<FactionRule> upgrades,
+  void _showSettingsDialog(BuildContext context, List<Rule> upgrades,
       UnitRoster roster, bool isCore) {
     final settingsDialog = FactionRulesDialog(
       upgrades: upgrades,

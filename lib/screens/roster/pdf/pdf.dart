@@ -12,7 +12,7 @@ import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 
 const String _defaultRosterFileName = 'hg-roster';
-const String _webURL = 'https://gearforce.metadiversions.com';
+const String _webURL = 'https://gearforce.app';
 
 const double _unitCardMargins = 0;
 
@@ -193,8 +193,7 @@ Future<Uint8List> buildPdf(
             buildRulesSheet(
               font,
               roster,
-              includeFactionRules: pdfSettings.sections.factionRules,
-              includeSubFactionRules: pdfSettings.sections.subFactionRules,
+              pdfSettings,
             )
           ];
         },

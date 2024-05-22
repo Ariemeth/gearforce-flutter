@@ -35,6 +35,7 @@ class RosterWidget extends StatefulWidget {
     required this.data,
     required this.rosterId,
     required this.version,
+    required this.settings,
   }) : super(key: key);
 
   final String? title;
@@ -42,6 +43,7 @@ class RosterWidget extends StatefulWidget {
   final RosterId rosterId;
   final String version;
   final hScrollController = ScrollController();
+  final Settings settings;
 
   @override
   _RosterWidgetState createState() => _RosterWidgetState();
@@ -54,7 +56,7 @@ class _RosterWidgetState extends State<RosterWidget> {
   void initState() {
     super.initState();
 
-    roster = UnitRoster(widget.data);
+    roster = UnitRoster(widget.data, widget.settings);
     _loadRoster();
   }
 
@@ -66,6 +68,7 @@ class _RosterWidgetState extends State<RosterWidget> {
     final loadedRoster = await await ApiService.getRoster(
       widget.data,
       widget.rosterId.Id!,
+      widget.settings,
     );
     if (loadedRoster != null) {
       roster.copyFrom(loadedRoster);
@@ -139,7 +142,7 @@ class _RosterWidgetState extends State<RosterWidget> {
                 style: TextStyle(fontSize: 16),
               ),
               onTap: () async {
-                final loadedRoster = await loadRoster(data);
+                final loadedRoster = await loadRoster(data, appSettings);
                 if (loadedRoster != null) {
                   setState(() {
                     roster.copyFrom(loadedRoster);
@@ -351,6 +354,10 @@ class _RosterWidgetState extends State<RosterWidget> {
                   context: context,
                   builder: (context) => ApplicationSettingsDialog(),
                 );
+                setState(() {
+                  roster.validate(tryFix: true);
+                  // TODO instead of always forcing the roster to reload have the dialog return a bool on if something changed
+                });
               },
             ),
             ListTile(
@@ -383,7 +390,7 @@ class _RosterWidgetState extends State<RosterWidget> {
                   if (result == ConfirmationResult.Yes) {
                     setState(
                       () {
-                        roster.copyFrom(UnitRoster(data));
+                        roster.copyFrom(UnitRoster(data, appSettings));
                       },
                     );
                   }

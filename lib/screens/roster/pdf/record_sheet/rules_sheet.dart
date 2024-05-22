@@ -1,5 +1,6 @@
 import 'package:gearforce/models/roster/roster.dart';
-import 'package:gearforce/models/rules/faction_rule.dart';
+import 'package:gearforce/models/rules/rule.dart';
+import 'package:gearforce/widgets/pdf_settings.dart';
 import 'package:pdf/widgets.dart' as pw;
 
 const double _headerTextSize = 12;
@@ -7,30 +8,40 @@ const double _standardTextSize = 10;
 
 pw.Widget buildRulesSheet(
   pw.Font font,
-  UnitRoster roster, {
-  bool includeFactionRules = true,
-  bool includeSubFactionRules = true,
-}) {
+  UnitRoster roster,
+  PDFSettings pdfSettings,
+) {
   final List<(String, String)> factionRules = [];
-  if (includeFactionRules) {
-    FactionRule.enabledRules(roster.rulesetNotifer.value.factionRules)
-        .forEach((fr) {
+  if (pdfSettings.sections.factionRules) {
+    Rule.enabledRules(roster.rulesetNotifer.value.factionRules).forEach((fr) {
       factionRules.add((fr.name, fr.description));
     });
   }
 
   final List<(String, String)> subFactionRules = [];
-  if (includeSubFactionRules) {
-    FactionRule.enabledRules(roster.rulesetNotifer.value.subFactionRules)
+  if (pdfSettings.sections.subFactionRules) {
+    Rule.enabledRules(roster.rulesetNotifer.value.subFactionRules)
         .forEach((fr) {
       subFactionRules.add((fr.name, fr.description));
     });
   }
 
-  final sheet = pw.Column(children: [
+  final rules = [
     _buildRuleTable(font, ['Faction Rule', 'Description'], factionRules),
     _buildRuleTable(font, ['Sub-Faction Rule', 'Description'], subFactionRules),
-  ]);
+  ];
+
+  if (pdfSettings.sections.alphaBetaRules &&
+      roster.rulesetNotifer.value.alphaBetaRules.isNotEmpty) {
+    final List<(String, String)> alphaBetaRules = [];
+    Rule.enabledRules(roster.rulesetNotifer.value.alphaBetaRules).forEach((fr) {
+      alphaBetaRules.add((fr.name, fr.description));
+    });
+    rules.add(_buildRuleTable(
+        font, ['Alpha-Beta Rule', 'Description'], alphaBetaRules));
+  }
+
+  final sheet = pw.Column(children: rules);
 
   return pw.Padding(
     padding: pw.EdgeInsets.only(

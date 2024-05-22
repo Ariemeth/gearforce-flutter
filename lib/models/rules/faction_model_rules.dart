@@ -1,13 +1,14 @@
 import 'package:gearforce/models/factions/faction_type.dart';
-import 'package:gearforce/models/rules/caprice/caprice.dart' as caprice;
-import 'package:gearforce/models/rules/cef/cef.dart' as cef;
-import 'package:gearforce/models/rules/eden/eden.dart' as eden;
-import 'package:gearforce/models/rules/faction_rule.dart';
-import 'package:gearforce/models/rules/north/north.dart' as north;
-import 'package:gearforce/models/rules/utopia/utopia.dart' as utopia;
+import 'package:gearforce/models/rules/rulesets/caprice/caprice.dart'
+    as caprice;
+import 'package:gearforce/models/rules/rulesets/cef/cef.dart' as cef;
+import 'package:gearforce/models/rules/rulesets/eden/eden.dart' as eden;
+import 'package:gearforce/models/rules/rule.dart';
+import 'package:gearforce/models/rules/rulesets/north/north.dart' as north;
+import 'package:gearforce/models/rules/rulesets/utopia/utopia.dart' as utopia;
 import 'package:gearforce/models/unit/unit.dart';
 
-List<FactionRule> GetModelFactionRules(
+List<Rule> GetModelFactionRules(
   Unit? unit,
   List<FactionType>? factions,
 ) {
@@ -21,10 +22,10 @@ List<FactionRule> GetModelFactionRules(
   return GetModelFactionRulesByFactionList(factions);
 }
 
-List<FactionRule> GetModelFactionRulesByFactionList(
+List<Rule> GetModelFactionRulesByFactionList(
   List<FactionType> factions,
 ) {
-  final List<FactionRule> results = [];
+  final List<Rule> results = [];
 
   factions.forEach((faction) {
     results.addAll(GetModelFactionRulesByFaction(faction));
@@ -33,7 +34,7 @@ List<FactionRule> GetModelFactionRulesByFactionList(
   return results;
 }
 
-List<FactionRule> GetModelFactionRulesByFaction(FactionType? faction) {
+List<Rule> GetModelFactionRulesByFaction(FactionType? faction) {
   switch (faction) {
     case FactionType.North:
       return [north.ruleTaskBuilt];

@@ -6,11 +6,11 @@ import 'package:gearforce/models/mods/modification_option.dart';
 import 'package:gearforce/models/mods/mods.dart';
 import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart';
 import 'package:gearforce/models/roster/roster.dart';
-import 'package:gearforce/models/rules/north/nlc.dart';
-import 'package:gearforce/models/rules/north/north.dart';
-import 'package:gearforce/models/rules/north/umf.dart';
-import 'package:gearforce/models/rules/north/wfp.dart';
-import 'package:gearforce/models/rules/rule_set.dart';
+import 'package:gearforce/models/rules/rulesets/north/nlc.dart';
+import 'package:gearforce/models/rules/rulesets/north/north.dart';
+import 'package:gearforce/models/rules/rulesets/north/umf.dart';
+import 'package:gearforce/models/rules/rulesets/north/wfp.dart';
+import 'package:gearforce/models/rules/rulesets/rule_set.dart';
 import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/model_type.dart';
@@ -36,6 +36,7 @@ class NorthernFactionMods extends FactionModification {
     super.options,
     super.onAdd,
     super.onRemove,
+    super.refreshData,
   }) : super();
 
   /*
@@ -140,13 +141,12 @@ class NorthernFactionMods extends FactionModification {
   */
   factory NorthernFactionMods.hammerOfTheNorth(Unit unit) {
     final RequirementCheck reqCheck = (
-      RuleSet? rs,
+      RuleSet rs,
       UnitRoster? ur,
       CombatGroup? cg,
       Unit u,
     ) {
       assert(cg != null);
-      assert(rs != null);
 
       if (!ruleHammersOfTheNorth.isEnabled) {
         return false;
@@ -173,37 +173,57 @@ class NorthernFactionMods extends FactionModification {
       requirementCheck: reqCheck,
       options: modOptions,
       id: hammersOfTheNorthID,
+      refreshData: () => NorthernFactionMods.hammerOfTheNorth(unit),
     );
     fm.addMod<int>(
       UnitAttribute.tv,
       createSimpleIntMod(1),
       description: 'TV: +1',
     );
-    fm.addMod<List<Weapon>>(UnitAttribute.weapons, (value) {
-      final newList = value.map((weapon) => Weapon.fromWeapon(weapon)).toList();
+    fm.addMod<List<Weapon>>(
+      UnitAttribute.weapons,
+      (value) {
+        final newList =
+            value.map((weapon) => Weapon.fromWeapon(weapon)).toList();
 
-      // check if an option has been selected
-      if (modOptions.selectedOption == null) {
+        // check if an option has been selected
+        if (modOptions.selectedOption == null) {
+          return newList;
+        }
+
+        // make sure the selected weapon is in the list
+        final isInList = newList
+            .any((w) => w.abbreviation == modOptions.selectedOption?.text);
+
+        if (!isInList) {
+          return newList;
+        }
+
+        final weaponToReplace = newList.firstWhere(
+          (w) => w.abbreviation == modOptions.selectedOption?.text,
+        );
+
+        final replaceIndex = newList.indexOf(weaponToReplace);
+
+        final isAlphaBetaEnabled =
+            unit.ruleset?.settings.isAlphaBetaAllowed ?? false;
+        final newTrait =
+            isAlphaBetaEnabled ? Trait.PrecisePlus() : Trait.Precise();
+
+        newList[replaceIndex] = Weapon.fromWeapon(
+          weaponToReplace,
+          addTraits: [newTrait],
+        );
         return newList;
-      }
-
-      // make sure the selected weapon is in the list
-      final isInList =
-          newList.any((w) => w.abbreviation == modOptions.selectedOption?.text);
-
-      if (!isInList) {
-        return newList;
-      }
-
-      final weaponToRemove = newList.firstWhere(
-        (w) => w.abbreviation == modOptions.selectedOption?.text,
-      );
-
-      newList.remove(weaponToRemove);
-      newList.add(Weapon.fromWeapon(weaponToRemove,
-          addTraits: [Trait(name: 'Precise')]));
-      return newList;
-    }, description: 'Add Precise to a Snub Cannon');
+      },
+      dynamicDescription: () {
+        final isAlphaBetaEnabled =
+            unit.ruleset?.settings.isAlphaBetaAllowed ?? false;
+        final newTrait =
+            isAlphaBetaEnabled ? Trait.PrecisePlus() : Trait.Precise();
+        return 'Add ${newTrait.name} to a Snub Cannon';
+      },
+    );
 
     return fm;
   }

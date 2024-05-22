@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/factions/faction.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
+import 'package:gearforce/widgets/settings.dart';
 import 'package:provider/provider.dart';
 
 /// This is the stateful widget that the main application instantiates.
@@ -25,6 +26,7 @@ class _SelectFactionState extends State<SelectFaction> {
   @override
   Widget build(BuildContext context) {
     final data = context.watch<Data>();
+    final settings = context.watch<Settings>();
     return DropdownButton<FactionType?>(
       value: widget.selectedFaction.value.factionType,
       hint: Text('Select faction'),
@@ -38,7 +40,11 @@ class _SelectFactionState extends State<SelectFaction> {
       onChanged: (FactionType? newValue) {
         setState(() {
           dropdownValue = newValue;
-          widget.selectedFaction.value = Faction.fromType(newValue!, data);
+          widget.selectedFaction.value = Faction.fromType(
+            newValue!,
+            data,
+            settings,
+          );
         });
       },
       items:

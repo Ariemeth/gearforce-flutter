@@ -20,7 +20,7 @@ Future<void> main() async {
   await settings.load();
 
   var data = Data();
-  data.load().whenComplete(() {
+  data.load(settings).whenComplete(() {
     runApp(MultiProvider(
       providers: [
         Provider(create: (_) => data),
@@ -30,6 +30,7 @@ Future<void> main() async {
         data: data,
         rosterId: RosterId(idParam),
         version: appInfo.version,
+        settings: settings,
       ),
     ));
   });
@@ -41,11 +42,13 @@ class GearForce extends StatefulWidget {
     required this.data,
     required this.rosterId,
     required this.version,
+    required this.settings,
   }) : super(key: key);
 
   final Data data;
   final RosterId rosterId;
   final String version;
+  final Settings settings;
   @override
   _GearForceState createState() => _GearForceState();
 }
@@ -63,7 +66,7 @@ class _GearForceState extends State<GearForce> {
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(
           seedColor: Colors.blue,
-          background: Colors.white,
+          surface: Colors.white,
           primary: Colors.blue,
         ),
       ),
@@ -72,6 +75,7 @@ class _GearForceState extends State<GearForce> {
         data: widget.data,
         rosterId: widget.rosterId,
         version: widget.version,
+        settings: widget.settings,
       ),
     );
   }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/combatGroups/group.dart';
 import 'package:gearforce/models/roster/roster.dart';
-import 'package:gearforce/models/rules/rule_set.dart';
+import 'package:gearforce/models/rules/rulesets/rule_set.dart';
 import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/screens/roster/combatGroup/group_header.dart';
@@ -85,7 +85,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
       columnSpacing: 1.0,
       horizontalMargin: 0.0,
       headingRowHeight: 30.0,
-      headingRowColor: MaterialStateColor.resolveWith(
+      headingRowColor: WidgetStateColor.resolveWith(
         (states) => Theme.of(context).primaryColorLight,
       ),
     );

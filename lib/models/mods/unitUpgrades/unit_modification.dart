@@ -2,7 +2,8 @@ import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/mods/base_modification.dart';
 import 'package:gearforce/models/mods/modification_option.dart';
 import 'package:gearforce/models/roster/roster.dart';
-import 'package:gearforce/models/rules/rule_set.dart';
+import 'package:gearforce/models/rules/rulesets/rule_set.dart';
+import 'package:gearforce/models/rules/rule_types.dart';
 import 'package:gearforce/models/unit/unit.dart';
 
 class UnitModification extends BaseModification {
@@ -11,12 +12,13 @@ class UnitModification extends BaseModification {
     RequirementCheck requirementCheck = _defaultRequirementsFunction,
     ModificationOption? options,
     String? id,
+    super.ruleType = RuleType.Standard,
   }) : super(
           name: name,
           requirementCheck: requirementCheck,
           options: options,
           id: id ?? name,
-          modType: ModificationType.unit,
+          modType: ModificationType.standard,
         );
 
   // function to ensure the modification can be applied to the unit

@@ -3,12 +3,14 @@ import 'package:gearforce/models/mods/base_modification.dart';
 import 'package:gearforce/models/mods/modification_option.dart';
 import 'package:gearforce/models/mods/mods.dart';
 import 'package:gearforce/models/roster/roster.dart';
-import 'package:gearforce/models/rules/rule_set.dart';
+import 'package:gearforce/models/rules/rulesets/rule_set.dart';
+import 'package:gearforce/models/rules/rule_types.dart';
 import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/model_type.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/models/unit/unit_attribute.dart';
 import 'package:gearforce/models/weapons/weapon.dart';
+import 'package:gearforce/models/weapons/weapon_modes.dart';
 import 'package:gearforce/models/weapons/weapons.dart';
 
 const _vetIDBase = 'mod::vet';
@@ -26,6 +28,7 @@ const resistFId = '$_vetIDBase::100';
 const resistCId = '$_vetIDBase::110';
 const fieldArmorId = '$_vetIDBase::120';
 const amsId = '$_vetIDBase::130';
+const vetPreciseId = '$_vetIDBase::140';
 
 final Map<String, String> _vetModNames = {
   eccmId: 'ECCM',
@@ -51,6 +54,7 @@ class VeteranModification extends BaseModification {
     required RequirementCheck requirementCheck,
     ModificationOption? options,
     final BaseModification Function()? refreshData,
+    super.ruleType = RuleType.Standard,
   }) : super(
           name: name,
           id: id,
@@ -90,21 +94,43 @@ class VeteranModification extends BaseModification {
   }
 
   factory VeteranModification.makeVet(Unit u, CombatGroup cg) {
-    return VeteranModification(
+    final mod = VeteranModification(
         name: 'Veteran Upgrade',
         id: veteranId,
         requirementCheck:
-            (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+            (RuleSet rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
           assert(cg != null);
-          assert(rs != null);
-          if (rs == null || cg == null) {
+          if (cg == null) {
             return false;
           }
           return rs.vetCheck(cg, u);
-        })
-      ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
-      ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.Vet()),
-          description: '+Vet');
+        });
+
+    final modCost = () {
+      const baseCost = 2;
+      final rs = u.ruleset;
+
+      if (rs == null) {
+        return baseCost;
+      }
+
+      final modCostOverride = rs.modCostOverride(veteranId, u);
+
+      return modCostOverride ?? baseCost;
+    };
+
+    mod.addMod<int>(UnitAttribute.tv, (value) {
+      return value + modCost();
+    }, dynamicDescription: () {
+      return 'TV +${modCost()}';
+    });
+
+    mod.addMod(
+      UnitAttribute.traits,
+      createAddTraitToList(Trait.Vet()),
+      description: '+Vet',
+    );
+    return mod;
   }
 
   /*
@@ -302,9 +328,11 @@ class VeteranModification extends BaseModification {
           return rs!.veteranModCheck(u, cg!, modID: brawler1Id);
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
-      ..addMod<List<Trait>>(UnitAttribute.traits,
-          createAddOrCombineTraitToList(Trait(name: 'Brawl', level: 1)),
-          description: '+Brawl:1 or +1 to existing Brawl');
+      ..addMod<List<Trait>>(
+        UnitAttribute.traits,
+        createAddOrCombineTraitToList(Trait.Brawl(1)),
+        description: '+Brawl:1 or +1 to existing Brawl',
+      );
   }
 
   /*
@@ -340,9 +368,11 @@ class VeteranModification extends BaseModification {
           return VeteranModification.brawler2(u);
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
-      ..addMod<List<Trait>>(UnitAttribute.traits,
-          createAddOrCombineTraitToList(Trait(name: 'Brawl', level: 2)),
-          description: '+Brawl:2 or +2 to existing Brawl');
+      ..addMod<List<Trait>>(
+        UnitAttribute.traits,
+        createAddOrCombineTraitToList(Trait.Brawl(2)),
+        description: '+Brawl:2 or +2 to existing Brawl',
+      );
   }
 
   /*
@@ -488,15 +518,14 @@ class VeteranModification extends BaseModification {
         name: modName ?? improvedGunneryID,
         id: improvedGunneryID,
         requirementCheck:
-            (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
-          assert(rs != null);
+            (RuleSet rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
           assert(cg != null);
 
           if (u.actions == null || u.gunnery == null || u.gunnery == '-') {
             return false;
           }
 
-          modCostOverride = rs!.modCostOverride(improvedGunneryID, u);
+          modCostOverride = rs.modCostOverride(improvedGunneryID, u);
           return rs.veteranModCheck(u, cg!, modID: improvedGunneryID);
         });
 
@@ -701,6 +730,95 @@ class VeteranModification extends BaseModification {
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
       ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.AMS()),
           description: '+AMS');
+  }
+
+  /*
+    Veteran Precise
+    * Add the Precise trait to one weapon for 1 TV.
+    * Or upgrade one weapon’s Precise trait to Precise+
+    for 1 TV.
+    If this is a combination weapon, this upgrade only applies
+    to one of the component weapons.
+  */
+  factory VeteranModification.vetPrecise(Unit u) {
+    final List<ModificationOption> _options = [];
+    final availableWeapons = u
+        .attribute<List<Weapon>>(
+          UnitAttribute.weapons,
+          modIDToSkip: vetPreciseId,
+        )
+        .where((w) => w.modes.any((m) => m != weaponModes.Melee));
+    availableWeapons.forEach((w) {
+      _options.add(ModificationOption('${w.toString()}'));
+    });
+
+    var modOptions = ModificationOption(
+      'Veteran Precise',
+      subOptions: _options,
+      description: 'Add the Precise trait to one weapon for 1 TV or' +
+          ' upgrade one weapon’s Precise trait to Precise+ for 1 TV.',
+    );
+
+    final mod = VeteranModification(
+      name: 'Veteran Precise',
+      id: vetPreciseId,
+      options: modOptions,
+      ruleType: RuleType.AlphaBeta,
+      requirementCheck: (RuleSet rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+        if (!rs.settings.isAlphaBetaAllowed) {
+          return false;
+        }
+
+        final hasRangedWeapon =
+            u.weapons.any((w) => w.modes.any((m) => m != weaponModes.Melee));
+        return hasRangedWeapon;
+      },
+      refreshData: () => VeteranModification.vetPrecise(u),
+    );
+
+    mod.addMod<int>(
+      UnitAttribute.tv,
+      createSimpleIntMod(1),
+      description: 'TV +1',
+    );
+
+    mod.addMod<List<Weapon>>(
+      UnitAttribute.weapons,
+      (value) {
+        final newList =
+            value.map((weapon) => Weapon.fromWeapon(weapon)).toList();
+
+        if (modOptions.selectedOption != null &&
+            newList.any((weapon) =>
+                weapon.toString() == modOptions.selectedOption?.text)) {
+          var existingWeapon = newList.firstWhere(
+              (weapon) => weapon.toString() == modOptions.selectedOption?.text);
+
+          final index = newList.indexOf(existingWeapon);
+
+          if (existingWeapon.traits.any((t) => t.isSameType(Trait.Precise()))) {
+            newList[index] = Weapon.fromWeapon(
+              existingWeapon,
+              traitsToRemove: [Trait.Precise()],
+              addTraits: [Trait.PrecisePlus()],
+            );
+          } else {
+            newList[index] = Weapon.fromWeapon(
+              existingWeapon,
+              addTraits: [Trait.Precise()],
+            );
+          }
+        }
+
+        return newList;
+      },
+      description: 'Add the Precise trait to one weapon for 1 TV or' +
+          ' upgrade one weapon’s Precise trait to Precise+ for 1 TV.' +
+          ' If this is a combination weapon, this upgrade only applies' +
+          ' to one of the component weapons.',
+    );
+
+    return mod;
   }
 }
 

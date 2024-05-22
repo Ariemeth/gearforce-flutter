@@ -4,7 +4,10 @@ import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/models/unit/unit.dart';
 
 List<StandardModification> getStandardMods(
-    Unit u, CombatGroup cg, UnitRoster roster) {
+  Unit u,
+  CombatGroup cg,
+  UnitRoster roster,
+) {
   return [
     StandardModification.antiAirTrait(u, cg),
     StandardModification.antiAirSwap(u, cg),
@@ -55,6 +58,8 @@ StandardModification? buildStandardUpgrade(
       return StandardModification.shapedExplosivesM(u, cg);
     case smokeId:
       return StandardModification.smoke(u, cg);
+    case precisePlusId:
+      return StandardModification.precisePlus(u);
   }
   return null;
 }

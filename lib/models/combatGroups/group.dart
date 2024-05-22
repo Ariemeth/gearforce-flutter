@@ -3,7 +3,7 @@ import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/factions/faction.dart';
 import 'package:gearforce/models/mods/veteranUpgrades/veteran_modification.dart';
 import 'package:gearforce/models/roster/roster.dart';
-import 'package:gearforce/models/rules/rule_set.dart';
+import 'package:gearforce/models/rules/rulesets/rule_set.dart';
 import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/model_type.dart';
@@ -256,9 +256,16 @@ class Group extends ChangeNotifier {
       return results;
     }
 
+    final rs = this.combatGroup?.roster?.rulesetNotifer.value;
+
     final makeVet = VeteranModification.makeVet(u, combatGroup!);
-    if (makeVet.requirementCheck(this.combatGroup?.roster?.rulesetNotifer.value,
-        combatGroup?.roster, combatGroup, u)) {
+    if (rs != null &&
+        makeVet.requirementCheck(
+          rs,
+          combatGroup?.roster,
+          combatGroup,
+          u,
+        )) {
       u.addUnitMod(makeVet);
       return results;
     }

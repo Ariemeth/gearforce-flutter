@@ -27,7 +27,11 @@ List<DuelistModification> getDuelistMods(
 }
 
 DuelistModification? buildDuelistUpgrade(
-    String id, Unit u, CombatGroup cg, UnitRoster roster) {
+  String id,
+  Unit u,
+  CombatGroup cg,
+  UnitRoster roster,
+) {
   switch (id) {
     case duelistId:
       return DuelistModification.makeDuelist(u, roster);
@@ -39,7 +43,7 @@ DuelistModification? buildDuelistUpgrade(
       return DuelistModification.advancedControlSystem(u);
     case stableId:
       return DuelistModification.stable(u);
-    case preciseId:
+    case duelistPreciseId:
       return DuelistModification.precise(u);
     case autoId:
       return DuelistModification.auto(u);

@@ -5,10 +5,10 @@ import 'package:gearforce/models/mods/factionUpgrades/faction_mod.dart';
 import 'package:gearforce/models/mods/modification_option.dart';
 import 'package:gearforce/models/mods/mods.dart';
 import 'package:gearforce/models/roster/roster.dart';
-import 'package:gearforce/models/rules/peace_river/peace_river.dart';
-import 'package:gearforce/models/rules/peace_river/poc.dart';
-import 'package:gearforce/models/rules/peace_river/prdf.dart';
-import 'package:gearforce/models/rules/rule_set.dart';
+import 'package:gearforce/models/rules/rulesets/peace_river/peace_river.dart';
+import 'package:gearforce/models/rules/rulesets/peace_river/poc.dart';
+import 'package:gearforce/models/rules/rulesets/peace_river/prdf.dart';
+import 'package:gearforce/models/rules/rulesets/rule_set.dart';
 import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/model_type.dart';
 import 'package:gearforce/models/unit/role.dart';
@@ -410,9 +410,8 @@ class PeaceRiverFactionMods extends FactionModification {
     final RequirementCheck reqCheck = (rs, ur, cg, u) {
       assert(cg != null);
       assert(ur != null);
-      assert(rs != null);
 
-      if (rs == null || !rs.isRuleEnabled(rulePeaceOfficer.id)) {
+      if (!rs.isRuleEnabled(rulePeaceOfficer.id)) {
         return false;
       }
 

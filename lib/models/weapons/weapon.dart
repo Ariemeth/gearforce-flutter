@@ -139,15 +139,33 @@ class Weapon {
     Range? range,
     int? numberOf,
     List<Trait>? addTraits,
+    List<Trait>? traitsToRemove,
     bool? hasReact,
   }) {
     final bonusTraits =
         original.bonusTraits.map((trait) => Trait.fromTrait(trait)).toList();
+
+    final baseTraits =
+        original.baseTraits.map((trait) => Trait.fromTrait(trait)).toList();
+
+    final baseAlternativeTraits = original.baseAlternativeTraits
+        .map((trait) => Trait.fromTrait(trait))
+        .toList();
+
+    if (traitsToRemove != null) {
+      traitsToRemove.forEach((t) {
+        bonusTraits.removeWhere((trait) => trait.isSameType(t));
+        baseTraits.removeWhere((trait) => trait.isSameType(t));
+        baseAlternativeTraits.removeWhere((trait) => trait.isSameType(t));
+      });
+    }
+
     if (addTraits != null) {
       addTraits.forEach((t) {
         bonusTraits.add(t);
       });
     }
+
     return Weapon(
       abbreviation: original.abbreviation,
       name: name ?? original.name,
@@ -156,11 +174,8 @@ class Weapon {
       range: range ?? original.range,
       damage: original.damage,
       hasReact: hasReact ?? original.hasReact,
-      baseTraits:
-          original.baseTraits.map((trait) => Trait.fromTrait(trait)).toList(),
-      baseAlternativeTraits: original.baseAlternativeTraits
-          .map((trait) => Trait.fromTrait(trait))
-          .toList(),
+      baseTraits: baseTraits,
+      baseAlternativeTraits: baseAlternativeTraits,
       bonusTraits: bonusTraits,
       combo: original.combo != null ? Weapon.fromWeapon(original.combo!) : null,
     );

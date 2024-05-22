@@ -4,14 +4,9 @@ import 'package:gearforce/models/combatGroups/group.dart';
 import 'package:gearforce/models/factions/faction.dart';
 import 'package:gearforce/models/factions/faction_type.dart';
 import 'package:gearforce/models/mods/base_modification.dart';
-import 'package:gearforce/models/mods/duelist/duelist_upgrades.dart';
-import 'package:gearforce/models/mods/factionUpgrades/faction_mod.dart';
 import 'package:gearforce/models/mods/saved_mod.dart';
-import 'package:gearforce/models/mods/standardUpgrades/standard_upgrades.dart';
-import 'package:gearforce/models/mods/unitUpgrades/unit_upgrades.dart';
-import 'package:gearforce/models/mods/veteranUpgrades/veteran_upgrades.dart';
 import 'package:gearforce/models/roster/roster.dart';
-import 'package:gearforce/models/rules/rule_set.dart';
+import 'package:gearforce/models/rules/rulesets/rule_set.dart';
 import 'package:gearforce/models/traits/trait.dart';
 import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/model_type.dart';
@@ -115,19 +110,20 @@ class Unit extends ChangeNotifier {
       BaseModification? mod;
       switch (ModificationTypeExtension.fromString(savedMod.type)) {
         case ModificationType.standard:
-          mod = buildStandardUpgrade(savedMod.ModId, u, cg, roster);
+          mod = ruleset.getStandardUpgrade(savedMod.ModId, u, cg, roster);
           break;
         case ModificationType.veteran:
-          mod = buildVetUpgrade(savedMod.ModId, u, cg);
+          mod = ruleset.getVeteranUpgrade(savedMod.ModId, u, cg);
           break;
         case ModificationType.duelist:
-          mod = buildDuelistUpgrade(savedMod.ModId, u, cg, roster);
+          mod = ruleset.getDuelistUpgrade(savedMod.ModId, u, cg, roster);
           break;
         case ModificationType.faction:
-          mod = factionModFromId(savedMod.ModId, roster, u);
+          mod = ruleset.getFactionModFromId(savedMod.ModId, roster, u);
           break;
         case ModificationType.unit:
-          mod = getUnitMods(u.core.frame, u)
+          mod = ruleset
+              .availableUnitMods(u)
               .firstWhere((unitMod) => unitMod.id == savedMod.ModId);
           break;
       }
@@ -163,7 +159,7 @@ class Unit extends ChangeNotifier {
 
     if (modMap['unit'] != null) {
       final mods = modMap['unit'] as List;
-      var availableUnitMods = getUnitMods(u.core.frame, u);
+      var availableUnitMods = ruleset.availableUnitMods(u);
       mods.forEach((loadedMod) {
         try {
           var mod = availableUnitMods
@@ -184,7 +180,7 @@ class Unit extends ChangeNotifier {
       mods.forEach((loadedMod) {
         try {
           final modId = loadedMod['id'];
-          var mod = buildStandardUpgrade(modId, u, cg, roster);
+          var mod = ruleset.getStandardUpgrade(modId, u, cg, roster);
           if (mod != null) {
             u.addUnitMod(mod);
             final selected = loadedMod['selected'];
@@ -205,7 +201,7 @@ class Unit extends ChangeNotifier {
       mods.forEach((loadedMod) {
         try {
           final modId = loadedMod['id'];
-          var mod = buildVetUpgrade(modId, u, cg);
+          var mod = ruleset.getVeteranUpgrade(modId, u, cg);
           if (mod != null) {
             u.addUnitMod(mod);
             final selected = loadedMod['selected'];
@@ -226,7 +222,7 @@ class Unit extends ChangeNotifier {
       mods.forEach((loadedMod) {
         try {
           final modId = loadedMod['id'];
-          var mod = buildDuelistUpgrade(modId, u, cg, roster);
+          var mod = ruleset.getDuelistUpgrade(modId, u, cg, roster);
           if (mod != null) {
             u.addUnitMod(mod);
             final selected = loadedMod['selected'];
@@ -249,7 +245,7 @@ class Unit extends ChangeNotifier {
         try {
           final modId = loadedMod['id'];
 
-          var mod = factionModFromId(modId, roster, u);
+          var mod = ruleset.getFactionModFromId(modId, roster, u);
           if (mod == null) {
             print('faction mod $modId could not be loaded');
             return;
