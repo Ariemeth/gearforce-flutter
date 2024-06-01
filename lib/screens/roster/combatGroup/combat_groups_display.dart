@@ -112,9 +112,14 @@ class _CombatGroupsDisplayState extends State<CombatGroupsDisplay>
   }
 
   TabController _getTabController({int initialIndex = 0}) {
+    final length = widget.roster.getCGs().length + 1;
+    if (initialIndex >= length && initialIndex != 0) {
+      initialIndex = length - 1;
+    }
+
     final controller = TabController(
       initialIndex: initialIndex,
-      length: widget.roster.getCGs().length + 1,
+      length: length,
       vsync: this,
     );
 

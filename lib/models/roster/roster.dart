@@ -12,6 +12,7 @@ import 'package:gearforce/models/validation/validations.dart';
 import 'package:gearforce/widgets/settings.dart';
 
 const _currentRulesVersion = '3.1 - May 2022';
+final _matchExp = RegExp(r'^CG (?<count>\d+)', caseSensitive: false);
 
 class UnitRoster extends ChangeNotifier {
   String? player;
@@ -430,7 +431,30 @@ class UnitRoster extends ChangeNotifier {
   }
 
   CombatGroup createCG() {
-    var cg = CombatGroup('CG ${this._totalCreated + 1}', roster: this);
+    var nextCGNumber = 1;
+
+    if (_combatGroups.isNotEmpty) {
+      final defaultNamedCgs = _combatGroups.where((cg) {
+        return _matchExp.hasMatch(cg.name);
+      }).toList();
+
+      final groupNumbers = defaultNamedCgs
+          .map((cg) =>
+              int.parse(_matchExp.firstMatch(cg.name)!.namedGroup('count')!))
+          .toList();
+
+      final groupNumberMap = Map<int, int>.fromIterable(groupNumbers,
+          key: (v) => v, value: (v) => v);
+
+      for (var i = nextCGNumber; i <= groupNumbers.length; i++) {
+        if (groupNumberMap.containsKey(i)) {
+          nextCGNumber = i + 1;
+        } else {
+          break;
+        }
+      }
+    }
+    var cg = CombatGroup('CG ${nextCGNumber}', roster: this);
     this.addCG(cg);
     if (_activeCG == '') {
       _activeCG = cg.name;
