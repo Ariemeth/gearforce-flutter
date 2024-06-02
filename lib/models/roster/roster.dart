@@ -343,18 +343,22 @@ class UnitRoster extends ChangeNotifier {
 
     final factionRules = factionJson['enabledRules'] as List;
     factionRules.forEach((factionRule) {
-      final ruleId = factionRule['id'];
-      final rules = ur.rulesetNotifer.value.factionRules;
-      final rule = rules.where((r) => r.id == ruleId).first;
-      rule.setIsEnabled(true, rules);
+      try {
+        final ruleId = factionRule['id'];
+        final rules = ur.rulesetNotifer.value.factionRules;
+        final rule = rules.where((r) => r.id == ruleId).first;
+        rule.setIsEnabled(true, rules);
 
-      final options = factionRule['options'] as List?;
-      options?.forEach((optionRuleId) {
-        final optionRules = rule.options;
-        final optionRule =
-            optionRules?.where((r) => r.id == optionRuleId).first;
-        optionRule?.setIsEnabled(true, optionRules!);
-      });
+        final options = factionRule['options'] as List?;
+        options?.forEach((optionRuleId) {
+          final optionRules = rule.options;
+          final optionRule =
+              optionRules?.where((r) => r.id == optionRuleId).first;
+          optionRule?.setIsEnabled(true, optionRules!);
+        });
+      } catch (e) {
+        print('Error loading faction rule: $e');
+      }
     });
 
     return factionName;
