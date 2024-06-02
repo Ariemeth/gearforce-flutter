@@ -18,7 +18,7 @@ class UnitModification extends BaseModification {
           requirementCheck: requirementCheck,
           options: options,
           id: id ?? name,
-          modType: ModificationType.standard,
+          modType: ModificationType.unit,
         );
 
   // function to ensure the modification can be applied to the unit

@@ -28,9 +28,13 @@ const String _baseRuleId = 'rule::leagueless::core';
 const String _ruleJudiciousId = '$_baseRuleId::10';
 const String _ruleTheSourceId = '$_baseRuleId::20';
 const String _ruleTheSourceNorthId = '$_baseRuleId::30';
+const String _rulePrimarySourceNorthId = '$_baseRuleId::35';
 const String _ruleTheSourceSouthId = '$_baseRuleId::40';
+const String _rulePrimarySourceSouthId = '$_baseRuleId::45';
 const String _ruleTheSourcePeaceRiverId = '$_baseRuleId::50';
+const String _rulePrimarySourcePeaceRiverId = '$_baseRuleId::55';
 const String _ruleTheSourceNuCoalId = '$_baseRuleId::60';
+const String _rulePrimarySourceNuCoalId = '$_baseRuleId::65';
 const String _ruleNorthernInfluenceId = '$_baseRuleId::70';
 const String _ruleSouthernInfluenceId = '$_baseRuleId::80';
 const String _ruleProtectorateSponsoredId = '$_baseRuleId::90';
@@ -185,15 +189,11 @@ class SourceNorth extends Leagueless {
   SourceNorth(super.data, super.settings)
       : super(
           name: 'Source: North',
-          factionRules: [
-            Rule.from(
-              ruleTheSourceNorth,
-              isEnabled: true,
-              canBeToggled: false,
-              unitFilter: (cgOptions) => null,
-            )
+          factionRules: [],
+          subFactionRules: [
+            Rule.from(rulePrimarySourceNorth, isEnabled: true),
+            _northernSourcesRules,
           ],
-          subFactionRules: [_northernSourcesRules],
         );
   @override
   List<SpecialUnitFilter> availableUnitFilters(
@@ -217,15 +217,11 @@ class SourceSouth extends Leagueless {
   SourceSouth(super.data, super.settings)
       : super(
           name: 'Source: South',
-          factionRules: [
-            Rule.from(
-              ruleTheSourceSouth,
-              isEnabled: true,
-              canBeToggled: false,
-              unitFilter: (cgOptions) => null,
-            )
+          factionRules: [],
+          subFactionRules: [
+            Rule.from(rulePrimarySourceSouth, isEnabled: true),
+            _southernSourcesRules,
           ],
-          subFactionRules: [_southernSourcesRules],
         );
 
   @override
@@ -250,15 +246,11 @@ class SourcePeaceRiver extends Leagueless {
   SourcePeaceRiver(super.data, super.settings)
       : super(
           name: 'Source: Peace River',
-          factionRules: [
-            Rule.from(
-              ruleTheSourcePeaceRiver,
-              isEnabled: true,
-              canBeToggled: false,
-              unitFilter: (cgOptions) => null,
-            )
+          factionRules: [],
+          subFactionRules: [
+            Rule.from(rulePrimarySourcePeaceRiver, isEnabled: true),
+            _peaceRiverSourcesRules,
           ],
-          subFactionRules: [_peaceRiverSourcesRules],
         );
 
   @override
@@ -283,15 +275,11 @@ class SourceNuCoal extends Leagueless {
   SourceNuCoal(super.data, super.settings)
       : super(
           name: 'Source: NuCoal',
-          factionRules: [
-            Rule.from(
-              ruleTheSourceNuCoal,
-              isEnabled: true,
-              canBeToggled: false,
-              unitFilter: (cgOptions) => null,
-            )
+          factionRules: [],
+          subFactionRules: [
+            Rule.from(rulePrimarySourceNuCoal, isEnabled: true),
+            _nuCoalSourcesRules,
           ],
-          subFactionRules: [_nuCoalSourcesRules],
         );
 
   @override
@@ -440,17 +428,60 @@ final Rule ruleTheSourceNuCoal = Rule(
   description: 'Select models from NuCoal',
 );
 
+final Rule rulePrimarySourceNorth = Rule(
+  name: 'Primary Source: North',
+  id: _rulePrimarySourceNorthId,
+  isEnabled: false,
+  canBeToggled: false,
+  onDisabled: () {
+    rulesNorthernInfluence.disable();
+  },
+  description: 'Select models from the North',
+);
+
+final Rule rulePrimarySourceSouth = Rule(
+  name: 'Primary Source: South',
+  id: _rulePrimarySourceSouthId,
+  isEnabled: false,
+  canBeToggled: false,
+  onDisabled: () {
+    rulesSouthernInfluence.disable();
+  },
+  description: 'Select models from the South',
+);
+
+final Rule rulePrimarySourcePeaceRiver = Rule(
+  name: 'Primary Source: Peace River',
+  id: _rulePrimarySourcePeaceRiverId,
+  isEnabled: false,
+  canBeToggled: false,
+  onDisabled: () {
+    rulesProtectorateSponsoredInfluence.disable();
+  },
+  description: 'Select models from Peace River',
+);
+
+final Rule rulePrimarySourceNuCoal = Rule(
+  name: 'Primary Source: NuCoal',
+  id: _rulePrimarySourceNuCoalId,
+  isEnabled: false,
+  canBeToggled: false,
+  description: 'Select models from NuCoal',
+);
+
 final Rule rulesNorthernInfluence = Rule(
   name: 'Northern Influence',
   id: _ruleNorthernInfluenceId,
   isEnabled: false,
   canBeToggled: true,
   requirementCheck: (factionRules) {
-    final isValid = Rule.isRuleEnabled(factionRules, ruleTheSourceNorth.id) &&
-        !rulesSouthernInfluence.isEnabled &&
-        !rulesProtectorateSponsoredInfluence.isEnabled &&
-        (_onlyThreeUpgrades(_ruleNorthernInfluenceId)(factionRules) ||
-            _northernInfluenceRules.any((rule) => rule.isEnabled));
+    final isValid =
+        Rule.isRuleEnabled(factionRules, rulePrimarySourceNorth.id) ||
+            Rule.isRuleEnabled(factionRules, ruleTheSourceNorth.id) &&
+                !rulesSouthernInfluence.isEnabled &&
+                !rulesProtectorateSponsoredInfluence.isEnabled &&
+                (_onlyThreeUpgrades(_ruleNorthernInfluenceId)(factionRules) ||
+                    _northernInfluenceRules.any((rule) => rule.isEnabled));
 
     if (!isValid) {
       rulesNorthernInfluence.disable();
@@ -520,11 +551,13 @@ final Rule rulesSouthernInfluence = Rule(
   isEnabled: false,
   canBeToggled: true,
   requirementCheck: (factionRules) {
-    final isValid = Rule.isRuleEnabled(factionRules, ruleTheSourceSouth.id) &&
-        !rulesNorthernInfluence.isEnabled &&
-        !rulesProtectorateSponsoredInfluence.isEnabled &&
-        (_onlyThreeUpgrades(_ruleSouthernInfluenceId)(factionRules) ||
-            _southernInfluenceRules.any((rule) => rule.isEnabled));
+    final isValid =
+        Rule.isRuleEnabled(factionRules, rulePrimarySourceSouth.id) ||
+            Rule.isRuleEnabled(factionRules, ruleTheSourceSouth.id) &&
+                !rulesNorthernInfluence.isEnabled &&
+                !rulesProtectorateSponsoredInfluence.isEnabled &&
+                (_onlyThreeUpgrades(_ruleSouthernInfluenceId)(factionRules) ||
+                    _southernInfluenceRules.any((rule) => rule.isEnabled));
 
     if (!isValid) {
       rulesSouthernInfluence.disable();
@@ -576,7 +609,8 @@ final Rule rulesProtectorateSponsoredInfluence = Rule(
   isEnabled: false,
   canBeToggled: true,
   requirementCheck: (factionRules) {
-    final isValid =
+    final isValid = Rule.isRuleEnabled(
+            factionRules, rulePrimarySourcePeaceRiver.id) ||
         Rule.isRuleEnabled(factionRules, ruleTheSourcePeaceRiver.id) &&
             !rulesNorthernInfluence.isEnabled &&
             !rulesSouthernInfluence.isEnabled &&

@@ -167,11 +167,11 @@ FactionModification? factionModFromId(String id, UnitRoster ur, Unit u) {
 
     // Leagueless mods
     case olRustyId:
-      LeaguelessFactionMods.olRusty();
+      return LeaguelessFactionMods.olRusty();
     case discountsId:
-      LeaguelessFactionMods.discounts(u);
+      return LeaguelessFactionMods.discounts(u);
     case localHeroId:
-      LeaguelessFactionMods.localHero();
+      return LeaguelessFactionMods.localHero();
   }
   return null;
 }
