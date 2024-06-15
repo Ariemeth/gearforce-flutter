@@ -362,6 +362,34 @@ class _RosterWidgetState extends State<RosterWidget> {
             ),
             ListTile(
               title: Text(
+                'Clear roster',
+                style: TextStyle(
+                  fontSize: 16,
+                ),
+              ),
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return ConfirmationDialog(
+                      text:
+                          'Are you sure you want to clear the current roster?',
+                      onOptionSelected: (result) {
+                        if (result == ConfirmationResult.Yes) {
+                          setState(
+                            () {
+                              roster.copyFrom(UnitRoster(data, appSettings));
+                            },
+                          );
+                        }
+                      },
+                    );
+                  },
+                );
+              },
+            ),
+            ListTile(
+              title: Text(
                 "Cancel",
                 style: TextStyle(
                   fontSize: 16,
