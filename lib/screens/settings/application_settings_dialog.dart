@@ -54,6 +54,39 @@ class _ApplicationSettingsDialogState extends State<ApplicationSettingsDialog> {
                 }
               });
             }),
+        SettingsCheckboxOptionLine(
+          text: 'Require confirm for unit removal',
+          value: settings.requireConfirmationToDeleteUnit,
+          onChanged: (bool? newValue) {
+            setState(() {
+              if (newValue != null) {
+                settings.requireConfirmationToDeleteUnit = newValue;
+              }
+            });
+          },
+        ),
+        SettingsCheckboxOptionLine(
+          text: 'Require confirm for combat group removal',
+          value: settings.requireConfirmationToDeleteCG,
+          onChanged: (bool? newValue) {
+            setState(() {
+              if (newValue != null) {
+                settings.requireConfirmationToDeleteCG = newValue;
+              }
+            });
+          },
+        ),
+        SettingsCheckboxOptionLine(
+          text: 'Require confirm for roster reset',
+          value: settings.requireConfirmationToResetRoster,
+          onChanged: (bool? newValue) {
+            setState(() {
+              if (newValue != null) {
+                settings.requireConfirmationToResetRoster = newValue;
+              }
+            });
+          },
+        ),
         SettingsSectionHeading('Content Settings'),
         SettingsCheckboxOptionLine(
           text: 'Allow Alpha/Beta Content',
@@ -66,20 +99,20 @@ class _ApplicationSettingsDialogState extends State<ApplicationSettingsDialog> {
             });
           },
         ),
-        SettingsCheckboxOptionLine(
-          // TODO: Enable when ready
-          isEnabled: false,
-          tooltipMessage: 'Coming soon!',
-          text: 'Allow Extended Content',
-          value: settings.isExtendedContentAllowed,
-          onChanged: (bool? newValue) {
-            setState(() {
-              if (newValue != null) {
-                settings.isExtendedContentAllowed = newValue;
-              }
-            });
-          },
-        ),
+        // SettingsCheckboxOptionLine(
+        //   // TODO: Enable when ready
+        //   isEnabled: false,
+        //   tooltipMessage: 'Coming soon!',
+        //   text: 'Allow Extended Content',
+        //   value: settings.isExtendedContentAllowed,
+        //   onChanged: (bool? newValue) {
+        //     setState(() {
+        //       if (newValue != null) {
+        //         settings.isExtendedContentAllowed = newValue;
+        //       }
+        //     });
+        //   },
+        // ),
         SimpleDialogOption(
           onPressed: () {
             Navigator.pop(context);

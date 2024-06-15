@@ -13,7 +13,7 @@ class SettingsValueOptionLine extends StatefulWidget {
     required this.value,
     required this.onChanged,
     this.inputFormatter = r"^\d{0,4}",
-    this.padding = const EdgeInsets.all(4.0),
+    this.padding = const EdgeInsets.only(),
   });
 
   @override

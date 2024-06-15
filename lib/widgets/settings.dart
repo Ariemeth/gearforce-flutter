@@ -3,10 +3,16 @@ import 'package:shared_preferences/shared_preferences.dart';
 const _tooltipDelayKey = 'tooltipDelay';
 const _isExtendedContentAllowedKey = 'isExtendedContentAllowed';
 const _isAlphaBetaAllowedKey = 'isAlphaBetaAllowed';
+const _requireConfirmationToDeleteUnitKey = 'requireConfirmationToDeleteUnit';
+const _requireConfirmationToResetRosterKey = 'requireConfirmationToResetRoster';
+const _requireConfirmationToDeleteCGKey = 'requireConfirmationToDeleteCG';
 
 const _defaultTooltipDelayInMilliseconds = 750;
 const _defaultIsExtendedContentAllowed = false;
 const _defaultIsAlphaBetaAllowed = false;
+const _defaultRequireConfirmationToDeleteUnit = true;
+const _defaultRequireConfirmationToResetRoster = true;
+const _defaultRequireConfirmationToDeleteCG = true;
 
 class Settings {
   Duration _tooltipDelay =
@@ -43,6 +49,42 @@ class Settings {
     });
   }
 
+  bool _requireConfirmationToDeleteUnit =
+      _defaultRequireConfirmationToDeleteUnit;
+
+  bool get requireConfirmationToDeleteUnit => _requireConfirmationToDeleteUnit;
+  set requireConfirmationToDeleteUnit(bool value) {
+    _requireConfirmationToDeleteUnit = value;
+    // Save settings to storage
+    SharedPreferences.getInstance().then((SharedPreferences prefs) {
+      prefs.setBool(_requireConfirmationToDeleteUnitKey, value);
+    });
+  }
+
+  bool _requireConfirmationToResetRoster =
+      _defaultRequireConfirmationToResetRoster;
+
+  bool get requireConfirmationToResetRoster =>
+      _requireConfirmationToResetRoster;
+  set requireConfirmationToResetRoster(bool value) {
+    _requireConfirmationToResetRoster = value;
+    // Save settings to storage
+    SharedPreferences.getInstance().then((SharedPreferences prefs) {
+      prefs.setBool(_requireConfirmationToResetRosterKey, value);
+    });
+  }
+
+  bool _requireConfirmationToDeleteCG = _defaultRequireConfirmationToDeleteCG;
+
+  bool get requireConfirmationToDeleteCG => _requireConfirmationToDeleteCG;
+  set requireConfirmationToDeleteCG(bool value) {
+    _requireConfirmationToDeleteCG = value;
+    // Save settings to storage
+    SharedPreferences.getInstance().then((SharedPreferences prefs) {
+      prefs.setBool(_requireConfirmationToDeleteCGKey, value);
+    });
+  }
+
   Future<bool> load() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -62,6 +104,24 @@ class Settings {
       _isAlphaBetaAllowed = isAlphaBetaAllowed;
     }
 
+    final bool? haveConfirmationToDeleteUnit =
+        prefs.getBool(_requireConfirmationToDeleteUnitKey);
+    if (haveConfirmationToDeleteUnit != null) {
+      _requireConfirmationToDeleteUnit = haveConfirmationToDeleteUnit;
+    }
+
+    final bool? haveConfirmationToResetRoster =
+        prefs.getBool(_requireConfirmationToResetRosterKey);
+    if (haveConfirmationToResetRoster != null) {
+      _requireConfirmationToResetRoster = haveConfirmationToResetRoster;
+    }
+
+    final bool? haveConfirmationToDeleteCG =
+        prefs.getBool(_requireConfirmationToDeleteCGKey);
+    if (haveConfirmationToDeleteCG != null) {
+      _requireConfirmationToDeleteCG = haveConfirmationToDeleteCG;
+    }
+
     return true;
   }
 
@@ -69,5 +129,8 @@ class Settings {
     tooltipDelay = Duration(milliseconds: _defaultTooltipDelayInMilliseconds);
     isExtendedContentAllowed = _defaultIsExtendedContentAllowed;
     isAlphaBetaAllowed = _defaultIsAlphaBetaAllowed;
+    requireConfirmationToDeleteUnit = _defaultRequireConfirmationToDeleteUnit;
+    requireConfirmationToResetRoster = _defaultRequireConfirmationToResetRoster;
+    requireConfirmationToDeleteCG = _defaultRequireConfirmationToDeleteCG;
   }
 }
