@@ -368,24 +368,32 @@ class _RosterWidgetState extends State<RosterWidget> {
                 ),
               ),
               onTap: () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return ConfirmationDialog(
-                      text:
-                          'Are you sure you want to clear the current roster?',
-                      onOptionSelected: (result) {
-                        if (result == ConfirmationResult.Yes) {
-                          setState(
-                            () {
-                              roster.copyFrom(UnitRoster(data, appSettings));
-                            },
-                          );
-                        }
-                      },
-                    );
-                  },
-                );
+                if (appSettings.requireConfirmationToResetRoster) {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return ConfirmationDialog(
+                        text:
+                            'Are you sure you want to clear the current roster?',
+                        onOptionSelected: (result) {
+                          if (result == ConfirmationResult.Yes) {
+                            setState(
+                              () {
+                                roster.copyFrom(UnitRoster(data, appSettings));
+                              },
+                            );
+                          }
+                        },
+                      );
+                    },
+                  );
+                } else {
+                  setState(
+                    () {
+                      roster.copyFrom(UnitRoster(data, appSettings));
+                    },
+                  );
+                }
               },
             ),
             ListTile(
@@ -409,23 +417,31 @@ class _RosterWidgetState extends State<RosterWidget> {
         foregroundColor: Colors.red,
         mini: true,
         onPressed: () {
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return ConfirmationDialog(
-                text: 'Are you sure you want to reset everything?',
-                onOptionSelected: (result) {
-                  if (result == ConfirmationResult.Yes) {
-                    setState(
-                      () {
-                        roster.copyFrom(UnitRoster(data, appSettings));
-                      },
-                    );
-                  }
-                },
-              );
-            },
-          );
+          if (appSettings.requireConfirmationToResetRoster) {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return ConfirmationDialog(
+                  text: 'Are you sure you want to reset everything?',
+                  onOptionSelected: (result) {
+                    if (result == ConfirmationResult.Yes) {
+                      setState(
+                        () {
+                          roster.copyFrom(UnitRoster(data, appSettings));
+                        },
+                      );
+                    }
+                  },
+                );
+              },
+            );
+          } else {
+            setState(
+              () {
+                roster.copyFrom(UnitRoster(data, appSettings));
+              },
+            );
+          }
         },
         tooltip: 'Reset roster',
       ),

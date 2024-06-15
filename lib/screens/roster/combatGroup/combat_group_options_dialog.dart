@@ -6,6 +6,8 @@ import 'package:gearforce/screens/roster/combatGroup/delete_combat_group_dialog.
 import 'package:gearforce/screens/roster/combatGroup/option_line.dart';
 import 'package:gearforce/screens/roster/combatGroup/rename_combat_group_dialog.dart';
 import 'package:gearforce/widgets/options_section_title.dart';
+import 'package:gearforce/widgets/settings.dart';
+import 'package:provider/provider.dart';
 
 const double _optionSectionWidth = 400;
 const double _optionSectionHeight = 33;
@@ -31,6 +33,7 @@ class _CombatGroupOptionsDialogState extends State<CombatGroupOptionsDialog> {
   @override
   Widget build(BuildContext context) {
     final options = widget.cg.options;
+    final settings = context.read<Settings>();
 
     final onLineUpdate = () {
       setState(() {});
@@ -83,25 +86,30 @@ class _CombatGroupOptionsDialogState extends State<CombatGroupOptionsDialog> {
             Text(''),
             ElevatedButton(
               onPressed: () {
-                final optionsDialog =
-                    DeleteCombatGroupDialog(cgName: widget.cg.name);
+                if (settings.requireConfirmationToDeleteCG) {
+                  final optionsDialog =
+                      DeleteCombatGroupDialog(cgName: widget.cg.name);
 
-                Future<DeleteCGOptionResult?> futureResult =
-                    showDialog<DeleteCGOptionResult>(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return optionsDialog;
-                        });
+                  Future<DeleteCGOptionResult?> futureResult =
+                      showDialog<DeleteCGOptionResult>(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return optionsDialog;
+                          });
 
-                futureResult.then((value) {
-                  switch (value) {
-                    case DeleteCGOptionResult.Remove:
-                      widget.cg.roster!.removeCG(widget.cg.name);
-                      Navigator.pop(context);
-                      break;
-                    default:
-                  }
-                });
+                  futureResult.then((value) {
+                    switch (value) {
+                      case DeleteCGOptionResult.Remove:
+                        widget.cg.roster!.removeCG(widget.cg.name);
+                        Navigator.pop(context);
+                        break;
+                      default:
+                    }
+                  });
+                } else {
+                  widget.cg.roster!.removeCG(widget.cg.name);
+                  Navigator.pop(context);
+                }
               },
               child: Text(
                 'Delete ${widget.cg.name}',

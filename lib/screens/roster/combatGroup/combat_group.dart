@@ -7,7 +7,9 @@ import 'package:gearforce/models/unit/command.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/screens/roster/combatGroup/group_header.dart';
 import 'package:gearforce/screens/upgrades/unit_upgrade_button.dart';
+import 'package:gearforce/widgets/settings.dart';
 import 'package:gearforce/widgets/unit_text_cell.dart';
+import 'package:provider/provider.dart';
 
 const double _sectionheight = 320;
 const double _movementIconCellWidth = 36;
@@ -221,6 +223,8 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
     required Group group,
     required RuleSet ruleSet,
   }) {
+    final settings = context.read<Settings>();
+
     List<DataRow> dataRows = [];
     var units = group.allUnits();
     for (var i = 0; i < units.length; i++) {
@@ -372,8 +376,15 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
             Expanded(
               child: Container(
                 child: IconButton(
-                  onPressed: () =>
-                      {_showConfirmDelete(context, unit, i, group)},
+                  onPressed: () {
+                    {
+                      if (settings.requireConfirmationToDeleteUnit) {
+                        _showConfirmDelete(context, unit, i, group);
+                      } else {
+                        group.removeUnit(i);
+                      }
+                    }
+                  },
                   icon: const Icon(
                     Icons.delete_forever,
                     color: Color.fromARGB(255, 200, 28, 28),
