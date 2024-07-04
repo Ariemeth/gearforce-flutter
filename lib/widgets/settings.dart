@@ -6,6 +6,7 @@ const _isAlphaBetaAllowedKey = 'isAlphaBetaAllowed';
 const _requireConfirmationToDeleteUnitKey = 'requireConfirmationToDeleteUnit';
 const _requireConfirmationToResetRosterKey = 'requireConfirmationToResetRoster';
 const _requireConfirmationToDeleteCGKey = 'requireConfirmationToDeleteCG';
+const _allowCustomPointsKey = 'allowCustomPoints';
 
 const _defaultTooltipDelayInMilliseconds = 750;
 const _defaultIsExtendedContentAllowed = false;
@@ -13,6 +14,7 @@ const _defaultIsAlphaBetaAllowed = false;
 const _defaultRequireConfirmationToDeleteUnit = true;
 const _defaultRequireConfirmationToResetRoster = true;
 const _defaultRequireConfirmationToDeleteCG = true;
+const _defaultAllowCustomPoints = false;
 
 class Settings {
   Duration _tooltipDelay =
@@ -85,6 +87,17 @@ class Settings {
     });
   }
 
+  bool _allowCustomPoints = _defaultAllowCustomPoints;
+
+  bool get allowCustomPoints => _allowCustomPoints;
+  set allowCustomPoints(bool value) {
+    _allowCustomPoints = value;
+    // Save settings to storage
+    SharedPreferences.getInstance().then((SharedPreferences prefs) {
+      prefs.setBool(_allowCustomPointsKey, value);
+    });
+  }
+
   Future<bool> load() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -122,6 +135,11 @@ class Settings {
       _requireConfirmationToDeleteCG = haveConfirmationToDeleteCG;
     }
 
+    final bool? allowCustomPoints = prefs.getBool(_allowCustomPointsKey);
+    if (allowCustomPoints != null) {
+      _allowCustomPoints = allowCustomPoints;
+    }
+
     return true;
   }
 
@@ -132,5 +150,6 @@ class Settings {
     requireConfirmationToDeleteUnit = _defaultRequireConfirmationToDeleteUnit;
     requireConfirmationToResetRoster = _defaultRequireConfirmationToResetRoster;
     requireConfirmationToDeleteCG = _defaultRequireConfirmationToDeleteCG;
+    allowCustomPoints = _defaultAllowCustomPoints;
   }
 }

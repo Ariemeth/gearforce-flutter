@@ -4,6 +4,8 @@ import 'package:flutter/widgets.dart';
 import 'package:gearforce/data/data.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/combatGroups/group.dart';
+import 'package:gearforce/models/mods/customUpgrades/custom_modifiation.dart';
+import 'package:gearforce/models/mods/customUpgrades/custom_uprades.dart';
 import 'package:gearforce/models/mods/duelist/duelist_upgrades.dart';
 import 'package:gearforce/models/mods/standardUpgrades/standard_modification.dart';
 import 'package:gearforce/models/mods/standardUpgrades/standard_upgrades.dart';
@@ -259,6 +261,14 @@ abstract class RuleSet extends ChangeNotifier {
     });
 
     return availableUnitFilters;
+  }
+
+  CustomModification? getCustomUpgrade(modId) {
+    return buildCustomUpgrade(modId);
+  }
+
+  List<CustomModification> availableCustomUpgrades() {
+    return getCustomMods(settings);
   }
 
   List<Unit> availableUnits({

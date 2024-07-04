@@ -99,6 +99,18 @@ class _ApplicationSettingsDialogState extends State<ApplicationSettingsDialog> {
             });
           },
         ),
+        SettingsCheckboxOptionLine(
+          text: 'Allow Custom Points',
+          value: settings.allowCustomPoints,
+          onChanged: (bool? newValue) {
+            setState(() {
+              if (newValue != null) {
+                settings.allowCustomPoints = newValue;
+              }
+            });
+          },
+          tooltipMessage: 'Allows adding a custom tv modifier upgrade to units',
+        ),
         // SettingsCheckboxOptionLine(
         //   // TODO: Enable when ready
         //   isEnabled: false,

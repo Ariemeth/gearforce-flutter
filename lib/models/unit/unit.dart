@@ -126,6 +126,9 @@ class Unit extends ChangeNotifier {
               .availableUnitMods(u)
               .firstWhere((unitMod) => unitMod.id == savedMod.ModId);
           break;
+        case ModificationType.custom:
+          mod = ruleset.getCustomUpgrade(savedMod.ModId);
+          break;
       }
       if (mod != null) {
         final modOptions = savedMod.selected;

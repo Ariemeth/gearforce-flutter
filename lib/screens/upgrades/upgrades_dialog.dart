@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gearforce/models/combatGroups/combat_group.dart';
 import 'package:gearforce/models/mods/base_modification.dart';
+import 'package:gearforce/models/mods/customUpgrades/custom_modifiation.dart';
 import 'package:gearforce/models/mods/duelist/duelist_modification.dart';
 import 'package:gearforce/models/mods/factionUpgrades/faction_mod.dart';
 import 'package:gearforce/models/mods/standardUpgrades/standard_modification.dart';
@@ -11,6 +12,7 @@ import 'package:gearforce/models/rules/rulesets/rule_set.dart';
 import 'package:gearforce/models/unit/unit.dart';
 import 'package:gearforce/screens/unit/unit_card.dart';
 import 'package:gearforce/screens/upgrades/upgrade_display_line.dart';
+import 'package:gearforce/widgets/settings.dart';
 import 'package:provider/provider.dart';
 
 const double _upgradeSectionWidth = 450;
@@ -37,6 +39,7 @@ class UpgradesDialog extends StatelessWidget {
     final veteranMods = rs.availableVeteranMods(roster, cg, unit);
     final duelistMods = rs.availableDuelistMods(roster, cg, unit);
     final factionMods = rs.availableFactionMods(roster, cg, unit);
+    final customMods = rs.availableCustomUpgrades();
 
     unit.getMods().forEach((mod) {
       switch (mod.modType) {
@@ -70,6 +73,11 @@ class UpgradesDialog extends StatelessWidget {
             factionMods[modIndex] = mod as FactionModification;
           }
           break;
+        case ModificationType.custom:
+          final modIndex = customMods.indexWhere((m) => m.id == mod.id);
+          if (modIndex >= 0) {
+            customMods[modIndex] = mod as CustomModification;
+          }
       }
     });
 
@@ -100,6 +108,7 @@ class UpgradesDialog extends StatelessWidget {
           vetMods: veteranMods,
           duelistMods: duelistMods,
           factionMods: factionMods,
+          customMods: customMods,
         ),
         SimpleDialogOption(
           onPressed: () {
@@ -128,6 +137,7 @@ class UpgradePanels extends StatefulWidget {
   final List<VeteranModification> vetMods;
   final List<DuelistModification> duelistMods;
   final List<FactionModification> factionMods;
+  final List<CustomModification> customMods;
 
   UpgradePanels(
     this.cg,
@@ -140,6 +150,7 @@ class UpgradePanels extends StatefulWidget {
     required this.vetMods,
     required this.duelistMods,
     required this.factionMods,
+    required this.customMods,
   });
 
   @override
@@ -147,10 +158,20 @@ class UpgradePanels extends StatefulWidget {
 }
 
 class _UpgradePanelsState extends State<UpgradePanels> {
-  final List<bool> panelExpandedList = [false, false, false, false, false];
+  final List<bool> panelExpandedList = [
+    false,
+    false,
+    false,
+    false,
+    false,
+  ];
 
   @override
   Widget build(BuildContext context) {
+    final settings = context.read<Settings>();
+    if (settings.allowCustomPoints) {
+      panelExpandedList.add(false);
+    }
     return Container(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -168,6 +189,8 @@ class _UpgradePanelsState extends State<UpgradePanels> {
               _buildPanel('Veteran Upgrades', widget.vetMods, 2),
               _buildPanel('Duelist Upgrades', widget.duelistMods, 3),
               _buildPanel('Faction Upgrades', widget.factionMods, 4),
+              if (settings.allowCustomPoints)
+                _buildPanel('Custom Upgrades', widget.customMods, 5),
             ],
             expandedHeaderPadding: EdgeInsets.zero,
             materialGapSize: 4.0,
