@@ -197,8 +197,13 @@ class UnitRoster extends ChangeNotifier {
         'cgs': _combatGroups.map((e) => e.toJson()).toList(),
         'version': 3,
         'rulesVersion': rulesVersion,
+        'ruleOptions': {
+          'allowCustomPoints': rulesetNotifer.value.settings.allowCustomPoints,
+          'isAlphaBetaAllowed':
+              rulesetNotifer.value.settings.isAlphaBetaAllowed,
+        },
         'isEliteForce': isEliteForce,
-        'whenCreated': DateTime.now().toString(),
+        'whenCreated': DateTime.now().toUtc().toString(),
       };
 
   factory UnitRoster.fromJson(dynamic json, Data data, Settings settings) {
@@ -206,6 +211,17 @@ class UnitRoster extends ChangeNotifier {
     UnitRoster ur = UnitRoster(data, settings);
     ur.name = json['name'] as String?;
     ur.player = json['player'] as String?;
+
+    final ruleOptionsJson = json['ruleOptions'] as Map<String, dynamic>?;
+    if (ruleOptionsJson != null &&
+        ruleOptionsJson.containsKey('allowCustomPoints')) {
+      settings.allowCustomPoints = ruleOptionsJson['allowCustomPoints'] as bool;
+    }
+    if (ruleOptionsJson != null &&
+        ruleOptionsJson.containsKey('isAlphaBetaAllowed')) {
+      settings.isAlphaBetaAllowed =
+          ruleOptionsJson['isAlphaBetaAllowed'] as bool;
+    }
 
     String? faction;
     switch (version) {

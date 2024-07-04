@@ -2,6 +2,7 @@ enum RuleType {
   Standard,
   AlphaBeta,
   ExtendedContent,
+  Custom,
 }
 
 extension RuleTypeExtension on RuleType {
@@ -17,6 +18,8 @@ extension RuleTypeExtension on RuleType {
         return 'Alpha/Beta rules';
       case RuleType.ExtendedContent:
         return 'Extended content rules';
+      case RuleType.Custom:
+        return 'Custom rules';
     }
   }
 
@@ -28,6 +31,8 @@ extension RuleTypeExtension on RuleType {
         return RuleType.AlphaBeta;
       case 'ExtendedContent':
         return RuleType.ExtendedContent;
+      case 'Custom':
+        return RuleType.Custom;
       default:
         throw ArgumentError('Invalid RuleType: $value');
     }

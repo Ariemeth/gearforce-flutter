@@ -143,6 +143,7 @@ enum ModificationType {
   standard,
   unit,
   veteran,
+  custom,
 }
 
 extension ModificationTypeExtension on ModificationType {
