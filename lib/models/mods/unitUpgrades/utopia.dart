@@ -47,8 +47,7 @@ final UnitModification nlil = UnitModification(name: 'N-LIL Upgrade')
 final UnitModification rocket2 = UnitModification(name: 'Rocket Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'with Rockets'))
-  ..addMod(UnitAttribute.weapons,
-      createAddWeaponToList(buildWeapon('LRP', hasReact: true)!),
+  ..addMod(UnitAttribute.weapons, createAddWeaponToList(buildWeapon('LRP')!),
       description: '+LRP');
 
 final UnitModification sniper = UnitModification(name: 'Sniper Upgrade')
