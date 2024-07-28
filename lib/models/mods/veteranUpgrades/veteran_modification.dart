@@ -608,7 +608,7 @@ class VeteranModification extends BaseModification {
     vm.addMod<List<Weapon>>(
       UnitAttribute.weapons,
       (value) {
-        final newList = value;
+        final newList = value.toList();
 
         if (modOptions.selectedOption != null &&
             newList.any((weapon) =>
