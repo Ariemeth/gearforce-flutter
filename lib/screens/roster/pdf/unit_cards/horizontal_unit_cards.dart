@@ -12,11 +12,14 @@ const double _roleRowPadding = 2.0;
 const double _nameRowVerticalPadding = 1.0;
 const double _nameRowHorizontalPadding = 3.0;
 const double _traitsSectionPadding = 3.0;
-const double _weaponSectionPadding = 3.0;
-const double _unitCardFooterPadding = 3.0;
-const double _cardHeight = PdfPageFormat.inch * 5;
-const double _cardWidth = PdfPageFormat.inch * 2.5;
-const double? _section3Height = 73.0;
+const pw.EdgeInsets _weaponSectionPadding =
+    pw.EdgeInsets.only(left: 3.0, right: 3.0);
+const double _unitCardFooterPadding = 1.5;
+const double _cardHeight = PdfPageFormat.inch * 3.33;
+const double _cardWidth = PdfPageFormat.inch * 3.75;
+const _combatStatsWidth = 42.0;
+const double? _statSectionHeight = 48;
+const double _hullStructureNameWidth = 12.0;
 const double _standardFontSize = 10;
 const double _weaponHeaderFontSize = 10;
 const double _weaponFontSize = 8;
@@ -26,7 +29,7 @@ const double _unitCardFooterFontSize = 6;
 
 const _reactSymbol = '»';
 
-List<pw.Widget> buildUnitCards(
+List<pw.Widget> buildHorizontalUnitCards(
   pw.Font font,
   UnitRoster roster, {
   required bool isExtendedContentAllowed,
@@ -114,40 +117,45 @@ pw.Widget _buildUnitCard(
   final card = pw.Container(
     width: _cardWidth,
     height: _cardHeight,
-    child: pw.Column(
-      crossAxisAlignment: pw.CrossAxisAlignment.stretch,
+    child: pw.Row(
       children: [
-        _buildFirstSection(font, u),
-        _buildSecondSection(font, u),
-        _buildThirdSection(font, u),
-        _buildTraitsSection(font, u.traits),
-        pw.Expanded(child: _buildWeaponsSection(font, u.weapons)),
-        pw.Padding(
-            padding: pw.EdgeInsets.only(
-              left: 5.0,
-              right: 5.0,
-              bottom: _unitCardFooterPadding,
-            ),
-            child: pw.Column(
-              children: [
-                pw.Text(
-                  'Gearforce $version',
-                  maxLines: 2,
-                  softWrap: true,
-                  style: pw.TextStyle(
-                      color: PdfColors.grey, fontSize: _unitCardFooterFontSize),
-                ),
-                pw.Container(
-                  alignment: pw.Alignment.bottomCenter,
-                  child: pw.Text(
-                    rulesVersionText,
-                    style: pw.TextStyle(
-                        color: PdfColors.grey,
-                        fontSize: _unitCardFooterFontSize),
+        pw.Expanded(
+          child: pw.Column(
+            crossAxisAlignment: pw.CrossAxisAlignment.stretch,
+            children: [
+              _buildNameSection(font, u),
+              _buildCGandTVSection(font, u),
+              _buildStatSection(font, u),
+              _buildTraitsSection(font, u.traits),
+              pw.Expanded(child: _buildWeaponsSection(font, u.weapons)),
+              pw.Padding(
+                  padding: pw.EdgeInsets.only(
+                    left: 5.0,
+                    right: 5.0,
+                    bottom: _unitCardFooterPadding,
                   ),
-                )
-              ],
-            ))
+                  child: pw.Row(
+                    children: [
+                      pw.Text(
+                        'Gearforce $version',
+                        maxLines: 1,
+                        softWrap: true,
+                        style: pw.TextStyle(
+                            color: PdfColors.grey,
+                            fontSize: _unitCardFooterFontSize),
+                      ),
+                      pw.Spacer(),
+                      pw.Text(
+                        rulesVersionText,
+                        style: pw.TextStyle(
+                            color: PdfColors.grey,
+                            fontSize: _unitCardFooterFontSize),
+                      ),
+                    ],
+                  ))
+            ],
+          ),
+        ),
       ],
     ),
     decoration: pw.BoxDecoration(
@@ -164,7 +172,7 @@ pw.Widget _buildUnitCard(
   return card;
 }
 
-pw.Widget _buildFirstSection(pw.Font font, Unit u) {
+pw.Widget _buildNameSection(pw.Font font, Unit u) {
   return pw.Container(
     padding: pw.EdgeInsets.symmetric(
       vertical: _nameRowVerticalPadding,
@@ -193,7 +201,7 @@ pw.Widget _buildFirstSection(pw.Font font, Unit u) {
   );
 }
 
-pw.Widget _buildSecondSection(pw.Font font, Unit u) {
+pw.Widget _buildCGandTVSection(pw.Font font, Unit u) {
   return pw.Container(
     padding: pw.EdgeInsets.only(top: _roleRowPadding, bottom: _roleRowPadding),
     child: pw.Row(
@@ -228,15 +236,16 @@ pw.Widget _buildSecondSection(pw.Font font, Unit u) {
   );
 }
 
-pw.Widget _buildThirdSection(pw.Font font, Unit u) {
+pw.Widget _buildStatSection(pw.Font font, Unit u) {
   return pw.Container(
-    height: _section3Height,
+    height: _statSectionHeight,
     child: pw.Row(
       mainAxisAlignment: pw.MainAxisAlignment.start,
       crossAxisAlignment: pw.CrossAxisAlignment.start,
       children: [
         _buildFirstStatBlock(font, u),
-        _buildSecondaryStatBlock(font, u),
+        _buildSecondStatBlock(font, u),
+        _buildSecondaryStatBlock(font, u)
       ],
     ),
     decoration: pw.BoxDecoration(
@@ -254,7 +263,7 @@ pw.Widget _buildFirstStatBlock(pw.Font font, Unit u) {
   const nameColumnSize = 21.0;
   return pw.Container(
     alignment: pw.Alignment.topCenter,
-    width: 42.0, //_combatStatsWidth,
+    width: _combatStatsWidth,
     padding: pw.EdgeInsets.fromLTRB(3.0, 2.0, 3.0, 2.0),
     child: pw.Table(
       columnWidths: {
@@ -277,6 +286,36 @@ pw.Widget _buildFirstStatBlock(pw.Font font, Unit u) {
           'Ew:',
           '${u.ew ?? ' - '}${u.ew != null ? '+' : ''}',
         ),
+      ],
+    ),
+    decoration: pw.BoxDecoration(
+      border: pw.Border(
+        right: pw.BorderSide(
+          width: _borderThickness,
+        ),
+      ),
+    ),
+  );
+}
+
+pw.Widget _buildSecondStatBlock(pw.Font font, Unit u) {
+  final textStyle = pw.TextStyle(font: font, fontSize: _standardFontSize);
+  const nameColumnSize = 21.0;
+  return pw.Container(
+    alignment: pw.Alignment.topCenter,
+    width: _combatStatsWidth,
+    padding: pw.EdgeInsets.fromLTRB(3.0, 2.0, 3.0, 2.0),
+    child: pw.Table(
+      columnWidths: {
+        0: pw.FixedColumnWidth(nameColumnSize),
+        1: pw.FlexColumnWidth(),
+      },
+      children: [
+        _buildPrimaryStatRow(
+          textStyle,
+          'Arm:',
+          '${u.armor ?? ' - '}',
+        ),
         _buildPrimaryStatRow(
           textStyle,
           'A:',
@@ -284,8 +323,8 @@ pw.Widget _buildFirstStatBlock(pw.Font font, Unit u) {
         ),
         _buildPrimaryStatRow(
           textStyle,
-          'Arm:',
-          '${u.armor ?? ' - '}',
+          '${u.commandLevel == CommandLevel.none ? 'SP' : 'CP'}:',
+          '${u.commandLevel == CommandLevel.none ? u.skillPoints : u.commandPoints}',
         ),
       ],
     ),
@@ -320,25 +359,59 @@ pw.TableRow _buildPrimaryStatRow(
 
 pw.Widget _buildSecondaryStatBlock(pw.Font font, Unit u) {
   final textStyle = pw.TextStyle(font: font, fontSize: _standardFontSize);
-  const blockWidth = _cardWidth - 42;
-  const attributeNameWidth = 23.0;
 
-  final typeBlock = pw.Row(children: [
-    pw.Text(
-      u.type.name,
-      style: textStyle,
-      textAlign: pw.TextAlign.left,
+  final typeBlock = pw.Container(
+    child: pw.Padding(
+      padding: pw.EdgeInsets.only(left: 4.0, top: 1.0, bottom: 1.0, right: 4.0),
+      child: pw.Row(
+        children: [
+          pw.Text(
+            u.type.name,
+            style: textStyle,
+            textAlign: pw.TextAlign.left,
+          ),
+          pw.Spacer(),
+          pw.Text(
+            '${u.core.height == '-' ? '' : '${u.core.height}"'}',
+            style: textStyle,
+            textAlign: pw.TextAlign.left,
+          ),
+        ],
+      ),
     ),
-    pw.Text(
-      '${u.core.height == '-' ? '' : ': ${u.core.height}"'}',
-      style: textStyle,
-      textAlign: pw.TextAlign.left,
+    decoration: pw.BoxDecoration(
+      border: pw.Border(
+        bottom: pw.BorderSide(
+          width: _borderThickness,
+        ),
+      ),
     ),
-  ]);
+  );
+
+  final block = pw.Container(
+    decoration: pw.BoxDecoration(),
+    child: pw.Column(
+      mainAxisAlignment: pw.MainAxisAlignment.center,
+      children: [
+        typeBlock,
+        pw.Row(children: [
+          _buildCommandAndMovementBlock(font, u),
+          _buildStructureAndHullBlock(font, u),
+        ], mainAxisAlignment: pw.MainAxisAlignment.spaceAround),
+      ],
+    ),
+  );
+
+  return pw.Expanded(child: block);
+}
+
+pw.Widget _buildCommandAndMovementBlock(pw.Font font, Unit u) {
+  final textStyle = pw.TextStyle(font: font, fontSize: _standardFontSize);
+  const blockWidth = 70.0;
+  const attributeNameWidth = 23.0;
 
   final commandBlock = pw.Row(children: [
     pw.Container(
-      width: attributeNameWidth,
       child: pw.Text(
         'Cmd: ',
         style: textStyle,
@@ -353,20 +426,6 @@ pw.Widget _buildSecondaryStatBlock(pw.Font font, Unit u) {
             : '${u.commandLevel.name}${u.roster?.selectedForceLeader == u ? '**' : ''}',
         style: textStyle,
         textAlign: pw.TextAlign.left,
-      ),
-    ),
-    pw.Spacer(),
-    pw.Text(
-      '${u.commandLevel == CommandLevel.none ? 'SP' : 'CP'}:',
-      style: textStyle,
-      textAlign: pw.TextAlign.right,
-    ),
-    pw.Padding(
-      padding: pw.EdgeInsets.only(right: 2.0),
-      child: pw.Text(
-        ' ${u.commandLevel == CommandLevel.none ? u.skillPoints : u.commandPoints}',
-        style: textStyle,
-        textAlign: pw.TextAlign.right,
       ),
     ),
   ]);
@@ -388,11 +447,32 @@ pw.Widget _buildSecondaryStatBlock(pw.Font font, Unit u) {
     ],
   );
 
+  final block = pw.Container(
+    padding: pw.EdgeInsets.only(top: 2.0, bottom: 2.0, right: 3.0, left: 3.0),
+    width: blockWidth,
+    child: pw.Column(children: [
+      commandBlock,
+      movementBlock,
+    ]),
+    decoration: pw.BoxDecoration(
+      border: pw.Border(
+        right: pw.BorderSide(
+          width: _borderThickness,
+        ),
+      ),
+    ),
+  );
+  return block;
+}
+
+pw.Widget _buildStructureAndHullBlock(pw.Font font, Unit u) {
+  final textStyle = pw.TextStyle(font: font, fontSize: _standardFontSize);
+
   final hullBlock = pw.Row(
     children: [
       pw.Container(
-        width: attributeNameWidth,
         child: pw.Text('H:', style: textStyle, textAlign: pw.TextAlign.right),
+        width: _hullStructureNameWidth,
       ),
       pw.Padding(
         padding: pw.EdgeInsets.only(left: 2.0),
@@ -408,8 +488,8 @@ pw.Widget _buildSecondaryStatBlock(pw.Font font, Unit u) {
   final structureBlock = pw.Row(
     children: [
       pw.Container(
-        width: attributeNameWidth,
         child: pw.Text('S:', style: textStyle, textAlign: pw.TextAlign.right),
+        width: _hullStructureNameWidth,
       ),
       pw.Padding(
         padding: pw.EdgeInsets.only(left: 2.0),
@@ -424,23 +504,13 @@ pw.Widget _buildSecondaryStatBlock(pw.Font font, Unit u) {
 
   final block = pw.Container(
     padding: pw.EdgeInsets.only(top: 2.0, bottom: 2.0, right: 3.0, left: 3.0),
-    width: blockWidth,
     child: pw.Column(children: [
-      typeBlock,
-      commandBlock,
-      movementBlock,
       hullBlock,
       structureBlock,
     ]),
-    decoration: pw.BoxDecoration(
-      border: pw.Border(
-        right: pw.BorderSide(
-          width: _borderThickness,
-        ),
-      ),
-    ),
+    decoration: pw.BoxDecoration(),
   );
-  return block;
+  return pw.Expanded(child: block);
 }
 
 String _cheapHS(int? num) {
@@ -538,7 +608,7 @@ pw.Widget _buildWeaponsSection(pw.Font font, List<Weapon> weapons) {
 
   return pw.Container(
     alignment: pw.Alignment.topLeft,
-    padding: pw.EdgeInsets.all(_weaponSectionPadding),
+    padding: _weaponSectionPadding,
     child: pw.Table(
       children: [headerRow, ...rows],
       columnWidths: columnWidths,
