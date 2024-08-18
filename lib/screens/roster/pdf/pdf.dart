@@ -129,7 +129,6 @@ Future<Uint8List> buildPdf(
   }
 
   if (pdfSettings.sections.unitCards) {
-    // final unitCards = buildUnitCards(
     final unitCards = buildHorizontalUnitCards(
       font,
       roster,
