@@ -5,7 +5,7 @@ import 'package:gearforce/models/roster/roster.dart';
 import 'package:gearforce/screens/roster/pdf/record_sheet/record_sheet.dart';
 import 'package:gearforce/screens/roster/pdf/record_sheet/rules_sheet.dart';
 import 'package:gearforce/screens/roster/pdf/record_sheet/traits_sheet.dart';
-import 'package:gearforce/screens/roster/pdf/unit_cards/unit_cards.dart';
+import 'package:gearforce/screens/roster/pdf/unit_cards/horizontal_unit_cards.dart';
 import 'package:gearforce/widgets/pdf_settings.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
@@ -129,7 +129,7 @@ Future<Uint8List> buildPdf(
   }
 
   if (pdfSettings.sections.unitCards) {
-    final unitCards = buildUnitCards(
+    final unitCards = buildHorizontalUnitCards(
       font,
       roster,
       version: version,
