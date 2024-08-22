@@ -6,7 +6,6 @@ import 'package:gearforce/models/mods/duelist/duelist_modification.dart'
 import 'package:gearforce/models/rules/rulesets/caprice/caprice.dart';
 import 'package:gearforce/models/rules/rule.dart';
 import 'package:gearforce/models/rules/options/special_unit_filter.dart';
-import 'package:gearforce/models/unit/model_type.dart';
 import 'package:gearforce/models/validation/validations.dart';
 
 const String _baseRuleId = 'rule::caprice::lrc';
@@ -53,9 +52,6 @@ final Rule ruleHeroesOfTheResistance = Rule(
     return null;
   },
   duelistMaxNumberOverride: (roster, cg, u) {
-    if (u.type != ModelType.Gear) {
-      return null;
-    }
     final numOtherDuelist = cg.duelists.where((unit) => unit != u).length;
 
     if (numOtherDuelist == 0) {
