@@ -100,7 +100,8 @@ final Rule ruleDuelingMounts = Rule(
 final Rule ruleAdvancedInterfaceNetworks = Rule.from(
   cef.ruleAdvancedInterfaceNetwork,
   factionMods: (ur, cg, u) {
-    if (u.faction == FactionType.Caprice && u.type == ModelType.Gear) {
+    if (u.faction == FactionType.Caprice &&
+        (u.type == ModelType.Gear || u.type == ModelType.Strider)) {
       return [CEFMods.advancedInterfaceNetwork(u, FactionType.Caprice)];
     }
     return [];
