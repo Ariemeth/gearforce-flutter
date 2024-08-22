@@ -103,7 +103,12 @@ class CEFMods extends FactionModification {
         return false;
       }
 
-      if (u.faction == faction && u.type == ModelType.Gear && u.isVeteran) {
+      // All frames are gears, cef has no striders, however caprice mounts are both
+      // gears and striders.  If CEF gets a strider that isn't a frame or caprice
+      // gets a strider or gear that isn't a mount then this will need to be updated.
+      if (u.faction == faction &&
+          (u.type == ModelType.Gear || u.type == ModelType.Strider) &&
+          u.isVeteran) {
         return true;
       }
 
