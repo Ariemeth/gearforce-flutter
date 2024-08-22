@@ -53,9 +53,6 @@ final Rule ruleHeroesOfTheResistance = Rule(
     return null;
   },
   duelistMaxNumberOverride: (roster, cg, u) {
-    if (u.type != ModelType.Gear) {
-      return null;
-    }
     final numOtherDuelist = cg.duelists.where((unit) => unit != u).length;
 
     if (numOtherDuelist == 0) {
