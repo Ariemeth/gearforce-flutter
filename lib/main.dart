@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gearforce/data/data.dart';
-import 'package:gearforce/screens/roster/roster.dart';
+import 'package:gearforce/v3/data/data.dart';
+import 'package:gearforce/v3/screens/roster/roster.dart';
 import 'package:gearforce/widgets/roster_id.dart';
 import 'package:gearforce/widgets/settings.dart';
 import 'package:package_info_plus/package_info_plus.dart';
