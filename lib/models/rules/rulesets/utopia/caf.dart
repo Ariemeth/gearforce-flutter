@@ -302,6 +302,9 @@ final Rule ruleGilgameshTroupe = Rule(
   },
   combatGroupOption: () => [ruleGilgameshTroupe.buidCombatGroupOption()],
   canBeAddedToGroup: (unit, group, cg) {
+    if (group.groupType == GroupType.Secondary) {
+      return null;
+    }
     final isGilgamesh = unit.core.frame.contains('Gilgamesh');
     final isNoActionUnit =
         unit.actions == null || (unit.actions != null && unit.actions == 0);
