@@ -135,7 +135,7 @@ Weapon? _buildWeapon({
       damage = damageMap[size]!;
       range = Range(24, 48, 96);
       traits = [
-        Trait.AOE(4),
+        Trait.AOE(3),
         Trait.Blast(),
         Trait.AP(1),
         Trait.Guided(),
