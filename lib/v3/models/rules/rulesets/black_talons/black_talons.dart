@@ -26,7 +26,7 @@ const String _ruleSpecialOperatorsId = '$_baseRuleId::20';
 */
 class BlackTalons extends RuleSet {
   BlackTalons(
-    Data data,
+    DataV3 data,
     Settings settings, {
     String? description,
     required String name,
@@ -62,13 +62,13 @@ class BlackTalons extends RuleSet {
     return [...filters, ...super.availableUnitFilters(cgOptions)];
   }
 
-  factory BlackTalons.BTRT(Data data, Settings settings) =>
+  factory BlackTalons.BTRT(DataV3 data, Settings settings) =>
       BTRT(data, settings);
-  factory BlackTalons.BTIT(Data data, Settings settings) =>
+  factory BlackTalons.BTIT(DataV3 data, Settings settings) =>
       BTIT(data, settings);
-  factory BlackTalons.BTST(Data data, Settings settings) =>
+  factory BlackTalons.BTST(DataV3 data, Settings settings) =>
       BTST(data, settings);
-  factory BlackTalons.BTAT(Data data, Settings settings) =>
+  factory BlackTalons.BTAT(DataV3 data, Settings settings) =>
       BTAT(data, settings);
 }
 

@@ -149,7 +149,7 @@ final List<Rule> _onlyThreeAllowedRules = [
 */
 class Leagueless extends RuleSet {
   Leagueless(
-    Data data,
+    DataV3 data,
     Settings settings, {
     super.description,
     required super.name,
@@ -171,13 +171,13 @@ class Leagueless extends RuleSet {
     return [...super.availableUnitFilters(cgOptions)];
   }
 
-  factory Leagueless.North(Data data, Settings settings) =>
+  factory Leagueless.North(DataV3 data, Settings settings) =>
       SourceNorth(data, settings);
-  factory Leagueless.South(Data data, Settings settings) =>
+  factory Leagueless.South(DataV3 data, Settings settings) =>
       SourceSouth(data, settings);
-  factory Leagueless.PeaceRiver(Data data, Settings settings) =>
+  factory Leagueless.PeaceRiver(DataV3 data, Settings settings) =>
       SourcePeaceRiver(data, settings);
-  factory Leagueless.NuCoal(Data data, Settings settings) =>
+  factory Leagueless.NuCoal(DataV3 data, Settings settings) =>
       SourceNuCoal(data, settings);
 }
 

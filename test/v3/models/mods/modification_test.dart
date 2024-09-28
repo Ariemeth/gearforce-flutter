@@ -10,7 +10,7 @@ import 'package:test/test.dart';
 
 void main() {
   final settings = Settings();
-  final data = Data()..load(settings);
+  final data = DataV3()..load(settings);
   final RuleSet rs = DefaultRuleSet(data, settings: settings);
   test('check default modification constructor', () {
     final m = UnitModification(

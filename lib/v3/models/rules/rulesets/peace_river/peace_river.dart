@@ -36,7 +36,7 @@ const String _ruleArchitectsId = '$_baseRuleId::50';
 */
 class PeaceRiver extends RuleSet {
   PeaceRiver(
-    Data data,
+    DataV3 data,
     Settings settings, {
     String? description,
     required String name,
@@ -80,11 +80,11 @@ class PeaceRiver extends RuleSet {
     return [...filters, ...super.availableUnitFilters(cgOptions)];
   }
 
-  factory PeaceRiver.POC(Data data, Settings settings) =>
+  factory PeaceRiver.POC(DataV3 data, Settings settings) =>
       poc.POC(data, settings);
-  factory PeaceRiver.PPS(Data data, Settings settings) =>
+  factory PeaceRiver.PPS(DataV3 data, Settings settings) =>
       pps.PPS(data, settings);
-  factory PeaceRiver.PRDF(Data data, Settings settings) =>
+  factory PeaceRiver.PRDF(DataV3 data, Settings settings) =>
       prdf.PRDF(data, settings);
 }
 

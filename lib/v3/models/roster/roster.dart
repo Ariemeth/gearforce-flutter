@@ -49,7 +49,7 @@ class UnitRoster extends ChangeNotifier {
     }
   }
 
-  UnitRoster(Data data, Settings settings, {bool tryFix = true}) {
+  UnitRoster(DataV3 data, Settings settings, {bool tryFix = true}) {
     factionNotifier =
         ValueNotifier<Faction>(Faction.blackTalons(data, settings));
     rulesetNotifer =
@@ -206,7 +206,7 @@ class UnitRoster extends ChangeNotifier {
         'whenCreated': DateTime.now().toUtc().toString(),
       };
 
-  factory UnitRoster.fromJson(dynamic json, Data data, Settings settings) {
+  factory UnitRoster.fromJson(dynamic json, DataV3 data, Settings settings) {
     final version = json['version'] as int;
     UnitRoster ur = UnitRoster(data, settings);
     ur.name = json['name'] as String?;
@@ -315,7 +315,7 @@ class UnitRoster extends ChangeNotifier {
   }
 
   static String? _loadV2Faction(
-      String? faction, UnitRoster ur, Data data, Settings settings) {
+      String? faction, UnitRoster ur, DataV3 data, Settings settings) {
     if (faction != null) {
       try {
         final f = Faction.fromType(
@@ -334,7 +334,7 @@ class UnitRoster extends ChangeNotifier {
   static String? _loadV3Faction(
     Map<String, dynamic>? factionJson,
     UnitRoster ur,
-    Data data,
+    DataV3 data,
     Settings settings,
   ) {
     if (factionJson == null) {

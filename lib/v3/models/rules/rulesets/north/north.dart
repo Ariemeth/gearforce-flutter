@@ -40,7 +40,7 @@ const String _ruleDragoonSquadId = '$_baseRuleId::50';
 
 class North extends RuleSet {
   North(
-    Data data,
+    DataV3 data,
     Settings settings, {
     super.description,
     required super.name,
@@ -78,10 +78,10 @@ class North extends RuleSet {
     return [...filters, ...super.availableUnitFilters(cgOptions)];
   }
 
-  factory North.NG(Data data, Settings settings) => NG(data, settings);
-  factory North.WFP(Data data, Settings settings) => WFP(data, settings);
-  factory North.UMF(Data data, Settings settings) => UMF(data, settings);
-  factory North.NLC(Data data, Settings settings) => NLC(data, settings);
+  factory North.NG(DataV3 data, Settings settings) => NG(data, settings);
+  factory North.WFP(DataV3 data, Settings settings) => WFP(data, settings);
+  factory North.UMF(DataV3 data, Settings settings) => UMF(data, settings);
+  factory North.NLC(DataV3 data, Settings settings) => NLC(data, settings);
 }
 
 final Rule ruleTaskBuilt = Rule(

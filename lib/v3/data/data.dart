@@ -27,7 +27,7 @@ const Map<FactionType, String> _factionUnitFiles = {
   FactionType.Utopia: 'assets/data/units/utopia.json',
 };
 
-class Data {
+class DataV3 {
   late List<Faction> _factions = [];
 
   final Map<FactionType, List<Frame>> _factionFrames = {};

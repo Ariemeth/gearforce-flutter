@@ -135,7 +135,7 @@ class CombatGroup extends ChangeNotifier {
 
   factory CombatGroup.fromJson(
     dynamic json,
-    Data data,
+    DataV3 data,
     Faction faction,
     RuleSet ruleset,
     UnitRoster roster,

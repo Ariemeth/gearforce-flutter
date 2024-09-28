@@ -23,7 +23,7 @@ class Faction {
 
   const Faction(this.factionType, this.rulesets, this.defaultSubFaction);
 
-  factory Faction.blackTalons(Data data, Settings settings) {
+  factory Faction.blackTalons(DataV3 data, Settings settings) {
     final rulesets = [
       BlackTalons(data, settings, name: _emptySubFactionName),
       BlackTalons.BTRT(data, settings),
@@ -33,7 +33,7 @@ class Faction {
     ];
     return Faction(FactionType.BlackTalon, rulesets, rulesets.first);
   }
-  factory Faction.caprice(Data data, Settings settings) {
+  factory Faction.caprice(DataV3 data, Settings settings) {
     final rulesets = [
       Caprice(data, settings, name: _emptySubFactionName),
       Caprice.CID(data, settings),
@@ -42,7 +42,7 @@ class Faction {
     ];
     return Faction(FactionType.Caprice, rulesets, rulesets.first);
   }
-  factory Faction.cef(Data data, Settings settings) {
+  factory Faction.cef(DataV3 data, Settings settings) {
     final rulesets = [
       CEF(data, settings, name: _emptySubFactionName),
       CEF.CEFFF(data, settings),
@@ -51,7 +51,7 @@ class Faction {
     ];
     return Faction(FactionType.CEF, rulesets, rulesets.first);
   }
-  factory Faction.eden(Data data, Settings settings) {
+  factory Faction.eden(DataV3 data, Settings settings) {
     final rulesets = [
       Eden(data, settings, name: _emptySubFactionName),
       Eden.EIF(data, settings),
@@ -60,7 +60,7 @@ class Faction {
     ];
     return Faction(FactionType.Eden, rulesets, rulesets.first);
   }
-  factory Faction.north(Data data, Settings settings) {
+  factory Faction.north(DataV3 data, Settings settings) {
     final rulesets = [
       North(data, settings, name: _emptySubFactionName),
       North.NG(data, settings),
@@ -70,7 +70,7 @@ class Faction {
     ];
     return Faction(FactionType.North, rulesets, rulesets.first);
   }
-  factory Faction.nucoal(Data data, Settings settings) {
+  factory Faction.nucoal(DataV3 data, Settings settings) {
     final rulesets = [
       NuCoal(data, settings, name: _emptySubFactionName),
       NuCoal.NSDF(data, settings),
@@ -82,7 +82,7 @@ class Faction {
     ];
     return Faction(FactionType.NuCoal, rulesets, rulesets.first);
   }
-  factory Faction.peaceRiver(Data data, Settings settings) {
+  factory Faction.peaceRiver(DataV3 data, Settings settings) {
     final rulesets = [
       PeaceRiver(data, settings, name: _emptySubFactionName),
       PeaceRiver.PRDF(data, settings),
@@ -91,7 +91,7 @@ class Faction {
     ];
     return Faction(FactionType.PeaceRiver, rulesets, rulesets.first);
   }
-  factory Faction.south(Data data, Settings settings) {
+  factory Faction.south(DataV3 data, Settings settings) {
     final rulesets = [
       South(data, settings, name: _emptySubFactionName),
       South.SRA(data, settings),
@@ -102,7 +102,7 @@ class Faction {
     ];
     return Faction(FactionType.South, rulesets, rulesets.first);
   }
-  factory Faction.utopia(Data data, Settings settings) {
+  factory Faction.utopia(DataV3 data, Settings settings) {
     final rulesets = [
       Utopia(data, settings, name: _emptySubFactionName),
       Utopia.CAF(data, settings),
@@ -111,7 +111,7 @@ class Faction {
     return Faction(FactionType.Utopia, rulesets, rulesets.first);
   }
 
-  factory Faction.leagueless(Data data, Settings settings) {
+  factory Faction.leagueless(DataV3 data, Settings settings) {
     final rulesets = [
       Leagueless.North(data, settings),
       Leagueless.South(data, settings),
@@ -122,7 +122,8 @@ class Faction {
     return Faction(FactionType.Leagueless, rulesets, rulesets.first);
   }
 
-  factory Faction.fromType(FactionType faction, Data data, Settings settings) {
+  factory Faction.fromType(
+      FactionType faction, DataV3 data, Settings settings) {
     switch (faction) {
       case FactionType.North:
         return Faction.north(data, settings);

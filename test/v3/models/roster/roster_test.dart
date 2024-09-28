@@ -16,7 +16,7 @@ void main() {
 
   test('create default CombatGroup', () {
     final settings = Settings();
-    final data = Data()..load(settings);
+    final data = DataV3()..load(settings);
     final roster = UnitRoster(data, settings);
     expect(roster.getCGs().length, equals(1),
         reason: 'check cg length to ensure proper construction');
@@ -24,7 +24,7 @@ void main() {
 
   test('get default cg', () {
     final settings = Settings();
-    final data = Data()..load(settings);
+    final data = DataV3()..load(settings);
     final roster = UnitRoster(data, settings);
     final cg = roster.getCG('CG 1');
     expect(cg!.name, equals('CG 1'), reason: 'check cg default name');
@@ -36,7 +36,7 @@ void main() {
 
   test('add new cg', () {
     final settings = Settings();
-    final data = Data()..load(settings);
+    final data = DataV3()..load(settings);
     final roster = UnitRoster(data, settings);
     final cg = CombatGroup('test1');
     cg.primary.addUnit(Unit(core: UnitCore.test()));
@@ -50,7 +50,7 @@ void main() {
 
   test('check default active cg', () {
     final settings = Settings();
-    final data = Data()..load(settings);
+    final data = DataV3()..load(settings);
     final roster = UnitRoster(data, settings);
     expect(roster.activeCG(), isNotNull,
         reason: 'active cg should not be null');
@@ -60,7 +60,7 @@ void main() {
 
   test('Single CGL picked up as only available leader', () async {
     final settings = Settings();
-    final data = await Data()
+    final data = await DataV3()
       ..load(settings);
     final roster = UnitRoster(data, settings);
     expect(roster.getLeaders(null).length, 0);
@@ -77,7 +77,7 @@ void main() {
   test('CO picked up as only available force leader with 2 leaders in roster',
       () async {
     final settings = Settings();
-    final data = await Data()
+    final data = await DataV3()
       ..load(settings);
     final roster = UnitRoster(data, settings);
     expect(roster.getLeaders(null).length, 0);

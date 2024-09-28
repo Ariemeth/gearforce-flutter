@@ -3,79 +3,96 @@ import 'package:gearforce/v3/data/data.dart';
 import 'package:gearforce/v3/screens/roster/roster.dart';
 import 'package:gearforce/widgets/roster_id.dart';
 import 'package:gearforce/widgets/settings.dart';
+import 'package:gearforce/widgets/version_selector.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
+
+const _title = 'Gearforce';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final baseUri = Uri.base;
   final idParam = baseUri.queryParameters['id'];
-
-  if (idParam != null && idParam.isNotEmpty) {
-    print('loading id: $idParam');
-  }
-
   final appInfo = await PackageInfo.fromPlatform();
-  final settings = Settings();
-  await settings.load();
 
-  var data = Data();
-  data.load(settings).whenComplete(() {
-    runApp(MultiProvider(
-      providers: [
-        Provider(create: (_) => data),
-        Provider(create: (_) => settings),
-      ],
-      child: GearForce(
-        data: data,
-        rosterId: RosterId(idParam),
-        version: appInfo.version,
-        settings: settings,
+  final versionSelector = VersionSelector();
+
+  final app = MaterialApp(
+    title: _title,
+    theme: ThemeData(
+      useMaterial3: true,
+      colorScheme: ColorScheme.fromSeed(
+        seedColor: Colors.blue,
+        surface: Colors.white,
+        primary: Colors.blue,
       ),
-    ));
-  });
+    ),
+    initialRoute: '/v3.1',
+    routes: {
+      '/v3.1': (context) => GearForceV3(
+            rosterId: RosterId(idParam),
+            version: appInfo.version,
+            versionSelector: versionSelector,
+          ),
+      '/v4.0': (context) => GearForceV3(
+            rosterId: RosterId(idParam),
+            version: appInfo.version,
+            versionSelector: versionSelector,
+          ),
+    },
+  );
+
+  runApp(app);
 }
 
-class GearForce extends StatefulWidget {
-  const GearForce({
+class GearForceV3 extends StatefulWidget {
+  const GearForceV3({
     Key? key,
-    required this.data,
     required this.rosterId,
     required this.version,
-    required this.settings,
+    required this.versionSelector,
   }) : super(key: key);
 
-  final Data data;
   final RosterId rosterId;
   final String version;
-  final Settings settings;
+  final VersionSelector versionSelector;
+
   @override
-  _GearForceState createState() => _GearForceState();
+  _GearForceV3State createState() => _GearForceV3State();
 }
 
-class _GearForceState extends State<GearForce> {
-  _GearForceState();
+class _GearForceV3State extends State<GearForceV3> {
+  _GearForceV3State();
+
+  final Settings _settings = Settings();
+  final DataV3 _data = DataV3();
+
+  @override
+  void initState() {
+    super.initState();
+    _settings.load().then((_) {
+      _data.load(_settings).whenComplete(() {
+        setState(() {});
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     final title = 'Gearforce';
 
-    return MaterialApp(
-      title: title,
-      theme: ThemeData(
-        useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.blue,
-          surface: Colors.white,
-          primary: Colors.blue,
-        ),
-      ),
-      home: RosterWidget(
+    return MultiProvider(
+      providers: [
+        Provider(create: (_) => _data),
+        Provider(create: (_) => _settings),
+      ],
+      child: RosterWidget(
         title: title,
-        data: widget.data,
+        data: _data,
         rosterId: widget.rosterId,
         version: widget.version,
-        settings: widget.settings,
+        settings: _settings,
+        versionSelector: widget.versionSelector,
       ),
     );
   }

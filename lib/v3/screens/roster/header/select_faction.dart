@@ -25,7 +25,7 @@ class _SelectFactionState extends State<SelectFaction> {
 
   @override
   Widget build(BuildContext context) {
-    final data = context.watch<Data>();
+    final data = context.watch<DataV3>();
     final settings = context.watch<Settings>();
     return DropdownButton<FactionType?>(
       value: widget.selectedFaction.value.factionType,

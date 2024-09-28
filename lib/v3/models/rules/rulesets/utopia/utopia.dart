@@ -37,7 +37,7 @@ const String _ruleExpendableId = '$_baseRuleId::40';
 
 class Utopia extends RuleSet {
   Utopia(
-    Data data,
+    DataV3 data,
     Settings settings, {
     String? description,
     required String name,
@@ -73,8 +73,8 @@ class Utopia extends RuleSet {
     return [...filters, ...super.availableUnitFilters(cgOptions)];
   }
 
-  factory Utopia.CAF(Data data, Settings settings) => CAF(data, settings);
-  factory Utopia.OUF(Data data, Settings settings) => OUF(data, settings);
+  factory Utopia.CAF(DataV3 data, Settings settings) => CAF(data, settings);
+  factory Utopia.OUF(DataV3 data, Settings settings) => OUF(data, settings);
 }
 
 final Rule ruleDroneMatrix = Rule(

@@ -12,7 +12,7 @@ import 'package:test/test.dart';
 
 void main() {
   final settings = Settings();
-  final data = Data()..load(settings);
+  final data = DataV3()..load(settings);
   final RuleSet rs = DefaultRuleSet(data, settings: settings);
   test('test Anti-Air Swap requirement check for weapon type', () {
     final w1 = buildWeapon('LATM', hasReact: true)!;

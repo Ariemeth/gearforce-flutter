@@ -39,7 +39,7 @@ const String _ruleAlliesCapriceId = '$_baseRuleId::70';
 */
 class Eden extends RuleSet {
   Eden(
-    Data data,
+    DataV3 data,
     Settings settings, {
     String? description,
     required String name,
@@ -75,9 +75,9 @@ class Eden extends RuleSet {
     return [...filters, ...super.availableUnitFilters(cgOptions)];
   }
 
-  factory Eden.EIF(Data data, Settings settings) => EIF(data, settings);
-  factory Eden.ENH(Data data, Settings settings) => ENH(data, settings);
-  factory Eden.AEF(Data data, Settings settings) => AEF(data, settings);
+  factory Eden.EIF(DataV3 data, Settings settings) => EIF(data, settings);
+  factory Eden.ENH(DataV3 data, Settings settings) => ENH(data, settings);
+  factory Eden.AEF(DataV3 data, Settings settings) => AEF(data, settings);
 }
 
 final Rule ruleLancers = Rule(

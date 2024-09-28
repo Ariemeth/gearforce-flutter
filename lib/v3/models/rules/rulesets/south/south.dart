@@ -30,7 +30,7 @@ const ruleLionHuntersId = '$_baseRuleId::30';
 */
 class South extends RuleSet {
   South(
-    Data data,
+    DataV3 data,
     Settings settings, {
     super.description,
     required super.name,
@@ -55,12 +55,12 @@ class South extends RuleSet {
     return [coreFilter, ...super.availableUnitFilters(cgOptions)];
   }
 
-  factory South.SRA(Data data, Settings settings) => SRA(data, settings);
-  factory South.MILICIA(Data data, Settings settings) =>
+  factory South.SRA(DataV3 data, Settings settings) => SRA(data, settings);
+  factory South.MILICIA(DataV3 data, Settings settings) =>
       MILICIA(data, settings);
-  factory South.MD(Data data, Settings settings) => MD(data, settings);
-  factory South.ESE(Data data, Settings settings) => ESE(data, settings);
-  factory South.FHA(Data data, Settings settings) => FHA(data, settings);
+  factory South.MD(DataV3 data, Settings settings) => MD(data, settings);
+  factory South.ESE(DataV3 data, Settings settings) => ESE(data, settings);
+  factory South.FHA(DataV3 data, Settings settings) => FHA(data, settings);
 }
 
 const SouthFilters = const [

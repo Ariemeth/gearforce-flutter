@@ -5,7 +5,7 @@ import 'package:gearforce/v3/models/roster/roster.dart';
 import 'package:gearforce/v3/screens/roster/filehandler/fileHandler.dart';
 import 'package:gearforce/widgets/settings.dart';
 
-Future<UnitRoster?> loadRoster(Data data, Settings settings) async {
+Future<UnitRoster?> loadRoster(DataV3 data, Settings settings) async {
   UnitRoster? resultRoster;
 
   const XTypeGroup typeGroup = XTypeGroup(

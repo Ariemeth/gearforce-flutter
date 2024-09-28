@@ -5,7 +5,7 @@ import 'package:gearforce/widgets/api/api_service.dart';
 import 'package:gearforce/widgets/settings.dart';
 import 'package:provider/provider.dart';
 
-Future<UnitRoster?> showInputRosterId(BuildContext context, Data data) async {
+Future<UnitRoster?> showInputRosterId(BuildContext context, DataV3 data) async {
   final settings = context.read<Settings>();
 
   var result = await showDialog<String>(

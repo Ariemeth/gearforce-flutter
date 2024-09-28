@@ -57,7 +57,7 @@ class DefaultRuleSet extends RuleSet {
 }
 
 abstract class RuleSet extends ChangeNotifier {
-  final Data data;
+  final DataV3 data;
   final List<String>? specialRules;
   final FactionType type;
   final String? description;

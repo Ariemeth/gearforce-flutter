@@ -40,7 +40,7 @@ const String _ruleAlliesEdenId = '$_baseRuleId::60';
 */
 class CEF extends RuleSet {
   CEF(
-    Data data,
+    DataV3 data,
     Settings settings, {
     super.description,
     required super.name,
@@ -78,9 +78,9 @@ class CEF extends RuleSet {
     return [...filters, ...super.availableUnitFilters(cgOptions)];
   }
 
-  factory CEF.CEFFF(Data data, Settings settings) => CEFFF(data, settings);
-  factory CEF.CEFTF(Data data, Settings settings) => CEFTF(data, settings);
-  factory CEF.CEFIF(Data data, Settings settings) => CEFIF(data, settings);
+  factory CEF.CEFFF(DataV3 data, Settings settings) => CEFFF(data, settings);
+  factory CEF.CEFTF(DataV3 data, Settings settings) => CEFTF(data, settings);
+  factory CEF.CEFIF(DataV3 data, Settings settings) => CEFIF(data, settings);
 }
 
 final Rule ruleMinerva = Rule(

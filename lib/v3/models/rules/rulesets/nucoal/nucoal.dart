@@ -31,7 +31,7 @@ const String _rulePortArthurKorpsId = '$_baseRuleId::20';
 */
 class NuCoal extends RuleSet {
   NuCoal(
-    Data data,
+    DataV3 data,
     Settings settings, {
     String? description,
     required String name,
@@ -70,12 +70,12 @@ class NuCoal extends RuleSet {
     return [...filters, ...super.availableUnitFilters(cgOptions)];
   }
 
-  factory NuCoal.NSDF(Data data, Settings settings) => NSDF(data, settings);
-  factory NuCoal.PAK(Data data, Settings settings) => PAK(data, settings);
-  factory NuCoal.HAPF(Data data, Settings settings) => HAPF(data, settings);
-  factory NuCoal.KADA(Data data, Settings settings) => KADA(data, settings);
-  factory NuCoal.TH(Data data, Settings settings) => TH(data, settings);
-  factory NuCoal.HCSA(Data data, Settings settings) => HCSA(data, settings);
+  factory NuCoal.NSDF(DataV3 data, Settings settings) => NSDF(data, settings);
+  factory NuCoal.PAK(DataV3 data, Settings settings) => PAK(data, settings);
+  factory NuCoal.HAPF(DataV3 data, Settings settings) => HAPF(data, settings);
+  factory NuCoal.KADA(DataV3 data, Settings settings) => KADA(data, settings);
+  factory NuCoal.TH(DataV3 data, Settings settings) => TH(data, settings);
+  factory NuCoal.HCSA(DataV3 data, Settings settings) => HCSA(data, settings);
 }
 
 final Rule ruleHumanistTech = Rule(

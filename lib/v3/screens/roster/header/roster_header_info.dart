@@ -150,7 +150,7 @@ class RosterHeaderInfo extends StatelessWidget {
               bottom: 5,
             ),
             child: SelectFaction(
-              factions: Provider.of<Data>(context).factions(),
+              factions: Provider.of<DataV3>(context).factions(),
               selectedFaction: roster.factionNotifier,
             ),
           ),
@@ -208,7 +208,7 @@ class RosterHeaderInfo extends StatelessWidget {
               bottom: 5,
             ),
             child: SelectSubFaction(
-              factions: Provider.of<Data>(context).factions(),
+              factions: Provider.of<DataV3>(context).factions(),
               selectedFaction: roster.factionNotifier,
               selectedSubFaction: roster.rulesetNotifer,
             ),

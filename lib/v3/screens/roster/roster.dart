@@ -18,6 +18,7 @@ import 'package:gearforce/widgets/pdf_settings.dart';
 import 'package:gearforce/widgets/roster_id.dart';
 import 'package:gearforce/widgets/settings.dart';
 import 'package:gearforce/widgets/version_checker.dart';
+import 'package:gearforce/widgets/version_selector.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -29,21 +30,23 @@ const String _dp9URL = 'https://www.dp9.com/';
 const String _sourceCodeURL = 'https://github.com/Ariemeth/gearforce-flutter';
 
 class RosterWidget extends StatefulWidget {
-  RosterWidget({
-    Key? key,
-    required this.title,
-    required this.data,
-    required this.rosterId,
-    required this.version,
-    required this.settings,
-  }) : super(key: key);
+  RosterWidget(
+      {Key? key,
+      required this.title,
+      required this.data,
+      required this.rosterId,
+      required this.version,
+      required this.settings,
+      required this.versionSelector})
+      : super(key: key);
 
   final String? title;
-  final Data data;
+  final DataV3 data;
   final RosterId rosterId;
   final String version;
   final hScrollController = ScrollController();
   final Settings settings;
+  final VersionSelector versionSelector;
 
   @override
   _RosterWidgetState createState() => _RosterWidgetState();
@@ -77,7 +80,7 @@ class _RosterWidgetState extends State<RosterWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final data = context.watch<Data>();
+    final data = context.watch<DataV3>();
     final appSettings = context.watch<Settings>();
 
     return Scaffold(
@@ -87,6 +90,7 @@ class _RosterWidgetState extends State<RosterWidget> {
         title: Row(
           children: [
             Text(widget.title!),
+            widget.versionSelector,
             Spacer(),
             VersionChecker(
               currentVersion: widget.version,

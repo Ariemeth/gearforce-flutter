@@ -34,7 +34,7 @@ const String _ruleAbominationsId = '$_baseRuleId::30';
 */
 class Caprice extends RuleSet {
   Caprice(
-    Data data,
+    DataV3 data,
     Settings settings, {
     String? description,
     required String name,
@@ -72,9 +72,9 @@ class Caprice extends RuleSet {
     return [...filters, ...super.availableUnitFilters(cgOptions)];
   }
 
-  factory Caprice.CID(Data data, Settings settings) => CID(data, settings);
-  factory Caprice.CSE(Data data, Settings settings) => CSE(data, settings);
-  factory Caprice.LRC(Data data, Settings settings) => LRC(data, settings);
+  factory Caprice.CID(DataV3 data, Settings settings) => CID(data, settings);
+  factory Caprice.CSE(DataV3 data, Settings settings) => CSE(data, settings);
+  factory Caprice.LRC(DataV3 data, Settings settings) => LRC(data, settings);
 }
 
 final Rule ruleDuelingMounts = Rule(
