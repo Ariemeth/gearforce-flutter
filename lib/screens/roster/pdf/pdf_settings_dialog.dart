@@ -20,35 +20,54 @@ class PDFSettingsDialog extends StatelessWidget {
               fontWeight: FontWeight.w500,
             )),
         SettingsOptionLine(
-            text: 'Record Sheet',
-            onChanged: (bool? newValue) {
-              settings.sections.recordSheet = newValue!;
-            }),
+          text: 'Record Sheet',
+          onChanged: (bool? newValue) {
+            settings.sections.recordSheet = newValue!;
+          },
+          defaultEnabled: settings.sections.recordSheet,
+        ),
         SettingsOptionLine(
-            text: 'Unit Cards',
-            onChanged: (bool? newValue) {
-              settings.sections.unitCards = newValue!;
-            }),
+          text: 'Unit Cards (Tall)',
+          onChanged: (bool? newValue) {
+            settings.sections.tallUnitCards = newValue!;
+          },
+          defaultEnabled: settings.sections.tallUnitCards,
+        ),
         SettingsOptionLine(
-            text: 'Traits',
-            onChanged: (bool? newValue) {
-              settings.sections.traitReference = newValue!;
-            }),
+          text: 'Unit Cards (Wide)',
+          onChanged: (bool? newValue) {
+            settings.sections.wideUnitCards = newValue!;
+          },
+          defaultEnabled: settings.sections.wideUnitCards,
+        ),
         SettingsOptionLine(
-            text: 'Faction Rules',
-            onChanged: (bool? newValue) {
-              settings.sections.factionRules = newValue!;
-            }),
+          text: 'Traits',
+          onChanged: (bool? newValue) {
+            settings.sections.traitReference = newValue!;
+          },
+          defaultEnabled: settings.sections.traitReference,
+        ),
         SettingsOptionLine(
-            text: 'Sub-Faction Rules',
-            onChanged: (bool? newValue) {
-              settings.sections.subFactionRules = newValue!;
-            }),
+          text: 'Faction Rules',
+          onChanged: (bool? newValue) {
+            settings.sections.factionRules = newValue!;
+          },
+          defaultEnabled: settings.sections.factionRules,
+        ),
         SettingsOptionLine(
-            text: 'Alpha/Beta Rules',
-            onChanged: (bool? newValue) {
-              settings.sections.alphaBetaRules = newValue!;
-            }),
+          text: 'Sub-Faction Rules',
+          onChanged: (bool? newValue) {
+            settings.sections.subFactionRules = newValue!;
+          },
+          defaultEnabled: settings.sections.subFactionRules,
+        ),
+        SettingsOptionLine(
+          text: 'Alpha/Beta Rules',
+          onChanged: (bool? newValue) {
+            settings.sections.alphaBetaRules = newValue!;
+          },
+          defaultEnabled: settings.sections.alphaBetaRules,
+        ),
         SimpleDialogOption(
           onPressed: () {
             Navigator.pop(context, settings);
@@ -73,10 +92,12 @@ class PDFSettingsDialog extends StatelessWidget {
 class SettingsOptionLine extends StatefulWidget {
   final String text;
   final ValueChanged<bool?> onChanged;
+  final bool defaultEnabled;
 
   SettingsOptionLine({
     required this.text,
     required this.onChanged,
+    this.defaultEnabled = true,
   });
 
   @override
@@ -84,7 +105,15 @@ class SettingsOptionLine extends StatefulWidget {
 }
 
 class _SettingsOptionLineState extends State<SettingsOptionLine> {
-  bool value = true;
+  bool? value;
+
+  @override
+  void initState() {
+    super.initState();
+    if (value == null) {
+      value = widget.defaultEnabled;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
