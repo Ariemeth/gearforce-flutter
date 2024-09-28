@@ -84,6 +84,28 @@ List<Trait> Function(List<Trait>) createAddTraitToList(Trait newValue) {
   };
 }
 
+List<Trait> Function(List<Trait>) createAddOrReplaceSameTraitInList(
+    Trait newTrait) {
+  return (value) {
+    var newList = new List<Trait>.from(value);
+
+    final index = newList.indexWhere((trait) => trait.isSameType(newTrait));
+    if (index >= 0) {
+      newList.removeAt(index);
+    }
+
+    if (!newList.any((element) => element.name == newTrait.name)) {
+      if (index >= 0) {
+        newList.insert(index, newTrait);
+      } else {
+        newList.add(newTrait);
+      }
+    }
+
+    return newList;
+  };
+}
+
 /// Add the trait to the list if it does not already exist in the list.  Otherwise
 /// combine the trait with the existing trait in the list by summing the levels.
 List<Trait> Function(List<Trait>) createAddOrCombineTraitToList(
