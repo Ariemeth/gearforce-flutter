@@ -5,7 +5,8 @@ class PDFSettings {
   String toString() {
     return 'Sections: ' +
         'recordSheet = ${sections.recordSheet}, ' +
-        'unitCards = ${sections.unitCards}, ' +
+        'tallUnitCards = ${sections.tallUnitCards}, ' +
+        'wideUnitCards = ${sections.wideUnitCards}, ' +
         'traitReference = ${sections.traitReference}, ' +
         'factionRules = ${sections.factionRules}, ' +
         'subFactionRules = ${sections.subFactionRules}';
@@ -14,7 +15,8 @@ class PDFSettings {
 
 class Sections {
   bool recordSheet = true;
-  bool unitCards = true;
+  bool tallUnitCards = false;
+  bool wideUnitCards = true;
   bool traitReference = true;
   bool factionRules = true;
   bool subFactionRules = true;

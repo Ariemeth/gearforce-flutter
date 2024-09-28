@@ -6,6 +6,7 @@ import 'package:gearforce/screens/roster/pdf/record_sheet/record_sheet.dart';
 import 'package:gearforce/screens/roster/pdf/record_sheet/rules_sheet.dart';
 import 'package:gearforce/screens/roster/pdf/record_sheet/traits_sheet.dart';
 import 'package:gearforce/screens/roster/pdf/unit_cards/horizontal_unit_cards.dart';
+import 'package:gearforce/screens/roster/pdf/unit_cards/vertical_unit_cards.dart';
 import 'package:gearforce/widgets/pdf_settings.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
@@ -128,8 +129,45 @@ Future<Uint8List> buildPdf(
     );
   }
 
-  if (pdfSettings.sections.unitCards) {
+  if (pdfSettings.sections.wideUnitCards) {
     final unitCards = buildHorizontalUnitCards(
+      font,
+      roster,
+      version: version,
+      isExtendedContentAllowed: isExtendedContentAllowed,
+      isAlphaBetaAllowed: isAlphaBetaAllowed,
+    );
+
+    // Add unit cards
+    doc.addPage(pw.MultiPage(
+      pageTheme: pageTheme,
+      mainAxisAlignment: pw.MainAxisAlignment.start,
+      crossAxisAlignment: unitCards.length % 9 == 1
+          ? pw.CrossAxisAlignment.start
+          : pw.CrossAxisAlignment.center,
+      build: (pw.Context context) {
+        return [
+          pw.Wrap(
+            children: unitCards,
+            spacing: _unitCardMargins * 2,
+            runSpacing: _unitCardMargins,
+          )
+        ];
+      },
+      footer: (pw.Context context) {
+        return _buildFooter(
+          context,
+          version,
+          roster.rulesVersion,
+          isExtendedContentAllowed: isExtendedContentAllowed,
+          isAlphaBetaAllowed: isAlphaBetaAllowed,
+        );
+      },
+    ));
+  }
+
+  if (pdfSettings.sections.tallUnitCards) {
+    final unitCards = buildVerticalUnitCards(
       font,
       roster,
       version: version,
