@@ -204,3 +204,37 @@ final UnitModification allerCommand = UnitModification(name: 'Command Upgrade')
       description: '+Comms')
   ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.SatUp()),
       description: '+SatUp');
+
+final UnitModification howler = UnitModification(name: 'Hower Upgrade')
+  ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
+  ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Howler'))
+  ..addMod(UnitAttribute.ew, createSetIntMod(5))
+  ..addMod(UnitAttribute.traits, createAddOrCombineTraitToList(Trait.Comms()),
+      description: '+Comms');
+
+final UnitModification flakJacketUpgrade = UnitModification(
+    name: 'Flak Jacket Upgrade')
+  ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
+  ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'with Flak Jacket'))
+  ..addMod(
+      UnitAttribute.traits, createAddOrCombineTraitToList(Trait.FieldArmor()),
+      description: '+Field Armor');
+
+final UnitModification assaultUpgrade = UnitModification(
+    name: 'Assault Upgrade')
+  ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
+  ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Assault'))
+  ..addMod(
+      UnitAttribute.weapons, createAddWeaponToList(buildWeapon('MRP (Link)')!),
+      description: '+MRP (Link)');
+
+final UnitModification vibro_axeUpgrade = UnitModification(
+    name: 'Vibro-Axe Upgrade')
+  ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
+  ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'with Vibro-Axe'))
+  ..addMod(UnitAttribute.weapons,
+      createAddWeaponToList(buildWeapon('MVB', hasReact: true)!),
+      description: '+MVB»')
+  ..addMod(
+      UnitAttribute.traits, createAddOrReplaceSameTraitInList(Trait.Brawl(2)),
+      description: '+Brawl:2');

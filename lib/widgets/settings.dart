@@ -17,6 +17,9 @@ const _defaultRequireConfirmationToDeleteCG = true;
 const _defaultAllowCustomPoints = false;
 
 class Settings {
+  bool _isInitialized = false;
+  bool get isInitialized => _isInitialized;
+
   Duration _tooltipDelay =
       Duration(milliseconds: _defaultTooltipDelayInMilliseconds);
 
@@ -140,6 +143,7 @@ class Settings {
       _allowCustomPoints = allowCustomPoints;
     }
 
+    _isInitialized = true;
     return true;
   }
 

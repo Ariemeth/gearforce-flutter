@@ -172,3 +172,48 @@ final UnitModification blackwindTheta = UnitModification(name: 'Theta Upgrade')
           oldValue: buildWeapon('MRP (Link)')!,
           newValue: buildWeapon('LATM (Link)')!),
       description: '-MRP (Link), +LATM (Link)');
+
+final UnitModification darkWolfOmi = UnitModification(
+    name: 'Omi Upgrade',
+    requirementCheck: (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+      final hasLFC = u
+          .attribute<List<Weapon>>(UnitAttribute.weapons,
+              modIDToSkip: darkWolfOmi.id)
+          .any((w) => w.combo != null && w.combo?.abbreviation == 'LFC');
+
+      return hasLFC;
+    })
+  ..addMod(UnitAttribute.tv, createSimpleIntMod(0), description: 'TV +0')
+  ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Omi'))
+  ..addMod(
+      UnitAttribute.weapons,
+      createReplaceWeaponInList(
+          oldValue: buildWeapon('LAC/LFC', hasReact: true)!,
+          newValue: buildWeapon('LAC/LFL', hasReact: true)!),
+      description: '-LAC/LFC, +LAC/LFL');
+
+final UnitModification darkWolfTao = UnitModification(
+    name: 'Tao Upgrade',
+    requirementCheck: (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+      final hasLFC = u
+          .attribute<List<Weapon>>(UnitAttribute.weapons,
+              modIDToSkip: darkWolfTao.id)
+          .any((w) => w.combo != null && w.combo?.abbreviation == 'LFC');
+
+      return hasLFC;
+    })
+  ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
+  ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Tao'))
+  ..addMod(
+      UnitAttribute.weapons,
+      createReplaceWeaponInList(
+          oldValue: buildWeapon('LAC/LFC', hasReact: true)!,
+          newValue: buildWeapon('LAC/LGL', hasReact: true)!),
+      description: '-LAC/LFC, +LAC/LGL');
+
+final UnitModification darkWolfApulu = UnitModification(name: 'Apulu Upgrade')
+  ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
+  ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Apulu'))
+  ..addMod(
+      UnitAttribute.traits, createAddTraitToList(Trait.Jetpack(6, isAux: true)),
+      description: '+Jetpack:6 (Aux)');
