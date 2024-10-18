@@ -34,11 +34,6 @@ Future<void> main() async {
             version: appInfo.version,
             versionSelector: versionSelector,
           ),
-      '/v4.0': (context) => GearForceV3(
-            rosterId: RosterId(idParam),
-            version: appInfo.version,
-            versionSelector: versionSelector,
-          ),
     },
   );
 

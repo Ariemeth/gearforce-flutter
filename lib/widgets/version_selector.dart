@@ -9,7 +9,7 @@ class VersionSelector extends StatefulWidget {
 
 class _VersionSelectorState extends State<VersionSelector> {
   String _currentSelectedVersion = 'v3.1';
-  final versions = ['v3.1', 'v4.0']
+  final versions = ['v3.1']
       .map((String value) => DropdownMenuItem<String>(
             value: value,
             child: Text(value),
@@ -29,6 +29,9 @@ class _VersionSelectorState extends State<VersionSelector> {
           }
 
           setState(() {
+            if (_currentSelectedVersion == value) {
+              return;
+            }
             _currentSelectedVersion = value;
             Navigator.pushNamed(context, '/${value}');
           });
