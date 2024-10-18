@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:gearforce/data/data.dart';
-import 'package:gearforce/models/roster/roster.dart';
+import 'package:gearforce/v3/data/data.dart';
+import 'package:gearforce/v3/models/roster/roster.dart';
 import 'package:gearforce/widgets/settings.dart';
 import 'package:http/http.dart' as http;
 import 'package:uuid/uuid.dart';
@@ -12,8 +12,8 @@ const _game_storage_url = 'https://gs.metadiversions.com/gf';
 
 class ApiService {
   const ApiService();
-  static Future<UnitRoster?> getRoster(
-      Data data, String id, Settings settings) async {
+  static Future<UnitRoster?> getV3Roster(
+      DataV3 data, String id, Settings settings) async {
     // id must be a uuid
     if (!Uuid.isValidUUID(fromString: id.trim())) {
       return null;
@@ -31,7 +31,7 @@ class ApiService {
     return null;
   }
 
-  static Future<(String?, String?)> saveRoster(UnitRoster roster) async {
+  static Future<(String?, String?)> saveV3Roster(UnitRoster roster) async {
     final Map<String, dynamic> payload = {};
     payload['roster'] = roster.toJson();
     final response = await http.post(
