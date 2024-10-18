@@ -51,6 +51,10 @@ List<UnitModification> getUnitMods(Unit unit) {
       return [north.bastion];
     case 'aller':
       return [north.allerCommand];
+    case 'wolf':
+      return [north.howler, north.flakJacketUpgrade];
+    case 'panda':
+      return [north.assaultUpgrade, north.vibro_axeUpgrade];
 
     // Southern units
     case 'jager':
@@ -268,6 +272,14 @@ List<UnitModification> getUnitMods(Unit unit) {
       return [nucoal.squad];
     case 'bt black wind':
       return [blackTalon.blackwindTheta];
+    case 'dark wolf':
+      return [
+        blackTalon.darkWolfOmi,
+        blackTalon.darkWolfTao,
+        blackTalon.darkWolfApulu,
+        north.howler,
+        north.flakJacketUpgrade,
+      ];
 
     // Eden
     case 'constable':
@@ -331,6 +343,14 @@ List<UnitModification> getUnitMods(Unit unit) {
         universal.mountaineering,
         universal.frogmen,
         universal.achillusSquad,
+      ];
+    case 'arminius power armor':
+      return [universal.arminiusParatrooper, universal.arminiusSquad];
+    case 'sand spider':
+      return [
+        universal.sandSpiderComms,
+        universal.sandSpiderAmphib,
+        universal.sandSpiderStealth,
       ];
     case 'baxter':
       return [universal.hmg];

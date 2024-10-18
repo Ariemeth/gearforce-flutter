@@ -1369,6 +1369,79 @@
           "height": 0.5
         }
       ]
+    },
+    {
+      "name": "Dark Wolf",
+      "variants": [
+        {
+          "model": "Dark Wolf",
+          "tv": 7,
+          "role": "GP, SK, FS",
+          "mr": "W/G:7",
+          "arm": 5,
+          "h/s": "4/2",
+          "a": 1,
+          "gu": "4+",
+          "pi": "4+",
+          "ew": "6+",
+          "react-weapons": "LAC/LFC, LCW (Link)",
+          "mounted-weapons": "LRP, LAPGL",
+          "traits": "Hands, Agile, Vet, Stealth (Aux), Airdrop",
+          "type": "Gear",
+          "height": 1.5
+        },
+        {
+          "model": "Lucius",
+          "tv": 8,
+          "role": "GP, SK, FS",
+          "mr": "W/G:7",
+          "arm": 5,
+          "h/s": "4/2",
+          "a": 1,
+          "gu": "4+",
+          "pi": "4+",
+          "ew": "6+",
+          "react-weapons": "LAC/LFC, LCW (Link)",
+          "mounted-weapons": "LSG (Link), LAPGL",
+          "traits": "Hands, Agile, Climber, Vet, Stealth (Aux), Airdrop",
+          "type": "Gear",
+          "height": 1.5
+        },
+        {
+          "model": "Romulus",
+          "tv": 9,
+          "role": "GP, SK, FS",
+          "mr": "W/G:7",
+          "arm": 5,
+          "h/s": "4/2",
+          "a": 1,
+          "gu": "4+",
+          "pi": "4+",
+          "ew": "6+",
+          "react-weapons": "LAC/LFC, LCW (Link)",
+          "mounted-weapons": "LATM (LA:2), LAPGL",
+          "traits": "Hands, Agile, Vet, Stealth (Aux), Airdrop",
+          "type": "Gear",
+          "height": 1.5
+        },
+        {
+          "model": "Fenrir",
+          "tv": 8,
+          "role": "GP, SK, FS",
+          "mr": "W/G:7",
+          "arm": 5,
+          "h/s": "4/2",
+          "a": 1,
+          "gu": "4+",
+          "pi": "4+",
+          "ew": "6+",
+          "react-weapons": "LAC/LFC, LCW (Link)",
+          "mounted-weapons": "LRP (Link), LAPGL",
+          "traits": "Hands, Agile, Vet, Stealth (Aux), Airdrop",
+          "type": "Gear",
+          "height": 1.5
+        }
+      ]
     }
   ]
 }

@@ -376,3 +376,44 @@ final UnitModification achillusSquad = UnitModification(name: 'Squad Upgrade')
       UnitAttribute.name, createReplaceStringMod(old: 'Team', change: 'Squad'))
   ..addMod(UnitAttribute.hull, createSetIntMod(4), description: 'H/S 4/2')
   ..addMod(UnitAttribute.structure, createSetIntMod(2));
+
+final UnitModification arminiusParatrooper = UnitModification(
+    name: 'Paratrooper Upgrade')
+  ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
+  ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Paratrooper'))
+  ..addMod(UnitAttribute.piloting, createSetIntMod(3), description: 'PI:3+')
+  ..addMod(UnitAttribute.roles, createAddRoleToList(Role(name: RoleType.SO)),
+      description: '+SO')
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.Airdrop()),
+      description: '+Airdrop');
+
+final UnitModification arminiusSquad = UnitModification(name: 'Squad Upgrade')
+  ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
+  ..addMod(
+      UnitAttribute.name, createReplaceStringMod(old: 'Team', change: 'Squad'))
+  ..addMod(UnitAttribute.hull, createSetIntMod(4), description: 'H/S 4/2')
+  ..addMod(UnitAttribute.structure, createSetIntMod(2));
+
+final UnitModification sandSpiderComms = UnitModification(name: 'Comms Upgrade')
+  ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
+  ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'with Comms'))
+  ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.Comms()),
+      description: '+Comms')
+  ..addMod(UnitAttribute.traits, createRemoveTraitFromList(Trait.SatUp()),
+      description: '+SatUp');
+
+final UnitModification sandSpiderAmphib =
+    UnitModification(name: 'Amphib Upgrade')
+      ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
+      ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'with Amphib'))
+      ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.Amphib()),
+          description: '+Amphib');
+
+final UnitModification sandSpiderStealth = UnitModification(
+    name: 'Stealth Upgrade')
+  ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
+  ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'with Stealth'))
+  ..addMod(
+      UnitAttribute.traits, createAddTraitToList(Trait.Stealth(isAux: true)),
+      description: '+Amphib (Aux)');
