@@ -678,6 +678,23 @@
           "height": 2
         },
         {
+          "model": "Dark Cobra Rho",
+          "tv": 17,
+          "role": "SK, FS",
+          "mr": "W/G:6",
+          "arm": 8,
+          "h/s": "4/2",
+          "a": 2,
+          "gu": "3+",
+          "pi": "4+",
+          "ew": "6+",
+          "react-weapons": "MPL, MVB (Reach:1)",
+          "mounted-weapons": "MRP, MAR",
+          "traits": "Hands, Airdrop, Stealth (Aux), Vet",
+          "type": "Gear",
+          "height": 2
+        },
+        {
           "model": "Dark Cobra Sigma",
           "tv": 17,
           "role": "SK, FS",
@@ -690,6 +707,23 @@
           "ew": "6+",
           "react-weapons": "HBZ (Precise), MVB (Reach:1)",
           "mounted-weapons": "MRP, MAR",
+          "traits": "Hands, Airdrop, Stealth (Aux), Vet",
+          "type": "Gear",
+          "height": 2
+        },
+        {
+          "model": "Dark Cobra Xi",
+          "tv": 17,
+          "role": "SK, FS",
+          "mr": "W/G:6",
+          "arm": 8,
+          "h/s": "4/2",
+          "a": 2,
+          "gu": "3+",
+          "pi": "4+",
+          "ew": "6+",
+          "react-weapons": "HRC (Precise), MVB (Reach:1)",
+          "mounted-weapons": "MRP, MGM",
           "traits": "Hands, Airdrop, Stealth (Aux), Vet",
           "type": "Gear",
           "height": 2
@@ -1440,6 +1474,79 @@
           "traits": "Hands, Agile, Vet, Stealth (Aux), Airdrop",
           "type": "Gear",
           "height": 1.5
+        }
+      ]
+    },
+    {
+      "name": "Karakara",
+      "variants": [
+        {
+          "model": "Karakara",
+          "tv": 26,
+          "role": "FS",
+          "mr": "W/H:7",
+          "arm": 9,
+          "h/s": "4/4",
+          "a": 3,
+          "gu": "4+",
+          "pi": "4+",
+          "ew": "5+",
+          "react-weapons": "HRG, MMG (Link Auto), HVB (Apex Reach:2)",
+          "mounted-weapons": "LATM (Precise), HHG",
+          "traits": "Hands, Airdrop, Stealth (Aux), Shield, Vet, Brawl:2",
+          "type": "Strider",
+          "height": 2.5
+        },
+        {
+          "model": "Delta Karakara",
+          "tv": 25,
+          "role": "FS",
+          "mr": "W/H:7",
+          "arm": 9,
+          "h/s": "4/4",
+          "a": 3,
+          "gu": "4+",
+          "pi": "4+",
+          "ew": "5+",
+          "react-weapons": "HRC (Apex), MMG (Link Auto), HVB (Apex Reach:2)",
+          "mounted-weapons": "LATM (Precise), HHG",
+          "traits": "Hands, Airdrop, Stealth (Aux), Shield, Vet, Brawl:2",
+          "type": "Strider",
+          "height": 2.5
+        },
+        {
+          "model": "Zeta Karakara",
+          "tv": 26,
+          "role": "FS",
+          "mr": "W/H:7",
+          "arm": 9,
+          "h/s": "4/4",
+          "a": 3,
+          "gu": "4+",
+          "pi": "4+",
+          "ew": "5+",
+          "react-weapons": "HPA, MMG (Link Auto), HVB (Apex Reach:2)",
+          "mounted-weapons": "LATM (Precise), HHG",
+          "traits": "Hands, Airdrop, Stealth (Aux), Shield, Vet, Brawl:2",
+          "type": "Strider",
+          "height": 2.5
+        },
+        {
+          "model": "Lambda Karakara",
+          "tv": 26,
+          "role": "FS",
+          "mr": "W/H:7",
+          "arm": 9,
+          "h/s": "4/4",
+          "a": 3,
+          "gu": "4+",
+          "pi": "4+",
+          "ew": "5+",
+          "react-weapons": "MTG, MMG (Link Auto), HVB (Apex Reach:2)",
+          "mounted-weapons": "LATM (Precise), HHG",
+          "traits": "Hands, Airdrop, Stealth (Aux), Shield, Vet, Brawl:2",
+          "type": "Strider",
+          "height": 2.5
         }
       ]
     }

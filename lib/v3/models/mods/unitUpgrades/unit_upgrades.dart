@@ -247,23 +247,31 @@ List<UnitModification> getUnitMods(Unit unit) {
 
     // Black Talon
     case 'dark warrior':
-      return [blackTalon.psi];
+      return [blackTalon.psi, ...blackTalon.hadesPack];
     case 'dark jaguar':
-      return [blackTalon.darkJaguarPsi, blackTalon.phi];
+      return [
+        blackTalon.darkJaguarPsi,
+        blackTalon.phi,
+        ...blackTalon.hadesPack,
+      ];
     case 'dark mamba':
-      return [blackTalon.darkMambaPsi];
+      return [blackTalon.darkMambaPsi, ...blackTalon.hadesPack];
     case 'dark cobra':
-      return [blackTalon.xi];
+      return [blackTalon.xi, ...blackTalon.aresPack];
+    case 'raptor':
+      return [...blackTalon.aresPack];
     case 'dark naga':
       return [blackTalon.omi, blackTalon.zeta, blackTalon.pur];
     case 'dark coyote':
       return [blackTalon.darkCoyotePsi];
     case 'eagle':
-      return [blackTalon.iota];
+      return [blackTalon.iota, ...blackTalon.hadesPack];
     case 'owl':
-      return [blackTalon.iota];
+      return [blackTalon.iota, ...blackTalon.hadesPack];
+    case 'dark kodiak':
+      return [...blackTalon.aresPack];
     case 'vulture':
-      return [blackTalon.theta];
+      return [blackTalon.theta, ...blackTalon.aresPack];
     case 'dark hyena ii':
       return [blackTalon.spectre];
     case 'dark hoplite':
@@ -279,7 +287,10 @@ List<UnitModification> getUnitMods(Unit unit) {
         blackTalon.darkWolfApulu,
         north.howler,
         north.flakJacketUpgrade,
+        ...blackTalon.hadesPack
       ];
+    case 'karakara':
+      return [blackTalon.xi, blackTalon.twinXi, ...blackTalon.zeusPack];
 
     // Eden
     case 'constable':
