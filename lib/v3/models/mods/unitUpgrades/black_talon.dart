@@ -50,6 +50,13 @@ final UnitModification xi = UnitModification(name: 'Xi Upgrade')
   ..addMod(UnitAttribute.weapons, createAddWeaponToList(buildWeapon('MGM')!),
       description: '+MGM');
 
+final UnitModification twinXi = UnitModification(name: 'Twin Xi Upgrade')
+  ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
+  ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Twin Xi'))
+  ..addMod(
+      UnitAttribute.weapons, createAddWeaponToList(buildWeapon('MGM (Link)')!),
+      description: '+MGM (Link)');
+
 final UnitModification omi = UnitModification(
     name: 'Omi Upgrade',
     requirementCheck: (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
@@ -233,6 +240,18 @@ final List<UnitModification> aresPack = [
   aresPackNu,
   aresPackZeta,
   aresPackTheta
+];
+
+final List<UnitModification> zeusPack = [
+  zeusOmegaPack,
+  zeusZetaPack,
+  zeusTaoPack,
+  zeusNuPack,
+  zeusTwinUpsilonPack,
+  zeusTwinZetaPack,
+  zeusTwinOmegaPack,
+  zeusTwinTaoPack,
+  zeusTwinNuPack
 ];
 
 final UnitModification hadesPackAlpha = UnitModification(
@@ -563,5 +582,223 @@ List<Trait> Function(List<Trait>) _createRemoveJetpackModForPacks() {
     final newTraits = traits.toList();
     newTraits.removeWhere((t) => t.isSameType(Trait.Jetpack(0)));
     return newTraits;
+  };
+}
+
+List<String> _zeusPackOtherModIds(String id) {
+  final List<String> allIds = [
+    zeusOmegaPack.id,
+    zeusZetaPack.id,
+    zeusTaoPack.id,
+    zeusNuPack.id,
+    zeusTwinUpsilonPack.id,
+    zeusTwinZetaPack.id,
+    zeusTwinOmegaPack.id,
+    zeusTwinTaoPack.id,
+    zeusTwinNuPack.id,
+  ];
+
+  allIds.remove(id);
+  return allIds;
+}
+
+final UnitModification zeusOmegaPack = UnitModification(
+  name: 'Zeus Omega Pack',
+  id: 'zeusOmegaPack',
+  requirementCheck: (RuleSet rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+    final otherZeusModIds = _zeusPackOtherModIds(zeusOmegaPack.id);
+    return !otherZeusModIds.any((modId) => u.hasMod(modId));
+  },
+)
+  ..addMod(UnitAttribute.tv, createSimpleIntMod(5), description: 'TV +5')
+  ..addMod(
+    UnitAttribute.traits,
+    createAddTraitToList(Trait.VTOL()),
+    description: '+VTOL',
+  )
+  ..addMod<List<Weapon>>(
+    UnitAttribute.weapons,
+    _createWeaponModForZeusPacks('HRG (Apex)', 'HRP (Apex)'),
+    description: '+HRG (Apex), +HRP (Apex), -LATM (Precise)',
+  );
+
+final UnitModification zeusZetaPack = UnitModification(
+  name: 'Zeus Zeta Pack',
+  id: 'zeusZetaPack',
+  requirementCheck: (RuleSet rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+    final otherZeusModIds = _zeusPackOtherModIds(zeusZetaPack.id);
+    return !otherZeusModIds.any((modId) => u.hasMod(modId));
+  },
+)
+  ..addMod(UnitAttribute.tv, createSimpleIntMod(5), description: 'TV +5')
+  ..addMod(
+    UnitAttribute.traits,
+    createAddTraitToList(Trait.VTOL()),
+    description: '+VTOL',
+  )
+  ..addMod<List<Weapon>>(
+    UnitAttribute.weapons,
+    _createWeaponModForZeusPacks('HPA (Apex)', 'HRP (Apex)'),
+    description: '+HPA (Apex), +HRP (Apex), -LATM (Precise)',
+  );
+
+final UnitModification zeusTaoPack = UnitModification(
+  name: 'Zeus Tao Pack',
+  id: 'zeusTaoPack',
+  requirementCheck: (RuleSet rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+    final otherZeusModIds = _zeusPackOtherModIds(zeusTaoPack.id);
+    return !otherZeusModIds.any((modId) => u.hasMod(modId));
+  },
+)
+  ..addMod(UnitAttribute.tv, createSimpleIntMod(3), description: 'TV +3')
+  ..addMod(
+    UnitAttribute.traits,
+    createAddTraitToList(Trait.VTOL()),
+    description: '+VTOL',
+  )
+  ..addMod<List<Weapon>>(
+    UnitAttribute.weapons,
+    _createWeaponModForZeusPacks('HSC (Apex)', 'HRP (Apex)'),
+    description: '+HSC (Apex), +HRP (Apex), -LATM (Precise)',
+  );
+
+final UnitModification zeusNuPack = UnitModification(
+  name: 'Zeus Nu Pack',
+  id: 'zeusNuPack',
+  requirementCheck: (RuleSet rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+    final otherZeusModIds = _zeusPackOtherModIds(zeusNuPack.id);
+    return !otherZeusModIds.any((modId) => u.hasMod(modId));
+  },
+)
+  ..addMod(UnitAttribute.tv, createSimpleIntMod(5), description: 'TV +5')
+  ..addMod(
+    UnitAttribute.traits,
+    createAddTraitToList(Trait.VTOL()),
+    description: '+VTOL',
+  )
+  ..addMod<List<Weapon>>(
+    UnitAttribute.weapons,
+    _createWeaponModForZeusPacks('HRL (Apex)', 'HRP (Apex)'),
+    description: '+HRL (Apex), +HRP (Apex), -LATM (Precise)',
+  );
+
+final UnitModification zeusTwinUpsilonPack = UnitModification(
+  name: 'Zeus Twin Upsilon Pack',
+  id: 'zeusTwinUpsilonPack',
+  requirementCheck: (RuleSet rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+    final otherZeusModIds = _zeusPackOtherModIds(zeusTwinUpsilonPack.id);
+    return !otherZeusModIds.any((modId) => u.hasMod(modId));
+  },
+)
+  ..addMod(UnitAttribute.tv, createSimpleIntMod(4), description: 'TV +4')
+  ..addMod(
+    UnitAttribute.traits,
+    createAddTraitToList(Trait.VTOL()),
+    description: '+VTOL',
+  )
+  ..addMod<List<Weapon>>(
+    UnitAttribute.weapons,
+    _createWeaponModForZeusPacks('HRP (Apex Link)', null),
+    description: '+HRP (Apex, Link), -LATM (Precise)',
+  );
+
+final UnitModification zeusTwinZetaPack = UnitModification(
+  name: 'Zeus Twin Zeta Pack',
+  id: 'zeusTwinZetaPack',
+  requirementCheck: (RuleSet rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+    final otherZeusModIds = _zeusPackOtherModIds(zeusTwinZetaPack.id);
+    return !otherZeusModIds.any((modId) => u.hasMod(modId));
+  },
+)
+  ..addMod(UnitAttribute.tv, createSimpleIntMod(7), description: 'TV +7')
+  ..addMod(
+    UnitAttribute.traits,
+    createAddTraitToList(Trait.VTOL()),
+    description: '+VTOL',
+  )
+  ..addMod<List<Weapon>>(
+    UnitAttribute.weapons,
+    _createWeaponModForZeusPacks('HPA (Apex Link)', null),
+    description: '+HPA (Apex, Link), -LATM (Precise)',
+  );
+
+final UnitModification zeusTwinOmegaPack = UnitModification(
+  name: 'Zeus Twin Omega Pack',
+  id: 'zeusTwinOmegaPack',
+  requirementCheck: (RuleSet rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+    final otherZeusModIds = _zeusPackOtherModIds(zeusTwinOmegaPack.id);
+    return !otherZeusModIds.any((modId) => u.hasMod(modId));
+  },
+)
+  ..addMod(UnitAttribute.tv, createSimpleIntMod(7), description: 'TV +7')
+  ..addMod(
+    UnitAttribute.traits,
+    createAddTraitToList(Trait.VTOL()),
+    description: '+VTOL',
+  )
+  ..addMod<List<Weapon>>(
+    UnitAttribute.weapons,
+    _createWeaponModForZeusPacks('HRG (Apex Link)', null),
+    description: '+HRG (Apex, Link), -LATM (Precise)',
+  );
+
+final UnitModification zeusTwinTaoPack = UnitModification(
+  name: 'Zeus Twin Tao Pack',
+  id: 'zeusTwinTaoPack',
+  requirementCheck: (RuleSet rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+    final otherZeusModIds = _zeusPackOtherModIds(zeusTwinTaoPack.id);
+    return !otherZeusModIds.any((modId) => u.hasMod(modId));
+  },
+)
+  ..addMod(UnitAttribute.tv, createSimpleIntMod(4), description: 'TV +4')
+  ..addMod(
+    UnitAttribute.traits,
+    createAddTraitToList(Trait.VTOL()),
+    description: '+VTOL',
+  )
+  ..addMod<List<Weapon>>(
+    UnitAttribute.weapons,
+    _createWeaponModForZeusPacks('HSC (Apex Link)', null),
+    description: '+HSC (Apex, Link), -LATM (Precise)',
+  );
+
+final UnitModification zeusTwinNuPack = UnitModification(
+  name: 'Zeus Twin Nu Pack',
+  id: 'zeusTwinNuPack',
+  requirementCheck: (RuleSet rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+    final otherZeusModIds = _zeusPackOtherModIds(zeusTwinNuPack.id);
+    return !otherZeusModIds.any((modId) => u.hasMod(modId));
+  },
+)
+  ..addMod(UnitAttribute.tv, createSimpleIntMod(7), description: 'TV +7')
+  ..addMod(
+    UnitAttribute.traits,
+    createAddTraitToList(Trait.VTOL()),
+    description: '+VTOL',
+  )
+  ..addMod<List<Weapon>>(
+    UnitAttribute.weapons,
+    _createWeaponModForZeusPacks('HRL (Apex Link)', null),
+    description: '+HRL (Apex, Link), -LATM (Precise)',
+  );
+
+List<Weapon> Function(List<Weapon>) _createWeaponModForZeusPacks(
+  String weaponCodeToAdd,
+  String? weaponCodeToAdd2,
+) {
+  return (weapons) {
+    final newWeapons = weapons.toList();
+    // remove the LATM
+    newWeapons.removeWhere((w) => !w.hasReact && w.code == 'ATM');
+    final weapon1 = buildWeapon(weaponCodeToAdd);
+    assert(weapon1 != null);
+    newWeapons.add(weapon1!);
+
+    if (weaponCodeToAdd2 != null) {
+      final weapon2 = buildWeapon(weaponCodeToAdd2);
+      assert(weapon2 != null);
+      newWeapons.add(weapon2!);
+    }
+    return newWeapons;
   };
 }

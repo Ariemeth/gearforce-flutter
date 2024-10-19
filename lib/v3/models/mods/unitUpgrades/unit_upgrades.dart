@@ -289,6 +289,8 @@ List<UnitModification> getUnitMods(Unit unit) {
         north.flakJacketUpgrade,
         ...blackTalon.hadesPack
       ];
+    case 'karakara':
+      return [blackTalon.xi, blackTalon.twinXi, ...blackTalon.zeusPack];
 
     // Eden
     case 'constable':
