@@ -678,6 +678,23 @@
           "height": 2
         },
         {
+          "model": "Dark Cobra Rho",
+          "tv": 17,
+          "role": "SK, FS",
+          "mr": "W/G:6",
+          "arm": 8,
+          "h/s": "4/2",
+          "a": 2,
+          "gu": "3+",
+          "pi": "4+",
+          "ew": "6+",
+          "react-weapons": "MPL, MVB (Reach:1)",
+          "mounted-weapons": "MRP, MAR",
+          "traits": "Hands, Airdrop, Stealth (Aux), Vet",
+          "type": "Gear",
+          "height": 2
+        },
+        {
           "model": "Dark Cobra Sigma",
           "tv": 17,
           "role": "SK, FS",
@@ -690,6 +707,23 @@
           "ew": "6+",
           "react-weapons": "HBZ (Precise), MVB (Reach:1)",
           "mounted-weapons": "MRP, MAR",
+          "traits": "Hands, Airdrop, Stealth (Aux), Vet",
+          "type": "Gear",
+          "height": 2
+        },
+        {
+          "model": "Dark Cobra Xi",
+          "tv": 17,
+          "role": "SK, FS",
+          "mr": "W/G:6",
+          "arm": 8,
+          "h/s": "4/2",
+          "a": 2,
+          "gu": "3+",
+          "pi": "4+",
+          "ew": "6+",
+          "react-weapons": "HRC (Precise), MVB (Reach:1)",
+          "mounted-weapons": "MRP, MGM",
           "traits": "Hands, Airdrop, Stealth (Aux), Vet",
           "type": "Gear",
           "height": 2
