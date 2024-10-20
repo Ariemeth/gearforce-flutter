@@ -460,7 +460,7 @@
       "variants": [
         {
           "model": "MHT-68",
-          "tv": 27,
+          "tv": 28,
           "role": "FS",
           "mr": "H:7",
           "arm": 10,
@@ -470,7 +470,7 @@
           "pi": "5+",
           "ew": "5+",
           "react-weapons": "-",
-          "mounted-weapons": "HPA (T), MATM (T), MABM (T)",
+          "mounted-weapons": "HPA (T), MATM (T Link LA:2), MRP (T)",
           "traits": "Airdrop, Jump Jets:2 (Aux), Sensors:24, TD",
           "type": "Vehicle",
           "height": 2
@@ -487,30 +487,13 @@
           "pi": "5+",
           "ew": "5+",
           "react-weapons": "-",
-          "mounted-weapons": "HLC (T AA), MATM (T), MAAM (T)",
+          "mounted-weapons": "HRL (T AA), MATM (T Link LA:2), MABM (T)",
           "traits": "Airdrop, Jump Jets:2 (Aux), Sensors:24, TD",
           "type": "Vehicle",
           "height": 2
         },
         {
           "model": "MHT-68 Assault",
-          "tv": 26,
-          "role": "FS",
-          "mr": "H:7",
-          "arm": 10,
-          "h/s": "4/4",
-          "a": 3,
-          "gu": "4+",
-          "pi": "5+",
-          "ew": "5+",
-          "react-weapons": "MFC (T Link)",
-          "mounted-weapons": "HRL (T), MATM (T)",
-          "traits": "Airdrop, Jump Jets:2 (Aux), Sensors:24, TD",
-          "type": "Vehicle",
-          "height": 2
-        },
-        {
-          "model": "MHT-68 Raider",
           "tv": 27,
           "role": "FS",
           "mr": "H:7",
@@ -521,8 +504,59 @@
           "pi": "5+",
           "ew": "5+",
           "react-weapons": "-",
-          "mounted-weapons": "MPL (T Link), MATM (T), MABM (T)",
+          "mounted-weapons": "HLC (T), MATM (T Link LA:2), MRP (T)",
           "traits": "Airdrop, Jump Jets:2 (Aux), Sensors:24, TD",
+          "type": "Vehicle",
+          "height": 2
+        },
+        {
+          "model": "MHT-68 Raider",
+          "tv": 28,
+          "role": "FS",
+          "mr": "H:7",
+          "arm": 10,
+          "h/s": "4/4",
+          "a": 3,
+          "gu": "4+",
+          "pi": "5+",
+          "ew": "5+",
+          "react-weapons": "-",
+          "mounted-weapons": "MPL (T Link), MATM (T Link LA:2), MABM (T)",
+          "traits": "Airdrop, Jump Jets:2 (Aux), Sensors:24, TD",
+          "type": "Vehicle",
+          "height": 2
+        },
+        {
+          "model": "MHT-68 Viper",
+          "tv": 28,
+          "role": "FS",
+          "mr": "H:7",
+          "arm": 10,
+          "h/s": "4/4",
+          "a": 3,
+          "gu": "4+",
+          "pi": "5+",
+          "ew": "5+",
+          "react-weapons": "-",
+          "mounted-weapons": "MTG (T), MATM (T Link LA:2), MRP (T)",
+          "traits": "Airdrop, Jump Jets:2 (Aux), Sensors:24, TD",
+          "type": "Vehicle",
+          "height": 2
+        },
+        {
+          "model": "MAT-68",
+          "tv": 23,
+          "role": "FS",
+          "mr": "H:7",
+          "arm": 10,
+          "h/s": "4/4",
+          "a": 3,
+          "gu": "4+",
+          "pi": "5+",
+          "ew": "5+",
+          "react-weapons": "-",
+          "mounted-weapons": "MAG (T), MAPGL",
+          "traits": "Airdrop, Jump Jets:2 (Aux), Sensors:36, TD",
           "type": "Vehicle",
           "height": 2
         }
@@ -543,7 +577,7 @@
           "pi": "5+",
           "ew": "5+",
           "react-weapons": "-",
-          "mounted-weapons": "HPA (T), MATM (T), MABM (T)",
+          "mounted-weapons": "HPA (T), MATM (T Link)",
           "traits": "Airdrop, Jump Jets:3 (Aux), Sensors:24, TD",
           "type": "Vehicle",
           "height": 2
@@ -560,7 +594,7 @@
           "pi": "5+",
           "ew": "5+",
           "react-weapons": "-",
-          "mounted-weapons": "HLC (T AA), MATM (T), MAAM (T)",
+          "mounted-weapons": "HRL (T AA), MABM (T), MATM (T)",
           "traits": "Airdrop, Jump Jets:3 (Aux), Sensors:24, TD",
           "type": "Vehicle",
           "height": 2
@@ -576,8 +610,8 @@
           "gu": "4+",
           "pi": "5+",
           "ew": "5+",
-          "react-weapons": "MFC (T Link)",
-          "mounted-weapons": "HRL (T), MATM (T)",
+          "react-weapons": "-",
+          "mounted-weapons": "HLC (T), MATM (T), MRP (T)",
           "traits": "Airdrop, Jump Jets:3 (Aux), Sensors:24, TD",
           "type": "Vehicle",
           "height": 2
@@ -594,8 +628,42 @@
           "pi": "5+",
           "ew": "5+",
           "react-weapons": "-",
-          "mounted-weapons": "MPL (T Link), MATM (T), MABM (T)",
+          "mounted-weapons": "MPL (T Link), MATM (T), MRP (T)",
           "traits": "Airdrop, Jump Jets:3 (Aux), Sensors:24, TD",
+          "type": "Vehicle",
+          "height": 2
+        },
+        {
+          "model": "MHT-72 Viper",
+          "tv": 29,
+          "role": "FS",
+          "mr": "H:8",
+          "arm": 10,
+          "h/s": "5/3",
+          "a": 3,
+          "gu": "4+",
+          "pi": "5+",
+          "ew": "5+",
+          "react-weapons": "-",
+          "mounted-weapons": "MTG (T), MATM (T Link)",
+          "traits": "Airdrop, Jump Jets:3 (Aux), Sensors:24, TD",
+          "type": "Vehicle",
+          "height": 2
+        },
+        {
+          "model": "MAT-72",
+          "tv": 25,
+          "role": "FS",
+          "mr": "H:8",
+          "arm": 10,
+          "h/s": "5/3",
+          "a": 3,
+          "gu": "4+",
+          "pi": "5+",
+          "ew": "5+",
+          "react-weapons": "-",
+          "mounted-weapons": "HAG (T), MAPGL",
+          "traits": "Airdrop, Jump Jets:3 (Aux), Sensors:36, TD",
           "type": "Vehicle",
           "height": 2
         }
@@ -1061,6 +1129,50 @@
           "react-weapons": "HMG, HICW (AP:1)",
           "mounted-weapons": "-",
           "traits": "Agile, Brawl:1, Stealth, Jetpack:4",
+          "type": "Infantry",
+          "height": 1
+        }
+      ]
+    },
+    {
+      "name": "Ember Power Armor",
+      "variants": [
+        {
+          "model": "Ember",
+          "tv": 6,
+          "role": "GP+, SK, FS",
+          "mr": "W:5",
+          "arm": 5,
+          "h/s": "2/1",
+          "a": 1,
+          "gu": "4+",
+          "pi": "4+",
+          "ew": "4+",
+          "react-weapons": "HIW/MIGL, LICW",
+          "mounted-weapons": "-",
+          "traits": "Comms",
+          "type": "Infantry",
+          "height": 1
+        }
+      ]
+    },
+    {
+      "name": "Oannes Power Armor",
+      "variants": [
+        {
+          "model": "Oannes",
+          "tv": 5,
+          "role": "GP+, SK, FS",
+          "mr": "W:5",
+          "arm": 5,
+          "h/s": "2/1",
+          "a": 1,
+          "gu": "4+",
+          "pi": "4+",
+          "ew": "6+",
+          "react-weapons": "HIW/MIGL, LIS (T Auto), LICW (AP:1)",
+          "mounted-weapons": "-",
+          "traits": "Comms",
           "type": "Infantry",
           "height": 1
         }
