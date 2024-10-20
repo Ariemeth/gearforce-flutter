@@ -11,7 +11,7 @@ import 'package:gearforce/v3/models/unit/unit.dart';
 import 'package:gearforce/v3/models/validation/validations.dart';
 import 'package:gearforce/widgets/settings.dart';
 
-const _currentRulesVersion = '3.1 - May 2022';
+const _currentRulesVersion = '3.1 - May 2022; Companion Oct 2024';
 final _matchExp = RegExp(r'^CG (?<count>\d+)', caseSensitive: false);
 
 class UnitRoster extends ChangeNotifier {
