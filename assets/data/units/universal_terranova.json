@@ -1061,6 +1061,28 @@
           "height": 1
         }
       ]
+    },
+    {
+      "name": "Nightingale",
+      "variants": [
+        {
+          "model": "Nightingale",
+          "tv": 4,
+          "role": "GP+",
+          "mr": "G:6",
+          "arm": 5,
+          "h/s": "3/3",
+          "a": 1,
+          "gu": "5+",
+          "pi": "4+",
+          "ew": "6+",
+          "react-weapons": "-",
+          "mounted-weapons": "-",
+          "traits": "Medic, Smoke",
+          "type": "Vehicle",
+          "height": 1.5
+        }
+      ]
     }
   ]
 }

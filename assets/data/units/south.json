@@ -2910,8 +2910,8 @@
           "height": 1.5
         },
         {
-          "model": "Riotmaster Wasserjager",
-          "tv": 7,
+          "model": "Longfang Wasserjager",
+          "tv": 8,
           "role": "GP, SK, FS",
           "mr": "W:6",
           "arm": 7,
@@ -2920,8 +2920,8 @@
           "gu": "4+",
           "pi": "4+",
           "ew": "6+",
-          "react-weapons": "MFC, LVB",
-          "mounted-weapons": "LRP, LAPGL",
+          "react-weapons": "LSMG, LVB",
+          "mounted-weapons": "LRP (Link), LAPGL",
           "traits": "Hands, Sub",
           "type": "Gear",
           "height": 1.5

@@ -7,6 +7,7 @@ import 'package:gearforce/v3/models/traits/trait.dart';
 import 'package:gearforce/v3/models/unit/role.dart';
 import 'package:gearforce/v3/models/unit/unit.dart';
 import 'package:gearforce/v3/models/unit/unit_attribute.dart';
+import 'package:gearforce/v3/models/weapons/weapon.dart';
 import 'package:gearforce/v3/models/weapons/weapons.dart';
 
 final UnitModification command = UnitModification(name: 'Command Upgrade')
@@ -145,3 +146,122 @@ final UnitModification tankHunter =
               oldValue: buildWeapon('MRP (Link)')!,
               newValue: buildWeapon('LATM (Link)')!),
           description: '-MRP (Link), +LATM (Link)');
+
+final UnitModification oannesGunglaiveUpgrade = UnitModification(
+  name: 'Gunglaive Upgrade',
+)
+  ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
+  ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Gunglaive'))
+  ..addMod<List<Weapon>>(
+    UnitAttribute.weapons,
+    (weapons) {
+      final newWeapons = weapons.toList();
+      newWeapons.removeWhere((w) => w.hasReact);
+
+      final newWeapon = buildWeapon('HICW (AP:2)/HIS (AP:2)', hasReact: true);
+      assert(newWeapon != null);
+      newWeapons.add(newWeapon!);
+
+      return newWeapons;
+    },
+  )
+  ..addMod(
+    UnitAttribute.traits,
+    createAddOrCombineTraitToList(Trait.Brawl(2)),
+    description: '+Brawl:2',
+  );
+
+final UnitModification oannesVolatusUpgrade = UnitModification(
+    name: 'Volatus Upgrade',
+    requirementCheck: (RuleSet rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+      return !u.hasMod(oannesHydorUpgrade.id);
+    })
+  ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
+  ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Volatus'))
+  ..addMod(
+    UnitAttribute.weapons,
+    createAddWeaponToList(buildWeapon('HIM')!),
+    description: '+HIM',
+  )
+  ..addMod(
+    UnitAttribute.traits,
+    createAddOrReplaceSameTraitInList(Trait.Jetpack(5)),
+    description: '+Jetpack:5',
+  );
+
+final UnitModification oannesHydorUpgrade = UnitModification(
+    name: 'Hydor Upgrade',
+    requirementCheck: (RuleSet rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+      return !u.hasMod(oannesVolatusUpgrade.id);
+    })
+  ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
+  ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Hydor'))
+  ..addMod(
+    UnitAttribute.weapons,
+    createAddWeaponToList(buildWeapon('HAVM (LA:2)')!),
+    description: '+HAVM (LA:2)',
+  )
+  ..addMod(
+    UnitAttribute.traits,
+    createAddTraitToList(Trait.Sub()),
+    description: '+Sub',
+  );
+
+final UnitModification oannesDominusUpgrade = UnitModification(
+  name: 'Dominus Upgrade',
+)
+  ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
+  ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Dominus'))
+  ..addMod(UnitAttribute.ew, createSetIntMod(5), description: 'EW 5+')
+  ..addMod(
+    UnitAttribute.traits,
+    createAddTraitToList(Trait.Comms()),
+    description: '+Comms',
+  );
+
+final UnitModification emberAnzuUpgrade = UnitModification(
+  name: 'ANZU Upgrade',
+  requirementCheck: (RuleSet rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+    return !u.hasMod(emberNKIUpgrade.id);
+  },
+)
+  ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
+  ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'ANZU'))
+  ..addMod(
+    UnitAttribute.weapons,
+    createAddWeaponToList(buildWeapon('HIM')!),
+    description: '+HIM',
+  )
+  ..addMod(
+    UnitAttribute.traits,
+    createAddOrReplaceSameTraitInList(Trait.Jetpack(5)),
+    description: '+Jetpack:5',
+  );
+
+final UnitModification emberNKIUpgrade = UnitModification(
+  name: 'N-KI Upgrade',
+  requirementCheck: (RuleSet rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+    return !u.hasMod(emberAnzuUpgrade.id);
+  },
+)
+  ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
+  ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'N-KI'))
+  ..addMod(
+    UnitAttribute.weapons,
+    createAddWeaponToList(buildWeapon('HAVM (LA:2)')!),
+    description: '+HAVM (LA:2)',
+  )
+  ..addMod(
+    UnitAttribute.traits,
+    createAddTraitToList(Trait.Sub()),
+    description: '+Sub',
+  );
+
+final UnitModification emberNodeUpgrade = UnitModification(name: 'Node Upgrade')
+  ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
+  ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Node'))
+  ..addMod(
+    UnitAttribute.traits,
+    createAddTraitToList(Trait.SatUp()),
+    description: '+SatUp',
+  );

@@ -100,7 +100,7 @@ List<UnitModification> getUnitMods(Unit unit) {
     case 'lizard rider':
       return [south.team];
     case 'wasserjager':
-      return [south.command, south.wasserjagerLongfang];
+      return [south.command];
 
     // Peace River
     case 'warrior':
@@ -375,6 +375,21 @@ List<UnitModification> getUnitMods(Unit unit) {
       return [
         universal.trooperAutomationNode,
         universal.trooperAutomationSquad,
+      ];
+    case 'ember power armor':
+      return [
+        cef.emberAnzuUpgrade,
+        cef.emberNKIUpgrade,
+        cef.emberNodeUpgrade,
+        cef.team
+      ];
+    case 'oannes power armor':
+      return [
+        cef.oannesGunglaiveUpgrade,
+        cef.oannesVolatusUpgrade,
+        cef.oannesHydorUpgrade,
+        cef.oannesDominusUpgrade,
+        cef.team,
       ];
   }
   return [];
