@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
 
-class VersionSelector extends StatefulWidget {
-  const VersionSelector();
+const String _3_1 = 'v3.1';
+const String _4_0 = 'v4.0';
 
-  @override
-  _VersionSelectorState createState() => _VersionSelectorState();
-}
+class VersionSelector extends StatelessWidget {
+  VersionSelector(this.currentVersion);
 
-class _VersionSelectorState extends State<VersionSelector> {
-  String _currentSelectedVersion = 'v3.1';
-  final versions = ['v3.1']
+  static final String defaultSelectedVersion = _3_1;
+  static String get v3_1 => _3_1;
+  static String get v4_0 => _4_0;
+
+  //final versions = const [_3_1, _4_0];
+  final versions = const [_3_1];
+  final String currentVersion;
+
+  late final versionsDropdown = versions
       .map((String value) => DropdownMenuItem<String>(
             value: value,
             child: Text(value),
@@ -21,20 +26,17 @@ class _VersionSelectorState extends State<VersionSelector> {
     return Padding(
       padding: const EdgeInsets.only(left: 15.0),
       child: DropdownButton<String>(
-        value: _currentSelectedVersion,
-        items: versions,
+        value: currentVersion,
+        items: versionsDropdown,
         onChanged: (String? value) {
           if (value == null) {
             return;
           }
 
-          setState(() {
-            if (_currentSelectedVersion == value) {
-              return;
-            }
-            _currentSelectedVersion = value;
-            Navigator.pushNamed(context, '/${value}');
-          });
+          if (!versions.contains(value)) {
+            return;
+          }
+          Navigator.pushReplacementNamed(context, '/${value}');
         },
       ),
     );
