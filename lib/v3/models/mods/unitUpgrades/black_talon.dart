@@ -148,7 +148,7 @@ final UnitModification theta = UnitModification(name: 'Theta Upgrade')
           oldValue: buildWeapon('MGM')!, newValue: buildWeapon('MATM')!),
       description: '-MGM, +MATM');
 
-final UnitModification spectre = UnitModification(name: 'Spectra Upgrade')
+final UnitModification spectre = UnitModification(name: 'Spectre Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Spectre'))
   ..addMod(UnitAttribute.ew, createSetIntMod(3), description: 'EW 3+')
