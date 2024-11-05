@@ -320,7 +320,11 @@ List<UnitModification> getUnitMods(Unit unit) {
     case 'druid':
       return [eden.hydor];
     case 'valence':
-      return [universal.maulerFistSwap, universal.valenceClawSwap];
+      return [
+        universal.maulerFistSwap,
+        universal.sawBladeSwap,
+        universal.valenceClawSwap
+      ];
     case 'bricklayer':
       return [universal.sawBladeSwap, universal.vibroswordSwap];
     case 'engineering grizzly':

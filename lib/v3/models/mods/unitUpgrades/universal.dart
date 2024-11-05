@@ -13,6 +13,10 @@ import 'package:gearforce/v3/models/weapons/weapons.dart';
 final UnitModification sawBladeSwap = UnitModification(
     name: 'Saw Blade Swap',
     requirementCheck: (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+      if (u.hasMod(maulerFistSwap.id)) {
+        return false;
+      }
+
       final hasMCW = u
           .attribute<List<Weapon>>(UnitAttribute.weapons,
               modIDToSkip: sawBladeSwap.id)
@@ -122,6 +126,10 @@ final UnitModification heavyChainswordSwap = UnitModification(
 final UnitModification maulerFistSwap = UnitModification(
     name: 'Mauler Fist Swap',
     requirementCheck: (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+      if (u.hasMod(sawBladeSwap.id)) {
+        return false;
+      }
+
       final hasMCW = u
           .attribute<List<Weapon>>(UnitAttribute.weapons,
               modIDToSkip: maulerFistSwap.id)
