@@ -14,8 +14,8 @@ import 'package:gearforce/v3/models/validation/validations.dart';
 const RoleType _defaultRoleType = RoleType.GP;
 
 enum GroupType {
-  Primary('Primary'),
-  Secondary('Secondary');
+  primary('Primary'),
+  secondary('Secondary');
 
   const GroupType(this.name);
   final String name;
@@ -28,7 +28,7 @@ class Group extends ChangeNotifier {
   CombatGroup? combatGroup;
 
   Group(this.groupType, {RoleType role = _defaultRoleType}) {
-    this._role = role;
+    _role = role;
   }
 
   Map<String, dynamic> toJson() => {
@@ -53,20 +53,22 @@ class Group extends ChangeNotifier {
     }
 
     var decodedUnits = jsonUnits as List<dynamic>;
-    decodedUnits.map((du) {
-      try {
-        return Unit.fromJson(du, faction, ruleset, cg, roster);
-      } catch (e) {
-        print(
-            'Exception caught while decoding unit $du in ${cg.name} $groupType group: $e');
-        return null;
-      }
-    }).toList()
-      ..forEach((u) {
-        if (u != null) {
-          g._addUnit(u);
-        }
-      });
+    decodedUnits
+        .map((du) {
+          try {
+            return Unit.fromJson(du, faction, ruleset, cg, roster);
+          } catch (e) {
+            print(
+                'Exception caught while decoding unit $du in ${cg.name} $groupType group: $e');
+            return null;
+          }
+        })
+        .toList()
+        .forEach((u) {
+          if (u != null) {
+            g._addUnit(u);
+          }
+        });
 
     return g;
   }
@@ -127,9 +129,7 @@ class Group extends ChangeNotifier {
     if (validations.isNotValid()) {
       print(validations.toString());
     } else {
-      if (unit.group == null) {
-        unit.group = this;
-      }
+      unit.group ??= this;
       notifyListeners();
     }
   }
@@ -216,18 +216,18 @@ class Group extends ChangeNotifier {
 
   int totalTV() {
     var total = 0;
-    _units.forEach((u) {
+    for (var u in _units) {
       total += u.tv;
-    });
+    }
 
     return total;
   }
 
   int get totalActions {
     var total = 0;
-    _units.forEach((u) {
+    for (var u in _units) {
       total += u.actions ?? 0;
-    });
+    }
     return total;
   }
 
@@ -256,7 +256,7 @@ class Group extends ChangeNotifier {
       return results;
     }
 
-    final rs = this.combatGroup?.roster?.rulesetNotifer.value;
+    final rs = combatGroup?.roster?.rulesetNotifer.value;
 
     final makeVet = VeteranModification.makeVet(u, combatGroup!);
     if (rs != null &&
@@ -289,7 +289,7 @@ class Group extends ChangeNotifier {
 
     if (combatGroup != null && combatGroup!.roster != null) {
       final tempList = _units.toList(growable: false);
-      tempList.forEach((u) {
+      for (var u in tempList) {
         // Check if the unit is part of a veteran/elite force and if so make sure all
         // units are vets.
         final isEliteForce = combatGroup?.roster?.isEliteForce;
@@ -297,7 +297,7 @@ class Group extends ChangeNotifier {
           final e = _ensureVetStatus(u, tryFix: tryFix);
           if (e.isNotValid()) {
             validationErrors.addAll(e.validations);
-            return;
+            continue;
           }
         }
         if (combatGroup!.roster!.rulesetNotifer.value
@@ -313,7 +313,7 @@ class Group extends ChangeNotifier {
             _units.remove(u);
           }
         }
-      });
+      }
     }
 
     return validationErrors;

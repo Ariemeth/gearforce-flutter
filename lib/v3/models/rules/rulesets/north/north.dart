@@ -241,7 +241,7 @@ final Rule ruleDragoonSquad = Rule(
 
     // Getting the other group in the cg
     final otherGroup =
-        u.group?.groupType == GroupType.Primary ? cg.secondary : cg.primary;
+        u.group?.groupType == GroupType.primary ? cg.secondary : cg.primary;
 
     // If the other group is empty no additional checks are needed
     if (otherGroup.allUnits().isEmpty) {
@@ -338,7 +338,7 @@ final Rule ruleDragoonSquad = Rule(
     }
 
     // Getting the other group in the cg
-    final otherGroup = group.groupType == GroupType.Primary
+    final otherGroup = group.groupType == GroupType.primary
         ? group.combatGroup?.secondary
         : group.combatGroup?.primary;
 

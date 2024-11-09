@@ -724,7 +724,7 @@ final Rule ruleExpertSalvagers = Rule(
     switch (unit.faction) {
       case FactionType.North:
         if (!rs.isRuleEnabled(ruleTheSourceNorth.id) &&
-            gt == GroupType.Primary) {
+            gt == GroupType.primary) {
           return Validation(
             false,
             issue: 'North units must be placed in secondary units; See Expert' +
@@ -734,7 +734,7 @@ final Rule ruleExpertSalvagers = Rule(
         break;
       case FactionType.South:
         if (!rs.isRuleEnabled(ruleTheSourceSouth.id) &&
-            gt == GroupType.Primary) {
+            gt == GroupType.primary) {
           return Validation(
             false,
             issue: 'South units must be placed in secondary units; See Expert' +
@@ -744,7 +744,7 @@ final Rule ruleExpertSalvagers = Rule(
         break;
       case FactionType.PeaceRiver:
         if (!rs.isRuleEnabled(ruleTheSourcePeaceRiver.id) &&
-            gt == GroupType.Primary) {
+            gt == GroupType.primary) {
           return Validation(
             false,
             issue: 'Peace River units must be placed in secondary units; See' +
@@ -754,7 +754,7 @@ final Rule ruleExpertSalvagers = Rule(
         break;
       case FactionType.NuCoal:
         if (!rs.isRuleEnabled(ruleTheSourceNuCoal.id) &&
-            gt == GroupType.Primary) {
+            gt == GroupType.primary) {
           return Validation(
             false,
             issue:

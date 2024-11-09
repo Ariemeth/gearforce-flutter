@@ -49,24 +49,24 @@ class DataV3 {
     List<RoleType?>? roleFilter,
     List<String>? characterFilters,
   }) {
-    assert(baseFactionFilters.length > 0);
+    assert(baseFactionFilters.isNotEmpty);
 
     final List<Frame> availableFrames = [];
 
-    baseFactionFilters.forEach((factionType) {
+    for (var factionType in baseFactionFilters) {
       final frames = _factionFrames[factionType];
       if (frames != null) {
         availableFrames.addAll(frames);
       }
-    });
+    }
 
     List<UnitCore> results = [];
 
     // adding each variant of the already selected frames to the results to be
     // returned.
-    availableFrames.forEach((frame) {
+    for (var frame in availableFrames) {
       results.addAll(frame.variants);
-    });
+    }
 
     if (roleFilter != null && roleFilter.isNotEmpty) {
       results = results.where((uc) {
@@ -89,13 +89,13 @@ class DataV3 {
     List<RoleType>? roleFilter,
     List<String>? characterFilters,
   }) {
-    if (filters.length == 0) {
+    if (filters.isEmpty) {
       return [];
     }
 
     List<Unit> results = [];
 
-    filters.forEach((filter) {
+    for (var filter in filters) {
       final frames = _factionFrames[filter.faction];
       frames?.forEach((frame) {
         final units = frame.variants
@@ -104,7 +104,7 @@ class DataV3 {
             .toList();
         results.addAll(units);
       });
-    });
+    }
 
     // filter the selection based on role
     if (roleFilter != null && roleFilter.isNotEmpty) {
@@ -128,7 +128,7 @@ class DataV3 {
   ///
   /// This function will not return/complete until all resources have been loaded.
   Future<void> load(Settings settings) async {
-    this._factions = _loadFactions(settings);
+    _factions = _loadFactions(settings);
 
     await Future.forEach<MapEntry<FactionType, String>>(
         _factionUnitFiles.entries.map((me) => me).toList(), (me) async {

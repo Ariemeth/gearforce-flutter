@@ -131,7 +131,7 @@ final Rule _ruleAllyCEF = Rule(
     _ruleAlliesCapriceId,
   ]),
   canBeAddedToGroup: (unit, group, cg) {
-    if (group.groupType == GroupType.Secondary) {
+    if (group.groupType == GroupType.secondary) {
       return null;
     }
 
@@ -167,7 +167,7 @@ final Rule _ruleAllyBlackTalon = Rule(
     _ruleAlliesCapriceId,
   ]),
   canBeAddedToGroup: (unit, group, cg) {
-    if (group.groupType == GroupType.Secondary) {
+    if (group.groupType == GroupType.secondary) {
       return null;
     }
 
@@ -200,7 +200,7 @@ final Rule _ruleAllyUtopia = Rule(
     _ruleAlliesCapriceId,
   ]),
   canBeAddedToGroup: (unit, group, cg) {
-    if (group.groupType == GroupType.Secondary) {
+    if (group.groupType == GroupType.secondary) {
       return null;
     }
 
@@ -233,7 +233,7 @@ final Rule _ruleAllyCaprice = Rule(
     _ruleAlliesUtopiaId,
   ]),
   canBeAddedToGroup: (unit, group, cg) {
-    if (group.groupType == GroupType.Secondary) {
+    if (group.groupType == GroupType.secondary) {
       return null;
     }
 
@@ -249,7 +249,7 @@ final Rule _ruleAllyCaprice = Rule(
   },
   modCheckOverride: (u, cg, {required modID}) {
     if (modID == caprice.cyberneticUpgradesId &&
-        u.group?.groupType == GroupType.Primary) {
+        u.group?.groupType == GroupType.primary) {
       return false;
     }
     return null;

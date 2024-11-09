@@ -130,7 +130,7 @@ final Rule ruleAlliesCaprice = Rule(
     if (unit.faction != FactionType.Caprice) {
       return null;
     }
-    if (group.groupType == GroupType.Primary) {
+    if (group.groupType == GroupType.primary) {
       return Validation(
         false,
         issue: 'Caprice units must be placed in secondary units; See Allies' +
@@ -141,7 +141,7 @@ final Rule ruleAlliesCaprice = Rule(
   },
   modCheckOverride: (u, cg, {required modID}) {
     if (modID == caprice.cyberneticUpgradesId &&
-        u.group?.groupType == GroupType.Primary) {
+        u.group?.groupType == GroupType.primary) {
       return false;
     }
     return null;
@@ -173,7 +173,7 @@ final Rule ruleAlliesUtopia = Rule(
     if (unit.faction != FactionType.Utopia) {
       return null;
     }
-    if (group.groupType == GroupType.Primary) {
+    if (group.groupType == GroupType.primary) {
       return Validation(
         false,
         issue: 'Utopia units must be placed in secondary units; See Allies' +
@@ -202,7 +202,7 @@ final Rule ruleAlliesEden = Rule(
     if (unit.faction != FactionType.Eden) {
       return null;
     }
-    if (group.groupType == GroupType.Primary) {
+    if (group.groupType == GroupType.primary) {
       return Validation(
         false,
         issue: 'Eden units must be placed in secondary units; See Allies' +

@@ -91,7 +91,7 @@ final Rule _ruleAllyCEF = Rule(
     _ruleAlliesEdenId,
   ]),
   canBeAddedToGroup: (unit, group, cg) {
-    if (group.groupType == GroupType.Secondary) {
+    if (group.groupType == GroupType.secondary) {
       return null;
     }
 
@@ -128,7 +128,7 @@ final Rule _ruleAllyBlackTalon = Rule(
     _ruleAlliesEdenId,
   ]),
   canBeAddedToGroup: (unit, group, cg) {
-    if (group.groupType == GroupType.Secondary) {
+    if (group.groupType == GroupType.secondary) {
       return null;
     }
 
@@ -161,7 +161,7 @@ final Rule _ruleAllyUtopia = Rule(
     _ruleAlliesEdenId,
   ]),
   canBeAddedToGroup: (unit, group, cg) {
-    if (group.groupType == GroupType.Secondary) {
+    if (group.groupType == GroupType.secondary) {
       return null;
     }
 
@@ -194,7 +194,7 @@ final Rule _ruleAllyEden = Rule(
     _ruleAlliesUtopiaId,
   ]),
   canBeAddedToGroup: (unit, group, cg) {
-    if (group.groupType == GroupType.Secondary) {
+    if (group.groupType == GroupType.secondary) {
       return null;
     }
 

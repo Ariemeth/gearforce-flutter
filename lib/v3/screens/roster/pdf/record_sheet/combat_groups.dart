@@ -44,7 +44,7 @@ pw.Widget _buildCombatGroup(pw.Font font, CombatGroup cg) {
     _buildCombatGroupHeader(
       font,
       GroupName: cg.name,
-      groupType: GroupType.Primary,
+      groupType: GroupType.primary,
       role: cg.primary.role(),
     ),
     _buildUnitsContent(
@@ -63,7 +63,7 @@ pw.Widget _buildCombatGroup(pw.Font font, CombatGroup cg) {
         child: _buildCombatGroupHeader(
           font,
           GroupName: cg.name,
-          groupType: GroupType.Secondary,
+          groupType: GroupType.secondary,
           role: cg.secondary.role(),
         ),
       ),

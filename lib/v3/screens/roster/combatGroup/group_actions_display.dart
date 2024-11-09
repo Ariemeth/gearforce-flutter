@@ -22,7 +22,7 @@ class GroupActionsDisplay extends StatelessWidget {
   Widget build(BuildContext context) {
     final settings = context.read<Settings>();
 
-    final isPrimary = group.groupType == GroupType.Primary;
+    final isPrimary = group.groupType == GroupType.primary;
 
     final actions = group.totalActions;
     final maxPrimaryActions = ruleSet.maxPrimaryActions;

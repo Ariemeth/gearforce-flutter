@@ -15,8 +15,8 @@ import 'package:gearforce/v3/models/unit/unit.dart';
 import 'package:gearforce/v3/models/validation/validations.dart';
 
 class CombatGroup extends ChangeNotifier {
-  Group _primary = Group(GroupType.Primary);
-  Group _secondary = Group(GroupType.Secondary);
+  Group _primary = Group(GroupType.primary);
+  Group _secondary = Group(GroupType.secondary);
   String _name;
   bool _isVeteran = false;
   UnitRoster? roster;
@@ -24,8 +24,8 @@ class CombatGroup extends ChangeNotifier {
 
   CombatGroup(String name, {Group? primary, Group? secondary, this.roster})
       : _name = name {
-    this.primary = primary == null ? Group(GroupType.Primary) : primary;
-    this.secondary = secondary == null ? Group(GroupType.Secondary) : secondary;
+    this.primary = primary ?? Group(GroupType.primary);
+    this.secondary = secondary ?? Group(GroupType.secondary);
     _resetOptions();
   }
 
@@ -41,7 +41,7 @@ class CombatGroup extends ChangeNotifier {
         String newName = newValue;
         while (roster!.getCGs().any((value) => value.name == newName)) {
           print('Duplicate name found, changing rename to $newName');
-          newName = '${newValue} ($count)';
+          newName = '$newValue ($count)';
           count++;
         }
         newValue = newName;
@@ -127,7 +127,7 @@ class CombatGroup extends ChangeNotifier {
   Map<String, dynamic> toJson() => {
         'primary': _primary.toJson(),
         'secondary': _secondary.toJson(),
-        'name': '$name',
+        'name': name,
         'isVet': _isVeteran,
         'enabledOptions':
             _options.where((o) => o.isEnabled).map((o) => o.id).toList(),
@@ -148,16 +148,16 @@ class CombatGroup extends ChangeNotifier {
     cg._options = roster.rulesetNotifer.value.combatGroupSettings();
 
     final enabledOptions = json['enabledOptions'] as List;
-    enabledOptions.forEach((optionId) {
+    for (var optionId in enabledOptions) {
       cg._options
           .where((oo) => oo.id == optionId)
           .forEach((o) => o.isEnabled = true);
-    });
+    }
 
     final p = Group.fromJson(
-        json['primary'], faction, ruleset, cg, roster, GroupType.Primary);
+        json['primary'], faction, ruleset, cg, roster, GroupType.primary);
     final s = Group.fromJson(
-        json['secondary'], faction, ruleset, cg, roster, GroupType.Secondary);
+        json['secondary'], faction, ruleset, cg, roster, GroupType.secondary);
     cg.primary = p;
     cg.secondary = s;
 
@@ -174,10 +174,10 @@ class CombatGroup extends ChangeNotifier {
             u.faction == FactionType.Universal_TerraNova)
         .length;
     if (dronesInCG > 0) {
-      final HunsInCG =
+      final hunsInCG =
           units.where((u) => u.core.name.startsWith('Recon Hu')).length;
 
-      final maxFreeDrones = HunsInCG * 3;
+      final maxFreeDrones = hunsInCG * 3;
       final freeDrones = min(maxFreeDrones, dronesInCG);
       total -= (freeDrones * 2);
     }
@@ -192,7 +192,7 @@ class CombatGroup extends ChangeNotifier {
   }
 
   bool hasDuelist() {
-    return this._primary.hasDuelist() || this._secondary.hasDuelist();
+    return _primary.hasDuelist() || _secondary.hasDuelist();
   }
 
   int get duelistCount {
@@ -232,7 +232,7 @@ class CombatGroup extends ChangeNotifier {
     return _primary.numberOfUnits() + _secondary.numberOfUnits();
   }
 
-  List<Group> get Groups => [primary, secondary];
+  List<Group> get groups => [primary, secondary];
 
   /// Indicates if there are any units in the [CombatGroup]
   bool isEmpty() => _primary.isEmpty() && _secondary.isEmpty();
@@ -268,7 +268,7 @@ class CombatGroup extends ChangeNotifier {
     final highestRank = highestCommandLevel();
     if (highestRank < CommandLevel.cgl) {
       _tryEnsureCommander(tryFix: tryFix);
-      validationErrors.add(Validation(
+      validationErrors.add(const Validation(
         false,
         issue: 'No leader of at least CGL in CG',
       ));
@@ -312,9 +312,9 @@ class CombatGroup extends ChangeNotifier {
 
     var highRank = CommandLevel.none;
 
-    leaders.forEach((unit) {
+    for (var unit in leaders) {
       highRank = CommandLevel.GreaterOne(highRank, unit.commandLevel);
-    });
+    }
 
     return highRank;
   }
@@ -336,9 +336,8 @@ class CombatGroup extends ChangeNotifier {
 
   @override
   String toString() {
-    final result = 'CombatGroup: $name\n' +
-        '\tPrimary: $_primary\n' +
-        '\tSecondary: $_secondary';
+    final result =
+        'CombatGroup: $name\n\tPrimary: $_primary\n\tSecondary: $_secondary';
 
     return result;
   }

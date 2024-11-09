@@ -356,7 +356,7 @@ abstract class RuleSet extends ChangeNotifier {
     final isUnitAlreadyInGroup = group.allUnits().any((u) => u == unit);
     if (!isUnitAlreadyInGroup) {
       final actions = group.totalActions + (unit.actions ?? 0);
-      final maxAllowedActions = group.groupType == GroupType.Primary
+      final maxAllowedActions = group.groupType == GroupType.primary
           ? maxPrimaryActions
           : modelCheckCount != null
               ? modelCheckCount
@@ -765,7 +765,7 @@ abstract class RuleSet extends ChangeNotifier {
       return count < _maxNumberAirstrikes;
     }
 
-    if (group.groupType == GroupType.Primary) {
+    if (group.groupType == GroupType.primary) {
       return count < _maxNumberModels;
     }
 
@@ -929,7 +929,7 @@ Validation? _checkModelRules(Unit unit, Group group) {
 
   // deal with the overlord multi unit model
   if (frame == _overlord) {
-    if (group.groupType == GroupType.Secondary) {
+    if (group.groupType == GroupType.secondary) {
       return Validation(false, issue: 'cannot be part of a secondary group');
     }
     if (unitsInGroup
@@ -973,7 +973,7 @@ Validation? _checkModelRules(Unit unit, Group group) {
   if (frame == _gilgameshFront ||
       frame == _gilgameshBack ||
       frame == _gilgameshTurret) {
-    if (group.groupType == GroupType.Secondary) {
+    if (group.groupType == GroupType.secondary) {
       return Validation(false, issue: 'cannot be part of a secondary group');
     }
 
@@ -1047,7 +1047,7 @@ const _gilgameshTurret = "Gilgamesh Turret";
 int? _checkModelRulesCount(Unit unit, Group group, CombatGroup cg) {
   // handle the extra GREL allowed in a secondary if the primary is the HHT-90
   // Overlord
-  if (unit.core.frame == 'GREL' && group.groupType == GroupType.Secondary) {
+  if (unit.core.frame == 'GREL' && group.groupType == GroupType.secondary) {
     if (!group
         .allUnits()
         .every((u) => u.core.frame == 'GREL' && u.hasMod(cef.squad.id))) {

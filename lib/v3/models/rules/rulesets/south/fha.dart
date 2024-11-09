@@ -107,7 +107,7 @@ final Rule ruleAllies = Rule(
     if (unit.faction != FactionType.NuCoal) {
       return null;
     }
-    if (group.groupType != GroupType.Primary) {
+    if (group.groupType != GroupType.primary) {
       return null;
     }
     return Validation(

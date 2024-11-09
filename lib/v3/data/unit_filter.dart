@@ -10,7 +10,7 @@ class UnitFilter {
   const UnitFilter(
     this.faction, {
     this.matcher = matchAll,
-    this.factionOverride = null,
+    this.factionOverride,
   });
   bool isMatch(UnitCore uc) => uc.faction == faction && matcher(uc);
 }

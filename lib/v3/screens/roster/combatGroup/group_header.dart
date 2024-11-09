@@ -26,7 +26,7 @@ class GroupHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isPrimary = group.groupType == GroupType.Primary;
+    final isPrimary = group.groupType == GroupType.primary;
 
     final heading = Row(
       children: [

@@ -87,7 +87,7 @@ final Rule ruleHighTech = Rule(
     name: 'High Tech',
     id: _ruleHighTechId,
     isRoleTypeUnlimited: (unit, target, group, roster) {
-      if (group.groupType != GroupType.Primary) {
+      if (group.groupType != GroupType.primary) {
         return null;
       }
       if (unit.weapons.any((w) =>

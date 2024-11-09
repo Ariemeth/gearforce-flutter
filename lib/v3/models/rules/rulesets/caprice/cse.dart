@@ -76,7 +76,7 @@ final Rule _ruleAllyCEF = Rule(
     _ruleAlliesEdenId,
   ]),
   canBeAddedToGroup: (unit, group, cg) {
-    if (group.groupType == GroupType.Secondary) {
+    if (group.groupType == GroupType.secondary) {
       return null;
     }
 
@@ -112,7 +112,7 @@ final Rule _ruleAllyUtopia = Rule(
     _ruleAlliesEdenId,
   ]),
   canBeAddedToGroup: (unit, group, cg) {
-    if (group.groupType == GroupType.Secondary) {
+    if (group.groupType == GroupType.secondary) {
       return null;
     }
 
@@ -144,7 +144,7 @@ final Rule _ruleAllyEden = Rule(
     _ruleAlliesUtopiaId,
   ]),
   canBeAddedToGroup: (unit, group, cg) {
-    if (group.groupType == GroupType.Secondary) {
+    if (group.groupType == GroupType.secondary) {
       return null;
     }
 
@@ -173,7 +173,7 @@ final Rule ruleAppropriations = Rule(
     if (!_matchForAppropriations(unit.core)) {
       return null;
     }
-    final isPrimary = group.groupType == GroupType.Primary;
+    final isPrimary = group.groupType == GroupType.primary;
     return Validation(
       isPrimary,
       issue: 'This unit can only be added to a primary group; See' +
