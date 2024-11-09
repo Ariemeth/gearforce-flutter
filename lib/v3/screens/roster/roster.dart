@@ -21,6 +21,7 @@ import 'package:gearforce/widgets/settings.dart';
 import 'package:gearforce/widgets/version_selector.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 const double _leftPanelWidth = 670.0;
 const double _titleHeight = 40.0;
@@ -125,7 +126,7 @@ class _RosterWidgetState extends State<RosterWidget> {
                 decoration: BoxDecoration(color: Colors.blue),
                 child: Center(
                   child: Text(
-                    'Menu',
+                    AppLocalizations.of(context)!.menuTitle,
                     style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w400,
@@ -343,7 +344,7 @@ class _RosterWidgetState extends State<RosterWidget> {
             ),
             ListTile(
               title: Text(
-                'Settings',
+                AppLocalizations.of(context)!.menuSettingsTitle,
                 style: TextStyle(
                   fontSize: 16,
                 ),

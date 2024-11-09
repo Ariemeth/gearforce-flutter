@@ -1,0 +1,15 @@
+{
+  "@@locale": "en",
+  "appTitle": "Gearforce",
+  "@appTitle": {
+    "description": "The title of the application"
+  },
+  "menuTitle": "Menu",
+  "@menuTitle": {
+    "description": "The title name of the menu"
+  },
+  "menuSettingsTitle": "Settings",
+  "@menuSettingsTitle": {
+    "description": "The name of the settings menu button in the main menu"
+  }
+}

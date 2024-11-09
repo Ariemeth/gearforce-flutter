@@ -3,6 +3,7 @@ import 'package:gearforce/v3/screens/settings/settings_checkbox_option_line.dart
 import 'package:gearforce/v3/screens/settings/settings_value_option_line.dart';
 import 'package:gearforce/widgets/settings.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'settings_section_heading.dart';
 
@@ -23,7 +24,7 @@ class _ApplicationSettingsDialogState extends State<ApplicationSettingsDialog> {
       title: Stack(children: [
         Align(
           child: Text(
-            'Settings',
+            AppLocalizations.of(context)!.menuSettingsTitle,
             style: const TextStyle(fontSize: 24),
           ),
         ),
@@ -111,20 +112,6 @@ class _ApplicationSettingsDialogState extends State<ApplicationSettingsDialog> {
           },
           tooltipMessage: 'Allows adding a custom tv modifier upgrade to units',
         ),
-        // SettingsCheckboxOptionLine(
-        //   // TODO: Enable when ready
-        //   isEnabled: false,
-        //   tooltipMessage: 'Coming soon!',
-        //   text: 'Allow Extended Content',
-        //   value: settings.isExtendedContentAllowed,
-        //   onChanged: (bool? newValue) {
-        //     setState(() {
-        //       if (newValue != null) {
-        //         settings.isExtendedContentAllowed = newValue;
-        //       }
-        //     });
-        //   },
-        // ),
         SimpleDialogOption(
           onPressed: () {
             Navigator.pop(context);

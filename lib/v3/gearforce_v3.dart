@@ -5,6 +5,7 @@ import 'package:gearforce/widgets/roster_id.dart';
 import 'package:gearforce/widgets/settings.dart';
 import 'package:gearforce/widgets/version_selector.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class GearForceV3 extends StatefulWidget {
   const GearForceV3({
@@ -48,14 +49,12 @@ class _GearForceV3State extends State<GearForceV3> {
 
   @override
   Widget build(BuildContext context) {
-    final title = 'Gearforce';
-
     return MultiProvider(
       providers: [
         Provider<DataV3>(create: (_) => _v3Data),
       ],
       child: RosterWidget(
-        title: title,
+        title: AppLocalizations.of(context)!.appTitle,
         data: _v3Data,
         rosterId: widget.rosterId,
         version: widget.version,
