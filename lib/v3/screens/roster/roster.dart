@@ -11,7 +11,7 @@ import 'package:gearforce/v3/screens/roster/pdf/pdf_settings_dialog.dart';
 import 'package:gearforce/v3/screens/roster/roster_display.dart';
 import 'package:gearforce/v3/screens/roster/show_roster_id.dart';
 import 'package:gearforce/v3/screens/settings/application_settings_dialog.dart';
-import 'package:gearforce/v3/screens/unitSelector/unit_selection.dart';
+import 'package:gearforce/v3/screens/unitSelector/unit_selector.dart';
 import 'package:gearforce/widgets/api/api_service.dart';
 import 'package:gearforce/widgets/confirmation_dialog.dart';
 import 'package:gearforce/widgets/pdf_settings.dart';
@@ -108,7 +108,7 @@ class _RosterWidgetState extends State<RosterWidget> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const RosterDisplay(width: _leftPanelWidth, height: 1000),
-                UnitSelection(),
+                UnitSelector(),
               ],
             ),
           ),

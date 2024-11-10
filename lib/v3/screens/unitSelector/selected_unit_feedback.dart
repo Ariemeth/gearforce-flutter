@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gearforce/v3/models/unit/unit.dart';
-import 'package:gearforce/v3/screens/unitSelector/unit_selection_text_cell.dart';
+import 'package:gearforce/v3/screens/unitSelector/unit_selector_text_cell.dart';
 
 class SelectedUnitFeedback extends StatelessWidget {
   final Unit unit;
@@ -16,16 +16,16 @@ class SelectedUnitFeedback extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          UnitSelectionTextCell.draggableFeedback(
+          UnitSelectorTextCell.draggableFeedback(
             'Model: ${unit.name}',
           ),
-          UnitSelectionTextCell.draggableFeedback(
+          UnitSelectorTextCell.draggableFeedback(
             'TV: ${unit.tv}',
           ),
-          UnitSelectionTextCell.draggableFeedback(
+          UnitSelectorTextCell.draggableFeedback(
             'Roles: ${unit.role == null ? '-' : unit.role!.roles.join(', ')}',
           ),
-          UnitSelectionTextCell.draggableFeedback(
+          UnitSelectorTextCell.draggableFeedback(
             'Weapons: ${unit.weapons.join(', ')}',
             maxLines: 3,
           ),

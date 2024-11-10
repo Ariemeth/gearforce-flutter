@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gearforce/v3/screens/unitSelector/unit_selection_text_cell.dart';
+import 'package:gearforce/v3/screens/unitSelector/unit_selector_text_cell.dart';
 
 class SelectedUnitModelCell extends StatelessWidget {
   const SelectedUnitModelCell({
@@ -15,7 +15,7 @@ class SelectedUnitModelCell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return UnitSelectionTextCell.content(
+    return UnitSelectorTextCell.content(
       text,
       maxLines: 1,
       alignment: Alignment.centerLeft,

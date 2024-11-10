@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class UnitSelectionTextCell extends StatelessWidget {
-  const UnitSelectionTextCell.content(
+class UnitSelectorTextCell extends StatelessWidget {
+  const UnitSelectorTextCell.content(
     this.text, {
     super.key,
     this.textAlignment = TextAlign.center,
@@ -17,7 +17,7 @@ class UnitSelectionTextCell extends StatelessWidget {
     this.border,
   });
 
-  const UnitSelectionTextCell.columnTitle(
+  const UnitSelectorTextCell.columnTitle(
     this.text, {
     super.key,
     this.textAlignment = TextAlign.center,
@@ -30,7 +30,7 @@ class UnitSelectionTextCell extends StatelessWidget {
     this.border,
   });
 
-  const UnitSelectionTextCell.draggableFeedback(
+  const UnitSelectorTextCell.draggableFeedback(
     this.text, {
     super.key,
     this.textAlignment = TextAlign.center,
@@ -48,7 +48,7 @@ class UnitSelectionTextCell extends StatelessWidget {
     this.border,
   });
 
-  const UnitSelectionTextCell.childWhenDragging(
+  const UnitSelectorTextCell.childWhenDragging(
     this.text, {
     super.key,
     this.textAlignment = TextAlign.center,

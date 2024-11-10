@@ -8,25 +8,25 @@ import 'package:gearforce/v3/screens/unitSelector/selected_unit_feedback.dart';
 import 'package:gearforce/v3/screens/unitSelector/selected_unit_model_cell.dart';
 import 'package:gearforce/v3/screens/unitSelector/selection_filters.dart';
 import 'package:gearforce/v3/screens/unitSelector/unit_preview_button.dart';
-import 'package:gearforce/v3/screens/unitSelector/unit_selection_text_cell.dart';
+import 'package:gearforce/v3/screens/unitSelector/unit_selector_text_cell.dart';
 import 'package:provider/provider.dart';
 
 const _reactSymbol = '»';
 
-class UnitSelection extends StatefulWidget {
+class UnitSelector extends StatefulWidget {
   final Map<RoleType, bool> _roleFilter = <RoleType, bool>{};
 
-  UnitSelection({super.key}) {
+  UnitSelector({super.key}) {
     for (var element in RoleType.values) {
       _roleFilter.addAll({element: false});
     }
   }
 
   @override
-  _UnitSelectionState createState() => _UnitSelectionState();
+  _UnitSelectorState createState() => _UnitSelectorState();
 }
 
-class _UnitSelectionState extends State<UnitSelection> {
+class _UnitSelectorState extends State<UnitSelector> {
   String? _filter;
   SpecialUnitFilter? _specialUnitFilter;
 
@@ -195,27 +195,27 @@ class SelectionList extends StatelessWidget {
           child: SelectedUnitModelCell(text: unit.name),
         ),
       ),
-      DataCell(UnitSelectionTextCell.content('${unit.tv}')),
+      DataCell(UnitSelectorTextCell.content('${unit.tv}')),
       DataCell(
-        UnitSelectionTextCell.content(
+        UnitSelectorTextCell.content(
           unit.role != null ? unit.role!.roles.join(', ') : 'N/A',
           maxLines: 2,
           softWrap: true,
         ),
       ),
-      DataCell(UnitSelectionTextCell.content('${unit.movement ?? '-'}')),
-      DataCell(UnitSelectionTextCell.content('${unit.armor ?? '-'}')),
-      DataCell(UnitSelectionTextCell.content(
+      DataCell(UnitSelectorTextCell.content('${unit.movement ?? '-'}')),
+      DataCell(UnitSelectorTextCell.content('${unit.armor ?? '-'}')),
+      DataCell(UnitSelectorTextCell.content(
           '${unit.hull ?? '-'}/${unit.structure ?? '-'}')),
-      DataCell(UnitSelectionTextCell.content('${unit.actions ?? '-'}')),
-      DataCell(UnitSelectionTextCell.content(
+      DataCell(UnitSelectorTextCell.content('${unit.actions ?? '-'}')),
+      DataCell(UnitSelectorTextCell.content(
           unit.gunnery == null ? '-' : '${unit.gunnery}+')),
-      DataCell(UnitSelectionTextCell.content(
+      DataCell(UnitSelectorTextCell.content(
           unit.piloting == null ? '-' : '${unit.piloting}+')),
       DataCell(
-          UnitSelectionTextCell.content(unit.ew == null ? '-' : '${unit.ew}+')),
+          UnitSelectorTextCell.content(unit.ew == null ? '-' : '${unit.ew}+')),
       DataCell(
-        UnitSelectionTextCell.content(
+        UnitSelectorTextCell.content(
           (unit.reactWeapons.toList()..addAll(unit.mountedWeapons.toList()))
               .map((e) => e.hasReact ? '$_reactSymbol$e' : '$e')
               .toList()
@@ -225,14 +225,14 @@ class SelectionList extends StatelessWidget {
           textAlignment: TextAlign.left,
         ),
       ),
-      DataCell(UnitSelectionTextCell.content(
+      DataCell(UnitSelectorTextCell.content(
         unit.traits.join(', '),
         maxLines: 3,
         alignment: Alignment.centerLeft,
         textAlignment: TextAlign.left,
       )),
-      DataCell(UnitSelectionTextCell.content('${unit.type}')),
-      DataCell(UnitSelectionTextCell.content(unit.height)),
+      DataCell(UnitSelectorTextCell.content('${unit.type}')),
+      DataCell(UnitSelectorTextCell.content(unit.height)),
     ]);
   }
 
@@ -246,7 +246,7 @@ class SelectionList extends StatelessWidget {
       label: Expanded(
         child: SizedBox(
           width: width,
-          child: UnitSelectionTextCell.columnTitle(
+          child: UnitSelectorTextCell.columnTitle(
             text,
             textAlignment: textAlign,
             alignment: alignment,
