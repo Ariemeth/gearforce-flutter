@@ -13,18 +13,18 @@ final UnitModification psi = UnitModification(name: 'Psi Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Psi'))
   ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
-  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.Comms()),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.comms()),
       description: '+Comms');
 
 final UnitModification darkJaguarPsi = UnitModification(name: 'Psi Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Psi'))
   ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
-  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.Comms()),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.comms()),
       description: '+Comms')
   ..addMod(
     UnitAttribute.traits,
-    createAddTraitToList(Trait.SatUp(isAux: true)),
+    createAddTraitToList(Trait.satUp(isAux: true)),
     description: '+SatUp (Aux)',
   );
 
@@ -32,16 +32,16 @@ final UnitModification phi = UnitModification(name: 'Phi Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Phi'))
   ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
-  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.ECCM()),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.eccm()),
       description: '+ECCM');
 
 final UnitModification darkMambaPsi = UnitModification(name: 'Psi Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Psi'))
   ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
-  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.Comms()),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.comms()),
       description: '+Comms')
-  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.SatUp()),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.satUp()),
       description: '+SatUp');
 
 final UnitModification xi = UnitModification(name: 'Xi Upgrade')
@@ -64,7 +64,7 @@ final UnitModification omi = UnitModification(
           .attribute<List<Weapon>>(UnitAttribute.weapons, modIDToSkip: omi.id)
           .any((w) =>
               w.abbreviation == 'HMG' &&
-              w.traits.any((t) => Trait.Apex().isSameType(t)));
+              w.traits.any((t) => Trait.apex().isSameType(t)));
 
       return hasHMG;
     })
@@ -84,7 +84,7 @@ final UnitModification zeta = UnitModification(
           .attribute<List<Weapon>>(UnitAttribute.weapons, modIDToSkip: zeta.id)
           .any((w) =>
               w.abbreviation == 'HMG' &&
-              w.traits.any((t) => Trait.Apex().isSameType(t)));
+              w.traits.any((t) => Trait.apex().isSameType(t)));
 
       return hasHMG;
     })
@@ -104,7 +104,7 @@ final UnitModification pur = UnitModification(
           .attribute<List<Weapon>>(UnitAttribute.weapons, modIDToSkip: pur.id)
           .any((w) =>
               w.abbreviation == 'HMG' &&
-              w.traits.any((t) => Trait.Apex().isSameType(t)));
+              w.traits.any((t) => Trait.apex().isSameType(t)));
 
       return hasHMG;
     })
@@ -121,13 +121,13 @@ final UnitModification darkCoyotePsi = UnitModification(name: 'Psi Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(3), description: 'TV +3')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Psi'))
   ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
-  ..addMod(UnitAttribute.traits, createAddOrCombineTraitToList(Trait.SP(1)),
+  ..addMod(UnitAttribute.traits, createAddOrCombineTraitToList(Trait.sp(1)),
       description: '+SP:+1')
-  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.Comms()),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.comms()),
       description: '+Comms')
-  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.SatUp()),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.satUp()),
       description: '+SatUp')
-  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.ECCM()),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.eccm()),
       description: '+ECCM');
 
 final UnitModification iota = UnitModification(name: 'Iota Upgrade')
@@ -152,7 +152,7 @@ final UnitModification spectre = UnitModification(name: 'Spectre Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Spectre'))
   ..addMod(UnitAttribute.ew, createSetIntMod(3), description: 'EW 3+')
-  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.ECMPlus()),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.ecmPlus()),
       description: '+ECM+');
 
 final UnitModification darkHoplitePsi = UnitModification(
@@ -163,11 +163,11 @@ final UnitModification darkHoplitePsi = UnitModification(
   ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Psi'))
   ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
-  ..addMod(UnitAttribute.traits, createAddOrCombineTraitToList(Trait.SP(1)),
+  ..addMod(UnitAttribute.traits, createAddOrCombineTraitToList(Trait.sp(1)),
       description: '+SP:+1')
-  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.Comms()),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.comms()),
       description: '+Comms')
-  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.SatUp()),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.satUp()),
       description: '+SatUp');
 
 final UnitModification blackwindTheta = UnitModification(name: 'Theta Upgrade')
@@ -222,7 +222,7 @@ final UnitModification darkWolfApulu = UnitModification(name: 'Apulu Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Apulu'))
   ..addMod(
-      UnitAttribute.traits, createAddTraitToList(Trait.Jetpack(6, isAux: true)),
+      UnitAttribute.traits, createAddTraitToList(Trait.jetpack(6, isAux: true)),
       description: '+Jetpack:6 (Aux)');
 
 final List<UnitModification> hadesPack = [
@@ -265,7 +265,7 @@ final UnitModification hadesPackAlpha = UnitModification(
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(
     UnitAttribute.traits,
-    createAddTraitToList(Trait.VTOL()),
+    createAddTraitToList(Trait.vtol()),
     description: '+VTOL',
   )
   ..addMod<List<Weapon>>(
@@ -290,7 +290,7 @@ final UnitModification hadesPackTao = UnitModification(
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(
     UnitAttribute.traits,
-    createAddTraitToList(Trait.VTOL()),
+    createAddTraitToList(Trait.vtol()),
     description: '+VTOL',
   )
   ..addMod<List<Weapon>>(
@@ -315,7 +315,7 @@ final UnitModification hadesPackOmicron = UnitModification(
   ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
   ..addMod(
     UnitAttribute.traits,
-    createAddTraitToList(Trait.VTOL()),
+    createAddTraitToList(Trait.vtol()),
     description: '+VTOL',
   )
   ..addMod<List<Weapon>>(
@@ -340,7 +340,7 @@ final UnitModification hadesPackNu = UnitModification(
   ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
   ..addMod(
     UnitAttribute.traits,
-    createAddTraitToList(Trait.VTOL()),
+    createAddTraitToList(Trait.vtol()),
     description: '+VTOL',
   )
   ..addMod<List<Weapon>>(
@@ -365,7 +365,7 @@ final UnitModification hadesPackZeta = UnitModification(
   ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
   ..addMod(
     UnitAttribute.traits,
-    createAddTraitToList(Trait.VTOL()),
+    createAddTraitToList(Trait.vtol()),
     description: '+VTOL',
   )
   ..addMod<List<Weapon>>(
@@ -390,7 +390,7 @@ final UnitModification hadesPackTheta = UnitModification(
   ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
   ..addMod(
     UnitAttribute.traits,
-    createAddTraitToList(Trait.VTOL()),
+    createAddTraitToList(Trait.vtol()),
     description: '+VTOL',
   )
   ..addMod<List<Weapon>>(
@@ -429,7 +429,7 @@ final UnitModification aresPackOmega = UnitModification(
   ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
   ..addMod(
     UnitAttribute.traits,
-    createAddTraitToList(Trait.VTOL()),
+    createAddTraitToList(Trait.vtol()),
     description: '+VTOL',
   )
   ..addMod<List<Weapon>>(
@@ -454,7 +454,7 @@ final UnitModification aresPackOmicron = UnitModification(
   ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
   ..addMod(
     UnitAttribute.traits,
-    createAddTraitToList(Trait.VTOL()),
+    createAddTraitToList(Trait.vtol()),
     description: '+VTOL',
   )
   ..addMod<List<Weapon>>(
@@ -479,7 +479,7 @@ final UnitModification aresPackNu = UnitModification(
   ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
   ..addMod(
     UnitAttribute.traits,
-    createAddTraitToList(Trait.VTOL()),
+    createAddTraitToList(Trait.vtol()),
     description: '+VTOL',
   )
   ..addMod<List<Weapon>>(
@@ -504,7 +504,7 @@ final UnitModification aresPackZeta = UnitModification(
   ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
   ..addMod(
     UnitAttribute.traits,
-    createAddTraitToList(Trait.VTOL()),
+    createAddTraitToList(Trait.vtol()),
     description: '+VTOL',
   )
   ..addMod<List<Weapon>>(
@@ -529,7 +529,7 @@ final UnitModification aresPackTheta = UnitModification(
   ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
   ..addMod(
     UnitAttribute.traits,
-    createAddTraitToList(Trait.VTOL()),
+    createAddTraitToList(Trait.vtol()),
     description: '+VTOL',
   )
   ..addMod<List<Weapon>>(
@@ -580,7 +580,7 @@ List<Weapon> Function(List<Weapon>) _createWeaponModForPacks(
 List<Trait> Function(List<Trait>) _createRemoveJetpackModForPacks() {
   return (traits) {
     final newTraits = traits.toList();
-    newTraits.removeWhere((t) => t.isSameType(Trait.Jetpack(0)));
+    newTraits.removeWhere((t) => t.isSameType(Trait.jetpack(0)));
     return newTraits;
   };
 }
@@ -613,7 +613,7 @@ final UnitModification zeusOmegaPack = UnitModification(
   ..addMod(UnitAttribute.tv, createSimpleIntMod(5), description: 'TV +5')
   ..addMod(
     UnitAttribute.traits,
-    createAddTraitToList(Trait.VTOL()),
+    createAddTraitToList(Trait.vtol()),
     description: '+VTOL',
   )
   ..addMod<List<Weapon>>(
@@ -633,7 +633,7 @@ final UnitModification zeusZetaPack = UnitModification(
   ..addMod(UnitAttribute.tv, createSimpleIntMod(5), description: 'TV +5')
   ..addMod(
     UnitAttribute.traits,
-    createAddTraitToList(Trait.VTOL()),
+    createAddTraitToList(Trait.vtol()),
     description: '+VTOL',
   )
   ..addMod<List<Weapon>>(
@@ -653,7 +653,7 @@ final UnitModification zeusTaoPack = UnitModification(
   ..addMod(UnitAttribute.tv, createSimpleIntMod(3), description: 'TV +3')
   ..addMod(
     UnitAttribute.traits,
-    createAddTraitToList(Trait.VTOL()),
+    createAddTraitToList(Trait.vtol()),
     description: '+VTOL',
   )
   ..addMod<List<Weapon>>(
@@ -673,7 +673,7 @@ final UnitModification zeusNuPack = UnitModification(
   ..addMod(UnitAttribute.tv, createSimpleIntMod(5), description: 'TV +5')
   ..addMod(
     UnitAttribute.traits,
-    createAddTraitToList(Trait.VTOL()),
+    createAddTraitToList(Trait.vtol()),
     description: '+VTOL',
   )
   ..addMod<List<Weapon>>(
@@ -693,7 +693,7 @@ final UnitModification zeusTwinUpsilonPack = UnitModification(
   ..addMod(UnitAttribute.tv, createSimpleIntMod(4), description: 'TV +4')
   ..addMod(
     UnitAttribute.traits,
-    createAddTraitToList(Trait.VTOL()),
+    createAddTraitToList(Trait.vtol()),
     description: '+VTOL',
   )
   ..addMod<List<Weapon>>(
@@ -713,7 +713,7 @@ final UnitModification zeusTwinZetaPack = UnitModification(
   ..addMod(UnitAttribute.tv, createSimpleIntMod(7), description: 'TV +7')
   ..addMod(
     UnitAttribute.traits,
-    createAddTraitToList(Trait.VTOL()),
+    createAddTraitToList(Trait.vtol()),
     description: '+VTOL',
   )
   ..addMod<List<Weapon>>(
@@ -733,7 +733,7 @@ final UnitModification zeusTwinOmegaPack = UnitModification(
   ..addMod(UnitAttribute.tv, createSimpleIntMod(7), description: 'TV +7')
   ..addMod(
     UnitAttribute.traits,
-    createAddTraitToList(Trait.VTOL()),
+    createAddTraitToList(Trait.vtol()),
     description: '+VTOL',
   )
   ..addMod<List<Weapon>>(
@@ -753,7 +753,7 @@ final UnitModification zeusTwinTaoPack = UnitModification(
   ..addMod(UnitAttribute.tv, createSimpleIntMod(4), description: 'TV +4')
   ..addMod(
     UnitAttribute.traits,
-    createAddTraitToList(Trait.VTOL()),
+    createAddTraitToList(Trait.vtol()),
     description: '+VTOL',
   )
   ..addMod<List<Weapon>>(
@@ -773,7 +773,7 @@ final UnitModification zeusTwinNuPack = UnitModification(
   ..addMod(UnitAttribute.tv, createSimpleIntMod(7), description: 'TV +7')
   ..addMod(
     UnitAttribute.traits,
-    createAddTraitToList(Trait.VTOL()),
+    createAddTraitToList(Trait.vtol()),
     description: '+VTOL',
   )
   ..addMod<List<Weapon>>(

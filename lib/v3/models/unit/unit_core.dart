@@ -25,7 +25,7 @@ class UnitCore {
     required this.type,
     required this.height,
     this.frame = '',
-    this.faction = FactionType.None,
+    this.faction = FactionType.none,
   });
   final String name;
   final int tv;
@@ -48,7 +48,7 @@ class UnitCore {
   const UnitCore.test(
       {this.name = 'test',
       this.tv = 5,
-      this.role = const Roles(roles: [Role(name: RoleType.GP)]),
+      this.role = const Roles(roles: [Role(name: RoleType.gp)]),
       this.movement = const Movement(type: 'G', rate: 7),
       this.armor = 6,
       this.hull = 3,
@@ -59,50 +59,50 @@ class UnitCore {
       this.ew = 5,
       this.weapons = const [],
       this.traits = const [],
-      this.type = ModelType.Gear,
+      this.type = ModelType.gear,
       this.height = '1.5',
       this.frame = 'none',
-      this.faction = FactionType.None});
+      this.faction = FactionType.none});
 
   dynamic attribute(UnitAttribute att) {
     switch (att) {
       case UnitAttribute.name:
-        return this.name;
+        return name;
       case UnitAttribute.tv:
-        return this.tv;
+        return tv;
       case UnitAttribute.roles:
-        return this.role;
+        return role;
       case UnitAttribute.movement:
-        return this.movement;
+        return movement;
       case UnitAttribute.armor:
-        return this.armor;
+        return armor;
       case UnitAttribute.hull:
-        return this.hull;
+        return hull;
       case UnitAttribute.structure:
-        return this.structure;
+        return structure;
       case UnitAttribute.actions:
-        return this.actions;
+        return actions;
       case UnitAttribute.gunnery:
-        return this.gunnery;
+        return gunnery;
       case UnitAttribute.piloting:
-        return this.piloting;
+        return piloting;
       case UnitAttribute.ew:
-        return this.ew;
+        return ew;
       case UnitAttribute.weapons:
-        return this.weapons;
+        return weapons;
       case UnitAttribute.traits:
-        return this.traits;
+        return traits;
       case UnitAttribute.type:
-        return this.type;
+        return type;
       case UnitAttribute.height:
-        return this.height;
+        return height;
       case UnitAttribute.special:
         return [];
       case UnitAttribute.cp:
         return 0;
       case UnitAttribute.sp:
         var value = 0;
-        traits.where((t) => t.isSameType(Trait.SP(0))).forEach((t) {
+        traits.where((t) => t.isSameType(Trait.sp(0))).forEach((t) {
           value += t.level ?? 0;
         });
         return value;
@@ -120,63 +120,63 @@ class UnitCore {
 
       var c = criteria[i].toLowerCase();
 
-      if (this.name.toLowerCase().contains(c)) {
+      if (name.toLowerCase().contains(c)) {
         return true;
       }
 
-      if (this.tv.toString().contains(c)) {
+      if (tv.toString().contains(c)) {
         return true;
       }
 
-      if (this.movement != null && this.movement.toString().contains(c)) {
+      if (movement != null && movement.toString().contains(c)) {
         return true;
       }
 
-      if (this.armor != null && this.armor.toString().contains(c)) {
+      if (armor != null && armor.toString().contains(c)) {
         return true;
       }
 
-      if (this.hull != null && this.hull.toString().contains(c)) {
+      if (hull != null && hull.toString().contains(c)) {
         return true;
       }
 
-      if (this.structure != null && this.structure.toString().contains(c)) {
+      if (structure != null && structure.toString().contains(c)) {
         return true;
       }
 
-      if (this.actions != null && this.actions.toString().contains(c)) {
+      if (actions != null && actions.toString().contains(c)) {
         return true;
       }
 
-      if (this.gunnery != null && '${this.gunnery.toString()}+'.contains(c)) {
+      if (gunnery != null && '${gunnery.toString()}+'.contains(c)) {
         return true;
       }
 
-      if (this.piloting != null && '${this.piloting.toString()}+'.contains(c)) {
+      if (piloting != null && '${piloting.toString()}+'.contains(c)) {
         return true;
       }
 
-      if (this.ew != null && '${this.ew.toString()}+'.contains(c)) {
+      if (ew != null && '${ew.toString()}+'.contains(c)) {
         return true;
       }
 
-      if (this.role != null &&
-          this.role!.roles.toString().toLowerCase().split(',').contains(c)) {
+      if (role != null &&
+          role!.roles.toString().toLowerCase().split(',').contains(c)) {
         return true;
       }
 
-      if (this.weapons.toString().toLowerCase().contains(c)) {
+      if (weapons.toString().toLowerCase().contains(c)) {
         return true;
       }
 
-      if (this.traits.toString().toLowerCase().contains(c)) {
+      if (traits.toString().toLowerCase().contains(c)) {
         return true;
       }
 
-      if (this.type.name.toLowerCase().contains(c)) {
+      if (type.name.toLowerCase().contains(c)) {
         return true;
       }
-      if (this.height.toLowerCase().contains(c)) {
+      if (height.toLowerCase().contains(c)) {
         return true;
       }
     }
@@ -186,12 +186,12 @@ class UnitCore {
   factory UnitCore.fromJson(
     dynamic json, {
     String frame = '',
-    FactionType faction = FactionType.None,
+    FactionType faction = FactionType.none,
   }) {
     final reactWeaponsJson = json['react-weapons'];
     List<Weapon> reactWeapons = (reactWeaponsJson == null ||
             reactWeaponsJson == '-' ||
-            reactWeaponsJson == "")
+            reactWeaponsJson == '')
         ? []
         : List.from(json['react-weapons']
             .toString()
@@ -203,7 +203,7 @@ class UnitCore {
     final mountedWeaponsJson = json['mounted-weapons'];
     List<Weapon> mountedWeapons = (mountedWeaponsJson == null ||
             mountedWeaponsJson == '-' ||
-            mountedWeaponsJson == "")
+            mountedWeaponsJson == '')
         ? []
         : List.from(json['mounted-weapons']
             .toString()
@@ -214,7 +214,7 @@ class UnitCore {
 
     final traitsJson = json['traits'];
     List<Trait> traits =
-        (traitsJson == null || traitsJson == '-' || traitsJson == "")
+        (traitsJson == null || traitsJson == '-' || traitsJson == '')
             ? []
             : List.from(json['traits']
                 .toString()
@@ -233,10 +233,10 @@ class UnitCore {
       armor: json['arm'] == '-' ? null : json['arm'] as int,
       hull: json['h/s'] == '-'
           ? null
-          : int.parse(json['h/s'].toString().split("/").first),
+          : int.parse(json['h/s'].toString().split('/').first),
       structure: json['h/s'] == '-'
           ? null
-          : int.parse(json['h/s'].toString().split("/").last),
+          : int.parse(json['h/s'].toString().split('/').last),
       actions: json['a'] == '-' ? null : json['a'] as int,
       gunnery: json['gu'].toString() == '-'
           ? null
@@ -258,33 +258,33 @@ class UnitCore {
   }
   @override
   String toString() {
-    var r = this.role == null ? 'N/A' : '${this.role}';
-    var m = this.movement == null ? '-' : '${this.movement}';
-    var a = this.actions == null ? '-' : '${this.actions}';
-    var ar = this.armor == null ? '-' : '${this.armor}';
-    var g = this.gunnery == null ? '-' : '${this.gunnery}+';
-    var p = this.piloting == null ? '-' : '${this.piloting}+';
-    var e = this.ew == null ? '-' : '${this.ew}+';
-    var h = this.hull == null ? '-' : '${this.hull}';
-    var s = this.structure == null ? '-' : '${this.structure}';
+    var r = role == null ? 'N/A' : '$role';
+    var m = movement == null ? '-' : '$movement';
+    var a = actions == null ? '-' : '$actions';
+    var ar = armor == null ? '-' : '$armor';
+    var g = gunnery == null ? '-' : '$gunnery+';
+    var p = piloting == null ? '-' : '$piloting+';
+    var e = ew == null ? '-' : '$ew+';
+    var h = hull == null ? '-' : '$hull';
+    var s = structure == null ? '-' : '$structure';
     var hs = h == '-' && s == '-' ? '-' : '$h/$s';
-    return "UnitCore: " +
-        "{Name: ${this.name} " +
-        "TV: ${this.tv} " +
-        "Role: $r " +
-        "MR: $m " +
-        "ARM: $ar " +
-        "H/S: $hs " +
-        "A: $a " +
-        "GU: $g " +
-        "PI: $p " +
-        "EW: $e " +
-        "Weapons: ${this.weapons} " +
-        "Traits: ${this.traits} " +
-        "Type: ${this.type} " +
-        "Height: ${this.height} " +
-        "Frame: ${this.frame}" +
-        "Faction: ${this.faction}" +
-        "}";
+    return 'UnitCore: ' +
+        '{Name: $name ' +
+        'TV: $tv ' +
+        'Role: $r ' +
+        'MR: $m ' +
+        'ARM: $ar ' +
+        'H/S: $hs ' +
+        'A: $a ' +
+        'GU: $g ' +
+        'PI: $p ' +
+        'EW: $e ' +
+        'Weapons: $weapons ' +
+        'Traits: $traits ' +
+        'Type: $type ' +
+        'Height: $height ' +
+        'Frame: $frame' +
+        'Faction: $faction' +
+        '}';
   }
 }

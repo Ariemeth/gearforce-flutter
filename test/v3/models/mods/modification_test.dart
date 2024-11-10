@@ -45,7 +45,7 @@ void main() {
     m.addMod(UnitAttribute.ew, (dynamic value) => (value as int) - 1);
     const testCore = UnitCore.test();
 
-    final attType = UnitAttribute.ew;
+    const attType = UnitAttribute.ew;
     expect(m.applyMods(attType, testCore.attribute(attType)), equals(4),
         reason: 'apply mod');
   });

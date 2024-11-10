@@ -6,7 +6,7 @@ void main() {
     const traitName = 'Advanced';
     const toString = 'Advanced';
 
-    const w = const Trait(name: traitName);
+    const w = Trait(name: traitName);
     expect(w.name, equals(traitName), reason: 'check name');
     expect(w.level, isNull, reason: 'check level');
     expect(w.isAux, isFalse, reason: 'check aux');
@@ -19,7 +19,7 @@ void main() {
     const traitLevel = 2;
     const toString = '$traitName:$traitLevel';
 
-    const w = const Trait(name: traitName, level: traitLevel);
+    const w = Trait(name: traitName, level: traitLevel);
     expect(w.name, equals(traitName), reason: 'check name');
     expect(w.level, equals(traitLevel), reason: 'check level');
     expect(w.isAux, isFalse, reason: 'check aux');
@@ -32,7 +32,7 @@ void main() {
     const toString = '$traitName (Aux)';
     const isAux = true;
 
-    const w = const Trait(name: traitName, isAux: isAux);
+    const w = Trait(name: traitName, isAux: isAux);
     expect(w.name, equals(traitName), reason: 'check name');
     expect(w.isAux, equals(isAux), reason: 'check aux');
     expect(w.type, isNull, reason: 'check type');
@@ -41,7 +41,7 @@ void main() {
 
   test('test fromString with simple trait', () {
     const traitName = 'ECM';
-    const toString = '$traitName';
+    const toString = traitName;
     const isAux = false;
 
     final w = Trait.fromString(toString);
@@ -80,7 +80,7 @@ void main() {
   test('test fromString with transport trait', () {
     const traitName = 'Transport';
     const capacity = 2;
-    const transportType = "Squads";
+    const transportType = 'Squads';
 
     const isAux = false;
     const toString = '$traitName:$capacity $transportType';
@@ -94,7 +94,7 @@ void main() {
 
   test('test fromString with vuln trait', () {
     const traitName = 'Vuln';
-    const vulnType = "F";
+    const vulnType = 'F';
     const toString = '$traitName:$vulnType';
 
     final w = Trait.fromString(toString);
@@ -106,7 +106,7 @@ void main() {
 
   test('test fromString with resist trait', () {
     const traitName = 'Resist';
-    const vulnType = "F";
+    const vulnType = 'F';
     const toString = '$traitName:$vulnType';
 
     final w = Trait.fromString(toString);

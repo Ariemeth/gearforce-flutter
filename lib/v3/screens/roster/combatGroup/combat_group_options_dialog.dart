@@ -35,23 +35,23 @@ class _CombatGroupOptionsDialogState extends State<CombatGroupOptionsDialog> {
     final options = widget.cg.options;
     final settings = context.read<Settings>();
 
-    final onLineUpdate = () {
+    onLineUpdate() {
       setState(() {});
-    };
+    }
 
     var dialog = SimpleDialog(
       clipBehavior: Clip.antiAlias,
-      shape: ContinuousRectangleBorder(
+      shape: const ContinuousRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(10.0))),
       title: Center(
         child: Column(
           children: [
             Text(
               '${widget.cg.name} options',
-              style: TextStyle(fontSize: 24),
+              style: const TextStyle(fontSize: 24),
               maxLines: 1,
             ),
-            Text(''),
+            const Text(''),
             ElevatedButton(
               onPressed: () {
                 Future<RenameCGOptionResult?> futureResult =
@@ -65,7 +65,7 @@ class _CombatGroupOptionsDialogState extends State<CombatGroupOptionsDialog> {
 
                 futureResult.then((value) {
                   switch (value?.resultType) {
-                    case RenameCGOptionResultType.Rename:
+                    case RenameCGOptionResultType.rename:
                       final newName = value?.newName;
                       if (newName != null) {
                         setState(() {
@@ -77,13 +77,13 @@ class _CombatGroupOptionsDialogState extends State<CombatGroupOptionsDialog> {
                   }
                 });
               },
-              child: Text('Rename'),
+              child: const Text('Rename'),
             ),
-            Text(''),
+            const Text(''),
             options.isNotEmpty
                 ? combatGroupOptions(options, widget.cg, onLineUpdate)
                 : Container(),
-            Text(''),
+            const Text(''),
             ElevatedButton(
               onPressed: () {
                 if (settings.requireConfirmationToDeleteCG) {
@@ -99,7 +99,7 @@ class _CombatGroupOptionsDialogState extends State<CombatGroupOptionsDialog> {
 
                   futureResult.then((value) {
                     switch (value) {
-                      case DeleteCGOptionResult.Remove:
+                      case DeleteCGOptionResult.remove:
                         widget.cg.roster!.removeCG(widget.cg.name);
                         Navigator.pop(context);
                         break;
@@ -111,24 +111,24 @@ class _CombatGroupOptionsDialogState extends State<CombatGroupOptionsDialog> {
                   Navigator.pop(context);
                 }
               },
-              child: Text(
-                'Delete ${widget.cg.name}',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
               style: ElevatedButton.styleFrom(
                 elevation: 12.0,
                 backgroundColor: Colors.red.shade700,
               ),
+              child: Text(
+                'Delete ${widget.cg.name}',
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
-            Text(''),
+            const Text(''),
             SimpleDialogOption(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Center(
+              child: const Center(
                 child: Text(
                   'Close',
                   style: TextStyle(fontSize: 24, color: Colors.green),
@@ -162,12 +162,12 @@ Widget combatGroupOptions(
     );
   }
 
-  final ScrollController _scrollController = ScrollController();
+  final ScrollController scrollController = ScrollController();
 
   return Column(
     children: [
       optionsSectionTitle(_optionText),
-      Container(
+      SizedBox(
         width: _optionSectionWidth,
         height: _optionSectionHeight +
             _optionSectionHeight *
@@ -177,11 +177,11 @@ Widget combatGroupOptions(
         child: Scrollbar(
           thumbVisibility: true,
           trackVisibility: true,
-          controller: _scrollController,
+          controller: scrollController,
           interactive: true,
           child: ListView.builder(
             itemCount: options.length,
-            controller: _scrollController,
+            controller: scrollController,
             shrinkWrap: true,
             itemBuilder: (BuildContext context, int index) {
               return OptionLine(

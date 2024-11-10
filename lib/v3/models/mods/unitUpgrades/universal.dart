@@ -22,7 +22,7 @@ final UnitModification sawBladeSwap = UnitModification(
               modIDToSkip: sawBladeSwap.id)
           .any((w) =>
               w.abbreviation == 'MCW' &&
-              w.traits.any((t) => Trait.Demo(4).isSameType(t)));
+              w.traits.any((t) => Trait.demo(4).isSameType(t)));
 
       return hasMCW;
     })
@@ -44,8 +44,8 @@ final UnitModification vibroswordSwap = UnitModification(
               modIDToSkip: vibroswordSwap.id)
           .any((w) =>
               w.abbreviation == 'MCW' &&
-              w.traits.any((t) => Trait.Demo(4).isSameType(t)) &&
-              !w.traits.any((t) => Trait.Brawl(1).isSameType(t)));
+              w.traits.any((t) => Trait.demo(4).isSameType(t)) &&
+              !w.traits.any((t) => Trait.brawl(1).isSameType(t)));
 
       return hasMCW;
     })
@@ -100,7 +100,7 @@ final UnitModification demolisher = UnitModification(
   ..addMod(
       UnitAttribute.traits,
       createReplaceTraitInList(
-          oldValue: Trait.Brawl(1), newValue: Trait.Brawl(2)),
+          oldValue: Trait.brawl(1), newValue: Trait.brawl(2)),
       description: '-Brawl:1, +Brawl:2');
 
 final UnitModification heavyChainswordSwap = UnitModification(
@@ -135,7 +135,7 @@ final UnitModification maulerFistSwap = UnitModification(
               modIDToSkip: maulerFistSwap.id)
           .any((w) =>
               w.abbreviation == 'MCW' &&
-              w.traits.any((t) => Trait.Demo(4).isSameType(t)));
+              w.traits.any((t) => Trait.demo(4).isSameType(t)));
 
       return hasMCW;
     })
@@ -157,7 +157,7 @@ final UnitModification chainswordSwap = UnitModification(
               modIDToSkip: chainswordSwap.id)
           .any((w) =>
               w.abbreviation == 'MCW' &&
-              w.traits.any((t) => Trait.Demo(4).isSameType(t)));
+              w.traits.any((t) => Trait.demo(4).isSameType(t)));
 
       return hasMCW;
     })
@@ -179,8 +179,8 @@ final UnitModification stonemasonChainswordSwap = UnitModification(
               modIDToSkip: stonemasonChainswordSwap.id)
           .any((w) =>
               w.abbreviation == 'MCW' &&
-              w.traits.any((t) => Trait.Demo(4).isSameType(t)) &&
-              !w.traits.any((t) => Trait.Brawl(1).isSameType(t)));
+              w.traits.any((t) => Trait.demo(4).isSameType(t)) &&
+              !w.traits.any((t) => Trait.brawl(1).isSameType(t)));
 
       return hasMCW;
     })
@@ -221,7 +221,7 @@ final UnitModification clawSwap = UnitModification(
               modIDToSkip: clawSwap.id)
           .any((w) =>
               w.abbreviation == 'MCW' &&
-              w.traits.any((t) => Trait.Demo(4).isSameType(t)));
+              w.traits.any((t) => Trait.demo(4).isSameType(t)));
 
       return hasMCW;
     })
@@ -242,8 +242,8 @@ final UnitModification valenceClawSwap = UnitModification(
               modIDToSkip: valenceClawSwap.id)
           .any((w) =>
               w.abbreviation == 'MCW' &&
-              w.traits.any((t) => Trait.Demo(4).isSameType(t)) &&
-              !w.traits.any((t) => Trait.Brawl(1).isSameType(t)));
+              w.traits.any((t) => Trait.demo(4).isSameType(t)) &&
+              !w.traits.any((t) => Trait.brawl(1).isSameType(t)));
 
       return hasMCW;
     })
@@ -264,7 +264,7 @@ final UnitModification hammerSwap = UnitModification(
               modIDToSkip: hammerSwap.id)
           .any((w) =>
               w.abbreviation == 'MCW' &&
-              w.traits.any((t) => Trait.Demo(4).isSameType(t)));
+              w.traits.any((t) => Trait.demo(4).isSameType(t)));
 
       return hasMCW;
     })
@@ -287,9 +287,10 @@ final UnitModification paratrooper = UnitModification(
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Paratrooper'))
   ..addMod(UnitAttribute.piloting, createSetIntMod(3), description: 'PI:3+')
-  ..addMod(UnitAttribute.roles, createAddRoleToList(Role(name: RoleType.SO)),
+  ..addMod(
+      UnitAttribute.roles, createAddRoleToList(const Role(name: RoleType.so)),
       description: '+SO')
-  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.Airdrop()),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.airdrop()),
       description: '+Airdrop');
 
 final UnitModification mountaineering = UnitModification(
@@ -302,9 +303,10 @@ final UnitModification mountaineering = UnitModification(
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Mountaineering'))
   ..addMod(UnitAttribute.piloting, createSetIntMod(3), description: 'PI:3+')
-  ..addMod(UnitAttribute.roles, createAddRoleToList(Role(name: RoleType.SO)),
+  ..addMod(
+      UnitAttribute.roles, createAddRoleToList(const Role(name: RoleType.so)),
       description: '+SO')
-  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.Climber()),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.climber()),
       description: '+Climber');
 
 final UnitModification frogmen = UnitModification(
@@ -316,10 +318,11 @@ final UnitModification frogmen = UnitModification(
 )
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Frogmen'))
-  ..addMod(UnitAttribute.roles, createAddRoleToList(Role(name: RoleType.SO)),
+  ..addMod(
+      UnitAttribute.roles, createAddRoleToList(const Role(name: RoleType.so)),
       description: '+SO')
   ..addMod(UnitAttribute.piloting, createSetIntMod(3), description: 'PI:3+')
-  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.Sub()),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.sub()),
       description: '+Sub');
 
 final UnitModification latm = UnitModification(name: 'LATM Upgrade')
@@ -336,7 +339,7 @@ final UnitModification ecm = UnitModification(name: 'ECM Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
   ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'with ECM'))
   ..addMod(UnitAttribute.ew, createSetIntMod(5), description: 'EW:5+')
-  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.ECM()),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.ecm()),
       description: '+ECM');
 
 final UnitModification azat = UnitModification(name: 'Azat Upgrade')
@@ -351,7 +354,7 @@ final UnitModification azat = UnitModification(name: 'Azat Upgrade')
   ..addMod(UnitAttribute.weapons,
       createAddWeaponToList(buildWeapon('MICW (AP:1)', hasReact: true)!),
       description: '+MICW (AP:1)')
-  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.Vet()),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.vet()),
       description: '+Vet');
 
 final UnitModification hmg = UnitModification(name: 'HMG Upgrade')
@@ -373,9 +376,9 @@ final UnitModification trooperAutomationNode = UnitModification(
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'Node'))
   ..addMod(UnitAttribute.ew, createSetIntMod(5), description: 'EW 5+')
-  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.Comms()),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.comms()),
       description: '+Comms')
-  ..addMod(UnitAttribute.traits, createRemoveTraitFromList(Trait.Conscript()),
+  ..addMod(UnitAttribute.traits, createRemoveTraitFromList(Trait.conscript()),
       description: '-Conscript');
 
 final UnitModification achillusSquad = UnitModification(name: 'Squad Upgrade')
@@ -390,9 +393,10 @@ final UnitModification arminiusParatrooper = UnitModification(
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Paratrooper'))
   ..addMod(UnitAttribute.piloting, createSetIntMod(3), description: 'PI:3+')
-  ..addMod(UnitAttribute.roles, createAddRoleToList(Role(name: RoleType.SO)),
+  ..addMod(
+      UnitAttribute.roles, createAddRoleToList(const Role(name: RoleType.so)),
       description: '+SO')
-  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.Airdrop()),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.airdrop()),
       description: '+Airdrop');
 
 final UnitModification arminiusSquad = UnitModification(name: 'Squad Upgrade')
@@ -406,16 +410,16 @@ final UnitModification sandSpiderComms = UnitModification(name: 'Comms Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(2), description: 'TV +2')
   ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'with Comms'))
   ..addMod(UnitAttribute.ew, createSetIntMod(4), description: 'EW 4+')
-  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.Comms()),
+  ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.comms()),
       description: '+Comms')
-  ..addMod(UnitAttribute.traits, createRemoveTraitFromList(Trait.SatUp()),
+  ..addMod(UnitAttribute.traits, createRemoveTraitFromList(Trait.satUp()),
       description: '+SatUp');
 
 final UnitModification sandSpiderAmphib =
     UnitModification(name: 'Amphib Upgrade')
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
       ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'with Amphib'))
-      ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.Amphib()),
+      ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.amphib()),
           description: '+Amphib');
 
 final UnitModification sandSpiderStealth = UnitModification(
@@ -423,5 +427,5 @@ final UnitModification sandSpiderStealth = UnitModification(
   ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
   ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'with Stealth'))
   ..addMod(
-      UnitAttribute.traits, createAddTraitToList(Trait.Stealth(isAux: true)),
+      UnitAttribute.traits, createAddTraitToList(Trait.stealth(isAux: true)),
       description: '+Amphib (Aux)');

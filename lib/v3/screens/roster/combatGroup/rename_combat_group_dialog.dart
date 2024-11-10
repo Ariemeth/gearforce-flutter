@@ -7,7 +7,7 @@ const _minCGNameLength = 1;
 class RenameCombatGroupDialog extends StatefulWidget {
   final String currentName;
 
-  RenameCombatGroupDialog({
+  const RenameCombatGroupDialog({
     super.key,
     required this.currentName,
   });
@@ -25,13 +25,13 @@ class _RenameCombatGroupDialogState extends State<RenameCombatGroupDialog> {
     return SimpleDialog(
       title: Column(
         children: [
-          Text(
+          const Text(
             'Renaming',
             style: TextStyle(fontSize: 24),
           ),
           Text(
             widget.currentName,
-            style: TextStyle(fontSize: 24),
+            style: const TextStyle(fontSize: 24),
           )
         ],
       ),
@@ -39,7 +39,7 @@ class _RenameCombatGroupDialogState extends State<RenameCombatGroupDialog> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: TextField(
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               border: OutlineInputBorder(),
               hintText: 'Enter a new name for the CG.',
             ),
@@ -53,15 +53,15 @@ class _RenameCombatGroupDialogState extends State<RenameCombatGroupDialog> {
                 Navigator.pop(
                     context,
                     RenameCGOptionResult(
-                      RenameCGOptionResultType.Rename,
+                      RenameCGOptionResultType.rename,
                       newName: newValue,
                     ));
               }
 
               Navigator.pop(
                   context,
-                  RenameCGOptionResult(
-                    RenameCGOptionResultType.Cancel,
+                  const RenameCGOptionResult(
+                    RenameCGOptionResultType.cancel,
                   ));
             },
             maxLength: _maxCGNameLength,
@@ -80,7 +80,7 @@ class _RenameCombatGroupDialogState extends State<RenameCombatGroupDialog> {
                       Navigator.pop(
                           context,
                           RenameCGOptionResult(
-                            RenameCGOptionResultType.Rename,
+                            RenameCGOptionResultType.rename,
                             newName: newName,
                           ));
                     }
@@ -103,11 +103,11 @@ class _RenameCombatGroupDialogState extends State<RenameCombatGroupDialog> {
               onPressed: () {
                 Navigator.pop(
                     context,
-                    RenameCGOptionResult(
-                      RenameCGOptionResultType.Cancel,
+                    const RenameCGOptionResult(
+                      RenameCGOptionResultType.cancel,
                     ));
               },
-              child: Center(
+              child: const Center(
                 child: Text(
                   'Cancel',
                   style: TextStyle(
@@ -131,4 +131,4 @@ class RenameCGOptionResult {
   final RenameCGOptionResultType resultType;
 }
 
-enum RenameCGOptionResultType { Rename, Cancel }
+enum RenameCGOptionResultType { rename, cancel }

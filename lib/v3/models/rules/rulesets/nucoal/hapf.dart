@@ -38,11 +38,11 @@ final Rule ruleSouthernSurplus = Rule(
   name: 'Southern Surplus',
   id: _ruleSouthernSurplusId,
   hasGroupRole: (unit, target, group) {
-    if (unit.faction != FactionType.South) {
+    if (unit.faction != FactionType.south) {
       return null;
     }
 
-    if (target == RoleType.FT || target == RoleType.SO) {
+    if (target == RoleType.ft || target == RoleType.so) {
       return false;
     }
     return null;
@@ -51,7 +51,7 @@ final Rule ruleSouthernSurplus = Rule(
       text: 'Southern Surplus',
       filters: [
         UnitFilter(
-          FactionType.South,
+          FactionType.south,
           matcher: _matchSouthernSurplus,
         ),
       ],

@@ -26,8 +26,7 @@ class ModificationOption {
         !subOptions!.any((option) => option.text == text)) {
       return null;
     }
-    return subOptions?.firstWhere((option) => option.text == text,
-        orElse: null);
+    return subOptions?.firstWhere((option) => option.text == text);
   }
 
   bool validate() {
@@ -67,8 +66,8 @@ Example json format for mods
 
   Map<String, dynamic> toJson() {
     return {
-      'text': this.text,
-      'selected': this.selectedOption == null ? null : selectedOption!.toJson(),
+      'text': text,
+      'selected': selectedOption?.toJson(),
     };
   }
 }

@@ -40,7 +40,7 @@ void main() {
   });
 
   test('test createAddToList mod adds Comms to list', () {
-    final trait = Trait.Comms();
+    final trait = Trait.comms();
     final mod = createAddTraitToList(trait);
     final List<Trait> traits = [const Trait(name: 'something')];
     expect(mod(traits), contains(trait));
@@ -50,7 +50,7 @@ void main() {
   });
 
   test('test createAddToList mod adds Comms to list with existing +', () {
-    final trait = Trait.Comms();
+    final trait = Trait.comms();
     final mod = createAddTraitToList(trait);
     final List<Trait> traits = [const Trait(name: 'Comms+')];
     expect(mod(traits), contains(trait));
@@ -61,7 +61,7 @@ void main() {
   });
 
   test('test createAddToList mod does not duplicate Comms', () {
-    final trait = Trait.Comms();
+    final trait = Trait.comms();
     final mod = createAddTraitToList(trait);
     final List<Trait> traits = [trait];
     expect(mod(traits), contains(trait));
@@ -71,8 +71,8 @@ void main() {
   });
 
   test('test createReplaceInList mod adds Brawl:2 to list removes Brawl:1', () {
-    final traitOld = Trait.Brawl(1);
-    final traitNew = Trait.Brawl(2);
+    final traitOld = Trait.brawl(1);
+    final traitNew = Trait.brawl(2);
     final mod =
         createReplaceTraitInList(oldValue: traitOld, newValue: traitNew);
     final List<Trait> traits = [traitOld];
@@ -86,8 +86,8 @@ void main() {
   test(
       'test createReplaceInList mod adds Brawl:2 to list removes Brawl:1 when Brawl:1 dne',
       () {
-    final traitOld = Trait.Brawl(1);
-    final traitNew = Trait.Brawl(2);
+    final traitOld = Trait.brawl(1);
+    final traitNew = Trait.brawl(2);
     final mod =
         createReplaceTraitInList(oldValue: traitOld, newValue: traitNew);
     final List<Trait> traits = [];

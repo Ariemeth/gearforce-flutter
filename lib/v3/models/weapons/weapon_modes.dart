@@ -1,9 +1,9 @@
-enum weaponModes {
-  Direct('Direct', 'D'),
-  Indirect('Indirect', 'I'),
-  Melee('Melee', 'M');
+enum WeaponModes {
+  direct('Direct', 'D'),
+  indirect('Indirect', 'I'),
+  melee('Melee', 'M');
 
-  const weaponModes(this.name, this.abbr);
+  const WeaponModes(this.name, this.abbr);
   final String abbr;
   final String name;
 }

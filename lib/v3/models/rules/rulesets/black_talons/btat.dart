@@ -46,7 +46,7 @@ final Rule ruleBreachers = Rule(
   id: _ruleBreachersId,
   modifyWeapon: (weapons) {
     weapons.where((w) => w.code == 'SE').forEach((w) {
-      w.baseTraits.removeWhere((t) => Trait.Brawl(-1).isSame(t));
+      w.baseTraits.removeWhere((t) => Trait.brawl(-1).isSame(t));
     });
   },
   description: 'Shaped Explosives (SE) for models in this force do not come' +

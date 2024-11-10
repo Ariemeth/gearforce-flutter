@@ -1,6 +1,5 @@
 import 'package:gearforce/v3/models/combatGroups/combat_group.dart';
 import 'package:gearforce/v3/models/factions/faction_type.dart';
-import 'package:gearforce/v3/models/mods/base_modification.dart';
 import 'package:gearforce/v3/models/mods/factionUpgrades/faction_mod.dart';
 import 'package:gearforce/v3/models/mods/modification_option.dart';
 import 'package:gearforce/v3/models/mods/mods.dart';
@@ -36,8 +35,7 @@ class CEFMods extends FactionModification {
     This will improve the PI skill of that frame by one.
   */
   factory CEFMods.minerva() {
-    final RequirementCheck reqCheck =
-        (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+    reqCheck(RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       assert(cg != null);
       assert(rs != null);
 
@@ -53,12 +51,12 @@ class CEFMods extends FactionModification {
         return false;
       }
 
-      if (u.faction == FactionType.CEF && u.type == ModelType.Gear) {
+      if (u.faction == FactionType.cef && u.type == ModelType.gear) {
         return true;
       }
 
       return false;
-    };
+    }
 
     final fm = CEFMods(
       name: 'Minerva',
@@ -85,8 +83,7 @@ class CEFMods extends FactionModification {
   ///  Each veteran [faction] frame may improve their GU skill by one for 1 TV times the
   ///  number of Actions that the model has.
   factory CEFMods.advancedInterfaceNetwork(Unit unit, FactionType faction) {
-    final RequirementCheck reqCheck =
-        (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+    reqCheck(RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       assert(cg != null);
       assert(rs != null);
 
@@ -107,13 +104,13 @@ class CEFMods extends FactionModification {
       // gears and striders.  If CEF gets a strider that isn't a frame or caprice
       // gets a strider or gear that isn't a mount then this will need to be updated.
       if (u.faction == faction &&
-          (u.type == ModelType.Gear || u.type == ModelType.Strider) &&
+          (u.type == ModelType.gear || u.type == ModelType.strider) &&
           u.isVeteran) {
         return true;
       }
 
       return false;
-    };
+    }
 
     final fm = CEFMods(
       name: 'Advanced Interface Network',
@@ -143,8 +140,7 @@ class CEFMods extends FactionModification {
     for +2 TV each.
   */
   factory CEFMods.valkyries() {
-    final RequirementCheck reqCheck =
-        (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+    reqCheck(RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       assert(cg != null);
       assert(rs != null);
 
@@ -152,7 +148,7 @@ class CEFMods extends FactionModification {
         return false;
       }
 
-      if (u.type == ModelType.Gear &&
+      if (u.type == ModelType.gear &&
           u.isVeteran &&
           u.attribute<int>(UnitAttribute.actions, modIDToSkip: valkyriesId) ==
               1) {
@@ -160,7 +156,7 @@ class CEFMods extends FactionModification {
       }
 
       return false;
-    };
+    }
 
     final fm = CEFMods(
       name: 'Valkyries',
@@ -188,8 +184,7 @@ class CEFMods extends FactionModification {
     trait for 1 TV total.
   */
   factory CEFMods.ewDuelists() {
-    final RequirementCheck reqCheck =
-        (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+    reqCheck(RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       assert(cg != null);
       assert(rs != null);
 
@@ -202,7 +197,7 @@ class CEFMods extends FactionModification {
       }
 
       return false;
-    };
+    }
 
     final fm = CEFMods(
       name: 'EW Duelists',
@@ -219,11 +214,11 @@ class CEFMods extends FactionModification {
     fm.addMod<List<Trait>>(
       UnitAttribute.traits,
       (value) {
-        final newValue = Trait.ECM();
-        var newList = new List<Trait>.from(value);
+        final newValue = Trait.ecm();
+        var newList = List<Trait>.from(value);
 
         if (!newList.any(
-            (t) => t.isSameType(newValue) || t.isSameType(Trait.ECMPlus()))) {
+            (t) => t.isSameType(newValue) || t.isSameType(Trait.ecmPlus()))) {
           newList.add(newValue);
         }
 
@@ -234,7 +229,7 @@ class CEFMods extends FactionModification {
 
     fm.addMod<List<Trait>>(
       UnitAttribute.traits,
-      createAddOrReplaceSameTraitInList(Trait.Sensors(36)),
+      createAddOrReplaceSameTraitInList(Trait.sensors(36)),
       description: '+Sensors:36',
     );
 
@@ -246,8 +241,7 @@ class CEFMods extends FactionModification {
       laser cannons. Remove any TD or Shield traits when this upgrade is chosen.
   */
   factory CEFMods.dualLasers(Unit unit) {
-    final RequirementCheck reqCheck =
-        (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+    reqCheck(RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       assert(cg != null);
       assert(rs != null);
 
@@ -264,20 +258,20 @@ class CEFMods extends FactionModification {
       }
 
       return false;
-    };
+    }
 
-    final List<ModificationOption> _options = [];
+    final List<ModificationOption> options = [];
 
     final availableWeapons =
         unit.reactWeapons.where((w) => !w.isCombo && w.code == 'LC');
 
-    availableWeapons.forEach((w) {
-      _options.add(ModificationOption(w.toString()));
-    });
+    for (var w in availableWeapons) {
+      options.add(ModificationOption(w.toString()));
+    }
 
     final modOptions = ModificationOption(
       'Dual Lasers',
-      subOptions: _options,
+      subOptions: options,
       description: 'Add the Link Trait to one Laser Cannon',
     );
 
@@ -302,26 +296,26 @@ class CEFMods extends FactionModification {
               weapon.toString() == modOptions.selectedOption?.text)) {
         var existingWeapon = newList.firstWhere(
             (weapon) => weapon.toString() == modOptions.selectedOption?.text);
-        existingWeapon.bonusTraits.add(Trait.Link());
+        existingWeapon.bonusTraits.add(Trait.link());
       }
       return newList;
     }, description: 'Add the Link Trait to one Laser Cannon');
 
-    final tds = unit.traits.where((t) => Trait.TD().isSameType(t)).toList();
-    tds.forEach((t) {
+    final tds = unit.traits.where((t) => Trait.td().isSameType(t)).toList();
+    for (var t in tds) {
       fm.addMod<List<Trait>>(
         UnitAttribute.traits,
         createRemoveTraitFromList(t),
       );
-    });
+    }
     final shields =
-        unit.traits.where((t) => Trait.Shield().isSameType(t)).toList();
-    shields.forEach((t) {
+        unit.traits.where((t) => Trait.shield().isSameType(t)).toList();
+    for (var t in shields) {
       fm.addMod<List<Trait>>(
         UnitAttribute.traits,
         createRemoveTraitFromList(t),
       );
-    });
+    }
 
     return fm;
   }

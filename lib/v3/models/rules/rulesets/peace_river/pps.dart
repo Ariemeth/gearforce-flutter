@@ -53,10 +53,10 @@ const filterSubContractor = SpecialUnitFilter(
   text: _ruleSubContractorsName,
   id: _ruleSubContractorsId,
   filters: [
-    const UnitFilter(FactionType.North, matcher: matchArmor8),
-    const UnitFilter(FactionType.South, matcher: matchArmor8),
-    const UnitFilter(FactionType.PeaceRiver, matcher: matchArmor8),
-    const UnitFilter(FactionType.NuCoal, matcher: matchArmor8),
+    UnitFilter(FactionType.north, matcher: matchArmor8),
+    UnitFilter(FactionType.south, matcher: matchArmor8),
+    UnitFilter(FactionType.peaceRiver, matcher: matchArmor8),
+    UnitFilter(FactionType.nuCoal, matcher: matchArmor8),
   ],
 );
 

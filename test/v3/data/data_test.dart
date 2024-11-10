@@ -25,77 +25,77 @@ void main() {
   test('ensure north unit list loads', () async {
     final data = DataV3();
     await data.load(Settings()).whenComplete(() => expect(
-        data.getUnits(baseFactionFilters: [FactionType.North]).length,
+        data.getUnits(baseFactionFilters: [FactionType.north]).length,
         greaterThan(0)));
   });
 
   test('ensure south unit list loads', () async {
     final data = DataV3();
     await data.load(Settings()).whenComplete(() => expect(
-        data.getUnits(baseFactionFilters: [FactionType.South]).length,
+        data.getUnits(baseFactionFilters: [FactionType.south]).length,
         greaterThan(0)));
   });
 
   test('ensure black talon unit list loads', () async {
     final data = DataV3();
     await data.load(Settings()).whenComplete(() => expect(
-        data.getUnits(baseFactionFilters: [FactionType.BlackTalon]).length,
+        data.getUnits(baseFactionFilters: [FactionType.blackTalon]).length,
         greaterThan(0)));
   });
 
   test('ensure caprice unit list loads', () async {
     final data = DataV3();
     await data.load(Settings()).whenComplete(() => expect(
-        data.getUnits(baseFactionFilters: [FactionType.Caprice]).length,
+        data.getUnits(baseFactionFilters: [FactionType.caprice]).length,
         greaterThan(0)));
   });
 
   test('ensure cef unit list loads', () async {
     final data = DataV3();
     await data.load(Settings()).whenComplete(() => expect(
-        data.getUnits(baseFactionFilters: [FactionType.CEF]).length,
+        data.getUnits(baseFactionFilters: [FactionType.cef]).length,
         greaterThan(0)));
   });
 
   test('ensure eden unit list loads', () async {
     final data = DataV3();
     await data.load(Settings()).whenComplete(() => expect(
-        data.getUnits(baseFactionFilters: [FactionType.Eden]).length,
+        data.getUnits(baseFactionFilters: [FactionType.eden]).length,
         greaterThan(0)));
   });
 
   test('ensure nucoal unit list loads', () async {
     final data = DataV3();
     await data.load(Settings()).whenComplete(() => expect(
-        data.getUnits(baseFactionFilters: [FactionType.NuCoal]).length,
+        data.getUnits(baseFactionFilters: [FactionType.nuCoal]).length,
         greaterThan(0)));
   });
 
   test('ensure terrain unit list loads', () async {
     final data = DataV3();
     await data.load(Settings()).whenComplete(() => expect(
-        data.getUnits(baseFactionFilters: [FactionType.Terrain]).length,
+        data.getUnits(baseFactionFilters: [FactionType.terrain]).length,
         greaterThan(0)));
   });
 
   test('ensure universal unit list loads', () async {
     final data = DataV3();
     await data.load(Settings()).whenComplete(() => expect(
-        data.getUnits(baseFactionFilters: [FactionType.Universal]).length,
+        data.getUnits(baseFactionFilters: [FactionType.universal]).length,
         greaterThan(0)));
   });
 
   test('ensure utopia unit list loads', () async {
     final data = DataV3();
     await data.load(Settings()).whenComplete(() => expect(
-        data.getUnits(baseFactionFilters: [FactionType.Utopia]).length,
+        data.getUnits(baseFactionFilters: [FactionType.utopia]).length,
         greaterThan(0)));
   });
 
   test('ensure peace river unit list loads', () async {
     final data = DataV3();
     await data.load(Settings()).whenComplete(() => expect(
-        data.getUnits(baseFactionFilters: [FactionType.PeaceRiver]).length,
+        data.getUnits(baseFactionFilters: [FactionType.peaceRiver]).length,
         greaterThan(0)));
   });
 
@@ -104,19 +104,19 @@ void main() {
     await data.load(Settings());
     expect(
         data.getUnits(
-            baseFactionFilters: [FactionType.PeaceRiver],
+            baseFactionFilters: [FactionType.peaceRiver],
             characterFilters: ['warrior']).length,
         greaterThan(0),
         reason: 'check for at least 1 result');
     expect(
         data.getUnits(
-            baseFactionFilters: [FactionType.PeaceRiver],
+            baseFactionFilters: [FactionType.peaceRiver],
             characterFilters: ['warrior']).length,
         lessThan(
-            data.getUnits(baseFactionFilters: [FactionType.PeaceRiver]).length),
+            data.getUnits(baseFactionFilters: [FactionType.peaceRiver]).length),
         reason: 'filtered list should be smaller');
     print(data.getUnits(
-        baseFactionFilters: [FactionType.PeaceRiver],
+        baseFactionFilters: [FactionType.peaceRiver],
         characterFilters: ['warrior']).length);
   });
 
@@ -125,19 +125,19 @@ void main() {
     await data.load(Settings());
     expect(
         data.getUnits(
-            baseFactionFilters: [FactionType.PeaceRiver],
+            baseFactionFilters: [FactionType.peaceRiver],
             characterFilters: ['airdrop']).length,
         greaterThan(0),
         reason: 'check for at least 1 result');
     expect(
         data.getUnits(
-            baseFactionFilters: [FactionType.PeaceRiver],
+            baseFactionFilters: [FactionType.peaceRiver],
             characterFilters: ['airdrop']).length,
         lessThan(
-            data.getUnits(baseFactionFilters: [FactionType.PeaceRiver]).length),
+            data.getUnits(baseFactionFilters: [FactionType.peaceRiver]).length),
         reason: 'filtered list should be smaller');
     print(data.getUnits(
-        baseFactionFilters: [FactionType.PeaceRiver],
+        baseFactionFilters: [FactionType.peaceRiver],
         characterFilters: ['airdrop']).length);
   });
 
@@ -146,19 +146,19 @@ void main() {
     await data.load(Settings());
     expect(
         data.getUnits(
-            baseFactionFilters: [FactionType.PeaceRiver],
+            baseFactionFilters: [FactionType.peaceRiver],
             characterFilters: ['airdrop', 'warrior']).length,
         greaterThan(0),
         reason: 'check for at least 1 result');
     expect(
         data.getUnits(
-            baseFactionFilters: [FactionType.PeaceRiver],
+            baseFactionFilters: [FactionType.peaceRiver],
             characterFilters: ['airdrop', 'warrior']).length,
         lessThan(
-            data.getUnits(baseFactionFilters: [FactionType.PeaceRiver]).length),
+            data.getUnits(baseFactionFilters: [FactionType.peaceRiver]).length),
         reason: 'filtered list should be smaller');
     print(data.getUnits(
-        baseFactionFilters: [FactionType.PeaceRiver],
+        baseFactionFilters: [FactionType.peaceRiver],
         characterFilters: ['airdrop', 'warrior']).length);
   });
 }

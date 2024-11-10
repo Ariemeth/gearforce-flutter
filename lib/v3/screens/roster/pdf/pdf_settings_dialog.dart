@@ -11,10 +11,14 @@ class PDFSettingsDialog extends StatelessWidget {
 
     return SimpleDialog(
       title: Align(
-        child: Text('$type Settings', style: TextStyle(fontSize: 24)),
+        child: Text('$type Settings', style: const TextStyle(fontSize: 24)),
       ),
+      contentPadding:
+          const EdgeInsets.only(top: 10, bottom: 5, left: 10, right: 10),
+      titlePadding:
+          const EdgeInsets.only(top: 10, bottom: 0, left: 10, right: 10),
       children: [
-        Text('Select the sections to include',
+        const Text('Select the sections to include',
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w500,
@@ -75,7 +79,7 @@ class PDFSettingsDialog extends StatelessWidget {
           child: Center(
             child: Text(
               type,
-              style: TextStyle(
+              style: const TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                   color: Colors.green),
@@ -83,8 +87,6 @@ class PDFSettingsDialog extends StatelessWidget {
           ),
         ),
       ],
-      contentPadding: EdgeInsets.only(top: 10, bottom: 5, left: 10, right: 10),
-      titlePadding: EdgeInsets.only(top: 10, bottom: 0, left: 10, right: 10),
     );
   }
 }
@@ -94,7 +96,8 @@ class SettingsOptionLine extends StatefulWidget {
   final ValueChanged<bool?> onChanged;
   final bool defaultEnabled;
 
-  SettingsOptionLine({
+  const SettingsOptionLine({
+    super.key,
     required this.text,
     required this.onChanged,
     this.defaultEnabled = true,
@@ -110,9 +113,7 @@ class _SettingsOptionLineState extends State<SettingsOptionLine> {
   @override
   void initState() {
     super.initState();
-    if (value == null) {
-      value = widget.defaultEnabled;
-    }
+    value ??= widget.defaultEnabled;
   }
 
   @override
@@ -120,7 +121,7 @@ class _SettingsOptionLineState extends State<SettingsOptionLine> {
     return Row(
       children: [
         Text(widget.text),
-        Spacer(),
+        const Spacer(),
         Checkbox(
           value: value,
           onChanged: (bool? newValue) {

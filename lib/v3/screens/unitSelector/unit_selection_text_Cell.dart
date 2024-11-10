@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
 class UnitSelectionTextCell extends StatelessWidget {
-  UnitSelectionTextCell.content(
+  const UnitSelectionTextCell.content(
     this.text, {
+    super.key,
     this.textAlignment = TextAlign.center,
     this.backgroundColor,
     this.padding = const EdgeInsets.all(5),
@@ -16,8 +17,9 @@ class UnitSelectionTextCell extends StatelessWidget {
     this.border,
   });
 
-  UnitSelectionTextCell.columnTitle(
+  const UnitSelectionTextCell.columnTitle(
     this.text, {
+    super.key,
     this.textAlignment = TextAlign.center,
     this.backgroundColor,
     this.padding = const EdgeInsets.all(5),
@@ -28,8 +30,9 @@ class UnitSelectionTextCell extends StatelessWidget {
     this.border,
   });
 
-  UnitSelectionTextCell.draggableFeedback(
+  const UnitSelectionTextCell.draggableFeedback(
     this.text, {
+    super.key,
     this.textAlignment = TextAlign.center,
     this.backgroundColor,
     this.padding = const EdgeInsets.all(5),
@@ -45,8 +48,9 @@ class UnitSelectionTextCell extends StatelessWidget {
     this.border,
   });
 
-  UnitSelectionTextCell.childWhenDragging(
+  const UnitSelectionTextCell.childWhenDragging(
     this.text, {
+    super.key,
     this.textAlignment = TextAlign.center,
     this.backgroundColor,
     this.padding = const EdgeInsets.fromLTRB(0, 3, 3, 3),
@@ -74,18 +78,18 @@ class UnitSelectionTextCell extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: this.backgroundColor,
-        border: this.border,
+        color: backgroundColor,
+        border: border,
       ),
-      alignment: this.alignment,
-      padding: this.padding,
+      alignment: alignment,
+      padding: padding,
       child: Text(
         text,
         overflow: TextOverflow.clip,
-        style: this.textStyle,
-        softWrap: this.softWrap,
-        maxLines: this.maxLines,
-        textAlign: this.textAlignment,
+        style: textStyle,
+        softWrap: softWrap,
+        maxLines: maxLines,
+        textAlign: textAlignment,
       ),
     );
   }

@@ -19,7 +19,7 @@ class TestTable {
   });
   final String code;
   final String name;
-  final List<weaponModes> modes;
+  final List<WeaponModes> modes;
   final Range range;
   final Map<String, int> damage;
   final List<Trait> traits;
@@ -29,13 +29,13 @@ class TestTable {
 
 void main() {
   test('test weapon combos', () {
-    final weapon1 = 'LAC';
-    final weapon2 = 'LAC/LGL';
-    final weapon3 = 'HRC (Apex)/HVB';
-    final weapon4 = 'LRC (AA)/HVB (Precise)';
-    final weapon5 = 'MRC (Aux)/LVB (Precise Auto)';
-    final weapon6 = 'HRC (T Aux)/HVB (Precise Auto)';
-    final weapon7 = 'BB';
+    const weapon1 = 'LAC';
+    const weapon2 = 'LAC/LGL';
+    const weapon3 = 'HRC (Apex)/HVB';
+    const weapon4 = 'LRC (AA)/HVB (Precise)';
+    const weapon5 = 'MRC (Aux)/LVB (Precise Auto)';
+    const weapon6 = 'HRC (T Aux)/HVB (Precise Auto)';
+    const weapon7 = 'BB';
 
     final weaponList = [
       weapon1,
@@ -46,240 +46,240 @@ void main() {
       weapon6,
       weapon7
     ];
-    weaponList.forEach((w) {
+    for (var w in weaponList) {
       final weapon = buildWeapon(w);
       expect(weapon.toString(), w);
-    });
+    }
   });
 
   final testTables = [
-    TestTable(
+    const TestTable(
       code: 'AAM',
       name: 'Anti-Air Missile',
-      modes: [weaponModes.Direct, weaponModes.Indirect],
+      modes: [WeaponModes.direct, WeaponModes.indirect],
       range: Range(12, 36, 72),
       damage: {'L': 7, 'M': 8, 'H': 9},
-      traits: [const Trait(name: 'Flak'), const Trait(name: 'Guided')],
+      traits: [Trait(name: 'Flak'), Trait(name: 'Guided')],
     ),
-    TestTable(
+    const TestTable(
       code: 'ABM',
       name: 'Air Burst Missile',
-      modes: [weaponModes.Indirect],
+      modes: [WeaponModes.indirect],
       range: Range(24, 48, 96),
       damage: {'L': 6, 'M': 7, 'H': 8},
       traits: [
-        const Trait(name: 'AI'),
-        const Trait(name: 'AOE', level: 3),
-        const Trait(name: 'Blast'),
-        const Trait(name: 'Guided'),
+        Trait(name: 'AI'),
+        Trait(name: 'AOE', level: 3),
+        Trait(name: 'Blast'),
+        Trait(name: 'Guided'),
       ],
     ),
-    TestTable(
+    const TestTable(
       code: 'AVM',
       name: 'Anti-Vehicle Missile',
-      modes: [weaponModes.Direct, weaponModes.Indirect],
+      modes: [WeaponModes.direct, WeaponModes.indirect],
       range: Range(6, 18, 36),
       damage: {'L': 5, 'M': 6, 'H': 7},
       traits: [
-        const Trait(name: 'AP', level: 1),
-        const Trait(name: 'Guided'),
+        Trait(name: 'AP', level: 1),
+        Trait(name: 'Guided'),
       ],
     ),
-    TestTable(
+    const TestTable(
       code: 'CW',
       name: 'Combat Weapon',
-      modes: [weaponModes.Melee],
+      modes: [WeaponModes.melee],
       range: Range(0, null, null, hasReach: true, increasableReach: true),
       damage: {'L': 7, 'M': 8, 'H': 9},
-      traits: [const Trait(name: 'Demo', level: 2)],
+      traits: [Trait(name: 'Demo', level: 2)],
     ),
-    TestTable(
+    const TestTable(
       code: 'FM',
       name: 'Field Mortar',
-      modes: [weaponModes.Indirect],
+      modes: [WeaponModes.indirect],
       range: Range(18, 36, 72),
       damage: {'L': 8, 'M': 9, 'H': 10},
       traits: [
-        const Trait(name: 'AOE', level: 4),
-        const Trait(name: 'Blast'),
+        Trait(name: 'AOE', level: 4),
+        Trait(name: 'Blast'),
       ],
     ),
-    TestTable(
+    const TestTable(
       code: 'GM',
       name: 'Guided Mortar',
-      modes: [weaponModes.Indirect],
+      modes: [WeaponModes.indirect],
       range: Range(18, 36, 72),
       damage: {'L': 7, 'M': 8, 'H': 9},
       traits: [
-        const Trait(name: 'AOE', level: 3),
-        const Trait(name: 'Blast'),
-        const Trait(name: 'Guided'),
+        Trait(name: 'AOE', level: 3),
+        Trait(name: 'Blast'),
+        Trait(name: 'Guided'),
       ],
     ),
-    TestTable(
+    const TestTable(
       code: 'HG',
       name: 'Hand Grenade',
-      modes: [weaponModes.Direct, weaponModes.Indirect],
+      modes: [WeaponModes.direct, WeaponModes.indirect],
       range: Range(3, 6, 9),
       damage: {'L': 8, 'M': 9, 'H': 10},
       traits: [
-        const Trait(name: 'AOE', level: 3),
-        const Trait(name: 'Blast'),
-        const Trait(name: 'AP', level: 1),
+        Trait(name: 'AOE', level: 3),
+        Trait(name: 'Blast'),
+        Trait(name: 'AP', level: 1),
       ],
     ),
-    TestTable(
+    const TestTable(
       code: 'ICW',
       name: 'Infantry Combat Weapon',
-      modes: [weaponModes.Melee],
+      modes: [WeaponModes.melee],
       range: Range(0, null, null, hasReach: true, increasableReach: true),
       damage: {'L': 4, 'M': 5, 'H': 6},
       traits: [
-        const Trait(name: 'AI'),
+        Trait(name: 'AI'),
       ],
     ),
-    TestTable(
+    const TestTable(
       code: 'IGL',
       name: 'Infantry Grenade Launcher',
-      modes: [weaponModes.Direct, weaponModes.Indirect],
+      modes: [WeaponModes.direct, WeaponModes.indirect],
       range: Range(3, 9, 18),
       damage: {'L': 5, 'M': 6, 'H': 7},
       traits: [
-        const Trait(name: 'AOE', level: 2),
-        const Trait(name: 'Blast'),
+        Trait(name: 'AOE', level: 2),
+        Trait(name: 'Blast'),
       ],
       optionalTraits: [
-        const Trait(name: 'AP', level: 1),
+        Trait(name: 'AP', level: 1),
       ],
     ),
-    TestTable(
+    const TestTable(
       code: 'IL',
       name: 'Infantry Laser',
-      modes: [weaponModes.Direct],
+      modes: [WeaponModes.direct],
       range: Range(6, 18, 36),
       damage: {'L': 3, 'M': 4, 'H': 5},
       traits: [
-        const Trait(name: 'AI'),
-        const Trait(name: 'Advanced'),
-        const Trait(name: 'Burst', level: 1),
+        Trait(name: 'AI'),
+        Trait(name: 'Advanced'),
+        Trait(name: 'Burst', level: 1),
       ],
     ),
-    TestTable(
+    const TestTable(
       code: 'IM',
       name: 'Infantry Mortar',
-      modes: [weaponModes.Indirect],
+      modes: [WeaponModes.indirect],
       range: Range(12, 24, 48),
       damage: {'L': 4, 'M': 5, 'H': 6},
       traits: [
-        const Trait(name: 'AOE', level: 2),
-        const Trait(name: 'Blast'),
-        const Trait(name: 'AI'),
+        Trait(name: 'AOE', level: 2),
+        Trait(name: 'Blast'),
+        Trait(name: 'AI'),
       ],
     ),
-    TestTable(
+    const TestTable(
       code: 'IR',
       name: 'Infantry Rifle',
-      modes: [weaponModes.Direct],
+      modes: [WeaponModes.direct],
       range: Range(6, 24, 48),
       damage: {'L': 4, 'M': 5, 'H': 6},
       traits: [
-        const Trait(name: 'Precise'),
-        const Trait(name: 'AI'),
+        Trait(name: 'Precise'),
+        Trait(name: 'AI'),
       ],
     ),
-    TestTable(
+    const TestTable(
       code: 'IS',
       name: 'Infantry Support Weapon',
-      modes: [weaponModes.Direct],
+      modes: [WeaponModes.direct],
       range: Range(6, 18, 36),
       damage: {'L': 4, 'M': 5, 'H': 6},
       traits: [],
     ),
-    TestTable(
+    const TestTable(
       code: 'IW',
       name: 'Infantry Weapon',
-      modes: [weaponModes.Direct],
+      modes: [WeaponModes.direct],
       range: Range(0, 9, 18),
       damage: {'L': 3, 'M': 4, 'H': 5},
       traits: [
-        const Trait(name: 'AI'),
-        const Trait(name: 'Burst', level: 1),
+        Trait(name: 'AI'),
+        Trait(name: 'Burst', level: 1),
       ],
     ),
-    TestTable(
+    const TestTable(
       code: 'LC',
       name: 'Laser Cannon',
-      modes: [weaponModes.Direct],
+      modes: [WeaponModes.direct],
       range: Range(12, 36, 72),
       damage: {'L': 6, 'M': 7, 'H': 8},
       traits: [
-        const Trait(name: 'Precise'),
-        const Trait(name: 'Advanced'),
+        Trait(name: 'Precise'),
+        Trait(name: 'Advanced'),
       ],
     ),
-    TestTable(
+    const TestTable(
       code: 'MG',
       name: 'Machine Gun',
-      modes: [weaponModes.Direct],
+      modes: [WeaponModes.direct],
       range: Range(3, 9, 18),
       damage: {'L': 3, 'M': 4, 'H': 5},
       traits: [
-        const Trait(name: 'AI'),
-        const Trait(name: 'Burst', level: 2),
-        const Trait(name: 'Split'),
+        Trait(name: 'AI'),
+        Trait(name: 'Burst', level: 2),
+        Trait(name: 'Split'),
       ],
     ),
-    TestTable(
+    const TestTable(
       code: 'P',
       name: 'Pistol',
-      modes: [weaponModes.Direct],
+      modes: [WeaponModes.direct],
       range: Range(0, 12, 24),
       damage: {'L': 6, 'M': 7, 'H': 8},
       traits: [
-        const Trait(name: 'Precise'),
+        Trait(name: 'Precise'),
       ],
     ),
-    TestTable(
+    const TestTable(
       code: 'PA',
       name: 'Particle Accelerator',
-      modes: [weaponModes.Direct],
+      modes: [WeaponModes.direct],
       range: Range(6, 24, 48),
       damage: {'L': 7, 'M': 8, 'H': 9},
       traits: [
-        const Trait(name: 'Haywire'),
-        const Trait(name: 'Advanced'),
+        Trait(name: 'Haywire'),
+        Trait(name: 'Advanced'),
       ],
     ),
-    TestTable(
+    const TestTable(
       code: 'RC',
       name: 'Rotary Cannon',
-      modes: [weaponModes.Direct],
+      modes: [WeaponModes.direct],
       range: Range(6, 18, 36),
       damage: {'L': 5, 'M': 6, 'H': 7},
       traits: [
-        const Trait(name: 'Burst', level: 2),
-        const Trait(name: 'Split'),
+        Trait(name: 'Burst', level: 2),
+        Trait(name: 'Split'),
       ],
     ),
-    TestTable(
+    const TestTable(
       code: 'RF',
       name: 'Rifle',
-      modes: [weaponModes.Direct],
+      modes: [WeaponModes.direct],
       range: Range(12, 36, 72),
       damage: {'L': 6, 'M': 7, 'H': 8},
       traits: [
-        const Trait(name: 'Precise'),
+        Trait(name: 'Precise'),
       ],
     ),
-    TestTable(
+    const TestTable(
       code: 'RP',
       name: 'Rocket Pack',
-      modes: [weaponModes.Direct, weaponModes.Indirect],
+      modes: [WeaponModes.direct, WeaponModes.indirect],
       range: Range(6, 18, 36),
       damage: {'L': 7, 'M': 8, 'H': 9},
       traits: [
-        const Trait(name: 'AOE', level: 3),
-        const Trait(name: 'AP', level: 1),
+        Trait(name: 'AOE', level: 3),
+        Trait(name: 'AP', level: 1),
       ],
     ),
   ];
@@ -313,7 +313,7 @@ void main() {
   group('test building ATM', () {
     const code = 'ATM';
     const name = 'Anti-Tank Missile';
-    const modes = [weaponModes.Direct, weaponModes.Indirect];
+    const modes = [WeaponModes.direct, WeaponModes.indirect];
     const range = Range(12, 36, 72);
     const damage = {'L': 8, 'M': 9, 'H': 10};
     const ap = {'L': 2, 'M': 3, 'H': 4};
@@ -342,7 +342,7 @@ void main() {
   group('test building BZ', () {
     const code = 'BZ';
     const name = 'Bazooka';
-    const modes = [weaponModes.Direct];
+    const modes = [WeaponModes.direct];
     const range = Range(6, 12, 24);
     const damage = {'L': 7, 'M': 8, 'H': 9};
     const ap = {'L': 2, 'M': 3, 'H': 4};
@@ -370,7 +370,7 @@ void main() {
   group('test building FG', () {
     const code = 'FG';
     const name = 'Field Gun';
-    const modes = [weaponModes.Direct, weaponModes.Indirect];
+    const modes = [WeaponModes.direct, WeaponModes.indirect];
     const range = Range(12, 24, 48);
     const damage = {'L': 9, 'M': 10, 'H': 11};
     const ap = {'L': 3, 'M': 4, 'H': 5};
@@ -404,7 +404,7 @@ void main() {
   group('test building PZ', () {
     const code = 'PZ';
     const name = 'Panzerfaust';
-    const modes = [weaponModes.Direct];
+    const modes = [WeaponModes.direct];
     const range = Range(3, 6, 9);
     const damage = {'L': 7, 'M': 8, 'H': 9};
     const ap = {'L': 2, 'M': 3, 'H': 4};
@@ -432,7 +432,7 @@ void main() {
   group('test building RG', () {
     const code = 'RG';
     const name = 'Railgun';
-    const modes = [weaponModes.Direct];
+    const modes = [WeaponModes.direct];
     const range = Range(12, 48, 96);
     const damage = {'L': 4, 'M': 5, 'H': 6};
     const ap = {'L': 4, 'M': 5, 'H': 6};
@@ -462,7 +462,7 @@ void main() {
   group('test building SC', () {
     const code = 'SC';
     const name = 'Snub Cannon';
-    const modes = [weaponModes.Direct];
+    const modes = [WeaponModes.direct];
     const range = Range(3, 9, 18);
     const damage = {'L': 8, 'M': 9, 'H': 10};
     const ap = {'L': 2, 'M': 3, 'H': 4};
@@ -491,7 +491,7 @@ void main() {
   group('test building SE', () {
     const code = 'SE';
     const name = 'Shaped Explosives';
-    const modes = [weaponModes.Melee];
+    const modes = [WeaponModes.melee];
     const range = Range(0, null, null, hasReach: true);
     const damage = {'L': 8, 'M': 9, 'H': 10};
     const ap = {'L': 2, 'M': 3, 'H': 4};
@@ -521,7 +521,7 @@ void main() {
   group('test building SG', () {
     const code = 'SG';
     const name = 'Spike Gun';
-    const modes = [weaponModes.Melee];
+    const modes = [WeaponModes.melee];
     const range = Range(0, null, null, hasReach: true, increasableReach: true);
     const damage = {'L': 6, 'M': 7, 'H': 8};
     const ap = {'L': 3, 'M': 4, 'H': 5};
@@ -549,7 +549,7 @@ void main() {
   group('test building TG', () {
     const code = 'TG';
     const name = 'Tank Gun';
-    const modes = [weaponModes.Direct];
+    const modes = [WeaponModes.direct];
     const range = Range(12, 36, 72);
     const damage = {'L': 9, 'M': 10, 'H': 11};
     const ap = {'L': 3, 'M': 4, 'H': 5};
@@ -578,7 +578,7 @@ void main() {
   group('test building VB', () {
     const code = 'VB';
     const name = 'Vibroblade';
-    const modes = [weaponModes.Melee];
+    const modes = [WeaponModes.melee];
     const range = Range(0, null, null, hasReach: true, increasableReach: true);
     const damage = {'L': 7, 'M': 8, 'H': 9};
     const ap = {'L': 2, 'M': 3, 'H': 4};
@@ -606,7 +606,7 @@ void main() {
   group('test building 2 x VB', () {
     const code = 'VB';
     const name = 'Vibroblade';
-    const modes = [weaponModes.Melee];
+    const modes = [WeaponModes.melee];
     const range = Range(0, null, null, hasReach: true, increasableReach: true);
     const damage = {'L': 7, 'M': 8, 'H': 9};
     const ap = {'L': 2, 'M': 3, 'H': 4};
@@ -650,17 +650,17 @@ void main() {
   });
 
   group('test building weapons with unique bonus traits', () {
-    final tt = TestTable(
+    const tt = TestTable(
       code: 'AAM',
       name: 'Anti-Air Missile',
-      modes: [weaponModes.Direct, weaponModes.Indirect],
+      modes: [WeaponModes.direct, WeaponModes.indirect],
       range: Range(12, 36, 72),
       damage: {'L': 7, 'M': 8, 'H': 9},
       traits: [
-        const Trait(name: 'Flak'),
-        const Trait(name: 'Guided'),
-        const Trait(name: 'T'),
-        const Trait(name: 'Auto'),
+        Trait(name: 'Flak'),
+        Trait(name: 'Guided'),
+        Trait(name: 'T'),
+        Trait(name: 'Auto'),
       ],
       bonusTraits: '(T Auto)',
     );
@@ -717,8 +717,8 @@ void main() {
   });
 
   test('test building standard LB', () {
-    final modes = [weaponModes.Direct];
-    final range = Range(0, null, null);
+    final modes = [WeaponModes.direct];
+    const range = Range(0, null, null);
     const damage = 8;
     final traits = [const Trait(name: 'AOE', level: 4)];
     const name = 'Bomb';

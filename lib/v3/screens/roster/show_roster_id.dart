@@ -36,7 +36,7 @@ class RosterIdDialog extends StatelessWidget {
             IconButton(
               onPressed: () {
                 Clipboard.setData(
-                  new ClipboardData(text: rosterId),
+                  ClipboardData(text: rosterId),
                 );
               },
               icon: const Icon(
@@ -53,7 +53,7 @@ class RosterIdDialog extends StatelessWidget {
             IconButton(
               onPressed: () {
                 Clipboard.setData(
-                  new ClipboardData(text: link),
+                  ClipboardData(text: link),
                 );
               },
               icon: const Icon(
@@ -82,11 +82,11 @@ class UnableToSaveRosterDialog extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
-              Center(
+              const Center(
                 child: Text('Unable to save roster to the online database'),
               ),
               Center(
-                child: Text('Reason: ${reason == null ? 'unknown' : reason}'),
+                child: Text('Reason: ${reason ?? 'unknown'}'),
               ),
             ],
           ),

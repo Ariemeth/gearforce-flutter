@@ -15,5 +15,5 @@ class SavedMod {
 
   Map<String, dynamic>? get selected => mod['selected'];
 
-  String get ModId => mod['id'];
+  String get modId => mod['id'];
 }

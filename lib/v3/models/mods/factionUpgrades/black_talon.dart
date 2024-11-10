@@ -1,5 +1,4 @@
 import 'package:gearforce/v3/models/combatGroups/combat_group.dart';
-import 'package:gearforce/v3/models/mods/base_modification.dart';
 import 'package:gearforce/v3/models/mods/factionUpgrades/faction_mod.dart';
 import 'package:gearforce/v3/models/mods/mods.dart';
 import 'package:gearforce/v3/models/roster/roster.dart';
@@ -31,8 +30,7 @@ class BlackTalonMods extends FactionModification {
     The force leader may purchase 1 extra CP for 2 TV.
   */
   factory BlackTalonMods.theChosen() {
-    final RequirementCheck reqCheck =
-        (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+    reqCheck(RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       assert(cg != null);
       assert(rs != null);
 
@@ -46,7 +44,7 @@ class BlackTalonMods extends FactionModification {
       }
 
       return false;
-    };
+    }
 
     final fm = BlackTalonMods(
       name: 'The Chosen',
@@ -69,8 +67,7 @@ class BlackTalonMods extends FactionModification {
     Dark Cheetahs and Dark Skirmishers may add +1 action for 2 TV each.
   */
   factory BlackTalonMods.theUnseen() {
-    final RequirementCheck reqCheck =
-        (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+    reqCheck(RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       assert(cg != null);
       assert(rs != null);
 
@@ -84,7 +81,7 @@ class BlackTalonMods extends FactionModification {
       }
 
       return false;
-    };
+    }
 
     final fm = BlackTalonMods(
       name: 'The Unseen',
@@ -111,9 +108,8 @@ class BlackTalonMods extends FactionModification {
     One model per combat group with the ECM, or ECM+ trait may
     improve its EW skill by one for 1 TV each.
   */
-  factory BlackTalonMods.RadioBlackout() {
-    final RequirementCheck reqCheck =
-        (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+  factory BlackTalonMods.radioBlackout() {
+    reqCheck(RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       assert(cg != null);
       assert(rs != null);
 
@@ -122,7 +118,7 @@ class BlackTalonMods extends FactionModification {
       }
 
       if (!u.traits.any(
-          (t) => Trait.ECM().isSameType(t) || Trait.ECMPlus().isSameType(t))) {
+          (t) => Trait.ecm().isSameType(t) || Trait.ecmPlus().isSameType(t))) {
         return false;
       }
 
@@ -134,7 +130,7 @@ class BlackTalonMods extends FactionModification {
       }
 
       return false;
-    };
+    }
 
     final fm = BlackTalonMods(
       name: 'Radio Blackout',
@@ -161,8 +157,7 @@ class BlackTalonMods extends FactionModification {
     Dark Jaguars and Dark Mambas may add +1 action for 2 TV each.
   */
   factory BlackTalonMods.theTalons() {
-    final RequirementCheck reqCheck =
-        (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+    reqCheck(RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       assert(cg != null);
       assert(rs != null);
 
@@ -176,7 +171,7 @@ class BlackTalonMods extends FactionModification {
       }
 
       return false;
-    };
+    }
 
     final fm = BlackTalonMods(
       name: 'The Talons',

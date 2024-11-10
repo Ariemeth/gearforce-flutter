@@ -16,7 +16,7 @@ import 'package:gearforce/widgets/settings.dart';
 const String _emptySubFactionName = '';
 
 class Faction {
-  String get name => this.factionType.name;
+  String get name => factionType.name;
   final FactionType factionType;
   final List<RuleSet> rulesets;
   final RuleSet defaultSubFaction;
@@ -26,136 +26,136 @@ class Faction {
   factory Faction.blackTalons(DataV3 data, Settings settings) {
     final rulesets = [
       BlackTalons(data, settings, name: _emptySubFactionName),
-      BlackTalons.BTRT(data, settings),
-      BlackTalons.BTIT(data, settings),
-      BlackTalons.BTST(data, settings),
-      BlackTalons.BTAT(data, settings),
+      BlackTalons.btrt(data, settings),
+      BlackTalons.btit(data, settings),
+      BlackTalons.btst(data, settings),
+      BlackTalons.btat(data, settings),
     ];
-    return Faction(FactionType.BlackTalon, rulesets, rulesets.first);
+    return Faction(FactionType.blackTalon, rulesets, rulesets.first);
   }
   factory Faction.caprice(DataV3 data, Settings settings) {
     final rulesets = [
       Caprice(data, settings, name: _emptySubFactionName),
-      Caprice.CID(data, settings),
-      Caprice.CSE(data, settings),
-      Caprice.LRC(data, settings),
+      Caprice.cid(data, settings),
+      Caprice.cse(data, settings),
+      Caprice.lrc(data, settings),
     ];
-    return Faction(FactionType.Caprice, rulesets, rulesets.first);
+    return Faction(FactionType.caprice, rulesets, rulesets.first);
   }
   factory Faction.cef(DataV3 data, Settings settings) {
     final rulesets = [
       CEF(data, settings, name: _emptySubFactionName),
-      CEF.CEFFF(data, settings),
-      CEF.CEFTF(data, settings),
-      CEF.CEFIF(data, settings),
+      CEF.cefff(data, settings),
+      CEF.ceftf(data, settings),
+      CEF.cefif(data, settings),
     ];
-    return Faction(FactionType.CEF, rulesets, rulesets.first);
+    return Faction(FactionType.cef, rulesets, rulesets.first);
   }
   factory Faction.eden(DataV3 data, Settings settings) {
     final rulesets = [
       Eden(data, settings, name: _emptySubFactionName),
-      Eden.EIF(data, settings),
-      Eden.ENH(data, settings),
-      Eden.AEF(data, settings),
+      Eden.eif(data, settings),
+      Eden.enh(data, settings),
+      Eden.aef(data, settings),
     ];
-    return Faction(FactionType.Eden, rulesets, rulesets.first);
+    return Faction(FactionType.eden, rulesets, rulesets.first);
   }
   factory Faction.north(DataV3 data, Settings settings) {
     final rulesets = [
       North(data, settings, name: _emptySubFactionName),
-      North.NG(data, settings),
-      North.WFP(data, settings),
-      North.UMF(data, settings),
-      North.NLC(data, settings),
+      North.ng(data, settings),
+      North.wfp(data, settings),
+      North.umf(data, settings),
+      North.nlc(data, settings),
     ];
-    return Faction(FactionType.North, rulesets, rulesets.first);
+    return Faction(FactionType.north, rulesets, rulesets.first);
   }
   factory Faction.nucoal(DataV3 data, Settings settings) {
     final rulesets = [
       NuCoal(data, settings, name: _emptySubFactionName),
-      NuCoal.NSDF(data, settings),
-      NuCoal.PAK(data, settings),
-      NuCoal.HAPF(data, settings),
-      NuCoal.KADA(data, settings),
-      NuCoal.TH(data, settings),
-      NuCoal.HCSA(data, settings),
+      NuCoal.nsdf(data, settings),
+      NuCoal.pak(data, settings),
+      NuCoal.hapf(data, settings),
+      NuCoal.kada(data, settings),
+      NuCoal.th(data, settings),
+      NuCoal.hcsa(data, settings),
     ];
-    return Faction(FactionType.NuCoal, rulesets, rulesets.first);
+    return Faction(FactionType.nuCoal, rulesets, rulesets.first);
   }
   factory Faction.peaceRiver(DataV3 data, Settings settings) {
     final rulesets = [
       PeaceRiver(data, settings, name: _emptySubFactionName),
-      PeaceRiver.PRDF(data, settings),
-      PeaceRiver.POC(data, settings),
-      PeaceRiver.PPS(data, settings),
+      PeaceRiver.prdf(data, settings),
+      PeaceRiver.poc(data, settings),
+      PeaceRiver.pps(data, settings),
     ];
-    return Faction(FactionType.PeaceRiver, rulesets, rulesets.first);
+    return Faction(FactionType.peaceRiver, rulesets, rulesets.first);
   }
   factory Faction.south(DataV3 data, Settings settings) {
     final rulesets = [
       South(data, settings, name: _emptySubFactionName),
-      South.SRA(data, settings),
-      South.MILICIA(data, settings),
-      South.MD(data, settings),
-      South.ESE(data, settings),
-      South.FHA(data, settings),
+      South.sra(data, settings),
+      South.milicia(data, settings),
+      South.md(data, settings),
+      South.ese(data, settings),
+      South.fha(data, settings),
     ];
-    return Faction(FactionType.South, rulesets, rulesets.first);
+    return Faction(FactionType.south, rulesets, rulesets.first);
   }
   factory Faction.utopia(DataV3 data, Settings settings) {
     final rulesets = [
       Utopia(data, settings, name: _emptySubFactionName),
-      Utopia.CAF(data, settings),
-      Utopia.OUF(data, settings),
+      Utopia.caf(data, settings),
+      Utopia.ouf(data, settings),
     ];
-    return Faction(FactionType.Utopia, rulesets, rulesets.first);
+    return Faction(FactionType.utopia, rulesets, rulesets.first);
   }
 
   factory Faction.leagueless(DataV3 data, Settings settings) {
     final rulesets = [
-      Leagueless.North(data, settings),
-      Leagueless.South(data, settings),
-      Leagueless.PeaceRiver(data, settings),
-      Leagueless.NuCoal(data, settings),
+      Leagueless.north(data, settings),
+      Leagueless.south(data, settings),
+      Leagueless.peaceRiver(data, settings),
+      Leagueless.nuCoal(data, settings),
     ];
 
-    return Faction(FactionType.Leagueless, rulesets, rulesets.first);
+    return Faction(FactionType.leagueless, rulesets, rulesets.first);
   }
 
   factory Faction.fromType(
       FactionType faction, DataV3 data, Settings settings) {
     switch (faction) {
-      case FactionType.North:
+      case FactionType.north:
         return Faction.north(data, settings);
-      case FactionType.South:
+      case FactionType.south:
         return Faction.south(data, settings);
-      case FactionType.PeaceRiver:
+      case FactionType.peaceRiver:
         return Faction.peaceRiver(data, settings);
-      case FactionType.NuCoal:
+      case FactionType.nuCoal:
         return Faction.nucoal(data, settings);
-      case FactionType.Leagueless:
+      case FactionType.leagueless:
         return Faction.leagueless(data, settings);
-      case FactionType.CEF:
+      case FactionType.cef:
         return Faction.cef(data, settings);
-      case FactionType.Caprice:
+      case FactionType.caprice:
         return Faction.caprice(data, settings);
-      case FactionType.Utopia:
+      case FactionType.utopia:
         return Faction.utopia(data, settings);
-      case FactionType.Eden:
+      case FactionType.eden:
         return Faction.eden(data, settings);
-      case FactionType.Universal:
+      case FactionType.universal:
         break;
-      case FactionType.Universal_TerraNova:
+      case FactionType.universalTerraNova:
         break;
-      case FactionType.Universal_Non_TerraNova:
+      case FactionType.universalNonTerraNova:
         break;
-      case FactionType.Terrain:
+      case FactionType.terrain:
         break;
-      case FactionType.BlackTalon:
+      case FactionType.blackTalon:
         return Faction.blackTalons(data, settings);
-      case FactionType.Airstrike:
+      case FactionType.airstrike:
         break;
-      case FactionType.None:
+      case FactionType.none:
         break;
     }
     throw FormatException('Cannot create a faction from ${faction.name}');

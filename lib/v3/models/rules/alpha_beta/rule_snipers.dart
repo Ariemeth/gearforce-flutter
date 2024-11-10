@@ -7,7 +7,7 @@ import 'package:gearforce/v3/models/rules/rule_types.dart';
 final Rule ruleSnipers = Rule(
   name: 'Snipers',
   id: ruleSnipersId,
-  ruleType: RuleType.AlphaBeta,
+  ruleType: RuleType.alphaBeta,
   availableStandardUpgrades: (roster, unit) =>
       [StandardModification.precisePlus(unit)],
   availableVeteranUpgrades: (roster, unit) =>

@@ -3,13 +3,12 @@ import 'package:gearforce/widgets/boxed_int.dart';
 
 class DisplayValue extends StatelessWidget {
   const DisplayValue(
-      {Key? key,
+      {super.key,
       required this.text,
       required this.value,
       this.textColor = Colors.black,
       this.spacing = 5.0,
-      this.padding = const EdgeInsets.only()})
-      : super(key: key);
+      this.padding = const EdgeInsets.only()});
 
   final int value;
   final Color textColor;
@@ -26,7 +25,7 @@ class DisplayValue extends StatelessWidget {
           padding: EdgeInsets.only(right: spacing),
           child: Text(
             text,
-            style: TextStyle(fontSize: 16),
+            style: const TextStyle(fontSize: 16),
           ),
         ),
         BoxedInt(

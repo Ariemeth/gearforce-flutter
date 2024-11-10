@@ -46,7 +46,7 @@ class North extends RuleSet {
     required super.name,
     List<Rule> subFactionRules = const [],
   }) : super(
-          FactionType.North,
+          FactionType.north,
           data,
           settings: settings,
           factionRules: [
@@ -67,21 +67,21 @@ class North extends RuleSet {
         text: type.name,
         id: coreTag,
         filters: const [
-          const UnitFilter(FactionType.North),
-          const UnitFilter(FactionType.Airstrike),
-          const UnitFilter(FactionType.Universal),
-          const UnitFilter(FactionType.Universal_TerraNova),
-          const UnitFilter(FactionType.Terrain),
+          UnitFilter(FactionType.north),
+          UnitFilter(FactionType.airstrike),
+          UnitFilter(FactionType.universal),
+          UnitFilter(FactionType.universalTerraNova),
+          UnitFilter(FactionType.terrain),
         ],
       ),
     ];
     return [...filters, ...super.availableUnitFilters(cgOptions)];
   }
 
-  factory North.NG(DataV3 data, Settings settings) => NG(data, settings);
-  factory North.WFP(DataV3 data, Settings settings) => WFP(data, settings);
-  factory North.UMF(DataV3 data, Settings settings) => UMF(data, settings);
-  factory North.NLC(DataV3 data, Settings settings) => NLC(data, settings);
+  factory North.ng(DataV3 data, Settings settings) => NG(data, settings);
+  factory North.wfp(DataV3 data, Settings settings) => WFP(data, settings);
+  factory North.umf(DataV3 data, Settings settings) => UMF(data, settings);
+  factory North.nlc(DataV3 data, Settings settings) => NLC(data, settings);
 }
 
 final Rule ruleTaskBuilt = Rule(
@@ -89,7 +89,7 @@ final Rule ruleTaskBuilt = Rule(
   id: _ruleTaskBuiltId,
   factionMods: (ur, cg, u) {
     final isNorthernGear =
-        u.faction == FactionType.North && u.type == ModelType.Gear;
+        u.faction == FactionType.north && u.type == ModelType.gear;
     final isOtherAcceptable = u.core.frame == 'Bricklayer' ||
         u.core.frame == 'Engineering Grizzly' ||
         u.core.frame == 'Camel Truck' ||
@@ -110,7 +110,7 @@ final Rule ruleProspectors = Rule(
   name: 'Prospectors',
   id: _ruleProspectorsId,
   hasGroupRole: (unit, target, group) {
-    if (unit.type != ModelType.Gear) {
+    if (unit.type != ModelType.gear) {
       return null;
     }
 
@@ -118,24 +118,24 @@ final Rule ruleProspectors = Rule(
       return null;
     }
 
-    final targetRoleIsCorrect = target == RoleType.GP ||
-        target == RoleType.SK ||
-        target == RoleType.FS ||
-        target == RoleType.RC ||
-        target == RoleType.SO;
+    final targetRoleIsCorrect = target == RoleType.gp ||
+        target == RoleType.sk ||
+        target == RoleType.fs ||
+        target == RoleType.rc ||
+        target == RoleType.so;
     if (!targetRoleIsCorrect) {
       return null;
     }
 
     final hasClimber =
-        unit.traits.any((trait) => trait.isSameType(Trait.Climber()));
+        unit.traits.any((trait) => trait.isSameType(Trait.climber()));
     if (!hasClimber) {
       return null;
     }
 
     // Get the number of gears with climber in the entire force
     final unitsWithClimber = group.combatGroup?.roster
-        ?.unitsWithTrait(Trait.Climber())
+        ?.unitsWithTrait(Trait.climber())
         .where((u) => u != unit);
 
     // If there are less then 2 climbers already in the force, no need to check
@@ -217,8 +217,8 @@ final Rule ruleDragoonSquad = Rule(
   name: 'Dragoon Squad',
   id: _ruleDragoonSquadId,
   cgCheck: (cg, roster) {
-    if (cg?.primary.role() != RoleType.SK &&
-        cg?.secondary.role() != RoleType.SK) {
+    if (cg?.primary.role() != RoleType.sk &&
+        cg?.secondary.role() != RoleType.sk) {
       return false;
     }
 
@@ -230,7 +230,7 @@ final Rule ruleDragoonSquad = Rule(
   },
   combatGroupOption: () => [ruleDragoonSquad.buidCombatGroupOption()],
   veteranCheckOverride: (u, cg) {
-    if (u.group?.role() != RoleType.SK) {
+    if (u.group?.role() != RoleType.sk) {
       return null;
     }
 
@@ -249,7 +249,7 @@ final Rule ruleDragoonSquad = Rule(
     }
 
     // Check if the other group in the cg is also sk
-    if (otherGroup.role() != RoleType.SK) {
+    if (otherGroup.role() != RoleType.sk) {
       return true;
     }
 
@@ -329,7 +329,7 @@ final Rule ruleDragoonSquad = Rule(
     return null;
   },
   hasGroupRole: (unit, target, group) {
-    if (group.role() != RoleType.SK) {
+    if (group.role() != RoleType.sk) {
       return null;
     }
 
@@ -348,7 +348,7 @@ final Rule ruleDragoonSquad = Rule(
     }
 
     // Check if the other group in the cg is also sk
-    if (otherGroup.role() != RoleType.SK) {
+    if (otherGroup.role() != RoleType.sk) {
       return true;
     }
 

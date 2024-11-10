@@ -16,7 +16,7 @@ const _editableSettingsIcon = Icons.settings_suggest;
 const _settingsIcon = Icons.settings;
 
 class RosterHeaderInfo extends StatelessWidget {
-  RosterHeaderInfo({Key? key}) : super(key: key);
+  const RosterHeaderInfo({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -41,8 +41,8 @@ class RosterHeaderInfo extends StatelessWidget {
       defaultVerticalAlignment: TableCellVerticalAlignment.middle,
       children: <TableRow>[
         TableRow(children: [
-          Padding(
-            padding: const EdgeInsets.only(
+          const Padding(
+            padding: EdgeInsets.only(
               right: 5,
               left: 5,
               top: 5,
@@ -63,10 +63,10 @@ class RosterHeaderInfo extends StatelessWidget {
             ),
             child: TextField(
                 controller: TextEditingController(text: roster.player),
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   isDense: true,
-                  contentPadding: const EdgeInsets.symmetric(
+                  contentPadding: EdgeInsets.symmetric(
                     vertical: 10,
                     horizontal: 5,
                   ),
@@ -78,7 +78,7 @@ class RosterHeaderInfo extends StatelessWidget {
                   // TODO DEBUG use playername onSubmit to print the roster.
                   print(roster);
                 },
-                style: TextStyle(fontSize: 16),
+                style: const TextStyle(fontSize: 16),
                 inputFormatters: [
                   FilteringTextInputFormatter.allow(
                       RegExp(r"[a-zA-Z0-9 -':\(\)_]"))
@@ -87,8 +87,8 @@ class RosterHeaderInfo extends StatelessWidget {
           Container(),
         ]),
         TableRow(children: [
-          Padding(
-            padding: const EdgeInsets.only(
+          const Padding(
+            padding: EdgeInsets.only(
               right: 5,
               left: 5,
               top: 5,
@@ -109,10 +109,10 @@ class RosterHeaderInfo extends StatelessWidget {
             ),
             child: TextField(
                 controller: TextEditingController(text: roster.name),
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   isDense: true,
-                  contentPadding: const EdgeInsets.symmetric(
+                  contentPadding: EdgeInsets.symmetric(
                     vertical: 10,
                     horizontal: 5,
                   ),
@@ -129,8 +129,8 @@ class RosterHeaderInfo extends StatelessWidget {
           Container(),
         ]),
         TableRow(children: [
-          Padding(
-            padding: const EdgeInsets.only(
+          const Padding(
+            padding: EdgeInsets.only(
               right: 5,
               left: 5,
               top: 5,
@@ -187,8 +187,8 @@ class RosterHeaderInfo extends StatelessWidget {
           ),
         ]),
         TableRow(children: [
-          Padding(
-            padding: const EdgeInsets.only(
+          const Padding(
+            padding: EdgeInsets.only(
               right: 5,
               left: 5,
               top: 5,
@@ -246,8 +246,8 @@ class RosterHeaderInfo extends StatelessWidget {
           ),
         ]),
         TableRow(children: [
-          Padding(
-            padding: const EdgeInsets.only(
+          const Padding(
+            padding: EdgeInsets.only(
               right: 5,
               left: 5,
               top: 5,
@@ -259,8 +259,8 @@ class RosterHeaderInfo extends StatelessWidget {
               style: TextStyle(fontSize: 16),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(
+          const Padding(
+            padding: EdgeInsets.only(
               right: 10,
               left: 5,
               top: 5,
@@ -275,7 +275,7 @@ class RosterHeaderInfo extends StatelessWidget {
                   roster.selectedForceLeader!.group!.combatGroup!,
                   roster,
                 )
-              : Container(
+              : const SizedBox(
                   width: 30,
                   height: 40,
                 ),
@@ -318,10 +318,10 @@ class RosterHeaderInfo extends StatelessWidget {
         flex: 1,
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(1),
+          primary: true,
           child: Column(
             children: tvs,
           ),
-          primary: true,
         ),
       ),
     ]);

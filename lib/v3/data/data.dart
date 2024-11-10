@@ -10,21 +10,21 @@ import 'package:gearforce/v3/models/unit/unit_core.dart';
 import 'package:gearforce/widgets/settings.dart';
 
 const Map<FactionType, String> _factionUnitFiles = {
-  FactionType.Airstrike: 'assets/data/units/air_strike.json',
-  FactionType.BlackTalon: 'assets/data/units/black_talon.json',
-  FactionType.CEF: 'assets/data/units/cef.json',
-  FactionType.Caprice: 'assets/data/units/caprice.json',
-  FactionType.Eden: 'assets/data/units/eden.json',
-  FactionType.North: 'assets/data/units/north.json',
-  FactionType.NuCoal: 'assets/data/units/nucoal.json',
-  FactionType.PeaceRiver: 'assets/data/units/peace_river.json',
-  FactionType.South: 'assets/data/units/south.json',
-  FactionType.Terrain: 'assets/data/units/terrain.json',
-  FactionType.Universal: 'assets/data/units/universal.json',
-  FactionType.Universal_TerraNova: 'assets/data/units/universal_terranova.json',
-  FactionType.Universal_Non_TerraNova:
+  FactionType.airstrike: 'assets/data/units/air_strike.json',
+  FactionType.blackTalon: 'assets/data/units/black_talon.json',
+  FactionType.cef: 'assets/data/units/cef.json',
+  FactionType.caprice: 'assets/data/units/caprice.json',
+  FactionType.eden: 'assets/data/units/eden.json',
+  FactionType.north: 'assets/data/units/north.json',
+  FactionType.nuCoal: 'assets/data/units/nucoal.json',
+  FactionType.peaceRiver: 'assets/data/units/peace_river.json',
+  FactionType.south: 'assets/data/units/south.json',
+  FactionType.terrain: 'assets/data/units/terrain.json',
+  FactionType.universal: 'assets/data/units/universal.json',
+  FactionType.universalTerraNova: 'assets/data/units/universal_terranova.json',
+  FactionType.universalNonTerraNova:
       'assets/data/units/universal_non_terranova.json',
-  FactionType.Utopia: 'assets/data/units/utopia.json',
+  FactionType.utopia: 'assets/data/units/utopia.json',
 };
 
 class DataV3 {

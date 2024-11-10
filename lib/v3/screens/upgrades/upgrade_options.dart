@@ -3,27 +3,27 @@ import 'package:gearforce/v3/models/mods/modification_option.dart';
 import 'package:gearforce/v3/screens/upgrades/option_dropdown.dart';
 
 class UpgradeOptions extends StatelessWidget {
-  UpgradeOptions({
-    Key? key,
+  const UpgradeOptions({
+    super.key,
     required this.options,
-  }) : super(key: key);
+  });
 
   final ModificationOption options;
 
   @override
   Widget build(BuildContext context) {
     var screen = SimpleDialog(
-      shape: ContinuousRectangleBorder(
+      shape: const ContinuousRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(10.0))),
       title: Center(
         child: Text(options.text,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w700,
             )),
       ),
       children: [
-        Container(
+        SizedBox(
           width: 120,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -38,7 +38,7 @@ class UpgradeOptions extends StatelessWidget {
           onPressed: () {
             Navigator.pop(context, null);
           },
-          child: Center(
+          child: const Center(
             child: Text(
               'Done',
               style: TextStyle(fontSize: 24, color: Colors.green),

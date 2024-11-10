@@ -8,12 +8,12 @@ const _filterHint = 'Filter using a comma separated list';
 
 class SelectionFilters extends StatelessWidget {
   const SelectionFilters({
-    Key? key,
+    super.key,
     required this.roleFilter,
     required this.onRoleFilterChanged,
     required this.onFilterChanged,
     required this.onSpecialUnitFilterChanged,
-  }) : super(key: key);
+  });
 
   final Map<RoleType, bool> roleFilter;
   final void Function(RoleType, bool) onRoleFilterChanged;
@@ -33,7 +33,7 @@ class SelectionFilters extends StatelessWidget {
           children: [
             Row(
               children: [
-                Align(
+                const Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
                     'Filters  ',
@@ -46,10 +46,10 @@ class SelectionFilters extends StatelessWidget {
                     padding: const EdgeInsets.only(
                         right: 10, left: 5, top: 5, bottom: 5),
                     child: TextField(
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         isDense: true,
-                        contentPadding: const EdgeInsets.symmetric(
+                        contentPadding: EdgeInsets.symmetric(
                           vertical: 10,
                           horizontal: 5,
                         ),
@@ -58,7 +58,7 @@ class SelectionFilters extends StatelessWidget {
                       onChanged: (String value) async {
                         onFilterChanged(value);
                       },
-                      style: TextStyle(fontSize: 16),
+                      style: const TextStyle(fontSize: 16),
                     ),
                   ),
                 )
@@ -66,7 +66,7 @@ class SelectionFilters extends StatelessWidget {
             ),
             Row(
               children: [
-                Text(
+                const Text(
                   'Roles  ',
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
@@ -77,10 +77,8 @@ class SelectionFilters extends StatelessWidget {
         ),
         Column(
           children: [
-            Container(
-              child: SpecialFilterSelector(
-                onChanged: this.onSpecialUnitFilterChanged,
-              ),
+            SpecialFilterSelector(
+              onChanged: onSpecialUnitFilterChanged,
             ),
           ],
         ),
@@ -91,11 +89,11 @@ class SelectionFilters extends StatelessWidget {
 
 class FilterSelection extends StatelessWidget {
   const FilterSelection({
-    Key? key,
+    super.key,
     required this.isChecked,
     required this.onChanged,
     required this.role,
-  }) : super(key: key);
+  });
   final bool isChecked;
   final void Function(RoleType, bool) onChanged;
   final RoleType role;
@@ -107,12 +105,12 @@ class FilterSelection extends StatelessWidget {
       child: Row(
         children: [
           Text(
-            this.role.toString().split('.').last,
-            style: TextStyle(fontSize: 16),
+            role.toString().split('.').last.toUpperCase(),
+            style: const TextStyle(fontSize: 16),
           ),
           Checkbox(
-            value: this.isChecked,
-            onChanged: (bool? value) => onChanged(this.role, value!),
+            value: isChecked,
+            onChanged: (bool? value) => onChanged(role, value!),
           )
         ],
       ),
@@ -122,9 +120,9 @@ class FilterSelection extends StatelessWidget {
 
 class SpecialFilterSelector extends StatefulWidget {
   const SpecialFilterSelector({
-    Key? key,
+    super.key,
     required this.onChanged,
-  }) : super(key: key);
+  });
   final void Function(SpecialUnitFilter) onChanged;
 
   @override
@@ -142,7 +140,7 @@ class _SpecialFilterSelectorState extends State<SpecialFilterSelector> {
         context.select((UnitRoster roster) => roster.activeCG()?.options);
 
     final availableSpecialFilters = subFaction.availableUnitFilters(cgOptions);
-    assert(availableSpecialFilters.length != 0);
+    assert(availableSpecialFilters.isNotEmpty);
 
     if (!availableSpecialFilters.contains(dropdownValue)) {
       dropdownValue = availableSpecialFilters
@@ -159,7 +157,7 @@ class _SpecialFilterSelectorState extends State<SpecialFilterSelector> {
         isExpanded: false,
         isDense: true,
         style: const TextStyle(color: Colors.blue),
-        underline: SizedBox(),
+        underline: const SizedBox(),
         onChanged: (SpecialUnitFilter? newValue) {
           setState(() {
             dropdownValue = newValue!;

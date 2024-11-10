@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class UnitTextCell extends StatelessWidget {
-  UnitTextCell.content(
+  const UnitTextCell.content(
     this.text, {
+    super.key,
     this.textAlignment = TextAlign.center,
     this.backgroundColor,
     this.padding = const EdgeInsets.all(5),
@@ -11,8 +12,9 @@ class UnitTextCell extends StatelessWidget {
     this.alignment = Alignment.center,
   });
 
-  UnitTextCell.columnTitle(
+  const UnitTextCell.columnTitle(
     this.text, {
+    super.key,
     this.textAlignment = TextAlign.center,
     this.backgroundColor,
     this.padding = const EdgeInsets.all(5),
@@ -34,16 +36,16 @@ class UnitTextCell extends StatelessWidget {
         Expanded(
           child: Container(
             decoration: BoxDecoration(
-              color: this.backgroundColor,
+              color: backgroundColor,
             ),
-            alignment: this.alignment,
-            padding: this.padding,
+            alignment: alignment,
+            padding: padding,
             child: Text(
               text,
-              style: this.textStyle,
+              style: textStyle,
               softWrap: true,
               // maxLines: 5,
-              textAlign: this.textAlignment,
+              textAlign: textAlignment,
             ),
           ),
         ),

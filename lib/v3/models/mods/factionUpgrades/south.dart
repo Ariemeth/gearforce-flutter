@@ -1,5 +1,4 @@
 import 'package:gearforce/v3/models/combatGroups/combat_group.dart';
-import 'package:gearforce/v3/models/mods/base_modification.dart';
 import 'package:gearforce/v3/models/mods/factionUpgrades/faction_mod.dart';
 import 'package:gearforce/v3/models/mods/modification_option.dart';
 import 'package:gearforce/v3/models/mods/mods.dart';
@@ -34,7 +33,7 @@ class SouthernFactionMods extends FactionModification {
     super.options,
     super.onAdd,
     super.onRemove,
-    super.ruleType = RuleType.Standard,
+    super.ruleType = RuleType.standard,
   }) : super();
 
   /*
@@ -44,7 +43,7 @@ class SouthernFactionMods extends FactionModification {
   is a LVB (React, Precise).
   */
   factory SouthernFactionMods.prideOfTheSouth(Unit unit) {
-    final RequirementCheck reqCheck = (
+    reqCheck(
       RuleSet? rs,
       UnitRoster? ur,
       CombatGroup? cg,
@@ -60,19 +59,19 @@ class SouthernFactionMods extends FactionModification {
       if (u.commandLevel == CommandLevel.none && !u.isVeteran) {
         return false;
       }
-      if (!u.traits.contains(Trait.Hands())) {
+      if (!u.traits.contains(Trait.hands())) {
         return false;
       }
 
       return true;
-    };
+    }
 
     final lvb = buildWeapon('LVB', hasReact: true);
     assert(lvb != null);
     final vibroRapier = Weapon.fromWeapon(
       lvb!,
       name: 'Vibro Rapier',
-      addTraits: [Trait.Precise()],
+      addTraits: [Trait.precise()],
     );
 
     final fm = SouthernFactionMods(
@@ -86,9 +85,9 @@ class SouthernFactionMods extends FactionModification {
     fm.addMod<List<Weapon>>(
         UnitAttribute.weapons, createAddWeaponToList(vibroRapier));
     fm.addMod<List<Trait>>(UnitAttribute.traits, (value) {
-      var newList = new List<Trait>.from(value);
+      var newList = List<Trait>.from(value);
 
-      var newBrawl = Trait.Brawl(1);
+      var newBrawl = Trait.brawl(1);
       if (newList.any((t) => newBrawl.name == t.name)) {
         final existingBrawl =
             newList.firstWhere((t) => newBrawl.name == t.name);
@@ -116,7 +115,7 @@ class SouthernFactionMods extends FactionModification {
   are no other commanders in the force, the PO will roll with a 5+ initiative skill.
   */
   factory SouthernFactionMods.politicalOfficer() {
-    final RequirementCheck reqCheck = (
+    reqCheck(
       RuleSet? rs,
       UnitRoster? ur,
       CombatGroup? cg,
@@ -142,7 +141,7 @@ class SouthernFactionMods extends FactionModification {
           ur.unitsWithMod(politicalOfficerId).where((unit) => unit != u);
 
       return otherUnitsWithMod.isEmpty;
-    };
+    }
 
     final fm = SouthernFactionMods(
       name: 'Political Officer',
@@ -177,7 +176,7 @@ class SouthernFactionMods extends FactionModification {
   Reduce the TV of these models by 1 TV per action.
 */
   factory SouthernFactionMods.conscription(Unit unit) {
-    final RequirementCheck reqCheck = (
+    reqCheck(
       RuleSet? rs,
       UnitRoster? ur,
       CombatGroup? cg,
@@ -194,13 +193,13 @@ class SouthernFactionMods extends FactionModification {
         return false;
       }
 
-      if ((u.traits.any((t) => t.name == Trait.Conscript().name)) &&
+      if ((u.traits.any((t) => t.name == Trait.conscript().name)) &&
           !u.hasMod(conscriptionId)) {
         return false;
       }
 
       return true;
-    };
+    }
 
     final fm = SouthernFactionMods(
       name: 'Conscription',
@@ -213,11 +212,11 @@ class SouthernFactionMods extends FactionModification {
           UnitAttribute.actions,
           modIDToSkip: conscriptionId,
         );
-    ;
+
     fm.addMod<int>(UnitAttribute.tv, createSimpleIntMod(cost),
         description: 'TV: $cost');
     fm.addMod<List<Trait>>(
-        UnitAttribute.traits, createAddTraitToList(Trait.Conscript()),
+        UnitAttribute.traits, createAddTraitToList(Trait.conscript()),
         description: 'Adds the Conscript Trait');
 
     return fm;
@@ -230,7 +229,7 @@ class SouthernFactionMods extends FactionModification {
   LVB (React, Precise).
   */
   factory SouthernFactionMods.samuraiSpirit(Unit unit) {
-    final RequirementCheck reqCheck = (
+    reqCheck(
       RuleSet? rs,
       UnitRoster? ur,
       CombatGroup? cg,
@@ -246,19 +245,19 @@ class SouthernFactionMods extends FactionModification {
       if (u.commandLevel == CommandLevel.none && !u.isVeteran) {
         return false;
       }
-      if (!u.traits.contains(Trait.Hands())) {
+      if (!u.traits.contains(Trait.hands())) {
         return false;
       }
 
       return true;
-    };
+    }
 
     final lvb = buildWeapon('LVB', hasReact: true);
     assert(lvb != null);
     final vibroKatana = Weapon.fromWeapon(
       lvb!,
       name: 'Vibro Katana',
-      addTraits: [Trait.Precise()],
+      addTraits: [Trait.precise()],
     );
 
     final fm = SouthernFactionMods(
@@ -272,9 +271,9 @@ class SouthernFactionMods extends FactionModification {
     fm.addMod<List<Weapon>>(
         UnitAttribute.weapons, createAddWeaponToList(vibroKatana));
     fm.addMod<List<Trait>>(UnitAttribute.traits, (value) {
-      var newList = new List<Trait>.from(value);
+      var newList = List<Trait>.from(value);
 
-      var newBrawl = Trait.Brawl(1);
+      var newBrawl = Trait.brawl(1);
       if (newList.any((t) => newBrawl.name == t.name)) {
         final existingBrawl =
             newList.firstWhere((t) => newBrawl.name == t.name);
@@ -300,7 +299,7 @@ class SouthernFactionMods extends FactionModification {
   may not be stacked with cover modifiers.
 */
   factory SouthernFactionMods.metsuke(Unit unit) {
-    final RequirementCheck reqCheck = (
+    reqCheck(
       RuleSet? rs,
       UnitRoster? ur,
       CombatGroup? cg,
@@ -329,7 +328,7 @@ class SouthernFactionMods extends FactionModification {
       }
 
       return false;
-    };
+    }
 
     final fm = SouthernFactionMods(
       name: 'Metsuke',
@@ -342,12 +341,12 @@ class SouthernFactionMods extends FactionModification {
     fm.addMod<List<Trait>>(
         UnitAttribute.traits,
         createAddTraitToList(
-          Trait.ShieldPlus(),
+          Trait.shieldPlus(),
         ),
         description: 'Adds the Shield+ Trait');
-    if (unit.traits.any((t) => t.name == Trait.Shield().name)) {
+    if (unit.traits.any((t) => t.name == Trait.shield().name)) {
       final traitToRemove =
-          unit.traits.firstWhere((t) => t.name == Trait.Shield().name);
+          unit.traits.firstWhere((t) => t.name == Trait.shield().name);
       fm.addMod<List<Trait>>(
         UnitAttribute.traits,
         createRemoveTraitFromList(traitToRemove),
@@ -360,7 +359,7 @@ class SouthernFactionMods extends FactionModification {
      Lion Hunters: Bazookas may be given the Precise+ trait for +1 TV each.
   */
   factory SouthernFactionMods.lionHunters(Unit unit) {
-    final RequirementCheck reqCheck = (
+    reqCheck(
       RuleSet rs,
       UnitRoster? ur,
       CombatGroup? cg,
@@ -382,7 +381,7 @@ class SouthernFactionMods extends FactionModification {
       }
 
       return true;
-    };
+    }
 
     final modOptions = ModificationOption(
       'Lion Hunters',
@@ -398,7 +397,7 @@ class SouthernFactionMods extends FactionModification {
       requirementCheck: reqCheck,
       options: modOptions,
       id: lionHuntersId,
-      ruleType: RuleType.AlphaBeta,
+      ruleType: RuleType.alphaBeta,
     );
     fm.addMod<int>(
       UnitAttribute.tv,
@@ -427,7 +426,7 @@ class SouthernFactionMods extends FactionModification {
 
       newList.remove(weaponToRemove);
       newList.add(
-          Weapon.fromWeapon(weaponToRemove, addTraits: [Trait.PrecisePlus()]));
+          Weapon.fromWeapon(weaponToRemove, addTraits: [Trait.precisePlus()]));
       return newList;
     }, description: 'Add Precise+ to a Bazooka');
 

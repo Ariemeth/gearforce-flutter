@@ -47,6 +47,30 @@ class _OptionLineState extends State<OptionLine> {
                     }
                   : null),
           Tooltip(
+            richMessage: WidgetSpan(
+              baseline: TextBaseline.alphabetic,
+              child: Container(
+                constraints: const BoxConstraints(maxWidth: 250.0),
+                padding: const EdgeInsets.all(5),
+                child: Text(
+                  widget.cgOption.description != null
+                      ? widget.cgOption.description!
+                      : '',
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.normal,
+                    fontStyle: FontStyle.normal,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+            preferBelow: true,
+            waitDuration: settings.tooltipDelay,
+            decoration: const BoxDecoration(
+              color: Colors.blueGrey,
+              borderRadius: BorderRadius.all(Radius.circular(4)),
+            ),
             child: Text(
               '${widget.cgOption.name} ',
               style: TextStyle(
@@ -59,30 +83,6 @@ class _OptionLineState extends State<OptionLine> {
                         : TextDecoration.lineThrough,
               ),
               maxLines: _maxOptionNameLines,
-            ),
-            richMessage: WidgetSpan(
-              baseline: TextBaseline.alphabetic,
-              child: Container(
-                constraints: const BoxConstraints(maxWidth: 250.0),
-                child: Text(
-                  widget.cgOption.description != null
-                      ? widget.cgOption.description!
-                      : '',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.normal,
-                    fontStyle: FontStyle.normal,
-                    color: Colors.white,
-                  ),
-                ),
-                padding: EdgeInsets.all(5),
-              ),
-            ),
-            preferBelow: true,
-            waitDuration: settings.tooltipDelay,
-            decoration: BoxDecoration(
-              color: Colors.blueGrey,
-              borderRadius: const BorderRadius.all(Radius.circular(4)),
             ),
           ),
         ],

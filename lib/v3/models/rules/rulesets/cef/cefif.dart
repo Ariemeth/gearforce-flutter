@@ -38,14 +38,14 @@ final Rule ruleTheAnvil = Rule(
   name: 'The Anvil',
   id: _ruleTheAnvilId,
   hasGroupRole: (unit, target, group) {
-    if (unit.type != ModelType.Infantry) {
+    if (unit.type != ModelType.infantry) {
       return null;
     }
-    if (target == RoleType.GP ||
-        target == RoleType.SK ||
-        target == RoleType.FS ||
-        target == RoleType.RC ||
-        target == RoleType.SO) {
+    if (target == RoleType.gp ||
+        target == RoleType.sk ||
+        target == RoleType.fs ||
+        target == RoleType.rc ||
+        target == RoleType.so) {
       return true;
     }
     return null;
@@ -58,9 +58,9 @@ final Rule ruleAlternateApproach = Rule(
   id: _ruleAlternateApproachId,
   modifyTraits: (traits, uc) {
     if (uc.frame.contains('GREL') &&
-        uc.type == ModelType.Infantry &&
-        traits.any((t) => Trait.Vet().isSameType(t))) {
-      traits.add(Trait.Jetpack(4));
+        uc.type == ModelType.infantry &&
+        traits.any((t) => Trait.vet().isSameType(t))) {
+      traits.add(Trait.jetpack(4));
     }
   },
   description: 'GREL upgraded with the Veteran trait will also receive the' +

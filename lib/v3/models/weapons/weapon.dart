@@ -24,7 +24,7 @@ class Weapon {
   final String abbreviation;
   final String name;
   final int numberOf;
-  final List<weaponModes> modes;
+  final List<WeaponModes> modes;
   final Range range;
   final int damage;
   final bool hasReact;
@@ -46,11 +46,11 @@ class Weapon {
     final List<Trait> bonuses =
         bonusTraits.map((trait) => Trait.fromTrait(trait)).toList();
     // add the bonus traits to the result list to return
-    bonuses.forEach((bonusTrait) {
+    for (var bonusTrait in bonuses) {
       // if a bonus trait already has a version as part of the base traits,
       // update the existing trait to the bonus level
       if (result.any((trait) => trait.name == bonusTrait.name)) {
-        if (bonusTrait.isSameType(Trait.Apex())) {
+        if (bonusTrait.isSameType(Trait.apex())) {
           result.add(bonusTrait);
         } else {
           final index =
@@ -62,7 +62,7 @@ class Weapon {
       } else {
         result.add(bonusTrait);
       }
-    });
+    }
 
     return result;
   }
@@ -79,11 +79,11 @@ class Weapon {
     final List<Trait> bonuses =
         bonusTraits.map((trait) => Trait.fromTrait(trait)).toList();
     // add the bonus traits to the result list to return
-    bonuses.forEach((bonusTrait) {
+    for (var bonusTrait in bonuses) {
       // if a bonus trait already has a version as part of the base traits,
       // update the existing trait to the bonus level
       if (result.any((trait) => trait.name == bonusTrait.name)) {
-        if (bonusTrait.isSameType(Trait.Apex())) {
+        if (bonusTrait.isSameType(Trait.apex())) {
           result.add(bonusTrait);
         } else {
           final index =
@@ -96,13 +96,13 @@ class Weapon {
       } else {
         result.add(bonusTrait);
       }
-    });
+    }
 
     return result;
   }
 
   String get bonusString {
-    if (this.bonusTraits.isEmpty) {
+    if (bonusTraits.isEmpty) {
       return '';
     }
     return bonusTraits
@@ -153,17 +153,17 @@ class Weapon {
         .toList();
 
     if (traitsToRemove != null) {
-      traitsToRemove.forEach((t) {
+      for (var t in traitsToRemove) {
         bonusTraits.removeWhere((trait) => trait.isSameType(t));
         baseTraits.removeWhere((trait) => trait.isSameType(t));
         baseAlternativeTraits.removeWhere((trait) => trait.isSameType(t));
-      });
+      }
     }
 
     if (addTraits != null) {
-      addTraits.forEach((t) {
+      for (var t in addTraits) {
         bonusTraits.add(t);
-      });
+      }
     }
 
     return Weapon(

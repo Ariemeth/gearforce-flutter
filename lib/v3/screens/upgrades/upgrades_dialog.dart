@@ -19,11 +19,11 @@ const double _upgradeSectionWidth = 450;
 
 class UpgradesDialog extends StatelessWidget {
   const UpgradesDialog({
-    Key? key,
+    super.key,
     required this.roster,
     required this.cg,
     required this.unit,
-  }) : super(key: key);
+  });
 
   final UnitRoster roster;
   final CombatGroup cg;
@@ -82,14 +82,14 @@ class UpgradesDialog extends StatelessWidget {
     });
 
     var dialog = SimpleDialog(
-      contentPadding: EdgeInsets.all(5.0),
+      contentPadding: const EdgeInsets.all(5.0),
       clipBehavior: Clip.antiAlias,
-      shape: ContinuousRectangleBorder(
+      shape: const ContinuousRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(10.0))),
       children: [
         UnitCard(unit),
-        Padding(
-          padding: const EdgeInsets.only(top: 5.0, bottom: 5.0),
+        const Padding(
+          padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
           child: Center(
             child: Text(
               'Upgrades available to this unit.',
@@ -114,7 +114,7 @@ class UpgradesDialog extends StatelessWidget {
           onPressed: () {
             Navigator.pop(context, null);
           },
-          child: Center(
+          child: const Center(
             child: Text(
               'Done',
               style: TextStyle(fontSize: 24, color: Colors.green),
@@ -139,7 +139,7 @@ class UpgradePanels extends StatefulWidget {
   final List<FactionModification> factionMods;
   final List<CustomModification> customMods;
 
-  UpgradePanels(
+  const UpgradePanels(
     this.cg,
     this.roster,
     this.rs,
@@ -172,31 +172,29 @@ class _UpgradePanelsState extends State<UpgradePanels> {
     if (settings.allowCustomPoints) {
       panelExpandedList.add(false);
     }
-    return Container(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          ExpansionPanelList(
-            expansionCallback: (panelIndex, isExpanded) {
-              setState(() {
-                this.panelExpandedList[panelIndex] = isExpanded;
-              });
-            },
-            children: [
-              _buildPanel('Unit Upgrades', widget.unitMods, 0),
-              _buildPanel('Standard Upgrades', widget.standardMods, 1),
-              _buildPanel('Veteran Upgrades', widget.vetMods, 2),
-              _buildPanel('Duelist Upgrades', widget.duelistMods, 3),
-              _buildPanel('Faction Upgrades', widget.factionMods, 4),
-              if (settings.allowCustomPoints)
-                _buildPanel('Custom Upgrades', widget.customMods, 5),
-            ],
-            expandedHeaderPadding: EdgeInsets.zero,
-            materialGapSize: 4.0,
-          ),
-        ],
-      ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        ExpansionPanelList(
+          expansionCallback: (panelIndex, isExpanded) {
+            setState(() {
+              panelExpandedList[panelIndex] = isExpanded;
+            });
+          },
+          children: [
+            _buildPanel('Unit Upgrades', widget.unitMods, 0),
+            _buildPanel('Standard Upgrades', widget.standardMods, 1),
+            _buildPanel('Veteran Upgrades', widget.vetMods, 2),
+            _buildPanel('Duelist Upgrades', widget.duelistMods, 3),
+            _buildPanel('Faction Upgrades', widget.factionMods, 4),
+            if (settings.allowCustomPoints)
+              _buildPanel('Custom Upgrades', widget.customMods, 5),
+          ],
+          expandedHeaderPadding: EdgeInsets.zero,
+          materialGapSize: 4.0,
+        ),
+      ],
     );
   }
 
@@ -215,23 +213,23 @@ class _UpgradePanelsState extends State<UpgradePanels> {
       canTapOnHeader: true,
       headerBuilder: (context, isExpanded) {
         return Container(
-          padding: EdgeInsets.fromLTRB(4.0, 0.0, 6.0, 0.0),
+          padding: const EdgeInsets.fromLTRB(4.0, 0.0, 6.0, 0.0),
           color: Theme.of(context).colorScheme.inversePrimary,
           child: Row(
             children: [
               SizedBox(
-                child: Text(text),
                 width: 200.0,
+                child: Text(text),
               ),
               Text('Available: $numAvailable'),
-              Spacer(),
+              const Spacer(),
               Text('Enabled: $numEnabled')
             ],
             //    mainAxisAlignment: MainAxisAlignment.spaceBetween,
           ),
         );
       },
-      body: Container(
+      body: SizedBox(
         width: _upgradeSectionWidth,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -246,7 +244,7 @@ class _UpgradePanelsState extends State<UpgradePanels> {
               .toList(),
         ),
       ),
-      isExpanded: this.panelExpandedList[panelIndex],
+      isExpanded: panelExpandedList[panelIndex],
     );
 
     return panel;

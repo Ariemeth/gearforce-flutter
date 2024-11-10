@@ -51,11 +51,11 @@ final Rule ruleLocalManufacturing = Rule(
   id: _ruleLocalManufacturingId,
   hasGroupRole: (unit, target, group) {
     final isAllowedUnit = unit.core.frame.contains('Iguana');
-    final isAllowedRole = target == RoleType.GP ||
-        target == RoleType.SK ||
-        target == RoleType.FS ||
-        target == RoleType.RC ||
-        target == RoleType.SO;
+    final isAllowedRole = target == RoleType.gp ||
+        target == RoleType.sk ||
+        target == RoleType.fs ||
+        target == RoleType.rc ||
+        target == RoleType.so;
 
     return isAllowedUnit && isAllowedRole ? true : null;
   },
@@ -154,13 +154,13 @@ final Rule rulePersonalEscort = Rule(
       ' lists and must follow all normal duelist rules.',
 );
 
-const personalEscortFilter = const SpecialUnitFilter(
+const personalEscortFilter = SpecialUnitFilter(
     text: 'Personal Escort',
     filters: [
-      UnitFilter(FactionType.North, matcher: matchPossibleDuelist),
-      UnitFilter(FactionType.South, matcher: matchPossibleDuelist),
-      UnitFilter(FactionType.PeaceRiver, matcher: matchPossibleDuelist),
-      UnitFilter(FactionType.NuCoal, matcher: matchPossibleDuelist),
+      UnitFilter(FactionType.north, matcher: matchPossibleDuelist),
+      UnitFilter(FactionType.south, matcher: matchPossibleDuelist),
+      UnitFilter(FactionType.peaceRiver, matcher: matchPossibleDuelist),
+      UnitFilter(FactionType.nuCoal, matcher: matchPossibleDuelist),
     ],
     id: _ruleAllyNuCoalId);
 
@@ -190,10 +190,10 @@ final Rule _allyNorth = Rule(
       text: 'Ally: North',
       filters: [
         UnitFilter(
-          FactionType.North,
+          FactionType.north,
           matcher: matchNotAVet,
         ),
-        ...SouthFilters,
+        ...southFilters,
       ],
       id: _ruleAllyNorthId),
   description: 'May include models from the North',
@@ -218,10 +218,10 @@ final Rule _allyPeaceRiver = Rule(
       text: 'Ally: Peace River',
       filters: [
         UnitFilter(
-          FactionType.PeaceRiver,
+          FactionType.peaceRiver,
           matcher: matchNotAVet,
         ),
-        ...SouthFilters,
+        ...southFilters,
       ],
       id: _ruleAllyPeaceRiverId),
   description: 'May include models from Peace River',
@@ -243,10 +243,10 @@ final Rule _allyNuCoal = Rule(
       text: 'Ally: NuCoal',
       filters: [
         UnitFilter(
-          FactionType.NuCoal,
+          FactionType.nuCoal,
           matcher: matchNotAVet,
         ),
-        ...SouthFilters,
+        ...southFilters,
       ],
       id: _ruleAllyNuCoalId),
   description: 'May include models from NuCoal',
@@ -254,13 +254,13 @@ final Rule _allyNuCoal = Rule(
 
 FactionType? _enabledAlly() {
   if (_allyNorth.isEnabled) {
-    return FactionType.North;
+    return FactionType.north;
   }
   if (_allyNuCoal.isEnabled) {
-    return FactionType.NuCoal;
+    return FactionType.nuCoal;
   }
   if (_allyPeaceRiver.isEnabled) {
-    return FactionType.PeaceRiver;
+    return FactionType.peaceRiver;
   }
   return null;
 }
@@ -268,13 +268,13 @@ FactionType? _enabledAlly() {
 List<FactionType> _notEnabledAllies() {
   final List<FactionType> results = [];
   if (!_allyNorth.isEnabled) {
-    results.add(FactionType.North);
+    results.add(FactionType.north);
   }
   if (!_allyNuCoal.isEnabled) {
-    results.add(FactionType.NuCoal);
+    results.add(FactionType.nuCoal);
   }
   if (!_allyPeaceRiver.isEnabled) {
-    results.add(FactionType.PeaceRiver);
+    results.add(FactionType.peaceRiver);
   }
   return results;
 }

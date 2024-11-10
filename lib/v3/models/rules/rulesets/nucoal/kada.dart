@@ -44,9 +44,9 @@ final Rule ruleHeroesOfTheArena = Rule(
   id: _ruleHeroesOfTheArenaId,
   duelistMaxNumberOverride: (roster, cg, u) => 1000000,
   canBeAddedToGroup: (unit, group, cg) {
-    if (!(unit.faction == FactionType.North ||
-        unit.faction == FactionType.South ||
-        unit.faction == FactionType.PeaceRiver)) {
+    if (!(unit.faction == FactionType.north ||
+        unit.faction == FactionType.south ||
+        unit.faction == FactionType.peaceRiver)) {
       return null;
     }
 
@@ -58,7 +58,7 @@ final Rule ruleHeroesOfTheArena = Rule(
     final canBeDuelist =
         cg.roster?.rulesetNotifer.value.duelistCheck(cg.roster!, cg, unit);
     if (canBeDuelist == null || !canBeDuelist) {
-      return Validation(
+      return const Validation(
         false,
         issue: 'Unit must be a duelist; See Heroes of the Arena.',
       );
@@ -78,19 +78,19 @@ final Rule ruleHeroesOfTheArena = Rule(
       text: 'Heroes of the Arena',
       filters: [
         UnitFilter(
-          FactionType.North,
+          FactionType.north,
           matcher: matchPossibleDuelist,
         ),
         UnitFilter(
-          FactionType.South,
+          FactionType.south,
           matcher: matchPossibleDuelist,
         ),
         UnitFilter(
-          FactionType.PeaceRiver,
+          FactionType.peaceRiver,
           matcher: matchPossibleDuelist,
         ),
         UnitFilter(
-          FactionType.NuCoal,
+          FactionType.nuCoal,
           matcher: matchPossibleDuelist,
         ),
       ],
@@ -104,12 +104,12 @@ final Rule ruleTheBrute = Rule(
   name: 'The Brute',
   id: _ruleTheBruteId,
   duelistModelCheck: (roster, u) {
-    if (u.type != ModelType.Strider) {
+    if (u.type != ModelType.strider) {
       return null;
     }
 
     final anyOtherStriderDuelist = roster.duelists
-        .where((unit) => unit.type == ModelType.Strider && unit != u)
+        .where((unit) => unit.type == ModelType.strider && unit != u)
         .toList()
         .length;
     return anyOtherStriderDuelist <= 0;
@@ -118,19 +118,19 @@ final Rule ruleTheBrute = Rule(
       text: 'The Brute',
       filters: [
         UnitFilter(
-          FactionType.North,
+          FactionType.north,
           matcher: matchStriders,
         ),
         UnitFilter(
-          FactionType.South,
+          FactionType.south,
           matcher: matchStriders,
         ),
         UnitFilter(
-          FactionType.PeaceRiver,
+          FactionType.peaceRiver,
           matcher: matchStriders,
         ),
         UnitFilter(
-          FactionType.NuCoal,
+          FactionType.nuCoal,
           matcher: matchStriders,
         ),
       ],

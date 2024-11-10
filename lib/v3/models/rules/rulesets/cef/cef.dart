@@ -47,7 +47,7 @@ class CEF extends RuleSet {
     super.specialRules,
     List<Rule> subFactionRules = const [],
   }) : super(
-          FactionType.CEF,
+          FactionType.cef,
           data,
           settings: settings,
           factionRules: [
@@ -66,11 +66,11 @@ class CEF extends RuleSet {
         text: type.name,
         id: coreTag,
         filters: const [
-          const UnitFilter(FactionType.CEF),
-          const UnitFilter(FactionType.Airstrike),
-          const UnitFilter(FactionType.Universal),
-          const UnitFilter(FactionType.Universal_Non_TerraNova),
-          const UnitFilter(FactionType.Terrain),
+          UnitFilter(FactionType.cef),
+          UnitFilter(FactionType.airstrike),
+          UnitFilter(FactionType.universal),
+          UnitFilter(FactionType.universalNonTerraNova),
+          UnitFilter(FactionType.terrain),
         ],
       )
     ];
@@ -78,16 +78,16 @@ class CEF extends RuleSet {
     return [...filters, ...super.availableUnitFilters(cgOptions)];
   }
 
-  factory CEF.CEFFF(DataV3 data, Settings settings) => CEFFF(data, settings);
-  factory CEF.CEFTF(DataV3 data, Settings settings) => CEFTF(data, settings);
-  factory CEF.CEFIF(DataV3 data, Settings settings) => CEFIF(data, settings);
+  factory CEF.cefff(DataV3 data, Settings settings) => CEFFF(data, settings);
+  factory CEF.ceftf(DataV3 data, Settings settings) => CEFTF(data, settings);
+  factory CEF.cefif(DataV3 data, Settings settings) => CEFIF(data, settings);
 }
 
 final Rule ruleMinerva = Rule(
   name: 'Minerva',
   id: _ruleMinervaId,
   factionMods: (ur, cg, u) {
-    if (u.faction == FactionType.CEF && u.type == ModelType.Gear) {
+    if (u.faction == FactionType.cef && u.type == ModelType.gear) {
       return [CEFMods.minerva()];
     }
     return [];
@@ -100,8 +100,8 @@ final Rule ruleAdvancedInterfaceNetwork = Rule(
   name: 'Advanced Interface Network (AIN)',
   id: _ruleAdvancedInterfaceNetworkId,
   factionMods: (ur, cg, u) {
-    if (u.faction == FactionType.CEF && u.type == ModelType.Gear) {
-      return [CEFMods.advancedInterfaceNetwork(u, FactionType.CEF)];
+    if (u.faction == FactionType.cef && u.type == ModelType.gear) {
+      return [CEFMods.advancedInterfaceNetwork(u, FactionType.cef)];
     }
     return [];
   },
@@ -127,11 +127,11 @@ final Rule ruleAlliesCaprice = Rule(
     _ruleAlliesEdenId,
   ]),
   canBeAddedToGroup: (unit, group, cg) {
-    if (unit.faction != FactionType.Caprice) {
+    if (unit.faction != FactionType.caprice) {
       return null;
     }
     if (group.groupType == GroupType.primary) {
-      return Validation(
+      return const Validation(
         false,
         issue: 'Caprice units must be placed in secondary units; See Allies' +
             ' rule.',
@@ -149,11 +149,11 @@ final Rule ruleAlliesCaprice = Rule(
   unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Allies: Caprice',
       filters: [
-        const UnitFilter(FactionType.Caprice),
-        const UnitFilter(
-          FactionType.Universal,
+        UnitFilter(FactionType.caprice),
+        UnitFilter(
+          FactionType.universal,
           matcher: matchInfantry,
-          factionOverride: FactionType.Caprice,
+          factionOverride: FactionType.caprice,
         )
       ],
       id: _ruleAlliesCapriceId),
@@ -170,11 +170,11 @@ final Rule ruleAlliesUtopia = Rule(
     _ruleAlliesEdenId,
   ]),
   canBeAddedToGroup: (unit, group, cg) {
-    if (unit.faction != FactionType.Utopia) {
+    if (unit.faction != FactionType.utopia) {
       return null;
     }
     if (group.groupType == GroupType.primary) {
-      return Validation(
+      return const Validation(
         false,
         issue: 'Utopia units must be placed in secondary units; See Allies' +
             ' rule.',
@@ -184,7 +184,7 @@ final Rule ruleAlliesUtopia = Rule(
   },
   unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Allies: Utopia',
-      filters: [const UnitFilter(FactionType.Utopia)],
+      filters: [UnitFilter(FactionType.utopia)],
       id: _ruleAlliesUtopiaId),
   description: 'You may select models from Utopia for secondary units.',
 );
@@ -199,11 +199,11 @@ final Rule ruleAlliesEden = Rule(
     _ruleAlliesUtopiaId,
   ]),
   canBeAddedToGroup: (unit, group, cg) {
-    if (unit.faction != FactionType.Eden) {
+    if (unit.faction != FactionType.eden) {
       return null;
     }
     if (group.groupType == GroupType.primary) {
-      return Validation(
+      return const Validation(
         false,
         issue: 'Eden units must be placed in secondary units; See Allies' +
             ' rule.',
@@ -213,7 +213,7 @@ final Rule ruleAlliesEden = Rule(
   },
   unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Allies: Eden',
-      filters: [const UnitFilter(FactionType.Eden)],
+      filters: [UnitFilter(FactionType.eden)],
       id: _ruleAlliesEdenId),
   description: 'You may select models from Eden for secondary units.',
 );

@@ -170,8 +170,8 @@ class CombatGroup extends ChangeNotifier {
     // account for drones attached to a recon Hun costing 0
     final dronesInCG = units
         .where((u) =>
-            u.type == ModelType.Drone &&
-            u.faction == FactionType.Universal_TerraNova)
+            u.type == ModelType.drone &&
+            u.faction == FactionType.universalTerraNova)
         .length;
     if (dronesInCG > 0) {
       final hunsInCG =
@@ -313,7 +313,7 @@ class CombatGroup extends ChangeNotifier {
     var highRank = CommandLevel.none;
 
     for (var unit in leaders) {
-      highRank = CommandLevel.GreaterOne(highRank, unit.commandLevel);
+      highRank = CommandLevel.greaterOne(highRank, unit.commandLevel);
     }
 
     return highRank;

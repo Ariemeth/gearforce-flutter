@@ -1,4 +1,4 @@
 class RosterId {
-  const RosterId(this.Id);
-  final String? Id;
+  const RosterId(this.id);
+  final String? id;
 }

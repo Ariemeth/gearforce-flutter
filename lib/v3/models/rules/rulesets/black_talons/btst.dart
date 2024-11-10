@@ -42,17 +42,17 @@ final Rule ruleAllies = Rule(
   unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Allies',
       filters: [
-        UnitFilter(FactionType.North),
-        UnitFilter(FactionType.South),
-        UnitFilter(FactionType.PeaceRiver),
-        UnitFilter(FactionType.NuCoal),
+        UnitFilter(FactionType.north),
+        UnitFilter(FactionType.south),
+        UnitFilter(FactionType.peaceRiver),
+        UnitFilter(FactionType.nuCoal),
       ],
       id: _ruleAlliesId),
   availableCommandLevelOverride: (u) {
-    if (u.faction == FactionType.North ||
-        u.faction == FactionType.South ||
-        u.faction == FactionType.PeaceRiver ||
-        u.faction == FactionType.NuCoal) {
+    if (u.faction == FactionType.north ||
+        u.faction == FactionType.south ||
+        u.faction == FactionType.peaceRiver ||
+        u.faction == FactionType.nuCoal) {
       return [CommandLevel.none];
     }
     return null;
@@ -65,13 +65,13 @@ final Rule ruleBestAndBrightest = Rule(
   name: 'Best and Brightest',
   id: _ruleBestAndBrightestId,
   veteranCheckOverride: (u, cg) {
-    if (u.traits.any((t) => Trait.Conscript().isSameType(t))) {
+    if (u.traits.any((t) => Trait.conscript().isSameType(t))) {
       return null;
     }
-    if (u.faction == FactionType.North ||
-        u.faction == FactionType.South ||
-        u.faction == FactionType.PeaceRiver ||
-        u.faction == FactionType.NuCoal) {
+    if (u.faction == FactionType.north ||
+        u.faction == FactionType.south ||
+        u.faction == FactionType.peaceRiver ||
+        u.faction == FactionType.nuCoal) {
       return true;
     }
     return null;
@@ -90,7 +90,7 @@ final Rule ruleShowoffs = Rule(
     return null;
   },
   duelistMaxNumberOverride: (roster, cg, u) {
-    if (u.type != ModelType.Gear) {
+    if (u.type != ModelType.gear) {
       return null;
     }
     final numOtherDuelist = cg.duelists.where((unit) => unit != u).length;

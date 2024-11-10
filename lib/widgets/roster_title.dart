@@ -20,7 +20,7 @@ class RosterTitle extends StatelessWidget {
       children: [
         Text(title),
         versionSelector,
-        Spacer(),
+        const Spacer(),
         VersionChecker(
           currentVersion: version,
         ),

@@ -70,7 +70,7 @@ final Rule ruleAssultTroops = Rule(
       return null;
     }
 
-    if (u.type == ModelType.Infantry || u.type == ModelType.Cavalry) {
+    if (u.type == ModelType.infantry || u.type == ModelType.cavalry) {
       return true;
     }
     return null;

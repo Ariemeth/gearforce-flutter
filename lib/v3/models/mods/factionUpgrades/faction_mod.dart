@@ -21,7 +21,7 @@ class FactionModification extends BaseModification {
     required super.id,
     super.onAdd,
     super.onRemove,
-    super.ruleType = RuleType.Standard,
+    super.ruleType = RuleType.standard,
     super.refreshData,
   }) : super(modType: ModificationType.faction);
 }
@@ -29,8 +29,8 @@ class FactionModification extends BaseModification {
 FactionModification? factionModFromId(String id, UnitRoster ur, Unit u) {
   switch (id) {
     // Peace River Faction mods
-    case e_pexID:
-      return PeaceRiverFactionMods.e_pex();
+    case ePexID:
+      return PeaceRiverFactionMods.ePex();
     case warriorEliteID:
       return PeaceRiverFactionMods.warriorElite();
     case crisisRespondersID:
@@ -94,13 +94,13 @@ FactionModification? factionModFromId(String id, UnitRoster ur, Unit u) {
     case fastCavalryId:
       return NuCoalFactionMods.fastCavalry();
     case ePexId:
-      return NuCoalFactionMods.e_pex();
+      return NuCoalFactionMods.ePex();
     case highOctaneId:
       return NuCoalFactionMods.highOctane();
     case personalEquipment1Id:
-      return NuCoalFactionMods.personalEquipment(PersonalEquipment.One);
+      return NuCoalFactionMods.personalEquipment(PersonalEquipment.one);
     case personalEquipment2Id:
-      return NuCoalFactionMods.personalEquipment(PersonalEquipment.Two);
+      return NuCoalFactionMods.personalEquipment(PersonalEquipment.two);
 
     // Black Talon mods
     case theChosenId:
@@ -108,7 +108,7 @@ FactionModification? factionModFromId(String id, UnitRoster ur, Unit u) {
     case theUnseenId:
       return BlackTalonMods.theUnseen();
     case radioBlackoutId:
-      return BlackTalonMods.RadioBlackout();
+      return BlackTalonMods.radioBlackout();
     case theTalonsId:
       return BlackTalonMods.theTalons();
 

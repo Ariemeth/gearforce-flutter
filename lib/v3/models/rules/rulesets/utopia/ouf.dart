@@ -3,8 +3,8 @@ import 'package:gearforce/v3/models/combatGroups/group.dart';
 import 'package:gearforce/v3/models/factions/faction_type.dart';
 import 'package:gearforce/v3/models/mods/duelist/duelist_modification.dart';
 import 'package:gearforce/v3/models/mods/factionUpgrades/caprice.dart'
-    as capriceMods;
-import 'package:gearforce/v3/models/mods/factionUpgrades/cef.dart' as cefMods;
+    as caprice_nods;
+import 'package:gearforce/v3/models/mods/factionUpgrades/cef.dart' as cef_mods;
 import 'package:gearforce/v3/models/mods/factionUpgrades/utopia.dart';
 import 'package:gearforce/v3/models/mods/veteranUpgrades/veteran_modification.dart';
 import 'package:gearforce/v3/models/rules/rule.dart';
@@ -96,10 +96,10 @@ final Rule _ruleAllyCEF = Rule(
       return null;
     }
 
-    if (unit.faction == FactionType.CEF) {
+    if (unit.faction == FactionType.cef) {
       // handle CEF gears used by NAI Experiements
       if (!matchOnlyGears(unit.core)) {
-        return Validation(
+        return const Validation(
           false,
           issue: 'CEF units may only be added to a secondary group; See' +
               ' Allies rule.',
@@ -111,7 +111,7 @@ final Rule _ruleAllyCEF = Rule(
   },
   unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Allies: CEF',
-      filters: [const UnitFilter(FactionType.CEF)],
+      filters: [UnitFilter(FactionType.cef)],
       id: _ruleAlliesCEFId),
   description: 'You may select models from the CEF to place into your' +
       ' secondary units.',
@@ -132,8 +132,8 @@ final Rule _ruleAllyBlackTalon = Rule(
       return null;
     }
 
-    if (unit.faction == FactionType.BlackTalon) {
-      return Validation(
+    if (unit.faction == FactionType.blackTalon) {
+      return const Validation(
         false,
         issue: 'Black Talon units may only be added to a secondary group; See' +
             ' Allies rule.',
@@ -144,7 +144,7 @@ final Rule _ruleAllyBlackTalon = Rule(
   },
   unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Allies: Black Talon',
-      filters: [const UnitFilter(FactionType.BlackTalon)],
+      filters: [UnitFilter(FactionType.blackTalon)],
       id: _ruleAlliesBlackTalonId),
   description: 'You may select models from the Black Talon to place into your' +
       ' secondary units.',
@@ -165,8 +165,8 @@ final Rule _ruleAllyCaprice = Rule(
       return null;
     }
 
-    if (unit.faction == FactionType.Caprice) {
-      return Validation(
+    if (unit.faction == FactionType.caprice) {
+      return const Validation(
         false,
         issue: 'Caprice units may only be added to a secondary group; See' +
             ' Allies rule.',
@@ -176,7 +176,7 @@ final Rule _ruleAllyCaprice = Rule(
     return null;
   },
   modCheckOverride: (u, cg, {required modID}) {
-    if (modID == capriceMods.cyberneticUpgradesId &&
+    if (modID == caprice_nods.cyberneticUpgradesId &&
         u.group?.groupType == GroupType.primary) {
       return false;
     }
@@ -185,11 +185,11 @@ final Rule _ruleAllyCaprice = Rule(
   unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Allies: Caprice',
       filters: [
-        const UnitFilter(FactionType.Caprice),
-        const UnitFilter(
-          FactionType.Universal,
+        UnitFilter(FactionType.caprice),
+        UnitFilter(
+          FactionType.universal,
           matcher: matchInfantry,
-          factionOverride: FactionType.Caprice,
+          factionOverride: FactionType.caprice,
         )
       ],
       id: _ruleAlliesCapriceId),
@@ -212,8 +212,8 @@ final Rule _ruleAllyEden = Rule(
       return null;
     }
 
-    if (unit.faction == FactionType.Eden) {
-      return Validation(
+    if (unit.faction == FactionType.eden) {
+      return const Validation(
         false,
         issue: 'Eden units may only be added to a secondary group; See' +
             ' Allies rule.',
@@ -224,7 +224,7 @@ final Rule _ruleAllyEden = Rule(
   },
   unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Allies: Eden',
-      filters: [const UnitFilter(FactionType.Eden)],
+      filters: [UnitFilter(FactionType.eden)],
       id: _ruleAlliesEdenId),
   description: 'You may select models from the Eden to place into your' +
       ' secondary units.',
@@ -236,13 +236,11 @@ final Rule ruleNAIExperiements = Rule(
   unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'NAI Experiements',
       id: _ruleNAIExperimentsId,
-      filters: const [
-        const UnitFilter(FactionType.CEF, matcher: matchOnlyGears)
-      ]),
+      filters: [UnitFilter(FactionType.cef, matcher: matchOnlyGears)]),
   factionMods: (ur, cg, u) => [UtopiaMods.naiExperiments()],
   modCheckOverride: (u, cg, {required modID}) {
-    if (modID == cefMods.minveraId ||
-        modID == cefMods.advancedInterfaceNetworkId) {
+    if (modID == cef_mods.minveraId ||
+        modID == cef_mods.advancedInterfaceNetworkId) {
       return false;
     }
     return null;

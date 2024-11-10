@@ -10,7 +10,8 @@ class SettingsCheckboxOptionLine extends StatefulWidget {
   final bool isEnabled;
   final String tooltipMessage;
 
-  SettingsCheckboxOptionLine({
+  const SettingsCheckboxOptionLine({
+    super.key,
     required this.text,
     required this.onChanged,
     this.padding = const EdgeInsets.only(),
@@ -40,7 +41,7 @@ class _SettingsCheckboxOptionLineState
         child: Row(
           children: [
             Text(widget.text),
-            Spacer(),
+            const Spacer(),
             Checkbox(
               value: value,
               onChanged: widget.isEnabled

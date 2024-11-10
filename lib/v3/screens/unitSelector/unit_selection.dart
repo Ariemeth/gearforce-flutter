@@ -8,7 +8,7 @@ import 'package:gearforce/v3/screens/unitSelector/selected_unit_feedback.dart';
 import 'package:gearforce/v3/screens/unitSelector/selected_unit_model_cell.dart';
 import 'package:gearforce/v3/screens/unitSelector/selection_filters.dart';
 import 'package:gearforce/v3/screens/unitSelector/unit_preview_button.dart';
-import 'package:gearforce/v3/screens/unitSelector/unit_selection_text_Cell.dart';
+import 'package:gearforce/v3/screens/unitSelector/unit_selection_text_cell.dart';
 import 'package:provider/provider.dart';
 
 const _reactSymbol = '»';
@@ -16,10 +16,10 @@ const _reactSymbol = '»';
 class UnitSelection extends StatefulWidget {
   final Map<RoleType, bool> _roleFilter = <RoleType, bool>{};
 
-  UnitSelection() {
-    RoleType.values.forEach((element) {
+  UnitSelection({super.key}) {
+    for (var element in RoleType.values) {
       _roleFilter.addAll({element: false});
-    });
+    }
   }
 
   @override
@@ -72,8 +72,8 @@ class _UnitSelectionState extends State<UnitSelection> {
             },
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.all(2.0),
+        const Padding(
+          padding: EdgeInsets.all(2.0),
           child: Text(
             'Drag desired units below into CG Primary and Secondary areas on the left.',
           ),
@@ -102,11 +102,11 @@ class _UnitSelectionState extends State<UnitSelection> {
 
 class SelectionList extends StatelessWidget {
   const SelectionList({
-    Key? key,
+    super.key,
     required this.roleFilters,
     required this.filter,
     required this.specialUnitFilter,
-  }) : super(key: key);
+  });
 
   final Map<RoleType, bool> roleFilters;
   final String? filter;
@@ -124,15 +124,13 @@ class SelectionList extends StatelessWidget {
 
   Widget _buildTable(BuildContext context, RuleSet ruleSet) {
     final availableUnits = ruleSet.availableUnits(
-        role: this
-            .roleFilters
-            .entries
+        role: roleFilters.entries
             .where((filterMap) => filterMap.value)
             .map((filterMap) => filterMap.key)
             .toList(),
         characterFilters:
-            this.filter?.split(',').where((element) => element != '').toList(),
-        specialUnitFilter: this.specialUnitFilter);
+            filter?.split(',').where((element) => element != '').toList(),
+        specialUnitFilter: specialUnitFilter);
 
     final table = DataTable(
       columns: _createTableColumns(),
@@ -200,19 +198,16 @@ class SelectionList extends StatelessWidget {
       DataCell(UnitSelectionTextCell.content('${unit.tv}')),
       DataCell(
         UnitSelectionTextCell.content(
-          unit.role != null ? '${unit.role!.roles.join(', ')}' : 'N/A',
+          unit.role != null ? unit.role!.roles.join(', ') : 'N/A',
           maxLines: 2,
           softWrap: true,
         ),
       ),
+      DataCell(UnitSelectionTextCell.content('${unit.movement ?? '-'}')),
+      DataCell(UnitSelectionTextCell.content('${unit.armor ?? '-'}')),
       DataCell(UnitSelectionTextCell.content(
-          '${unit.movement == null ? '-' : unit.movement}')),
-      DataCell(UnitSelectionTextCell.content(
-          '${unit.armor == null ? '-' : unit.armor}')),
-      DataCell(UnitSelectionTextCell.content(
-          '${unit.hull == null ? '-' : unit.hull}/${unit.structure == null ? '-' : unit.structure}')),
-      DataCell(UnitSelectionTextCell.content(
-          '${unit.actions == null ? '-' : unit.actions}')),
+          '${unit.hull ?? '-'}/${unit.structure ?? '-'}')),
+      DataCell(UnitSelectionTextCell.content('${unit.actions ?? '-'}')),
       DataCell(UnitSelectionTextCell.content(
           unit.gunnery == null ? '-' : '${unit.gunnery}+')),
       DataCell(UnitSelectionTextCell.content(
@@ -221,20 +216,23 @@ class SelectionList extends StatelessWidget {
           UnitSelectionTextCell.content(unit.ew == null ? '-' : '${unit.ew}+')),
       DataCell(
         UnitSelectionTextCell.content(
-          '${(unit.reactWeapons.toList()..addAll(unit.mountedWeapons.toList())).map((e) => e.hasReact ? '$_reactSymbol${e}' : '${e}').toList().join(', ')}',
+          (unit.reactWeapons.toList()..addAll(unit.mountedWeapons.toList()))
+              .map((e) => e.hasReact ? '$_reactSymbol$e' : '$e')
+              .toList()
+              .join(', '),
           maxLines: 3,
           alignment: Alignment.centerLeft,
           textAlignment: TextAlign.left,
         ),
       ),
       DataCell(UnitSelectionTextCell.content(
-        '${unit.traits.join(', ')}',
+        unit.traits.join(', '),
         maxLines: 3,
         alignment: Alignment.centerLeft,
         textAlignment: TextAlign.left,
       )),
       DataCell(UnitSelectionTextCell.content('${unit.type}')),
-      DataCell(UnitSelectionTextCell.content('${unit.height}')),
+      DataCell(UnitSelectionTextCell.content(unit.height)),
     ]);
   }
 
@@ -246,7 +244,7 @@ class SelectionList extends StatelessWidget {
   }) {
     return DataColumn(
       label: Expanded(
-        child: Container(
+        child: SizedBox(
           width: width,
           child: UnitSelectionTextCell.columnTitle(
             text,

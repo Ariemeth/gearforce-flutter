@@ -4,8 +4,7 @@ import 'package:gearforce/v3/screens/settings/settings_value_option_line.dart';
 import 'package:gearforce/widgets/settings.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
-import 'settings_section_heading.dart';
+import 'package:gearforce/v3/screens/settings/settings_section_heading.dart';
 
 class ApplicationSettingsDialog extends StatefulWidget {
   const ApplicationSettingsDialog({super.key});
@@ -43,8 +42,12 @@ class _ApplicationSettingsDialogState extends State<ApplicationSettingsDialog> {
           tooltip: 'Reset to default settings',
         ),
       ]),
+      contentPadding:
+          const EdgeInsets.only(top: 10, bottom: 5, left: 10, right: 10),
+      titlePadding:
+          const EdgeInsets.only(top: 10, bottom: 0, left: 10, right: 10),
       children: [
-        SettingsSectionHeading('Application Settings'),
+        const SettingsSectionHeading('Application Settings'),
         SettingsValueOptionLine(
             text: 'Tooltip Delay in milliseconds',
             value: settings.tooltipDelay.inMilliseconds,
@@ -88,7 +91,7 @@ class _ApplicationSettingsDialogState extends State<ApplicationSettingsDialog> {
             });
           },
         ),
-        SettingsSectionHeading('Content Settings'),
+        const SettingsSectionHeading('Content Settings'),
         SettingsCheckboxOptionLine(
           text: 'Allow Alpha/Beta Content',
           value: settings.isAlphaBetaAllowed,
@@ -116,7 +119,7 @@ class _ApplicationSettingsDialogState extends State<ApplicationSettingsDialog> {
           onPressed: () {
             Navigator.pop(context);
           },
-          child: Center(
+          child: const Center(
             child: Text(
               'Close',
               style: TextStyle(
@@ -127,8 +130,6 @@ class _ApplicationSettingsDialogState extends State<ApplicationSettingsDialog> {
           ),
         ),
       ],
-      contentPadding: EdgeInsets.only(top: 10, bottom: 5, left: 10, right: 10),
-      titlePadding: EdgeInsets.only(top: 10, bottom: 0, left: 10, right: 10),
     );
   }
 }

@@ -1,6 +1,6 @@
 import 'package:gearforce/v3/models/rules/rule.dart';
 import 'package:gearforce/v3/models/mods/veteranUpgrades/veteran_modification.dart'
-    as vetMod;
+    as vet_mod;
 import 'package:gearforce/v3/models/rules/rulesets/cef/cef.dart';
 import 'package:gearforce/v3/models/unit/model_type.dart';
 
@@ -33,11 +33,11 @@ final Rule ruleTheHammer = Rule(
   name: 'The Hammer',
   id: _ruleTheHammerId,
   veteranModCheck: (u, cg, {required modID}) {
-    if (modID != vetMod.improvedGunneryID) {
+    if (modID != vet_mod.improvedGunneryID) {
       return null;
     }
 
-    if (u.type == ModelType.Vehicle) {
+    if (u.type == ModelType.vehicle) {
       return true;
     }
 

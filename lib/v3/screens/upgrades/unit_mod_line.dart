@@ -8,11 +8,11 @@ const int _maxUpgradeDescriptionLines = 4;
 
 class UnitModLine extends StatefulWidget {
   const UnitModLine({
-    Key? key,
+    super.key,
     required this.unit,
     required this.mod,
     required this.isModSelectable,
-  }) : super(key: key);
+  });
 
   final Unit unit;
   final BaseModification mod;

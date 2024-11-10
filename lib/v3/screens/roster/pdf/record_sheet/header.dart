@@ -9,8 +9,8 @@ const String _factionNameDescriptor = 'Faction / Sublist';
 const String _totalTVNameDescriptor = 'TV';
 const String _totalActionsNameDescriptor = 'Actions';
 const String _totalModelCountNameDescriptor = 'Models';
-const String _CGModelCountNameDescriptor = 'Combat Groups';
-const String _AirstrikeCounterNameDescriptor = 'Airstrike Counters';
+const String _cgModelCountNameDescriptor = 'Combat Groups';
+const String _airstrikeCounterNameDescriptor = 'Airstrike Counters';
 const double _recordSheetHeadingFontSize = 30;
 const double _totalTVBlockWidth = 40.0;
 const double _combatGroupCountBlockWidth = 70.0;
@@ -19,13 +19,13 @@ const double _spaceBetweenValues = 10.0;
 pw.Widget buildRosterHeader(pw.Font font, UnitRoster roster) {
   final standardTextStyle = pw.TextStyle(font: font, fontSize: 12);
   final smallTextStyle = pw.TextStyle(font: font, fontSize: 8);
-  final sideInset = pw.EdgeInsets.only(left: 10.0, right: 10.0);
+  const sideInset = pw.EdgeInsets.only(left: 10.0, right: 10.0);
   const double gapAboveFactionText = 5.0;
 
   return pw.Column(
     children: [
       pw.Padding(
-        padding: pw.EdgeInsets.only(bottom: 5.0),
+        padding: const pw.EdgeInsets.only(bottom: 5.0),
         child: pw.Center(
           child: pw.Text(
             _recordSheetHeadingText,
@@ -46,12 +46,12 @@ pw.Widget buildRosterHeader(pw.Font font, UnitRoster roster) {
                 children: [
                   pw.Container(
                     child: pw.Text(
-                      '${roster.player ?? ' '}',
+                      roster.player ?? ' ',
                       style: standardTextStyle,
                       maxLines: 1,
                       overflow: pw.TextOverflow.clip,
                     ),
-                    decoration: pw.BoxDecoration(
+                    decoration: const pw.BoxDecoration(
                       border: pw.Border(bottom: pw.BorderSide()),
                     ),
                   ),
@@ -71,12 +71,12 @@ pw.Widget buildRosterHeader(pw.Font font, UnitRoster roster) {
                 children: [
                   pw.Container(
                     child: pw.Text(
-                      '${roster.name ?? ' '}',
+                      roster.name ?? ' ',
                       style: standardTextStyle,
                       maxLines: 1,
                       overflow: pw.TextOverflow.clip,
                     ),
-                    decoration: pw.BoxDecoration(
+                    decoration: const pw.BoxDecoration(
                       border: pw.Border(bottom: pw.BorderSide()),
                     ),
                   ),
@@ -103,7 +103,7 @@ pw.Widget buildRosterHeader(pw.Font font, UnitRoster roster) {
                 maxLines: 2,
                 overflow: pw.TextOverflow.clip,
               ),
-              decoration: pw.BoxDecoration(
+              decoration: const pw.BoxDecoration(
                 border: pw.Border(bottom: pw.BorderSide()),
               ),
             ),
@@ -131,7 +131,7 @@ pw.Widget buildRosterHeader(pw.Font font, UnitRoster roster) {
                       maxLines: 1,
                       textAlign: pw.TextAlign.center,
                     ),
-                    decoration: pw.BoxDecoration(
+                    decoration: const pw.BoxDecoration(
                       border: pw.Border(bottom: pw.BorderSide()),
                     ),
                   ),
@@ -157,7 +157,7 @@ pw.Widget buildRosterHeader(pw.Font font, UnitRoster roster) {
                       maxLines: 1,
                       textAlign: pw.TextAlign.center,
                     ),
-                    decoration: pw.BoxDecoration(
+                    decoration: const pw.BoxDecoration(
                       border: pw.Border(bottom: pw.BorderSide()),
                     ),
                   ),
@@ -178,12 +178,12 @@ pw.Widget buildRosterHeader(pw.Font font, UnitRoster roster) {
                 children: [
                   pw.Container(
                     child: pw.Text(
-                      '${roster.getAllUnits().where((unit) => unit.type != ModelType.AirstrikeCounter).length}',
+                      '${roster.getAllUnits().where((unit) => unit.type != ModelType.airstrikeCounter).length}',
                       style: standardTextStyle,
                       maxLines: 1,
                       textAlign: pw.TextAlign.center,
                     ),
-                    decoration: pw.BoxDecoration(
+                    decoration: const pw.BoxDecoration(
                       border: pw.Border(bottom: pw.BorderSide()),
                     ),
                   ),
@@ -209,12 +209,12 @@ pw.Widget buildRosterHeader(pw.Font font, UnitRoster roster) {
                       maxLines: 1,
                       textAlign: pw.TextAlign.center,
                     ),
-                    decoration: pw.BoxDecoration(
+                    decoration: const pw.BoxDecoration(
                       border: pw.Border(bottom: pw.BorderSide()),
                     ),
                   ),
                   pw.Text(
-                    _CGModelCountNameDescriptor,
+                    _cgModelCountNameDescriptor,
                     style: smallTextStyle,
                     textAlign: pw.TextAlign.center,
                   ),
@@ -235,12 +235,12 @@ pw.Widget buildRosterHeader(pw.Font font, UnitRoster roster) {
                       maxLines: 1,
                       textAlign: pw.TextAlign.center,
                     ),
-                    decoration: pw.BoxDecoration(
+                    decoration: const pw.BoxDecoration(
                       border: pw.Border(bottom: pw.BorderSide()),
                     ),
                   ),
                   pw.Text(
-                    _AirstrikeCounterNameDescriptor,
+                    _airstrikeCounterNameDescriptor,
                     style: smallTextStyle,
                     textAlign: pw.TextAlign.center,
                   ),

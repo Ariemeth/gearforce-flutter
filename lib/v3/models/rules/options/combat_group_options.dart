@@ -49,12 +49,12 @@ class CombatGroupOption extends ChangeNotifier {
 }
 
 bool Function(CombatGroup?, UnitRoster?) onlyOnePerCG(List<String> ids) {
-  return (CombatGroup, roster) {
-    if (CombatGroup == null) {
+  return (combatGroup, roster) {
+    if (combatGroup == null) {
       return false;
     }
 
-    if (ids.any((id) => CombatGroup.isOptionEnabled(id))) {
+    if (ids.any((id) => combatGroup.isOptionEnabled(id))) {
       return false;
     }
 

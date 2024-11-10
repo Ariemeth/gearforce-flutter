@@ -24,7 +24,7 @@ const double _borderThickness = 0.5;
 const double _cornerRadius = 2.0;
 
 final primarySecondaryDivide =
-    pw.Padding(padding: pw.EdgeInsets.only(bottom: 5.0));
+    pw.Padding(padding: const pw.EdgeInsets.only(bottom: 5.0));
 
 List<pw.Widget> buildCombatGroups(pw.Font font, UnitRoster roster) {
   final List<pw.Widget> combatGroups = [];
@@ -36,14 +36,14 @@ List<pw.Widget> buildCombatGroups(pw.Font font, UnitRoster roster) {
 }
 
 pw.Widget _buildCombatGroup(pw.Font font, CombatGroup cg) {
-  if (cg.primary.allUnits().length == 0) {
+  if (cg.primary.allUnits().isEmpty) {
     return pw.Container();
   }
 
   final result = pw.Column(children: [
     _buildCombatGroupHeader(
       font,
-      GroupName: cg.name,
+      groupName: cg.name,
       groupType: GroupType.primary,
       role: cg.primary.role(),
     ),
@@ -56,13 +56,13 @@ pw.Widget _buildCombatGroup(pw.Font font, CombatGroup cg) {
     ),
   ]);
 
-  if (cg.secondary.allUnits().length > 0) {
+  if (cg.secondary.allUnits().isNotEmpty) {
     result.children.addAll([
       pw.Padding(
-        padding: pw.EdgeInsets.only(top: _primarySecondarySpacing),
+        padding: const pw.EdgeInsets.only(top: _primarySecondarySpacing),
         child: _buildCombatGroupHeader(
           font,
-          GroupName: cg.name,
+          groupName: cg.name,
           groupType: GroupType.secondary,
           role: cg.secondary.role(),
         ),
@@ -78,14 +78,14 @@ pw.Widget _buildCombatGroup(pw.Font font, CombatGroup cg) {
   }
 
   return pw.Padding(
-    padding: pw.EdgeInsets.only(bottom: _groupSpacing),
+    padding: const pw.EdgeInsets.only(bottom: _groupSpacing),
     child: result,
   );
 }
 
 pw.Widget _buildCombatGroupHeader(
   pw.Font font, {
-  required String GroupName,
+  required String groupName,
   required GroupType groupType,
   required RoleType role,
 }) {
@@ -96,12 +96,12 @@ pw.Widget _buildCombatGroupHeader(
   );
 
   return pw.Padding(
-    padding: pw.EdgeInsets.only(bottom: 2.5),
+    padding: const pw.EdgeInsets.only(bottom: 2.5),
     child: pw.Row(
       children: [
         pw.Expanded(
           child: pw.Text(
-            'Combat Group $GroupName',
+            'Combat Group $groupName',
             style: headerTextStyle,
             textAlign: pw.TextAlign.center,
           ),
@@ -132,7 +132,7 @@ pw.Widget _buildUnitsContent(
       pw.Container(
         child: pw.Row(children: [
           pw.Padding(
-            padding: pw.EdgeInsets.all(5.0),
+            padding: const pw.EdgeInsets.all(5.0),
             child: pw.Transform.rotateBox(
               angle: pi / 2,
               child: pw.Text(
@@ -171,7 +171,7 @@ pw.Widget _buildUnitsContentTable(pw.Font font, List<Unit> units) {
   return pw.TableHelper.fromTextArray(
     border: null,
     cellAlignment: pw.Alignment.centerLeft,
-    headerDecoration: pw.BoxDecoration(
+    headerDecoration: const pw.BoxDecoration(
       border: pw.Border(
         left: pw.BorderSide(width: _borderThickness),
         //      color: accentColor,
@@ -198,7 +198,7 @@ pw.Widget _buildUnitsContentTable(pw.Font font, List<Unit> units) {
       font: font,
       fontSize: _standardTextSize,
     ),
-    rowDecoration: pw.BoxDecoration(
+    rowDecoration: const pw.BoxDecoration(
       border: pw.Border(
         top: pw.BorderSide(width: _borderThickness),
         left: pw.BorderSide(width: _borderThickness),
@@ -224,7 +224,7 @@ pw.Widget _buildUnitsContentTable(pw.Font font, List<Unit> units) {
           case 0:
             return unit.name;
           case 1:
-            return '${unit.modNamesWithCost.join(', ')}';
+            return unit.modNamesWithCost.join(', ');
           case 2:
             if (unit.commandLevel == CommandLevel.none) {
               return '-';
@@ -233,7 +233,7 @@ pw.Widget _buildUnitsContentTable(pw.Font font, List<Unit> units) {
             if (isForceleader) {
               return '${unit.commandLevel.name}**';
             }
-            return '${unit.commandLevel.name}';
+            return unit.commandLevel.name;
           case 3:
             return '${unit.commandLevel == CommandLevel.none ? unit.skillPoints : unit.commandPoints}';
           case 4:
@@ -264,7 +264,7 @@ pw.Widget _buildUnitsFooter(
     children: [
       pw.Container(
         child: pw.Padding(
-          padding: pw.EdgeInsets.only(top: 5.0),
+          padding: const pw.EdgeInsets.only(top: 5.0),
           child: pw.Row(
             children: [
               pw.Container(
@@ -278,7 +278,7 @@ pw.Widget _buildUnitsFooter(
               pw.Container(
                 width: _actionsColumnWidth,
                 child: pw.Text(
-                  '${actions}',
+                  '$actions',
                   textAlign: pw.TextAlign.center,
                   style: footerTextStyle,
                 ),
@@ -286,7 +286,7 @@ pw.Widget _buildUnitsFooter(
               pw.Container(
                 width: _tvColumnWidth,
                 child: pw.Text(
-                  '${tv}',
+                  '$tv',
                   textAlign: pw.TextAlign.center,
                   style: footerTextStyle,
                 ),

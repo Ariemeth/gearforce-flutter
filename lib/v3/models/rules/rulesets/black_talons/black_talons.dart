@@ -33,7 +33,7 @@ class BlackTalons extends RuleSet {
     List<String>? specialRules,
     List<Rule> subFactionRules = const [],
   }) : super(
-          FactionType.BlackTalon,
+          FactionType.blackTalon,
           data,
           name: name,
           description: description,
@@ -51,24 +51,24 @@ class BlackTalons extends RuleSet {
         text: type.name,
         id: coreTag,
         filters: const [
-          const UnitFilter(FactionType.BlackTalon),
-          const UnitFilter(FactionType.Airstrike),
-          const UnitFilter(FactionType.Universal),
-          const UnitFilter(FactionType.Universal_TerraNova),
-          const UnitFilter(FactionType.Terrain),
+          UnitFilter(FactionType.blackTalon),
+          UnitFilter(FactionType.airstrike),
+          UnitFilter(FactionType.universal),
+          UnitFilter(FactionType.universalTerraNova),
+          UnitFilter(FactionType.terrain),
         ],
       )
     ];
     return [...filters, ...super.availableUnitFilters(cgOptions)];
   }
 
-  factory BlackTalons.BTRT(DataV3 data, Settings settings) =>
+  factory BlackTalons.btrt(DataV3 data, Settings settings) =>
       BTRT(data, settings);
-  factory BlackTalons.BTIT(DataV3 data, Settings settings) =>
+  factory BlackTalons.btit(DataV3 data, Settings settings) =>
       BTIT(data, settings);
-  factory BlackTalons.BTST(DataV3 data, Settings settings) =>
+  factory BlackTalons.btst(DataV3 data, Settings settings) =>
       BTST(data, settings);
-  factory BlackTalons.BTAT(DataV3 data, Settings settings) =>
+  factory BlackTalons.btat(DataV3 data, Settings settings) =>
       BTAT(data, settings);
 }
 

@@ -47,20 +47,20 @@ final Rule ruleAllies = Rule(
   unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Allies',
       filters: [
-        const UnitFilter(FactionType.Caprice),
-        const UnitFilter(FactionType.Utopia),
-        const UnitFilter(FactionType.Eden),
-        const UnitFilter(
-          FactionType.Universal,
+        UnitFilter(FactionType.caprice),
+        UnitFilter(FactionType.utopia),
+        UnitFilter(FactionType.eden),
+        UnitFilter(
+          FactionType.universal,
           matcher: matchInfantry,
-          factionOverride: FactionType.Caprice,
+          factionOverride: FactionType.caprice,
         ),
       ],
       id: _ruleAlliesId),
   availableCommandLevelOverride: (u) {
-    if (u.faction == FactionType.Caprice ||
-        u.faction == FactionType.Utopia ||
-        u.faction == FactionType.Eden) {
+    if (u.faction == FactionType.caprice ||
+        u.faction == FactionType.utopia ||
+        u.faction == FactionType.eden) {
       return [CommandLevel.none];
     }
     return null;
@@ -79,7 +79,7 @@ final Rule ruleAsymmetry = Rule(
 final Rule ruleRadioBlackout = Rule(
   name: 'Radio Blackout',
   id: _ruleRadioBlackoutId,
-  factionMods: (ur, cg, u) => [BlackTalonMods.RadioBlackout()],
+  factionMods: (ur, cg, u) => [BlackTalonMods.radioBlackout()],
   description: 'One model per combat group with the ECM, or ECM+ trait may' +
       ' improve its EW skill by one for 1 TV each.',
 );

@@ -11,7 +11,7 @@ import 'package:gearforce/v3/models/unit/role.dart';
 import 'package:gearforce/v3/models/unit/unit.dart';
 import 'package:gearforce/v3/models/validation/validations.dart';
 
-const RoleType _defaultRoleType = RoleType.GP;
+const RoleType _defaultRoleType = RoleType.gp;
 
 enum GroupType {
   primary('Primary'),
@@ -32,7 +32,7 @@ class Group extends ChangeNotifier {
   }
 
   Map<String, dynamic> toJson() => {
-        'role': _role.toString().split('.').last,
+        'role': _role.toString().split('.').last.toUpperCase(),
         'units': _units.map((e) => e.toJson()).toList(),
       };
 
@@ -249,9 +249,9 @@ class Group extends ChangeNotifier {
   Validations _ensureVetStatus(Unit u, {bool tryFix = false}) {
     final results = Validations();
 
-    if (u.type == ModelType.Drone ||
-        u.type == ModelType.Terrain ||
-        u.type == ModelType.AreaTerrain ||
+    if (u.type == ModelType.drone ||
+        u.type == ModelType.terrain ||
+        u.type == ModelType.areaTerrain ||
         u.isVeteran) {
       return results;
     }

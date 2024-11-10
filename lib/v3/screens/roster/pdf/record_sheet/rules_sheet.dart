@@ -44,7 +44,7 @@ pw.Widget buildRulesSheet(
   final sheet = pw.Column(children: rules);
 
   return pw.Padding(
-    padding: pw.EdgeInsets.only(
+    padding: const pw.EdgeInsets.only(
       left: 10.0,
       right: 10.0,
       top: 10.0,
@@ -91,7 +91,7 @@ pw.Widget _buildRuleTable(
     ),
   );
   return pw.Padding(
-      padding: pw.EdgeInsets.only(
+      padding: const pw.EdgeInsets.only(
         bottom: 10.0,
       ),
       child: table);

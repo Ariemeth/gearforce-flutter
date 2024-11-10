@@ -5,6 +5,7 @@ class ConfirmationDialog extends StatelessWidget {
   final void Function(ConfirmationResult) onOptionSelected;
 
   const ConfirmationDialog({
+    super.key,
     required this.text,
     required this.onOptionSelected,
   });
@@ -16,17 +17,17 @@ class ConfirmationDialog extends StatelessWidget {
         children: [
           Text(
             text,
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
         ],
       ),
       children: [
         SimpleDialogOption(
           onPressed: () {
-            onOptionSelected(ConfirmationResult.Yes);
+            onOptionSelected(ConfirmationResult.yes);
             Navigator.pop(context);
           },
-          child: Center(
+          child: const Center(
             child: Text(
               'Yes',
               style: TextStyle(fontSize: 24, color: Colors.red),
@@ -35,10 +36,10 @@ class ConfirmationDialog extends StatelessWidget {
         ),
         SimpleDialogOption(
           onPressed: () {
-            onOptionSelected(ConfirmationResult.No);
+            onOptionSelected(ConfirmationResult.no);
             Navigator.pop(context);
           },
-          child: Center(
+          child: const Center(
             child: Text(
               'No',
               style: TextStyle(fontSize: 24, color: Colors.green),
@@ -50,4 +51,4 @@ class ConfirmationDialog extends StatelessWidget {
   }
 }
 
-enum ConfirmationResult { Yes, No }
+enum ConfirmationResult { yes, no }

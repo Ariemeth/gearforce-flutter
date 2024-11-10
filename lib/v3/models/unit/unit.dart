@@ -28,7 +28,7 @@ class Unit extends ChangeNotifier {
 
   CommandLevel _commandLevel = CommandLevel.none;
 
-  FactionType? factionOverride = null;
+  FactionType? factionOverride;
 
   List<String> _special = [];
   Unit({
@@ -38,7 +38,9 @@ class Unit extends ChangeNotifier {
   factory Unit.from(Unit original) {
     final newUnit = Unit(core: original.core);
     newUnit._commandLevel = original._commandLevel;
-    original._mods.forEach((m) => newUnit.addUnitMod(m));
+    for (var m in original._mods) {
+      newUnit.addUnitMod(m);
+    }
     newUnit._special = original.special;
     newUnit.factionOverride = original.factionOverride;
 
@@ -52,7 +54,7 @@ class Unit extends ChangeNotifier {
     CombatGroup? cg,
     UnitRoster roster,
   ) {
-    final api_version = json['version'] != null ? json['version'] as int : 1;
+    final apiVersion = json['version'] != null ? json['version'] as int : 1;
 
     final List<Unit> core = [];
     ruleset.availableUnitFilters(cg?.options).forEach((sfilter) {
@@ -66,7 +68,7 @@ class Unit extends ChangeNotifier {
       u = core.firstWhere((unit) => unit.core.name == variant);
     } catch (e) {
       print('Unable to find unit variant [$variant], $e');
-      throw e;
+      rethrow;
     }
 
     u._commandLevel = CommandLevel.fromString(json['command']);
@@ -80,7 +82,7 @@ class Unit extends ChangeNotifier {
       }
     }
 
-    switch (api_version) {
+    switch (apiVersion) {
       case 0:
       case 1:
         _loadV1UnitMods(json['mods'] as Map, u, faction, ruleset, cg, roster);
@@ -105,29 +107,29 @@ class Unit extends ChangeNotifier {
       return false;
     }
 
-    modMap.forEach((modJson) {
+    for (var modJson in modMap) {
       final savedMod = SavedMod.fromJson(modJson);
       BaseModification? mod;
       switch (ModificationTypeExtension.fromString(savedMod.type)) {
         case ModificationType.standard:
-          mod = ruleset.getStandardUpgrade(savedMod.ModId, u, cg, roster);
+          mod = ruleset.getStandardUpgrade(savedMod.modId, u, cg, roster);
           break;
         case ModificationType.veteran:
-          mod = ruleset.getVeteranUpgrade(savedMod.ModId, u, cg);
+          mod = ruleset.getVeteranUpgrade(savedMod.modId, u, cg);
           break;
         case ModificationType.duelist:
-          mod = ruleset.getDuelistUpgrade(savedMod.ModId, u, cg, roster);
+          mod = ruleset.getDuelistUpgrade(savedMod.modId, u, cg, roster);
           break;
         case ModificationType.faction:
-          mod = ruleset.getFactionModFromId(savedMod.ModId, roster, u);
+          mod = ruleset.getFactionModFromId(savedMod.modId, roster, u);
           break;
         case ModificationType.unit:
           mod = ruleset
               .availableUnitMods(u)
-              .firstWhere((unitMod) => unitMod.id == savedMod.ModId);
+              .firstWhere((unitMod) => unitMod.id == savedMod.modId);
           break;
         case ModificationType.custom:
-          mod = ruleset.getCustomUpgrade(savedMod.ModId);
+          mod = ruleset.getCustomUpgrade(savedMod.modId);
           break;
       }
       if (mod != null) {
@@ -146,7 +148,7 @@ class Unit extends ChangeNotifier {
         }
         u.addUnitMod(mod);
       }
-    });
+    }
     return true;
   }
 
@@ -163,7 +165,7 @@ class Unit extends ChangeNotifier {
     if (modMap['unit'] != null) {
       final mods = modMap['unit'] as List;
       var availableUnitMods = ruleset.availableUnitMods(u);
-      mods.forEach((loadedMod) {
+      for (var loadedMod in mods) {
         try {
           var mod = availableUnitMods
               .firstWhere((unitMod) => unitMod.id == loadedMod['id']);
@@ -175,12 +177,12 @@ class Unit extends ChangeNotifier {
         } catch (e) {
           print('unit mod $loadedMod not found in available mods, $e');
         }
-      });
+      }
     }
     if (modMap['standard'] != null && cg != null) {
       final mods = modMap['standard'] as List;
 
-      mods.forEach((loadedMod) {
+      for (var loadedMod in mods) {
         try {
           final modId = loadedMod['id'];
           var mod = ruleset.getStandardUpgrade(modId, u, cg, roster);
@@ -196,12 +198,12 @@ class Unit extends ChangeNotifier {
         } catch (e) {
           print('standard mod $loadedMod not found in available mods, $e');
         }
-      });
+      }
     }
     if (modMap['vet'] != null && cg != null) {
       final mods = modMap['vet'] as List;
 
-      mods.forEach((loadedMod) {
+      for (var loadedMod in mods) {
         try {
           final modId = loadedMod['id'];
           var mod = ruleset.getVeteranUpgrade(modId, u, cg);
@@ -217,12 +219,12 @@ class Unit extends ChangeNotifier {
         } catch (e) {
           print('vet mod $loadedMod not found in available mods, $e');
         }
-      });
+      }
     }
     if (modMap['duelist'] != null && cg != null) {
       final mods = modMap['duelist'] as List;
 
-      mods.forEach((loadedMod) {
+      for (var loadedMod in mods) {
         try {
           final modId = loadedMod['id'];
           var mod = ruleset.getDuelistUpgrade(modId, u, cg, roster);
@@ -238,20 +240,20 @@ class Unit extends ChangeNotifier {
         } catch (e) {
           print('duelist mod $loadedMod not found in available mods, $e');
         }
-      });
+      }
     }
 
     if (modMap['faction'] != null && cg != null) {
       final mods = modMap['faction'] as List;
 
-      mods.forEach((loadedMod) {
+      for (var loadedMod in mods) {
         try {
           final modId = loadedMod['id'];
 
           var mod = ruleset.getFactionModFromId(modId, roster, u);
           if (mod == null) {
             print('faction mod $modId could not be loaded');
-            return;
+            continue;
           }
           u.addUnitMod(mod);
           final selected = loadedMod['selected'];
@@ -261,7 +263,7 @@ class Unit extends ChangeNotifier {
         } catch (e) {
           print('faction mod $loadedMod not found in available mods, $e');
         }
-      });
+      }
     }
 
     var loadAttempts = 0;
@@ -274,16 +276,16 @@ class Unit extends ChangeNotifier {
   }
 
   int? get actions {
-    var value = this.core.actions;
-    for (var mod in this._mods) {
+    var value = core.actions;
+    for (var mod in _mods) {
       value = mod.applyMods(UnitAttribute.actions, value);
     }
     return value;
   }
 
   int? get armor {
-    var value = this.core.armor;
-    for (var mod in this._mods) {
+    var value = core.armor;
+    for (var mod in _mods) {
       value = mod.applyMods(UnitAttribute.armor, value);
     }
     return value;
@@ -359,39 +361,39 @@ class Unit extends ChangeNotifier {
   }
 
   int? get ew {
-    var value = this.core.ew;
-    for (var mod in this._mods) {
+    var value = core.ew;
+    for (var mod in _mods) {
       value = mod.applyMods(UnitAttribute.ew, value);
     }
     return value;
   }
 
   int? get gunnery {
-    var value = this.core.gunnery;
-    for (var mod in this._mods) {
+    var value = core.gunnery;
+    for (var mod in _mods) {
       value = mod.applyMods(UnitAttribute.gunnery, value);
     }
     return value;
   }
 
   String get height {
-    return this.core.height;
+    return core.height;
   }
 
   int? get hull {
-    var value = this.core.hull;
-    for (var mod in this._mods) {
+    var value = core.hull;
+    for (var mod in _mods) {
       value = mod.applyMods(UnitAttribute.hull, value);
     }
     return value;
   }
 
   bool get isDuelist {
-    return this.traits.any((t) => t.name == 'Duelist');
+    return traits.any((t) => t.name == 'Duelist');
   }
 
   bool get isVeteran {
-    return this.traits.any((t) => t.name == 'Vet');
+    return traits.any((t) => t.name == 'Vet');
   }
 
   List<String> get modNames => _mods.map((m) => m.name).toList();
@@ -410,9 +412,9 @@ class Unit extends ChangeNotifier {
 
   List<Weapon> get weapons {
     var newList =
-        this.core.weapons.map((weapon) => Weapon.fromWeapon(weapon)).toList();
+        core.weapons.map((weapon) => Weapon.fromWeapon(weapon)).toList();
 
-    for (var mod in this._mods) {
+    for (var mod in _mods) {
       newList = mod.applyMods(UnitAttribute.weapons, newList);
     }
 
@@ -422,9 +424,9 @@ class Unit extends ChangeNotifier {
   }
 
   Movement? get movement {
-    var value = this.core.movement;
+    var value = core.movement;
 
-    for (var mod in this._mods) {
+    for (var mod in _mods) {
       value = mod.applyMods(UnitAttribute.movement, value);
     }
 
@@ -432,9 +434,9 @@ class Unit extends ChangeNotifier {
   }
 
   String get name {
-    var value = this.core.name;
+    var value = core.name;
 
-    for (var mod in this._mods) {
+    for (var mod in _mods) {
       value = mod.applyMods(UnitAttribute.name, value);
     }
 
@@ -442,17 +444,17 @@ class Unit extends ChangeNotifier {
   }
 
   int? get piloting {
-    var value = this.core.piloting;
-    for (var mod in this._mods) {
+    var value = core.piloting;
+    for (var mod in _mods) {
       value = mod.applyMods(UnitAttribute.piloting, value);
     }
     return value;
   }
 
   Roles? get role {
-    var value = this.core.role;
+    var value = core.role;
 
-    for (var mod in this._mods) {
+    for (var mod in _mods) {
       value = mod.applyMods(UnitAttribute.roles, value);
     }
 
@@ -460,26 +462,25 @@ class Unit extends ChangeNotifier {
   }
 
   List<String> get special {
-    var value = this._special.toList();
-    for (var mod in this._mods) {
+    var value = _special.toList();
+    for (var mod in _mods) {
       value = mod.applyMods(UnitAttribute.special, value);
     }
     return value;
   }
 
   int? get structure {
-    var value = this.core.structure;
-    for (var mod in this._mods) {
+    var value = core.structure;
+    for (var mod in _mods) {
       value = mod.applyMods(UnitAttribute.structure, value);
     }
     return value;
   }
 
   List<Trait> get traits {
-    var newList =
-        this.core.traits.map((trait) => Trait.fromTrait(trait)).toList();
+    var newList = core.traits.map((trait) => Trait.fromTrait(trait)).toList();
 
-    for (var mod in this._mods) {
+    for (var mod in _mods) {
       newList = mod.applyMods(UnitAttribute.traits, newList);
     }
 
@@ -489,10 +490,10 @@ class Unit extends ChangeNotifier {
   }
 
   int get tv {
-    var value = this.core.tv;
+    var value = core.tv;
     value += ruleset?.commandTVCost(_commandLevel) ?? 0;
 
-    for (var mod in this._mods) {
+    for (var mod in _mods) {
       value = mod.applyMods(UnitAttribute.tv, value);
     }
 
@@ -500,9 +501,9 @@ class Unit extends ChangeNotifier {
   }
 
   ModelType get type {
-    var value = this.core.type;
+    var value = core.type;
 
-    for (var mod in this._mods) {
+    for (var mod in _mods) {
       value = mod.applyMods(UnitAttribute.type, value);
     }
 
@@ -510,7 +511,7 @@ class Unit extends ChangeNotifier {
   }
 
   FactionType get faction {
-    var value = this.core.faction;
+    var value = core.faction;
 
     return factionOverride ?? value;
   }
@@ -518,7 +519,7 @@ class Unit extends ChangeNotifier {
   int get commandPoints {
     var cp = 0;
 
-    for (var mod in this._mods) {
+    for (var mod in _mods) {
       cp = mod.applyMods(UnitAttribute.cp, cp);
     }
 
@@ -535,16 +536,16 @@ class Unit extends ChangeNotifier {
   int get skillPoints {
     var sp = 0;
 
-    for (var mod in this._mods) {
+    for (var mod in _mods) {
       sp = mod.applyMods(UnitAttribute.sp, sp);
     }
 
-    if (this.isVeteran) {
+    if (isVeteran) {
       sp += 1;
     }
 
-    for (var trait in this.traits) {
-      if (trait.isSameType(Trait.SP(0))) {
+    for (var trait in traits) {
+      if (trait.isSameType(Trait.sp(0))) {
         sp += trait.level ?? 0;
       }
     }
@@ -569,13 +570,13 @@ class Unit extends ChangeNotifier {
       rule.onModAdded!(this, mod.id);
     });
 
-    _mods.forEach((m) {
+    for (var m in _mods) {
       final updatedMod = m.refreshData();
       updatedMod.options?.validate();
       if (updatedMod != m) {
         _mods[_mods.indexWhere((element) => element.id == updatedMod.id)];
       }
-    });
+    }
     notifyListeners();
   }
 
@@ -583,12 +584,11 @@ class Unit extends ChangeNotifier {
     UnitAttribute att, {
     String? modIDToSkip,
   }) {
-    assert(T == att.expected_type, 'Expected [${att.expected_type}], got [$T]');
+    assert(T == att.expectedType, 'Expected [${att.expectedType}], got [$T]');
 
-    var value = this.core.attribute(att) as T;
+    var value = core.attribute(att) as T;
 
-    for (var mod in this
-        ._mods
+    for (var mod in _mods
         .where((m) => modIDToSkip == null ? true : m.id != modIDToSkip)) {
       value = mod.applyMods(att, value);
     }
@@ -606,10 +606,10 @@ class Unit extends ChangeNotifier {
   }
 
   BaseModification? getMod(String id) {
-    if (!this.hasMod(id)) {
+    if (!hasMod(id)) {
       return null;
     }
-    return this._mods.firstWhere((mod) => mod.id == id);
+    return _mods.firstWhere((mod) => mod.id == id);
   }
 
   List<BaseModification> getMods() {
@@ -642,25 +642,25 @@ class Unit extends ChangeNotifier {
 
   Validations validate({bool tryFix = false}) {
     Validations validationErrors = Validations();
-    final g = this.group;
+    final g = group;
     if (g == null) {
-      validationErrors.add(Validation(
+      validationErrors.add(const Validation(
         false,
-        issue: "Unit does not have a group",
+        issue: 'Unit does not have a group',
       ));
     }
     final cg = group?.combatGroup;
     if (cg == null) {
-      validationErrors.add(Validation(
+      validationErrors.add(const Validation(
         false,
-        issue: "Unit does not have a combat group",
+        issue: 'Unit does not have a combat group',
       ));
     }
     final roster = cg?.roster;
     if (roster == null) {
-      validationErrors.add(Validation(
+      validationErrors.add(const Validation(
         false,
-        issue: "Unit does not have a roster",
+        issue: 'Unit does not have a roster',
       ));
     }
 
@@ -679,18 +679,18 @@ class Unit extends ChangeNotifier {
         );
       }).toList();
 
-      modsToRemove.forEach((mod) {
+      for (var mod in modsToRemove) {
         removeUnitMod(mod.id);
-      });
+      }
 
-      _mods.forEach((m) {
+      for (var m in _mods) {
         final updatedMod = m.refreshData();
         updatedMod.options?.validate();
         if (updatedMod != m) {
           print('replacing mod ${m.id}\n');
           _mods[_mods.indexWhere((mod) => mod.id == updatedMod.id)];
         }
-      });
+      }
 
       if (commandLevel != CommandLevel.none) {
         final canBeCommand =
@@ -700,7 +700,7 @@ class Unit extends ChangeNotifier {
         }
       }
     } else {
-      _mods.forEach((mod) {
+      for (var mod in _mods) {
         if (!mod.requirementCheck(
           roster!.rulesetNotifer.value,
           roster,
@@ -713,7 +713,7 @@ class Unit extends ChangeNotifier {
                 'mod ${mod.id} does not met its requirement check during validation',
           ));
         }
-      });
+      }
 
       if (commandLevel != CommandLevel.none) {
         final canBeCommand =
@@ -799,7 +799,7 @@ Map<BaseModification, Map<String, dynamic>> _loadOptionsFromJSON(
               failedToLoadOptions[modWithOptions] = modOptions;
               print('was unable to find a sub option that matches the ' +
                   'selected text value of $subOptionText for mod ' +
-                  '${modWithOptions.id}');
+                  modWithOptions.id);
             }
           }
         }

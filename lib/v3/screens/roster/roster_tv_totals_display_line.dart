@@ -3,13 +3,13 @@ import 'package:gearforce/widgets/boxed_int.dart';
 
 class RosterTVTotalsDisplayLine extends StatelessWidget {
   const RosterTVTotalsDisplayLine({
-    Key? key,
+    super.key,
     required this.text,
     required this.value,
     this.textColor = Colors.black,
     this.spacing = 8.0,
     this.padding = const EdgeInsets.only(left: 5, top: 5),
-  }) : super(key: key);
+  });
 
   final int value;
   final Color textColor;
@@ -32,7 +32,7 @@ class RosterTVTotalsDisplayLine extends StatelessWidget {
           padding: EdgeInsets.only(left: spacing),
           child: Text(
             text,
-            style: TextStyle(fontSize: 16),
+            style: const TextStyle(fontSize: 16),
           ),
         ),
       ],

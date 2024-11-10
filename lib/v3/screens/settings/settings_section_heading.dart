@@ -15,7 +15,7 @@ class SettingsSectionHeading extends StatelessWidget {
       padding: padding,
       child: Text(
         text,
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.w500,
         ),

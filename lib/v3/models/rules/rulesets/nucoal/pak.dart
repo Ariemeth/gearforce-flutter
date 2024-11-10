@@ -74,15 +74,15 @@ final Rule ruleAllies = Rule(
     name: 'Allies',
     id: _ruleAlliesId,
     hasGroupRole: (unit, target, group) {
-      if (!(unit.faction == FactionType.North ||
-          unit.faction == FactionType.South)) {
+      if (!(unit.faction == FactionType.north ||
+          unit.faction == FactionType.south)) {
         return null;
       }
 
-      if (target == RoleType.GP ||
-          target == RoleType.SK ||
-          target == RoleType.FS ||
-          target == RoleType.RC) {
+      if (target == RoleType.gp ||
+          target == RoleType.sk ||
+          target == RoleType.fs ||
+          target == RoleType.rc) {
         return true;
       }
       return false;
@@ -91,11 +91,11 @@ final Rule ruleAllies = Rule(
         text: 'Allies',
         filters: [
           UnitFilter(
-            FactionType.North,
+            FactionType.north,
             matcher: matchNonVetGears,
           ),
           UnitFilter(
-            FactionType.South,
+            FactionType.south,
             matcher: matchNonVetGears,
           ),
         ],
@@ -112,7 +112,7 @@ final Rule ruleAcquiredTech = Rule(
         text: 'Acquired Tech',
         filters: [
           UnitFilter(
-            FactionType.CEF,
+            FactionType.cef,
             matcher: _matchAcquiredTech,
           ),
         ],

@@ -24,18 +24,18 @@ class Trait {
   @override
   String toString() {
     String? levelStr;
-    if (this.level != null) {
-      levelStr = ':${this.level}';
+    if (level != null) {
+      levelStr = ':$level';
     }
 
-    if (this.type != null) {
-      levelStr = levelStr == null ? ':${this.type}' : '$levelStr ${this.type}';
+    if (type != null) {
+      levelStr = levelStr == null ? ':$type' : '$levelStr $type';
     }
 
-    if (this.isAux) {
+    if (isAux) {
       levelStr = levelStr == null ? ' (Aux)' : '$levelStr (Aux)';
     }
-    return levelStr != null ? '${this.name}$levelStr' : '${this.name}';
+    return levelStr != null ? '$name$levelStr' : name;
   }
 
   @override
@@ -53,17 +53,17 @@ class Trait {
 
   /// Checks if the [Trait] other has the same name.
   bool isSameType(Trait other) {
-    return this.name == other.name;
+    return name == other.name;
   }
 
   /// Checks if the [Trait] other has the same level.
   bool isSameLevel(Trait other) {
-    return this.level == other.level;
+    return level == other.level;
   }
 
   /// Checks to see if the [Trait] other has the same name and level.
   bool isSame(Trait other) {
-    return this.name == other.name && this.level == other.level;
+    return name == other.name && level == other.level;
   }
 
   factory Trait.fromTrait(
@@ -73,10 +73,10 @@ class Trait {
     bool? isAux,
   }) {
     return Trait(
-      name: name == null ? original.name : name,
+      name: name ?? original.name,
       type: original.type,
-      level: level != null ? level : original.level,
-      isAux: isAux != null ? isAux : original.isAux,
+      level: level ?? original.level,
+      isAux: isAux ?? original.isAux,
       description: original.description,
     );
   }
@@ -112,179 +112,179 @@ class Trait {
 
     switch (nameCheck) {
       case 'AA':
-        return Trait.AA(isAux: auxCheck);
+        return Trait.aa(isAux: auxCheck);
       case 'Advanced':
-        return Trait.Advanced(isAux: auxCheck);
+        return Trait.advanced(isAux: auxCheck);
       case 'AOE':
-        return Trait.AOE(level, isAux: auxCheck);
+        return Trait.aoe(level, isAux: auxCheck);
       case 'Agile':
-        return Trait.Agile(isAux: auxCheck);
+        return Trait.agile(isAux: auxCheck);
       case 'AI':
-        return Trait.AI(isAux: auxCheck);
+        return Trait.ai(isAux: auxCheck);
       case 'Airdrop':
-        return Trait.Airdrop(isAux: auxCheck);
+        return Trait.airdrop(isAux: auxCheck);
       case 'Amphib':
-        return Trait.Amphib(isAux: auxCheck);
+        return Trait.amphib(isAux: auxCheck);
       case 'AMS':
-        return Trait.AMS(isAux: auxCheck);
+        return Trait.ams(isAux: auxCheck);
       case 'Apex':
-        return Trait.Apex(isAux: auxCheck);
+        return Trait.apex(isAux: auxCheck);
       case 'AP':
-        return Trait.AP(level, isAux: auxCheck);
+        return Trait.ap(level, isAux: auxCheck);
       case 'Auto':
-        return Trait.Auto(isAux: auxCheck);
+        return Trait.auto(isAux: auxCheck);
       case 'Aux':
-        return Trait.Aux();
+        return Trait.aux();
       case 'B':
         return Trait.B(isAux: auxCheck);
       case 'Blast':
-        return Trait.Blast(isAux: auxCheck);
+        return Trait.blast(isAux: auxCheck);
       case 'Brace':
-        return Trait.Brace(isAux: auxCheck);
+        return Trait.brace(isAux: auxCheck);
       case 'Brawl':
-        return Trait.Brawl(level, isAux: auxCheck);
+        return Trait.brawl(level, isAux: auxCheck);
       case 'Burst':
-        return Trait.Burst(level, isAux: auxCheck);
+        return Trait.burst(level, isAux: auxCheck);
       case 'Climber':
-        return Trait.Climber(isAux: auxCheck);
+        return Trait.climber(isAux: auxCheck);
       case 'Conscript':
-        return Trait.Conscript(isAux: auxCheck);
+        return Trait.conscript(isAux: auxCheck);
       case 'CBS':
-        return Trait.CBS(isAux: auxCheck);
+        return Trait.cbs(isAux: auxCheck);
       case 'Comms':
-        return Trait.Comms(isAux: auxCheck);
+        return Trait.comms(isAux: auxCheck);
       case 'Corrosion':
-        return Trait.Corrosion(isAux: auxCheck);
+        return Trait.corrosion(isAux: auxCheck);
       case 'Demo':
-        return Trait.Demo(level, isAux: auxCheck);
+        return Trait.demo(level, isAux: auxCheck);
       case 'Duelist':
-        return Trait.Duelist();
+        return Trait.duelist();
       case 'ECM':
-        return Trait.ECM(isAux: auxCheck);
+        return Trait.ecm(isAux: auxCheck);
       case 'ECM+':
-        return Trait.ECMPlus(isAux: auxCheck);
+        return Trait.ecmPlus(isAux: auxCheck);
       case 'ECCM':
-        return Trait.ECCM(isAux: auxCheck);
+        return Trait.eccm(isAux: auxCheck);
       case 'Field Armor':
-        return Trait.FieldArmor(isAux: auxCheck);
+        return Trait.fieldArmor(isAux: auxCheck);
       case 'Fire':
-        return Trait.Fire(level, isAux: auxCheck);
+        return Trait.fire(level, isAux: auxCheck);
       case 'Flak':
-        return Trait.Flak(isAux: auxCheck);
+        return Trait.flak(isAux: auxCheck);
       case 'Frag':
-        return Trait.Frag(isAux: auxCheck);
+        return Trait.frag(isAux: auxCheck);
       case 'Guided':
-        return Trait.Guided(isAux: auxCheck);
+        return Trait.guided(isAux: auxCheck);
       case 'Hand':
       case 'Hands':
-        return Trait.Hands(isAux: auxCheck);
+        return Trait.hands(isAux: auxCheck);
       case 'Haywire':
-        return Trait.Haywire(isAux: auxCheck);
+        return Trait.haywire(isAux: auxCheck);
       case 'Jetpack':
-        return Trait.Jetpack(level, isAux: auxCheck);
+        return Trait.jetpack(level, isAux: auxCheck);
       case 'Jump Jets':
-        return Trait.JumpJets(level, isAux: auxCheck);
+        return Trait.jumpJets(level, isAux: auxCheck);
       case 'L':
         return Trait.L(isAux: auxCheck);
       case 'LA':
-        return Trait.LA(level, isAux: auxCheck);
+        return Trait.la(level, isAux: auxCheck);
       case 'Link':
-        return Trait.Link(isAux: auxCheck);
+        return Trait.link(isAux: auxCheck);
       case 'Lumbering':
-        return Trait.Lumbering(isAux: auxCheck);
+        return Trait.lumbering(isAux: auxCheck);
       case 'Medic':
-        return Trait.Medic(isAux: auxCheck);
+        return Trait.medic(isAux: auxCheck);
       case 'Mine':
-        return Trait.Mine(level, isAux: auxCheck);
+        return Trait.mine(level, isAux: auxCheck);
       case 'Occupancy':
         if (type == null) {
           print('Occupancy type is null');
         }
-        return Trait.Occupancy(level, type ?? 'Unknown', isAux: auxCheck);
+        return Trait.occupancy(level, type ?? 'Unknown', isAux: auxCheck);
       case 'or':
       case 'OR':
-        return Trait.Or();
+        return Trait.or();
       case 'Offroad':
-        return Trait.Offroad(isAux: auxCheck);
+        return Trait.offroad(isAux: auxCheck);
       case 'Precise':
-        return Trait.Precise(isAux: auxCheck);
+        return Trait.precise(isAux: auxCheck);
       case 'Precise+':
-        return Trait.PrecisePlus(isAux: auxCheck);
+        return Trait.precisePlus(isAux: auxCheck);
       case 'Proximity':
-        return Trait.Proximity(isAux: auxCheck);
+        return Trait.proximity(isAux: auxCheck);
       case 'R':
         return Trait.R(isAux: auxCheck);
       case 'Reach':
-        return Trait.Reach(level, isAux: auxCheck);
+        return Trait.reach(level, isAux: auxCheck);
       case 'React':
-        return Trait.React(isAux: auxCheck);
+        return Trait.react(isAux: auxCheck);
       case 'React+':
-        return Trait.ReactPlus(isAux: auxCheck);
+        return Trait.reactPlus(isAux: auxCheck);
       case 'Repair':
-        return Trait.Repair(isAux: auxCheck);
+        return Trait.repair(isAux: auxCheck);
       case 'Resist':
         switch (type) {
           case 'C':
-            return Trait.ResistC(isAux: auxCheck);
+            return Trait.resistC(isAux: auxCheck);
           case 'F':
-            return Trait.ResistF(isAux: auxCheck);
+            return Trait.resistF(isAux: auxCheck);
           case 'H':
-            return Trait.ResistH(isAux: auxCheck);
+            return Trait.resistH(isAux: auxCheck);
         }
       case 'Satup':
       case 'SatUp':
-        return Trait.SatUp(isAux: auxCheck);
+        return Trait.satUp(isAux: auxCheck);
       case 'Sensor Boom':
-        return Trait.SensorBoom(isAux: auxCheck);
+        return Trait.sensorBoom(isAux: auxCheck);
       case 'Sensors':
-        return Trait.Sensors(level, isAux: auxCheck);
+        return Trait.sensors(level, isAux: auxCheck);
       case 'Shield':
-        return Trait.Shield(isAux: auxCheck);
+        return Trait.shield(isAux: auxCheck);
       case 'Shield+':
-        return Trait.ShieldPlus(isAux: auxCheck);
+        return Trait.shieldPlus(isAux: auxCheck);
       case 'Silent':
-        return Trait.Silent(isAux: auxCheck);
+        return Trait.silent(isAux: auxCheck);
       case 'Smoke':
-        return Trait.Smoke(isAux: auxCheck);
+        return Trait.smoke(isAux: auxCheck);
       case 'SP':
-        return Trait.SP(level, isAux: auxCheck);
+        return Trait.sp(level, isAux: auxCheck);
       case 'Split':
-        return Trait.Split(isAux: auxCheck);
+        return Trait.split(isAux: auxCheck);
       case 'Spray':
-        return Trait.Spray(isAux: auxCheck);
+        return Trait.spray(isAux: auxCheck);
       case 'Stable':
-        return Trait.Stable(isAux: auxCheck);
+        return Trait.stable(isAux: auxCheck);
       case 'Stationary':
-        return Trait.Stationary(isAux: auxCheck);
+        return Trait.stationary(isAux: auxCheck);
       case 'Stealth':
-        return Trait.Stealth(isAux: auxCheck);
+        return Trait.stealth(isAux: auxCheck);
       case 'Sub':
-        return Trait.Sub(isAux: auxCheck);
+        return Trait.sub(isAux: auxCheck);
       case 'Supply':
-        return Trait.Supply(isAux: auxCheck);
+        return Trait.supply(isAux: auxCheck);
       case 'TD':
-        return Trait.TD(isAux: auxCheck);
+        return Trait.td(isAux: auxCheck);
       case 'Towed':
-        return Trait.Towed(isAux: auxCheck);
+        return Trait.towed(isAux: auxCheck);
       case 'Transport':
         if (type == null) {
           print('Transport type is null');
         }
-        return Trait.Transport(level, type ?? 'Unknown', isAux: auxCheck);
+        return Trait.transport(level, type ?? 'Unknown', isAux: auxCheck);
       case 'T':
         return Trait.T(isAux: auxCheck);
       case 'Vet':
-        return Trait.Vet();
+        return Trait.vet();
       case 'VTOL':
-        return Trait.VTOL(isAux: auxCheck);
+        return Trait.vtol(isAux: auxCheck);
       case 'Vuln':
         switch (type) {
           case 'C':
-            return Trait.VulnC();
+            return Trait.vulnC();
           case 'F':
-            return Trait.VulnF();
+            return Trait.vulnF();
           case 'H':
-            return Trait.VulnH();
+            return Trait.vulnH();
         }
       default:
         print('Unknown trait name [$nameCheck]');
@@ -301,7 +301,7 @@ class Trait {
     return unknownTrait;
   }
 
-  factory Trait.AA({bool isAux = false}) {
+  factory Trait.aa({bool isAux = false}) {
     return Trait(
       name: 'AA',
       isAux: isAux,
@@ -312,7 +312,7 @@ class Trait {
     );
   }
 
-  factory Trait.Advanced({bool isAux = false}) {
+  factory Trait.advanced({bool isAux = false}) {
     return Trait(
       name: 'Advanced',
       isAux: isAux,
@@ -321,7 +321,7 @@ class Trait {
     );
   }
 
-  factory Trait.AOE(int level, {bool isAux = false}) {
+  factory Trait.aoe(int level, {bool isAux = false}) {
     return Trait(
       name: 'AOE',
       level: level,
@@ -331,7 +331,7 @@ class Trait {
     );
   }
 
-  factory Trait.Agile({bool isAux = false}) {
+  factory Trait.agile({bool isAux = false}) {
     return Trait(
       name: 'Agile',
       isAux: isAux,
@@ -340,7 +340,7 @@ class Trait {
     );
   }
 
-  factory Trait.AI({bool isAux = false}) {
+  factory Trait.ai({bool isAux = false}) {
     return Trait(
       name: 'AI',
       isAux: isAux,
@@ -350,7 +350,7 @@ class Trait {
     );
   }
 
-  factory Trait.Airdrop({bool isAux = false}) {
+  factory Trait.airdrop({bool isAux = false}) {
     return Trait(
       name: 'Airdrop',
       isAux: isAux,
@@ -360,7 +360,7 @@ class Trait {
     );
   }
 
-  factory Trait.Amphib({bool isAux = false}) {
+  factory Trait.amphib({bool isAux = false}) {
     return Trait(
       name: 'Amphib',
       isAux: isAux,
@@ -368,7 +368,7 @@ class Trait {
     );
   }
 
-  factory Trait.AMS({bool isAux = false}) {
+  factory Trait.ams({bool isAux = false}) {
     return Trait(
       name: 'AMS',
       isAux: isAux,
@@ -377,7 +377,7 @@ class Trait {
     );
   }
 
-  factory Trait.Apex({bool isAux = false}) {
+  factory Trait.apex({bool isAux = false}) {
     return Trait(
       name: 'Apex',
       isAux: isAux,
@@ -386,7 +386,7 @@ class Trait {
     );
   }
 
-  factory Trait.AP(int level, {bool isAux = false}) {
+  factory Trait.ap(int level, {bool isAux = false}) {
     return Trait(
       name: 'AP',
       level: level,
@@ -397,7 +397,7 @@ class Trait {
     );
   }
 
-  factory Trait.Auto({bool isAux = false}) {
+  factory Trait.auto({bool isAux = false}) {
     return Trait(
       name: 'Auto',
       isAux: isAux,
@@ -408,7 +408,7 @@ class Trait {
     );
   }
 
-  factory Trait.Aux() {
+  factory Trait.aux() {
     return const Trait(
       name: 'Aux',
       description: 'Weapons and traits with the aux trait may not be used' +
@@ -426,7 +426,7 @@ class Trait {
     );
   }
 
-  factory Trait.Blast({bool isAux = false}) {
+  factory Trait.blast({bool isAux = false}) {
     return Trait(
       name: 'Blast',
       isAux: isAux,
@@ -439,7 +439,7 @@ class Trait {
     );
   }
 
-  factory Trait.Brace({bool isAux = false}) {
+  factory Trait.brace({bool isAux = false}) {
     return Trait(
       name: 'Brace',
       isAux: isAux,
@@ -447,7 +447,7 @@ class Trait {
     );
   }
 
-  factory Trait.Brawl(int level, {bool isAux = false}) {
+  factory Trait.brawl(int level, {bool isAux = false}) {
     return Trait(
       name: 'Brawl',
       level: level,
@@ -459,7 +459,7 @@ class Trait {
     );
   }
 
-  factory Trait.Burst(int level, {bool isAux = false}) {
+  factory Trait.burst(int level, {bool isAux = false}) {
     return Trait(
       name: 'Burst',
       level: level,
@@ -469,7 +469,7 @@ class Trait {
     );
   }
 
-  factory Trait.Climber({bool isAux = false}) {
+  factory Trait.climber({bool isAux = false}) {
     return Trait(
       name: 'Climber',
       isAux: isAux,
@@ -478,7 +478,7 @@ class Trait {
     );
   }
 
-  factory Trait.CombinationWeapon() {
+  factory Trait.combinationWeapon() {
     return const Trait(
       name: 'Combination Weapon',
       description: 'Weapons separated by a forward slash ( / ) are' +
@@ -497,7 +497,7 @@ class Trait {
     );
   }
 
-  factory Trait.Conscript({bool isAux = false}) {
+  factory Trait.conscript({bool isAux = false}) {
     return Trait(
       name: 'Conscript',
       isAux: isAux,
@@ -509,7 +509,7 @@ class Trait {
     );
   }
 
-  factory Trait.CBS({bool isAux = false}) {
+  factory Trait.cbs({bool isAux = false}) {
     return Trait(
       name: 'CBS',
       isAux: isAux,
@@ -518,7 +518,7 @@ class Trait {
     );
   }
 
-  factory Trait.Comms({bool isAux = false}) {
+  factory Trait.comms({bool isAux = false}) {
     return Trait(
       name: 'Comms',
       isAux: isAux,
@@ -536,7 +536,7 @@ class Trait {
     );
   }
 
-  factory Trait.Corrosion({bool isAux = false}) {
+  factory Trait.corrosion({bool isAux = false}) {
     return Trait(
       name: 'Corrosion',
       isAux: isAux,
@@ -552,7 +552,7 @@ class Trait {
     );
   }
 
-  factory Trait.Demo(int level, {bool isAux = false}) {
+  factory Trait.demo(int level, {bool isAux = false}) {
     return Trait(
       name: 'Demo',
       level: level,
@@ -568,7 +568,7 @@ class Trait {
     );
   }
 
-  factory Trait.Duelist() {
+  factory Trait.duelist() {
     return const Trait(
       name: 'Duelist',
       description: 'A model with the Duelist trait may purchase veteran and' +
@@ -576,7 +576,7 @@ class Trait {
     );
   }
 
-  factory Trait.ECM({bool isAux = false}) {
+  factory Trait.ecm({bool isAux = false}) {
     return Trait(
       name: 'ECM',
       isAux: isAux,
@@ -589,7 +589,7 @@ class Trait {
     );
   }
 
-  factory Trait.ECMPlus({bool isAux = false}) {
+  factory Trait.ecmPlus({bool isAux = false}) {
     return Trait(
       name: 'ECM+',
       isAux: isAux,
@@ -600,7 +600,7 @@ class Trait {
     );
   }
 
-  factory Trait.ECCM({bool isAux = false}) {
+  factory Trait.eccm({bool isAux = false}) {
     return Trait(
       name: 'ECCM',
       isAux: isAux,
@@ -613,7 +613,7 @@ class Trait {
     );
   }
 
-  factory Trait.FieldArmor({bool isAux = false}) {
+  factory Trait.fieldArmor({bool isAux = false}) {
     return Trait(
       name: 'Field Armor',
       isAux: isAux,
@@ -624,7 +624,7 @@ class Trait {
     );
   }
 
-  factory Trait.Fire(int level, {bool isAux = false}) {
+  factory Trait.fire(int level, {bool isAux = false}) {
     return Trait(
       name: 'Fire',
       level: level,
@@ -636,7 +636,7 @@ class Trait {
     );
   }
 
-  factory Trait.Flak({bool isAux = false}) {
+  factory Trait.flak({bool isAux = false}) {
     return Trait(
       name: 'Flak',
       isAux: isAux,
@@ -645,7 +645,7 @@ class Trait {
     );
   }
 
-  factory Trait.Frag({bool isAux = false}) {
+  factory Trait.frag({bool isAux = false}) {
     return Trait(
       name: 'Frag',
       isAux: isAux,
@@ -654,7 +654,7 @@ class Trait {
     );
   }
 
-  factory Trait.Guided({bool isAux = false}) {
+  factory Trait.guided({bool isAux = false}) {
     return Trait(
       name: 'Guided',
       isAux: isAux,
@@ -664,7 +664,7 @@ class Trait {
     );
   }
 
-  factory Trait.Hands({bool isAux = false}) {
+  factory Trait.hands({bool isAux = false}) {
     return Trait(
       name: 'Hands',
       isAux: isAux,
@@ -673,7 +673,7 @@ class Trait {
     );
   }
 
-  factory Trait.Haywire({bool isAux = false}) {
+  factory Trait.haywire({bool isAux = false}) {
     return Trait(
       name: 'Haywire',
       isAux: isAux,
@@ -689,7 +689,7 @@ class Trait {
     );
   }
 
-  factory Trait.Jetpack(int level, {bool isAux = false}) {
+  factory Trait.jetpack(int level, {bool isAux = false}) {
     return Trait(
       name: 'Jetpack',
       level: level,
@@ -709,7 +709,7 @@ class Trait {
     );
   }
 
-  factory Trait.JumpJets(int level, {bool isAux = false}) {
+  factory Trait.jumpJets(int level, {bool isAux = false}) {
     return Trait(
       name: 'Jump Jets',
       level: level,
@@ -732,7 +732,7 @@ class Trait {
     );
   }
 
-  factory Trait.LA(int level, {bool isAux = false}) {
+  factory Trait.la(int level, {bool isAux = false}) {
     return Trait(
       name: 'LA',
       level: level,
@@ -743,7 +743,7 @@ class Trait {
     );
   }
 
-  factory Trait.Link({bool isAux = false}) {
+  factory Trait.link({bool isAux = false}) {
     return Trait(
       name: 'Link',
       isAux: isAux,
@@ -752,7 +752,7 @@ class Trait {
     );
   }
 
-  factory Trait.Lumbering({bool isAux = false}) {
+  factory Trait.lumbering({bool isAux = false}) {
     return Trait(
       name: 'Lumbering',
       isAux: isAux,
@@ -761,7 +761,7 @@ class Trait {
     );
   }
 
-  factory Trait.Medic({bool isAux = false}) {
+  factory Trait.medic({bool isAux = false}) {
     return Trait(
       name: 'Medic',
       isAux: isAux,
@@ -777,7 +777,7 @@ class Trait {
     );
   }
 
-  factory Trait.Mine(int level, {bool isAux = false}) {
+  factory Trait.mine(int level, {bool isAux = false}) {
     return Trait(
       name: 'Mine',
       level: level,
@@ -790,7 +790,7 @@ class Trait {
     );
   }
 
-  factory Trait.Occupancy(int level, String type, {bool isAux = false}) {
+  factory Trait.occupancy(int level, String type, {bool isAux = false}) {
     return Trait(
       name: 'Occupancy',
       level: level,
@@ -809,7 +809,7 @@ class Trait {
     );
   }
 
-  factory Trait.Offroad({bool isAux = false}) {
+  factory Trait.offroad({bool isAux = false}) {
     return Trait(
       name: 'Offroad',
       isAux: isAux,
@@ -819,7 +819,7 @@ class Trait {
     );
   }
 
-  factory Trait.Or() {
+  factory Trait.or() {
     return const Trait(
       name: 'Or',
       description: 'This trait is always accompanied by multiple ammunition' +
@@ -828,7 +828,7 @@ class Trait {
     );
   }
 
-  factory Trait.Precise({bool isAux = false}) {
+  factory Trait.precise({bool isAux = false}) {
     return Trait(
       name: 'Precise',
       isAux: isAux,
@@ -840,7 +840,7 @@ class Trait {
     );
   }
 
-  factory Trait.PrecisePlus({bool isAux = false}) {
+  factory Trait.precisePlus({bool isAux = false}) {
     return Trait(
       name: 'Precise+',
       isAux: isAux,
@@ -853,7 +853,7 @@ class Trait {
     );
   }
 
-  factory Trait.Proximity({bool isAux = false}) {
+  factory Trait.proximity({bool isAux = false}) {
     return Trait(
       name: 'Proximity',
       isAux: isAux,
@@ -881,7 +881,7 @@ class Trait {
     );
   }
 
-  factory Trait.Reach(int level, {bool isAux = false}) {
+  factory Trait.reach(int level, {bool isAux = false}) {
     return Trait(
       name: 'Reach',
       level: level,
@@ -891,7 +891,7 @@ class Trait {
     );
   }
 
-  factory Trait.React({bool isAux = false}) {
+  factory Trait.react({bool isAux = false}) {
     return Trait(
       name: 'React',
       isAux: isAux,
@@ -901,7 +901,7 @@ class Trait {
     );
   }
 
-  factory Trait.ReactPlus({bool isAux = false}) {
+  factory Trait.reactPlus({bool isAux = false}) {
     return Trait(
       name: 'React+',
       isAux: isAux,
@@ -914,7 +914,7 @@ class Trait {
     );
   }
 
-  factory Trait.Repair({bool isAux = false}) {
+  factory Trait.repair({bool isAux = false}) {
     return Trait(
       name: 'Repair',
       isAux: isAux,
@@ -922,7 +922,7 @@ class Trait {
     );
   }
 
-  factory Trait.ResistC({bool isAux = false}) {
+  factory Trait.resistC({bool isAux = false}) {
     return Trait(
       name: 'Resist',
       type: 'C',
@@ -932,7 +932,7 @@ class Trait {
     );
   }
 
-  factory Trait.ResistF({bool isAux = false}) {
+  factory Trait.resistF({bool isAux = false}) {
     return Trait(
       name: 'Resist',
       type: 'F',
@@ -942,7 +942,7 @@ class Trait {
     );
   }
 
-  factory Trait.ResistH({bool isAux = false}) {
+  factory Trait.resistH({bool isAux = false}) {
     return Trait(
       name: 'Resist',
       type: 'H',
@@ -952,7 +952,7 @@ class Trait {
     );
   }
 
-  factory Trait.SatUp({bool isAux = false}) {
+  factory Trait.satUp({bool isAux = false}) {
     return Trait(
       name: 'SatUp',
       isAux: isAux,
@@ -961,7 +961,7 @@ class Trait {
     );
   }
 
-  factory Trait.SensorBoom({bool isAux = false}) {
+  factory Trait.sensorBoom({bool isAux = false}) {
     return Trait(
       name: 'Sensor Boom',
       isAux: isAux,
@@ -972,7 +972,7 @@ class Trait {
     );
   }
 
-  factory Trait.Sensors(int level, {bool isAux = false}) {
+  factory Trait.sensors(int level, {bool isAux = false}) {
     return Trait(
       name: 'Sensors',
       level: level,
@@ -985,7 +985,7 @@ class Trait {
     );
   }
 
-  factory Trait.Shield({bool isAux = false}) {
+  factory Trait.shield({bool isAux = false}) {
     return Trait(
       name: 'Shield',
       isAux: isAux,
@@ -994,7 +994,7 @@ class Trait {
     );
   }
 
-  factory Trait.ShieldPlus({bool isAux = false}) {
+  factory Trait.shieldPlus({bool isAux = false}) {
     return Trait(
       name: 'Shield+',
       isAux: isAux,
@@ -1005,7 +1005,7 @@ class Trait {
     );
   }
 
-  factory Trait.Silent({bool isAux = false}) {
+  factory Trait.silent({bool isAux = false}) {
     return Trait(
       name: 'Silent',
       isAux: isAux,
@@ -1014,7 +1014,7 @@ class Trait {
     );
   }
 
-  factory Trait.Smoke({bool isAux = false}) {
+  factory Trait.smoke({bool isAux = false}) {
     return Trait(
       name: 'Smoke',
       isAux: isAux,
@@ -1023,7 +1023,7 @@ class Trait {
     );
   }
 
-  factory Trait.SP(int level, {bool isAux = false}) {
+  factory Trait.sp(int level, {bool isAux = false}) {
     return Trait(
       name: 'SP',
       level: level,
@@ -1034,7 +1034,7 @@ class Trait {
     );
   }
 
-  factory Trait.Split({bool isAux = false}) {
+  factory Trait.split({bool isAux = false}) {
     return Trait(
       name: 'Split',
       isAux: isAux,
@@ -1046,7 +1046,7 @@ class Trait {
     );
   }
 
-  factory Trait.Spray({bool isAux = false}) {
+  factory Trait.spray({bool isAux = false}) {
     return Trait(
       name: 'Spray',
       isAux: isAux,
@@ -1056,7 +1056,7 @@ class Trait {
     );
   }
 
-  factory Trait.Stable({bool isAux = false}) {
+  factory Trait.stable({bool isAux = false}) {
     return Trait(
       name: 'Stable',
       isAux: isAux,
@@ -1066,7 +1066,7 @@ class Trait {
     );
   }
 
-  factory Trait.Stationary({bool isAux = false}) {
+  factory Trait.stationary({bool isAux = false}) {
     return Trait(
       name: 'Stationary',
       isAux: isAux,
@@ -1075,7 +1075,7 @@ class Trait {
     );
   }
 
-  factory Trait.Stealth({bool isAux = false}) {
+  factory Trait.stealth({bool isAux = false}) {
     return Trait(
       name: 'Stealth',
       isAux: isAux,
@@ -1086,7 +1086,7 @@ class Trait {
     );
   }
 
-  factory Trait.Sub({bool isAux = false}) {
+  factory Trait.sub({bool isAux = false}) {
     return Trait(
       name: 'Sub',
       isAux: isAux,
@@ -1097,7 +1097,7 @@ class Trait {
     );
   }
 
-  factory Trait.Supply({bool isAux = false}) {
+  factory Trait.supply({bool isAux = false}) {
     return Trait(
       name: 'Supply',
       isAux: isAux,
@@ -1107,7 +1107,7 @@ class Trait {
     );
   }
 
-  factory Trait.TD({bool isAux = false}) {
+  factory Trait.td({bool isAux = false}) {
     return Trait(
       name: 'TD',
       isAux: isAux,
@@ -1123,7 +1123,7 @@ class Trait {
     );
   }
 
-  factory Trait.Towed({bool isAux = false}) {
+  factory Trait.towed({bool isAux = false}) {
     return Trait(
       name: 'Towed',
       isAux: isAux,
@@ -1139,7 +1139,7 @@ class Trait {
     );
   }
 
-  factory Trait.Transport(int level, String type, {bool isAux = false}) {
+  factory Trait.transport(int level, String type, {bool isAux = false}) {
     return Trait(
       name: 'Transport',
       level: level,
@@ -1173,7 +1173,7 @@ class Trait {
     );
   }
 
-  factory Trait.Vet({bool isAux = false}) {
+  factory Trait.vet({bool isAux = false}) {
     return Trait(
       name: 'Vet',
       isAux: isAux,
@@ -1183,7 +1183,7 @@ class Trait {
     );
   }
 
-  factory Trait.VTOL({bool isAux = false}) {
+  factory Trait.vtol({bool isAux = false}) {
     return Trait(
       name: 'VTOL',
       isAux: isAux,
@@ -1195,7 +1195,7 @@ class Trait {
     );
   }
 
-  factory Trait.VulnC() {
+  factory Trait.vulnC() {
     return const Trait(
       name: 'Vuln',
       type: 'C',
@@ -1204,7 +1204,7 @@ class Trait {
     );
   }
 
-  factory Trait.VulnF() {
+  factory Trait.vulnF() {
     return const Trait(
       name: 'Vuln',
       type: 'F',
@@ -1213,7 +1213,7 @@ class Trait {
     );
   }
 
-  factory Trait.VulnH() {
+  factory Trait.vulnH() {
     return const Trait(
       name: 'Vuln',
       type: 'H',

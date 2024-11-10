@@ -9,7 +9,7 @@ void main() {
     const weaponAbbreviation = 'AC';
     const weaponName = 'Autocannon';
     const weaponDamage = 1;
-    const mode = weaponModes.Direct;
+    const mode = WeaponModes.direct;
     const range = Range(12, 36, 72);
 
     const w = Weapon(
@@ -33,7 +33,7 @@ void main() {
     const weaponAbbreviation = 'AC';
     const weaponName = 'Autocannon';
     const weaponDamage = 1;
-    const mode = weaponModes.Direct;
+    const mode = WeaponModes.direct;
     const range = Range(12, 36, 72);
 
     const w = Weapon(
@@ -57,9 +57,9 @@ void main() {
   test('test creating a weapon with 1 trait', () {
     const weaponAbbreviation = 'AC';
     const weaponName = 'Autocannon';
-    const mode = weaponModes.Direct;
+    const mode = WeaponModes.direct;
     const weaponDamage = 1;
-    const trait = const Trait(name: 'Brawl', level: 1);
+    const trait = Trait(name: 'Brawl', level: 1);
     const range = Range(12, 36, 72);
 
     const w = Weapon(
@@ -85,9 +85,9 @@ void main() {
   test('test creating a weapon with 1 trait and react', () {
     const weaponAbbreviation = 'AC';
     const weaponName = 'Autocannon';
-    const mode = weaponModes.Direct;
+    const mode = WeaponModes.direct;
     const weaponDamage = 1;
-    const trait = const Trait(name: 'Brawl', level: 1);
+    const trait = Trait(name: 'Brawl', level: 1);
     const range = Range(12, 36, 72);
 
     const w = Weapon(
@@ -114,9 +114,9 @@ void main() {
   test('test getting size', () {
     const weaponAbbreviation = 'LAC';
     const weaponName = 'Autocannon';
-    const mode = weaponModes.Direct;
+    const mode = WeaponModes.direct;
     const weaponDamage = 1;
-    const trait = const Trait(name: 'Brawl', level: 1);
+    const trait = Trait(name: 'Brawl', level: 1);
     const range = Range(12, 36, 72);
 
     const w = Weapon(
@@ -134,9 +134,9 @@ void main() {
   test('test getting weapon code', () {
     const weaponAbbreviation = 'LAC';
     const weaponName = 'Autocannon';
-    const mode = weaponModes.Direct;
+    const mode = WeaponModes.direct;
     const weaponDamage = 1;
-    const trait = const Trait(name: 'Brawl', level: 1);
+    const trait = Trait(name: 'Brawl', level: 1);
     const range = Range(12, 36, 72);
 
     const w = Weapon(
@@ -152,11 +152,11 @@ void main() {
   });
 
   test('test isCombo with combo weapon', () {
-    const weaponAbbreviation = 'LAC\LGL';
+    const weaponAbbreviation = 'LAC\\LGL';
     const weaponName = 'Autocannon';
-    const mode = weaponModes.Direct;
+    const mode = WeaponModes.direct;
     const weaponDamage = 1;
-    const trait = const Trait(name: 'Brawl', level: 1);
+    const trait = Trait(name: 'Brawl', level: 1);
     const range = Range(12, 36, 72);
 
     const w = Weapon(
@@ -170,7 +170,7 @@ void main() {
         combo: Weapon(
             abbreviation: 'LGL',
             name: 'Grenade Launcher',
-            modes: [weaponModes.Indirect],
+            modes: [WeaponModes.indirect],
             range: range,
             damage: 1));
     expect(w.isCombo, isTrue);
@@ -178,9 +178,9 @@ void main() {
   test('test isCombo with non-combo weapon', () {
     const weaponAbbreviation = 'LAC';
     const weaponName = 'Autocannon';
-    const mode = weaponModes.Direct;
+    const mode = WeaponModes.direct;
     const weaponDamage = 1;
-    const trait = const Trait(name: 'Brawl', level: 1);
+    const trait = Trait(name: 'Brawl', level: 1);
     const range = Range(12, 36, 72);
 
     const w = Weapon(

@@ -19,7 +19,7 @@ void showGeneratedMarkdown(
 }
 
 class MarkdownDialog extends StatelessWidget {
-  const MarkdownDialog(this.roster);
+  const MarkdownDialog(this.roster, {super.key});
 
   final UnitRoster roster;
   @override
@@ -29,17 +29,17 @@ class MarkdownDialog extends StatelessWidget {
     return SimpleDialog(
       children: [
         Padding(
-          padding: EdgeInsets.all(6.0),
+          padding: const EdgeInsets.all(6.0),
           child: SelectableText(markdownText),
         ),
         SimpleDialogOption(
           onPressed: () {
             Clipboard.setData(
-              new ClipboardData(text: markdownText),
+              ClipboardData(text: markdownText),
             );
             Navigator.pop(context, null);
           },
-          child: Center(
+          child: const Center(
             child: Text(
               'Copy to Clipboard',
               style: TextStyle(fontSize: 24, color: Colors.green),

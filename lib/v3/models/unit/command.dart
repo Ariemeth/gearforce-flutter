@@ -2,7 +2,7 @@ enum CommandLevel {
   none(_none),
   bc(_bc),
   po(_po),
-  secic(_2ic),
+  secic(_secondIc),
   cgl(_cgl),
   xo(_xo),
   co(_co),
@@ -14,7 +14,7 @@ enum CommandLevel {
     switch (cl) {
       case _cgl:
         return CommandLevel.cgl;
-      case _2ic:
+      case _secondIc:
         return CommandLevel.secic;
       case _xo:
         return CommandLevel.xo;
@@ -56,14 +56,14 @@ enum CommandLevel {
     return results;
   }
 
-  static CommandLevel GreaterOne(CommandLevel first, CommandLevel second) {
+  static CommandLevel greaterOne(CommandLevel first, CommandLevel second) {
     if (first > second) {
       return first;
     }
     return second;
   }
 
-  static CommandLevel NextGreater(CommandLevel cl) {
+  static CommandLevel nextGreater(CommandLevel cl) {
     switch (cl) {
       case CommandLevel.none:
         return CommandLevel.cgl;
@@ -103,7 +103,7 @@ extension EnumOperators on CommandLevel {
 
 const String _none = 'none';
 const String _cgl = 'CGL'; // Command Group Leader
-const String _2ic = '2iC'; // Second in Command
+const String _secondIc = '2iC'; // Second in Command
 const String _xo = 'XO';
 const String _co = 'CO';
 const String _tfc = 'TFC';

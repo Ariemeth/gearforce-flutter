@@ -58,11 +58,11 @@ final Rule ruleSpecialIssue = Rule(
   id: _ruleSpecialIssueId,
   hasGroupRole: (unit, target, group) {
     if (unit.core.frame == 'Greyhound' &&
-        (target == RoleType.GP ||
-            target == RoleType.SK ||
-            target == RoleType.FS ||
-            target == RoleType.RC ||
-            target == RoleType.SO)) {
+        (target == RoleType.gp ||
+            target == RoleType.sk ||
+            target == RoleType.fs ||
+            target == RoleType.rc ||
+            target == RoleType.so)) {
       return true;
     }
     return null;
@@ -129,11 +129,11 @@ final Rule ruleMercenaryContract = Rule(
   unitFilter: (cgOptions) => const SpecialUnitFilter(
     text: 'Mercenary Contract',
     id: _ruleMercContractId,
-    filters: const [
-      const UnitFilter(FactionType.North, matcher: matchArmor8),
-      const UnitFilter(FactionType.South, matcher: matchArmor8),
-      const UnitFilter(FactionType.PeaceRiver, matcher: matchArmor8),
-      const UnitFilter(FactionType.NuCoal, matcher: matchArmor8),
+    filters: [
+      UnitFilter(FactionType.north, matcher: matchArmor8),
+      UnitFilter(FactionType.south, matcher: matchArmor8),
+      UnitFilter(FactionType.peaceRiver, matcher: matchArmor8),
+      UnitFilter(FactionType.nuCoal, matcher: matchArmor8),
     ],
   ),
   description: 'One combat group may be made with models from North,' +

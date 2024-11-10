@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:file_selector/file_selector.dart';
 import 'package:gearforce/v3/data/data.dart';
 import 'package:gearforce/v3/models/roster/roster.dart';
-import 'package:gearforce/v3/screens/roster/filehandler/fileHandler.dart';
+import 'package:gearforce/v3/screens/roster/filehandler/file_extension.dart';
 import 'package:gearforce/widgets/settings.dart';
 
 Future<UnitRoster?> loadRoster(DataV3 data, Settings settings) async {
@@ -10,7 +10,7 @@ Future<UnitRoster?> loadRoster(DataV3 data, Settings settings) async {
 
   const XTypeGroup typeGroup = XTypeGroup(
     label: 'gearforce',
-    extensions: <String>[FileExtension],
+    extensions: <String>[fileExtension],
   );
   final XFile? file =
       await openFile(acceptedTypeGroups: <XTypeGroup>[typeGroup]);

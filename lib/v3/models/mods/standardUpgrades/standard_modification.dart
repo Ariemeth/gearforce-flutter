@@ -34,39 +34,33 @@ final RegExp _vtolMatch = RegExp(r'^VTOL', caseSensitive: false);
 
 class StandardModification extends BaseModification {
   StandardModification({
-    required String name,
-    required RequirementCheck requirementCheck,
-    required String id,
-    ModificationOption? options,
-    final BaseModification Function()? refreshData,
+    required super.name,
+    required super.requirementCheck,
+    required super.id,
+    super.options,
+    super.refreshData,
     super.modType = ModificationType.standard,
-    super.ruleType = RuleType.Standard,
-  }) : super(
-          name: name,
-          id: id,
-          requirementCheck: requirementCheck,
-          options: options,
-          refreshData: refreshData,
-        );
+    super.ruleType = RuleType.standard,
+  });
 
   /*
   > Add the AA trait to an autocannon, rotary cannon,
     laser cannon or rotary laser cannon for 1 TV.
   */
   factory StandardModification.antiAirTrait(Unit u, CombatGroup cg) {
-    final List<ModificationOption> _options = [];
+    final List<ModificationOption> options = [];
     final RegExp weaponMatch = RegExp(r'^(AC|RC|LC|RLC)');
-    final traitToAdd = Trait.AA();
+    final traitToAdd = Trait.aa();
 
     final allWeapons = u.weapons;
     allWeapons
         .where((weapon) => weaponMatch.hasMatch(weapon.code))
         .forEach((weapon) {
-      _options.add(ModificationOption('${weapon.toString()}'));
+      options.add(ModificationOption(weapon.toString()));
     });
 
     var modOptions = ModificationOption('Anti-Air',
-        subOptions: _options,
+        subOptions: options,
         description: 'Choose a weapon to gain the AA trait.');
 
     return StandardModification(
@@ -109,18 +103,18 @@ class StandardModification extends BaseModification {
     Missile (AAM) of the same class for 0 TV.
   */
   factory StandardModification.antiAirSwap(Unit u, CombatGroup cg) {
-    final List<ModificationOption> _options = [];
+    final List<ModificationOption> options = [];
     final RegExp weaponMatch = RegExp(r'^(ATM)');
 
     final allWeapons = u.weapons;
     allWeapons
         .where((weapon) => weaponMatch.hasMatch(weapon.code))
         .forEach((weapon) {
-      _options.add(ModificationOption('${weapon.toString()}'));
+      options.add(ModificationOption(weapon.toString()));
     });
 
     var modOptions = ModificationOption('Anti-Air',
-        subOptions: _options,
+        subOptions: options,
         description: 'Choose an ATM to be converted to an AAM.');
 
     return StandardModification(
@@ -199,15 +193,15 @@ class StandardModification extends BaseModification {
     final matchingWeapons =
         react.where((weapon) => meleeCheck.hasMatch(weapon.abbreviation));
 
-    List<ModificationOption>? _options;
+    List<ModificationOption>? options;
     if (matchingWeapons.isNotEmpty) {
-      _options = [];
-      matchingWeapons.forEach((item) {
+      options = [];
+      for (var item in matchingWeapons) {
         switch (item.code) {
           case 'VB':
-            _options!.add(
+            options.add(
               ModificationOption(
-                '${item.toString()}',
+                item.toString(),
                 subOptions: [
                   ModificationOption('${item.size}SG'),
                   ModificationOption('${item.size}CW'),
@@ -216,9 +210,9 @@ class StandardModification extends BaseModification {
             );
             break;
           case 'SG':
-            _options!.add(
+            options.add(
               ModificationOption(
-                '${item.toString()}',
+                item.toString(),
                 subOptions: [
                   ModificationOption('${item.size}VB'),
                   ModificationOption('${item.size}CW'),
@@ -227,9 +221,9 @@ class StandardModification extends BaseModification {
             );
             break;
           case 'CW':
-            _options!.add(
+            options.add(
               ModificationOption(
-                '${item.toString()}',
+                item.toString(),
                 subOptions: [
                   ModificationOption('${item.size}SG'),
                   ModificationOption('${item.size}VB'),
@@ -238,10 +232,10 @@ class StandardModification extends BaseModification {
             );
             break;
         }
-      });
+      }
     }
     var modOptions = ModificationOption('Melee Swap',
-        subOptions: _options,
+        subOptions: options,
         description:
             'One Light (L) or Medium (M) melee weapon with the React trait ' +
                 'can be swapped for an equal class melee weapon for 0 TV,');
@@ -256,8 +250,8 @@ class StandardModification extends BaseModification {
             return false;
           }
 
-          if (!(u.core.type == ModelType.Gear ||
-              u.core.type == ModelType.Strider)) {
+          if (!(u.core.type == ModelType.gear ||
+              u.core.type == ModelType.strider)) {
             return false;
           }
 
@@ -302,7 +296,7 @@ class StandardModification extends BaseModification {
   be of the same class, such as L, M, or H.
   */
   factory StandardModification.grenadeSwap(Unit u, CombatGroup cg) {
-    final List<ModificationOption> _options = [];
+    final List<ModificationOption> options = [];
     final RegExp weaponMatch = RegExp(r'^(HG|PZ)$');
 
     final availableWeapons = u.weapons;
@@ -311,12 +305,12 @@ class StandardModification extends BaseModification {
         .toList()
         .forEach(
       (weapon) {
-        _options.add(ModificationOption(weapon.toString()));
+        options.add(ModificationOption(weapon.toString()));
       },
     );
 
     var modOptions = ModificationOption('Grenade Swap',
-        subOptions: _options,
+        subOptions: options,
         description: 'Chose a grenade to swap for a panzerfaust or a ' +
             'panzerfaust to swap for a grenade');
 
@@ -714,7 +708,7 @@ class StandardModification extends BaseModification {
       )
       ..addMod(
         UnitAttribute.traits,
-        createAddTraitToList(Trait.Smoke()),
+        createAddTraitToList(Trait.smoke()),
         description: '+Smoke',
       );
   }
@@ -725,22 +719,22 @@ class StandardModification extends BaseModification {
     for 1 TV.
   */
   factory StandardModification.precisePlus(Unit u) {
-    final newTrait = Trait.PrecisePlus();
+    final newTrait = Trait.precisePlus();
 
-    final List<ModificationOption> _options = [];
+    final List<ModificationOption> options = [];
     final requiredWeapons = u
         .attribute<List<Weapon>>(UnitAttribute.weapons,
             modIDToSkip: precisePlusId)
         .where((w) =>
             (w.code == 'P' || w.code == 'AC' || w.code == 'RF') &&
-            (w.traits.any((t) => t.isSameType(Trait.Precise()))));
-    requiredWeapons.forEach((w) {
-      _options.add(ModificationOption('${w.toString()}'));
-    });
+            (w.traits.any((t) => t.isSameType(Trait.precise()))));
+    for (var w in requiredWeapons) {
+      options.add(ModificationOption(w.toString()));
+    }
 
     var modOptions = ModificationOption(
       'Precise+',
-      subOptions: _options,
+      subOptions: options,
       description: 'Choose a weapon to replace Precise with Precise+',
     );
 
@@ -748,7 +742,7 @@ class StandardModification extends BaseModification {
       name: 'Precise+',
       id: precisePlusId,
       options: modOptions,
-      ruleType: RuleType.AlphaBeta,
+      ruleType: RuleType.alphaBeta,
       requirementCheck: (RuleSet rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
         if (!rs.settings.isAlphaBetaAllowed) {
           return false;
@@ -759,7 +753,7 @@ class StandardModification extends BaseModification {
                 modIDToSkip: precisePlusId)
             .any((w) =>
                 (w.code == 'P' || w.code == 'AC' || w.code == 'RF') &&
-                (w.traits.any((t) => t.isSameType(Trait.Precise()))));
+                (w.traits.any((t) => t.isSameType(Trait.precise()))));
         return hasARequiredWeapon;
       },
       refreshData: () => StandardModification.precisePlus(u),
@@ -786,7 +780,7 @@ class StandardModification extends BaseModification {
           final index = newList.indexOf(existingWeapon);
           newList[index] = Weapon.fromWeapon(
             existingWeapon,
-            traitsToRemove: [Trait.Precise()],
+            traitsToRemove: [Trait.precise()],
             addTraits: [newTrait],
           );
         }

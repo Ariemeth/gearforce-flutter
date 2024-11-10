@@ -44,7 +44,7 @@ class Utopia extends RuleSet {
     List<String>? specialRules,
     List<Rule> subFactionRules = const [],
   }) : super(
-          FactionType.Utopia,
+          FactionType.utopia,
           data,
           settings: settings,
           name: name,
@@ -62,19 +62,19 @@ class Utopia extends RuleSet {
         text: type.name,
         id: coreTag,
         filters: const [
-          const UnitFilter(FactionType.Utopia),
-          const UnitFilter(FactionType.Airstrike),
-          const UnitFilter(FactionType.Universal),
-          const UnitFilter(FactionType.Universal_Non_TerraNova),
-          const UnitFilter(FactionType.Terrain),
+          UnitFilter(FactionType.utopia),
+          UnitFilter(FactionType.airstrike),
+          UnitFilter(FactionType.universal),
+          UnitFilter(FactionType.universalNonTerraNova),
+          UnitFilter(FactionType.terrain),
         ],
       )
     ];
     return [...filters, ...super.availableUnitFilters(cgOptions)];
   }
 
-  factory Utopia.CAF(DataV3 data, Settings settings) => CAF(data, settings);
-  factory Utopia.OUF(DataV3 data, Settings settings) => OUF(data, settings);
+  factory Utopia.caf(DataV3 data, Settings settings) => CAF(data, settings);
+  factory Utopia.ouf(DataV3 data, Settings settings) => OUF(data, settings);
 }
 
 final Rule ruleDroneMatrix = Rule(

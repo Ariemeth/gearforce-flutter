@@ -32,14 +32,13 @@ const String _sourceCodeURL = 'https://github.com/Ariemeth/gearforce-flutter';
 
 class RosterWidget extends StatefulWidget {
   RosterWidget(
-      {Key? key,
+      {super.key,
       required this.title,
       required this.data,
       required this.rosterId,
       required this.version,
       required this.settings,
-      required this.versionSelector})
-      : super(key: key);
+      required this.versionSelector});
 
   final String? title;
   final DataV3 data;
@@ -65,13 +64,13 @@ class _RosterWidgetState extends State<RosterWidget> {
   }
 
   void _loadRoster() async {
-    if (widget.rosterId.Id == null) {
+    if (widget.rosterId.id == null) {
       return;
     }
 
-    final loadedRoster = await await ApiService.getV3Roster(
+    final loadedRoster = await ApiService.getV3Roster(
       widget.data,
-      widget.rosterId.Id!,
+      widget.rosterId.id!,
       widget.settings,
     );
     if (loadedRoster != null) {
@@ -108,7 +107,7 @@ class _RosterWidgetState extends State<RosterWidget> {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                RosterDisplay(width: _leftPanelWidth, height: 1000),
+                const RosterDisplay(width: _leftPanelWidth, height: 1000),
                 UnitSelection(),
               ],
             ),
@@ -120,24 +119,24 @@ class _RosterWidgetState extends State<RosterWidget> {
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
-            Container(
+            SizedBox(
               height: _menuTitleHeight,
               child: DrawerHeader(
-                decoration: BoxDecoration(color: Colors.blue),
+                decoration: const BoxDecoration(color: Colors.blue),
+                padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
                 child: Center(
                   child: Text(
                     AppLocalizations.of(context)!.menuTitle,
-                    style: TextStyle(
+                    style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w400,
                         color: Colors.white),
                   ),
                 ),
-                padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
               ),
             ),
             ListTile(
-              title: Text(
+              title: const Text(
                 'Load from file',
                 style: TextStyle(fontSize: 16),
               ),
@@ -152,7 +151,7 @@ class _RosterWidgetState extends State<RosterWidget> {
               },
             ),
             ListTile(
-              title: Text(
+              title: const Text(
                 'Load from id',
                 style: TextStyle(fontSize: 16),
               ),
@@ -167,7 +166,7 @@ class _RosterWidgetState extends State<RosterWidget> {
               },
             ),
             ListTile(
-              title: Text(
+              title: const Text(
                 'Save to file',
                 style: TextStyle(
                   fontSize: 16,
@@ -179,7 +178,7 @@ class _RosterWidgetState extends State<RosterWidget> {
               },
             ),
             ListTile(
-              title: Text(
+              title: const Text(
                 'Save to Gearforce Online',
                 style: TextStyle(
                   fontSize: 16,
@@ -191,14 +190,14 @@ class _RosterWidgetState extends State<RosterWidget> {
               },
             ),
             ListTile(
-              title: Text(
+              title: const Text(
                 'Print',
                 style: TextStyle(fontSize: 16),
               ),
               onTap: () async {
                 final pdfSettings = await showDialog<PDFSettings>(
                   context: context,
-                  builder: (context) => PDFSettingsDialog('Print'),
+                  builder: (context) => const PDFSettingsDialog('Print'),
                 );
 
                 if (pdfSettings != null) {
@@ -214,14 +213,15 @@ class _RosterWidgetState extends State<RosterWidget> {
               },
             ),
             ListTile(
-              title: Text(
+              title: const Text(
                 'Export to PDF',
                 style: TextStyle(fontSize: 16),
               ),
               onTap: () async {
                 final pdfSettings = await showDialog<PDFSettings>(
                   context: context,
-                  builder: (context) => PDFSettingsDialog('Export to PDF'),
+                  builder: (context) =>
+                      const PDFSettingsDialog('Export to PDF'),
                 );
 
                 if (pdfSettings != null) {
@@ -237,7 +237,7 @@ class _RosterWidgetState extends State<RosterWidget> {
               },
             ),
             ListTile(
-              title: Text(
+              title: const Text(
                 'Generate Markdown',
                 style: TextStyle(fontSize: 16),
               ),
@@ -247,7 +247,7 @@ class _RosterWidgetState extends State<RosterWidget> {
             ),
             ListTile(
               title: Row(children: [
-                Text(
+                const Text(
                   'Veteran force',
                   style: TextStyle(fontSize: 16),
                 ),
@@ -267,16 +267,17 @@ class _RosterWidgetState extends State<RosterWidget> {
               applicationName: 'Gearforce',
               applicationVersion: widget.version,
               aboutBoxChildren: [
-                Text('Gearforce is a Heavy Gear Blitz force creation tool'),
+                const Text(
+                    'Gearforce is a Heavy Gear Blitz force creation tool'),
                 RichText(
                   text: TextSpan(children: [
-                    TextSpan(
+                    const TextSpan(
                       text: 'Report any issues to ',
                       style: TextStyle(color: Colors.black),
                     ),
                     TextSpan(
-                        text: '$_bugEmailAddress',
-                        style: TextStyle(color: Colors.blue),
+                        text: _bugEmailAddress,
+                        style: const TextStyle(color: Colors.blue),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
                             launchUrlString(
@@ -285,59 +286,60 @@ class _RosterWidgetState extends State<RosterWidget> {
                           }),
                   ]),
                 ),
-                Text(''),
-                Text('Heavy Gear Blitz is a trademark of Dream Pod 9'),
-                Text('Gearforce is not associated with Dream Pod 9'),
+                const Text(''),
+                const Text('Heavy Gear Blitz is a trademark of Dream Pod 9'),
+                const Text('Gearforce is not associated with Dream Pod 9'),
                 RichText(
                   text: TextSpan(children: [
-                    TextSpan(
+                    const TextSpan(
                       text: 'Visit ',
                       style: TextStyle(color: Colors.black),
                     ),
                     TextSpan(
-                        text: '$_dp9URL',
-                        style: TextStyle(color: Colors.blue),
+                        text: _dp9URL,
+                        style: const TextStyle(color: Colors.blue),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            launchUrlString('$_dp9URL');
+                            launchUrlString(_dp9URL);
                           }),
-                    TextSpan(
+                    const TextSpan(
                       text: ' for more information about',
                       style: TextStyle(color: Colors.black),
                     ),
                   ]),
                 ),
-                Text('Dream Pod 9 or Heavy Gear'),
-                Text(''),
+                const Text('Dream Pod 9 or Heavy Gear'),
+                const Text(''),
                 RichText(
                   text: TextSpan(children: [
-                    TextSpan(
+                    const TextSpan(
                       text: 'Source code available at \n',
                       style: TextStyle(color: Colors.black),
                     ),
                     TextSpan(
-                        text: '$_sourceCodeURL',
-                        style: TextStyle(color: Colors.blue),
+                        text: _sourceCodeURL,
+                        style: const TextStyle(color: Colors.blue),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            launchUrlString('$_sourceCodeURL');
+                            launchUrlString(_sourceCodeURL);
                           }),
-                    TextSpan(
+                    const TextSpan(
                       text: '\nunder the MIT license',
                       style: TextStyle(color: Colors.black),
                     )
                   ]),
                 ),
-                Text(''),
-                Text('Special thanks to James \'Corvus\' Ho for all of the \n' +
-                    'help ensuring gearforce is as good as it can be.  \n' +
-                    'Without Corvus\'s enthusiasm gearforce would not be \n' +
-                    'where it is today.'),
-                Text(''),
+                const Text(''),
+                const Text(
+                    'Special thanks to James \'Corvus\' Ho for all of the \n' +
+                        'help ensuring gearforce is as good as it can be.  \n' +
+                        'Without Corvus\'s enthusiasm gearforce would not be \n' +
+                        'where it is today.'),
+                const Text(''),
                 Text('Rules version: ${roster.rulesVersion}'),
               ],
               dense: true,
-              child: Text('About Gearforce',
+              child: const Text('About Gearforce',
                   style: TextStyle(
                     fontSize: 16,
                   )),
@@ -345,14 +347,14 @@ class _RosterWidgetState extends State<RosterWidget> {
             ListTile(
               title: Text(
                 AppLocalizations.of(context)!.menuSettingsTitle,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 16,
                 ),
               ),
               onTap: () async {
                 await showDialog<ApplicationSettingsDialog>(
                   context: context,
-                  builder: (context) => ApplicationSettingsDialog(),
+                  builder: (context) => const ApplicationSettingsDialog(),
                 );
                 setState(() {
                   roster.validate(tryFix: true);
@@ -361,7 +363,7 @@ class _RosterWidgetState extends State<RosterWidget> {
               },
             ),
             ListTile(
-              title: Text(
+              title: const Text(
                 'Clear roster',
                 style: TextStyle(
                   fontSize: 16,
@@ -376,7 +378,7 @@ class _RosterWidgetState extends State<RosterWidget> {
                         text:
                             'Are you sure you want to clear the current roster?',
                         onOptionSelected: (result) {
-                          if (result == ConfirmationResult.Yes) {
+                          if (result == ConfirmationResult.yes) {
                             setState(
                               () {
                                 roster.copyFrom(UnitRoster(data, appSettings));
@@ -397,8 +399,8 @@ class _RosterWidgetState extends State<RosterWidget> {
               },
             ),
             ListTile(
-              title: Text(
-                "Cancel",
+              title: const Text(
+                'Cancel',
                 style: TextStyle(
                   fontSize: 16,
                 ),
@@ -413,7 +415,6 @@ class _RosterWidgetState extends State<RosterWidget> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.clear_sharp),
         foregroundColor: Colors.red,
         mini: true,
         onPressed: () {
@@ -424,7 +425,7 @@ class _RosterWidgetState extends State<RosterWidget> {
                 return ConfirmationDialog(
                   text: 'Are you sure you want to reset everything?',
                   onOptionSelected: (result) {
-                    if (result == ConfirmationResult.Yes) {
+                    if (result == ConfirmationResult.yes) {
                       setState(
                         () {
                           roster.copyFrom(UnitRoster(data, appSettings));
@@ -444,6 +445,7 @@ class _RosterWidgetState extends State<RosterWidget> {
           }
         },
         tooltip: 'Reset roster',
+        child: const Icon(Icons.clear_sharp),
       ),
     );
   }

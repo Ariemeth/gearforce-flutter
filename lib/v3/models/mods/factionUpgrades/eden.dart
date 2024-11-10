@@ -1,6 +1,5 @@
 import 'package:gearforce/v3/models/combatGroups/combat_group.dart';
 import 'package:gearforce/v3/models/factions/faction_type.dart';
-import 'package:gearforce/v3/models/mods/base_modification.dart';
 import 'package:gearforce/v3/models/mods/factionUpgrades/faction_mod.dart';
 import 'package:gearforce/v3/models/mods/modification_option.dart';
 import 'package:gearforce/v3/models/mods/mods.dart';
@@ -46,8 +45,7 @@ class EdenMods extends FactionModification {
      trait or add +2 to their existing Brawl:X trait if they have it.
   */
   factory EdenMods.lancers(Unit unit) {
-    final RequirementCheck reqCheck =
-        (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+    reqCheck(RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       assert(cg != null);
       assert(rs != null);
 
@@ -55,20 +53,20 @@ class EdenMods extends FactionModification {
         return false;
       }
 
-      if (u.type != ModelType.Gear) {
+      if (u.type != ModelType.gear) {
         return false;
       }
 
-      if (!(u.faction == FactionType.Eden || u.core.frame == 'Druid')) {
+      if (!(u.faction == FactionType.eden || u.core.frame == 'Druid')) {
         return false;
       }
 
-      if (u.weapons.any((w) => w.modes.any((m) => m == weaponModes.Melee))) {
+      if (u.weapons.any((w) => w.modes.any((m) => m == WeaponModes.melee))) {
         return true;
       }
 
       return false;
-    };
+    }
 
     final fm = EdenMods(
       name: 'Lancers',
@@ -87,16 +85,16 @@ class EdenMods extends FactionModification {
     final lance = Weapon.fromWeapon(
       msg!,
       name: 'Lance',
-      addTraits: [Trait.Reach(2)],
+      addTraits: [Trait.reach(2)],
     );
 
     fm.addMod<List<Weapon>>(
       UnitAttribute.weapons,
       (value) {
-        var newList = new List<Weapon>.from(value);
+        var newList = List<Weapon>.from(value);
 
         var index = newList
-            .indexWhere((w) => w.modes.any((m) => m == weaponModes.Melee));
+            .indexWhere((w) => w.modes.any((m) => m == WeaponModes.melee));
 
         if (index < 0) {
           print(
@@ -117,7 +115,7 @@ class EdenMods extends FactionModification {
 
     fm.addMod<List<Trait>>(
       UnitAttribute.traits,
-      createAddOrCombineTraitToList(Trait.Brawl(2)),
+      createAddOrCombineTraitToList(Trait.brawl(2)),
       description: '+Brawl:2',
     );
 
@@ -131,7 +129,7 @@ class EdenMods extends FactionModification {
     faction mod to make it easier to check requirements
   */
   factory EdenMods.wellSupported() {
-    final RequirementCheck reqCheck = (
+    reqCheck(
       RuleSet? rs,
       UnitRoster? ur,
       CombatGroup? cg,
@@ -149,7 +147,7 @@ class EdenMods extends FactionModification {
         return true;
       }
       return false;
-    };
+    }
 
     final modOptions = ModificationOption(
       'Well Supported',
@@ -181,7 +179,7 @@ class EdenMods extends FactionModification {
     Brawl:1 trait or add +1 to their existing Brawl:X trait if they have it.
   */
   factory EdenMods.ishara(Unit unit) {
-    final RequirementCheck reqCheck = (
+    reqCheck(
       RuleSet? rs,
       UnitRoster? ur,
       CombatGroup? cg,
@@ -194,22 +192,23 @@ class EdenMods extends FactionModification {
         return false;
       }
 
-      if (u.type != ModelType.Gear) {
+      if (u.type != ModelType.gear) {
         return false;
       }
 
-      if (!(u.faction == FactionType.Eden || u.core.frame == 'Druid')) {
+      if (!(u.faction == FactionType.eden || u.core.frame == 'Druid')) {
         return false;
       }
 
       return true;
-    };
+    }
+
     final mvb = buildWeapon('MVB', hasReact: true);
     assert(mvb != null);
     final halberd = Weapon.fromWeapon(mvb!,
         name: 'Halberd',
-        addTraits: [Trait.Reach(1)],
-        range: Range(0, 1, null, hasReach: true));
+        addTraits: [Trait.reach(1)],
+        range: const Range(0, 1, null, hasReach: true));
 
     final fm = EdenMods(
       name: 'Ishara',
@@ -221,10 +220,10 @@ class EdenMods extends FactionModification {
         description: 'TV: +1');
 
     fm.addMod<List<Weapon>>(UnitAttribute.weapons, (value) {
-      var newList = new List<Weapon>.from(value);
+      var newList = List<Weapon>.from(value);
 
       var index =
-          newList.indexWhere((w) => w.modes.any((m) => m == weaponModes.Melee));
+          newList.indexWhere((w) => w.modes.any((m) => m == WeaponModes.melee));
       if (index >= 0) {
         newList.removeAt(index);
       }
@@ -236,7 +235,7 @@ class EdenMods extends FactionModification {
     });
 
     fm.addMod<List<Trait>>(
-        UnitAttribute.traits, createAddOrCombineTraitToList(Trait.Brawl(1)),
+        UnitAttribute.traits, createAddOrCombineTraitToList(Trait.brawl(1)),
         description: 'Golems may have their melee weapon upgraded to a' +
             ' halberd (MVB with React, Reach:2). Add Brawl:1 trait, or' +
             ' increase existing Brawl by 1');
@@ -248,7 +247,7 @@ class EdenMods extends FactionModification {
     Each golem with a rifle may increase their GU skill by one for 1 TV.
   */
   factory EdenMods.expertMarksmen() {
-    final RequirementCheck reqCheck = (
+    reqCheck(
       RuleSet? rs,
       UnitRoster? ur,
       CombatGroup? cg,
@@ -260,7 +259,7 @@ class EdenMods extends FactionModification {
         return false;
       }
 
-      if (u.faction != FactionType.Eden || u.type != ModelType.Gear) {
+      if (u.faction != FactionType.eden || u.type != ModelType.gear) {
         return false;
       }
 
@@ -269,7 +268,7 @@ class EdenMods extends FactionModification {
       }
 
       return false;
-    };
+    }
 
     final fm = EdenMods(
       name: 'Expert Marksmen',
@@ -296,7 +295,7 @@ class EdenMods extends FactionModification {
     Commanders, veterans and duelists may not take this upgrade.
   */
   factory EdenMods.freeblade() {
-    final RequirementCheck reqCheck = (
+    reqCheck(
       RuleSet? rs,
       UnitRoster? ur,
       CombatGroup? cg,
@@ -308,7 +307,7 @@ class EdenMods extends FactionModification {
         return false;
       }
 
-      if (u.type != ModelType.Gear) {
+      if (u.type != ModelType.gear) {
         return false;
       }
 
@@ -325,7 +324,7 @@ class EdenMods extends FactionModification {
       }
 
       return true;
-    };
+    }
 
     final fm = EdenMods(
       name: 'Freeblade',
@@ -340,7 +339,7 @@ class EdenMods extends FactionModification {
 
     fm.addMod<List<Trait>>(
       UnitAttribute.traits,
-      createAddTraitToList(Trait.Conscript()),
+      createAddTraitToList(Trait.conscript()),
       description: '+Conscript',
     );
 
@@ -351,7 +350,7 @@ class EdenMods extends FactionModification {
     Infantry that receive the Frogmen upgrade also receive a GU of 3+.
   */
   factory EdenMods.waterBorn() {
-    final RequirementCheck reqCheck = (
+    reqCheck(
       RuleSet? rs,
       UnitRoster? ur,
       CombatGroup? cg,
@@ -363,7 +362,7 @@ class EdenMods extends FactionModification {
         return false;
       }
 
-      if (u.type != ModelType.Infantry) {
+      if (u.type != ModelType.infantry) {
         return false;
       }
 
@@ -372,7 +371,7 @@ class EdenMods extends FactionModification {
       }
 
       return false;
-    };
+    }
 
     final fm = EdenMods(
       name: 'Water-Born',
