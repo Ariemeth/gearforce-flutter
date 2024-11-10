@@ -13,7 +13,7 @@ class SelectFaction extends StatefulWidget {
       {super.key, required this.factions, required this.selectedFaction});
 
   @override
-  _SelectFactionState createState() => _SelectFactionState();
+  State<SelectFaction> createState() => _SelectFactionState();
 }
 
 /// This is the private State class that goes with MyStatefulWidget.

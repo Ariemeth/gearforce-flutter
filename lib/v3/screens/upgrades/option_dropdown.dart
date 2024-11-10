@@ -10,7 +10,7 @@ class OptionDropdown extends StatefulWidget {
   final ModificationOption options;
 
   @override
-  _OptionDropdownState createState() => _OptionDropdownState();
+  State<OptionDropdown> createState() => _OptionDropdownState();
 }
 
 class _OptionDropdownState extends State<OptionDropdown> {

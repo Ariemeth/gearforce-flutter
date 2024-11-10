@@ -22,7 +22,7 @@ class GearForceV3 extends StatefulWidget {
   final Settings settings;
 
   @override
-  _GearForceV3State createState() => _GearForceV3State();
+  State<GearForceV3> createState() => _GearForceV3State();
 }
 
 class _GearForceV3State extends State<GearForceV3> {

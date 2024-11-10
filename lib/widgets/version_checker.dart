@@ -17,7 +17,7 @@ class VersionChecker extends StatefulWidget {
   }
 
   @override
-  _VersionCheckerState createState() => _VersionCheckerState();
+  State<VersionChecker> createState() => _VersionCheckerState();
 }
 
 class _VersionCheckerState extends State<VersionChecker> {

@@ -27,7 +27,7 @@ class CombatGroupWidget extends StatefulWidget {
   }
 
   @override
-  _CombatGroupWidgetState createState() => _CombatGroupWidgetState();
+  State<CombatGroupWidget> createState() => _CombatGroupWidgetState();
 }
 
 class _CombatGroupWidgetState extends State<CombatGroupWidget> {

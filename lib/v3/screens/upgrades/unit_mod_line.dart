@@ -19,7 +19,7 @@ class UnitModLine extends StatefulWidget {
   final bool isModSelectable;
 
   @override
-  _UnitModLineState createState() => _UnitModLineState();
+  State<UnitModLine> createState() => _UnitModLineState();
 }
 
 class _UnitModLineState extends State<UnitModLine> {

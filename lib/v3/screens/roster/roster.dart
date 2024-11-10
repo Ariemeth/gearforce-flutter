@@ -49,7 +49,7 @@ class RosterWidget extends StatefulWidget {
   final VersionSelector versionSelector;
 
   @override
-  _RosterWidgetState createState() => _RosterWidgetState();
+  State<RosterWidget> createState() => _RosterWidgetState();
 }
 
 class _RosterWidgetState extends State<RosterWidget> {
@@ -147,7 +147,9 @@ class _RosterWidgetState extends State<RosterWidget> {
                     roster.copyFrom(loadedRoster);
                   });
                 }
-                Navigator.pop(context);
+                if (context.mounted) {
+                  Navigator.pop(context);
+                }
               },
             ),
             ListTile(
@@ -162,7 +164,9 @@ class _RosterWidgetState extends State<RosterWidget> {
                     roster.copyFrom(loadedRoster);
                   });
                 }
-                Navigator.pop(context);
+                if (context.mounted) {
+                  Navigator.pop(context);
+                }
               },
             ),
             ListTile(
@@ -186,7 +190,9 @@ class _RosterWidgetState extends State<RosterWidget> {
               ),
               onTap: () async {
                 await showRosterIdDialog(context, roster);
-                Navigator.pop(context);
+                if (context.mounted) {
+                  Navigator.pop(context);
+                }
               },
             ),
             ListTile(

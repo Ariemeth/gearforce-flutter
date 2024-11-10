@@ -15,7 +15,7 @@ class ModOptionButton extends StatefulWidget {
   final Function onChanged;
 
   @override
-  _ModOptionButtonState createState() => _ModOptionButtonState();
+  State<ModOptionButton> createState() => _ModOptionButtonState();
 }
 
 class _ModOptionButtonState extends State<ModOptionButton> {

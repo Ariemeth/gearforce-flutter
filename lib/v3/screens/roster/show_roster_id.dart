@@ -7,7 +7,7 @@ Future showRosterIdDialog(BuildContext context, UnitRoster roster) async {
   final results = await ApiService.saveV3Roster(roster);
 
   await showDialog<String>(
-      context: context,
+      context: context.mounted ? context : context,
       builder: (BuildContext context) {
         if (results.$1 == null) {
           return UnableToSaveRosterDialog(

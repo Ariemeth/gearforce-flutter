@@ -23,7 +23,7 @@ class UnitSelector extends StatefulWidget {
   }
 
   @override
-  _UnitSelectorState createState() => _UnitSelectorState();
+  State<UnitSelector> createState() => _UnitSelectorState();
 }
 
 class _UnitSelectorState extends State<UnitSelector> {

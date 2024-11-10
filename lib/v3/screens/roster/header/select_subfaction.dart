@@ -14,7 +14,7 @@ class SelectSubFaction extends StatefulWidget {
   final ValueNotifier<RuleSet> selectedSubFaction;
 
   @override
-  _SelectSubFactionState createState() => _SelectSubFactionState();
+  State<SelectSubFaction> createState() => _SelectSubFactionState();
 }
 
 /// This is the private State class that goes with MyStatefulWidget.

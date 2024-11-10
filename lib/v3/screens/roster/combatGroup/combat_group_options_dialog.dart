@@ -101,7 +101,9 @@ class _CombatGroupOptionsDialogState extends State<CombatGroupOptionsDialog> {
                     switch (value) {
                       case DeleteCGOptionResult.remove:
                         widget.cg.roster!.removeCG(widget.cg.name);
-                        Navigator.pop(context);
+                        if (context.mounted) {
+                          Navigator.pop(context);
+                        }
                         break;
                       default:
                     }

@@ -14,7 +14,7 @@ class CombatGroupsDisplay extends StatefulWidget {
   final UnitRoster roster;
 
   @override
-  _CombatGroupsDisplayState createState() => _CombatGroupsDisplayState();
+  State<CombatGroupsDisplay> createState() => _CombatGroupsDisplayState();
 }
 
 class _CombatGroupsDisplayState extends State<CombatGroupsDisplay>
