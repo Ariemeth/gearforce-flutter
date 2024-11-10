@@ -148,7 +148,8 @@ class Settings {
   }
 
   reset() {
-    tooltipDelay = const Duration(milliseconds: _defaultTooltipDelayInMilliseconds);
+    tooltipDelay =
+        const Duration(milliseconds: _defaultTooltipDelayInMilliseconds);
     isExtendedContentAllowed = _defaultIsExtendedContentAllowed;
     isAlphaBetaAllowed = _defaultIsAlphaBetaAllowed;
     requireConfirmationToDeleteUnit = _defaultRequireConfirmationToDeleteUnit;
