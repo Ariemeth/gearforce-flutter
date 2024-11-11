@@ -10,7 +10,7 @@ class VersionSelector extends StatelessWidget {
   static String get v3_1 => _threeOne;
   static String get v4_0 => _fourZero;
 
-  //final versions = const [_3_1, _4_0];
+  // final versions = const [_threeOne, _fourZero];
   final versions = const [_threeOne];
   final String currentVersion;
 
@@ -36,6 +36,11 @@ class VersionSelector extends StatelessWidget {
           if (!versions.contains(value)) {
             return;
           }
+
+          if (currentVersion == value) {
+            return;
+          }
+
           Navigator.pushReplacementNamed(context, '/$value');
         },
       ),
