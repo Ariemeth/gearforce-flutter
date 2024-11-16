@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:gearforce/v3/screens/unitSelector/unit_selection_text_Cell.dart';
+import 'package:gearforce/v3/screens/unitSelector/unit_selector_text_cell.dart';
 
 class SelectedUnitModelCell extends StatelessWidget {
   const SelectedUnitModelCell({
-    Key? key,
+    super.key,
     required this.text,
     this.hasBorder = false,
     this.borderSize = 0,
-  })  : assert(borderSize <= 5),
-        super(key: key);
+  }) : assert(borderSize <= 5);
 
   final String text;
   final bool hasBorder;
@@ -16,12 +15,12 @@ class SelectedUnitModelCell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return UnitSelectionTextCell.content(
-      this.text,
+    return UnitSelectorTextCell.content(
+      text,
       maxLines: 1,
       alignment: Alignment.centerLeft,
-      padding: this.hasBorder
-          ? EdgeInsets.fromLTRB(5, 5 - this.borderSize, 5, 5 - this.borderSize)
+      padding: hasBorder
+          ? EdgeInsets.fromLTRB(5, 5 - borderSize, 5, 5 - borderSize)
           : const EdgeInsets.all(5),
     );
   }

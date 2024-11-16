@@ -47,7 +47,7 @@ const _maxTotalNumberUniversalDrones = 5;
 class DefaultRuleSet extends RuleSet {
   DefaultRuleSet(data, {required Settings settings})
       : super(
-          FactionType.Universal,
+          FactionType.universal,
           data,
           name: 'Default ruleset',
           factionRules: [],
@@ -71,33 +71,33 @@ abstract class RuleSet extends ChangeNotifier {
     this.data, {
     required this.name,
     this.description,
-    this.specialRules = null,
+    this.specialRules,
     required List<Rule> factionRules,
     required List<Rule> subFactionRules,
     required this.settings,
   }) {
-    factionRules.forEach((fr) {
+    for (var fr in factionRules) {
       fr.addListener(() {
-        this.notifyListeners();
+        notifyListeners();
       });
-    });
-    subFactionRules.forEach((fr) {
+    }
+    for (var fr in subFactionRules) {
       fr.addListener(() {
-        this.notifyListeners();
+        notifyListeners();
       });
-    });
+    }
     _factionRules.addAll(factionRules);
     _subFactionRules.addAll(subFactionRules);
   }
 
   List<Rule> allFactionRules({
-    Unit? unit = null,
-    List<FactionType>? factions = null,
+    Unit? unit,
+    List<FactionType>? factions,
   }) =>
       [
         ...factionRules,
         ...subFactionRules,
-        ...GetModelFactionRules(unit, factions),
+        ...getModelFactionRules(unit, factions),
         ...alphaBetaRules,
       ];
   List<Rule> get factionRules => _factionRules.toList();
@@ -110,7 +110,7 @@ abstract class RuleSet extends ChangeNotifier {
     }
     rules.addAll([ruleSnipers, ruleVeteranCombatGroups]);
 
-    if (this.type == FactionType.South) {
+    if (type == FactionType.south) {
       rules.add(ruleLionHunters);
     }
 
@@ -133,7 +133,7 @@ abstract class RuleSet extends ChangeNotifier {
   List<Rule> allEnabledRules(
     List<CombatGroupOption>? cgOptions, {
     bool includeModelRules = true,
-    Unit? unit = null,
+    Unit? unit,
   }) {
     final enabledAvailableRules =
         Rule.enabledRules(allFactionRules(unit: unit)).toList();
@@ -226,9 +226,9 @@ abstract class RuleSet extends ChangeNotifier {
         enabledRules.where((rule) => rule.factionMods != null).toList();
 
     final List<FactionModification> availableFactionMods = [];
-    availableFactionModRules.forEach((rule) {
+    for (var rule in availableFactionModRules) {
       availableFactionMods.addAll(rule.factionMods!(ur, cg, u));
-    });
+    }
 
     if (settings.isAlphaBetaAllowed) {
       for (final rule in alphaBetaRules
@@ -253,12 +253,12 @@ abstract class RuleSet extends ChangeNotifier {
         allEnabledRules(cgOptions).where((rule) => rule.unitFilter != null));
 
     final List<SpecialUnitFilter> availableUnitFilters = [];
-    availableUnitFilterRules.forEach((rule) {
+    for (var rule in availableUnitFilterRules) {
       final filter = rule.unitFilter!(cgOptions);
       if (filter != null) {
         availableUnitFilters.add(filter);
       }
-    });
+    }
 
     return availableUnitFilters;
   }
@@ -295,7 +295,7 @@ abstract class RuleSet extends ChangeNotifier {
     final numIndependentOperator = cg.numUnitsWithMod(independentOperatorId);
     if (!(numIndependentOperator == 0 ||
         (numIndependentOperator == 1 && unit.hasMod(independentOperatorId)))) {
-      results.add(Validation(
+      results.add(const Validation(
         false,
         issue: 'An independent Operator is already in the CG',
       ));
@@ -306,7 +306,7 @@ abstract class RuleSet extends ChangeNotifier {
     // SpecialUnitFIlters
     final unitFilters = availableUnitFilters(cg.options);
     if (!unitFilters.any((filter) => filter.anyMatch(unit.core))) {
-      results.add(Validation(false, issue: 'Unit not allowed'));
+      results.add(const Validation(false, issue: 'Unit not allowed'));
       return results;
     }
 
@@ -327,15 +327,15 @@ abstract class RuleSet extends ChangeNotifier {
 
     if (overrideValues.isNotEmpty) {
       if (overrideValues.any((val) => val.isNotValid())) {
-        overrideValues.forEach((val) {
+        for (var val in overrideValues) {
           if (val.isNotValid()) {
             results.add(val);
           }
-        });
+        }
         return results;
       }
 
-      results.add(Validation(true));
+      results.add(const Validation(true));
       return results;
     }
 
@@ -343,7 +343,7 @@ abstract class RuleSet extends ChangeNotifier {
 
     // Unit must have the role of the group it is being added.
     if (!(hasGroupRole(unit, targetRole, group) ||
-        unit.type == ModelType.AirstrikeCounter)) {
+        unit.type == ModelType.airstrikeCounter)) {
       results.add(Validation(
         false,
         issue: 'Unit does not have the ${targetRole.name} role',
@@ -356,11 +356,9 @@ abstract class RuleSet extends ChangeNotifier {
     final isUnitAlreadyInGroup = group.allUnits().any((u) => u == unit);
     if (!isUnitAlreadyInGroup) {
       final actions = group.totalActions + (unit.actions ?? 0);
-      final maxAllowedActions = group.groupType == GroupType.Primary
+      final maxAllowedActions = group.groupType == GroupType.primary
           ? maxPrimaryActions
-          : modelCheckCount != null
-              ? modelCheckCount
-              : maxSecondaryActions(cg.primary.totalActions);
+          : modelCheckCount ?? maxSecondaryActions(cg.primary.totalActions);
       if (actions > maxAllowedActions) {
         print('Unit ${unit.name} has ${unit.actions} action and cannot be' +
             ' added as it would increase the number of actions beyond the max' +
@@ -382,14 +380,14 @@ abstract class RuleSet extends ChangeNotifier {
       return results;
     }
 
-    if (unit.type == ModelType.Drone &&
-        unit.faction == FactionType.Universal_TerraNova) {
+    if (unit.type == ModelType.drone &&
+        unit.faction == FactionType.universalTerraNova) {
       final canBeAdded =
           hasUniversalDroneCapacityAvailable(cg.roster, cg, unit);
       if (!canBeAdded) {
         results.add(Validation(
           canBeAdded,
-          issue: 'Max number(${_maxTotalNumberUniversalDrones}) of ' +
+          issue: 'Max number($_maxTotalNumberUniversalDrones) of ' +
               ' ${unit.core.name} have already been added',
         ));
         return results;
@@ -405,7 +403,7 @@ abstract class RuleSet extends ChangeNotifier {
     final withinCount = isUnitCountWithinLimits(cg, group, unit);
 
     if (!withinCount) {
-      results.add(Validation(
+      results.add(const Validation(
         false,
         issue: 'Max allowed instances of this unit are already added',
       ));
@@ -417,22 +415,22 @@ abstract class RuleSet extends ChangeNotifier {
 
   bool hasUniversalDroneCapacityAvailable(
       UnitRoster? roster, CombatGroup cg, Unit unit) {
-    if (unit.type != ModelType.Drone ||
-        unit.faction != FactionType.Universal_TerraNova) {
+    if (unit.type != ModelType.drone ||
+        unit.faction != FactionType.universalTerraNova) {
       return true;
     }
 
     final dronesInCG = cg.units
         .where((u) =>
-            u.type == ModelType.Drone &&
-            u.faction == FactionType.Universal_TerraNova &&
+            u.type == ModelType.drone &&
+            u.faction == FactionType.universalTerraNova &&
             u.core.name == unit.core.name &&
             u != unit)
         .length;
-    final HunsInCG =
+    final hunsInCG =
         cg.units.where((u) => u.core.name.startsWith('Recon Hu')).length;
 
-    final nonFreeDrones = max(dronesInCG - HunsInCG * 2, 0);
+    final nonFreeDrones = max(dronesInCG - hunsInCG * 2, 0);
 
     if (nonFreeDrones <= 0) {
       return true;
@@ -463,8 +461,8 @@ abstract class RuleSet extends ChangeNotifier {
     allCGs.where((cg) => cg != combatGroup).forEach((cg) {
       final droneCount = cg.units
           .where((u) =>
-              u.type == ModelType.Drone &&
-              u.faction == FactionType.Universal_TerraNova &&
+              u.type == ModelType.drone &&
+              u.faction == FactionType.universalTerraNova &&
               u.core.name == unit.core.name)
           .length;
       if (droneCount > 0) {
@@ -479,10 +477,10 @@ abstract class RuleSet extends ChangeNotifier {
   }
 
   bool canBeCommand(Unit unit) {
-    return unit.core.type != ModelType.AirstrikeCounter &&
-        unit.core.type != ModelType.Drone &&
-        unit.core.type != ModelType.Building &&
-        unit.core.type != ModelType.Terrain &&
+    return unit.core.type != ModelType.airstrikeCounter &&
+        unit.core.type != ModelType.drone &&
+        unit.core.type != ModelType.building &&
+        unit.core.type != ModelType.terrain &&
         !unit.traits.any((t) => t.name == 'Conscript');
   }
 
@@ -509,11 +507,11 @@ abstract class RuleSet extends ChangeNotifier {
         .toList();
     if (overrideValues.isNotEmpty) {
       final List<CommandLevel> results = [];
-      overrideValues.forEach((r) {
+      for (var r in overrideValues) {
         if (r != null) {
           results.addAll(r);
         }
-      });
+      }
       return results;
     }
 
@@ -530,9 +528,9 @@ abstract class RuleSet extends ChangeNotifier {
         allEnabledRules(null).where((rule) => rule.combatGroupOption != null);
 
     final List<CombatGroupOption> cgOptions = [];
-    availableCombatOptionRules.forEach((rule) {
+    for (var rule in availableCombatOptionRules) {
       cgOptions.addAll(rule.combatGroupOption!());
-    });
+    }
     return cgOptions;
   }
 
@@ -549,7 +547,7 @@ abstract class RuleSet extends ChangeNotifier {
       if (overrideValues.any((status) => status == false)) {
         return false;
       }
-    } else if (u.type != ModelType.Gear) {
+    } else if (u.type != ModelType.gear) {
       return false;
     }
 
@@ -565,18 +563,18 @@ abstract class RuleSet extends ChangeNotifier {
           .where((result) => result != null);
 
       int? maxOverrride;
-      countOverrideValues.forEach((v) {
+      for (var v in countOverrideValues) {
         if (v == null) {
-          return;
+          continue;
         }
         if (maxOverrride == null) {
           maxOverrride = v;
         } else {
-          maxOverrride = min(maxOverrride!, v);
+          maxOverrride = min(maxOverrride, v);
         }
-      });
+      }
       if (maxOverrride != null) {
-        maxAllowedDuelist = maxOverrride!;
+        maxAllowedDuelist = maxOverrride;
       }
     }
     if (roster.duelists.where((unit) => unit != u).length >=
@@ -602,7 +600,7 @@ abstract class RuleSet extends ChangeNotifier {
       return true;
     }
 
-    return (u.traits.any((trait) => trait.name == Trait.Duelist().name));
+    return (u.traits.any((trait) => trait.name == Trait.duelist().name));
   }
 
   /// Override a mods requirement check.  Check mod before using to ensure
@@ -667,7 +665,7 @@ abstract class RuleSet extends ChangeNotifier {
     final factionMods = availableFactionMods(roster, group.combatGroup!, unit);
     for (final m in factionMods) {
       final modifiedRoles = m.applyMods(UnitAttribute.roles, unit.core.role);
-      if (modifiedRoles!.roles.any((r) => r == target)) {
+      if (modifiedRoles!.roles.any((r) => r.name == target)) {
         unit.addUnitMod(m);
         return true;
       }
@@ -736,10 +734,10 @@ abstract class RuleSet extends ChangeNotifier {
       }
     }
 
-    if (unit.type == ModelType.AirstrikeCounter) {
+    if (unit.type == ModelType.airstrikeCounter) {
       count = cg.roster == null
           ? cg.units
-              .where((u) => u.type == ModelType.AirstrikeCounter && u != unit)
+              .where((u) => u.type == ModelType.airstrikeCounter && u != unit)
               .length
           : cg.roster!.totalAirstrikeCounters() -
               group.allUnits().where((u) => u == unit).length;
@@ -761,11 +759,11 @@ abstract class RuleSet extends ChangeNotifier {
       return true;
     }
 
-    if (unit.type == ModelType.AirstrikeCounter) {
+    if (unit.type == ModelType.airstrikeCounter) {
       return count < _maxNumberAirstrikes;
     }
 
-    if (group.groupType == GroupType.Primary) {
+    if (group.groupType == GroupType.primary) {
       return count < _maxNumberModels;
     }
 
@@ -785,13 +783,13 @@ abstract class RuleSet extends ChangeNotifier {
     final overrideValues =
         modCostOverrides.map((r) => r.modCostOverride!(modID, u)).toList();
     int? minOverrideValue;
-    overrideValues.forEach((v) {
+    for (var v in overrideValues) {
       if (minOverrideValue == null) {
         minOverrideValue = v;
       } else if (v != null) {
-        minOverrideValue = min(minOverrideValue!, v);
+        minOverrideValue = min(minOverrideValue, v);
       }
-    });
+    }
     return minOverrideValue;
   }
 
@@ -806,9 +804,9 @@ abstract class RuleSet extends ChangeNotifier {
 
     final List<int> results = [];
     if (overrideValues.isNotEmpty) {
-      overrideValues.forEach((r) {
+      for (var r in overrideValues) {
         results.add(r);
-      });
+      }
     }
 
     return results.fold(0, (a, b) => a + b);
@@ -837,11 +835,11 @@ abstract class RuleSet extends ChangeNotifier {
       }
     }
 
-    if (u.type == ModelType.Drone ||
-        u.type == ModelType.Terrain ||
-        u.type == ModelType.AreaTerrain ||
-        u.type == ModelType.AirstrikeCounter ||
-        u.traits.any((t) => t.name == "Conscript")) {
+    if (u.type == ModelType.drone ||
+        u.type == ModelType.terrain ||
+        u.type == ModelType.areaTerrain ||
+        u.type == ModelType.airstrikeCounter ||
+        u.traits.any((t) => t.name == 'Conscript')) {
       return false;
     }
 
@@ -900,9 +898,9 @@ abstract class RuleSet extends ChangeNotifier {
       return;
     }
 
-    weaponModifierRules.forEach((rule) {
+    for (var rule in weaponModifierRules) {
       rule.modifyWeapon!(weapons);
-    });
+    }
   }
 
   /// Modifies an existing [Trait] list based on current [Rule]s.
@@ -913,9 +911,9 @@ abstract class RuleSet extends ChangeNotifier {
       return;
     }
 
-    traitModifierRules.forEach((rule) {
+    for (var rule in traitModifierRules) {
       rule.modifyTraits!(traits, unit.core);
-    });
+    }
   }
 }
 
@@ -924,20 +922,21 @@ Validation? _checkModelRules(Unit unit, Group group) {
   final unitsInGroup = group.allUnits().where((u) => u != unit).toList();
 
   if (unitsInGroup.isEmpty) {
-    return Validation(true);
+    return const Validation(true);
   }
 
   // deal with the overlord multi unit model
   if (frame == _overlord) {
-    if (group.groupType == GroupType.Secondary) {
-      return Validation(false, issue: 'cannot be part of a secondary group');
+    if (group.groupType == GroupType.secondary) {
+      return const Validation(false,
+          issue: 'cannot be part of a secondary group');
     }
     if (unitsInGroup
             .where((u) =>
                 u.actions != null || (u.actions != null && u.actions! > 0))
             .length >
         1) {
-      return Validation(
+      return const Validation(
         false,
         issue: 'already units in the group, will result in to many actions',
       );
@@ -947,22 +946,23 @@ Validation? _checkModelRules(Unit unit, Group group) {
             u.name == _overlordTurret ||
             u.actions == null ||
             (u.actions != null && u.actions == 0))) {
-      return Validation(true);
+      return const Validation(true);
     }
     if (unit.name == _overlordTurret &&
         unitsInGroup.any((u) =>
             u.name == _overlordBody ||
             u.actions == null ||
             (u.actions != null && u.actions == 0))) {
-      return Validation(true);
+      return const Validation(true);
     }
 
-    return Validation(false, issue: 'group already contains another unit');
+    return const Validation(false,
+        issue: 'group already contains another unit');
   }
 
   if (unitsInGroup.any((u) => u.core.frame == _overlord) &&
       (unit.actions != null && unit.actions! > 0)) {
-    return Validation(
+    return const Validation(
       false,
       issue:
           'group already contains an Overlord, will result in to many actions',
@@ -973,8 +973,9 @@ Validation? _checkModelRules(Unit unit, Group group) {
   if (frame == _gilgameshFront ||
       frame == _gilgameshBack ||
       frame == _gilgameshTurret) {
-    if (group.groupType == GroupType.Secondary) {
-      return Validation(false, issue: 'cannot be part of a secondary group');
+    if (group.groupType == GroupType.secondary) {
+      return const Validation(false,
+          issue: 'cannot be part of a secondary group');
     }
 
     RegExp gilgameshTypeExp = RegExp(
@@ -1002,7 +1003,7 @@ Validation? _checkModelRules(Unit unit, Group group) {
         final unitType = unitTypeMatch.namedGroup('type');
         return uMatchType == unitType;
       })) {
-        return Validation(false,
+        return const Validation(false,
             issue: 'Cannot mix Gilgamesh Type A and B parts');
       }
     }
@@ -1013,10 +1014,10 @@ Validation? _checkModelRules(Unit unit, Group group) {
             u.core.frame == _gilgameshBack ||
             u.core.frame == _gilgameshTurret ||
             (u.actions == null || u.actions! < 1)))) {
-      return Validation(true);
+      return const Validation(true);
     }
 
-    return Validation(
+    return const Validation(
       false,
       issue: 'already units in the group, will result in too many actions',
     );
@@ -1027,7 +1028,7 @@ Validation? _checkModelRules(Unit unit, Group group) {
           u.core.frame == _gilgameshBack ||
           u.core.frame == _gilgameshTurret) &&
       (unit.actions != null && unit.actions! > 0)) {
-    return Validation(
+    return const Validation(
       false,
       issue: 'Gilgamesh already in group, will result in too many actions',
     );
@@ -1040,14 +1041,14 @@ const _overlord = 'HHT-90 Overlord';
 const _overlordBody = 'HHT-90 Overlord Body';
 const _overlordTurret = 'HHT-90 Overlord Turret';
 
-const _gilgameshFront = "Gilgamesh Front";
-const _gilgameshBack = "Gilgamesh Rear";
-const _gilgameshTurret = "Gilgamesh Turret";
+const _gilgameshFront = 'Gilgamesh Front';
+const _gilgameshBack = 'Gilgamesh Rear';
+const _gilgameshTurret = 'Gilgamesh Turret';
 
 int? _checkModelRulesCount(Unit unit, Group group, CombatGroup cg) {
   // handle the extra GREL allowed in a secondary if the primary is the HHT-90
   // Overlord
-  if (unit.core.frame == 'GREL' && group.groupType == GroupType.Secondary) {
+  if (unit.core.frame == 'GREL' && group.groupType == GroupType.secondary) {
     if (!group
         .allUnits()
         .every((u) => u.core.frame == 'GREL' && u.hasMod(cef.squad.id))) {

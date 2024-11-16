@@ -15,21 +15,19 @@ const double _sectionheight = 320;
 const double _movementIconCellWidth = 36;
 
 class CombatGroupWidget extends StatefulWidget {
-  CombatGroupWidget(this.roster, {required this.name});
+  const CombatGroupWidget(this.roster, {super.key, required this.name});
 
   final UnitRoster roster;
   final String name;
 
   CombatGroup getOwnCG() {
-    var cg = this.roster.getCG(this.name);
-    if (cg == null) {
-      cg = CombatGroup(this.name);
-    }
+    var cg = roster.getCG(name);
+    cg ??= CombatGroup(name);
     return cg;
   }
 
   @override
-  _CombatGroupWidgetState createState() => _CombatGroupWidgetState();
+  State<CombatGroupWidget> createState() => _CombatGroupWidgetState();
 }
 
 class _CombatGroupWidgetState extends State<CombatGroupWidget> {
@@ -45,7 +43,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
           roster: widget.roster,
         ),
         Container(
-          constraints: BoxConstraints(minHeight: _sectionheight / 2),
+          constraints: const BoxConstraints(minHeight: _sectionheight / 2),
           child: _generateTable(
             context: context,
             group: cg.primary,
@@ -59,7 +57,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
           roster: widget.roster,
         ),
         Container(
-          constraints: BoxConstraints(minHeight: _sectionheight / 2),
+          constraints: const BoxConstraints(minHeight: _sectionheight / 2),
           child: _generateTable(
             context: context,
             group: cg.secondary,
@@ -132,8 +130,8 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
 
   List<DataColumn> _generateTableHeading() {
     return <DataColumn>[
-      DataColumn(
-        label: Container(
+      const DataColumn(
+        label: SizedBox(
           width: _movementIconCellWidth,
           child: UnitTextCell.columnTitle(
             '',
@@ -144,71 +142,71 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
         label: Container(
           alignment: Alignment.centerLeft,
           width: 180,
-          child: UnitTextCell.columnTitle(
-            "Model",
+          child: const UnitTextCell.columnTitle(
+            'Model',
             textAlignment: TextAlign.left,
             alignment: Alignment.centerLeft,
           ),
         ),
       ),
-      DataColumn(
-        label: Container(
+      const DataColumn(
+        label: SizedBox(
           width: 40,
           child: UnitTextCell.columnTitle(
             'TV',
           ),
         ),
       ),
-      DataColumn(
-        label: Container(
+      const DataColumn(
+        label: SizedBox(
           width: 40,
           child: UnitTextCell.columnTitle(
             'Act',
           ),
         ),
       ),
-      DataColumn(
-        label: Container(
+      const DataColumn(
+        label: SizedBox(
           width: 60,
           child: UnitTextCell.columnTitle(
             'SP/CP',
           ),
         ),
       ),
-      DataColumn(
-        label: Container(
+      const DataColumn(
+        label: SizedBox(
           width: 60,
           child: UnitTextCell.columnTitle(
             'Rank',
           ),
         ),
       ),
-      DataColumn(
-        label: Container(
+      const DataColumn(
+        label: SizedBox(
           width: 65,
           child: UnitTextCell.columnTitle(
             'Duelist',
           ),
         ),
       ),
-      DataColumn(
-        label: Container(
+      const DataColumn(
+        label: SizedBox(
           width: 40,
           child: UnitTextCell.columnTitle(
             'Vet',
           ),
         ),
       ),
-      DataColumn(
-        label: Container(
+      const DataColumn(
+        label: SizedBox(
           width: 75,
           child: UnitTextCell.columnTitle(
             'Upgrades',
           ),
         ),
       ),
-      DataColumn(
-        label: Container(
+      const DataColumn(
+        label: SizedBox(
           width: 65,
           child: UnitTextCell.columnTitle(
             'Remove',
@@ -291,38 +289,36 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Container(
-            child: Center(
-              child: DropdownButton<String>(
-                value: canBeCommand ? unitCommand.name : null,
-                // hint: Text('Select Command Level'),
-                icon: const Icon(Icons.arrow_downward),
-                iconSize: 16,
-                elevation: 16,
-                isExpanded: true,
-                isDense: true,
-                padding: EdgeInsets.all(0.0),
-                style: const TextStyle(color: Colors.blue),
-                underline: SizedBox(),
-                onChanged: (String? newValue) {
-                  setState(() {
-                    unit.commandLevel = CommandLevel.fromString(newValue);
-                  });
-                },
-                items: canBeCommand
-                    ? cls.map<DropdownMenuItem<String>>((CommandLevel value) {
-                        return DropdownMenuItem<String>(
-                          value: value.name,
-                          child: Center(
-                            child: Text(
-                              value.name,
-                              style: TextStyle(fontSize: 14),
-                            ),
+          Center(
+            child: DropdownButton<String>(
+              value: canBeCommand ? unitCommand.name : null,
+              // hint: Text('Select Command Level'),
+              icon: const Icon(Icons.arrow_downward),
+              iconSize: 16,
+              elevation: 16,
+              isExpanded: true,
+              isDense: true,
+              padding: const EdgeInsets.all(0.0),
+              style: const TextStyle(color: Colors.blue),
+              underline: const SizedBox(),
+              onChanged: (String? newValue) {
+                setState(() {
+                  unit.commandLevel = CommandLevel.fromString(newValue);
+                });
+              },
+              items: canBeCommand
+                  ? cls.map<DropdownMenuItem<String>>((CommandLevel value) {
+                      return DropdownMenuItem<String>(
+                        value: value.name,
+                        child: Center(
+                          child: Text(
+                            value.name,
+                            style: const TextStyle(fontSize: 14),
                           ),
-                        );
-                      }).toList()
-                    : null,
-              ),
+                        ),
+                      );
+                    }).toList()
+                  : null,
             ),
           ),
         ],
@@ -331,13 +327,11 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Expanded(
-            child: Container(
-              child: Radio<bool>(
-                value: unit.isDuelist,
-                groupValue: true,
-                toggleable: true,
-                onChanged: (bool? value) {},
-              ),
+            child: Radio<bool>(
+              value: unit.isDuelist,
+              groupValue: true,
+              toggleable: true,
+              onChanged: (bool? value) {},
             ),
           ),
         ],
@@ -346,13 +340,11 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Expanded(
-            child: Container(
-              child: Radio<bool>(
-                value: unit.isVeteran,
-                toggleable: true,
-                groupValue: true,
-                onChanged: (bool? value) {},
-              ),
+            child: Radio<bool>(
+              value: unit.isVeteran,
+              toggleable: true,
+              groupValue: true,
+              onChanged: (bool? value) {},
             ),
           ),
         ],
@@ -362,9 +354,8 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Expanded(
-              child: Container(
-                  child: UnitUpgradeButton(
-                      unit, group, widget.getOwnCG(), widget.roster)),
+              child: UnitUpgradeButton(
+                  unit, group, widget.getOwnCG(), widget.roster),
             ),
           ],
         ),
@@ -374,24 +365,22 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Expanded(
-              child: Container(
-                child: IconButton(
-                  onPressed: () {
-                    {
-                      if (settings.requireConfirmationToDeleteUnit) {
-                        _showConfirmDelete(context, unit, i, group);
-                      } else {
-                        group.removeUnit(i);
-                      }
+              child: IconButton(
+                onPressed: () {
+                  {
+                    if (settings.requireConfirmationToDeleteUnit) {
+                      _showConfirmDelete(context, unit, i, group);
+                    } else {
+                      group.removeUnit(i);
                     }
-                  },
-                  icon: const Icon(
-                    Icons.delete_forever,
-                    color: Color.fromARGB(255, 200, 28, 28),
-                  ),
-                  splashRadius: 20.0,
-                  tooltip: 'Remove this unit from the group',
+                  }
+                },
+                icon: const Icon(
+                  Icons.delete_forever,
+                  color: Color.fromARGB(255, 200, 28, 28),
                 ),
+                splashRadius: 20.0,
+                tooltip: 'Remove this unit from the group',
               ),
             ),
           ],
@@ -425,22 +414,22 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
     SimpleDialog optionsDialog = SimpleDialog(
       title: Column(
         children: [
-          Text(
+          const Text(
             'Are you sure you want to remove',
             style: TextStyle(fontSize: 24),
           ),
           Text(
             '${unit.name}?',
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
         ],
       ),
       children: [
         SimpleDialogOption(
           onPressed: () {
-            Navigator.pop(context, OptionResult.Remove);
+            Navigator.pop(context, OptionResult.remove);
           },
-          child: Center(
+          child: const Center(
             child: Text(
               'Yes',
               style: TextStyle(fontSize: 24, color: Colors.red),
@@ -449,9 +438,9 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
         ),
         SimpleDialogOption(
           onPressed: () {
-            Navigator.pop(context, OptionResult.Cancel);
+            Navigator.pop(context, OptionResult.cancel);
           },
-          child: Center(
+          child: const Center(
             child: Text(
               'No',
               style: TextStyle(fontSize: 24, color: Colors.green),
@@ -469,7 +458,7 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
 
     futureResult.then((value) {
       switch (value) {
-        case OptionResult.Remove:
+        case OptionResult.remove:
           setState(() {
             group.removeUnit(unitIndex);
           });
@@ -480,4 +469,4 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
   }
 }
 
-enum OptionResult { Remove, Cancel, Upgrade }
+enum OptionResult { remove, cancel, upgrade }

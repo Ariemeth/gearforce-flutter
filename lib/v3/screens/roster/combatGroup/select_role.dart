@@ -8,15 +8,15 @@ class SelectRole extends StatefulWidget {
   final UnitRoster roster;
   final double width;
 
-  SelectRole({
-    Key? key,
+  const SelectRole({
+    super.key,
     required this.group,
     required this.roster,
     required this.width,
-  }) : super(key: key);
+  });
 
   @override
-  _SelectRoleState createState() => _SelectRoleState();
+  State<SelectRole> createState() => _SelectRoleState();
 }
 
 class _SelectRoleState extends State<SelectRole> {
@@ -44,9 +44,9 @@ class _SelectRoleState extends State<SelectRole> {
           value: value,
           child: Center(
             child: Text(
-              value.toString().split('.').last,
+              value.toString().split('.').last.toUpperCase(),
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 16),
+              style: const TextStyle(fontSize: 16),
             ),
           ),
         );
@@ -54,8 +54,8 @@ class _SelectRoleState extends State<SelectRole> {
     );
 
     return SizedBox(
-      child: dropdown,
       width: widget.width,
+      child: dropdown,
     );
   }
 }

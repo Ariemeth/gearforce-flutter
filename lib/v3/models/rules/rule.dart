@@ -21,8 +21,8 @@ class Rule extends ChangeNotifier {
   Rule({
     required this.name,
     required this.id,
-    this.ruleType = RuleType.Standard,
-    List<Rule>? options = null,
+    this.ruleType = RuleType.standard,
+    List<Rule>? options,
     this.description = '',
     bool isEnabled = true,
     this.canBeToggled = false,
@@ -66,7 +66,7 @@ class Rule extends ChangeNotifier {
     if (options != null) {
       for (final o in options) {
         o.addListener(() {
-          this.notifyListeners();
+          notifyListeners();
         });
       }
     }
@@ -75,7 +75,7 @@ class Rule extends ChangeNotifier {
   final String name;
   final String id;
   final RuleType ruleType;
-  List<Rule>? get options => _options == null ? null : _options!.toList();
+  List<Rule>? get options => _options?.toList();
   late final List<Rule>? _options;
   final String description;
   late bool _isEnabled;
@@ -199,7 +199,7 @@ class Rule extends ChangeNotifier {
 
     // If trying to enable the rule the the requirement check must succeed, else
     // do nothing
-    if (value && !this.requirementCheck(rules)) {
+    if (value && !requirementCheck(rules)) {
       return;
     }
 
@@ -225,7 +225,7 @@ class Rule extends ChangeNotifier {
       this,
       name: name,
       id: id,
-      requirementCheck: cgCheck != null ? cgCheck : this.cgCheck,
+      requirementCheck: cgCheck ?? this.cgCheck,
       canBeToggled: canBeToggled,
       initialState: initialState,
       description: description,
@@ -233,7 +233,7 @@ class Rule extends ChangeNotifier {
     );
     if (listener == null) {
       cgOption.addListener(() {
-        this.notifyListeners();
+        notifyListeners();
       });
     } else {
       cgOption.addListener(listener);
@@ -273,14 +273,14 @@ class Rule extends ChangeNotifier {
 
   static List<Rule> enabledRules(List<Rule> rules) {
     final List<Rule> results = [];
-    rules.forEach((rule) {
+    for (var rule in rules) {
       if (rule.isEnabled) {
         results.add(rule);
         if (rule.options != null) {
           results.addAll(enabledRules(rule.options!));
         }
       }
-    });
+    }
 
     return results;
   }
@@ -290,10 +290,10 @@ class Rule extends ChangeNotifier {
   static bool Function(List<Rule> rules) thereCanBeOnlyOne(
       List<String> excludedIDs) {
     return (List<Rule> rules) {
-      for (final ID in excludedIDs) {
+      for (final id in excludedIDs) {
         // if a rule that is on the exclude list is already enabled
         // this rule cannot be.
-        if (isRuleEnabled(rules, ID)) {
+        if (isRuleEnabled(rules, id)) {
           return false;
         }
       }
@@ -364,11 +364,9 @@ class Rule extends ChangeNotifier {
   }
   Map<String, dynamic> toJson() {
     return {
-      'id': this.id,
-      'enabled': this._isEnabled,
-      'options': this.options == null
-          ? null
-          : this.options!.map((o) => o.toJson()).toList(),
+      'id': id,
+      'enabled': _isEnabled,
+      'options': options?.map((o) => o.toJson()).toList(),
     };
   }
 }

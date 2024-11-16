@@ -1,6 +1,5 @@
 import 'package:gearforce/v3/models/combatGroups/combat_group.dart';
 import 'package:gearforce/v3/models/factions/faction_type.dart';
-import 'package:gearforce/v3/models/mods/base_modification.dart';
 import 'package:gearforce/v3/models/mods/factionUpgrades/faction_mod.dart';
 import 'package:gearforce/v3/models/mods/mods.dart';
 import 'package:gearforce/v3/models/roster/roster.dart';
@@ -37,8 +36,7 @@ class UtopiaMods extends FactionModification {
     Recce Armigers may purchase the React+ trait for 1 TV each.
   */
   factory UtopiaMods.quietDeath() {
-    final RequirementCheck reqCheck =
-        (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+    reqCheck(RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       assert(cg != null);
       assert(rs != null);
 
@@ -54,7 +52,7 @@ class UtopiaMods extends FactionModification {
         return true;
       }
       return false;
-    };
+    }
 
     final fm = UtopiaMods(
       name: 'Quiet Death',
@@ -70,7 +68,7 @@ class UtopiaMods extends FactionModification {
 
     fm.addMod<List<Trait>>(
       UnitAttribute.traits,
-      createAddTraitToList(Trait.ReactPlus()),
+      createAddTraitToList(Trait.reactPlus()),
       description: 'Recce Armigers may purchase the React+ trait.',
     );
 
@@ -81,8 +79,7 @@ class UtopiaMods extends FactionModification {
     Recce N-KIDUs may increase their EW skill by one for 1 TV each.
   */
   factory UtopiaMods.silentAssault() {
-    final RequirementCheck reqCheck =
-        (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+    reqCheck(RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       assert(cg != null);
       assert(rs != null);
 
@@ -97,7 +94,7 @@ class UtopiaMods extends FactionModification {
         return true;
       }
       return false;
-    };
+    }
 
     final fm = UtopiaMods(
       name: 'Silent Assault',
@@ -125,8 +122,7 @@ class UtopiaMods extends FactionModification {
     the Guided trait for 1 TV total.
   */
   factory UtopiaMods.wrathOfTheDemigods() {
-    final RequirementCheck reqCheck =
-        (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+    reqCheck(RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       assert(cg != null);
       assert(rs != null);
 
@@ -142,7 +138,7 @@ class UtopiaMods extends FactionModification {
         return true;
       }
       return false;
-    };
+    }
 
     final fm = UtopiaMods(
       name: 'Wrath of the Demigods',
@@ -156,13 +152,13 @@ class UtopiaMods extends FactionModification {
       description: 'TV: +1',
     );
 
-    final precise = Trait.Precise();
-    final guided = Trait.Guided();
+    final precise = Trait.precise();
+    final guided = Trait.guided();
 
     fm.addMod<List<Weapon>>(
       UnitAttribute.weapons,
       (value) {
-        var newList = new List<Weapon>.from(value);
+        var newList = List<Weapon>.from(value);
 
         if (!newList.any((w) => w.code == 'RP')) {
           return newList;
@@ -191,8 +187,7 @@ class UtopiaMods extends FactionModification {
     1 TV each.
   */
   factory UtopiaMods.notSoSilentAssault() {
-    final RequirementCheck reqCheck =
-        (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+    reqCheck(RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       assert(cg != null);
       assert(rs != null);
 
@@ -208,7 +203,7 @@ class UtopiaMods extends FactionModification {
         return true;
       }
       return false;
-    };
+    }
 
     final fm = UtopiaMods(
       name: 'Not So Silent Assault',
@@ -235,8 +230,7 @@ class UtopiaMods extends FactionModification {
     Commando Armigers may add +1 action for 2 TV each.
   */
   factory UtopiaMods.whoDares() {
-    final RequirementCheck reqCheck =
-        (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+    reqCheck(RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       assert(cg != null);
       assert(rs != null);
 
@@ -252,7 +246,7 @@ class UtopiaMods extends FactionModification {
         return true;
       }
       return false;
-    };
+    }
 
     final fm = UtopiaMods(
       name: 'Who Dares',
@@ -280,8 +274,7 @@ class UtopiaMods extends FactionModification {
     to, and remove the AP trait from, their rocket packs for 0 TV.
   */
   factory UtopiaMods.greenwayCaustics() {
-    final RequirementCheck reqCheck =
-        (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+    reqCheck(RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       assert(cg != null);
       assert(rs != null);
 
@@ -298,7 +291,7 @@ class UtopiaMods extends FactionModification {
       }
 
       return false;
-    };
+    }
 
     final fm = UtopiaMods(
       name: 'Greenway Caustics',
@@ -312,13 +305,13 @@ class UtopiaMods extends FactionModification {
       description: 'TV: 0',
     );
 
-    final corrosion = Trait.Corrosion();
-    final ap = Trait.AP(1);
+    final corrosion = Trait.corrosion();
+    final ap = Trait.ap(1);
 
     fm.addMod<List<Weapon>>(
       UnitAttribute.weapons,
       (value) {
-        var newList = new List<Weapon>.from(value);
+        var newList = List<Weapon>.from(value);
 
         if (!newList.any((w) => w.code == 'RP')) {
           return newList;
@@ -349,8 +342,7 @@ class UtopiaMods extends FactionModification {
     veterans and duelists may not receive the Conscript trait.
   */
   factory UtopiaMods.naiExperiments() {
-    final RequirementCheck reqCheck =
-        (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+    reqCheck(RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       assert(cg != null);
       assert(rs != null);
 
@@ -358,12 +350,12 @@ class UtopiaMods extends FactionModification {
         return false;
       }
 
-      if (u.type == ModelType.Gear && u.faction == FactionType.CEF) {
+      if (u.type == ModelType.gear && u.faction == FactionType.cef) {
         return true;
       }
 
       return false;
-    };
+    }
 
     final fm = UtopiaMods(
       name: 'NAI Experiments',
@@ -379,7 +371,7 @@ class UtopiaMods extends FactionModification {
 
     fm.addMod<List<Trait>>(
       UnitAttribute.traits,
-      createAddTraitToList(Trait.Conscript()),
+      createAddTraitToList(Trait.conscript()),
       description: 'CEF frames may add the Conscript trait.',
     );
 
@@ -391,8 +383,7 @@ class UtopiaMods extends FactionModification {
     duelist upgrade without being a veteran or a duelist.
   */
   factory UtopiaMods.frankNKidu() {
-    final RequirementCheck reqCheck =
-        (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+    reqCheck(RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       assert(cg != null);
       assert(rs != null);
 
@@ -408,7 +399,7 @@ class UtopiaMods extends FactionModification {
       }
 
       return false;
-    };
+    }
 
     final fm = UtopiaMods(
       name: 'Frank-N-KIDU',

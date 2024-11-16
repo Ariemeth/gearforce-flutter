@@ -10,26 +10,26 @@ pw.Widget buildTraitSheet(pw.Font font, List<Unit> units) {
     'Description',
   ];
 
-  final Map<String, String> allTraits = Map();
-  units.forEach((unit) {
-    unit.traits.forEach((trait) {
+  final Map<String, String> allTraits = {};
+  for (var unit in units) {
+    for (var trait in unit.traits) {
       allTraits[trait.toString()] = trait.description ?? '';
-    });
-    unit.weapons.forEach((weapon) {
-      weapon.traits.forEach((trait) {
+    }
+    for (var weapon in unit.weapons) {
+      for (var trait in weapon.traits) {
         allTraits[trait.toString()] = trait.description ?? '';
-      });
-      weapon.alternativeTraits.forEach((trait) {
+      }
+      for (var trait in weapon.alternativeTraits) {
         allTraits[trait.toString()] = trait.description ?? '';
-      });
+      }
       weapon.combo?.traits.forEach((trait) {
         allTraits[trait.toString()] = trait.description ?? '';
       });
       weapon.combo?.alternativeTraits.forEach((trait) {
         allTraits[trait.toString()] = trait.description ?? '';
       });
-    });
-  });
+    }
+  }
 
   final sortedTraits = allTraits.keys.toList();
   sortedTraits.sort();
@@ -65,7 +65,7 @@ pw.Widget buildTraitSheet(pw.Font font, List<Unit> units) {
   );
 
   return pw.Padding(
-    padding: pw.EdgeInsets.only(
+    padding: const pw.EdgeInsets.only(
       left: 10.0,
       right: 10.0,
       top: 10.0,

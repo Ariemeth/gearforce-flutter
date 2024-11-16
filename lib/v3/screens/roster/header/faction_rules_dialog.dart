@@ -32,25 +32,25 @@ class _FactionRulesDialogState extends State<FactionRulesDialog> {
     final headerString = widget.isCore ? 'Faction' : 'Sub-List';
     var dialog = SimpleDialog(
       clipBehavior: Clip.antiAlias,
-      shape: ContinuousRectangleBorder(
+      shape: const ContinuousRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(10.0))),
       title: Center(
         child: Column(
           children: [
             Text(
               '$headerString Rules',
-              style: TextStyle(fontSize: 24),
+              style: const TextStyle(fontSize: 24),
               maxLines: 1,
             ),
-            Text(''),
+            const Text(''),
             _factionOptions(
                 widget.upgrades, widget.roster, widget.isCore, _refresh),
-            Text(''),
+            const Text(''),
             SimpleDialogOption(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Center(
+              child: const Center(
                 child: Text(
                   'Close',
                   style: TextStyle(fontSize: 24, color: Colors.green),
@@ -85,9 +85,9 @@ Widget _factionOptions(
       : roster.rulesetNotifer.value
           .allFactionRules(factions: roster.allModelFactions());
 
-  final _scrollController = ScrollController();
+  final scrollController = ScrollController();
 
-  return Container(
+  return SizedBox(
     width: _optionSectionWidth,
     height: _optionSectionHeight +
         _optionSectionHeight *
@@ -98,10 +98,10 @@ Widget _factionOptions(
           child: Scrollbar(
             thumbVisibility: true,
             trackVisibility: true,
-            controller: _scrollController,
+            controller: scrollController,
             child: ListView.builder(
               itemCount: upgrades.length,
-              controller: _scrollController,
+              controller: scrollController,
               shrinkWrap: true,
               itemBuilder: (BuildContext context, int index) {
                 final option = upgrades[index];
@@ -113,14 +113,12 @@ Widget _factionOptions(
                         rules: rules,
                         notifyParent: notifyParent,
                       ),
-                      ...option.options!
-                          .map((o) => FactionRulesLine(
-                                upgrade: o,
-                                leftOffset: 25.0,
-                                rules: rules,
-                                notifyParent: notifyParent,
-                              ))
-                          .toList()
+                      ...option.options!.map((o) => FactionRulesLine(
+                            upgrade: o,
+                            leftOffset: 25.0,
+                            rules: rules,
+                            notifyParent: notifyParent,
+                          ))
                     ],
                   );
                 } else {

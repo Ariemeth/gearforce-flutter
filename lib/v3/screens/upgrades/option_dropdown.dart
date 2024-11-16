@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:gearforce/v3/models/mods/modification_option.dart';
 
 class OptionDropdown extends StatefulWidget {
-  OptionDropdown({
-    Key? key,
+  const OptionDropdown({
+    super.key,
     required this.options,
-  }) : super(key: key);
+  });
 
   final ModificationOption options;
 
   @override
-  _OptionDropdownState createState() => _OptionDropdownState();
+  State<OptionDropdown> createState() => _OptionDropdownState();
 }
 
 class _OptionDropdownState extends State<OptionDropdown> {
@@ -23,7 +23,7 @@ class _OptionDropdownState extends State<OptionDropdown> {
           padding: const EdgeInsets.all(8.0),
           child: DropdownButton<ModificationOption>(
             value: widget.options.selectedOption,
-            hint: Text('Choose'),
+            hint: const Text('Choose'),
             onChanged: (ModificationOption? newValue) {
               setState(() {
                 widget.options.selectedOption = newValue;

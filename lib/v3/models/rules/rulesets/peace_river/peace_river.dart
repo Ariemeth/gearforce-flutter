@@ -43,7 +43,7 @@ class PeaceRiver extends RuleSet {
     List<String>? specialRules,
     List<Rule> subFactionRules = const [],
   }) : super(
-          FactionType.PeaceRiver,
+          FactionType.peaceRiver,
           data,
           settings: settings,
           description: description,
@@ -68,11 +68,11 @@ class PeaceRiver extends RuleSet {
         text: type.name,
         id: coreTag,
         filters: const [
-          const UnitFilter(FactionType.PeaceRiver),
-          const UnitFilter(FactionType.Airstrike),
-          const UnitFilter(FactionType.Universal),
-          const UnitFilter(FactionType.Universal_TerraNova),
-          const UnitFilter(FactionType.Terrain),
+          UnitFilter(FactionType.peaceRiver),
+          UnitFilter(FactionType.airstrike),
+          UnitFilter(FactionType.universal),
+          UnitFilter(FactionType.universalTerraNova),
+          UnitFilter(FactionType.terrain),
         ],
       )
     ];
@@ -80,11 +80,11 @@ class PeaceRiver extends RuleSet {
     return [...filters, ...super.availableUnitFilters(cgOptions)];
   }
 
-  factory PeaceRiver.POC(DataV3 data, Settings settings) =>
+  factory PeaceRiver.poc(DataV3 data, Settings settings) =>
       poc.POC(data, settings);
-  factory PeaceRiver.PPS(DataV3 data, Settings settings) =>
+  factory PeaceRiver.pps(DataV3 data, Settings settings) =>
       pps.PPS(data, settings);
-  factory PeaceRiver.PRDF(DataV3 data, Settings settings) =>
+  factory PeaceRiver.prdf(DataV3 data, Settings settings) =>
       prdf.PRDF(data, settings);
 }
 
@@ -92,7 +92,7 @@ final Rule ruleArchitects = Rule(
     name: 'Architects',
     id: _ruleArchitectsId,
     duelistModelCheck: (roster, u) {
-      if (u.faction == FactionType.PeaceRiver && u.type == ModelType.Strider) {
+      if (u.faction == FactionType.peaceRiver && u.type == ModelType.strider) {
         return true;
       }
       return null;
@@ -125,7 +125,7 @@ final Rule ruleCrisisResponders = Rule(
 final Rule ruleEPex = Rule(
     name: 'E-pex',
     id: _ruleEpexId,
-    factionMods: (ur, cg, u) => [PeaceRiverFactionMods.e_pex()],
+    factionMods: (ur, cg, u) => [PeaceRiverFactionMods.ePex()],
     description:
         'One Peace River model within each combat group may increase its EW skill by one for 1 TV each.');
 

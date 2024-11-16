@@ -9,8 +9,8 @@ void main() {
   test('test creating a movment from a valid json', () {
     final fromJson = Movement.fromJson(json.decode(validMovementJSON));
 
-    expect(fromJson.type, equals('W/G'), reason: "type check");
-    expect(fromJson.rate, equals(6), reason: "rate check");
+    expect(fromJson.type, equals('W/G'), reason: 'type check');
+    expect(fromJson.rate, equals(6), reason: 'rate check');
   });
 
   test('rate is non-number', () {

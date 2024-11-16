@@ -24,6 +24,6 @@ enum UnitAttribute {
   height(String),
   special(List<String>);
 
-  final Type expected_type;
-  const UnitAttribute(this.expected_type);
+  final Type expectedType;
+  const UnitAttribute(this.expectedType);
 }

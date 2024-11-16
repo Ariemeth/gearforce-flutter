@@ -9,58 +9,58 @@ import 'package:gearforce/v3/models/rules/rulesets/utopia/utopia.dart'
     as utopia;
 import 'package:gearforce/v3/models/unit/unit.dart';
 
-List<Rule> GetModelFactionRules(
+List<Rule> getModelFactionRules(
   Unit? unit,
   List<FactionType>? factions,
 ) {
   if (unit == null && factions == null) {
-    return GetModelFactionRulesByFaction(null);
+    return getModelFactionRulesByFaction(null);
   }
   if (factions == null) {
-    return GetModelFactionRulesByFaction(unit?.faction);
+    return getModelFactionRulesByFaction(unit?.faction);
   }
 
-  return GetModelFactionRulesByFactionList(factions);
+  return getModelFactionRulesByFactionList(factions);
 }
 
-List<Rule> GetModelFactionRulesByFactionList(
+List<Rule> getModelFactionRulesByFactionList(
   List<FactionType> factions,
 ) {
   final List<Rule> results = [];
 
-  factions.forEach((faction) {
-    results.addAll(GetModelFactionRulesByFaction(faction));
-  });
+  for (var faction in factions) {
+    results.addAll(getModelFactionRulesByFaction(faction));
+  }
 
   return results;
 }
 
-List<Rule> GetModelFactionRulesByFaction(FactionType? faction) {
+List<Rule> getModelFactionRulesByFaction(FactionType? faction) {
   switch (faction) {
-    case FactionType.North:
+    case FactionType.north:
       return [north.ruleTaskBuilt];
-    case FactionType.CEF:
+    case FactionType.cef:
       return [cef.ruleMinerva, cef.ruleAdvancedInterfaceNetwork];
-    case FactionType.Caprice:
+    case FactionType.caprice:
       return [
         caprice.ruleDuelingMounts,
         caprice.ruleAdvancedInterfaceNetworks,
         caprice.ruleCyberneticUpgrades,
       ];
-    case FactionType.Utopia:
+    case FactionType.utopia:
       return [
         utopia.ruleDroneMatrix,
         utopia.ruleManualControl,
         utopia.ruleDroneHacking,
         utopia.ruleExpendable,
       ];
-    case FactionType.Eden:
+    case FactionType.eden:
       return [eden.ruleLancers, eden.ruleJoustYouSay];
-    case FactionType.Universal:
+    case FactionType.universal:
       return [north.ruleTaskBuilt, caprice.ruleCyberneticUpgrades];
-    case FactionType.Universal_TerraNova:
+    case FactionType.universalTerraNova:
       return [north.ruleTaskBuilt];
-    case FactionType.Universal_Non_TerraNova:
+    case FactionType.universalNonTerraNova:
       return [eden.ruleLancers, eden.ruleJoustYouSay];
     case null:
       return [

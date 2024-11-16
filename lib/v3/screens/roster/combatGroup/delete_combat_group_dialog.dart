@@ -13,22 +13,22 @@ class DeleteCombatGroupDialog extends StatelessWidget {
     SimpleDialog optionsDialog = SimpleDialog(
       title: Column(
         children: [
-          Text(
+          const Text(
             'Are you sure you want to remove',
             style: TextStyle(fontSize: 24),
           ),
           Text(
             '$cgName?',
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
         ],
       ),
       children: [
         SimpleDialogOption(
           onPressed: () {
-            Navigator.pop(context, DeleteCGOptionResult.Remove);
+            Navigator.pop(context, DeleteCGOptionResult.remove);
           },
-          child: Center(
+          child: const Center(
             child: Text(
               'Yes',
               style: TextStyle(fontSize: 24, color: Colors.red),
@@ -37,9 +37,9 @@ class DeleteCombatGroupDialog extends StatelessWidget {
         ),
         SimpleDialogOption(
           onPressed: () {
-            Navigator.pop(context, DeleteCGOptionResult.Cancel);
+            Navigator.pop(context, DeleteCGOptionResult.cancel);
           },
-          child: Center(
+          child: const Center(
             child: Text(
               'No',
               style: TextStyle(fontSize: 24, color: Colors.green),
@@ -52,4 +52,4 @@ class DeleteCombatGroupDialog extends StatelessWidget {
   }
 }
 
-enum DeleteCGOptionResult { Remove, Cancel }
+enum DeleteCGOptionResult { remove, cancel }

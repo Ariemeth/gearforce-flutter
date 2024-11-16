@@ -76,16 +76,16 @@ final Rule _ruleAllyCEF = Rule(
     _ruleAlliesEdenId,
   ]),
   canBeAddedToGroup: (unit, group, cg) {
-    if (group.groupType == GroupType.Secondary) {
+    if (group.groupType == GroupType.secondary) {
       return null;
     }
 
-    if (unit.faction == FactionType.CEF) {
+    if (unit.faction == FactionType.cef) {
       // account for core cef rule Abominations
       if (matchOnlyFlails(unit.core)) {
         return null;
       }
-      return Validation(
+      return const Validation(
         false,
         issue: 'CEF units must be placed in secondary units; See' +
             ' Allies rule.',
@@ -96,7 +96,7 @@ final Rule _ruleAllyCEF = Rule(
   },
   unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Allies: CEF',
-      filters: [const UnitFilter(FactionType.CEF)],
+      filters: [UnitFilter(FactionType.cef)],
       id: _ruleAlliesCEFId),
   description: 'You may select models from the CEF to place into your' +
       ' secondary units.',
@@ -112,12 +112,12 @@ final Rule _ruleAllyUtopia = Rule(
     _ruleAlliesEdenId,
   ]),
   canBeAddedToGroup: (unit, group, cg) {
-    if (group.groupType == GroupType.Secondary) {
+    if (group.groupType == GroupType.secondary) {
       return null;
     }
 
-    if (unit.faction == FactionType.Utopia) {
-      return Validation(
+    if (unit.faction == FactionType.utopia) {
+      return const Validation(
         false,
         issue: 'Utopia units must be placed in secondary units; See' +
             ' Allies rule.',
@@ -128,7 +128,7 @@ final Rule _ruleAllyUtopia = Rule(
   },
   unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Allies: Utopia',
-      filters: [const UnitFilter(FactionType.Utopia)],
+      filters: [UnitFilter(FactionType.utopia)],
       id: _ruleAlliesUtopiaId),
   description: 'You may select models from the Utopia to place into your' +
       ' secondary units.',
@@ -144,12 +144,12 @@ final Rule _ruleAllyEden = Rule(
     _ruleAlliesUtopiaId,
   ]),
   canBeAddedToGroup: (unit, group, cg) {
-    if (group.groupType == GroupType.Secondary) {
+    if (group.groupType == GroupType.secondary) {
       return null;
     }
 
-    if (unit.faction == FactionType.Eden) {
-      return Validation(
+    if (unit.faction == FactionType.eden) {
+      return const Validation(
         false,
         issue: 'Eden units must be placed in secondary units; See' +
             ' Allies rule.',
@@ -160,7 +160,7 @@ final Rule _ruleAllyEden = Rule(
   },
   unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Allies: Eden',
-      filters: [const UnitFilter(FactionType.Eden)],
+      filters: [UnitFilter(FactionType.eden)],
       id: _ruleAlliesEdenId),
   description: 'You may select models from the Eden to place into your' +
       ' secondary units.',
@@ -173,7 +173,7 @@ final Rule ruleAppropriations = Rule(
     if (!_matchForAppropriations(unit.core)) {
       return null;
     }
-    final isPrimary = group.groupType == GroupType.Primary;
+    final isPrimary = group.groupType == GroupType.primary;
     return Validation(
       isPrimary,
       issue: 'This unit can only be added to a primary group; See' +
@@ -183,9 +183,9 @@ final Rule ruleAppropriations = Rule(
   unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Appropriations',
       filters: [
-        UnitFilter(FactionType.CEF, matcher: _matchForAppropriations),
-        UnitFilter(FactionType.Utopia, matcher: _matchForAppropriations),
-        UnitFilter(FactionType.Eden, matcher: _matchForAppropriations)
+        UnitFilter(FactionType.cef, matcher: _matchForAppropriations),
+        UnitFilter(FactionType.utopia, matcher: _matchForAppropriations),
+        UnitFilter(FactionType.eden, matcher: _matchForAppropriations)
       ],
       id: _ruleAppropriationsId),
   cgCheck: onlyOneCG(_ruleAppropriationsId),
@@ -198,12 +198,12 @@ final Rule ruleAppropriations = Rule(
 
 /// Match only with Gears
 bool _matchForAppropriations(UnitCore uc) {
-  if (!(uc.faction == FactionType.CEF ||
-      uc.faction == FactionType.Utopia ||
-      uc.faction == FactionType.Eden)) {
+  if (!(uc.faction == FactionType.cef ||
+      uc.faction == FactionType.utopia ||
+      uc.faction == FactionType.eden)) {
     return false;
   }
-  return uc.type == ModelType.Gear;
+  return uc.type == ModelType.gear;
 }
 
 final Rule ruleAcquisitions = Rule(

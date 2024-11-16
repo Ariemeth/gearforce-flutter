@@ -102,16 +102,16 @@ final Rule _ruleAllyCEF = Rule(
     _ruleAlliesEdenId,
   ]),
   canBeAddedToGroup: (unit, group, cg) {
-    if (group.groupType == GroupType.Secondary) {
+    if (group.groupType == GroupType.secondary) {
       return null;
     }
 
-    if (unit.faction == FactionType.CEF) {
+    if (unit.faction == FactionType.cef) {
       // account for core cef rule Abominations
       if (matchOnlyFlails(unit.core)) {
         return null;
       }
-      return Validation(
+      return const Validation(
         false,
         issue: 'CEF units may only be added to a secondary group; See Allies' +
             ' rule.',
@@ -122,7 +122,7 @@ final Rule _ruleAllyCEF = Rule(
   },
   unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Allies: CEF',
-      filters: [const UnitFilter(FactionType.CEF)],
+      filters: [UnitFilter(FactionType.cef)],
       id: _ruleAlliesCEFId),
   description: 'You may select models from the CEF to place into your' +
       ' secondary units.',
@@ -138,12 +138,12 @@ final Rule _ruleAllyCaprice = Rule(
     _ruleAlliesEdenId,
   ]),
   canBeAddedToGroup: (unit, group, cg) {
-    if (group.groupType == GroupType.Secondary) {
+    if (group.groupType == GroupType.secondary) {
       return null;
     }
 
-    if (unit.faction == FactionType.Caprice) {
-      return Validation(
+    if (unit.faction == FactionType.caprice) {
+      return const Validation(
         false,
         issue: 'Caprice units may only be added to a secondary group; See' +
             ' Allies rule.',
@@ -154,7 +154,7 @@ final Rule _ruleAllyCaprice = Rule(
   },
   modCheckOverride: (u, cg, {required modID}) {
     if (modID == caprice.cyberneticUpgradesId &&
-        u.group?.groupType == GroupType.Primary) {
+        u.group?.groupType == GroupType.primary) {
       return false;
     }
     return null;
@@ -162,11 +162,11 @@ final Rule _ruleAllyCaprice = Rule(
   unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Allies: Caprice',
       filters: [
-        const UnitFilter(FactionType.Caprice),
-        const UnitFilter(
-          FactionType.Universal,
+        UnitFilter(FactionType.caprice),
+        UnitFilter(
+          FactionType.universal,
           matcher: matchInfantry,
-          factionOverride: FactionType.Caprice,
+          factionOverride: FactionType.caprice,
         )
       ],
       id: _ruleAlliesCapriceId),
@@ -184,12 +184,12 @@ final Rule _ruleAllyEden = Rule(
     _ruleAlliesCapriceId,
   ]),
   canBeAddedToGroup: (unit, group, cg) {
-    if (group.groupType == GroupType.Secondary) {
+    if (group.groupType == GroupType.secondary) {
       return null;
     }
 
-    if (unit.faction == FactionType.Eden) {
-      return Validation(
+    if (unit.faction == FactionType.eden) {
+      return const Validation(
         false,
         issue: 'Eden units may only be added to a secondary group; See' +
             ' Allies rule.',
@@ -200,7 +200,7 @@ final Rule _ruleAllyEden = Rule(
   },
   unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Allies: Eden',
-      filters: [const UnitFilter(FactionType.Eden)],
+      filters: [UnitFilter(FactionType.eden)],
       id: _ruleAlliesEdenId),
   description: 'You may select models from the Eden to place into your' +
       ' secondary units.',
@@ -303,7 +303,7 @@ final Rule ruleGilgameshTroupe = Rule(
   },
   combatGroupOption: () => [ruleGilgameshTroupe.buidCombatGroupOption()],
   canBeAddedToGroup: (unit, group, cg) {
-    if (group.groupType == GroupType.Secondary) {
+    if (group.groupType == GroupType.secondary) {
       return null;
     }
     final isGilgamesh = unit.core.frame.contains('Gilgamesh');
@@ -312,7 +312,7 @@ final Rule ruleGilgameshTroupe = Rule(
     if (isGilgamesh || isNoActionUnit) {
       return null;
     }
-    return Validation(
+    return const Validation(
       false,
       issue: 'Only a Gilgamesh or units with no actions can be added; See' +
           ' Gilgamesh Troupe rules',
@@ -362,16 +362,16 @@ final Rule ruleGilgameshTroupe = Rule(
     // does not have a high enough rank to be a force leader, so increase the
     // command level to make it the force leader.
     final nextCGRank =
-        CommandLevel.NextGreater(roster.selectedForceLeader!.commandLevel);
+        CommandLevel.nextGreater(roster.selectedForceLeader!.commandLevel);
     final gilgas =
         gilgaCG.units.where((u) => u.core.frame.contains('Gilgamesh'));
 
     var gilga = gilgas.first;
-    gilgas.forEach((g) {
+    for (var g in gilgas) {
       if (g.commandLevel > gilga.commandLevel) {
         gilga = g;
       }
-    });
+    }
     gilga.commandLevel = nextCGRank;
   },
   onLeadershipChanged: (roster, unit) {
@@ -405,7 +405,7 @@ final Rule ruleGilgameshTroupe = Rule(
     // does not have a high enough rank to be a force leader, so increase the
     // command level to make it the force leader.
     final nextCGRank =
-        CommandLevel.NextGreater(roster.selectedForceLeader!.commandLevel);
+        CommandLevel.nextGreater(roster.selectedForceLeader!.commandLevel);
 
     unit.commandLevel = nextCGRank;
   },

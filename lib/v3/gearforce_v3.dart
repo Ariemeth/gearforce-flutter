@@ -9,12 +9,12 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class GearForceV3 extends StatefulWidget {
   const GearForceV3({
-    Key? key,
+    super.key,
     required this.rosterId,
     required this.version,
     required this.versionSelector,
     required this.settings,
-  }) : super(key: key);
+  });
 
   final RosterId rosterId;
   final String version;
@@ -22,7 +22,7 @@ class GearForceV3 extends StatefulWidget {
   final Settings settings;
 
   @override
-  _GearForceV3State createState() => _GearForceV3State();
+  State<GearForceV3> createState() => _GearForceV3State();
 }
 
 class _GearForceV3State extends State<GearForceV3> {

@@ -8,11 +8,12 @@ class SettingsValueOptionLine extends StatefulWidget {
   final String inputFormatter;
   final EdgeInsets padding;
 
-  SettingsValueOptionLine({
+  const SettingsValueOptionLine({
+    super.key,
     required this.text,
     required this.value,
     required this.onChanged,
-    this.inputFormatter = r"^\d{0,4}",
+    this.inputFormatter = r'^\d{0,4}',
     this.padding = const EdgeInsets.only(),
   });
 
@@ -32,7 +33,7 @@ class _SettingsValueOptionLineState extends State<SettingsValueOptionLine> {
       child: Row(
         children: [
           Text(widget.text),
-          Spacer(),
+          const Spacer(),
           SizedBox(
             width: 50,
             child: TextField(
@@ -42,8 +43,8 @@ class _SettingsValueOptionLineState extends State<SettingsValueOptionLine> {
                     : tempValue.toString(),
               ),
               decoration: const InputDecoration(
-                border: const OutlineInputBorder(),
-                contentPadding: const EdgeInsets.only(
+                border: OutlineInputBorder(),
+                contentPadding: EdgeInsets.only(
                   left: 5,
                   right: 5,
                   top: 3,

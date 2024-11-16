@@ -1,5 +1,4 @@
 import 'package:gearforce/v3/models/combatGroups/combat_group.dart';
-import 'package:gearforce/v3/models/mods/base_modification.dart';
 import 'package:gearforce/v3/models/mods/factionUpgrades/faction_mod.dart';
 import 'package:gearforce/v3/models/mods/mods.dart';
 import 'package:gearforce/v3/models/roster/roster.dart';
@@ -32,12 +31,11 @@ class LeaguelessFactionMods extends FactionModification {
     Structure (S) is increased by +1. I.e., a H/S of 4/2 will become a 3/3.
   */
   factory LeaguelessFactionMods.olRusty() {
-    final RequirementCheck reqCheck =
-        (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+    reqCheck(RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       assert(cg != null);
       assert(rs != null);
 
-      if (u.type != ModelType.Gear && u.type != ModelType.Strider) {
+      if (u.type != ModelType.gear && u.type != ModelType.strider) {
         return false;
       }
 
@@ -53,7 +51,7 @@ class LeaguelessFactionMods extends FactionModification {
         return true;
       }
       return false;
-    };
+    }
 
     final fm = LeaguelessFactionMods(
       name: 'Ol’ Rusty',
@@ -84,12 +82,11 @@ class LeaguelessFactionMods extends FactionModification {
     Vehicles with an LLC may replace the LLC with a HAC for -1 TV each.
   */
   factory LeaguelessFactionMods.discounts(Unit unit) {
-    final RequirementCheck reqCheck =
-        (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+    reqCheck(RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       assert(cg != null);
       assert(rs != null);
 
-      if (u.type != ModelType.Vehicle) {
+      if (u.type != ModelType.vehicle) {
         return false;
       }
 
@@ -105,7 +102,7 @@ class LeaguelessFactionMods extends FactionModification {
       }
 
       return true;
-    };
+    }
 
     final fm = LeaguelessFactionMods(
       name: 'Discounts',
@@ -146,8 +143,7 @@ class LeaguelessFactionMods extends FactionModification {
     Lead by Example duelist rule without being a duelist.
   */
   factory LeaguelessFactionMods.localHero() {
-    final RequirementCheck reqCheck =
-        (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+    reqCheck(RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       assert(cg != null);
       assert(rs != null);
 
@@ -155,9 +151,9 @@ class LeaguelessFactionMods extends FactionModification {
         return false;
       }
 
-      if (u.type != ModelType.Infantry &&
-          u.type != ModelType.Cavalry &&
-          u.type != ModelType.Gear) {
+      if (u.type != ModelType.infantry &&
+          u.type != ModelType.cavalry &&
+          u.type != ModelType.gear) {
         return false;
       }
 
@@ -170,7 +166,7 @@ class LeaguelessFactionMods extends FactionModification {
       }
 
       return false;
-    };
+    }
 
     final fm = LeaguelessFactionMods(
       name: 'Local Hero',

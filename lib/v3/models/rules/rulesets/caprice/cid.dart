@@ -54,11 +54,11 @@ final Rule ruleCommandersInvestment = Rule(
     if (group.combatGroup?.roster?.selectedForceLeader != unit) {
       return null;
     }
-    if (target == RoleType.GP ||
-        target == RoleType.SK ||
-        target == RoleType.FS ||
-        target == RoleType.RC ||
-        target == RoleType.SO) {
+    if (target == RoleType.gp ||
+        target == RoleType.sk ||
+        target == RoleType.fs ||
+        target == RoleType.rc ||
+        target == RoleType.so) {
       return true;
     }
     return false;
@@ -91,16 +91,16 @@ final Rule _ruleAllyCEF = Rule(
     _ruleAlliesEdenId,
   ]),
   canBeAddedToGroup: (unit, group, cg) {
-    if (group.groupType == GroupType.Secondary) {
+    if (group.groupType == GroupType.secondary) {
       return null;
     }
 
-    if (unit.faction == FactionType.CEF) {
+    if (unit.faction == FactionType.cef) {
       // account for core cef rule Abominations
       if (matchOnlyFlails(unit.core)) {
         return null;
       }
-      return Validation(
+      return const Validation(
         false,
         issue: 'CEF units must be placed in secondary units; See' +
             ' Allies rule.',
@@ -111,7 +111,7 @@ final Rule _ruleAllyCEF = Rule(
   },
   unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Allies: CEF',
-      filters: [const UnitFilter(FactionType.CEF)],
+      filters: [UnitFilter(FactionType.cef)],
       id: _ruleAlliesCEFId),
   description: 'You may select models from the CEF to place into your' +
       ' secondary units.',
@@ -128,12 +128,12 @@ final Rule _ruleAllyBlackTalon = Rule(
     _ruleAlliesEdenId,
   ]),
   canBeAddedToGroup: (unit, group, cg) {
-    if (group.groupType == GroupType.Secondary) {
+    if (group.groupType == GroupType.secondary) {
       return null;
     }
 
-    if (unit.faction == FactionType.BlackTalon) {
-      return Validation(
+    if (unit.faction == FactionType.blackTalon) {
+      return const Validation(
         false,
         issue: 'Black Talon units must be placed in secondary units; See' +
             ' Allies rule.',
@@ -144,7 +144,7 @@ final Rule _ruleAllyBlackTalon = Rule(
   },
   unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Allies: Black Talon',
-      filters: [const UnitFilter(FactionType.BlackTalon)],
+      filters: [UnitFilter(FactionType.blackTalon)],
       id: _ruleAlliesBlackTalonId),
   description: 'You may select models from the Black Talon to place into' +
       ' your secondary units.',
@@ -161,12 +161,12 @@ final Rule _ruleAllyUtopia = Rule(
     _ruleAlliesEdenId,
   ]),
   canBeAddedToGroup: (unit, group, cg) {
-    if (group.groupType == GroupType.Secondary) {
+    if (group.groupType == GroupType.secondary) {
       return null;
     }
 
-    if (unit.faction == FactionType.Utopia) {
-      return Validation(
+    if (unit.faction == FactionType.utopia) {
+      return const Validation(
         false,
         issue: 'Utopia units must be placed in secondary units; See' +
             ' Allies rule.',
@@ -177,7 +177,7 @@ final Rule _ruleAllyUtopia = Rule(
   },
   unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Allies: Utopia',
-      filters: [const UnitFilter(FactionType.Utopia)],
+      filters: [UnitFilter(FactionType.utopia)],
       id: _ruleAlliesUtopiaId),
   description: 'You may select models from the Utopia to place into your' +
       ' secondary units.',
@@ -194,12 +194,12 @@ final Rule _ruleAllyEden = Rule(
     _ruleAlliesUtopiaId,
   ]),
   canBeAddedToGroup: (unit, group, cg) {
-    if (group.groupType == GroupType.Secondary) {
+    if (group.groupType == GroupType.secondary) {
       return null;
     }
 
-    if (unit.faction == FactionType.Eden) {
-      return Validation(
+    if (unit.faction == FactionType.eden) {
+      return const Validation(
         false,
         issue: 'Eden units must be placed in secondary units; See' +
             ' Allies rule.',
@@ -210,7 +210,7 @@ final Rule _ruleAllyEden = Rule(
   },
   unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Allies: Eden',
-      filters: [const UnitFilter(FactionType.Eden)],
+      filters: [UnitFilter(FactionType.eden)],
       id: _ruleAlliesEdenId),
   description: 'You may select models from the Eden to place into your' +
       ' secondary units.',

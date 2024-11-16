@@ -21,7 +21,7 @@ class Settings {
   bool get isInitialized => _isInitialized;
 
   Duration _tooltipDelay =
-      Duration(milliseconds: _defaultTooltipDelayInMilliseconds);
+      const Duration(milliseconds: _defaultTooltipDelayInMilliseconds);
 
   Duration get tooltipDelay => _tooltipDelay;
   set tooltipDelay(Duration value) {
@@ -148,7 +148,8 @@ class Settings {
   }
 
   reset() {
-    tooltipDelay = Duration(milliseconds: _defaultTooltipDelayInMilliseconds);
+    tooltipDelay =
+        const Duration(milliseconds: _defaultTooltipDelayInMilliseconds);
     isExtendedContentAllowed = _defaultIsExtendedContentAllowed;
     isAlphaBetaAllowed = _defaultIsAlphaBetaAllowed;
     requireConfirmationToDeleteUnit = _defaultRequireConfirmationToDeleteUnit;

@@ -1,32 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:gearforce/v3/models/unit/unit.dart';
-import 'package:gearforce/v3/screens/unitSelector/unit_selection_text_Cell.dart';
+import 'package:gearforce/v3/screens/unitSelector/unit_selector_text_cell.dart';
 
 class SelectedUnitFeedback extends StatelessWidget {
   final Unit unit;
   const SelectedUnitFeedback({
-    Key? key,
+    super.key,
     required this.unit,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Color.fromARGB(225, 187, 222, 251),
+      color: const Color.fromARGB(225, 187, 222, 251),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          UnitSelectionTextCell.draggableFeedback(
-            'Model: ${this.unit.name}',
+          UnitSelectorTextCell.draggableFeedback(
+            'Model: ${unit.name}',
           ),
-          UnitSelectionTextCell.draggableFeedback(
-            'TV: ${this.unit.tv}',
+          UnitSelectorTextCell.draggableFeedback(
+            'TV: ${unit.tv}',
           ),
-          UnitSelectionTextCell.draggableFeedback(
-            'Roles: ${this.unit.role == null ? '-' : this.unit.role!.roles.join(', ')}',
+          UnitSelectorTextCell.draggableFeedback(
+            'Roles: ${unit.role == null ? '-' : unit.role!.roles.join(', ')}',
           ),
-          UnitSelectionTextCell.draggableFeedback(
-            'Weapons: ${this.unit.weapons.join(', ')}',
+          UnitSelectorTextCell.draggableFeedback(
+            'Weapons: ${unit.weapons.join(', ')}',
             maxLines: 3,
           ),
         ],

@@ -22,7 +22,7 @@ class VeteranGroupCheckboxDisplay extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
+          const Text(
             'Vet Group',
             style: TextStyle(fontSize: 16),
           ),
@@ -32,14 +32,14 @@ class VeteranGroupCheckboxDisplay extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.only(left: 5),
               child: Tooltip(
+                message: 'Check to make this squad a veteran squad',
+                waitDuration: settings.tooltipDelay,
                 child: Checkbox(
                   onChanged: (bool? newValue) {
-                    cg.isVeteran = newValue != null ? newValue : false;
+                    cg.isVeteran = newValue ?? false;
                   },
                   value: cg.isVeteran,
                 ),
-                message: 'Check to make this squad a veteran squad',
-                waitDuration: settings.tooltipDelay,
               ),
             ),
           ),

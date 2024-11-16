@@ -5,7 +5,7 @@ class Frame {
   const Frame({
     required this.name,
     required this.variants,
-    this.faction = FactionType.None,
+    this.faction = FactionType.none,
   })  : assert(name != ''),
         assert(variants.length > 0, 'no variants for $name');
 
@@ -15,7 +15,7 @@ class Frame {
 
   factory Frame.fromJson(
     dynamic json, {
-    FactionType faction = FactionType.None,
+    FactionType faction = FactionType.none,
   }) =>
       Frame(
         name: json['name'] as String,

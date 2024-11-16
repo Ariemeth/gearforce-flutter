@@ -5,17 +5,16 @@ import 'package:gearforce/v3/models/rules/rulesets/rule_set.dart';
 
 class SelectSubFaction extends StatefulWidget {
   const SelectSubFaction(
-      {Key? key,
+      {super.key,
       required this.factions,
       required this.selectedFaction,
-      required this.selectedSubFaction})
-      : super(key: key);
+      required this.selectedSubFaction});
   final List<Faction> factions;
   final ValueListenable<Faction> selectedFaction;
   final ValueNotifier<RuleSet> selectedSubFaction;
 
   @override
-  _SelectSubFactionState createState() => _SelectSubFactionState();
+  State<SelectSubFaction> createState() => _SelectSubFactionState();
 }
 
 /// This is the private State class that goes with MyStatefulWidget.
@@ -27,14 +26,14 @@ class _SelectSubFactionState extends State<SelectSubFaction> {
       builder: (context, value, child) {
         return DropdownButton<RuleSet>(
           value: widget.selectedSubFaction.value,
-          hint: Text('Select sub-list'),
+          hint: const Text('Select sub-list'),
           icon: const Icon(Icons.arrow_downward),
           iconSize: 16,
           elevation: 16,
           isExpanded: true,
           isDense: true,
           style: const TextStyle(color: Colors.blue),
-          underline: SizedBox(),
+          underline: const SizedBox(),
           onChanged: (RuleSet? newValue) {
             setState(() {
               widget.selectedSubFaction.value = newValue!;
@@ -54,7 +53,7 @@ class _SelectSubFactionState extends State<SelectSubFaction> {
         value: name,
         child: Text(
           name.name,
-          style: TextStyle(fontSize: 16),
+          style: const TextStyle(fontSize: 16),
         ),
       );
     });

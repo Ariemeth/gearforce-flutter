@@ -9,9 +9,9 @@ class UnitPreviewDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var dialog = SimpleDialog(
-      contentPadding: EdgeInsets.fromLTRB(5.0, 12.0, 5.0, 12.0),
+      contentPadding: const EdgeInsets.fromLTRB(5.0, 12.0, 5.0, 12.0),
       clipBehavior: Clip.antiAlias,
-      shape: ContinuousRectangleBorder(
+      shape: const ContinuousRectangleBorder(
         borderRadius: BorderRadius.all(
           Radius.circular(10.0),
         ),
@@ -22,7 +22,7 @@ class UnitPreviewDialog extends StatelessWidget {
           onPressed: () {
             Navigator.pop(context, null);
           },
-          child: Center(
+          child: const Center(
             child: Text(
               'Done',
               style: TextStyle(fontSize: 24, color: Colors.green),

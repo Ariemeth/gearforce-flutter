@@ -13,8 +13,9 @@ class UnitUpgradeButton extends StatelessWidget {
     this.unit,
     this.group,
     this.cg,
-    this.roster,
-  );
+    this.roster, {
+    super.key,
+  });
 
   final Unit unit;
   final Group group;

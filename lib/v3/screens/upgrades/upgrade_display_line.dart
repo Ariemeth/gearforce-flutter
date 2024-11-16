@@ -13,14 +13,14 @@ class UpgradeDisplayLine extends StatelessWidget {
   final UnitRoster ur;
   final RuleSet rs;
 
-  UpgradeDisplayLine({
-    Key? key,
+  const UpgradeDisplayLine({
+    super.key,
     required this.mod,
     required this.unit,
     required this.cg,
     required this.ur,
     required this.rs,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

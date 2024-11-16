@@ -9,18 +9,13 @@ const customPoints = '$_customIDBase::10';
 
 class CustomModification extends BaseModification {
   CustomModification({
-    required String name,
-    required String id,
-    required RequirementCheck requirementCheck,
-    ModificationOption? options,
-    final BaseModification Function()? refreshData,
-    super.ruleType = RuleType.Custom,
+    required super.name,
+    required super.id,
+    required super.requirementCheck,
+    super.options,
+    super.refreshData,
+    super.ruleType = RuleType.custom,
   }) : super(
-          name: name,
-          id: id,
-          requirementCheck: requirementCheck,
-          options: options,
-          refreshData: refreshData,
           modType: ModificationType.custom,
         );
   factory CustomModification.customPoints() {

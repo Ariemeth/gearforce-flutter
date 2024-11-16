@@ -63,10 +63,10 @@ final Rule ruleSurplusHunters = Rule(
   hasGroupRole: (unit, target, group) {
     final frameName = unit.core.frame;
     final isAllowedUnit = frameName.toLowerCase().contains('hunter');
-    final isAllowedRole = target == RoleType.GP ||
-        target == RoleType.SK ||
-        target == RoleType.FS ||
-        target == RoleType.RC;
+    final isAllowedRole = target == RoleType.gp ||
+        target == RoleType.sk ||
+        target == RoleType.fs ||
+        target == RoleType.rc;
 
     return isAllowedUnit && isAllowedRole ? true : null;
   },
@@ -88,11 +88,11 @@ final Rule ruleSurplusJaguars = Rule(
   hasGroupRole: (unit, target, group) {
     final frameName = unit.core.frame;
     final isAllowedUnit = frameName.toLowerCase().contains('jaguar');
-    final isAllowedRole = target == RoleType.GP ||
-        target == RoleType.SK ||
-        target == RoleType.FS ||
-        target == RoleType.RC ||
-        target == RoleType.SO;
+    final isAllowedRole = target == RoleType.gp ||
+        target == RoleType.sk ||
+        target == RoleType.fs ||
+        target == RoleType.rc ||
+        target == RoleType.so;
 
     return isAllowedUnit && isAllowedRole ? true : null;
   },

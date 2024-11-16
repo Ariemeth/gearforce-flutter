@@ -1,6 +1,6 @@
 import 'package:gearforce/v3/models/factions/faction_type.dart';
 import 'package:gearforce/v3/models/mods/duelist/duelist_modification.dart'
-    as duelistMod;
+    as duelist_mod;
 import 'package:gearforce/v3/models/mods/factionUpgrades/eden.dart';
 import 'package:gearforce/v3/models/mods/unitUpgrades/universal.dart';
 import 'package:gearforce/v3/models/rules/rulesets/eden/eden.dart';
@@ -148,17 +148,17 @@ final Rule ruleSelfMade = Rule(
   name: 'Self-Made',
   id: _ruleSelfMadeId,
   duelistModCheck: (u, cg, {required modID}) {
-    if (!(modID == duelistMod.meleeUpgradeId ||
-        modID == duelistMod.dualMeleeWeaponsId ||
-        modID == duelistMod.shieldId)) {
+    if (!(modID == duelist_mod.meleeUpgradeId ||
+        modID == duelist_mod.dualMeleeWeaponsId ||
+        modID == duelist_mod.shieldId)) {
       return null;
     }
 
-    if (u.faction != FactionType.Eden) {
+    if (u.faction != FactionType.eden) {
       return null;
     }
 
-    if (u.type != ModelType.Gear) {
+    if (u.type != ModelType.gear) {
       return null;
     }
 
@@ -179,7 +179,7 @@ final Rule ruleWaterBorn = Rule(
     if (modId != frogmen.id) {
       return;
     }
-    if (unit.type != ModelType.Infantry) {
+    if (unit.type != ModelType.infantry) {
       return;
     }
     unit.addUnitMod(EdenMods.waterBorn());
@@ -188,7 +188,7 @@ final Rule ruleWaterBorn = Rule(
     if (modId != frogmen.id) {
       return;
     }
-    if (unit.type != ModelType.Infantry) {
+    if (unit.type != ModelType.infantry) {
       return;
     }
     unit.removeUnitMod(waterBornId);

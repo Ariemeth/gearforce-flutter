@@ -62,7 +62,7 @@ Movement Function(Movement) createSetMovementMod(Movement newValue) {
 
 List<String> Function(List<String>) createAddStringToList(String newValue) {
   return (value) {
-    var newList = new List<String>.from(value);
+    var newList = List<String>.from(value);
 
     if (!newList.contains(newValue)) {
       newList.add(newValue);
@@ -74,7 +74,7 @@ List<String> Function(List<String>) createAddStringToList(String newValue) {
 
 List<Trait> Function(List<Trait>) createAddTraitToList(Trait newValue) {
   return (value) {
-    var newList = new List<Trait>.from(value);
+    var newList = List<Trait>.from(value);
 
     if (!newList.any((element) => element.name == newValue.name)) {
       newList.add(newValue);
@@ -87,7 +87,7 @@ List<Trait> Function(List<Trait>) createAddTraitToList(Trait newValue) {
 List<Trait> Function(List<Trait>) createAddOrReplaceSameTraitInList(
     Trait newTrait) {
   return (value) {
-    var newList = new List<Trait>.from(value);
+    var newList = List<Trait>.from(value);
 
     final index = newList.indexWhere((trait) => trait.isSameType(newTrait));
     if (index >= 0) {
@@ -111,7 +111,7 @@ List<Trait> Function(List<Trait>) createAddOrReplaceSameTraitInList(
 List<Trait> Function(List<Trait>) createAddOrCombineTraitToList(
     Trait newValue) {
   return (value) {
-    var newList = new List<Trait>.from(value);
+    var newList = List<Trait>.from(value);
 
     if (!newList.any((trait) => trait.isSameType(newValue))) {
       newList.add(newValue);
@@ -132,7 +132,7 @@ List<Trait> Function(List<Trait>) createAddOrCombineTraitToList(
 
 List<Weapon> Function(List<Weapon>) createAddWeaponToList(Weapon newValue) {
   return (value) {
-    var newList = new List<Weapon>.from(value);
+    var newList = List<Weapon>.from(value);
 
     if (!newList.any((existingWeapon) => existingWeapon == newValue)) {
       newList.add(newValue);
@@ -169,7 +169,7 @@ Roles Function(Roles) createReplaceRoles(Roles newValue) {
 
 List<Trait> Function(List<Trait>) createRemoveTraitFromList(Trait newValue) {
   return (value) {
-    var newList = new List<Trait>.from(value);
+    var newList = List<Trait>.from(value);
     newList.remove(newValue);
 
     return newList;
@@ -185,7 +185,7 @@ List<Weapon> Function(List<Weapon>) createRemoveWeaponFromList(
       return value;
     }
 
-    var newList = new List<Weapon>.from(value)
+    var newList = List<Weapon>.from(value)
         .where((existingWeapon) =>
             existingWeapon.abbreviation != newValue.abbreviation &&
             existingWeapon.bonusString != newValue.bonusString)
@@ -200,7 +200,7 @@ List<Weapon> Function(List<Weapon>) createRemoveWeaponFromList(
 List<Trait> Function(List<Trait>) createReplaceTraitInList(
     {required Trait oldValue, required Trait newValue}) {
   return (value) {
-    var newList = new List<Trait>.from(value);
+    var newList = List<Trait>.from(value);
 
     var index = newList.indexWhere((trait) => trait == oldValue);
 
@@ -220,7 +220,7 @@ List<Trait> Function(List<Trait>) createReplaceTraitInList(
 List<Weapon> Function(List<Weapon>) createReplaceWeaponInList(
     {required Weapon oldValue, required Weapon newValue}) {
   return (value) {
-    var newList = new List<Weapon>.from(value);
+    var newList = List<Weapon>.from(value);
 
     var index =
         newList.indexWhere((w) => w.abbreviation == oldValue.abbreviation);
@@ -246,19 +246,19 @@ List<Weapon> Function(List<Weapon>) createReplaceWeaponInList(
 List<Weapon> Function(List<Weapon>) createMultiReplaceWeaponsInList(
     {required List<Weapon> oldItems, required List<Weapon> newItems}) {
   return (value) {
-    var newList = new List<Weapon>.from(value);
+    var newList = List<Weapon>.from(value);
 
-    oldItems.forEach((oldWeapon) {
+    for (var oldWeapon in oldItems) {
       newList.removeWhere((currentWeapon) =>
           currentWeapon.abbreviation == oldWeapon.abbreviation);
-    });
+    }
 
-    newItems.forEach((newWeapon) {
+    for (var newWeapon in newItems) {
       if (!newList.any((currentWeapon) =>
           currentWeapon.abbreviation == newWeapon.abbreviation)) {
         newList.add(newWeapon);
       }
-    });
+    }
 
     return newList;
   };

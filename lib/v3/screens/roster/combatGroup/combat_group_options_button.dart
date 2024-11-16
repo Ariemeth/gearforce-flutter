@@ -17,12 +17,12 @@ class CombatGroupOptionsButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final settingsIcon = ruleSet.combatGroupSettings().length > 0
+    final settingsIcon = ruleSet.combatGroupSettings().isNotEmpty
         ? Icons.settings_suggest
         : Icons.settings;
 
     final widget = IconButton(
-      constraints: BoxConstraints.tightForFinite(),
+      constraints: const BoxConstraints.tightForFinite(),
       onPressed: () => {_showOptionsDialog(context)},
       icon: Icon(
         settingsIcon,

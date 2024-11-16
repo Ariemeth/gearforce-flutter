@@ -6,7 +6,7 @@ import 'package:test/test.dart';
 void main() {
   test('ensure headhunter mod replaces the name Hunter', () {
     final mod = headHunter;
-    const testName = "Hunter";
+    const testName = 'Hunter';
     expect(mod.applyMods(UnitAttribute.name, testName), equals('Headhunter'));
   });
 
@@ -33,9 +33,9 @@ void main() {
 
   test('test headhunter mod does not duplicate Comms', () {
     final mod = headHunter;
-    final List<Trait> traits = [Trait.Comms()];
+    final List<Trait> traits = [Trait.comms()];
     expect(
-        mod.applyMods(UnitAttribute.traits, traits), contains(Trait.Comms()));
+        mod.applyMods(UnitAttribute.traits, traits), contains(Trait.comms()));
     expect(traits, hasLength(1),
         reason: 'original list should not have changed in length');
     expect(mod.applyMods(UnitAttribute.traits, traits), hasLength(1));

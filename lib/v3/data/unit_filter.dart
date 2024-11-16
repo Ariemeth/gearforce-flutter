@@ -10,7 +10,7 @@ class UnitFilter {
   const UnitFilter(
     this.faction, {
     this.matcher = matchAll,
-    this.factionOverride = null,
+    this.factionOverride,
   });
   bool isMatch(UnitCore uc) => uc.faction == faction && matcher(uc);
 }
@@ -30,24 +30,24 @@ bool matchArmor9(UnitCore uc) {
 
 /// Match units only if they are not already a Vet
 bool matchNotAVet(UnitCore uc) {
-  return !uc.traits.any((t) => t.name == Trait.Vet().name);
+  return !uc.traits.any((t) => t.name == Trait.vet().name);
 }
 
 /// Match units only if they are not already a Vet and a Gear
 bool matchNonVetGears(UnitCore uc) {
-  return uc.type == ModelType.Gear &&
-      !uc.traits.any((t) => t.name == Trait.Vet().name);
+  return uc.type == ModelType.gear &&
+      !uc.traits.any((t) => t.name == Trait.vet().name);
 }
 
-/// Match only with units that are [ModelType.Gear]
+/// Match only with units that are [ModelType.gear]
 bool matchOnlyGears(UnitCore uc) {
-  return uc.type == ModelType.Gear;
+  return uc.type == ModelType.gear;
 }
 
-/// Match only with units that are [ModelType.Gear]
+/// Match only with units that are [ModelType.gear]
 bool matchPossibleDuelist(UnitCore uc) {
-  return uc.type == ModelType.Gear &&
-      !uc.traits.any((t) => t.name == Trait.Conscript().name);
+  return uc.type == ModelType.gear &&
+      !uc.traits.any((t) => t.name == Trait.conscript().name);
 }
 
 /// Match all units except GREL
@@ -57,7 +57,7 @@ bool matchNoGREL(UnitCore uc) {
 
 /// Match only with Striders
 bool matchStriders(UnitCore uc) {
-  return uc.type == ModelType.Strider;
+  return uc.type == ModelType.strider;
 }
 
 /// Match only FLAIL units
@@ -72,5 +72,5 @@ bool matchStripped(UnitCore uc) {
 
 /// Match Infantry units
 bool matchInfantry(UnitCore uc) {
-  return uc.type == ModelType.Infantry;
+  return uc.type == ModelType.infantry;
 }

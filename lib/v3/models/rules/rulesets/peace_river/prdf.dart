@@ -6,7 +6,7 @@ import 'package:gearforce/v3/data/unit_filter.dart';
 import 'package:gearforce/v3/models/factions/faction_type.dart';
 import 'package:gearforce/v3/models/rules/options/special_unit_filter.dart';
 
-const String PRDFSpecialRule1 =
+const String prdfSpecialRule1 =
     'Ghost Strike: Models in one combat group using special operations ' +
         'deployment may start the game with hidden tokens if all the models ' +
         'within the combat group are placed in cover relative to at least ' +
@@ -20,7 +20,7 @@ const String _ruleBestMenAndWomenId = '$_baseRuleId::40';
 const String _ruleEliteElementsId = '$_baseRuleId::50';
 const String _ruleGhostStrikeId = '$_baseRuleId::60';
 
-const String PRDFDescription =
+const String prdfDescription =
     'To be a soldier in the PRDF is to know a deep and abiding' +
         'hatred of Earth. CEF agents were responsible for the destruction of' +
         'Peace River City and countless lives. When this information came to ' +
@@ -53,9 +53,9 @@ are placed in cover relative to at least one enemy model.
 class PRDF extends PeaceRiver {
   PRDF(super.data, super.settings)
       : super(
-          description: PRDFDescription,
+          description: prdfDescription,
           name: 'Peace River Defense Force',
-          specialRules: const [PRDFSpecialRule1],
+          specialRules: const [prdfSpecialRule1],
           subFactionRules: [
             ruleOlTrusty,
             ruleThunderFromTheSky,
@@ -87,7 +87,7 @@ final Rule ruleHighTech = Rule(
     name: 'High Tech',
     id: _ruleHighTechId,
     isRoleTypeUnlimited: (unit, target, group, roster) {
-      if (group.groupType != GroupType.Primary) {
+      if (group.groupType != GroupType.primary) {
         return null;
       }
       if (unit.weapons.any((w) =>
@@ -105,19 +105,19 @@ final Rule ruleBestMenAndWomen = Rule(
   description:
       'One model in each combat group may be selected from the Black Talon model list.',
   isUnitCountWithinLimits: (cg, group, unit) {
-    if (unit.faction != FactionType.BlackTalon) {
+    if (unit.faction != FactionType.blackTalon) {
       return null;
     }
     final bTalonUnits =
-        cg.units.where((u) => u.faction == FactionType.BlackTalon);
-    if (bTalonUnits.length == 0) {
+        cg.units.where((u) => u.faction == FactionType.blackTalon);
+    if (bTalonUnits.isEmpty) {
       return true;
     }
     return bTalonUnits.length == 1 &&
         group.allUnits().where((u) => u == unit).length == 1;
   },
   isRoleTypeUnlimited: (unit, target, group, roster) {
-    return unit.faction == FactionType.BlackTalon ? false : null;
+    return unit.faction == FactionType.blackTalon ? false : null;
   },
   combatGroupOption: () => [
     ruleBestMenAndWomen.buidCombatGroupOption(
@@ -127,7 +127,7 @@ final Rule ruleBestMenAndWomen = Rule(
   ],
   unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'The Best Men and Women for the Job',
-      filters: [const UnitFilter(FactionType.BlackTalon)],
+      filters: [UnitFilter(FactionType.blackTalon)],
       id: _ruleBestMenAndWomenId),
 );
 

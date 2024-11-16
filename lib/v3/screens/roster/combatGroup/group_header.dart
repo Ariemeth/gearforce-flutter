@@ -14,11 +14,11 @@ const _spaceBetweenItems = 15.0;
 
 class GroupHeader extends StatelessWidget {
   const GroupHeader({
-    Key? key,
+    super.key,
     required this.cg,
     required this.group,
     required this.roster,
-  }) : super(key: key);
+  });
 
   final CombatGroup cg;
   final Group group;
@@ -26,7 +26,7 @@ class GroupHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isPrimary = group.groupType == GroupType.Primary;
+    final isPrimary = group.groupType == GroupType.primary;
 
     final heading = Row(
       children: [
@@ -34,7 +34,7 @@ class GroupHeader extends StatelessWidget {
           width: _groupTypeNameWidth,
           child: Text(
             group.groupType.name,
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
         ),
         SelectRole(

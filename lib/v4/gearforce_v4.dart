@@ -10,12 +10,12 @@ const double _menuTitleHeight = 50.0;
 
 class GearForceV4 extends StatefulWidget {
   const GearForceV4({
-    Key? key,
+    super.key,
     required this.rosterId,
     required this.version,
     required this.versionSelector,
     required this.settings,
-  }) : super(key: key);
+  });
 
   final RosterId rosterId;
   final String version;
@@ -23,7 +23,7 @@ class GearForceV4 extends StatefulWidget {
   final Settings settings;
 
   @override
-  _GearForceV4State createState() => _GearForceV4State();
+  State<GearForceV4> createState() => _GearForceV4State();
 }
 
 class _GearForceV4State extends State<GearForceV4> {
@@ -56,29 +56,29 @@ class _GearForceV4State extends State<GearForceV4> {
         toolbarHeight: _titleHeight,
         backgroundColor: Theme.of(context).primaryColor,
       ),
-      body: Center(
+      body: const Center(
         child: Text('Gearforce V4'),
       ),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
-            Container(
+            SizedBox(
               height: _menuTitleHeight,
               child: DrawerHeader(
+                decoration: BoxDecoration(
+                  color: Theme.of(context).primaryColor,
+                ),
+                padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
                 child: Center(
                   child: Text(
                     AppLocalizations.of(context)!.menuTitle,
-                    style: TextStyle(
+                    style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w400,
                         color: Colors.white),
                   ),
                 ),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor,
-                ),
-                padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
               ),
             ),
             ListTile(

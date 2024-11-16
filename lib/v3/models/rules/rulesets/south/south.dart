@@ -36,7 +36,7 @@ class South extends RuleSet {
     required super.name,
     List<Rule> subFactionRules = const [],
   }) : super(
-          FactionType.South,
+          FactionType.south,
           data,
           settings: settings,
           factionRules: [rulePoliceState, ruleAmphibians],
@@ -50,25 +50,25 @@ class South extends RuleSet {
     final coreFilter = SpecialUnitFilter(
       text: type.name,
       id: coreTag,
-      filters: SouthFilters,
+      filters: southFilters,
     );
     return [coreFilter, ...super.availableUnitFilters(cgOptions)];
   }
 
-  factory South.SRA(DataV3 data, Settings settings) => SRA(data, settings);
-  factory South.MILICIA(DataV3 data, Settings settings) =>
+  factory South.sra(DataV3 data, Settings settings) => SRA(data, settings);
+  factory South.milicia(DataV3 data, Settings settings) =>
       MILICIA(data, settings);
-  factory South.MD(DataV3 data, Settings settings) => MD(data, settings);
-  factory South.ESE(DataV3 data, Settings settings) => ESE(data, settings);
-  factory South.FHA(DataV3 data, Settings settings) => FHA(data, settings);
+  factory South.md(DataV3 data, Settings settings) => MD(data, settings);
+  factory South.ese(DataV3 data, Settings settings) => ESE(data, settings);
+  factory South.fha(DataV3 data, Settings settings) => FHA(data, settings);
 }
 
-const SouthFilters = const [
-  const UnitFilter(FactionType.South),
-  const UnitFilter(FactionType.Airstrike),
-  const UnitFilter(FactionType.Universal),
-  const UnitFilter(FactionType.Universal_TerraNova),
-  const UnitFilter(FactionType.Terrain),
+const southFilters = [
+  UnitFilter(FactionType.south),
+  UnitFilter(FactionType.airstrike),
+  UnitFilter(FactionType.universal),
+  UnitFilter(FactionType.universalTerraNova),
+  UnitFilter(FactionType.terrain),
 ];
 
 final Rule rulePoliceState = Rule(
@@ -76,11 +76,11 @@ final Rule rulePoliceState = Rule(
   id: _rulePoliceStateId,
   hasGroupRole: (unit, target, group) {
     final isAllowedUnit =
-        unit.core.frame.contains('MP') && unit.faction == FactionType.South;
-    final isAllowedRole = target == RoleType.GP ||
-        target == RoleType.SK ||
-        target == RoleType.FS ||
-        target == RoleType.SO;
+        unit.core.frame.contains('MP') && unit.faction == FactionType.south;
+    final isAllowedRole = target == RoleType.gp ||
+        target == RoleType.sk ||
+        target == RoleType.fs ||
+        target == RoleType.so;
 
     return isAllowedUnit && isAllowedRole ? true : null;
   },
@@ -95,11 +95,11 @@ final Rule ruleAmphibians = Rule(
       return null;
     }
 
-    final targetRoleIsCorrect = target == RoleType.GP ||
-        target == RoleType.SK ||
-        target == RoleType.FS ||
-        target == RoleType.RC ||
-        target == RoleType.SO;
+    final targetRoleIsCorrect = target == RoleType.gp ||
+        target == RoleType.sk ||
+        target == RoleType.fs ||
+        target == RoleType.rc ||
+        target == RoleType.so;
     if (!targetRoleIsCorrect) {
       return null;
     }
@@ -178,7 +178,7 @@ final Rule ruleAmphibians = Rule(
 final Rule ruleLionHunters = Rule(
   name: 'Lion Hunters',
   id: ruleLionHuntersId,
-  ruleType: RuleType.AlphaBeta,
+  ruleType: RuleType.alphaBeta,
   factionMods: (ur, cg, u) => [SouthernFactionMods.lionHunters(u)],
   description: 'Bazookas may be given the Precise+ trait for +1 TV each.',
 );

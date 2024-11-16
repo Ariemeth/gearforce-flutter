@@ -13,7 +13,7 @@ import 'package:gearforce/v3/models/rules/rulesets/nucoal/th.dart' as th;
 import 'package:gearforce/v3/models/rules/options/combat_group_options.dart';
 import 'package:gearforce/v3/models/rules/options/special_unit_filter.dart';
 import 'package:gearforce/v3/models/rules/rulesets/peace_river/peace_river.dart'
-    as peaceRiver;
+    as peace_river;
 import 'package:gearforce/v3/models/rules/rulesets/peace_river/pps.dart' as pps;
 import 'package:gearforce/v3/models/rules/rulesets/peace_river/prdf.dart'
     as prdf;
@@ -74,7 +74,7 @@ final List<Rule> _rules = [
   _ruleJannitePilots,
 ];
 final List<Rule> _onlyThreeAllowedRules = [
-  buildTheSource(FactionType.None),
+  buildTheSource(FactionType.none),
   ..._northernInfluenceRules,
   ..._southernInfluenceRules,
   ..._protectorateSponsoredRules,
@@ -157,7 +157,7 @@ class Leagueless extends RuleSet {
     List<String>? specialRules,
     List<Rule> subFactionRules = const [],
   }) : super(
-          FactionType.Leagueless,
+          FactionType.leagueless,
           data,
           settings: settings,
           factionRules: [ruleJudicious, ...factionRules],
@@ -171,21 +171,21 @@ class Leagueless extends RuleSet {
     return [...super.availableUnitFilters(cgOptions)];
   }
 
-  factory Leagueless.North(DataV3 data, Settings settings) =>
+  factory Leagueless.north(DataV3 data, Settings settings) =>
       SourceNorth(data, settings);
-  factory Leagueless.South(DataV3 data, Settings settings) =>
+  factory Leagueless.south(DataV3 data, Settings settings) =>
       SourceSouth(data, settings);
-  factory Leagueless.PeaceRiver(DataV3 data, Settings settings) =>
+  factory Leagueless.peaceRiver(DataV3 data, Settings settings) =>
       SourcePeaceRiver(data, settings);
-  factory Leagueless.NuCoal(DataV3 data, Settings settings) =>
+  factory Leagueless.nuCoal(DataV3 data, Settings settings) =>
       SourceNuCoal(data, settings);
 }
 
-const _baseFilters = const [
-  const UnitFilter(FactionType.Universal),
-  const UnitFilter(FactionType.Universal_TerraNova),
-  const UnitFilter(FactionType.Terrain),
-  const UnitFilter(FactionType.Airstrike),
+const _baseFilters = [
+  UnitFilter(FactionType.universal),
+  UnitFilter(FactionType.universalTerraNova),
+  UnitFilter(FactionType.terrain),
+  UnitFilter(FactionType.airstrike),
 ];
 
 class SourceNorth extends Leagueless {
@@ -202,11 +202,11 @@ class SourceNorth extends Leagueless {
   List<SpecialUnitFilter> availableUnitFilters(
     List<CombatGroupOption>? cgOptions,
   ) {
-    final filter = SpecialUnitFilter(
+    const filter = SpecialUnitFilter(
       text: 'Source: North',
       id: coreTag,
-      filters: const [
-        const UnitFilter(FactionType.North),
+      filters: [
+        UnitFilter(FactionType.north),
         ..._baseFilters,
       ],
     );
@@ -214,7 +214,7 @@ class SourceNorth extends Leagueless {
   }
 }
 
-final _northernSourcesRules = buildTheSource(FactionType.North);
+final _northernSourcesRules = buildTheSource(FactionType.north);
 
 class SourceSouth extends Leagueless {
   SourceSouth(super.data, super.settings)
@@ -231,11 +231,11 @@ class SourceSouth extends Leagueless {
   List<SpecialUnitFilter> availableUnitFilters(
     List<CombatGroupOption>? cgOptions,
   ) {
-    final filter = SpecialUnitFilter(
+    const filter = SpecialUnitFilter(
       text: 'Source: South',
       id: coreTag,
-      filters: const [
-        const UnitFilter(FactionType.South),
+      filters: [
+        UnitFilter(FactionType.south),
         ..._baseFilters,
       ],
     );
@@ -243,7 +243,7 @@ class SourceSouth extends Leagueless {
   }
 }
 
-final _southernSourcesRules = buildTheSource(FactionType.South);
+final _southernSourcesRules = buildTheSource(FactionType.south);
 
 class SourcePeaceRiver extends Leagueless {
   SourcePeaceRiver(super.data, super.settings)
@@ -260,11 +260,11 @@ class SourcePeaceRiver extends Leagueless {
   List<SpecialUnitFilter> availableUnitFilters(
     List<CombatGroupOption>? cgOptions,
   ) {
-    final filter = SpecialUnitFilter(
+    const filter = SpecialUnitFilter(
       text: 'Source: Peace River',
       id: coreTag,
-      filters: const [
-        const UnitFilter(FactionType.PeaceRiver),
+      filters: [
+        UnitFilter(FactionType.peaceRiver),
         ..._baseFilters,
       ],
     );
@@ -272,7 +272,7 @@ class SourcePeaceRiver extends Leagueless {
   }
 }
 
-final _peaceRiverSourcesRules = buildTheSource(FactionType.PeaceRiver);
+final _peaceRiverSourcesRules = buildTheSource(FactionType.peaceRiver);
 
 class SourceNuCoal extends Leagueless {
   SourceNuCoal(super.data, super.settings)
@@ -289,11 +289,11 @@ class SourceNuCoal extends Leagueless {
   List<SpecialUnitFilter> availableUnitFilters(
     List<CombatGroupOption>? cgOptions,
   ) {
-    final filter = SpecialUnitFilter(
+    const filter = SpecialUnitFilter(
       text: 'Source: NuCoal',
       id: coreTag,
-      filters: const [
-        const UnitFilter(FactionType.NuCoal),
+      filters: [
+        UnitFilter(FactionType.nuCoal),
         ..._baseFilters,
       ],
     );
@@ -301,7 +301,7 @@ class SourceNuCoal extends Leagueless {
   }
 }
 
-final _nuCoalSourcesRules = buildTheSource(FactionType.NuCoal);
+final _nuCoalSourcesRules = buildTheSource(FactionType.nuCoal);
 
 final Rule ruleJudicious = Rule(
   name: 'Judicious',
@@ -310,7 +310,7 @@ final Rule ruleJudicious = Rule(
     if (unit.isDuelist) {
       return null;
     }
-    if (unit.core.traits.any((t) => Trait.Vet().isSameType(t))) {
+    if (unit.core.traits.any((t) => Trait.vet().isSameType(t))) {
       return Validation(
         cg.isVeteran,
         issue: 'Unit must be placed in a veteran CG; See Judicious rule.',
@@ -331,16 +331,16 @@ Rule buildTheSource(FactionType sourceFaction) {
     ruleTheSourceNuCoal,
   ];
   switch (sourceFaction) {
-    case FactionType.North:
+    case FactionType.north:
       rules.remove(ruleTheSourceNorth);
       break;
-    case FactionType.South:
+    case FactionType.south:
       rules.remove(ruleTheSourceSouth);
       break;
-    case FactionType.PeaceRiver:
+    case FactionType.peaceRiver:
       rules.remove(ruleTheSourcePeaceRiver);
       break;
-    case FactionType.NuCoal:
+    case FactionType.nuCoal:
       rules.remove(ruleTheSourceNuCoal);
       break;
     default:
@@ -353,15 +353,15 @@ Rule buildTheSource(FactionType sourceFaction) {
       id: _ruleTheSourceId,
       options: rules,
       onEnabled: () {
-        rules.forEach((rule) {
+        for (var rule in rules) {
           rule.canBeToggled = true;
-        });
+        }
       },
       onDisabled: () {
-        rules.forEach((rule) {
+        for (var rule in rules) {
           rule.disable();
           rule.canBeToggled = false;
-        });
+        }
       },
       description: 'Select an additional source faction');
 }
@@ -375,7 +375,7 @@ final Rule ruleTheSourceNorth = Rule(
   unitFilter: (cgOptions) => const SpecialUnitFilter(
     text: 'Source: North',
     id: _ruleTheSourceNorthId,
-    filters: const [const UnitFilter(FactionType.North)],
+    filters: [UnitFilter(FactionType.north)],
   ),
   onDisabled: () {
     rulesNorthernInfluence.disable();
@@ -392,7 +392,7 @@ final Rule ruleTheSourceSouth = Rule(
   unitFilter: (cgOptions) => const SpecialUnitFilter(
     text: 'Source: South',
     id: _ruleTheSourceSouthId,
-    filters: const [const UnitFilter(FactionType.South)],
+    filters: [UnitFilter(FactionType.south)],
   ),
   onDisabled: () {
     rulesSouthernInfluence.disable();
@@ -409,7 +409,7 @@ final Rule ruleTheSourcePeaceRiver = Rule(
   unitFilter: (cgOptions) => const SpecialUnitFilter(
     text: 'Source: Peace River',
     id: _ruleTheSourcePeaceRiverId,
-    filters: const [const UnitFilter(FactionType.PeaceRiver)],
+    filters: [UnitFilter(FactionType.peaceRiver)],
   ),
   onDisabled: () {
     rulesProtectorateSponsoredInfluence.disable();
@@ -426,7 +426,7 @@ final Rule ruleTheSourceNuCoal = Rule(
   unitFilter: (cgOptions) => const SpecialUnitFilter(
     text: 'Source: NuCoal',
     id: _ruleTheSourceNuCoalId,
-    filters: const [const UnitFilter(FactionType.NuCoal)],
+    filters: [UnitFilter(FactionType.nuCoal)],
   ),
   description: 'Select models from NuCoal',
 );
@@ -493,15 +493,15 @@ final Rule rulesNorthernInfluence = Rule(
   },
   options: _northernInfluenceRules,
   onEnabled: () {
-    _northernInfluenceRules.forEach((rule) {
+    for (var rule in _northernInfluenceRules) {
       rule.canBeToggled = true;
-    });
+    }
   },
   onDisabled: () {
-    _northernInfluenceRules.forEach((rule) {
+    for (var rule in _northernInfluenceRules) {
       rule.disable();
       rule.canBeToggled = false;
-    });
+    }
   },
   description: 'Requires the North as a Source. If selected, Southern' +
       ' Influence and Protectorate Sponsored cannot be selected. Select one' +
@@ -569,15 +569,15 @@ final Rule rulesSouthernInfluence = Rule(
   },
   options: _southernInfluenceRules,
   onEnabled: () {
-    _southernInfluenceRules.forEach((rule) {
+    for (var rule in _southernInfluenceRules) {
       rule.canBeToggled = true;
-    });
+    }
   },
   onDisabled: () {
-    _southernInfluenceRules.forEach((rule) {
+    for (var rule in _southernInfluenceRules) {
       rule.disable();
       rule.canBeToggled = false;
-    });
+    }
   },
   description: 'Requires the South as a Source. If selected, Northern' +
       ' Influence and Protectorate Sponsored cannot be selected. Select one' +
@@ -627,15 +627,15 @@ final Rule rulesProtectorateSponsoredInfluence = Rule(
   },
   options: _protectorateSponsoredRules,
   onEnabled: () {
-    _protectorateSponsoredRules.forEach((rule) {
+    for (var rule in _protectorateSponsoredRules) {
       rule.canBeToggled = true;
-    });
+    }
   },
   onDisabled: () {
-    _protectorateSponsoredRules.forEach((rule) {
+    for (var rule in _protectorateSponsoredRules) {
       rule.disable();
       rule.canBeToggled = false;
-    });
+    }
   },
   description: 'Requires Peace River as a Source. If selected, Northern' +
       ' Influence and Southern Influence cannot be selected. Select one' +
@@ -645,50 +645,51 @@ final Rule rulesProtectorateSponsoredInfluence = Rule(
 
 final List<Rule> _protectorateSponsoredRules = [
   Rule.from(
-    peaceRiver.ruleEPex,
+    peace_river.ruleEPex,
     isEnabled: false,
     canBeToggled: false,
     requirementCheck: (factionRules) =>
-        _onlyOne(_protectorateSponsoredRules, peaceRiver.ruleEPex.id) &&
-        _onlyThreeUpgrades(peaceRiver.ruleEPex.id)(factionRules) &&
-        peaceRiver.ruleEPex.requirementCheck(factionRules),
+        _onlyOne(_protectorateSponsoredRules, peace_river.ruleEPex.id) &&
+        _onlyThreeUpgrades(peace_river.ruleEPex.id)(factionRules) &&
+        peace_river.ruleEPex.requirementCheck(factionRules),
   ),
   Rule.from(
-    peaceRiver.ruleWarriorElite,
-    isEnabled: false,
-    canBeToggled: false,
-    requirementCheck: (factionRules) =>
-        _onlyOne(_protectorateSponsoredRules, peaceRiver.ruleWarriorElite.id) &&
-        _onlyThreeUpgrades(peaceRiver.ruleWarriorElite.id)(factionRules) &&
-        peaceRiver.ruleWarriorElite.requirementCheck(factionRules),
-  ),
-  Rule.from(
-    peaceRiver.ruleCrisisResponders,
+    peace_river.ruleWarriorElite,
     isEnabled: false,
     canBeToggled: false,
     requirementCheck: (factionRules) =>
         _onlyOne(
-            _protectorateSponsoredRules, peaceRiver.ruleCrisisResponders.id) &&
-        _onlyThreeUpgrades(peaceRiver.ruleCrisisResponders.id)(factionRules) &&
-        peaceRiver.ruleCrisisResponders.requirementCheck(factionRules),
+            _protectorateSponsoredRules, peace_river.ruleWarriorElite.id) &&
+        _onlyThreeUpgrades(peace_river.ruleWarriorElite.id)(factionRules) &&
+        peace_river.ruleWarriorElite.requirementCheck(factionRules),
   ),
   Rule.from(
-    peaceRiver.ruleLaserTech,
+    peace_river.ruleCrisisResponders,
     isEnabled: false,
     canBeToggled: false,
     requirementCheck: (factionRules) =>
-        _onlyOne(_protectorateSponsoredRules, peaceRiver.ruleLaserTech.id) &&
-        _onlyThreeUpgrades(peaceRiver.ruleLaserTech.id)(factionRules) &&
-        peaceRiver.ruleLaserTech.requirementCheck(factionRules),
+        _onlyOne(
+            _protectorateSponsoredRules, peace_river.ruleCrisisResponders.id) &&
+        _onlyThreeUpgrades(peace_river.ruleCrisisResponders.id)(factionRules) &&
+        peace_river.ruleCrisisResponders.requirementCheck(factionRules),
   ),
   Rule.from(
-    peaceRiver.ruleArchitects,
+    peace_river.ruleLaserTech,
     isEnabled: false,
     canBeToggled: false,
     requirementCheck: (factionRules) =>
-        _onlyOne(_protectorateSponsoredRules, peaceRiver.ruleArchitects.id) &&
-        _onlyThreeUpgrades(peaceRiver.ruleArchitects.id)(factionRules) &&
-        peaceRiver.ruleArchitects.requirementCheck(factionRules),
+        _onlyOne(_protectorateSponsoredRules, peace_river.ruleLaserTech.id) &&
+        _onlyThreeUpgrades(peace_river.ruleLaserTech.id)(factionRules) &&
+        peace_river.ruleLaserTech.requirementCheck(factionRules),
+  ),
+  Rule.from(
+    peace_river.ruleArchitects,
+    isEnabled: false,
+    canBeToggled: false,
+    requirementCheck: (factionRules) =>
+        _onlyOne(_protectorateSponsoredRules, peace_river.ruleArchitects.id) &&
+        _onlyThreeUpgrades(peace_river.ruleArchitects.id)(factionRules) &&
+        peace_river.ruleArchitects.requirementCheck(factionRules),
   ),
 ];
 
@@ -722,40 +723,40 @@ final Rule ruleExpertSalvagers = Rule(
 
     final gt = group.groupType;
     switch (unit.faction) {
-      case FactionType.North:
+      case FactionType.north:
         if (!rs.isRuleEnabled(ruleTheSourceNorth.id) &&
-            gt == GroupType.Primary) {
-          return Validation(
+            gt == GroupType.primary) {
+          return const Validation(
             false,
             issue: 'North units must be placed in secondary units; See Expert' +
                 ' Salvagers.',
           );
         }
         break;
-      case FactionType.South:
+      case FactionType.south:
         if (!rs.isRuleEnabled(ruleTheSourceSouth.id) &&
-            gt == GroupType.Primary) {
-          return Validation(
+            gt == GroupType.primary) {
+          return const Validation(
             false,
             issue: 'South units must be placed in secondary units; See Expert' +
                 ' Salvagers.',
           );
         }
         break;
-      case FactionType.PeaceRiver:
+      case FactionType.peaceRiver:
         if (!rs.isRuleEnabled(ruleTheSourcePeaceRiver.id) &&
-            gt == GroupType.Primary) {
-          return Validation(
+            gt == GroupType.primary) {
+          return const Validation(
             false,
             issue: 'Peace River units must be placed in secondary units; See' +
                 ' Expert Salvagers.',
           );
         }
         break;
-      case FactionType.NuCoal:
+      case FactionType.nuCoal:
         if (!rs.isRuleEnabled(ruleTheSourceNuCoal.id) &&
-            gt == GroupType.Primary) {
-          return Validation(
+            gt == GroupType.primary) {
+          return const Validation(
             false,
             issue:
                 'NuCoal units must be placed in secondary units; See Expert' +
@@ -771,11 +772,11 @@ final Rule ruleExpertSalvagers = Rule(
     return const SpecialUnitFilter(
       text: 'Expert Salvagers',
       id: _ruleExpertSalvagersId,
-      filters: const [
-        const UnitFilter(FactionType.North),
-        const UnitFilter(FactionType.South),
-        const UnitFilter(FactionType.PeaceRiver),
-        const UnitFilter(FactionType.NuCoal),
+      filters: [
+        UnitFilter(FactionType.north),
+        UnitFilter(FactionType.south),
+        UnitFilter(FactionType.peaceRiver),
+        UnitFilter(FactionType.nuCoal),
       ],
     );
   },
@@ -790,12 +791,12 @@ final Rule ruleStripped = Rule(
   canBeToggled: true,
   requirementCheck: _onlyThreeUpgrades(_ruleStrippedId),
   hasGroupRole: (unit, target, group) {
-    if (target == RoleType.FT) {
+    if (target == RoleType.ft) {
       return null;
     }
 
-    if ((unit.faction == FactionType.North ||
-            unit.faction == FactionType.South) &&
+    if ((unit.faction == FactionType.north ||
+            unit.faction == FactionType.south) &&
         matchStripped(unit.core)) {
       return true;
     }
@@ -805,9 +806,9 @@ final Rule ruleStripped = Rule(
     return const SpecialUnitFilter(
       text: 'Stripped',
       id: _ruleStrippedId,
-      filters: const [
-        const UnitFilter(FactionType.North, matcher: matchStripped),
-        const UnitFilter(FactionType.South, matcher: matchStripped),
+      filters: [
+        UnitFilter(FactionType.north, matcher: matchStripped),
+        UnitFilter(FactionType.south, matcher: matchStripped),
       ],
     );
   },
@@ -825,8 +826,8 @@ final Rule ruleWeCameFromTheDesert = Rule(
     return const SpecialUnitFilter(
       text: 'We Came From the Desert',
       id: _ruleWeCameFromTheDesertId,
-      filters: const [
-        const UnitFilter(FactionType.NuCoal, matcher: matchWeCameFromTheDesert),
+      filters: [
+        UnitFilter(FactionType.nuCoal, matcher: matchWeCameFromTheDesert),
       ],
     );
   },
@@ -848,8 +849,8 @@ final Rule rulePurplePowered = Rule(
     return const SpecialUnitFilter(
       text: 'Purple Powered',
       id: _rulePurplePowerId,
-      filters: const [
-        const UnitFilter(FactionType.NuCoal, matcher: matchPurplePowered),
+      filters: [
+        UnitFilter(FactionType.nuCoal, matcher: matchPurplePowered),
       ],
     );
   },
@@ -877,12 +878,12 @@ final Rule _rulePersonalEquipment = Rule(
       _onlyThreeUpgrades(_rulePersonalEquipmentId)(factionRules),
   factionMods: (ur, cg, u) => [
     NuCoalFactionMods.personalEquipment(
-      PersonalEquipment.One,
+      PersonalEquipment.one,
       ruleId: _rulePersonalEquipmentId,
       optionId: '',
     ),
     NuCoalFactionMods.personalEquipment(
-      PersonalEquipment.Two,
+      PersonalEquipment.two,
       ruleId: _rulePersonalEquipmentId,
       optionId: '',
     ),
@@ -991,19 +992,19 @@ Rule _buildRuleFromOther(Rule rule) {
 
 bool _onlyOne(List<Rule> rules, String excludeId) {
   int count = 0;
-  rules.forEach((rule) {
+  for (var rule in rules) {
     if (rule.isEnabled && rule.id != excludeId) {
       count++;
     }
-  });
+  }
   return count < 2;
 }
 
 bool Function(List<Rule> rules) _onlyThreeUpgrades(String excludedId) {
   return (List<Rule> rules) {
-    final ruleCount = (Rule rule, String excludedId) {
+    ruleCount(Rule rule, String excludedId) {
       return rule.isEnabled && rule.id != excludedId ? 1 : 0;
-    };
+    }
 
     int count = 0;
 
@@ -1012,9 +1013,9 @@ bool Function(List<Rule> rules) _onlyThreeUpgrades(String excludedId) {
     count += ruleCount(ruleTheSourcePeaceRiver, excludedId);
     count += ruleCount(ruleTheSourceNuCoal, excludedId);
 
-    _onlyThreeAllowedRules.forEach((rule) {
+    for (var rule in _onlyThreeAllowedRules) {
       count += ruleCount(rule, excludedId);
-    });
+    }
 
     return count < 3;
   };

@@ -3,7 +3,7 @@ import 'package:gearforce/v3/models/mods/base_modification.dart';
 import 'package:gearforce/v3/models/mods/modification_option.dart';
 import 'package:gearforce/v3/models/mods/mods.dart';
 import 'package:gearforce/v3/models/mods/veteranUpgrades/veteran_modification.dart'
-    as vetMod;
+    as vet_mod;
 import 'package:gearforce/v3/models/roster/roster.dart';
 import 'package:gearforce/v3/models/rules/rulesets/rule_set.dart';
 import 'package:gearforce/v3/models/rules/rule_types.dart';
@@ -54,20 +54,15 @@ final RegExp _handsMatch = RegExp(r'^Hands', caseSensitive: false);
 
 class DuelistModification extends BaseModification {
   DuelistModification({
-    required String name,
-    required String id,
-    required RequirementCheck requirementCheck,
-    final ModificationOption? options,
-    final BaseModification Function()? refreshData,
+    required super.name,
+    required super.id,
+    required super.requirementCheck,
+    super.options,
+    super.refreshData,
     super.onAdd,
     super.onRemove,
-    super.ruleType = RuleType.Standard,
+    super.ruleType = RuleType.standard,
   }) : super(
-          name: name,
-          id: id,
-          requirementCheck: requirementCheck,
-          options: options,
-          refreshData: refreshData,
           modType: ModificationType.duelist,
         );
 
@@ -102,7 +97,7 @@ class DuelistModification extends BaseModification {
       (value) {
         return createSimpleIntMod(
           u.core.traits.any((trait) => trait.name == 'Vet') ||
-                  u.hasMod(vetMod.veteranId)
+                  u.hasMod(vet_mod.veteranId)
               ? 0
               : 2,
         )(value);
@@ -111,13 +106,13 @@ class DuelistModification extends BaseModification {
     );
     mod.addMod<List<Trait>>(
       UnitAttribute.traits,
-      createAddTraitToList(Trait.Duelist()),
+      createAddTraitToList(Trait.duelist()),
       description: '+Duelist',
     );
 
     mod.addMod(
       UnitAttribute.traits,
-      createAddTraitToList(Trait.Vet()),
+      createAddTraitToList(Trait.vet()),
       description: '+Vet',
     );
 
@@ -178,22 +173,22 @@ class DuelistModification extends BaseModification {
       UnitAttribute.traits,
       createAddTraitToList(const Trait(
           name: 'Independent Operator',
-          description: 'Duelist is an Independent Operator and will be the' +
-              ' sole model in a combat group')),
-      description: 'Duelist is an Independent Operator and will be the sole ' +
-          'model in a combat group',
+          description:
+              'Duelist is an Independent Operator and will be the sole model in a combat group')),
+      description:
+          'Duelist is an Independent Operator and will be the sole model in a combat group',
     );
 
     independentOperator.addMod(
         UnitAttribute.roles,
-        createReplaceRoles(Roles(
+        createReplaceRoles(const Roles(
           roles: [
-            Role(name: RoleType.FS),
-            Role(name: RoleType.FT),
-            Role(name: RoleType.GP),
-            Role(name: RoleType.RC),
-            Role(name: RoleType.SK),
-            Role(name: RoleType.SO),
+            Role(name: RoleType.fs),
+            Role(name: RoleType.ft),
+            Role(name: RoleType.gp),
+            Role(name: RoleType.rc),
+            Role(name: RoleType.sk),
+            Role(name: RoleType.so),
           ],
         )));
 
@@ -232,13 +227,10 @@ class DuelistModification extends BaseModification {
         UnitAttribute.traits,
         createAddTraitToList(const Trait(
             name: 'Lead by Example',
-            description: 'duelist will gain the following ability during the ' +
-                ' game. Once per round, for each duelist, whenever a duelist ' +
-                ' damages an enemy model, give one SP to one model in formation with the duelist.')),
+            description:
+                'duelist will gain the following ability during the  game. Once per round, for each duelist, whenever a duelist  damages an enemy model, give one SP to one model in formation with the duelist.')),
         description:
-            'duelist will gain the following ability during the game. Once ' +
-                'per round, for each duelist, whenever a duelist damages an enemy ' +
-                ' model, give one SP to one model in formation with the duelist.',
+            'duelist will gain the following ability during the game. Once per round, for each duelist, whenever a duelist damages an enemy  model, give one SP to one model in formation with the duelist.',
       );
   }
 
@@ -300,17 +292,17 @@ class DuelistModification extends BaseModification {
     final modName = _duelistModNames[stableId];
     assert(modName != null);
 
-    final List<ModificationOption> _options = [];
-    final traitToAdd = Trait.Stable();
+    final List<ModificationOption> options = [];
+    final traitToAdd = Trait.stable();
 
     u.weapons
-        .where((weapon) => !weapon.modes.every((wm) => wm == weaponModes.Melee))
+        .where((weapon) => !weapon.modes.every((wm) => wm == WeaponModes.melee))
         .forEach((weapon) {
-      _options.add(ModificationOption('${weapon.toString()}'));
+      options.add(ModificationOption(weapon.toString()));
     });
 
     var modOptions = ModificationOption('Stable',
-        subOptions: _options,
+        subOptions: options,
         description: 'Choose a weapon to gain the Stable trait.');
 
     final mod = DuelistModification(
@@ -325,7 +317,7 @@ class DuelistModification extends BaseModification {
           assert(rs != null);
           assert(cg != null);
           // if a unit has the stable trait, no point to include it on any weapons
-          if (u.traits.any((t) => t.isSameType(Trait.Stable()))) {
+          if (u.traits.any((t) => t.isSameType(Trait.stable()))) {
             return false;
           }
           return rs!.duelistModCheck(u, cg!, modID: stableId);
@@ -367,15 +359,15 @@ class DuelistModification extends BaseModification {
     final modName = _duelistModNames[duelistPreciseId];
     assert(modName != null);
 
-    final List<ModificationOption> _options = [];
-    final traitToAdd = Trait.Precise();
+    final List<ModificationOption> options = [];
+    final traitToAdd = Trait.precise();
 
-    u.weapons.forEach((weapon) {
-      _options.add(ModificationOption('${weapon.toString()}'));
-    });
+    for (var weapon in u.weapons) {
+      options.add(ModificationOption(weapon.toString()));
+    }
 
     var modOptions = ModificationOption('Precise',
-        subOptions: _options,
+        subOptions: options,
         description: 'Choose a weapon to gain the Precise trait.');
 
     final mod = DuelistModification(
@@ -428,19 +420,19 @@ class DuelistModification extends BaseModification {
     assert(modName != null);
 
     final react = u.reactWeapons;
-    final List<ModificationOption> _options = [];
-    final traitToAdd = Trait.Auto();
+    final List<ModificationOption> options = [];
+    final traitToAdd = Trait.auto();
 
     final availableWeapons = react.where((weapon) =>
-        weapon.modes.any((mode) => mode != weaponModes.Melee) ||
+        weapon.modes.any((mode) => mode != WeaponModes.melee) ||
         weapon.isCombo);
 
-    availableWeapons.forEach((weapon) {
-      _options.add(ModificationOption('${weapon.toString()}'));
-    });
+    for (var weapon in availableWeapons) {
+      options.add(ModificationOption(weapon.toString()));
+    }
 
     var modOptions = ModificationOption('Auto',
-        subOptions: _options,
+        subOptions: options,
         description: 'Choose an available weapon to have the Auto trait added');
 
     return DuelistModification(
@@ -453,7 +445,7 @@ class DuelistModification extends BaseModification {
           assert(cg != null);
           if (u.reactWeapons
               .where((weapon) =>
-                  weapon.modes.any((mode) => mode != weaponModes.Melee) ||
+                  weapon.modes.any((mode) => mode != WeaponModes.melee) ||
                   weapon.isCombo)
               .isEmpty) {
             return false;
@@ -544,7 +536,7 @@ class DuelistModification extends BaseModification {
     final modName = _duelistModNames[trickShotId];
     assert(modName != null);
 
-    final range = Range(0, 24, 48);
+    const range = Range(0, 24, 48);
     final trickPistol = Weapon.fromWeapon(
       buildWeapon('LP (Link Split)', hasReact: true)!,
       range: range,
@@ -592,18 +584,18 @@ class DuelistModification extends BaseModification {
     assert(modName != null);
 
     final RegExp meleeCheck = RegExp(r'(VB|CW|SG)');
-    final List<ModificationOption> _options = [];
-    final traitToAdd = Trait.Link();
+    final List<ModificationOption> options = [];
+    final traitToAdd = Trait.link();
 
     final allWeapons = u.weapons;
     allWeapons
         .where((weapon) => meleeCheck.hasMatch(weapon.code))
         .forEach((weapon) {
-      _options.add(ModificationOption('${weapon.toString()}'));
+      options.add(ModificationOption(weapon.toString()));
     });
 
     var modOptions = ModificationOption('Dual Melee Weapons',
-        subOptions: _options,
+        subOptions: options,
         description: 'Choose a melee weapon to have the Link trait added');
 
     return DuelistModification(
@@ -621,9 +613,7 @@ class DuelistModification extends BaseModification {
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1),
           description:
-              'TV +1, Add the Link trait to any melee weapon other than ' +
-                  'Shaped Explosives. This adds a second weapon of the ' +
-                  'same type to the model for modeling purposes.')
+              'TV +1, Add the Link trait to any melee weapon other than Shaped Explosives. This adds a second weapon of the same type to the model for modeling purposes.')
       ..addMod<List<Weapon>>(UnitAttribute.weapons, (value) {
         final newList =
             value.map((weapon) => Weapon.fromWeapon(weapon)).toList();
@@ -650,7 +640,7 @@ class DuelistModification extends BaseModification {
     assert(modName != null);
 
     final RegExp traitCheck = RegExp(r'(Lumbering)');
-    final Trait newTrait = Trait.Agile();
+    final Trait newTrait = Trait.agile();
     return DuelistModification(
         name: modName ?? agileId,
         id: agileId,
@@ -680,7 +670,7 @@ class DuelistModification extends BaseModification {
     final modName = _duelistModNames[shieldId];
     assert(modName != null);
 
-    final Trait newTrait = Trait.Shield();
+    final Trait newTrait = Trait.shield();
 
     return DuelistModification(
         name: modName ?? shieldId,
@@ -709,9 +699,7 @@ class DuelistModification extends BaseModification {
       )
       ..addMod(UnitAttribute.traits, createAddTraitToList(newTrait),
           description:
-              'Add the Shield trait to a model. This upgrade costs 1 ' +
-                  'TV for models with an Armor of 7 or lower and 2 TV for ' +
-                  'models with an Armor of 8 or higher.');
+              'Add the Shield trait to a model. This upgrade costs 1 TV for models with an Armor of 7 or lower and 2 TV for models with an Armor of 8 or higher.');
   }
 
   /*
@@ -744,7 +732,7 @@ class DuelistModification extends BaseModification {
           assert(rs != null);
           assert(cg != null);
           final hasHands =
-              u.traits.any((trait) => trait.isSameType(Trait.Hands()));
+              u.traits.any((trait) => trait.isSameType(Trait.hands()));
           if (!hasHands) {
             return false;
           }
@@ -801,18 +789,18 @@ class DuelistModification extends BaseModification {
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
       ..addMod<List<Trait>>(UnitAttribute.traits, (value) {
-        var newList = new List<Trait>.from(value);
+        var newList = List<Trait>.from(value);
 
-        if (!newList.any((trait) => trait.isSameType(Trait.ECM()))) {
+        if (!newList.any((trait) => trait.isSameType(Trait.ecm()))) {
           return newList;
         }
 
-        final oldTrait = newList.firstWhere((t) => t.isSameType(Trait.ECM()));
+        final oldTrait = newList.firstWhere((t) => t.isSameType(Trait.ecm()));
         final oldIndex = newList.indexOf(oldTrait);
         newList.remove(oldTrait);
 
-        if (!newList.any((t) => t.isSameType(Trait.ECMPlus()))) {
-          newList.insert(oldIndex, Trait.ECMPlus(isAux: oldTrait.isAux));
+        if (!newList.any((t) => t.isSameType(Trait.ecmPlus()))) {
+          newList.insert(oldIndex, Trait.ecmPlus(isAux: oldTrait.isAux));
         }
 
         return newList;

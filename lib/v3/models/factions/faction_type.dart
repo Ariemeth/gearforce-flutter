@@ -1,20 +1,20 @@
 enum FactionType {
-  North('North'),
-  South('South'),
-  PeaceRiver('Peace River'),
-  NuCoal('NuCoal'),
-  Leagueless('Leagueless'),
-  CEF('CEF'),
-  Caprice('Caprice'),
-  Utopia('Utopia'),
-  Eden('Eden'),
-  Universal('Universal'),
-  Universal_TerraNova('Terra Nova Universal'),
-  Universal_Non_TerraNova('Non Terra Nova Universal'),
-  Terrain('Terrain'),
-  BlackTalon('Black Talons'),
-  Airstrike('Airstrike Counter'),
-  None('No faction');
+  north('North'),
+  south('South'),
+  peaceRiver('Peace River'),
+  nuCoal('NuCoal'),
+  leagueless('Leagueless'),
+  cef('CEF'),
+  caprice('Caprice'),
+  utopia('Utopia'),
+  eden('Eden'),
+  universal('Universal'),
+  universalTerraNova('Terra Nova Universal'),
+  universalNonTerraNova('Non Terra Nova Universal'),
+  terrain('Terrain'),
+  blackTalon('Black Talons'),
+  airstrike('Airstrike Counter'),
+  none('No faction');
 
   const FactionType(this.name);
   final String name;
@@ -25,7 +25,7 @@ enum FactionType {
   factory FactionType.fromName(String name) {
     return FactionType.values.firstWhere(
       (element) => element.name == name,
-      orElse: () => throw new FormatException("Unknown faction type", name),
+      orElse: () => throw FormatException('Unknown faction type', name),
     );
   }
 }

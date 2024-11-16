@@ -1,6 +1,5 @@
 import 'package:gearforce/v3/models/combatGroups/combat_group.dart';
 import 'package:gearforce/v3/models/factions/faction_type.dart';
-import 'package:gearforce/v3/models/mods/base_modification.dart';
 import 'package:gearforce/v3/models/mods/factionUpgrades/faction_mod.dart';
 import 'package:gearforce/v3/models/mods/mods.dart';
 import 'package:gearforce/v3/models/roster/roster.dart';
@@ -31,8 +30,7 @@ class CapriceMods extends FactionModification {
     +1 Armor, +1 GU and the Climber trait.
   */
   factory CapriceMods.cyberneticUpgrades() {
-    final RequirementCheck reqCheck =
-        (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+    reqCheck(RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       assert(cg != null);
       assert(rs != null);
 
@@ -43,15 +41,15 @@ class CapriceMods extends FactionModification {
       if (ur == null) {
         return false;
       }
-      if ((u.faction == FactionType.Universal ||
-              u.faction == FactionType.Caprice) &&
-          u.core.faction == FactionType.Universal &&
-          u.type == ModelType.Infantry) {
+      if ((u.faction == FactionType.universal ||
+              u.faction == FactionType.caprice) &&
+          u.core.faction == FactionType.universal &&
+          u.type == ModelType.infantry) {
         return u.isVeteran;
       }
 
       return false;
-    };
+    }
 
     final fm = CapriceMods(
       name: 'Cybernetic Upgrades',
@@ -79,7 +77,7 @@ class CapriceMods extends FactionModification {
 
     fm.addMod<List<Trait>>(
       UnitAttribute.traits,
-      createAddTraitToList(Trait.Climber()),
+      createAddTraitToList(Trait.climber()),
       description: '+Climber',
     );
 
@@ -91,8 +89,7 @@ class CapriceMods extends FactionModification {
     the Brawl:1 trait. Upgrade their Brawl:1 trait to Brawl:2 for 1 TV each.
   */
   factory CapriceMods.meleeSpecialists(Unit unit) {
-    final RequirementCheck reqCheck =
-        (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+    reqCheck(RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       assert(cg != null);
       assert(rs != null);
 
@@ -107,7 +104,7 @@ class CapriceMods extends FactionModification {
         return false;
       }
 
-      final hasBrawl1 = u.traits.any((t) => Trait.Brawl(1).isSame(t));
+      final hasBrawl1 = u.traits.any((t) => Trait.brawl(1).isSame(t));
       if (hasBrawl1) {
         return true;
       }
@@ -117,7 +114,7 @@ class CapriceMods extends FactionModification {
       }
 
       return false;
-    };
+    }
 
     final fm = CapriceMods(
       name: 'Melee Specialists',
@@ -131,12 +128,12 @@ class CapriceMods extends FactionModification {
       description: 'TV: +1',
     );
 
-    final brawl2 = Trait.Brawl(2);
+    final brawl2 = Trait.brawl(2);
 
     fm.addMod<List<Trait>>(UnitAttribute.traits, (value) {
-      var newList = new List<Trait>.from(value);
+      var newList = List<Trait>.from(value);
 
-      newList.removeWhere((t) => Trait.Brawl(1).isSame(t));
+      newList.removeWhere((t) => Trait.brawl(1).isSame(t));
 
       if (!newList.any((t) => brawl2.isSame(t))) {
         newList.add(brawl2);

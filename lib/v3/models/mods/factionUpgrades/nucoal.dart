@@ -1,5 +1,4 @@
 import 'package:gearforce/v3/models/combatGroups/combat_group.dart';
-import 'package:gearforce/v3/models/mods/base_modification.dart';
 import 'package:gearforce/v3/models/mods/factionUpgrades/faction_mod.dart';
 import 'package:gearforce/v3/models/mods/modification_option.dart';
 import 'package:gearforce/v3/models/mods/mods.dart';
@@ -44,12 +43,11 @@ class NuCoalFactionMods extends FactionModification {
     the Lumbering trait may not purchase this upgrade.
   */
   factory NuCoalFactionMods.highSpeedLowDrag() {
-    final RequirementCheck reqCheck =
-        (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+    reqCheck(RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       assert(cg != null);
       assert(rs != null);
 
-      if (u.type != ModelType.Gear) {
+      if (u.type != ModelType.gear) {
         return false;
       }
 
@@ -57,12 +55,12 @@ class NuCoalFactionMods extends FactionModification {
         return false;
       }
 
-      if (u.traits.any((t) => t.isSameType(Trait.Lumbering()))) {
+      if (u.traits.any((t) => t.isSameType(Trait.lumbering()))) {
         return false;
       }
 
       return u.isVeteran;
-    };
+    }
 
     final fm = NuCoalFactionMods(
       name: 'High Speed, Low Drag',
@@ -74,7 +72,7 @@ class NuCoalFactionMods extends FactionModification {
 
     fm.addMod<List<Trait>>(
       UnitAttribute.traits,
-      createAddTraitToList(Trait.Agile()),
+      createAddTraitToList(Trait.agile()),
       description: 'Veteran gears may purchase the Agile trait for 1 TV each.' +
           ' Models with the Lumbering trait may not purchase this upgrade.',
     );
@@ -87,8 +85,7 @@ class NuCoalFactionMods extends FactionModification {
     improve its EW skill by one, to a maximum of 3+, for 1 TV each.
   */
   factory NuCoalFactionMods.hoverTankCommander() {
-    final RequirementCheck reqCheck =
-        (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+    reqCheck(RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       assert(cg != null);
       assert(rs != null);
 
@@ -96,7 +93,7 @@ class NuCoalFactionMods extends FactionModification {
         return false;
       }
 
-      if (u.type != ModelType.Vehicle) {
+      if (u.type != ModelType.vehicle) {
         return false;
       }
 
@@ -105,7 +102,7 @@ class NuCoalFactionMods extends FactionModification {
       }
 
       return true;
-    };
+    }
 
     final fm = NuCoalFactionMods(
       name: 'Hover Tank Commander',
@@ -128,16 +125,15 @@ class NuCoalFactionMods extends FactionModification {
     difficult terrain.
   */
   factory NuCoalFactionMods.tankJockeys() {
-    final RequirementCheck reqCheck =
-        (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+    reqCheck(RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       assert(cg != null);
       assert(rs != null);
 
-      if (u.type != ModelType.Vehicle) {
+      if (u.type != ModelType.vehicle) {
         return false;
       }
 
-      if (!u.traits.any((t) => t.name == Trait.Agile().name)) {
+      if (!u.traits.any((t) => t.name == Trait.agile().name)) {
         return false;
       }
 
@@ -146,7 +142,7 @@ class NuCoalFactionMods extends FactionModification {
       }
 
       return true;
-    };
+    }
 
     final fm = NuCoalFactionMods(
       name: 'Tank Jockeys',
@@ -175,12 +171,11 @@ class NuCoalFactionMods extends FactionModification {
     String name = 'Something To Prove',
     String? ruleId,
   }) {
-    final RequirementCheck reqCheck =
-        (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+    reqCheck(RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       assert(cg != null);
       assert(rs != null);
 
-      if (u.type != ModelType.Infantry) {
+      if (u.type != ModelType.infantry) {
         return false;
       }
 
@@ -194,7 +189,7 @@ class NuCoalFactionMods extends FactionModification {
       }
 
       return true;
-    };
+    }
 
     final fm = NuCoalFactionMods(
       name: name,
@@ -215,8 +210,7 @@ class NuCoalFactionMods extends FactionModification {
     for +2 TV each.
   */
   factory NuCoalFactionMods.jannitePilots() {
-    final RequirementCheck reqCheck =
-        (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+    reqCheck(RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       assert(cg != null);
       assert(rs != null);
 
@@ -224,7 +218,7 @@ class NuCoalFactionMods extends FactionModification {
         return false;
       }
 
-      if (u.type != ModelType.Gear) {
+      if (u.type != ModelType.gear) {
         return false;
       }
 
@@ -236,7 +230,7 @@ class NuCoalFactionMods extends FactionModification {
           u.attribute<int>(UnitAttribute.actions, modIDToSkip: jannitePilotsId);
 
       return currentActions == 1;
-    };
+    }
 
     final fm = NuCoalFactionMods(
       name: 'Jannite Pilots',
@@ -260,8 +254,7 @@ class NuCoalFactionMods extends FactionModification {
     Sampsons in this combat group may purchase the Agile trait for 1 TV each.
   */
   factory NuCoalFactionMods.fastCavalry() {
-    final RequirementCheck reqCheck =
-        (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+    reqCheck(RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       assert(cg != null);
       assert(rs != null);
 
@@ -274,7 +267,7 @@ class NuCoalFactionMods extends FactionModification {
       }
 
       return u.core.frame == 'Sampson';
-    };
+    }
 
     final fm = NuCoalFactionMods(
       name: 'Fast Cavalry',
@@ -286,7 +279,7 @@ class NuCoalFactionMods extends FactionModification {
 
     fm.addMod<List<Trait>>(
       UnitAttribute.traits,
-      createAddTraitToList(Trait.Agile()),
+      createAddTraitToList(Trait.agile()),
       description: 'Sampsons in this combat group may purchase the Agile' +
           ' trait for 1 TV each.',
     );
@@ -298,9 +291,8 @@ class NuCoalFactionMods extends FactionModification {
     E-pex: One model in this combat group may improve its EW skill by one
     for 1 TV.
   */
-  factory NuCoalFactionMods.e_pex() {
-    final RequirementCheck reqCheck =
-        (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+  factory NuCoalFactionMods.ePex() {
+    reqCheck(RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       assert(cg != null);
       assert(rs != null);
 
@@ -314,7 +306,8 @@ class NuCoalFactionMods extends FactionModification {
 
       return cg.modCount(ePexId) == 0 ||
           (cg.modCount(ePexId) == 1 && u.hasMod(ePexId));
-    };
+    }
+
     return NuCoalFactionMods(
       name: 'E-pex',
       requirementCheck: reqCheck,
@@ -331,8 +324,7 @@ class NuCoalFactionMods extends FactionModification {
     Add +1 to the MR of any veteran gears in this combat group for 1 TV each.
   */
   factory NuCoalFactionMods.highOctane() {
-    final RequirementCheck reqCheck =
-        (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+    reqCheck(RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       assert(cg != null);
       assert(rs != null);
 
@@ -344,12 +336,13 @@ class NuCoalFactionMods extends FactionModification {
         return false;
       }
 
-      if (u.type != ModelType.Gear) {
+      if (u.type != ModelType.gear) {
         return false;
       }
 
       return u.isVeteran;
-    };
+    }
+
     return NuCoalFactionMods(
       name: 'High Octane',
       requirementCheck: reqCheck,
@@ -372,7 +365,7 @@ class NuCoalFactionMods extends FactionModification {
   */
   factory NuCoalFactionMods.personalEquipment(PersonalEquipment pe,
       {String? ruleId, String? optionId}) {
-    final RequirementCheck reqCheck = (
+    reqCheck(
       RuleSet? rs,
       UnitRoster? ur,
       CombatGroup? cg,
@@ -402,7 +395,7 @@ class NuCoalFactionMods extends FactionModification {
         return true;
       }
       return false;
-    };
+    }
 
     final modOptions = ModificationOption(
       'Personal Equipment',
@@ -417,7 +410,7 @@ class NuCoalFactionMods extends FactionModification {
       name: 'Personal Equipment',
       requirementCheck: reqCheck,
       options: modOptions,
-      id: pe == PersonalEquipment.One
+      id: pe == PersonalEquipment.one
           ? personalEquipment1Id
           : personalEquipment2Id,
     );
@@ -432,4 +425,4 @@ class NuCoalFactionMods extends FactionModification {
   }
 }
 
-enum PersonalEquipment { One, Two }
+enum PersonalEquipment { one, two }

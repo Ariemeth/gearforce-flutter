@@ -39,8 +39,8 @@ void main() {
     final data = DataV3()..load(settings);
     final roster = UnitRoster(data, settings);
     final cg = CombatGroup('test1');
-    cg.primary.addUnit(Unit(core: UnitCore.test()));
-    cg.secondary.addUnit(Unit(core: UnitCore.test()));
+    cg.primary.addUnit(Unit(core: const UnitCore.test()));
+    cg.secondary.addUnit(Unit(core: const UnitCore.test()));
     roster.addCG(cg);
     expect(roster.totalTV(), equals(10),
         reason: 'check total tv equals both default units');
@@ -60,8 +60,7 @@ void main() {
 
   test('Single CGL picked up as only available leader', () async {
     final settings = Settings();
-    final data = await DataV3()
-      ..load(settings);
+    final data = DataV3()..load(settings);
     final roster = UnitRoster(data, settings);
     expect(roster.getLeaders(null).length, 0);
 
@@ -77,8 +76,7 @@ void main() {
   test('CO picked up as only available force leader with 2 leaders in roster',
       () async {
     final settings = Settings();
-    final data = await DataV3()
-      ..load(settings);
+    final data = DataV3()..load(settings);
     final roster = UnitRoster(data, settings);
     expect(roster.getLeaders(null).length, 0);
 

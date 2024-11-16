@@ -3,7 +3,7 @@ import 'package:gearforce/v3/models/combatGroups/group.dart';
 import 'package:gearforce/v3/models/rules/rule.dart';
 import 'package:gearforce/v3/models/factions/faction_type.dart';
 import 'package:gearforce/v3/models/mods/duelist/duelist_modification.dart'
-    as duelistMod;
+    as duelist_mod;
 import 'package:gearforce/v3/models/rules/options/special_unit_filter.dart';
 import 'package:gearforce/v3/models/rules/rulesets/south/milicia.dart'
     as milicia;
@@ -77,8 +77,8 @@ final Rule ruleExperts = Rule(
   name: 'Experts',
   id: _ruleExpertsId,
   duelistModCheck: (u, cg, {required modID}) {
-    if (!(modID == duelistMod.stableId ||
-        modID == duelistMod.duelistPreciseId)) {
+    if (!(modID == duelist_mod.stableId ||
+        modID == duelist_mod.duelistPreciseId)) {
       return null;
     }
 
@@ -104,13 +104,13 @@ final Rule ruleAllies = Rule(
   name: 'Allies',
   id: _ruleAlliesId,
   canBeAddedToGroup: (unit, group, cg) {
-    if (unit.faction != FactionType.NuCoal) {
+    if (unit.faction != FactionType.nuCoal) {
       return null;
     }
-    if (group.groupType != GroupType.Primary) {
+    if (group.groupType != GroupType.primary) {
       return null;
     }
-    return Validation(
+    return const Validation(
       false,
       issue: 'NuCoal units can only be added to secondary groups; See Allies' +
           ' rule.',
@@ -120,10 +120,10 @@ final Rule ruleAllies = Rule(
       text: 'Allies',
       filters: [
         UnitFilter(
-          FactionType.NuCoal,
+          FactionType.nuCoal,
           matcher: matchNoGREL,
         ),
-        ...SouthFilters,
+        ...southFilters,
       ],
       id: _ruleAlliesId),
   description: 'You may select models from NuCoal for secondary units. GREL' +

@@ -89,18 +89,18 @@ final Rule ruleLocalMilitia = Rule(
   name: 'Local Militia',
   id: _ruleLocalMilitiaId,
   hasGroupRole: (unit, target, group) {
-    if (!(unit.type == ModelType.Infantry || unit.type == ModelType.Cavalry)) {
+    if (!(unit.type == ModelType.infantry || unit.type == ModelType.cavalry)) {
       return null;
     }
     final areOtherTypesInUnit = group.combatGroup?.units.any(
-        (u) => !(u.type == ModelType.Infantry || u.type == ModelType.Cavalry));
+        (u) => !(u.type == ModelType.infantry || u.type == ModelType.cavalry));
 
     if (areOtherTypesInUnit != null && !areOtherTypesInUnit) {
-      return target == RoleType.GP ||
-          target == RoleType.SK ||
-          target == RoleType.FS ||
-          target == RoleType.RC ||
-          target == RoleType.SO;
+      return target == RoleType.gp ||
+          target == RoleType.sk ||
+          target == RoleType.fs ||
+          target == RoleType.rc ||
+          target == RoleType.so;
     }
     return null;
   },

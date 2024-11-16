@@ -39,14 +39,12 @@ class NuCoal extends RuleSet {
     List<Rule>? factionRules,
     List<Rule> subFactionRules = const [],
   }) : super(
-          FactionType.NuCoal,
+          FactionType.nuCoal,
           data,
           settings: settings,
           name: name,
           description: description,
-          factionRules: factionRules == null
-              ? [ruleHumanistTech, rulePortArthurKorps]
-              : factionRules,
+          factionRules: factionRules ?? [ruleHumanistTech, rulePortArthurKorps],
           subFactionRules: subFactionRules,
         );
 
@@ -59,23 +57,23 @@ class NuCoal extends RuleSet {
         text: type.name,
         id: coreTag,
         filters: const [
-          const UnitFilter(FactionType.NuCoal),
-          const UnitFilter(FactionType.Airstrike),
-          const UnitFilter(FactionType.Universal),
-          const UnitFilter(FactionType.Universal_TerraNova),
-          const UnitFilter(FactionType.Terrain),
+          UnitFilter(FactionType.nuCoal),
+          UnitFilter(FactionType.airstrike),
+          UnitFilter(FactionType.universal),
+          UnitFilter(FactionType.universalTerraNova),
+          UnitFilter(FactionType.terrain),
         ],
       ),
     ];
     return [...filters, ...super.availableUnitFilters(cgOptions)];
   }
 
-  factory NuCoal.NSDF(DataV3 data, Settings settings) => NSDF(data, settings);
-  factory NuCoal.PAK(DataV3 data, Settings settings) => PAK(data, settings);
-  factory NuCoal.HAPF(DataV3 data, Settings settings) => HAPF(data, settings);
-  factory NuCoal.KADA(DataV3 data, Settings settings) => KADA(data, settings);
-  factory NuCoal.TH(DataV3 data, Settings settings) => TH(data, settings);
-  factory NuCoal.HCSA(DataV3 data, Settings settings) => HCSA(data, settings);
+  factory NuCoal.nsdf(DataV3 data, Settings settings) => NSDF(data, settings);
+  factory NuCoal.pak(DataV3 data, Settings settings) => PAK(data, settings);
+  factory NuCoal.hapf(DataV3 data, Settings settings) => HAPF(data, settings);
+  factory NuCoal.kada(DataV3 data, Settings settings) => KADA(data, settings);
+  factory NuCoal.th(DataV3 data, Settings settings) => TH(data, settings);
+  factory NuCoal.hcsa(DataV3 data, Settings settings) => HCSA(data, settings);
 }
 
 final Rule ruleHumanistTech = Rule(
@@ -89,7 +87,7 @@ final Rule ruleHumanistTech = Rule(
       return null;
     }
 
-    if (target != RoleType.FS) {
+    if (target != RoleType.fs) {
       return false;
     }
 
@@ -99,7 +97,7 @@ final Rule ruleHumanistTech = Rule(
       text: 'Humanist Tech',
       filters: [
         UnitFilter(
-          FactionType.South,
+          FactionType.south,
           matcher: _matchHumanistTech,
         ),
       ],
@@ -129,12 +127,12 @@ final Rule rulePortArthurKorps = Rule(
     }
 
     if ((frame == 'HPC-64' || frame == 'F6-16') &&
-        (target == RoleType.GP || target == RoleType.SK)) {
+        (target == RoleType.gp || target == RoleType.sk)) {
       return true;
     }
 
     if ((frame == 'LHT-67' || frame == 'LHT-71') &&
-        (target == RoleType.RC || target == RoleType.FS)) {
+        (target == RoleType.rc || target == RoleType.fs)) {
       return true;
     }
 
@@ -144,7 +142,7 @@ final Rule rulePortArthurKorps = Rule(
       text: 'Port Arthur Korps',
       filters: [
         UnitFilter(
-          FactionType.CEF,
+          FactionType.cef,
           matcher: _matchPortArthurKorps,
         ),
       ],

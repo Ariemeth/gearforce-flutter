@@ -13,7 +13,7 @@ class UnitPreviewButton extends StatelessWidget {
   Widget build(BuildContext context) {
     var button = IconButton(
       onPressed: () => {_showUnitPreviewDialog(context, unit)},
-      icon: Icon(_buttonIcon),
+      icon: const Icon(_buttonIcon),
       splashRadius: 10.0,
       padding: EdgeInsets.zero,
       tooltip: 'Preview Unit',

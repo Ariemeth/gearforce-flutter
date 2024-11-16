@@ -11,7 +11,7 @@ Future<UnitRoster?> showInputRosterId(BuildContext context, DataV3 data) async {
   var result = await showDialog<String>(
       context: context,
       builder: (BuildContext context) {
-        return RosterIdInputDialog();
+        return const RosterIdInputDialog();
       });
 
   if (result == null) {
@@ -22,12 +22,14 @@ Future<UnitRoster?> showInputRosterId(BuildContext context, DataV3 data) async {
 }
 
 class RosterIdInputDialog extends StatefulWidget {
+  const RosterIdInputDialog({super.key});
+
   @override
   State<RosterIdInputDialog> createState() => _RosterIdInputDialogState();
 }
 
 class _RosterIdInputDialogState extends State<RosterIdInputDialog> {
-  String input = "";
+  String input = '';
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +41,7 @@ class _RosterIdInputDialogState extends State<RosterIdInputDialog> {
             autofocus: true,
             autocorrect: false,
             textAlign: TextAlign.center,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               constraints: BoxConstraints(minWidth: 320.0),
               border: OutlineInputBorder(),
               hintText: 'Enter an ID to load',
@@ -57,7 +59,7 @@ class _RosterIdInputDialogState extends State<RosterIdInputDialog> {
           onPressed: () {
             Navigator.pop(context, input);
           },
-          child: Center(
+          child: const Center(
             child: Text(
               'Load Roster',
               style: TextStyle(fontSize: 24, color: Colors.green),

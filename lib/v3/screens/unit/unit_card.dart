@@ -6,7 +6,7 @@ import 'package:gearforce/v3/models/weapons/weapon.dart';
 import 'package:gearforce/widgets/settings.dart';
 import 'package:provider/provider.dart';
 
-const _horizontalBorder = const BorderSide();
+const _horizontalBorder = BorderSide();
 const _primaryStatSectionWidth = 70.0;
 const _primaryStatNameWidth = 35.0;
 const _secondaryStatNameWidth = 38.0;
@@ -31,9 +31,9 @@ class UnitCard extends StatelessWidget {
       child: Column(
         children: [
           _nameRow(context),
-          _StatsRow(context),
-          _TraitsRow(settings),
-          _WeaponsRow(settings),
+          _statsRow(context),
+          _traitsRow(settings),
+          _weaponsRow(settings),
         ],
       ),
     );
@@ -43,6 +43,10 @@ class UnitCard extends StatelessWidget {
 
   Widget _nameRow(BuildContext context) {
     return Container(
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.primary,
+        borderRadius: BorderRadiusDirectional.circular(5.0),
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -50,20 +54,21 @@ class UnitCard extends StatelessWidget {
             padding: const EdgeInsets.only(left: 5.0, right: 5.0, bottom: 2.5),
             child: Text(
               unit.name,
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
           ),
         ],
       ),
-      decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.primary,
-        borderRadius: BorderRadiusDirectional.circular(5.0),
-      ),
     );
   }
 
-  Widget _StatsRow(BuildContext context) {
+  Widget _statsRow(BuildContext context) {
     return Container(
+      decoration: const BoxDecoration(
+          border: Border(
+        top: _horizontalBorder,
+        bottom: _horizontalBorder,
+      )),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
@@ -72,34 +77,29 @@ class UnitCard extends StatelessWidget {
           Container(
             alignment: Alignment.topLeft,
             width: _primaryStatSectionWidth,
-            child: _PrimaryStats(context),
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               border: Border(
                 right: BorderSide(),
               ),
             ),
+            child: _primaryStats(context),
           ),
           Flexible(
-            child: _SecondaryStats(context),
+            child: _secondaryStats(context),
           ),
         ],
       ),
-      decoration: BoxDecoration(
-          border: Border(
-        top: _horizontalBorder,
-        bottom: _horizontalBorder,
-      )),
     );
   }
 
-  Widget _PrimaryStats(BuildContext context) {
+  Widget _primaryStats(BuildContext context) {
     final gunnery = unit.gunnery == null ? '-' : '${unit.gunnery}+';
     final piloting = unit.piloting == null ? '-' : '${unit.piloting}+';
     final ew = unit.ew == null ? '-' : '${unit.ew}+';
     final actions = unit.actions == null ? '-' : '${unit.actions}';
     final armor = unit.armor == null ? '-' : '${unit.armor}';
 
-    const statValuePadding = const EdgeInsets.only(left: 5.0);
+    const statValuePadding = EdgeInsets.only(left: 5.0);
 
     return Padding(
       padding: const EdgeInsets.only(left: 5.0, right: 5.0, bottom: 3.0),
@@ -108,35 +108,35 @@ class UnitCard extends StatelessWidget {
           Table(
             children: [
               TableRow(children: [
-                Text('GU:', textAlign: TextAlign.right),
+                const Text('GU:', textAlign: TextAlign.right),
                 Padding(
                   padding: statValuePadding,
                   child: Text(gunnery),
                 ),
               ]),
               TableRow(children: [
-                Text('PI:', textAlign: TextAlign.right),
+                const Text('PI:', textAlign: TextAlign.right),
                 Padding(
                   padding: statValuePadding,
                   child: Text(piloting),
                 ),
               ]),
               TableRow(children: [
-                Text('EW:', textAlign: TextAlign.right),
+                const Text('EW:', textAlign: TextAlign.right),
                 Padding(
                   padding: statValuePadding,
                   child: Text(ew),
                 ),
               ]),
               TableRow(children: [
-                Text('A:', textAlign: TextAlign.right),
+                const Text('A:', textAlign: TextAlign.right),
                 Padding(
                   padding: statValuePadding,
                   child: Text(actions),
                 ),
               ]),
               TableRow(children: [
-                Text('ARM:', textAlign: TextAlign.right),
+                const Text('ARM:', textAlign: TextAlign.right),
                 Padding(
                   padding: statValuePadding,
                   child: Text(armor),
@@ -152,8 +152,8 @@ class UnitCard extends StatelessWidget {
     );
   }
 
-  Widget _SecondaryStats(BuildContext context) {
-    const statValuePadding = const EdgeInsets.only(left: 5.0);
+  Widget _secondaryStats(BuildContext context) {
+    const statValuePadding = EdgeInsets.only(left: 5.0);
 
     return Padding(
       padding: const EdgeInsets.only(left: 5.0, right: 5.0, bottom: 3.0),
@@ -163,7 +163,7 @@ class UnitCard extends StatelessWidget {
           Table(
             children: [
               TableRow(children: [
-                Text('Type:', textAlign: TextAlign.right),
+                const Text('Type:', textAlign: TextAlign.right),
                 Padding(
                   padding: statValuePadding,
                   child: Text(
@@ -171,33 +171,34 @@ class UnitCard extends StatelessWidget {
                 ),
               ]),
               TableRow(children: [
-                Text('Cmd:', textAlign: TextAlign.right),
+                const Text('Cmd:', textAlign: TextAlign.right),
                 Padding(
                   padding: statValuePadding,
-                  child: Text(
-                      '${unit.commandLevel == CommandLevel.none ? '-' : '${unit.commandLevel.name}'}'),
+                  child: Text(unit.commandLevel == CommandLevel.none
+                      ? '-'
+                      : unit.commandLevel.name),
                 ),
               ]),
               TableRow(children: [
-                Text('MR:', textAlign: TextAlign.right),
+                const Text('MR:', textAlign: TextAlign.right),
                 Padding(
                   padding: statValuePadding,
                   child: Text('${unit.movement}'),
                 ),
               ]),
               TableRow(children: [
-                Text('H:', textAlign: TextAlign.right),
+                const Text('H:', textAlign: TextAlign.right),
                 Padding(
                   padding: statValuePadding,
-                  child: Text('${unit.hull == null ? '-' : '${unit.hull}'}'),
+                  child: Text(unit.hull == null ? '-' : '${unit.hull}'),
                 ),
               ]),
               TableRow(children: [
-                Text('S:', textAlign: TextAlign.right),
+                const Text('S:', textAlign: TextAlign.right),
                 Padding(
                   padding: statValuePadding,
-                  child: Text(
-                      '${unit.structure == null ? '-' : '${unit.structure}'}'),
+                  child:
+                      Text(unit.structure == null ? '-' : '${unit.structure}'),
                 ),
               ]),
             ],
@@ -206,11 +207,11 @@ class UnitCard extends StatelessWidget {
               1: IntrinsicColumnWidth(),
             },
           ),
-          Spacer(),
+          const Spacer(),
           Table(
             children: [
               TableRow(children: [
-                Text('TV:', textAlign: TextAlign.right),
+                const Text('TV:', textAlign: TextAlign.right),
                 Padding(
                   padding: statValuePadding,
                   child: Text('${unit.tv}'),
@@ -238,16 +239,38 @@ class UnitCard extends StatelessWidget {
     );
   }
 
-  Widget _TraitsRow(Settings settings) {
-    return Container(
-      child: Padding(
-        padding: const EdgeInsets.only(left: 5.0, right: 5.0, bottom: 3.0),
-        child: _buildTraitList(settings, unit.traits),
-      ),
+  Widget _traitsRow(Settings settings) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 5.0, right: 5.0, bottom: 3.0),
+      child: _buildTraitList(settings, unit.traits),
     );
   }
 
-  Widget _WeaponsRow(Settings settings) {
+  Widget _weaponsRow(Settings settings) {
+    final weaponRows = <TableRow>[];
+    for (var w in unit.weapons) {
+      weaponRows.add(TableRow(
+        children: [
+          _buildWeaponCode(settings, w),
+          _buildWeaponRange(w),
+          _buildWeaponDamage(w),
+          _buildWeaponTraits(settings, w),
+          _buildWeaponMode(settings, w),
+        ],
+      ));
+      if (w.isCombo && w.combo != null) {
+        weaponRows.add(TableRow(
+          children: [
+            _buildWeaponCode(settings, w.combo!),
+            _buildWeaponRange(w.combo!),
+            _buildWeaponDamage(w.combo!),
+            _buildWeaponTraits(settings, w.combo!),
+            _buildWeaponMode(settings, w.combo!),
+          ],
+        ));
+      }
+    }
+
     final weaponTable = Table(
       children: [
         const TableRow(
@@ -259,6 +282,7 @@ class UnitCard extends StatelessWidget {
             Text('Mode')
           ],
         ),
+        ...weaponRows
       ],
       columnWidths: const <int, TableColumnWidth>{
         0: FixedColumnWidth(_weaponCodeWidth),
@@ -269,39 +293,16 @@ class UnitCard extends StatelessWidget {
       },
     );
 
-    unit.weapons.forEach((w) {
-      weaponTable.children.add(TableRow(
-        children: [
-          _buildWeaponCode(settings, w),
-          _buildWeaponRange(w),
-          _buildWeaponDamage(w),
-          _buildWeaponTraits(settings, w),
-          _buildWeaponMode(settings, w),
-        ],
-      ));
-      if (w.isCombo && w.combo != null) {
-        weaponTable.children.add(TableRow(
-          children: [
-            _buildWeaponCode(settings, w.combo!),
-            _buildWeaponRange(w.combo!),
-            _buildWeaponDamage(w.combo!),
-            _buildWeaponTraits(settings, w.combo!),
-            _buildWeaponMode(settings, w.combo!),
-          ],
-        ));
-      }
-    });
-
     final layout = Padding(
         padding: const EdgeInsets.only(left: 5.0, right: 5.0, bottom: 5.0),
         child: weaponTable);
 
     return Container(
-      child: layout,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
           border: Border(
         top: _horizontalBorder,
       )),
+      child: layout,
     );
   }
 }
@@ -315,10 +316,10 @@ Widget _buildWeaponCode(Settings settings, Weapon w) {
   };
   return Tooltip(
     message: '$weaponSize ${w.name}',
+    waitDuration: settings.tooltipDelay,
     child: Text(
       '${w.hasReact ? _reactSymbol : ''}${w.numberOf >= 2 ? '2 x ' : ''}${w.abbreviation}',
     ),
-    waitDuration: settings.tooltipDelay,
   );
 }
 
@@ -335,36 +336,36 @@ Widget _buildWeaponTraits(Settings settings, Weapon w) {
   final traits2 = _buildTraitList(settings, w.alternativeTraits);
   return Wrap(
     children: [
-      w.alternativeTraits.isEmpty ? Container() : Text('['),
+      w.alternativeTraits.isEmpty ? Container() : const Text('['),
       traits1,
-      w.alternativeTraits.isEmpty ? Container() : Text(']'),
+      w.alternativeTraits.isEmpty ? Container() : const Text(']'),
       w.alternativeTraits.isNotEmpty
           ? Tooltip(
-              message: Trait.Or().description,
-              child: Text(' or '),
+              message: Trait.or().description,
+              child: const Text(' or '),
             )
           : Container(),
-      w.alternativeTraits.isEmpty ? Container() : Text('['),
+      w.alternativeTraits.isEmpty ? Container() : const Text('['),
       w.alternativeTraits.isNotEmpty ? traits2 : Container(),
-      w.alternativeTraits.isEmpty ? Container() : Text(']'),
+      w.alternativeTraits.isEmpty ? Container() : const Text(']'),
     ],
   );
 }
 
 Widget _buildWeaponMode(Settings settings, Weapon w) {
   return Tooltip(
-    child: Text(
-      '${w.modes.map((m) => m.abbr).toList().join(', ')}',
-      textAlign: TextAlign.center,
-    ),
     message: w.modes.map((m) => m.name).toList().join('\n'),
     waitDuration: settings.tooltipDelay,
+    child: Text(
+      w.modes.map((m) => m.abbr).toList().join(', '),
+      textAlign: TextAlign.center,
+    ),
   );
 }
 
 Widget _buildTraitList(Settings settings, List<Trait> traits) {
   if (traits.isEmpty) {
-    return Row();
+    return const Row();
   }
 
   final List<Widget> traitList = [];
@@ -374,17 +375,16 @@ Widget _buildTraitList(Settings settings, List<Trait> traits) {
     final trait = traits[i];
     var traitStr = trait.toString() + (isLast ? '' : ', ');
     traitList.add(Tooltip(
+      message: trait.description ?? '',
+      waitDuration: settings.tooltipDelay,
       child: Text(
         traitStr,
         style: trait.isDisabled
-            ? TextStyle(decoration: TextDecoration.lineThrough)
+            ? const TextStyle(decoration: TextDecoration.lineThrough)
             : null,
       ),
-      message: trait.description ?? '',
-      waitDuration: settings.tooltipDelay,
     ));
   }
-  ;
   return Wrap(
     children: traitList,
   );

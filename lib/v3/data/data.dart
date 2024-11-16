@@ -10,21 +10,21 @@ import 'package:gearforce/v3/models/unit/unit_core.dart';
 import 'package:gearforce/widgets/settings.dart';
 
 const Map<FactionType, String> _factionUnitFiles = {
-  FactionType.Airstrike: 'assets/data/units/air_strike.json',
-  FactionType.BlackTalon: 'assets/data/units/black_talon.json',
-  FactionType.CEF: 'assets/data/units/cef.json',
-  FactionType.Caprice: 'assets/data/units/caprice.json',
-  FactionType.Eden: 'assets/data/units/eden.json',
-  FactionType.North: 'assets/data/units/north.json',
-  FactionType.NuCoal: 'assets/data/units/nucoal.json',
-  FactionType.PeaceRiver: 'assets/data/units/peace_river.json',
-  FactionType.South: 'assets/data/units/south.json',
-  FactionType.Terrain: 'assets/data/units/terrain.json',
-  FactionType.Universal: 'assets/data/units/universal.json',
-  FactionType.Universal_TerraNova: 'assets/data/units/universal_terranova.json',
-  FactionType.Universal_Non_TerraNova:
+  FactionType.airstrike: 'assets/data/units/air_strike.json',
+  FactionType.blackTalon: 'assets/data/units/black_talon.json',
+  FactionType.cef: 'assets/data/units/cef.json',
+  FactionType.caprice: 'assets/data/units/caprice.json',
+  FactionType.eden: 'assets/data/units/eden.json',
+  FactionType.north: 'assets/data/units/north.json',
+  FactionType.nuCoal: 'assets/data/units/nucoal.json',
+  FactionType.peaceRiver: 'assets/data/units/peace_river.json',
+  FactionType.south: 'assets/data/units/south.json',
+  FactionType.terrain: 'assets/data/units/terrain.json',
+  FactionType.universal: 'assets/data/units/universal.json',
+  FactionType.universalTerraNova: 'assets/data/units/universal_terranova.json',
+  FactionType.universalNonTerraNova:
       'assets/data/units/universal_non_terranova.json',
-  FactionType.Utopia: 'assets/data/units/utopia.json',
+  FactionType.utopia: 'assets/data/units/utopia.json',
 };
 
 class DataV3 {
@@ -49,24 +49,24 @@ class DataV3 {
     List<RoleType?>? roleFilter,
     List<String>? characterFilters,
   }) {
-    assert(baseFactionFilters.length > 0);
+    assert(baseFactionFilters.isNotEmpty);
 
     final List<Frame> availableFrames = [];
 
-    baseFactionFilters.forEach((factionType) {
+    for (var factionType in baseFactionFilters) {
       final frames = _factionFrames[factionType];
       if (frames != null) {
         availableFrames.addAll(frames);
       }
-    });
+    }
 
     List<UnitCore> results = [];
 
     // adding each variant of the already selected frames to the results to be
     // returned.
-    availableFrames.forEach((frame) {
+    for (var frame in availableFrames) {
       results.addAll(frame.variants);
-    });
+    }
 
     if (roleFilter != null && roleFilter.isNotEmpty) {
       results = results.where((uc) {
@@ -89,13 +89,13 @@ class DataV3 {
     List<RoleType>? roleFilter,
     List<String>? characterFilters,
   }) {
-    if (filters.length == 0) {
+    if (filters.isEmpty) {
       return [];
     }
 
     List<Unit> results = [];
 
-    filters.forEach((filter) {
+    for (var filter in filters) {
       final frames = _factionFrames[filter.faction];
       frames?.forEach((frame) {
         final units = frame.variants
@@ -104,7 +104,7 @@ class DataV3 {
             .toList();
         results.addAll(units);
       });
-    });
+    }
 
     // filter the selection based on role
     if (roleFilter != null && roleFilter.isNotEmpty) {
@@ -128,7 +128,7 @@ class DataV3 {
   ///
   /// This function will not return/complete until all resources have been loaded.
   Future<void> load(Settings settings) async {
-    this._factions = _loadFactions(settings);
+    _factions = _loadFactions(settings);
 
     await Future.forEach<MapEntry<FactionType, String>>(
         _factionUnitFiles.entries.map((me) => me).toList(), (me) async {

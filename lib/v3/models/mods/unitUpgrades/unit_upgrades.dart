@@ -1,13 +1,13 @@
 import 'package:gearforce/v3/models/mods/unitUpgrades/unit_modification.dart';
 import 'package:gearforce/v3/models/mods/unitUpgrades/black_talon.dart'
-    as blackTalon;
+    as black_talon;
 import 'package:gearforce/v3/models/mods/unitUpgrades/caprice.dart' as caprice;
 import 'package:gearforce/v3/models/mods/unitUpgrades/cef.dart' as cef;
 import 'package:gearforce/v3/models/mods/unitUpgrades/eden.dart' as eden;
 import 'package:gearforce/v3/models/mods/unitUpgrades/north.dart' as north;
 import 'package:gearforce/v3/models/mods/unitUpgrades/nucoal.dart' as nucoal;
 import 'package:gearforce/v3/models/mods/unitUpgrades/peace_river.dart'
-    as peaceRiver;
+    as peace_river;
 import 'package:gearforce/v3/models/mods/unitUpgrades/south.dart' as south;
 import 'package:gearforce/v3/models/mods/unitUpgrades/universal.dart'
     as universal;
@@ -54,7 +54,7 @@ List<UnitModification> getUnitMods(Unit unit) {
     case 'wolf':
       return [north.howler, north.flakJacketUpgrade];
     case 'panda':
-      return [north.assaultUpgrade, north.vibro_axeUpgrade];
+      return [north.assaultUpgrade, north.vibroAxeUpgrade];
 
     // Southern units
     case 'jager':
@@ -76,7 +76,7 @@ List<UnitModification> getUnitMods(Unit unit) {
     case 'salamander':
       return [south.ruggedTerrain];
     case 'water viper':
-      return [south.SRUpgrade];
+      return [south.srUpgrade];
     case 'desert viper':
       return [south.ruggedTerrain];
     case 'black adder':
@@ -104,54 +104,54 @@ List<UnitModification> getUnitMods(Unit unit) {
 
     // Peace River
     case 'warrior':
-      return [peaceRiver.spectre, peaceRiver.chieftain];
+      return [peace_river.spectre, peace_river.chieftain];
     case 'warrior iv':
       return [
-        peaceRiver.jetpack,
-        peaceRiver.warriorIVSpecialForces,
-        peaceRiver.warriorIVSpectre,
-        peaceRiver.warriorIVChieftain
+        peace_river.jetpack,
+        peace_river.warriorIVSpecialForces,
+        peace_river.warriorIVSpectre,
+        peace_river.warriorIVChieftain
       ];
     case 'jackal':
-      return [peaceRiver.meleeSpecialist];
+      return [peace_river.meleeSpecialist];
     case 'gladiator':
-      return [peaceRiver.meleeSpecialist1, peaceRiver.shield];
+      return [peace_river.meleeSpecialist1, peace_river.shield];
     case 'pit bull':
-      return [peaceRiver.pitBullSpectre];
+      return [peace_river.pitBullSpectre];
     case 'greyhound':
-      return [peaceRiver.greyhoundChieftain];
+      return [peace_river.greyhoundChieftain];
     case 'harrier':
-      return [peaceRiver.jetpack];
+      return [peace_river.jetpack];
     case 'skirmisher':
       return [
-        peaceRiver.skirmisherChieftain,
-        peaceRiver.skirmisherTag,
-        peaceRiver.SkirmisherSpecialForces
+        peace_river.skirmisherChieftain,
+        peace_river.skirmisherTag,
+        peace_river.skirmisherSpecialForces
       ];
     case 'shinobi':
       return [
-        peaceRiver.shinobiSpectre,
-        peaceRiver.shinobiMeleeSpecialist,
-        peaceRiver.shinobiChieftain
+        peace_river.shinobiSpectre,
+        peace_river.shinobiMeleeSpecialist,
+        peace_river.shinobiChieftain
       ];
     case 'spartan':
-      return [peaceRiver.spartanSpectre];
+      return [peace_river.spartanSpectre];
     case 'crusader iv':
-      return [peaceRiver.crusaderV];
+      return [peace_river.crusaderV];
     case 'cataphract':
-      return [peaceRiver.cataphractSarisa, peaceRiver.cataphractLord];
+      return [peace_river.cataphractSarisa, peace_river.cataphractLord];
     case 'uhlan':
-      return [peaceRiver.tankHunter, peaceRiver.uhlanLord];
+      return [peace_river.tankHunter, peace_river.uhlanLord];
     case 'hyene ii':
-      return [peaceRiver.hyeneIISpectre];
+      return [peace_river.hyeneIISpectre];
     case 'coyote':
-      return [peaceRiver.alphaDog];
+      return [peace_river.alphaDog];
     case 'red bull mk2':
-      return [peaceRiver.arbalest];
+      return [peace_river.arbalest];
     case 'hoplite':
-      return [peaceRiver.herdLord];
+      return [peace_river.herdLord];
     case 'black wind':
-      return [peaceRiver.missile];
+      return [peace_river.missile];
 
     // NuCoal
     case 'chasseur':
@@ -247,50 +247,50 @@ List<UnitModification> getUnitMods(Unit unit) {
 
     // Black Talon
     case 'dark warrior':
-      return [blackTalon.psi, ...blackTalon.hadesPack];
+      return [black_talon.psi, ...black_talon.hadesPack];
     case 'dark jaguar':
       return [
-        blackTalon.darkJaguarPsi,
-        blackTalon.phi,
-        ...blackTalon.hadesPack,
+        black_talon.darkJaguarPsi,
+        black_talon.phi,
+        ...black_talon.hadesPack,
       ];
     case 'dark mamba':
-      return [blackTalon.darkMambaPsi, ...blackTalon.hadesPack];
+      return [black_talon.darkMambaPsi, ...black_talon.hadesPack];
     case 'dark cobra':
-      return [blackTalon.xi, ...blackTalon.aresPack];
+      return [black_talon.xi, ...black_talon.aresPack];
     case 'raptor':
-      return [...blackTalon.aresPack];
+      return [...black_talon.aresPack];
     case 'dark naga':
-      return [blackTalon.omi, blackTalon.zeta, blackTalon.pur];
+      return [black_talon.omi, black_talon.zeta, black_talon.pur];
     case 'dark coyote':
-      return [blackTalon.darkCoyotePsi];
+      return [black_talon.darkCoyotePsi];
     case 'eagle':
-      return [blackTalon.iota, ...blackTalon.hadesPack];
+      return [black_talon.iota, ...black_talon.hadesPack];
     case 'owl':
-      return [blackTalon.iota, ...blackTalon.hadesPack];
+      return [black_talon.iota, ...black_talon.hadesPack];
     case 'dark kodiak':
-      return [...blackTalon.aresPack];
+      return [...black_talon.aresPack];
     case 'vulture':
-      return [blackTalon.theta, ...blackTalon.aresPack];
+      return [black_talon.theta, ...black_talon.aresPack];
     case 'dark hyena ii':
-      return [blackTalon.spectre];
+      return [black_talon.spectre];
     case 'dark hoplite':
-      return [blackTalon.darkHoplitePsi];
+      return [black_talon.darkHoplitePsi];
     case 'talon infantry':
       return [nucoal.squad];
     case 'bt black wind':
-      return [blackTalon.blackwindTheta];
+      return [black_talon.blackwindTheta];
     case 'dark wolf':
       return [
-        blackTalon.darkWolfOmi,
-        blackTalon.darkWolfTao,
-        blackTalon.darkWolfApulu,
+        black_talon.darkWolfOmi,
+        black_talon.darkWolfTao,
+        black_talon.darkWolfApulu,
         north.howler,
         north.flakJacketUpgrade,
-        ...blackTalon.hadesPack
+        ...black_talon.hadesPack
       ];
     case 'karakara':
-      return [blackTalon.xi, blackTalon.twinXi, ...blackTalon.zeusPack];
+      return [black_talon.xi, black_talon.twinXi, ...black_talon.zeusPack];
 
     // Eden
     case 'constable':

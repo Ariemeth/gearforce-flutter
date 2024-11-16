@@ -1,24 +1,24 @@
 enum RuleType {
-  Standard,
-  AlphaBeta,
-  ExtendedContent,
-  Custom,
+  standard,
+  alphaBeta,
+  extendedContent,
+  custom,
 }
 
 extension RuleTypeExtension on RuleType {
   String get name {
-    return this.toString().split('.').last;
+    return toString().split('.').last;
   }
 
-  String get Summary {
+  String get summary {
     switch (this) {
-      case RuleType.Standard:
+      case RuleType.standard:
         return 'Standard rules';
-      case RuleType.AlphaBeta:
+      case RuleType.alphaBeta:
         return 'Alpha/Beta rules';
-      case RuleType.ExtendedContent:
+      case RuleType.extendedContent:
         return 'Extended content rules';
-      case RuleType.Custom:
+      case RuleType.custom:
         return 'Custom rules';
     }
   }
@@ -26,13 +26,13 @@ extension RuleTypeExtension on RuleType {
   static RuleType ruleTypeFromString(String value) {
     switch (value) {
       case 'Standard':
-        return RuleType.Standard;
+        return RuleType.standard;
       case 'AlphaBeta':
-        return RuleType.AlphaBeta;
+        return RuleType.alphaBeta;
       case 'ExtendedContent':
-        return RuleType.ExtendedContent;
+        return RuleType.extendedContent;
       case 'Custom':
-        return RuleType.Custom;
+        return RuleType.custom;
       default:
         throw ArgumentError('Invalid RuleType: $value');
     }

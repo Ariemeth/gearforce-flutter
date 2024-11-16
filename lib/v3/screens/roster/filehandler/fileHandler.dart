@@ -1,1 +1,0 @@
-const String FileExtension = 'gf';

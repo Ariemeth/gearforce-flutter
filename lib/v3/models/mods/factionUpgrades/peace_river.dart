@@ -1,6 +1,5 @@
 import 'package:gearforce/v3/models/combatGroups/combat_group.dart';
 import 'package:gearforce/v3/models/factions/faction_type.dart';
-import 'package:gearforce/v3/models/mods/base_modification.dart';
 import 'package:gearforce/v3/models/mods/factionUpgrades/faction_mod.dart';
 import 'package:gearforce/v3/models/mods/modification_option.dart';
 import 'package:gearforce/v3/models/mods/mods.dart';
@@ -19,7 +18,7 @@ import 'package:gearforce/v3/models/weapons/weapons.dart';
 
 const _baseFactionModId = 'mod::faction::peace river';
 
-const e_pexID = '$_baseFactionModId::10';
+const ePexID = '$_baseFactionModId::10';
 const warriorEliteID = '$_baseFactionModId::20';
 const crisisRespondersID = '$_baseFactionModId::30';
 const laserTechID = '$_baseFactionModId::40';
@@ -33,27 +32,21 @@ const gSWATSniperID = '$_baseFactionModId::110';
 
 class PeaceRiverFactionMods extends FactionModification {
   PeaceRiverFactionMods({
-    required String name,
-    required RequirementCheck requirementCheck,
-    ModificationOption? options,
-    required String id,
-  }) : super(
-          name: name,
-          requirementCheck: requirementCheck,
-          options: options,
-          id: id,
-        );
+    required super.name,
+    required super.requirementCheck,
+    super.options,
+    required super.id,
+  });
   /*
     E-pex: One Peace River model within each combat group may increase its EW 
     skill by one for 1 TV each.
   */
-  factory PeaceRiverFactionMods.e_pex() {
-    final RequirementCheck reqCheck =
-        (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+  factory PeaceRiverFactionMods.ePex() {
+    reqCheck(RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       assert(cg != null);
       assert(rs != null);
 
-      if (u.faction != FactionType.PeaceRiver) {
+      if (u.faction != FactionType.peaceRiver) {
         return false;
       }
 
@@ -61,11 +54,12 @@ class PeaceRiverFactionMods extends FactionModification {
         return false;
       }
 
-      return cg!.modCount(e_pexID) == 0 ||
-          (cg.modCount(e_pexID) == 1 && u.hasMod(e_pexID));
-    };
+      return cg!.modCount(ePexID) == 0 ||
+          (cg.modCount(ePexID) == 1 && u.hasMod(ePexID));
+    }
+
     return PeaceRiverFactionMods(
-        name: 'E-pex', requirementCheck: reqCheck, id: e_pexID)
+        name: 'E-pex', requirementCheck: reqCheck, id: ePexID)
       ..addMod<int>(UnitAttribute.tv, createSimpleIntMod(1),
           description: 'TV: +1')
       ..addMod<int>(
@@ -82,15 +76,15 @@ class PeaceRiverFactionMods extends FactionModification {
     and the Agile trait.
   */
   factory PeaceRiverFactionMods.warriorElite() {
-    final RequirementCheck reqCheck =
-        (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+    reqCheck(RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       assert(rs != null);
 
       if (rs == null || !rs.isRuleEnabled(ruleWarriorElite.id)) {
         return false;
       }
       return u.core.frame == 'Warrior IV';
-    };
+    }
+
     return PeaceRiverFactionMods(
         name: 'Warrior Elite', requirementCheck: reqCheck, id: warriorEliteID)
       ..addMod<int>(UnitAttribute.tv, createSimpleIntMod(1),
@@ -103,7 +97,7 @@ class PeaceRiverFactionMods extends FactionModification {
       ..addMod<int>(UnitAttribute.ew, createSetIntMod(4), description: 'EW: 4')
       ..addMod<List<Trait>>(
         UnitAttribute.traits,
-        createAddTraitToList(Trait.Agile()),
+        createAddTraitToList(Trait.agile()),
         description: '+Agile',
       );
   }
@@ -115,26 +109,26 @@ class PeaceRiverFactionMods extends FactionModification {
   */
   factory PeaceRiverFactionMods.crisisResponders(Unit u) {
     final allowedWeaponMatch = RegExp(r'^(HAC|MSC|MBZ|LFG)$');
-    final List<ModificationOption> _options = [];
+    final List<ModificationOption> options = [];
     u.weapons
         .where((w) => allowedWeaponMatch.hasMatch(w.abbreviation))
         .forEach((w) {
-      _options.add(ModificationOption(w.toString()));
+      options.add(ModificationOption(w.toString()));
     });
     final modOptions = ModificationOption('Crisis Responders',
-        subOptions: _options,
+        subOptions: options,
         description: 'Choose one of the available weapons be replaced with' +
             'a MPA (React) and a Shield');
 
-    final RequirementCheck reqCheck =
-        (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+    reqCheck(RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       assert(rs != null);
 
       if (rs == null || !rs.isRuleEnabled(ruleCrisisResponders.id)) {
         return false;
       }
       return u.core.frame == 'Crusader IV' && u.hasMod('Crusader V Upgrade');
-    };
+    }
+
     return PeaceRiverFactionMods(
       name: 'Crisis Responders',
       requirementCheck: reqCheck,
@@ -144,7 +138,7 @@ class PeaceRiverFactionMods extends FactionModification {
       ..addMod<int>(UnitAttribute.tv, createSimpleIntMod(1),
           description: 'TV: +1')
       ..addMod<List<Trait>>(
-          UnitAttribute.traits, createAddTraitToList(Trait.Shield()),
+          UnitAttribute.traits, createAddTraitToList(Trait.shield()),
           description: '+Shield')
       ..addMod<List<Weapon>>(UnitAttribute.weapons, (value) {
         final newList = value.toList();
@@ -174,17 +168,16 @@ class PeaceRiverFactionMods extends FactionModification {
   */
   factory PeaceRiverFactionMods.laserTech(Unit u) {
     final allowedWeaponMatch = RegExp(r'^(IW|IR|IS)$');
-    final List<ModificationOption> _options = [];
+    final List<ModificationOption> options = [];
     u.weapons.where((w) => allowedWeaponMatch.hasMatch(w.code)).forEach((w) {
-      _options.add(ModificationOption(w.toString()));
+      options.add(ModificationOption(w.toString()));
     });
     final modOptions = ModificationOption('Laser Tech',
-        subOptions: _options,
+        subOptions: options,
         description: 'Choose one of the available weapons be gain the ' +
             'Advanced trait');
 
-    final RequirementCheck reqCheck =
-        (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+    reqCheck(RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       assert(rs != null);
 
       if (rs == null || !rs.isRuleEnabled(ruleLaserTech.id)) {
@@ -192,7 +185,7 @@ class PeaceRiverFactionMods extends FactionModification {
       }
       return u.isVeteran &&
           (u.core.frame == 'Universal Infantry' || u.name == 'Spitz Monowheel');
-    };
+    }
 
     return PeaceRiverFactionMods(
       name: 'Laser Tech',
@@ -219,7 +212,7 @@ class PeaceRiverFactionMods extends FactionModification {
         newList.remove(selectedWeaponToRemove);
         newList.add(Weapon.fromWeapon(
           selectedWeaponToRemove,
-          addTraits: [Trait.Advanced()],
+          addTraits: [Trait.advanced()],
         ));
 
         return newList;
@@ -233,8 +226,7 @@ class PeaceRiverFactionMods extends FactionModification {
   TV each. This does not include Warrior IVs.
 */
   factory PeaceRiverFactionMods.olTrusty() {
-    final RequirementCheck reqCheck =
-        (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+    reqCheck(RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       assert(rs != null);
 
       if (rs == null || !rs.isRuleEnabled(ruleOlTrusty.id)) {
@@ -243,7 +235,8 @@ class PeaceRiverFactionMods extends FactionModification {
       return u.core.frame == 'Warrior' ||
           u.core.frame == 'Jackal' ||
           u.core.frame == 'Spartan';
-    };
+    }
+
     return PeaceRiverFactionMods(
         name: 'Ol’ Trusty', requirementCheck: reqCheck, id: olTrustyID)
       ..addMod<int>(UnitAttribute.tv, createSimpleIntMod(1),
@@ -262,15 +255,15 @@ class PeaceRiverFactionMods extends FactionModification {
   of 4+ for 1 TV each.
 */
   factory PeaceRiverFactionMods.thunderFromTheSky() {
-    final RequirementCheck reqCheck =
-        (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+    reqCheck(RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       assert(rs != null);
 
       if (rs == null || !rs.isRuleEnabled(ruleThunderFromTheSky.id)) {
         return false;
       }
-      return u.core.type == ModelType.AirstrikeCounter;
-    };
+      return u.core.type == ModelType.airstrikeCounter;
+    }
+
     return PeaceRiverFactionMods(
         name: 'Thunder from the Sky',
         requirementCheck: reqCheck,
@@ -285,8 +278,7 @@ class PeaceRiverFactionMods extends FactionModification {
     Elite Elements: One SK unit may change their role to SO.
   */
   factory PeaceRiverFactionMods.eliteElements(UnitRoster roster) {
-    final RequirementCheck reqCheck =
-        (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+    reqCheck(RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       assert(rs != null);
 
       if (rs == null || !rs.isRuleEnabled(ruleEliteElements.id)) {
@@ -296,15 +288,16 @@ class PeaceRiverFactionMods extends FactionModification {
         return false;
       }
       // unit must be of the SK role type and only 1 unit may have this mod.
-      return u.role!.roles.any((r) => r.name == RoleType.SK) &&
-          (roster.unitsWithMod(eliteElementsID).length == 0 ||
+      return u.role!.roles.any((r) => r.name == RoleType.sk) &&
+          (roster.unitsWithMod(eliteElementsID).isEmpty ||
               (roster.unitsWithMod(eliteElementsID).length == 1 &&
                   u.hasMod(eliteElementsID)));
-    };
+    }
+
     return PeaceRiverFactionMods(
         name: 'Elite Elements', requirementCheck: reqCheck, id: eliteElementsID)
-      ..addMod<Roles>(
-          UnitAttribute.roles, createAddRoleToList(Role(name: RoleType.SO)),
+      ..addMod<Roles>(UnitAttribute.roles,
+          createAddRoleToList(const Role(name: RoleType.so)),
           description: '+SO, One SK unit may change their role to SO');
   }
 
@@ -330,7 +323,7 @@ class PeaceRiverFactionMods extends FactionModification {
             return false;
           }
 
-          if (!(u.type == ModelType.Gear || u.type == ModelType.Strider)) {
+          if (!(u.type == ModelType.gear || u.type == ModelType.strider)) {
             return false;
           }
 
@@ -342,7 +335,7 @@ class PeaceRiverFactionMods extends FactionModification {
         })
       ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
       ..addMod<List<Trait>>(UnitAttribute.traits, (value) {
-        var newList = new List<Trait>.from(value);
+        var newList = List<Trait>.from(value);
 
         final oldTrait =
             newList.firstWhere((t) => t.name.toLowerCase() == 'ecm');
@@ -363,15 +356,15 @@ class PeaceRiverFactionMods extends FactionModification {
     1 TV each.
   */
   factory PeaceRiverFactionMods.olTrustyPOC() {
-    final RequirementCheck reqCheck =
-        (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+    reqCheck(RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       assert(rs != null);
 
       if (rs == null || !rs.isRuleEnabled(rulePOCOlTrusty.id)) {
         return false;
       }
       return u.core.frame == 'Pit Bull' || u.core.frame == 'Mustang';
-    };
+    }
+
     return PeaceRiverFactionMods(
       name: 'Ol’ Trusty',
       requirementCheck: reqCheck,
@@ -407,7 +400,7 @@ class PeaceRiverFactionMods extends FactionModification {
             .abbreviation
         : '';
 
-    final RequirementCheck reqCheck = (rs, ur, cg, u) {
+    reqCheck(rs, ur, cg, u) {
       assert(cg != null);
       assert(ur != null);
 
@@ -415,7 +408,7 @@ class PeaceRiverFactionMods extends FactionModification {
         return false;
       }
 
-      if (u.type != ModelType.Gear) {
+      if (u.type != ModelType.gear) {
         return false;
       }
 
@@ -424,7 +417,8 @@ class PeaceRiverFactionMods extends FactionModification {
         return false;
       }
       return (cgWithMod.isEmpty || cgWithMod.any((c) => c!.name == cg!.name));
-    };
+    }
+
     return PeaceRiverFactionMods(
       name: 'Peace Officers',
       requirementCheck: reqCheck,
@@ -433,14 +427,14 @@ class PeaceRiverFactionMods extends FactionModification {
       ..addMod<int>(UnitAttribute.tv, createSimpleIntMod(1),
           description: 'TV: +1')
       ..addMod<List<Weapon>>(UnitAttribute.weapons, (value) {
-        return new List<Weapon>.from(value)
+        return List<Weapon>.from(value)
             .where(
                 (existingWeapon) => existingWeapon.code != weaponCodeToRemove)
             .toList();
       }, dynamicDescription: () {
-        return '${unitRPToRemove.isNotEmpty ? '-$unitRPToRemove' : ''}';
+        return unitRPToRemove.isNotEmpty ? '-$unitRPToRemove' : '';
       })
-      ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.Shield()),
+      ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.shield()),
           description: '+Shield');
   }
   /*
@@ -448,8 +442,7 @@ class PeaceRiverFactionMods extends FactionModification {
     Improved Gunnery upgrade for 1 TV each, without being a veteran.
   */
   factory PeaceRiverFactionMods.gSWATSniper() {
-    final RequirementCheck reqCheck =
-        (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+    reqCheck(RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       assert(rs != null);
       assert(cg != null);
 
@@ -460,7 +453,8 @@ class PeaceRiverFactionMods extends FactionModification {
       return ((cg!.modCount(gSWATSniperID) == 0) ||
               (cg.modCount(gSWATSniperID) == 1 && u.hasMod(gSWATSniperID))) &&
           u.weapons.any((w) => w.code == 'RF');
-    };
+    }
+
     return PeaceRiverFactionMods(
       name: 'G-SWAT Sniper',
       requirementCheck: reqCheck,

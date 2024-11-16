@@ -10,11 +10,10 @@ class SelectFaction extends StatefulWidget {
   final List<Faction> factions;
   final ValueNotifier<Faction> selectedFaction;
   const SelectFaction(
-      {Key? key, required this.factions, required this.selectedFaction})
-      : super(key: key);
+      {super.key, required this.factions, required this.selectedFaction});
 
   @override
-  _SelectFactionState createState() => _SelectFactionState();
+  State<SelectFaction> createState() => _SelectFactionState();
 }
 
 /// This is the private State class that goes with MyStatefulWidget.
@@ -29,14 +28,14 @@ class _SelectFactionState extends State<SelectFaction> {
     final settings = context.watch<Settings>();
     return DropdownButton<FactionType?>(
       value: widget.selectedFaction.value.factionType,
-      hint: Text('Select faction'),
+      hint: const Text('Select faction'),
       icon: const Icon(Icons.arrow_downward),
       iconSize: 16,
       elevation: 16,
       isExpanded: true,
       isDense: true,
       style: const TextStyle(color: Colors.blue),
-      underline: SizedBox(),
+      underline: const SizedBox(),
       onChanged: (FactionType? newValue) {
         setState(() {
           dropdownValue = newValue;
@@ -53,7 +52,7 @@ class _SelectFactionState extends State<SelectFaction> {
           value: value.factionType,
           child: Text(
             value.factionType.name,
-            style: TextStyle(fontSize: 16),
+            style: const TextStyle(fontSize: 16),
           ),
         );
       }).toList(),

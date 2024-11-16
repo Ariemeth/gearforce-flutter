@@ -1,6 +1,5 @@
 import 'package:gearforce/v3/models/combatGroups/combat_group.dart';
 import 'package:gearforce/v3/models/factions/faction_type.dart';
-import 'package:gearforce/v3/models/mods/base_modification.dart';
 import 'package:gearforce/v3/models/mods/factionUpgrades/faction_mod.dart';
 import 'package:gearforce/v3/models/mods/modification_option.dart';
 import 'package:gearforce/v3/models/mods/mods.dart';
@@ -46,13 +45,12 @@ class NorthernFactionMods extends FactionModification {
     Stinger may also add an HMG for 1 TV.
   */
   factory NorthernFactionMods.taskBuilt(Unit unit) {
-    final RequirementCheck reqCheck =
-        (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+    reqCheck(RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       assert(cg != null);
       assert(rs != null);
 
       final isNorthernGear =
-          u.faction == FactionType.North && u.type == ModelType.Gear;
+          u.faction == FactionType.north && u.type == ModelType.gear;
 
       final isOtherAcceptable = u.core.frame == 'Bricklayer' ||
           u.core.frame == 'Engineering Grizzly' ||
@@ -68,7 +66,7 @@ class NorthernFactionMods extends FactionModification {
       }
 
       return true;
-    };
+    }
 
     final swapHMG = unit.weapons.any((w) => w.code == 'RP');
     final cost = swapHMG ? 0 : 1;
@@ -140,7 +138,7 @@ class NorthernFactionMods extends FactionModification {
     Hammers of the North: Snub cannons may be given the Precise trait for +1 TV each.
   */
   factory NorthernFactionMods.hammerOfTheNorth(Unit unit) {
-    final RequirementCheck reqCheck = (
+    reqCheck(
       RuleSet rs,
       UnitRoster? ur,
       CombatGroup? cg,
@@ -157,7 +155,7 @@ class NorthernFactionMods extends FactionModification {
       }
 
       return true;
-    };
+    }
 
     final modOptions = ModificationOption(
       'Hammers of the North',
@@ -208,7 +206,7 @@ class NorthernFactionMods extends FactionModification {
         final isAlphaBetaEnabled =
             unit.ruleset?.settings.isAlphaBetaAllowed ?? false;
         final newTrait =
-            isAlphaBetaEnabled ? Trait.PrecisePlus() : Trait.Precise();
+            isAlphaBetaEnabled ? Trait.precisePlus() : Trait.precise();
 
         newList[replaceIndex] = Weapon.fromWeapon(
           weaponToReplace,
@@ -220,7 +218,7 @@ class NorthernFactionMods extends FactionModification {
         final isAlphaBetaEnabled =
             unit.ruleset?.settings.isAlphaBetaAllowed ?? false;
         final newTrait =
-            isAlphaBetaEnabled ? Trait.PrecisePlus() : Trait.Precise();
+            isAlphaBetaEnabled ? Trait.precisePlus() : Trait.precise();
         return 'Add ${newTrait.name} to a Snub Cannon';
       },
     );
@@ -233,8 +231,7 @@ class NorthernFactionMods extends FactionModification {
     GU skill by one for 1 TV each. This does not include Hunter XMGs.
   */
   factory NorthernFactionMods.olTrustyWFP() {
-    final RequirementCheck reqCheck =
-        (RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
+    reqCheck(RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       assert(rs != null);
 
       if (rs == null || !rs.isRuleEnabled(ruleOlTrustyWFP.id)) {
@@ -247,7 +244,8 @@ class NorthernFactionMods extends FactionModification {
           frameName == 'Weasel' ||
           frameName == 'Wildcat' ||
           frameName == 'Bobcat';
-    };
+    }
+
     return NorthernFactionMods(
       name: 'Ol’ Trusty',
       requirementCheck: reqCheck,
@@ -271,7 +269,7 @@ class NorthernFactionMods extends FactionModification {
     faction mod to make it easier to check requirements
   */
   factory NorthernFactionMods.wellFunded() {
-    final RequirementCheck reqCheck = (
+    reqCheck(
       RuleSet? rs,
       UnitRoster? ur,
       CombatGroup? cg,
@@ -289,7 +287,7 @@ class NorthernFactionMods extends FactionModification {
         return true;
       }
       return false;
-    };
+    }
 
     final modOptions = ModificationOption(
       'Well Funded',
@@ -325,7 +323,7 @@ class NorthernFactionMods extends FactionModification {
     initiative skill.
   */
   factory NorthernFactionMods.chaplain() {
-    final RequirementCheck reqCheck = (
+    reqCheck(
       RuleSet? rs,
       UnitRoster? ur,
       CombatGroup? cg,
@@ -334,7 +332,7 @@ class NorthernFactionMods extends FactionModification {
       assert(cg != null);
       assert(rs != null);
 
-      if (u.type != ModelType.Gear) {
+      if (u.type != ModelType.gear) {
         return false;
       }
 
@@ -355,7 +353,7 @@ class NorthernFactionMods extends FactionModification {
           ur.unitsWithMod(chaplainID).where((unit) => unit != u);
 
       return otherUnitsWithMod.isEmpty;
-    };
+    }
 
     final fm = NorthernFactionMods(
       name: 'Chaplain',
@@ -391,7 +389,7 @@ class NorthernFactionMods extends FactionModification {
     A fighting staff is a MVB that has the React and Reach:2 traits.
   */
   factory NorthernFactionMods.warriorMonks(Unit unit) {
-    final RequirementCheck reqCheck = (
+    reqCheck(
       RuleSet? rs,
       UnitRoster? ur,
       CombatGroup? cg,
@@ -407,18 +405,19 @@ class NorthernFactionMods extends FactionModification {
       if (u.commandLevel == CommandLevel.none && !u.isVeteran) {
         return false;
       }
-      if (!u.traits.contains(Trait.Hands())) {
+      if (!u.traits.contains(Trait.hands())) {
         return false;
       }
 
       return true;
-    };
+    }
+
     final mvb = buildWeapon('MVB', hasReact: true);
     assert(mvb != null);
     final fightingStaff = Weapon.fromWeapon(mvb!,
         name: 'Fighting Staff',
-        addTraits: [Trait.Reach(2)],
-        range: Range(0, 2, null, hasReach: true));
+        addTraits: [Trait.reach(2)],
+        range: const Range(0, 2, null, hasReach: true));
 
     final fm = NorthernFactionMods(
       name: 'Warrior Monks',
@@ -431,9 +430,9 @@ class NorthernFactionMods extends FactionModification {
     fm.addMod<List<Weapon>>(
         UnitAttribute.weapons, createAddWeaponToList(fightingStaff));
     fm.addMod<List<Trait>>(UnitAttribute.traits, (value) {
-      var newList = new List<Trait>.from(value);
+      var newList = List<Trait>.from(value);
 
-      var newBrawl = Trait.Brawl(1);
+      var newBrawl = Trait.brawl(1);
       if (newList.any((t) => newBrawl.name == t.name)) {
         final existingBrawl =
             newList.firstWhere((t) => newBrawl.name == t.name);

@@ -17,7 +17,7 @@ class VersionChecker extends StatefulWidget {
   }
 
   @override
-  _VersionCheckerState createState() => _VersionCheckerState();
+  State<VersionChecker> createState() => _VersionCheckerState();
 }
 
 class _VersionCheckerState extends State<VersionChecker> {
@@ -27,7 +27,7 @@ class _VersionCheckerState extends State<VersionChecker> {
   void initState() {
     super.initState();
     _checkForUpdatedVersion();
-    Timer.periodic(Duration(seconds: 600), (timer) async {
+    Timer.periodic(const Duration(seconds: 600), (timer) async {
       _checkForUpdatedVersion();
     });
   }
@@ -42,14 +42,12 @@ class _VersionCheckerState extends State<VersionChecker> {
     }
 
     // TODO change message for desktop app before making it available
-    return Container(
-      child: Tooltip(
-        message: 'Refresh the page to get the latest version',
-        waitDuration: settings.tooltipDelay,
-        child: Text(
-          'New version available: ${latestVersion.toString()}',
-          style: TextStyle(color: Colors.amber),
-        ),
+    return Tooltip(
+      message: 'Refresh the page to get the latest version',
+      waitDuration: settings.tooltipDelay,
+      child: Text(
+        'New version available: ${latestVersion.toString()}',
+        style: const TextStyle(color: Colors.amber),
       ),
     );
   }

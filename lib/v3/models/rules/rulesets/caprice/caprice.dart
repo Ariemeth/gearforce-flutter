@@ -41,7 +41,7 @@ class Caprice extends RuleSet {
     List<String>? specialRules,
     List<Rule> subFactionRules = const [],
   }) : super(
-          FactionType.Caprice,
+          FactionType.caprice,
           data,
           settings: settings,
           name: name,
@@ -61,27 +61,27 @@ class Caprice extends RuleSet {
         text: type.name,
         id: coreTag,
         filters: const [
-          const UnitFilter(FactionType.Caprice),
-          const UnitFilter(FactionType.Airstrike),
-          const UnitFilter(FactionType.Universal),
-          const UnitFilter(FactionType.Universal_Non_TerraNova),
-          const UnitFilter(FactionType.Terrain),
+          UnitFilter(FactionType.caprice),
+          UnitFilter(FactionType.airstrike),
+          UnitFilter(FactionType.universal),
+          UnitFilter(FactionType.universalNonTerraNova),
+          UnitFilter(FactionType.terrain),
         ],
       )
     ];
     return [...filters, ...super.availableUnitFilters(cgOptions)];
   }
 
-  factory Caprice.CID(DataV3 data, Settings settings) => CID(data, settings);
-  factory Caprice.CSE(DataV3 data, Settings settings) => CSE(data, settings);
-  factory Caprice.LRC(DataV3 data, Settings settings) => LRC(data, settings);
+  factory Caprice.cid(DataV3 data, Settings settings) => CID(data, settings);
+  factory Caprice.cse(DataV3 data, Settings settings) => CSE(data, settings);
+  factory Caprice.lrc(DataV3 data, Settings settings) => LRC(data, settings);
 }
 
 final Rule ruleDuelingMounts = Rule(
   name: 'Dueling Mounts',
   id: _ruleDuelingMountsId,
   duelistModelCheck: (roster, u) {
-    if (u.faction != FactionType.Caprice) {
+    if (u.faction != FactionType.caprice) {
       return null;
     }
     final frame = u.core.frame;
@@ -100,9 +100,9 @@ final Rule ruleDuelingMounts = Rule(
 final Rule ruleAdvancedInterfaceNetworks = Rule.from(
   cef.ruleAdvancedInterfaceNetwork,
   factionMods: (ur, cg, u) {
-    if (u.faction == FactionType.Caprice &&
-        (u.type == ModelType.Gear || u.type == ModelType.Strider)) {
-      return [CEFMods.advancedInterfaceNetwork(u, FactionType.Caprice)];
+    if (u.faction == FactionType.caprice &&
+        (u.type == ModelType.gear || u.type == ModelType.strider)) {
+      return [CEFMods.advancedInterfaceNetwork(u, FactionType.caprice)];
     }
     return [];
   },
@@ -112,10 +112,10 @@ final Rule ruleCyberneticUpgrades = Rule(
   name: 'Cybernetic Upgrades',
   id: _ruleCyberneticUpgradesId,
   factionMods: (ur, cg, u) {
-    if ((u.faction == FactionType.Universal ||
-            u.faction == FactionType.Caprice) &&
-        u.core.faction == FactionType.Universal &&
-        u.type == ModelType.Infantry) {
+    if ((u.faction == FactionType.universal ||
+            u.faction == FactionType.caprice) &&
+        u.core.faction == FactionType.universal &&
+        u.type == ModelType.infantry) {
       return [CapriceMods.cyberneticUpgrades()];
     }
     return [];
@@ -131,7 +131,7 @@ final Rule ruleAbominations = Rule(
       text: 'Abominations',
       filters: [
         UnitFilter(
-          FactionType.CEF,
+          FactionType.cef,
           matcher: matchOnlyFlails,
         ),
       ],

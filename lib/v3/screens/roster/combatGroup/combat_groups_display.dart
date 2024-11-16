@@ -9,12 +9,12 @@ const double _addCGButtonHorizontalPadding = 10.0;
 const double _addCGButtonCornerRadius = 10.0;
 
 class CombatGroupsDisplay extends StatefulWidget {
-  CombatGroupsDisplay(this.roster, {Key? key}) : super(key: key);
+  const CombatGroupsDisplay(this.roster, {super.key});
 
   final UnitRoster roster;
 
   @override
-  _CombatGroupsDisplayState createState() => _CombatGroupsDisplayState();
+  State<CombatGroupsDisplay> createState() => _CombatGroupsDisplayState();
 }
 
 class _CombatGroupsDisplayState extends State<CombatGroupsDisplay>
@@ -55,12 +55,12 @@ class _CombatGroupsDisplayState extends State<CombatGroupsDisplay>
     final addCGTabButton = Tab(
       child: OutlinedButton(
         style: OutlinedButton.styleFrom(
-            shape: RoundedRectangleBorder(
+            shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(
                 Radius.circular(_addCGButtonCornerRadius),
               ),
             ),
-            padding: EdgeInsets.symmetric(
+            padding: const EdgeInsets.symmetric(
                 horizontal: _addCGButtonHorizontalPadding)),
         onPressed: () {
           setState(() {
@@ -81,9 +81,9 @@ class _CombatGroupsDisplayState extends State<CombatGroupsDisplay>
     final groupPanel = Scaffold(
       primary: false,
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(_tabBarHeight),
+        preferredSize: const Size.fromHeight(_tabBarHeight),
         child: TabBar(
-          padding: EdgeInsets.only(left: 15.0),
+          padding: const EdgeInsets.only(left: 15.0),
           controller: _tabController,
           indicatorColor: Colors.deepPurple,
           tabs: tabs,
@@ -94,9 +94,9 @@ class _CombatGroupsDisplayState extends State<CombatGroupsDisplay>
       ),
       body: TabBarView(
         controller: _tabController,
-        physics: NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         children: [
-          Center(
+          const Center(
             child: Text(
                 'Should not be here!\nClick on any of the existing combat group tabs to go back'),
           ),
@@ -106,8 +106,8 @@ class _CombatGroupsDisplayState extends State<CombatGroupsDisplay>
     );
 
     return Flexible(
-      child: groupPanel,
       fit: FlexFit.loose,
+      child: groupPanel,
     );
   }
 

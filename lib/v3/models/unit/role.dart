@@ -4,33 +4,33 @@ class Role {
   final RoleType name;
   final bool unlimited;
   factory Role.fromJson(dynamic json) => Role(
-        name: convertRoleType(json.toString().split("+").first),
+        name: convertRoleType(json.toString().split('+').first),
         unlimited: json.toString().endsWith('+') ? true : false,
       );
 
   @override
   String toString() {
-    return '${this.name.toString().split('.').last}${this.unlimited ? '+' : ''}';
+    return '${name.toString().split('.').last.toUpperCase()}${unlimited ? '+' : ''}';
   }
 }
 
 RoleType convertRoleType(String role) {
   switch (role.toUpperCase()) {
-    case "GP":
-      return RoleType.GP;
-    case "SK":
-      return RoleType.SK;
-    case "FS":
-      return RoleType.FS;
-    case "RC":
-      return RoleType.RC;
-    case "SO":
-      return RoleType.SO;
-    case "FT":
-      return RoleType.FT;
+    case 'GP':
+      return RoleType.gp;
+    case 'SK':
+      return RoleType.sk;
+    case 'FS':
+      return RoleType.fs;
+    case 'RC':
+      return RoleType.rc;
+    case 'SO':
+      return RoleType.so;
+    case 'FT':
+      return RoleType.ft;
   }
 
-  throw new FormatException("Unknown role type", role);
+  throw FormatException('Unknown role type', role);
 }
 
 class Roles {
@@ -40,7 +40,7 @@ class Roles {
 
   factory Roles.fromJson(dynamic json) {
     List<Role> r = [];
-    json.toString().split(",").forEach((element) {
+    json.toString().split(',').forEach((element) {
       r.add(Role.fromJson(element.trim()));
     });
     return Roles(
@@ -62,4 +62,4 @@ class Roles {
   }
 }
 
-enum RoleType { GP, SK, FS, RC, SO, FT }
+enum RoleType { gp, sk, fs, rc, so, ft }

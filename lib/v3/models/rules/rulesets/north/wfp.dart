@@ -49,10 +49,10 @@ final Rule rulePristineAntiques = Rule(
         frameName == 'Weasel' ||
         frameName == 'Wildcat' ||
         frameName == 'Bobcat';
-    final isAllowedRole = target == RoleType.GP ||
-        target == RoleType.SK ||
-        target == RoleType.FS ||
-        target == RoleType.RC;
+    final isAllowedRole = target == RoleType.gp ||
+        target == RoleType.sk ||
+        target == RoleType.fs ||
+        target == RoleType.rc;
 
     return isAllowedUnit && isAllowedRole ? true : null;
   },

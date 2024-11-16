@@ -46,7 +46,7 @@ class Eden extends RuleSet {
     List<String>? specialRules,
     List<Rule> subFactionRules = const [],
   }) : super(
-          FactionType.Eden,
+          FactionType.eden,
           data,
           settings: settings,
           name: name,
@@ -64,30 +64,30 @@ class Eden extends RuleSet {
         text: type.name,
         id: coreTag,
         filters: const [
-          const UnitFilter(FactionType.Eden),
-          const UnitFilter(FactionType.Airstrike),
-          const UnitFilter(FactionType.Universal),
-          const UnitFilter(FactionType.Universal_Non_TerraNova),
-          const UnitFilter(FactionType.Terrain),
+          UnitFilter(FactionType.eden),
+          UnitFilter(FactionType.airstrike),
+          UnitFilter(FactionType.universal),
+          UnitFilter(FactionType.universalNonTerraNova),
+          UnitFilter(FactionType.terrain),
         ],
       )
     ];
     return [...filters, ...super.availableUnitFilters(cgOptions)];
   }
 
-  factory Eden.EIF(DataV3 data, Settings settings) => EIF(data, settings);
-  factory Eden.ENH(DataV3 data, Settings settings) => ENH(data, settings);
-  factory Eden.AEF(DataV3 data, Settings settings) => AEF(data, settings);
+  factory Eden.eif(DataV3 data, Settings settings) => EIF(data, settings);
+  factory Eden.enh(DataV3 data, Settings settings) => ENH(data, settings);
+  factory Eden.aef(DataV3 data, Settings settings) => AEF(data, settings);
 }
 
 final Rule ruleLancers = Rule(
   name: 'Lancers',
   id: _ruleLancersId,
   factionMods: (ur, cg, u) {
-    if (u.type != ModelType.Gear) {
+    if (u.type != ModelType.gear) {
       return [];
     }
-    if (u.faction == FactionType.Eden || u.core.frame == 'Druid') {
+    if (u.faction == FactionType.eden || u.core.frame == 'Druid') {
       return [EdenMods.lancers(u)];
     }
     return [];
@@ -131,16 +131,16 @@ final Rule _ruleAllyCEF = Rule(
     _ruleAlliesCapriceId,
   ]),
   canBeAddedToGroup: (unit, group, cg) {
-    if (group.groupType == GroupType.Secondary) {
+    if (group.groupType == GroupType.secondary) {
       return null;
     }
 
-    if (unit.faction == FactionType.CEF) {
+    if (unit.faction == FactionType.cef) {
       // account for core cef rule Abominations
       if (matchOnlyFlails(unit.core)) {
         return null;
       }
-      return Validation(
+      return const Validation(
         false,
         issue: 'CEF units must be placed in secondary units; See Allies rule.',
       );
@@ -150,7 +150,7 @@ final Rule _ruleAllyCEF = Rule(
   },
   unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Allies: CEF',
-      filters: [const UnitFilter(FactionType.CEF)],
+      filters: [UnitFilter(FactionType.cef)],
       id: _ruleAlliesCEFId),
   description:
       'You may select models from CEF to place into your secondary units.',
@@ -167,12 +167,12 @@ final Rule _ruleAllyBlackTalon = Rule(
     _ruleAlliesCapriceId,
   ]),
   canBeAddedToGroup: (unit, group, cg) {
-    if (group.groupType == GroupType.Secondary) {
+    if (group.groupType == GroupType.secondary) {
       return null;
     }
 
-    if (unit.faction == FactionType.BlackTalon) {
-      return Validation(
+    if (unit.faction == FactionType.blackTalon) {
+      return const Validation(
         false,
         issue: 'Black Talon units must be placed in secondary units; See' +
             ' Allies rule.',
@@ -183,7 +183,7 @@ final Rule _ruleAllyBlackTalon = Rule(
   },
   unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Allies: Black Talon',
-      filters: [const UnitFilter(FactionType.BlackTalon)],
+      filters: [UnitFilter(FactionType.blackTalon)],
       id: _ruleAlliesBlackTalonId),
   description: 'You may select models from Black Talon to place into' +
       ' your secondary units.',
@@ -200,12 +200,12 @@ final Rule _ruleAllyUtopia = Rule(
     _ruleAlliesCapriceId,
   ]),
   canBeAddedToGroup: (unit, group, cg) {
-    if (group.groupType == GroupType.Secondary) {
+    if (group.groupType == GroupType.secondary) {
       return null;
     }
 
-    if (unit.faction == FactionType.Utopia) {
-      return Validation(
+    if (unit.faction == FactionType.utopia) {
+      return const Validation(
         false,
         issue: 'Utopia units must be placed in secondary units; See Allies' +
             ' rule.',
@@ -216,7 +216,7 @@ final Rule _ruleAllyUtopia = Rule(
   },
   unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Allies: Utopia',
-      filters: [const UnitFilter(FactionType.Utopia)],
+      filters: [UnitFilter(FactionType.utopia)],
       id: _ruleAlliesUtopiaId),
   description: 'You may select models from Utopia to place into your' +
       ' secondary units.',
@@ -233,12 +233,12 @@ final Rule _ruleAllyCaprice = Rule(
     _ruleAlliesUtopiaId,
   ]),
   canBeAddedToGroup: (unit, group, cg) {
-    if (group.groupType == GroupType.Secondary) {
+    if (group.groupType == GroupType.secondary) {
       return null;
     }
 
-    if (unit.faction == FactionType.Caprice) {
-      return Validation(
+    if (unit.faction == FactionType.caprice) {
+      return const Validation(
         false,
         issue: 'Caprice units must be placed in secondary units; See Allies' +
             ' rule.',
@@ -249,7 +249,7 @@ final Rule _ruleAllyCaprice = Rule(
   },
   modCheckOverride: (u, cg, {required modID}) {
     if (modID == caprice.cyberneticUpgradesId &&
-        u.group?.groupType == GroupType.Primary) {
+        u.group?.groupType == GroupType.primary) {
       return false;
     }
     return null;
@@ -257,11 +257,11 @@ final Rule _ruleAllyCaprice = Rule(
   unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Allies: Caprice',
       filters: [
-        const UnitFilter(FactionType.Caprice),
-        const UnitFilter(
-          FactionType.Universal,
+        UnitFilter(FactionType.caprice),
+        UnitFilter(
+          FactionType.universal,
           matcher: matchInfantry,
-          factionOverride: FactionType.Caprice,
+          factionOverride: FactionType.caprice,
         )
       ],
       id: _ruleAlliesCapriceId),

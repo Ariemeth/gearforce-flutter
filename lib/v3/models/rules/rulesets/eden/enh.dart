@@ -1,5 +1,5 @@
 import 'package:gearforce/v3/models/mods/duelist/duelist_modification.dart'
-    as duelistMod;
+    as duelist_mod;
 import 'package:gearforce/v3/models/mods/factionUpgrades/eden.dart';
 import 'package:gearforce/v3/models/mods/veteranUpgrades/veteran_modification.dart';
 import 'package:gearforce/v3/models/rules/rulesets/eden/eden.dart';
@@ -44,7 +44,7 @@ final Rule ruleChampions = Rule(
   name: 'Champions',
   id: _ruleChampionsId,
   duelistModCheck: (u, cg, {required modID}) {
-    if (modID == duelistMod.independentOperatorId) {
+    if (modID == duelist_mod.independentOperatorId) {
       return false;
     }
     return null;

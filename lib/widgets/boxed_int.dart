@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 class BoxedInt extends StatelessWidget {
   BoxedInt({
-    Key? key,
+    super.key,
     required this.value,
     this.textColor = Colors.black,
     this.borderColor = Colors.grey,
     this.width = 30.0,
-  }) : super(key: key);
+  });
 
   final int value;
   final Color textColor;
@@ -19,11 +19,6 @@ class BoxedInt extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: width,
-      child: Text(
-        value.toString(),
-        textAlign: TextAlign.center,
-        style: TextStyle(fontSize: 16, color: this.textColor),
-      ),
       decoration: BoxDecoration(
         color: backgroundColor,
         border: Border(
@@ -32,6 +27,11 @@ class BoxedInt extends StatelessWidget {
           right: BorderSide(color: borderColor),
           left: BorderSide(color: borderColor),
         ),
+      ),
+      child: Text(
+        value.toString(),
+        textAlign: TextAlign.center,
+        style: TextStyle(fontSize: 16, color: textColor),
       ),
     );
   }

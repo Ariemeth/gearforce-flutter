@@ -48,11 +48,11 @@ final Rule ruleLocalManufacturing = Rule(
   hasGroupRole: (unit, target, group) {
     final isAllowedUnit =
         unit.core.frame == 'Tiger' || unit.core.frame == 'Weasel';
-    final isAllowedRole = target == RoleType.GP ||
-        target == RoleType.SK ||
-        target == RoleType.FS ||
-        target == RoleType.RC ||
-        target == RoleType.SO;
+    final isAllowedRole = target == RoleType.gp ||
+        target == RoleType.sk ||
+        target == RoleType.fs ||
+        target == RoleType.rc ||
+        target == RoleType.so;
 
     return isAllowedUnit && isAllowedRole ? true : null;
   },
@@ -71,9 +71,9 @@ final Rule ruleEWSpecialist = Rule(
     if (modID != eccmId) {
       return null;
     }
-    if (!(u.type == ModelType.Gear ||
-        u.type == ModelType.Strider ||
-        u.type == ModelType.Vehicle)) {
+    if (!(u.type == ModelType.gear ||
+        u.type == ModelType.strider ||
+        u.type == ModelType.vehicle)) {
       return null;
     }
 

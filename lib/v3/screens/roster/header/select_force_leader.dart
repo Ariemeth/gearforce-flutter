@@ -5,11 +5,11 @@ import 'package:gearforce/v3/models/unit/unit.dart';
 
 class SelectForceLeader extends StatefulWidget {
   const SelectForceLeader({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
-  _SelectForceLeaderState createState() => _SelectForceLeaderState();
+  State<SelectForceLeader> createState() => _SelectForceLeaderState();
 }
 
 /// This is the private State class that goes with MyStatefulWidget.
@@ -28,14 +28,14 @@ class _SelectForceLeaderState extends State<SelectForceLeader> {
 
     return DropdownButton<Unit?>(
       value: selectedLeader,
-      hint: Text('Select Force Leader'),
+      hint: const Text('Select Force Leader'),
       icon: const Icon(Icons.arrow_downward),
       iconSize: 16,
       elevation: 16,
       isExpanded: true,
       isDense: true,
       style: const TextStyle(color: Colors.blue),
-      underline: SizedBox(),
+      underline: const SizedBox(),
       onChanged: (Unit? newValue) {
         setState(() {
           roster.selectedForceLeader = newValue;
@@ -51,7 +51,7 @@ class _SelectForceLeaderState extends State<SelectForceLeader> {
         value: name,
         child: Text(
           name.name,
-          style: TextStyle(fontSize: 16),
+          style: const TextStyle(fontSize: 16),
         ),
       );
     });

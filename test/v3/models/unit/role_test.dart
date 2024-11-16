@@ -11,11 +11,11 @@ void main() {
   test('test creating a role from a valid json', () {
     final fromJson = Role.fromJson(json.decode(validRoleJSON));
 
-    expect(fromJson.name, equals(RoleType.SK), reason: 'name check');
+    expect(fromJson.name, equals(RoleType.sk), reason: 'name check');
     expect(fromJson.unlimited, equals(false), reason: 'unlimited check');
     expect(
       fromJson.toString(),
-      equals("SK"),
+      equals('SK'),
       reason: 'check toString',
     );
   });
@@ -23,11 +23,11 @@ void main() {
   test('test creating an unlimited role from a valid json', () {
     final fromJson = Role.fromJson(json.decode(validUnlimitedRoleJSON));
 
-    expect(fromJson.name, equals(RoleType.GP), reason: 'name check');
+    expect(fromJson.name, equals(RoleType.gp), reason: 'name check');
     expect(fromJson.unlimited, equals(true), reason: 'unlimited check');
     expect(
       fromJson.toString(),
-      equals("GP+"),
+      equals('GP+'),
       reason: 'check toString',
     );
   });
@@ -47,19 +47,19 @@ void main() {
   test('test includesRole where Roletype is included', () {
     const rolesJSON = '"SK,GP"';
     final fromJSON = Roles.fromJson(json.decode(rolesJSON));
-    expect(fromJSON.includesRole([RoleType.GP]), equals(true));
+    expect(fromJSON.includesRole([RoleType.gp]), equals(true));
   });
 
   test('test includesRole where Roletype is included with unlimited marker',
       () {
     const rolesJSON = '"SK,GP+"';
     final fromJSON = Roles.fromJson(json.decode(rolesJSON));
-    expect(fromJSON.includesRole([RoleType.GP]), equals(true));
+    expect(fromJSON.includesRole([RoleType.gp]), equals(true));
   });
 
   test('test includesRole where Roletype is not included', () {
     const rolesJSON = '"SK,GP+"';
     final fromJSON = Roles.fromJson(json.decode(rolesJSON));
-    expect(fromJSON.includesRole([RoleType.RC]), equals(false));
+    expect(fromJSON.includesRole([RoleType.rc]), equals(false));
   });
 }

@@ -3,19 +3,19 @@ import 'package:gearforce/v3/models/mods/base_modification.dart';
 import 'package:gearforce/v3/screens/upgrades/upgrade_options.dart';
 
 class ModOptionButton extends StatefulWidget {
-  ModOptionButton({
-    Key? key,
+  const ModOptionButton({
+    super.key,
     required this.mod,
     required this.isSelectable,
     required this.onChanged,
-  }) : super(key: key);
+  });
 
   final BaseModification mod;
   final bool isSelectable;
   final Function onChanged;
 
   @override
-  _ModOptionButtonState createState() => _ModOptionButtonState();
+  State<ModOptionButton> createState() => _ModOptionButtonState();
 }
 
 class _ModOptionButtonState extends State<ModOptionButton> {

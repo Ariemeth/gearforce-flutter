@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 
-const String _3_1 = 'v3.1';
-const String _4_0 = 'v4.0';
+const String _threeOne = 'v3.1';
+const String _fourZero = 'v4.0';
 
 class VersionSelector extends StatelessWidget {
-  VersionSelector(this.currentVersion);
+  VersionSelector(this.currentVersion, {super.key});
 
-  static final String defaultSelectedVersion = _3_1;
-  static String get v3_1 => _3_1;
-  static String get v4_0 => _4_0;
+  static const String defaultSelectedVersion = _threeOne;
+  static String get v3_1 => _threeOne;
+  static String get v4_0 => _fourZero;
 
-  //final versions = const [_3_1, _4_0];
-  final versions = const [_3_1];
+  // final versions = const [_threeOne, _fourZero];
+  final versions = const [_threeOne];
   final String currentVersion;
 
   late final versionsDropdown = versions
@@ -36,7 +36,12 @@ class VersionSelector extends StatelessWidget {
           if (!versions.contains(value)) {
             return;
           }
-          Navigator.pushReplacementNamed(context, '/${value}');
+
+          if (currentVersion == value) {
+            return;
+          }
+
+          Navigator.pushReplacementNamed(context, '/$value');
         },
       ),
     );

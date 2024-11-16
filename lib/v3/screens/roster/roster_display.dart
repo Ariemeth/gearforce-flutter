@@ -33,12 +33,12 @@ class RosterDisplay extends StatelessWidget {
           width: width,
           height: height,
           child: Column(
-            children: [
-              RosterHeaderInfo(),
-              CombatGroupsDisplay(roster),
-            ],
             mainAxisAlignment: MainAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
+            children: [
+              const RosterHeaderInfo(),
+              CombatGroupsDisplay(roster),
+            ],
           ),
         ),
       ),

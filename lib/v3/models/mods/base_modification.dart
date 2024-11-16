@@ -18,7 +18,7 @@ abstract class BaseModification {
   BaseModification({
     required this.name,
     required this.requirementCheck,
-    required String this.id,
+    required this.id,
     required this.modType,
     this.options,
     BaseModification Function()? refreshData,
@@ -47,35 +47,35 @@ abstract class BaseModification {
   final String id;
 
   ModificationOption? options;
-  bool get hasOptions => this.options != null && this.options!.hasOptions();
+  bool get hasOptions => options != null && options!.hasOptions();
 
   List<String> get description {
     List<String> results = _descriptions.toList();
 
-    _dynamicDescriptions.forEach((element) {
+    for (var element in _dynamicDescriptions) {
       results.add(element());
-    });
+    }
 
     return results;
   }
 
-  final _mods = Map<UnitAttribute, List<dynamic>>();
+  final _mods = <UnitAttribute, List<dynamic>>{};
 
   void addMod<T>(UnitAttribute att, T Function(T) mod,
       {String? description, String Function()? dynamicDescription}) {
-    if (this._mods[att] == null) {
-      this._mods[att] = [];
+    if (_mods[att] == null) {
+      _mods[att] = [];
     }
 
-    assert(att.expected_type == T,
-        'Mod ${name} type: [$T] does not match expected attribute type: [${att.expected_type}]');
+    assert(att.expectedType == T,
+        'Mod $name type: [$T] does not match expected attribute type: [${att.expectedType}]');
 
-    this._mods[att]!.add(mod);
+    _mods[att]!.add(mod);
     if (description != null) {
-      this._descriptions.add(description);
+      _descriptions.add(description);
     }
     if (dynamicDescription != null) {
-      this._dynamicDescriptions.add(dynamicDescription);
+      _dynamicDescriptions.add(dynamicDescription);
     }
   }
 
@@ -117,14 +117,14 @@ Example json format for mods
   }
 
   T applyMods<T>(UnitAttribute att, T startingValue) {
-    var mods = this._mods[att];
+    var mods = _mods[att];
     if (mods == null) {
       return startingValue;
     }
     T result = startingValue;
-    mods.forEach((element) {
+    for (var element in mods) {
       result = element(result);
-    });
+    }
 
     return result;
   }
@@ -148,7 +148,7 @@ enum ModificationType {
 
 extension ModificationTypeExtension on ModificationType {
   String get name {
-    return this.toString().split('.').last;
+    return toString().split('.').last;
   }
 
   static ModificationType fromString(String type) {

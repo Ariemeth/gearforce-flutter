@@ -56,8 +56,8 @@ Unit createDefaultUnit() {
       core: UnitCore(
           name: 'test',
           tv: 5,
-          role: Roles(roles: [Role(name: RoleType.GP)]),
-          movement: Movement(type: 'G', rate: 6),
+          role: const Roles(roles: [Role(name: RoleType.gp)]),
+          movement: const Movement(type: 'G', rate: 6),
           armor: 7,
           hull: 4,
           structure: 3,
@@ -66,7 +66,7 @@ Unit createDefaultUnit() {
           piloting: 6,
           ew: 2,
           weapons: [],
-          traits: [Trait.Hands()],
-          type: ModelType.Gear,
+          traits: [Trait.hands()],
+          type: ModelType.gear,
           height: '1.5'));
 }

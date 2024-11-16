@@ -104,7 +104,7 @@ final Rule ruleLancePoint = Rule(
       text: 'Allies: Lance Point',
       filters: [
         UnitFilter(
-          FactionType.South,
+          FactionType.south,
           matcher: matchArmor9,
         ),
       ],
@@ -145,10 +145,10 @@ final Rule ruleFortNeil = Rule(
     if (!(frame == 'Chasseur' || frame == 'Chasseur Mk2')) {
       return null;
     }
-    if (target == RoleType.GP ||
-        target == RoleType.SK ||
-        target == RoleType.FS ||
-        target == RoleType.RC) {
+    if (target == RoleType.gp ||
+        target == RoleType.sk ||
+        target == RoleType.fs ||
+        target == RoleType.rc) {
       return true;
     }
     return null;
@@ -157,11 +157,11 @@ final Rule ruleFortNeil = Rule(
       text: 'Licensed Manufacturing',
       filters: [
         UnitFilter(
-          FactionType.North,
+          FactionType.north,
           matcher: _matchFerrets,
         ),
         UnitFilter(
-          FactionType.South,
+          FactionType.south,
           matcher: _matchSidewinders,
         ),
       ],
@@ -238,12 +238,12 @@ final Rule rulePrinceGable = Rule(
   ],
   cgCheck: onlyOnePerCG(_getCityStateRuleIds(_rulePrinceGableId)),
   combatGroupOption: () => [rulePrinceGable.buidCombatGroupOption()],
-  factionMods: (ur, cg, u) => [NuCoalFactionMods.e_pex()],
+  factionMods: (ur, cg, u) => [NuCoalFactionMods.ePex()],
   unitFilter: (cgOptions) => const SpecialUnitFilter(
       text: 'Allies: Prince Gable',
       filters: [
         UnitFilter(
-          FactionType.North,
+          FactionType.north,
           matcher: matchArmor9,
         ),
       ],
@@ -252,9 +252,9 @@ final Rule rulePrinceGable = Rule(
     if (modID != eccmId) {
       return null;
     }
-    if (!(u.type == ModelType.Gear ||
-        u.type == ModelType.Strider ||
-        u.type == ModelType.Vehicle)) {
+    if (!(u.type == ModelType.gear ||
+        u.type == ModelType.strider ||
+        u.type == ModelType.vehicle)) {
       return null;
     }
 
@@ -364,8 +364,8 @@ final Rule ruleErechAndNineveh = Rule(
     return [mainOption, north, south];
   },
   factionMods: (ur, cg, u) => [
-    NuCoalFactionMods.personalEquipment(PersonalEquipment.One),
-    NuCoalFactionMods.personalEquipment(PersonalEquipment.Two),
+    NuCoalFactionMods.personalEquipment(PersonalEquipment.one),
+    NuCoalFactionMods.personalEquipment(PersonalEquipment.two),
     NuCoalFactionMods.highOctane(),
   ],
   veteranModCheck: (u, cg, {required modID}) {
@@ -410,21 +410,21 @@ final Rule ruleErechAndNineveh = Rule(
       ' outcomes.',
 );
 
-const _north = const SpecialUnitFilter(
+const _north = SpecialUnitFilter(
     text: 'Allies: E & N North',
     filters: [
       UnitFilter(
-        FactionType.North,
+        FactionType.north,
         matcher: matchArmor9,
       ),
     ],
     id: _ruleAlliesErechAndNinevehNorthId);
 
-const _south = const SpecialUnitFilter(
+const _south = SpecialUnitFilter(
     text: 'Allies: E & N South',
     filters: [
       UnitFilter(
-        FactionType.South,
+        FactionType.south,
         matcher: matchArmor9,
       ),
     ],

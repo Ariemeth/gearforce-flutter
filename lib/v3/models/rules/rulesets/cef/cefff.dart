@@ -1,7 +1,7 @@
 import 'package:gearforce/v3/models/rules/rule.dart';
 import 'package:gearforce/v3/models/mods/factionUpgrades/cef.dart';
 import 'package:gearforce/v3/models/mods/veteranUpgrades/veteran_modification.dart'
-    as vetMod;
+    as vet_mod;
 import 'package:gearforce/v3/models/rules/rulesets/cef/cef.dart';
 
 const String _baseRuleId = 'rule::cef::cefff';
@@ -56,10 +56,10 @@ final Rule ruleDualLasers = Rule(
   id: _ruleDualLasersId,
   factionMods: (ur, cg, u) => [CEFMods.dualLasers(u)],
   veteranModCheck: (u, cg, {required modID}) {
-    if (modID == vetMod.dualGunsId && u.hasMod(dualLasersId)) {
+    if (modID == vet_mod.dualGunsId && u.hasMod(dualLasersId)) {
       return false;
     }
-    if (modID == dualLasersId && u.hasMod(vetMod.dualGunsId)) {
+    if (modID == dualLasersId && u.hasMod(vet_mod.dualGunsId)) {
       return false;
     }
     return null;

@@ -6,7 +6,7 @@ import 'package:gearforce/v3/models/rules/rule_types.dart';
 final Rule ruleVeteranCombatGroups = Rule(
   name: 'Veteran Combat Groups',
   id: ruleVeteranCombatGroupsId,
-  ruleType: RuleType.AlphaBeta,
+  ruleType: RuleType.alphaBeta,
   modCostOverride: (modID, u) {
     if (modID != veteranId) {
       return null;
