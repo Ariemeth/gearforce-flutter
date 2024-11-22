@@ -419,23 +419,35 @@ class PeaceRiverFactionMods extends FactionModification {
       return (cgWithMod.isEmpty || cgWithMod.any((c) => c!.name == cg!.name));
     }
 
-    return PeaceRiverFactionMods(
+    final mod = PeaceRiverFactionMods(
       name: 'Peace Officers',
       requirementCheck: reqCheck,
       id: peaceOfficersID,
-    )
-      ..addMod<int>(UnitAttribute.tv, createSimpleIntMod(1),
-          description: 'TV: +1')
-      ..addMod<List<Weapon>>(UnitAttribute.weapons, (value) {
-        return List<Weapon>.from(value)
-            .where(
-                (existingWeapon) => existingWeapon.code != weaponCodeToRemove)
-            .toList();
-      }, dynamicDescription: () {
-        return unitRPToRemove.isNotEmpty ? '-$unitRPToRemove' : '';
-      })
-      ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.shield()),
-          description: '+Shield');
+    );
+    mod.addMod<int>(UnitAttribute.tv, (value) {
+      final hasRP = unit
+          .attribute<List<Weapon>>(UnitAttribute.weapons,
+              modIDToSkip: peaceOfficersID)
+          .any((w) => w.code == 'RP');
+      return hasRP ? value : value + 1;
+    }, dynamicDescription: () {
+      final hasRP = unit
+          .attribute<List<Weapon>>(UnitAttribute.weapons,
+              modIDToSkip: peaceOfficersID)
+          .any((w) => w.code == 'RP');
+      return hasRP ? 'TV: 0' : 'TV: +1';
+    });
+    mod.addMod<List<Weapon>>(UnitAttribute.weapons, (value) {
+      return List<Weapon>.from(value)
+          .where((existingWeapon) => existingWeapon.code != weaponCodeToRemove)
+          .toList();
+    }, dynamicDescription: () {
+      return unitRPToRemove.isNotEmpty ? '-$unitRPToRemove' : '';
+    });
+    mod.addMod(UnitAttribute.traits, createAddTraitToList(Trait.shield()),
+        description: '+Shield');
+
+    return mod;
   }
   /*
     G-SWAT Sniper: One gear with a rifle, per combat group, may purchase the
