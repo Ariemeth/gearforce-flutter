@@ -26,7 +26,7 @@ class _SelectFactionState extends State<SelectFaction> {
   Widget build(BuildContext context) {
     final data = context.watch<DataV3>();
     final settings = context.watch<Settings>();
-    return DropdownButton<FactionType?>(
+    final dropdown = DropdownButton<FactionType>(
       value: widget.selectedFaction.value.factionType,
       hint: const Text('Select faction'),
       icon: const Icon(Icons.arrow_downward),
@@ -46,16 +46,27 @@ class _SelectFactionState extends State<SelectFaction> {
           );
         });
       },
-      items:
-          widget.factions.map<DropdownMenuItem<FactionType>>((Faction value) {
-        return DropdownMenuItem<FactionType>(
-          value: value.factionType,
-          child: Text(
-            value.factionType.name,
-            style: const TextStyle(fontSize: 16),
-          ),
-        );
-      }).toList(),
+      items: _factions(),
     );
+
+    return dropdown;
+  }
+
+  List<DropdownMenuItem<FactionType>> _factions() {
+    final factions = DataV3.getFactionTypes();
+
+    final List<DropdownMenuItem<FactionType>> menuItems = [];
+
+    for (var value in factions) {
+      menuItems.add(DropdownMenuItem<FactionType>(
+        value: value,
+        child: Text(
+          value.name,
+          style: const TextStyle(fontSize: 16),
+        ),
+      ));
+    }
+
+    return menuItems;
   }
 }

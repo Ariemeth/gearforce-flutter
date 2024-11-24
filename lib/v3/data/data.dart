@@ -159,6 +159,20 @@ class DataV3 {
     ];
   }
 
+  static List<FactionType> getFactionTypes() {
+    return [
+      FactionType.blackTalon,
+      FactionType.cef,
+      FactionType.caprice,
+      FactionType.eden,
+      FactionType.north,
+      FactionType.nuCoal,
+      FactionType.peaceRiver,
+      FactionType.south,
+      FactionType.utopia,
+    ];
+  }
+
   Future<List<Frame>> _loadFrames(
     String filename, {
     required FactionType faction,
