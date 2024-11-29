@@ -16,7 +16,7 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 
-version: 1.16.6
+version: 1.16.7
 environment:
   sdk: ">=3.0.0"
 
@@ -29,16 +29,16 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: 1.0.8
-  provider: 6.1.2
+  provider: ^6.1.2
   uuid: ^4.5.1
-  pdf: 3.11.1
+  pdf: ^3.11.1
   printing: ^5.13.4
   url_launcher: ^6.3.1
-  file_selector: 1.0.3
-  http: 1.2.2
-  package_info_plus: 8.1.1
-  pub_semver: 2.1.4
-  shared_preferences: 2.3.3
+  file_selector: ^1.0.3
+  http: ^1.2.2
+  package_info_plus: ^8.1.1
+  pub_semver: ^2.1.4
+  shared_preferences: ^2.3.3
 
 dev_dependencies:
   flutter_test:

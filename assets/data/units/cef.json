@@ -780,7 +780,7 @@
           "ew": "5+",
           "react-weapons": "LRL (T)",
           "mounted-weapons": "-",
-          "traits": "Airdrop,  Jump Jets:2 (Aux) Transport: 2 Squads",
+          "traits": "Airdrop,  Jump Jets:2 (Aux), Transport: 2 Squads",
           "type": "Vehicle",
           "height": 2
         },
@@ -797,7 +797,7 @@
           "ew": "5+",
           "react-weapons": "LRL (T)",
           "mounted-weapons": "MAR (T)",
-          "traits": "Airdrop,  Jump Jets:2 (Aux) Transport: 2 Squads",
+          "traits": "Airdrop,  Jump Jets:2 (Aux), Transport: 2 Squads",
           "type": "Vehicle",
           "height": 2
         },
