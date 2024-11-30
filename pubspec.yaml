@@ -16,7 +16,7 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 
-version: 1.16.7
+version: 1.16.8
 environment:
   sdk: ">=3.0.0"
 
@@ -44,7 +44,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   test: ^1.25.7
-  flutter_lints: 5.0.0
+  flutter_lints: ^5.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
