@@ -245,6 +245,8 @@ class DuelistModification extends BaseModification {
     final modName = _duelistModNames[advancedControlSystemId];
     assert(modName != null);
 
+    final maxActions = 3;
+
     return DuelistModification(
         name: modName ?? advancedControlSystemId,
         id: advancedControlSystemId,
@@ -253,9 +255,9 @@ class DuelistModification extends BaseModification {
           assert(rs != null);
           assert(cg != null);
 
-          final actionLimit = u.hasMod(advancedControlSystemId) ? 4 : 3;
-
-          if (u.actions != null && u.actions! >= actionLimit) {
+          final int actionCount = u.attribute(UnitAttribute.actions,
+              modIDToSkip: advancedControlSystemId);
+          if (actionCount >= maxActions) {
             return false;
           }
           return rs!.duelistModCheck(u, cg!, modID: advancedControlSystemId);
@@ -272,13 +274,13 @@ class DuelistModification extends BaseModification {
       ..addMod<int>(
         UnitAttribute.actions,
         (value) {
-          if (value >= 3) {
+          if (value >= maxActions) {
             return value;
           }
           return value + 1;
         },
         description:
-            'Gain +1 action point. All models have a maximum of 3 actions',
+            'Gain +1 action point. All models have a maximum of $maxActions actions',
       );
   }
 
