@@ -209,7 +209,7 @@ class NuCoalFactionMods extends FactionModification {
     Veteran gears in this force with one action may upgrade to having two actions
     for +2 TV each.
   */
-  factory NuCoalFactionMods.jannitePilots() {
+  factory NuCoalFactionMods.jannitePilots(Unit u) {
     reqCheck(RuleSet? rs, UnitRoster? ur, CombatGroup? cg, Unit u) {
       assert(cg != null);
       assert(rs != null);
@@ -224,6 +224,10 @@ class NuCoalFactionMods extends FactionModification {
 
       if (rs == null || !rs.isRuleEnabled(th.ruleJannitePilots.id)) {
         return false;
+      }
+
+      if (rs.isRuleEnabled(th.ruleJanniteWardens.id)) {
+        return true;
       }
 
       final currentActions =
@@ -242,9 +246,15 @@ class NuCoalFactionMods extends FactionModification {
 
     fm.addMod<int>(
       UnitAttribute.actions,
-      createSimpleIntMod(1),
+      (value) {
+        final currentCoreActions = u.core.actions;
+        if (currentCoreActions == null || currentCoreActions > 1) {
+          return value;
+        }
+        return value + 1;
+      },
       description: 'Veteran gears in this force with one action may upgrade' +
-          ' to having two act',
+          ' to having two actions',
     );
 
     return fm;

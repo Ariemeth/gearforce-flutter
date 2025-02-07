@@ -45,7 +45,7 @@ class TH extends NuCoal {
 final Rule ruleJannitePilots = Rule(
   name: 'Jannite Pilots',
   id: _ruleJannitePilotsId,
-  factionMods: (ur, cg, u) => [NuCoalFactionMods.jannitePilots()],
+  factionMods: (ur, cg, u) => [NuCoalFactionMods.jannitePilots(u)],
   description: 'Veteran gears in this force with one action may upgrade to' +
       ' having two actions for +2 TV each.',
 );
@@ -65,7 +65,7 @@ final Rule ruleJanniteWardens = Rule(
       return;
     }
 
-    final jannitePilotsMod = NuCoalFactionMods.jannitePilots();
+    final jannitePilotsMod = NuCoalFactionMods.jannitePilots(unit);
     final canAddMod = jannitePilotsMod.requirementCheck(
         rules, unit.group?.combatGroup?.roster, unit.group?.combatGroup, unit);
     if (canAddMod) {
@@ -78,7 +78,7 @@ final Rule ruleJanniteWardens = Rule(
     }
 
     if (unit.isDuelist) {
-      unit.addUnitMod(NuCoalFactionMods.jannitePilots());
+      unit.addUnitMod(NuCoalFactionMods.jannitePilots(unit));
     }
   },
   description: 'You may select 2 gears in this force to become duelists. All' +
