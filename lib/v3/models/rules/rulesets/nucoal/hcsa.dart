@@ -174,10 +174,9 @@ final Rule ruleFortNeil = Rule(
     if (cg.roster?.rulesetNotifer.value == null) {
       return null;
     }
-    final vetsNeedingRule = cg.veterans.where((unit) =>
-        !cg.roster!.rulesetNotifer.value
-            .vetCheck(cg, u, ruleExclusions: [_ruleFortNeilId]) &&
-        unit != u);
+
+    final vetsNeedingRule =
+        cg.veterans.where((unit) => unit.hasMod(veteranId) && unit != u);
 
     if (vetsNeedingRule.length < 2) {
       return true;
