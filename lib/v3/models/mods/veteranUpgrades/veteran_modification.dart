@@ -769,7 +769,7 @@ class VeteranModification extends BaseModification {
         if (!hasRangedWeapon) {
           return false;
         }
-        return rs!.veteranModCheck(u, cg!, modID: vetPreciseId);
+        return rs.veteranModCheck(u, cg!, modID: vetPreciseId);
       },
       refreshData: () => VeteranModification.vetPrecise(u),
     );
