@@ -247,8 +247,9 @@ class NuCoalFactionMods extends FactionModification {
     fm.addMod<int>(
       UnitAttribute.actions,
       (value) {
-        final currentCoreActions = u.core.actions;
-        if (currentCoreActions == null || currentCoreActions > 1) {
+        final currentCoreActions = u.attribute<int>(UnitAttribute.actions,
+            modIDToSkip: jannitePilotsId);
+        if (currentCoreActions > 1) {
           return value;
         }
         return value + 1;
