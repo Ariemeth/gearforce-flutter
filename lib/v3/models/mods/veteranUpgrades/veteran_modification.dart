@@ -766,7 +766,10 @@ class VeteranModification extends BaseModification {
 
         final hasRangedWeapon =
             u.weapons.any((w) => w.modes.any((m) => m != WeaponModes.melee));
-        return hasRangedWeapon;
+        if (!hasRangedWeapon) {
+          return false;
+        }
+        return rs.veteranModCheck(u, cg!, modID: vetPreciseId);
       },
       refreshData: () => VeteranModification.vetPrecise(u),
     );
