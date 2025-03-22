@@ -344,7 +344,7 @@ final UnitModification ecm = UnitModification(name: 'ECM Upgrade')
 
 final UnitModification azat = UnitModification(name: 'Azat Upgrade')
   ..addMod(UnitAttribute.tv, createSimpleIntMod(3), description: 'TV +3')
-  ..addMod(UnitAttribute.name, createSimpleStringMod(false, 'with Azat'))
+  ..addMod(UnitAttribute.name, createSimpleStringMod(true, 'Azat'))
   ..addMod(UnitAttribute.armor, createSetIntMod(4), description: 'Arm:4')
   ..addMod(UnitAttribute.gunnery, createSetIntMod(3), description: 'GU:3+')
   ..addMod(UnitAttribute.piloting, createSetIntMod(3), description: 'PI:3+')
@@ -354,6 +354,9 @@ final UnitModification azat = UnitModification(name: 'Azat Upgrade')
   ..addMod(UnitAttribute.weapons,
       createAddWeaponToList(buildWeapon('MICW (AP:1)', hasReact: true)!),
       description: '+MICW (AP:1)')
+  ..addMod(UnitAttribute.weapons,
+      createAddWeaponToList(buildWeapon('LAVM', hasReact: false)!),
+      description: '+LAVM')
   ..addMod(UnitAttribute.traits, createAddTraitToList(Trait.vet()),
       description: '+Vet');
 
