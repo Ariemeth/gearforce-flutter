@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:gearforce/src/localization/app_localizations.dart';
 import 'package:gearforce/v3/gearforce_v3.dart';
 import 'package:gearforce/v4/gearforce_v4.dart';
 import 'package:gearforce/widgets/roster_id.dart';
 import 'package:gearforce/widgets/settings.dart';
 import 'package:gearforce/widgets/version_selector.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 

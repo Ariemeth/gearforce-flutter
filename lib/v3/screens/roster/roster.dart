@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:gearforce/src/localization/app_localizations.dart';
 import 'package:gearforce/v3/data/data.dart';
 import 'package:gearforce/v3/models/roster/roster.dart';
 import 'package:gearforce/v3/screens/roster/filehandler/downloader.dart';
@@ -21,7 +22,6 @@ import 'package:gearforce/widgets/settings.dart';
 import 'package:gearforce/widgets/version_selector.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher_string.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 const double _leftPanelWidth = 670.0;
 const double _titleHeight = 40.0;

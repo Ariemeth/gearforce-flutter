@@ -49,3 +49,6 @@ app.*.map.json
 /gearforce-web
 /gearforce-flutter.exe
 /gearforce-flutter
+
+# Ignore generated localizations files
+/lib/src/generated/i18n

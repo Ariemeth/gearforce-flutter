@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:gearforce/src/localization/app_localizations.dart';
 import 'package:gearforce/v3/screens/settings/settings_checkbox_option_line.dart';
 import 'package:gearforce/v3/screens/settings/settings_value_option_line.dart';
 import 'package:gearforce/widgets/settings.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:gearforce/v3/screens/settings/settings_section_heading.dart';
 
 class ApplicationSettingsDialog extends StatefulWidget {
