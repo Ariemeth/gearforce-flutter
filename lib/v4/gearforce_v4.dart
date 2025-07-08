@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:gearforce/src/localization/app_localizations.dart';
 import 'package:gearforce/widgets/roster_id.dart';
 import 'package:gearforce/widgets/roster_title.dart';
 import 'package:gearforce/widgets/settings.dart';
 import 'package:gearforce/widgets/version_selector.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 const double _titleHeight = 40.0;
 const double _menuTitleHeight = 50.0;

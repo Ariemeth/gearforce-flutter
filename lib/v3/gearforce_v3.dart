@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:gearforce/src/localization/app_localizations.dart';
 import 'package:gearforce/v3/data/data.dart';
 import 'package:gearforce/v3/screens/roster/roster.dart';
 import 'package:gearforce/widgets/roster_id.dart';
 import 'package:gearforce/widgets/settings.dart';
 import 'package:gearforce/widgets/version_selector.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class GearForceV3 extends StatefulWidget {
   const GearForceV3({

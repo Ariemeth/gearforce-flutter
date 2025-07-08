@@ -289,14 +289,16 @@ class CEFMods extends FactionModification {
     );
 
     fm.addMod<List<Weapon>>(UnitAttribute.weapons, (value) {
-      final newList = value;
+      final newList = value.toList();
 
       if (modOptions.selectedOption != null &&
           newList.any((weapon) =>
               weapon.toString() == modOptions.selectedOption?.text)) {
         var existingWeapon = newList.firstWhere(
             (weapon) => weapon.toString() == modOptions.selectedOption?.text);
-        existingWeapon.bonusTraits.add(Trait.link());
+        var indexOfExistingWeapon = newList.indexOf(existingWeapon);
+        newList[indexOfExistingWeapon] =
+            Weapon.fromWeapon(existingWeapon, addTraits: [Trait.link()]);
       }
       return newList;
     }, description: 'Add the Link Trait to one Laser Cannon');
