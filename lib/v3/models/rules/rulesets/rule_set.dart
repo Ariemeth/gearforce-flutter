@@ -45,7 +45,7 @@ const _maxNumberAirstrikes = 4;
 const _maxTotalNumberUniversalDrones = 5;
 
 class DefaultRuleSet extends RuleSet {
-  DefaultRuleSet(data, {required Settings settings})
+  DefaultRuleSet(DataV3 data, {required Settings settings})
       : super(
           FactionType.universal,
           data,
@@ -173,7 +173,8 @@ abstract class RuleSet extends ChangeNotifier {
     return mods;
   }
 
-  StandardModification? getStandardUpgrade(modId, u, cg, roster) {
+  StandardModification? getStandardUpgrade(
+      String modId, Unit u, CombatGroup cg, UnitRoster roster) {
     return buildStandardUpgrade(modId, u, cg, roster);
   }
 
@@ -192,7 +193,7 @@ abstract class RuleSet extends ChangeNotifier {
     return mods;
   }
 
-  VeteranModification? getVeteranUpgrade(modId, u, cg) {
+  VeteranModification? getVeteranUpgrade(String modId, Unit u, CombatGroup cg) {
     return buildVetUpgrade(modId, u, cg);
   }
 
@@ -212,7 +213,8 @@ abstract class RuleSet extends ChangeNotifier {
     return mods;
   }
 
-  DuelistModification? getDuelistUpgrade(modId, u, cg, roster) {
+  DuelistModification? getDuelistUpgrade(
+      String modId, Unit u, CombatGroup cg, UnitRoster roster) {
     return buildDuelistUpgrade(modId, u, cg, roster);
   }
 
@@ -240,7 +242,8 @@ abstract class RuleSet extends ChangeNotifier {
     return availableFactionMods;
   }
 
-  FactionModification? getFactionModFromId(modId, ur, u) {
+  FactionModification? getFactionModFromId(
+      String modId, UnitRoster ur, Unit u) {
     return factionModFromId(modId, ur, u);
   }
 
@@ -263,7 +266,7 @@ abstract class RuleSet extends ChangeNotifier {
     return availableUnitFilters;
   }
 
-  CustomModification? getCustomUpgrade(modId) {
+  CustomModification? getCustomUpgrade(String modId) {
     return buildCustomUpgrade(modId);
   }
 
@@ -891,7 +894,7 @@ abstract class RuleSet extends ChangeNotifier {
   }
 
   /// Modifies an existing [Weapon] list based on current [Rule]s.
-  unitWeaponsModifier(List<Weapon> weapons) {
+  void unitWeaponsModifier(List<Weapon> weapons) {
     final weaponModifierRules =
         allEnabledRules(null).where((rule) => rule.modifyWeapon != null);
     if (weaponModifierRules.isEmpty) {
@@ -904,7 +907,7 @@ abstract class RuleSet extends ChangeNotifier {
   }
 
   /// Modifies an existing [Trait] list based on current [Rule]s.
-  unitTraitsModifier(List<Trait> traits, Unit unit) {
+  void unitTraitsModifier(List<Trait> traits, Unit unit) {
     final traitModifierRules =
         allEnabledRules(null).where((rule) => rule.modifyTraits != null);
     if (traitModifierRules.isEmpty) {

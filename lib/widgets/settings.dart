@@ -147,7 +147,7 @@ class Settings {
     return true;
   }
 
-  reset() {
+  void reset() {
     tooltipDelay =
         const Duration(milliseconds: _defaultTooltipDelayInMilliseconds);
     isExtendedContentAllowed = _defaultIsExtendedContentAllowed;
