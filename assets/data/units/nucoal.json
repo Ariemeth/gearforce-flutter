@@ -512,7 +512,7 @@
           "ew": "5+",
           "react-weapons": "MRF, LVB",
           "mounted-weapons": "LRP",
-          "traits": "Hands, Agile, Brawl:1 Comms, ECCM, Sensors:24 (Aux)",
+          "traits": "Hands, Agile, Brawl:1, Comms, ECCM, Sensors:24 (Aux)",
           "type": "Gear",
           "height": 1.5
         }

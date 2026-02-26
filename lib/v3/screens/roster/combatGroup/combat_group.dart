@@ -327,11 +327,9 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Expanded(
-            child: Radio<bool>(
+            child: Checkbox(
               value: unit.isDuelist,
-              groupValue: true,
-              toggleable: true,
-              onChanged: (bool? value) {},
+              onChanged: null,
             ),
           ),
         ],
@@ -340,11 +338,9 @@ class _CombatGroupWidgetState extends State<CombatGroupWidget> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Expanded(
-            child: Radio<bool>(
+            child: Checkbox(
               value: unit.isVeteran,
-              toggleable: true,
-              groupValue: true,
-              onChanged: (bool? value) {},
+              onChanged: null,
             ),
           ),
         ],
