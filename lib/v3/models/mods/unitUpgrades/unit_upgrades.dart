@@ -47,6 +47,8 @@ List<UnitModification> getUnitMods(Unit unit) {
       return [north.gatlingLaser, north.crossbow, north.scimitarCommand];
     case 'mammoth':
       return [north.sledgehammer, north.aegis];
+    case 'damocles':
+      return [north.trackedFeet];
     case 'thunderhammer':
       return [north.bastion];
     case 'aller':

@@ -4,6 +4,7 @@ import 'package:gearforce/v3/models/mods/mods.dart';
 import 'package:gearforce/v3/models/roster/roster.dart';
 import 'package:gearforce/v3/models/rules/rulesets/rule_set.dart';
 import 'package:gearforce/v3/models/traits/trait.dart';
+import 'package:gearforce/v3/models/unit/movement.dart';
 import 'package:gearforce/v3/models/unit/unit.dart';
 import 'package:gearforce/v3/models/unit/unit_attribute.dart';
 import 'package:gearforce/v3/models/weapons/weapon.dart';
@@ -238,3 +239,12 @@ final UnitModification vibroAxeUpgrade = UnitModification(
   ..addMod(
       UnitAttribute.traits, createAddOrReplaceSameTraitInList(Trait.brawl(2)),
       description: '+Brawl:2');
+
+final UnitModification trackedFeet =
+    UnitModification(name: 'Tracked Feet Upgrade')
+      ..addMod(UnitAttribute.tv, createSimpleIntMod(1), description: 'TV +1')
+      ..addMod(
+          UnitAttribute.name, createSimpleStringMod(false, 'with tracked feet'))
+      ..addMod(UnitAttribute.movement,
+          createSetMovementMod(Movement(type: 'W/G', rate: 5)),
+          description: 'W/G 5');
