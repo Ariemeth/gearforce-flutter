@@ -38,17 +38,14 @@ class PeaceRiver extends RuleSet {
   PeaceRiver(
     DataV3 data,
     Settings settings, {
-    String? description,
-    required String name,
-    List<String>? specialRules,
-    List<Rule> subFactionRules = const [],
+    super.description,
+    required super.name,
+    super.specialRules,
+    super.subFactionRules = const [],
   }) : super(
           FactionType.peaceRiver,
           data,
           settings: settings,
-          description: description,
-          name: name,
-          specialRules: specialRules,
           factionRules: [
             ruleEPex,
             ruleWarriorElite,
@@ -56,7 +53,6 @@ class PeaceRiver extends RuleSet {
             ruleLaserTech,
             ruleArchitects,
           ],
-          subFactionRules: subFactionRules,
         );
 
   @override

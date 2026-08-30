@@ -39,18 +39,15 @@ class Utopia extends RuleSet {
   Utopia(
     DataV3 data,
     Settings settings, {
-    String? description,
-    required String name,
+    super.description,
+    required super.name,
     List<String>? specialRules,
-    List<Rule> subFactionRules = const [],
+    super.subFactionRules = const [],
   }) : super(
           FactionType.utopia,
           data,
           settings: settings,
-          name: name,
-          description: description,
           factionRules: [],
-          subFactionRules: subFactionRules,
         );
 
   @override

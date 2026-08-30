@@ -28,17 +28,14 @@ class BlackTalons extends RuleSet {
   BlackTalons(
     DataV3 data,
     Settings settings, {
-    String? description,
-    required String name,
+    super.description,
+    required super.name,
     List<String>? specialRules,
-    List<Rule> subFactionRules = const [],
+    super.subFactionRules = const [],
   }) : super(
           FactionType.blackTalon,
           data,
-          name: name,
-          description: description,
           factionRules: [ruleTheChosen, ruleSpecialOperators],
-          subFactionRules: subFactionRules,
           settings: settings,
         );
 

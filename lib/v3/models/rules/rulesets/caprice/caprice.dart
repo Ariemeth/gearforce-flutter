@@ -36,20 +36,17 @@ class Caprice extends RuleSet {
   Caprice(
     DataV3 data,
     Settings settings, {
-    String? description,
-    required String name,
+    super.description,
+    required super.name,
     List<String>? specialRules,
-    List<Rule> subFactionRules = const [],
+    super.subFactionRules = const [],
   }) : super(
           FactionType.caprice,
           data,
           settings: settings,
-          name: name,
-          description: description,
           factionRules: [
             ruleAbominations,
           ],
-          subFactionRules: subFactionRules,
         );
 
   @override

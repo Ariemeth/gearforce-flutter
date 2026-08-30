@@ -45,14 +45,13 @@ const _maxNumberAirstrikes = 4;
 const _maxTotalNumberUniversalDrones = 5;
 
 class DefaultRuleSet extends RuleSet {
-  DefaultRuleSet(DataV3 data, {required Settings settings})
+  DefaultRuleSet(DataV3 data, {required super.settings})
       : super(
           FactionType.universal,
           data,
           name: 'Default ruleset',
           factionRules: [],
           subFactionRules: [],
-          settings: settings,
         );
 }
 

@@ -12,6 +12,14 @@ analyzer:
     avoid_print: ignore
     prefer_adjacent_string_concatenation: ignore
     prefer_interpolation_to_compose_strings: ignore
+  exclude:
+    - build/**
+    - android/**
+    - ios/**
+    - web/**
+    - windows/**
+    - macos/**
+    - linux/**
 include: package:flutter_lints/flutter.yaml
 
 linter:

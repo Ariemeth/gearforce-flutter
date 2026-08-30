@@ -44,7 +44,7 @@ class North extends RuleSet {
     Settings settings, {
     super.description,
     required super.name,
-    List<Rule> subFactionRules = const [],
+    super.subFactionRules = const [],
   }) : super(
           FactionType.north,
           data,
@@ -55,7 +55,6 @@ class North extends RuleSet {
             ruleVeteranLeaders,
             ruleDragoonSquad,
           ],
-          subFactionRules: subFactionRules,
         );
 
   @override

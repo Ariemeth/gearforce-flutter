@@ -45,7 +45,7 @@ class CEF extends RuleSet {
     super.description,
     required super.name,
     super.specialRules,
-    List<Rule> subFactionRules = const [],
+    super.subFactionRules = const [],
   }) : super(
           FactionType.cef,
           data,
@@ -54,7 +54,6 @@ class CEF extends RuleSet {
             north.ruleVeteranLeaders,
             ruleAllies,
           ],
-          subFactionRules: subFactionRules,
         );
 
   @override

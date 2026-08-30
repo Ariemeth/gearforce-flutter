@@ -34,13 +34,12 @@ class South extends RuleSet {
     Settings settings, {
     super.description,
     required super.name,
-    List<Rule> subFactionRules = const [],
+    super.subFactionRules = const [],
   }) : super(
           FactionType.south,
           data,
           settings: settings,
           factionRules: [rulePoliceState, ruleAmphibians],
-          subFactionRules: subFactionRules,
         );
 
   @override
