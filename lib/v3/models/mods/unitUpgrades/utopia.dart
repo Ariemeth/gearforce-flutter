@@ -56,7 +56,7 @@ final UnitModification sniper = UnitModification(name: 'Sniper Upgrade')
   ..addMod(
       UnitAttribute.weapons,
       createReplaceWeaponInList(
-          oldValue: buildWeapon('HRC')!, newValue: buildWeapon('MLC')!),
+          oldValue: buildWeapon('HRC')!, newValue: buildWeapon('MLC', hasReact: true)!),
       description: '-HRC, +MLC');
 
 final UnitModification specialOperations = UnitModification(
